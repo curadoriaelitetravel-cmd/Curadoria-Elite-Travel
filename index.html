@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curadoria Elite Travel - O seu mundo, bem indicado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        /* Estilos anteriores permanecem os mesmos */
+        /* ... */
+        
+        /* Novos estilos para o modal de login administrativo */
+        .admin-login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .admin-login-content {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            position: relative;
+            color: var(--text-color);
+            border: 1px solid var(--gold-color);
+            text-align: center;
+        }
+        
+        .admin-login-content h2 {
+            color: var(--gold-color);
+            font-family: 'Cinzel', serif;
+            margin-bottom: 20px;
+        }
+        
+        .admin-login-content .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .admin-login-content label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--gold-color);
+        }
+        
+        .admin-login-content input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: 'Playfair Display', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        .admin-login-error {
+            color: #ff6b6b;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        /* Estilos para os modais de cadastro e login de usuário */
+        .user-auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .user-auth-content {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+            color: var(--text-color);
+            border: 1px solid var(--gold-color);
+        }
+        
+        .user-auth-content h2 {
+            color: var(--gold-color);
+            font-family: 'Cinzel', serif;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .user-auth-content .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .user-auth-content label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--gold-color);
+        }
+        
+        .user-auth-content input, .user-auth-content select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: 'Playfair Display', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        .user-auth-error {
+            color: #ff6b6b;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .auth-switch a {
+            color: var(--gold-color);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        .user-info {
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--gold-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-color);
+            font-weight: bold;
+        }
+        
+        .user-name {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        
+        .logout-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+        
+        .logout-btn:hover {
+            color: var(--gold-color);
+        }
+        
+        /* Estilo para produtos sem imagem */
+        .product-image-placeholder {
+            height: 200px;
+            background: linear-gradient(135deg, var(--card-bg) 0%, var(--bg-color) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-color);
+            font-size: 3rem;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon" id="theme-icon"></i>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-image">
+                        <div class="compass-icon">
+                            <div class="compass-rose">
+                                <div class="compass-line compass-line-h"></div>
+                                <div class="compass-line compass-line-v"></div>
+                                <div class="compass-line compass-line-ne"></div>
+                                <div class="compass-line compass-line-nw"></div>
+                                <div class="compass-center"></div>
+                                <div class="compass-direction compass-n">N</div>
+                                <div class="compass-direction compass-e">E</div>
+                                <div class="compass-direction compass-s">S</div>
+                                <div class="compass-direction compass-w">W</div>
+                            </div>
+                        </div>
+                        <div class="logo-text">
+                            <h1>CURADORIA ELITE TRAVEL</h1>
+                            <span>+ O seu mundo, bem indicado</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a onclick="showSection('hero')">Início</a></li>
+                        <li><a onclick="showSection('about-us')">Quem Somos</a></li>
+                        <li><a onclick="showSection('categories')">Categorias</a></li>
+                        <li><a onclick="showSection('daily-columns')">Colunas Diárias</a></li>
+                        <li><a onclick="showSection('contact-form')">Contato</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="auth-buttons" id="auth-buttons">
+                    <button class="btn btn-outline" onclick="showAdminLoginModal()">Admin</button>
+                    <button class="btn btn-outline" id="login-btn" onclick="showLoginModal()">Login</button>
+                    <button class="btn btn-primary" id="register-btn" onclick="showRegisterModal()">Cadastre-se</button>
+                </div>
+                
+                <div class="user-info" id="user-info">
+                    <div class="user-avatar" id="user-avatar"></div>
+                    <div class="user-name" id="user-name"></div>
+                    <button class="logout-btn" onclick="logoutUser()">Sair</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Modal de Login Administrativo -->
+    <div class="admin-login-modal" id="admin-login-modal">
+        <div class="admin-login-content">
+            <span class="close-modal" onclick="closeAdminLoginModal()">&times;</span>
+            <h2>Acesso Administrativo</h2>
+            <p>Digite suas credenciais para acessar o painel administrativo</p>
+            
+            <form id="admin-login-form">
+                <div class="form-group">
+                    <label for="admin-email">E-mail:</label>
+                    <input type="email" id="admin-email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="admin-password">Senha:</label>
+                    <input type="password" id="admin-password" required>
+                </div>
+                
+                <div class="admin-login-error" id="admin-login-error">
+                    E-mail ou senha incorretos. Tente novamente.
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; margin-top: 10px; font-size: 1.1rem;">
+                    Entrar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Cadastro de Usuário -->
+    <div class="user-auth-modal" id="register-modal">
+        <div class="user-auth-content">
+            <span class="close-modal" onclick="closeRegisterModal()">&times;</span>
+            <h2>Cadastre-se</h2>
+            <p>Crie sua conta para acessar conteúdos exclusivos</p>
+            
+            <form id="register-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="register-name">Nome:</label>
+                        <input type="text" id="register-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-surname">Sobrenome:</label>
+                        <input type="text" id="register-surname" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-email">E-mail:</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-gender">Gênero:</label>
+                    <select id="register-gender" required>
+                        <option value="">Selecione</option>
+                        <option value="female">Feminino</option>
+                        <option value="male">Masculino</option>
+                        <option value="other">Outro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-birthdate">Data de Nascimento:</label>
+                    <input type="date" id="register-birthdate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-state">Estado:</label>
+                    <input type="text" id="register-state" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-city">Cidade:</label>
+                    <input type="text" id="register-city" required>
+                </div>
+                
+                <div class="user-auth-error" id="register-error">
+                    Este e-mail já está cadastrado.
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; margin-top: 10px; font-size: 1.1rem;">
+                    Cadastrar
+                </button>
+                
+                <div class="auth-switch">
+                    Já tem uma conta? <a onclick="switchToLogin()">Faça login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Login de Usuário -->
+    <div class="user-auth-modal" id="login-modal">
+        <div class="user-auth-content">
+            <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+            <h2>Login</h2>
+            <p>Entre com sua conta para acessar conteúdos exclusivos</p>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">E-mail:</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                
+                <div class="user-auth-error" id="login-error">
+                    E-mail ou senha incorretos.
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; margin-top: 10px; font-size: 1.1rem;">
+                    Entrar
+                </button>
+                
+                <div class="auth-switch">
+                    Não tem uma conta? <a onclick="switchToRegister()">Cadastre-se</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Resto do código HTML permanece o mesmo -->
+    <!-- ... -->
+
+    <script>
+        // ========== CONFIGURAÇÃO INICIAL ==========
+        let pageViews = localStorage.getItem('pageViews') ? parseInt(localStorage.getItem('pageViews')) : 0;
+        let downloadsCount = localStorage.getItem('downloadsCount') ? parseInt(localStorage.getItem('downloadsCount')) : 0;
+        let totalValue = localStorage.getItem('totalValue') ? parseFloat(localStorage.getItem('totalValue')) : 0;
+        let messagesCount = localStorage.getItem('messagesCount') ? parseInt(localStorage.getItem('messagesCount')) : 0;
+        
+        // Credenciais de administrador (em um sistema real, isso seria armazenado de forma segura no backend)
+        const ADMIN_CREDENTIALS = {
+            email: "admin@elitetravel.com",
+            password: "admin123"
+        };
+        
+        // Estado de autenticação
+        let isAdminAuthenticated = localStorage.getItem('isAdminAuthenticated') === 'true';
+        
+        // Estado de usuário logado
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        let registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+        
+        // Produtos cadastrados (agora vêm do localStorage)
+        let productsData = JSON.parse(localStorage.getItem('adminProducts')) || [];
+
+        // ========== FUNÇÕES DE USUÁRIO ==========
+        function showRegisterModal() {
+            const modal = document.getElementById('register-modal');
+            modal.style.display = 'flex';
+            
+            // Limpar campos
+            document.getElementById('register-form').reset();
+            document.getElementById('register-error').style.display = 'none';
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('register-modal').style.display = 'none';
+        }
+
+        function showLoginModal() {
+            const modal = document.getElementById('login-modal');
+            modal.style.display = 'flex';
+            
+            // Limpar campos
+            document.getElementById('login-form').reset();
+            document.getElementById('login-error').style.display = 'none';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login-modal').style.display = 'none';
+        }
+
+        function switchToLogin() {
+            closeRegisterModal();
+            showLoginModal();
+        }
+
+        function switchToRegister() {
+            closeLoginModal();
+            showRegisterModal();
+        }
+
+        function registerUser(userData) {
+            // Verificar se o email já está cadastrado
+            const existingUser = registeredUsers.find(user => user.email === userData.email);
+            if (existingUser) {
+                document.getElementById('register-error').style.display = 'block';
+                return false;
+            }
+            
+            // Adicionar usuário à lista
+            registeredUsers.push(userData);
+            localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+            
+            // Fazer login automaticamente
+            currentUser = userData;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Atualizar interface
+            updateUserInterface();
+            
+            return true;
+        }
+
+        function loginUser(email) {
+            // Encontrar usuário pelo email
+            const user = registeredUsers.find(user => user.email === email);
+            if (!user) {
+                document.getElementById('login-error').style.display = 'block';
+                return false;
+            }
+            
+            // Fazer login
+            currentUser = user;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Atualizar interface
+            updateUserInterface();
+            
+            return true;
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            updateUserInterface();
+            showNotification('Logout realizado com sucesso!', 'success');
+        }
+
+        function updateUserInterface() {
+            const authButtons = document.getElementById('auth-buttons');
+            const userInfo = document.getElementById('user-info');
+            const loginBtn = document.getElementById('login-btn');
+            const registerBtn = document.getElementById('register-btn');
+            
+            if (currentUser) {
+                // Usuário está logado
+                authButtons.style.display = 'none';
+                userInfo.style.display = 'flex';
+                
+                // Atualizar informações do usuário
+                document.getElementById('user-name').textContent = `${currentUser.name} ${currentUser.surname}`;
+                document.getElementById('user-avatar').textContent = currentUser.name.charAt(0) + currentUser.surname.charAt(0);
+                
+                // Esconder botão de cadastro
+                registerBtn.style.display = 'none';
+            } else {
+                // Usuário não está logado
+                authButtons.style.display = 'flex';
+                userInfo.style.display = 'none';
+                
+                // Mostrar botão de cadastro apenas se não houver usuários cadastrados
+                if (registeredUsers.length === 0) {
+                    registerBtn.style.display = 'block';
+                    loginBtn.style.display = 'none';
+                } else {
+                    registerBtn.style.display = 'block';
+                    loginBtn.style.display = 'block';
+                }
+            }
+        }
+
+        // ========== FUNÇÕES DE LOGIN ADMINISTRATIVO ==========
+        function showAdminLoginModal() {
+            // Se já estiver autenticado, mostrar diretamente o painel
+            if (isAdminAuthenticated) {
+                showAdminPanel();
+                return;
+            }
+            
+            // Caso contrário, mostrar modal de login
+            const modal = document.getElementById('admin-login-modal');
+            modal.style.display = 'flex';
+            
+            // Limpar campos e mensagem de erro
+            document.getElementById('admin-email').value = '';
+            document.getElementById('admin-password').value = '';
+            document.getElementById('admin-login-error').style.display = 'none';
+        }
+
+        function closeAdminLoginModal() {
+            document.getElementById('admin-login-modal').style.display = 'none';
+        }
+
+        function authenticateAdmin(email, password) {
+            // Em um sistema real, isso seria uma chamada para o backend
+            return email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password;
+        }
+
+        // ========== MODIFICAÇÃO DA FUNÇÃO showAdminPanel ==========
+        function showAdminPanel() {
+            // Verificar se o usuário está autenticado
+            if (!isAdminAuthenticated) {
+                showAdminLoginModal();
+                return;
+            }
+            
+            // Esconder todas as outras seções
+            const sections = ['hero', 'about-us', 'categories', 'products', 'daily-columns', 'contact-form'];
+            sections.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.style.display = 'none';
+                }
+            });
+            
+            // Mostrar o admin panel
+            const adminPanel = document.getElementById('adminPanel');
+            if (adminPanel) {
+                adminPanel.style.display = 'block';
+                adminPanel.scrollIntoView({ behavior: 'smooth' });
+                loadCategories();
+                loadProducts();
+                loadColumns();
+                updateStats();
+            }
+        }
+
+        // ========== FUNÇÕES DE TEMA ==========
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'light-theme');
+            } else {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'dark-theme');
+            }
+        }
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark-theme';
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            body.className = savedTheme;
+            
+            if (savedTheme === 'light-theme') {
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+
+        // ========== NAVEGAÇÃO ==========
+        function showSection(sectionId) {
+            // Esconder admin panel se não for selecionado
+            const adminPanel = document.getElementById('adminPanel');
+            if (sectionId !== 'adminPanel' && adminPanel) {
+                adminPanel.style.display = 'none';
+            }
+            
+            // Esconder produtos se não for selecionado
+            const productsSection = document.getElementById('products');
+            if (sectionId !== 'products' && productsSection) {
+                productsSection.style.display = 'none';
+            }
+            
+            // Mostrar a seção selecionada
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.style.display = 'block';
+                selectedSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Track page view
+            if (sectionId !== 'adminPanel') {
+                pageViews++;
+                localStorage.setItem('pageViews', pageViews);
+                updateStats();
+            }
+        }
+
+        // ========== PRODUTOS E CATEGORIAS ==========
+        const categoryTitles = {
+            'restaurantes': 'Restaurantes',
+            'bares': 'Bares',
+            'city-guides': 'City Guides',
+            'pontos-turisticos': 'Pontos Turísticos',
+            'passeios': 'Passeios',
+            'vida-noturna': 'Vida Noturna',
+            'compras': 'Compras',
+            'presentes': 'Presentes',
+            'hoteis': 'Hotéis',
+            'cruzeiros': 'Cruzeiros'
+        };
+
+        const categoryIcons = {
+            'restaurantes': 'fas fa-utensils',
+            'bares': 'fas fa-glass-martini-alt',
+            'city-guides': 'fas fa-map-marked-alt',
+            'pontos-turisticos': 'fas fa-landmark',
+            'passeios': 'fas fa-hiking',
+            'vida-noturna': 'fas fa-music',
+            'compras': 'fas fa-shopping-bag',
+            'presentes': 'fas fa-gift',
+            'hoteis': 'fas fa-hotel',
+            'cruzeiros': 'fas fa-ship'
+        };
+
+        function showProducts(category) {
+            document.getElementById('products').style.display = 'block';
+            document.getElementById('product-category-title').textContent = categoryTitles[category] || 'Produtos';
+            
+            const productsContainer = document.getElementById('products-container');
+            productsContainer.innerHTML = '';
+            
+            // Buscar produtos da categoria selecionada
+            const categoryProducts = productsData.filter(product => product.category === category);
+            
+            if (categoryProducts.length === 0) {
+                productsContainer.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                        <i class="fas fa-box-open" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 20px;"></i>
+                        <h3 style="color: var(--text-secondary);">Nenhum produto cadastrado nesta categoria</h3>
+                        <p style="color: var(--text-secondary);">Entre em contato conosco para mais informações.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            categoryProducts.forEach(product => {
+                const productHTML = `
+                    <div class="product-card">
+                        ${product.image ? 
+                            `<div class="product-image" style="background-image: url('${product.image}');"></div>` :
+                            `<div class="product-image-placeholder">
+                                <i class="${categoryIcons[category] || 'fas fa-map'}"></i>
+                            </div>`
+                        }
+                        <div class="product-content">
+                            <h3>${product.name || `${product.city}, ${product.country}`}</h3>
+                            <p>${product.description || `Guia completo de ${product.city}, ${product.country}`}</p>
+                            <div class="product-price">R$ ${parseFloat(product.price).toFixed(2).replace('.', ',')}</div>
+                            <button class="btn btn-primary" onclick="openCheckoutModal('${product.name || `${product.city}, ${product.country}`}', ${parseFloat(product.price)})">
+                                Comprar Agora
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productsContainer.innerHTML += productHTML;
+            });
+            
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ========== SISTEMA DE PAGAMENTO ==========
+        function openCheckoutModal(productName, productPrice) {
+            const modal = document.getElementById('checkout-modal');
+            modal.style.display = 'flex';
+            
+            // Atualizar opções do produto no modal de checkout
+            const productSelect = document.getElementById('product');
+            productSelect.innerHTML = '';
+            
+            // Adicionar opção padrão
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Selecione o guia';
+            productSelect.appendChild(defaultOption);
+            
+            // Adicionar o produto selecionado
+            const productOption = document.createElement('option');
+            productOption.value = productName.toLowerCase().replace(/\s+/g, '-');
+            productOption.textContent = `${productName} - R$ ${productPrice.toFixed(2).replace('.', ',')}`;
+            productOption.selected = true;
+            productSelect.appendChild(productOption);
+        }
+
+        function closeModal() {
+            document.getElementById('checkout-modal').style.display = 'none';
+            document.getElementById('payment-fields').innerHTML = '';
+            document.querySelectorAll('.payment-method').forEach(method => {
+                method.classList.remove('selected');
+            });
+        }
+
+        function closeDownloadModal() {
+            document.getElementById('download-modal').style.display = 'none';
+        }
+
+        function selectPaymentMethod(method) {
+            document.querySelectorAll('.payment-method').forEach(m => {
+                m.classList.remove('selected');
+            });
+            
+            document.querySelector(`.payment-method:nth-child(${method === 'mercado-pago' ? 1 : 2})`).classList.add('selected');
+            document.getElementById('payment-method').value = method;
+            
+            let paymentFieldsHTML = '';
+            
+            if (method === 'mercado-pago') {
+                paymentFieldsHTML = `
+                    <div class="form-group">
+                        <label for="card-number">Número do Cartão:</label>
+                        <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="card-name">Nome no Cartão:</label>
+                        <input type="text" id="card-name" placeholder="JOÃO SILVA" required>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px;">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="expiry">Validade:</label>
+                            <input type="text" id="expiry" placeholder="MM/AA" required>
+                        </div>
+                        
+                        <div class="form-group" style="flex: 1;">
+                            <label for="cvv">CVV:</label>
+                            <input type="text" id="cvv" placeholder="123" required>
+                        </div>
+                    </div>
+                `;
+            } else if (method === 'pagseguro') {
+                paymentFieldsHTML = `
+                    <div class="form-group">
+                        <label for="pagseguro-email">E-mail do PagSeguro:</label>
+                        <input type="email" id="pagseguro-email" placeholder="seu@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pagseguro-token">Token de Segurança:</label>
+                        <input type="text" id="pagseguro-token" placeholder="Digite o token" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="installments">Parcelas:</label>
+                        <select id="installments" required>
+                            <option value="1">1x sem juros</option>
+                            <option value="2">2x sem juros</option>
+                            <option value="3">3x sem juros</option>
+                            <option value="4">4x sem juros</option>
+                            <option value="5">5x sem juros</option>
+                            <option value="6">6x sem juros</option>
+                        </select>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('payment-fields').innerHTML = paymentFieldsHTML;
+        }
+
+        // ========== SISTEMA DE EMAIL ==========
+        function sendContactEmail(formData) {
+            // Simular envio de email
+            console.log('📧 Email enviado para: curadoriaelitetravel@gmail.com');
+            console.log('📋 Conteúdo do email:');
+            console.log('De:', formData.name, formData.surname);
+            console.log('Email:', formData.email);
+            console.log('Mensagem:', formData.brief);
+            console.log('Avaliação:', formData.rating + '/5');
+            
+            // Simular delay de envio
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    showNotification('Mensagem enviada para curadoriaelitetravel@gmail.com! Obrigado pelo contato.', 'success');
+                    resolve(true);
+                }, 1500);
+            });
+        }
+
+        function sendPurchaseConfirmation(customerData, productData) {
+            console.log('📧 Email de confirmação enviado para:', customerData.email);
+            console.log('Produto:', productData.name);
+            console.log('Valor: R$', productData.price);
+        }
+
+        // ========== FORMULÁRIOS ==========
+        document.getElementById('checkout-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const paymentMethod = document.getElementById('payment-method').value;
+            
+            if (!paymentMethod) {
+                showNotification('Por favor, selecione um método de pagamento.', 'error');
+                return;
+            }
+            
+            const customerData = {
+                name: document.getElementById('name').value,
+                surname: document.getElementById('surname').value,
+                email: document.getElementById('email').value,
+                gender: document.getElementById('gender').value,
+                age: document.getElementById('age').value,
+                state: document.getElementById('state').value,
+                city: document.getElementById('city').value
+            };
+            
+            const productSelect = document.getElementById('product');
+            const productOption = productSelect.options[productSelect.selectedIndex];
+            const productText = productOption.textContent;
+            const productMatch = productText.match(/ - R\$ ([\d,]+)$/);
+            const productPrice = productMatch ? parseFloat(productMatch[1].replace(',', '.')) : 0;
+            
+            const productData = {
+                name: productOption.textContent.split(' - R$')[0],
+                price: productPrice
+            };
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+            submitBtn.disabled = true;
+            
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            sendPurchaseConfirmation(customerData, productData);
+            
+            closeModal();
+            showNotification('Pagamento processado com sucesso! Email de confirmação enviado.', 'success');
+            
+            const downloadModal = document.getElementById('download-modal');
+            document.getElementById('download-product-name').textContent = productData.name;
+            downloadModal.style.display = 'flex';
+            
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            
+            downloadsCount++;
+            totalValue += productPrice;
+            localStorage.setItem('downloadsCount', downloadsCount);
+            localStorage.setItem('totalValue', totalValue);
+            updateStats();
+        });
+
+        document.getElementById('message-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const rating = document.querySelector('input[name="rating"]:checked');
+            if (!rating) {
+                showNotification('Por favor, avalie nosso trabalho.', 'error');
+                return;
+            }
+            
+            const formData = {
+                name: document.getElementById('contact-name').value,
+                surname: document.getElementById('contact-surname').value,
+                email: document.getElementById('contact-email').value,
+                gender: document.getElementById('contact-gender').value,
+                age: document.getElementById('contact-age').value,
+                state: document.getElementById('contact-state').value,
+                city: document.getElementById('contact-city').value,
+                type: document.getElementById('contact-type').value,
+                category: document.getElementById('contact-category').value || '',
+                otherCategory: document.getElementById('contact-other-category').value || '',
+                brief: document.getElementById('contact-brief').value,
+                rating: rating.value,
+                message: document.getElementById('contact-message').value,
+                date: new Date().toLocaleDateString('pt-BR')
+            };
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            submitBtn.disabled = true;
+            
+            await sendContactEmail(formData);
+            
+            document.getElementById('message-form').reset();
+            document.getElementById('char-count').textContent = '0/300 caracteres';
+            document.getElementById('category-field').style.display = 'none';
+            document.getElementById('other-category-field').style.display = 'none';
+            
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            
+            messagesCount++;
+            localStorage.setItem('messagesCount', messagesCount);
+            updateStats();
+        });
+
+        // ========== FORMULÁRIO DE CADASTRO DE USUÁRIO ==========
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const userData = {
+                name: document.getElementById('register-name').value,
+                surname: document.getElementById('register-surname').value,
+                email: document.getElementById('register-email').value,
+                gender: document.getElementById('register-gender').value,
+                birthdate: document.getElementById('register-birthdate').value,
+                state: document.getElementById('register-state').value,
+                city: document.getElementById('register-city').value,
+                registrationDate: new Date().toISOString()
+            };
+            
+            if (registerUser(userData)) {
+                closeRegisterModal();
+                showNotification('Cadastro realizado com sucesso!', 'success');
+            }
+        });
+
+        // ========== FORMULÁRIO DE LOGIN DE USUÁRIO ==========
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            
+            if (loginUser(email)) {
+                closeLoginModal();
+                showNotification('Login realizado com sucesso!', 'success');
+            }
+        });
+
+        // ========== FORMULÁRIO DE LOGIN ADMINISTRATIVO ==========
+        document.getElementById('admin-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+            const errorElement = document.getElementById('admin-login-error');
+            
+            // Simular autenticação
+            if (authenticateAdmin(email, password)) {
+                isAdminAuthenticated = true;
+                localStorage.setItem('isAdminAuthenticated', 'true');
+                closeAdminLoginModal();
+                showAdminPanel();
+                showNotification('Login administrativo realizado com sucesso!', 'success');
+            } else {
+                errorElement.style.display = 'block';
+                document.getElementById('admin-password').value = '';
+            }
+        });
+
+        function downloadFile() {
+            const productName = document.getElementById('download-product-name').textContent;
+            
+            const content = `Curadoria Elite Travel - ${productName}\n\nObrigado por sua compra!\n\nEste é o conteúdo exclusivo do seu material.`;
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${productName.replace(/\s+/g, '_')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            closeDownloadModal();
+            showNotification('Download iniciado! Verifique sua pasta de downloads.', 'success');
+        }
+
+        // ========== FUNÇÕES DO ADMIN ==========
+        function addCategory() {
+            // Verificar autenticação
+            if (!isAdminAuthenticated) {
+                showNotification('Acesso não autorizado. Faça login como administrador.', 'error');
+                return;
+            }
+            
+            const code = document.getElementById('category-code').value;
+            const name = document.getElementById('category-name').value;
+            const description = document.getElementById('category-description').value;
+            const price = document.getElementById('category-price').value;
+            const icon = document.getElementById('category-icon').value;
+            
+            if (!code || !name || !description || !price || !icon) {
+                showNotification('Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+            
+            const categories = JSON.parse(localStorage.getItem('adminCategories')) || [];
+            categories.push({ code, name, description, price, icon });
+            localStorage.setItem('adminCategories', JSON.stringify(categories));
+            
+            showNotification('Categoria adicionada com sucesso!', 'success');
+            clearCategoryForm();
+            loadCategories();
+        }
+
+        function clearCategoryForm() {
+            document.getElementById('category-code').value = '';
+            document.getElementById('category-name').value = '';
+            document.getElementById('category-description').value = '';
+            document.getElementById('category-price').value = '';
+            document.getElementById('category-icon').value = '';
+        }
+
+        function loadCategories() {
+            const categoriesList = document.getElementById('categories-list');
+            categoriesList.innerHTML = '';
+            
+            const categories = JSON.parse(localStorage.getItem('adminCategories')) || [];
+            
+            if (categories.length === 0) {
+                categoriesList.innerHTML = '<p>Nenhuma categoria cadastrada.</p>';
+                return;
+            }
+            
+            categories.forEach((category, index) => {
+                const categoryHTML = `
+                    <div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid var(--border-color);">
+                        <div>
+                            <strong>${category.code} - ${category.name}</strong><br>
+                            <small>${category.description} | R$ ${category.price}</small>
+                        </div>
+                        <div>
+                            <button class="btn-outline" style="padding: 5px 10px; margin-right: 5px;" onclick="editCategory(${index})">Editar</button>
+                            <button class="btn-primary" style="padding: 5px 10px;" onclick="deleteCategory(${index})">Excluir</button>
+                        </div>
+                    </div>
+                `;
+                categoriesList.innerHTML += categoryHTML;
+            });
+        }
+
+        function editCategory(index) {
+            // Verificar autenticação
+            if (!isAdminAuthenticated) {
+                showNotification('Acesso não autorizado. Faça login como administrador.', 'error');
+                return;
+            }
+            
+            const categories = JSON.parse(localStorage.getItem('adminCategories')) || [];
+            const category = categories[index];
+            
+            document.getElementById('category-code').value = category.code;
+            document.getElementById('category-name').value = category.name;
+            document.getElementById('category-description').value = category.description;
+            document.getElementById('category-price').value = category.price;
+            document.getElementById('category-icon').value = category.icon;
+            
+            categories.splice(index, 1);
+            localStorage.setItem('adminCategories', JSON.stringify(categories));
+            loadCategories();
+            
+            showNotification('Categoria carregada para edição!', 'success');
+        }
+
+        function deleteCategory(index) {
+            // Verificar autenticação
+            if (!isAdminAuthenticated) {
+                showNotification('Acesso não autorizado. Faça login como administrador.', 'error');
+                return;
+            }
+            
+            const categories = JSON.parse(localStorage.getItem('adminCategories')) || [];
+            categories.splice(index, 1);
+            localStorage.setItem('adminCategories', JSON.stringify(categories));
+            loadCategories();
+            showNotification('Categoria excluída com sucesso!', 'success');
+        }
+
+        function addProduct() {
+            // Verificar autenticação
+            if (!isAdminAuthenticated) {
+                showNotification('Acesso não autorizado. Faça login como administrador.', 'error');
+                return;
+            }
+            
+            const code = document.getElementById('product-code').value;
+            const category = document.getElementById('product-category').value;
+            const country = document.getElementById('product-country').value;
+            const city = document.getElementById('product-city').value;
+            const price = document.getElementById('product-price').value;
+            const name = document.getElementById('product-name').value;
+            const description = document.getElementById('product-description').value;
+            const image = document.getElementById('product-image').value;
+            
+            if (!code || !category || !country || !city || !price) {
+                showNotification('Por favor, preencha todos os campos obrigatórios.', 'error');
+                return;
+            }
+            
+            const products = JSON.parse(localStorage.getItem('adminProducts')) || [];
+            products.push({ 
+                code, 
+                category, 
+                country, 
+                city, 
+                price,
+                name: name || `${city}, ${country}`,
+                description: description || `Guia completo de ${city}, ${country}`,
+                image: image || ''
+            });
+            localStorage.setItem('adminProducts', JSON.stringify(products));
+            
+            // Atualizar produtos na memória
+            productsData = products;
+            
+            showNotification('Produto adicionado com sucesso!', 'success');
+            clearProductForm();
+            loadProducts();
+        }
+
+        function clearProductForm() {
+            document.getElementById('product-code').value = '';
+            document.getElementById('product-category').value = '';
+            document.getElementById('product-country').value = '';
+            document.getElementById('product-city').value = '';
+            document.getElementById('product-price').value = '';
+            document.getElementById('product-name').value = '';
+            document.getElementById('product-description').value = '';
+            document.getElementById('product-image').value = '';
+        }
+
+        function loadProducts() {
+            const productsList = document.getElementById('products-list');
+            productsList.innerHTML = '';
+            
+            const products = JSON.parse(localStorage.getItem('adminProducts')) || [];
+            
+            if (products.length === 0) {
+                productsList.innerHTML = '<p>Nenhum produto cadastrado.</p>';
+                return;
+            }
+            
+            products.forEach((product, index) => {
+                const productHTML = `
+                    <div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid var(--border-color);">
+                        <div>
+                            <strong>${product.code} - ${product.category}</strong><br>
+                            <small>${product.city}, ${product.country} | R$ ${parseFloat(product.price).toFixed(2).replace('.', ',')}</small><br>
+                            <small>${product.description}</small>
+                        </div>
+                        <div>
+                            <button class="btn-outline" style="padding: 5px 10px; margin-right: 5px;" onclick="editProduct(${index})">Editar</button>
+                            <button class="btn-primary" style="padding: 5px 10px;" onclick="deleteProduct(${index})">Excluir</button>
+                        </div>
+                    </div>
+                `;
+                productsList.innerHTML += productHTML;
+            });
+        }
+
+        function editProduct(index) {
+            // Verificar autenticação
+            if (!isAdminAuthenticated) {
+                showNotification('Acesso não autorizado. Faça login como administrador.', 'error');
+                return;
+            }
+            
+            const products = JSON.parse(localStorage.getItem('adminProducts')) || [];
+            const product = products[index];
+            
+            document.getElementById('product-code').value = product.code;
+            document.getElementById('product-category').value = product.category;
+            document.getElementById('product-country').value = product.country;
+            document.getElementById('product-city').value = product.city;
+            document.getElementById('product-price').value = product.price;
+            document.getElementById('product-name').value = product.name || '';
+            document.getElementById('product-description').value = product.description || '';
+            document.getElementById('product-image').value = product.image || '';
+            
+            products.splice(index, 1);
+            localStorage.setItem('adminProducts', JSON.stringify(products));
+            loadProducts();
+            
+            showNotification('Produto carregado para edição!', 'success');
+        }
+
+        function deleteProduct(index) {
+            // Verificar autenticação
+            if (!isAdminAuthenticated) {
+                showNotification('Acesso não autorizado. Faça login como administrador.', 'error');
+                return;
+            }
+            
+            const products = JSON.parse(localStorage.getItem('adminProducts')) || [];
+            products.splice(index, 1);
+            localStorage.setItem('adminProducts', JSON.stringify(products));
+            loadProducts();
+            showNotification('Produto excluído com sucesso!', 'success');
+        }
+
+        function exportSalesReport() {
+            // Verificar autenticação
+            if (!isAdminAuthenticated) {
+                showNotification('Acesso não autorizado. Faça login como administrador.', 'error');
+                return;
+            }
+            
+            const startDate = document.getElementById('report-start-date').value;
+            const endDate = document.getElementById('report-end-date').value;
+            
+            if (!startDate || !endDate) {
+                showNotification('Por favor, selecione as datas de início e fim.', 'error');
+                return;
+            }
+            
+            const data = [
+                ['Código', 'Categoria', 'País', 'Cidade', 'Valor', 'Quantidade', 'Comprador', 'Email', 'Telefone', 'Data'],
+                ['SP001', 'Restaurante', 'Brasil', 'São Paulo', 'R$ 95,00', '1', 'João Silva', 'joao@email.com', '(11) 99999-9999', '15/05/2023'],
+                ['RJ001', 'Restaurante', 'Brasil', 'Rio de Janeiro', 'R$ 95,00', '1', 'Maria Santos', 'maria@email.com', '(21) 98888-8888', '14/05/2023'],
+            ];
+            
+            let csvContent = '';
+            data.forEach(row => {
+                csvContent += row.join(',') + '\n';
+            });
+            
+            const encodedUri = encodeURI('data:text/csv;charset=utf-8,' + csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', `relatorio_vendas_${startDate}_a_${endDate}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification('Relatório exportado com sucesso!', 'success');
+        }
+
+        function addColumn() {
+            // Verificar autenticação
+            if (!isAdminAuthenticated) {
+                showNotification('Acesso não autorizado. Faça login como administrador.', 'error');
+                return;
+            }
+            
+            const title = document.getElementById('column-title').value;
+            const content = document.getElementById('column-content').value;
+            const date = document.getElementById('column-date').value;
+            
+            if (!title || !content || !date) {
+                showNotification('Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+            
+            const columns = JSON.parse(localStorage.getItem('adminColumns')) || [];
+            columns.push({ title, content, date });
+            localStorage.setItem('adminColumns', JSON.stringify(columns));
+            
+            showNotification('Coluna adicionada com sucesso!', 'success');
+            clearColumnForm();
+            loadColumns();
+        }
+
+        function clearColumnForm() {
+            document.getElementById('column-title').value = '';
+            document.getElementById('column-content').value = '';
+            document.getElementById('column-date').value = '';
+        }
+
+        function loadColumns() {
+            const columnsList = document.getElementById('columns-list');
+            columnsList.innerHTML = '';
+            
+            const columns = JSON.parse(localStorage.getItem('adminColumns')) || [];
+            
+            if (columns.length === 0) {
+                columnsList.innerHTML = '<p>Nenhuma coluna cadastrada.</p>';
+                return;
+            }
+            
+            columns.forEach((column, index) => {
+                const columnHTML = `
+                    <div class="column-editor-item">
+                        <div class="column-editor-header">
+                            <h4>${column.title}</h4>
+                            <button class="btn-outline" onclick="toggleColumnEditor(${index})">Editar</button>
+                        </div>
+                        <div class="column-editor-content" id="column-content-${index}">
+                            <div class="form-group">
+                                <label for="edit-column-title-${index}">Título:</label>
+                                <input type="text" id="edit-column-title-${index}" value="${column.title}" class="editable">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-column-content-${index}">Conteúdo:</label>
+                                <textarea id="edit-column-content-${index}" class="editable" rows="5">${column.content}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-column-date-${index}">Data:</label>
+                                <input type="date" id="edit-column-date-${index}" value="${column.date}" class="editable">
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-primary" onclick="updateColumn(${index})">Salvar</button>
+                                <button class="btn btn-outline" onclick="deleteColumn(${index})">Excluir</button>
+                                <button class="btn btn-outline" onclick="publishColumn(${index})">Publicar</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                columnsList.innerHTML += columnHTML;
+            });
+        }
+
+        function toggleColumnEditor(index) {
+            const content = document.getElementById(`column-content-${index}`);
+            content.classList.toggle('expanded');
+        }
+
+        function updateColumn(index) {
+            // Verificar autenticação
+            if (!isAdminAuthenticated) {
+                showNotification('Acesso não autorizado. Faça login como administrador.', 'error');
+                return;
+            }
+            
+            const title = document.getElementById(`edit-column-title-${index}`).value;
+            const content = document.getElementById(`edit-column-content-${index}`).value;
+            const date = document.getElementById(`edit-column-date-${index}`).value;
+            
+            const columns = JSON.parse(localStorage.getItem('adminColumns')) || [];
+            columns[index] = { title, content, date };
+            localStorage.setItem('adminColumns', JSON.stringify(columns));
+            
+            showNotification('Coluna atualizada com sucesso!', 'success');
+            loadColumns();
+        }
+
+        function deleteColumn(index) {
+            // Verificar autenticação
+            if (!isAdminAuthenticated) {
+                showNotification('Acesso não autorizado. Faça login como administrador.', 'error');
+                return;
+            }
+            
+            const columns = JSON.parse(localStorage.getItem('adminColumns')) || [];
+            columns.splice(index, 1);
+            localStorage.setItem('adminColumns', JSON.stringify(columns));
+            loadColumns();
+            showNotification('Coluna excluída com sucesso!', 'success');
+        }
+
+        function publishColumn(index) {
+            // Verificar autenticação
+            if (!isAdminAuthenticated) {
+                showNotification('Acesso não autorizado. Faça login como administrador.', 'error');
+                return;
+            }
+            
+            const columns = JSON.parse(localStorage.getItem('adminColumns')) || [];
+            const column = columns[index];
+            
+            const columnsContainer = document.querySelector('.columns-container');
+            const columnHTML = `
+                <div class="column-card">
+                    <h3>${column.title}</h3>
+                    <p>${column.content}</p>
+                    <div class="date">Publicado em: ${new Date(column.date).toLocaleDateString('pt-BR')}</div>
+                </div>
+            `;
+            columnsContainer.innerHTML += columnHTML;
+            
+            showNotification('Coluna publicada com sucesso!', 'success');
+        }
+
+        function updateStats() {
+            document.getElementById('page-views').textContent = pageViews;
+            document.getElementById('downloads-count').textContent = downloadsCount;
+            document.getElementById('total-value').textContent = `R$ ${totalValue.toFixed(2).replace('.', ',')}`;
+            document.getElementById('messages-count').textContent = messagesCount;
+        }
+
+        // ========== FUNÇÕES AUXILIARES ==========
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification ' + type;
+            
+            setTimeout(() => {
+                notification.className = 'notification';
+            }, 3000);
+        }
+
+        function toggleCategoryField() {
+            const messageType = document.getElementById('contact-type').value;
+            const categoryField = document.getElementById('category-field');
+            
+            if (messageType === 'suggestion') {
+                categoryField.style.display = 'block';
+            } else {
+                categoryField.style.display = 'none';
+                document.getElementById('other-category-field').style.display = 'none';
+            }
+        }
+
+        function toggleOtherCategory() {
+            const category = document.getElementById('contact-category').value;
+            const otherCategoryField = document.getElementById('other-category-field');
+            
+            if (category === 'other') {
+                otherCategoryField.style.display = 'block';
+            } else {
+                otherCategoryField.style.display = 'none';
+            }
+        }
+
+        // ========== INICIALIZAÇÃO ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            
+            // Atualizar interface do usuário
+            updateUserInterface();
+            
+            // Carregar produtos do localStorage
+            productsData = JSON.parse(localStorage.getItem('adminProducts')) || [];
+            
+            // Configurar contador de caracteres
+            document.getElementById('contact-brief').addEventListener('input', function() {
+                const charCount = this.value.length;
+                document.getElementById('char-count').textContent = `${charCount}/300 caracteres`;
+                
+                if (charCount > 300) {
+                    this.value = this.value.substring(0, 300);
+                }
+            });
+            
+            // Preencher select de categorias no admin
+            const categorySelect = document.getElementById('product-category');
+            categorySelect.innerHTML = '';
+            
+            const categories = [
+                { value: 'restaurantes', text: 'Restaurante' },
+                { value: 'bares', text: 'Bar' },
+                { value: 'city-guides', text: 'City Guide' },
+                { value: 'pontos-turisticos', text: 'Pontos Turísticos' },
+                { value: 'passeios', text: 'Passeios' },
+                { value: 'vida-noturna', text: 'Vida Noturna' },
+                { value: 'compras', text: 'Compras' },
+                { value: 'presentes', text: 'Presentes' },
+                { value: 'hoteis', text: 'Hotéis' },
+                { value: 'cruzeiros', text: 'Cruzeiros' }
+            ];
+            
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.value;
+                option.textContent = cat.text;
+                categorySelect.appendChild(option);
+            });
+            
+            // Fechar modais ao clicar fora
+            window.onclick = function(event) {
+                const modal = document.getElementById('checkout-modal');
+                const downloadModal = document.getElementById('download-modal');
+                const adminLoginModal = document.getElementById('admin-login-modal');
+                const registerModal = document.getElementById('register-modal');
+                const loginModal = document.getElementById('login-modal');
+                
+                if (event.target === modal) {
+                    closeModal();
+                }
+                
+                if (event.target === downloadModal) {
+                    closeDownloadModal();
+                }
+                
+                if (event.target === adminLoginModal) {
+                    closeAdminLoginModal();
+                }
+                
+                if (event.target === registerModal) {
+                    closeRegisterModal();
+                }
+                
+                if (event.target === loginModal) {
+                    closeLoginModal();
+                }
+            };
+            
+            // Track initial page view
+            pageViews++;
+            localStorage.setItem('pageViews', pageViews);
+            updateStats();
+            
+            showNotification('Bem-vindo à Curadoria Elite Travel!', 'success');
+        });
+    </script>
+</body>
+</html>
