@@ -82,12 +82,12 @@
         section {
             padding: 80px 0;
             display: none; /* Controlado pelo JS (SPA) */
-            background-size: cover; /* **ALTERAÇÃO 1: Fundo** */
-            background-position: center; /* **ALTERAÇÃO 1: Fundo** */
+            background-size: cover; 
+            background-position: center; 
             position: relative;
         }
 
-        section::before { /* Overlay escuro para melhorar a legibilidade do texto (Alteração 1) */
+        section::before { /* Overlay escuro para melhorar a legibilidade do texto */
             content: '';
             position: absolute;
             top: 0;
@@ -107,10 +107,8 @@
             display: block; /* A seção de herói (hero) é a primeira a ser exibida */
         }
 
-        /* ==================== 1.1. ESTILOS DE FUNDO (ALTERAÇÃO 1) ==================== */
-        /* Imagens de fundo simuladas. Substitua as URLs por suas imagens reais. */
+        /* ==================== 1.1. ESTILOS DE FUNDO ==================== */
         #hero {
-            /* Hotel de luxo, piscina/praia */
             background-image: url('https://picsum.photos/1920/1080?random=1&blur=2'); /* MUDAR URL */
             height: 70vh;
             display: flex;
@@ -118,19 +116,15 @@
             text-align: center;
         }
         #about-us {
-            /* Praia, sensação relaxante e de paz com marolas */
             background-image: url('https://picsum.photos/1920/1080?random=2&blur=2'); /* MUDAR URL */
         }
         #categories {
-            /* Prato de comida em mesa posta elegante */
             background-image: url('https://picsum.photos/1920/1080?random=3&blur=2'); /* MUDAR URL */
         }
         #daily-columns {
-            /* Pessoa de costas olhando para a natureza */
             background-image: url('https://picsum.photos/1920/1080?random=4&blur=2'); /* MUDAR URL */
         }
         #contact-form {
-            /* Montanha, paz, vista de luxo */
             background-image: url('https://picsum.photos/1920/1080?random=5&blur=2'); /* MUDAR URL */
         }
         #hero .hero-content, 
@@ -139,10 +133,9 @@
         #daily-columns .container, 
         #contact-form .container,
         #user-profile .container {
-            color: var(--text-light); /* Garante que o texto seja claro sobre o overlay escuro */
+            color: var(--text-light); 
         }
 
-        /* Remove o overlay para as seções de login e admin para manter o padrão anterior ou se preferir sem fundo */
         #admin, #user-profile, #review-form {
             background-image: none;
             background-color: var(--bg-color); /* Volta para a cor de fundo padrão */
@@ -162,6 +155,13 @@
             font-family: 'Cinzel', serif;
             transition: all 0.3s;
             min-width: 120px;
+        }
+        
+        /* ALTERAÇÃO 1: Botões menores */
+        .btn-small {
+            padding: 5px 10px; 
+            min-width: 80px; 
+            font-size: 0.8rem; 
         }
 
         .btn-primary {
@@ -219,7 +219,7 @@
             color: var(--text-secondary);
         }
 
-        /* ==================== 4. HEADER E NAVEGAÇÃO (Sem Alterações) ==================== */
+        /* ==================== 4. HEADER E NAVEGAÇÃO ==================== */
         header {
             background-color: var(--card-bg);
             box-shadow: 0 2px 10px var(--box-shadow-color);
@@ -329,6 +329,18 @@
             color: var(--gold-color);
             border-bottom: 2px solid var(--gold-color);
         }
+        
+        /* ALTERAÇÃO 1: O modo claro/escuro ao lado do logo */
+        .theme-toggle {
+            /* Remove estilos do botão original, se existisse */
+            position: static; 
+            margin-left: 15px; /* Espaçamento após o logo */
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
 
         .auth-buttons {
             display: flex;
@@ -336,7 +348,7 @@
         }
 
         .user-info {
-            display: none; /* Escondido por padrão, mostrado após login */
+            display: none; 
             align-items: center;
             gap: 10px;
         }
@@ -353,7 +365,7 @@
             color: var(--bg-dark);
             font-family: 'Cinzel', serif;
             font-weight: bold;
-            cursor: pointer; /* Permite clicar para ir para o perfil */
+            cursor: pointer; 
         }
 
         .user-name {
@@ -362,7 +374,7 @@
             color: var(--text-color);
         }
 
-        /* ==================== 5. SECTION HERO ==================== */
+        /* ==================== 5. SECTION HERO (ALTERAÇÃO 2) ==================== */
         .hero-content {
             position: relative;
             z-index: 1;
@@ -378,6 +390,22 @@
         .hero-content p {
             font-size: 1.2rem;
             margin-bottom: 30px;
+        }
+        
+        /* ALTERAÇÃO 2: Estilos para ícones de mídia social */
+        .social-icons {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .social-icons a {
+            font-size: 2rem;
+            color: var(--text-light); /* Cor branca/clara */
+            transition: color 0.3s;
+        }
+        .social-icons a:hover {
+            color: var(--gold-color); /* Efeito hover dourado */
         }
 
         /* ==================== 6. MODALS (Pop-ups) ==================== */
@@ -442,14 +470,14 @@
             width: 100%;
         }
 
-        /* ==================== 7. ADMIN PANEL (ALTERAÇÃO 7) ==================== */
+        /* ==================== 7. ADMIN PANEL ==================== */
         #admin-panel {
             background-color: var(--card-bg);
             padding: 40px;
             margin-top: 30px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
-            display: none; /* Mostrado apenas após login admin */
+            display: none; 
         }
 
         #admin-panel h2 {
@@ -457,7 +485,7 @@
             color: var(--gold-color);
         }
         
-        /* Novo estilo para Colunas Diárias no Admin (Alteração 7) */
+        /* Novo estilo para Colunas Diárias no Admin */
         #daily-column-form {
             display: flex;
             flex-direction: column;
@@ -560,7 +588,7 @@
             box-shadow: 0 4px 8px var(--box-shadow-color);
             border: 1px solid var(--border-color);
             transition: transform 0.3s, border-color 0.3s;
-            position: relative; /* Necessário para z-index ser respeitado */
+            position: relative; 
             z-index: 2;
         }
 
@@ -577,9 +605,9 @@
             color: var(--text-secondary);
         }
 
-        /* ==================== 9. QUEM SOMOS (ALTERAÇÃO 2) ==================== */
+        /* ==================== 9. QUEM SOMOS ==================== */
         #about-us h2 {
-            text-align: center; /* Centralizar o título */
+            text-align: center; 
             margin-bottom: 30px;
         }
 
@@ -591,7 +619,7 @@
             color: var(--text-light);
             border-left: 4px solid var(--gold-color);
             padding-left: 20px;
-            background-color: rgba(30, 30, 30, 0.7); /* Fundo sutil para o texto */
+            background-color: rgba(30, 30, 30, 0.7); 
             padding: 20px;
             border-radius: 6px;
         }
@@ -608,10 +636,7 @@
             font-family: 'Cinzel', serif;
         }
         
-        /* O conteúdo original de "Visão, Missão, Nicho" foi substituído pelo novo texto, 
-        então mantive os cards mas com um novo título, para manter o layout em grid 3 */
-
-        /* ==================== 10. CATEGORIAS E PRODUTOS (ALTERAÇÃO 3) ==================== */
+        /* ==================== 10. CATEGORIAS E PRODUTOS (ALTERAÇÃO 4) ==================== */
         #categories h2, #categories p {
             text-align: center;
         }
@@ -632,6 +657,18 @@
             border-radius: 8px;
             transition: transform 0.3s, border-color 0.3s, opacity 0.3s;
             overflow: hidden;
+            /* Nova classe para simular inatividade */
+            opacity: 1; 
+        }
+
+        .category-card.disabled {
+            opacity: 0.5; /* Escurece um pouco */
+            cursor: default;
+        }
+
+        .category-card.disabled:hover {
+            transform: none; /* Remove hover effect when disabled */
+            border-color: var(--border-color);
         }
 
         .category-card i {
@@ -650,9 +687,7 @@
             border-color: var(--gold-color);
         }
 
-        /* ... outros estilos de categoria ... */
-
-        /* ==================== 11. COLUNAS DIÁRIAS (ALTERAÇÃO 4) ==================== */
+        /* ==================== 11. COLUNAS DIÁRIAS (ALTERAÇÃO 5) ==================== */
         #daily-columns h2 {
             text-align: center;
         }
@@ -687,8 +722,8 @@
             font-size: 0.95rem;
             color: var(--text-secondary);
         }
-        
-        /* ==================== 12. CAMPO DE CONTATO (ALTERAÇÃO 5) ==================== */
+
+        /* ==================== 12. CAMPO DE CONTATO ==================== */
         #contact-form form {
             max-width: 600px;
             margin: 0 auto;
@@ -740,7 +775,12 @@
             margin: 20px 0;
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 10px; /* Reduzindo o gap */
+            flex-direction: row-reverse; /* ALTERAÇÃO 6: Estrelas da direita para a esquerda no HTML, mas a ordem visual é da esquerda para a direita */
+        }
+        
+        .rating-input label {
+            order: 1; /* Garante que a ordem visual seja 1, 2, 3, 4, 5 */
         }
 
         .rating-input input {
@@ -748,22 +788,21 @@
         }
 
         .rating-input label {
-            font-size: 2rem;
+            font-size: 2.5rem; /* Aumentando um pouco o tamanho */
             color: var(--text-secondary);
             cursor: pointer;
             transition: color 0.2s;
         }
 
-        .rating-input label:hover {
-            color: var(--gold-color);
-        }
-
-        /* Selecionado + estrelas anteriores */
+        /* ALTERAÇÃO 6: Cor das estrelas selecionadas e anteriores */
+        /* Usa o truque do Flexbox + row-reverse para colorir estrelas anteriores */
         .rating-input input:checked ~ label {
             color: var(--gold-color);
         }
         
-        .rating-input label.checked-star {
+        /* O hover ainda funciona da direita para a esquerda por causa do row-reverse, mas a lógica de clique corrige isso */
+        .rating-input label:hover,
+        .rating-input label:hover ~ label {
              color: var(--gold-color);
         }
 
@@ -781,7 +820,7 @@
             color: #28a745;
         }
 
-        /* ==================== 14. PERFIL DO CLIENTE (ALTERAÇÃO 8) ==================== */
+        /* ==================== 14. PERFIL DO CLIENTE ==================== */
         #user-profile {
             background-color: var(--bg-color);
         }
@@ -865,7 +904,7 @@
             color: var(--gold-color);
         }
 
-        /* ==================== 15. CHECKOUT/PAGAMENTO (ALTERAÇÃO 9) ==================== */
+        /* ==================== 15. CHECKOUT/PAGAMENTO ==================== */
         #checkout-modal .modal-content {
             max-width: 550px;
         }
@@ -924,189 +963,207 @@
         #products { margin-top: 40px; display: none; }
         #products h2 { margin-bottom: 30px; }
         .products-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .product-card { background-color: var(--card-bg); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px var(--box-shadow-color); border: 1px solid var(--border-color); transition: transform 0.3s; }
-        .product-card:hover { transform: translateY(-5px); }
-        .product-image-placeholder { height: 200px; display: flex; justify-content: center; align-items: center; background-color: var(--bg-color); }
-        .product-image-placeholder i { font-size: 4rem; color: var(--text-secondary); }
-        .product-content { padding: 20px; }
-        .product-content h3 { font-size: 1.2rem; margin-bottom: 10px; color: var(--text-color); }
-        .product-content p { color: var(--text-secondary); margin-bottom: 15px; font-size: 0.9rem; }
-        .product-price { font-size: 1.5rem; font-weight: bold; color: var(--gold-color); margin-bottom: 15px; font-family: 'Cinzel', serif; }
-
-        /* ==================== NOTIFICAÇÃO E TEMA (Sem Alterações) ==================== */
-        #notification-box {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 4px;
-            color: var(--bg-dark);
-            font-weight: bold;
-            z-index: 300;
-            display: none;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            font-family: 'Cinzel', serif;
-        }
-
-        .notification-success { background-color: #28a745; }
-        .notification-error { background-color: #dc3545; }
-
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
+        .product-card {
             background-color: var(--card-bg);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 2px 5px var(--box-shadow-color);
-            z-index: 101;
+            padding: 20px;
+            border-radius: 8px;
             border: 1px solid var(--border-color);
-        }
-
-        .theme-toggle i {
-            color: var(--gold-color);
-            font-size: 1.2rem;
-        }
-
-        /* ==================== FOOTER (Sem Alterações) ==================== */
-        footer {
-            background-color: var(--card-bg);
-            color: var(--text-secondary);
-            padding: 30px 0;
-            border-top: 1px solid var(--border-color);
             text-align: center;
+            transition: transform 0.3s;
         }
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold-color);
+        }
+        .product-card h4 { color: var(--text-color); margin-bottom: 10px; font-size: 1.2rem;}
+        .product-card p { color: var(--text-secondary); margin-bottom: 15px; }
+        .product-price { font-size: 1.5rem; font-weight: bold; color: var(--gold-color); display: block; margin-bottom: 15px; }
+        .product-card .btn { width: 100%; }
 
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .social-links a {
-            font-size: 1.5rem;
-            margin-left: 15px;
-        }
-
-        /* ==================== RESPONSIVIDADE (Sem Alterações) ==================== */
-        @media (max-width: 900px) {
-            nav { display: none; }
-            .header-content { justify-content: center; }
-            .auth-buttons { position: absolute; right: 70px; }
-            .user-info { position: absolute; right: 70px; }
-            .profile-form .contact-grid { grid-template-columns: 1fr 1fr; }
-        }
-
-        @media (max-width: 600px) {
-            .logo-text h1 { font-size: 1rem; }
-            .logo-text span { font-size: 0.7rem; }
-            .auth-buttons, .user-info { right: 10px; top: 70px; flex-direction: column; gap: 5px; }
-            .hero-content h2 { font-size: 2rem; }
-            .hero-content p { font-size: 1rem; }
-            .contact-grid { grid-template-columns: 1fr; }
-            .profile-form .contact-grid { grid-template-columns: 1fr; }
-            .auth-buttons, .user-info {
-                position: static;
-                margin-top: 10px;
-                width: 100%;
-                justify-content: center;
-            }
-        }
     </style>
 </head>
 <body class="dark-theme">
-    <div class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-moon" id="theme-icon"></i>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Login</h3>
+            <form id="login-form">
+                <input type="email" id="login-email" placeholder="E-mail" required>
+                <input type="password" id="login-password" placeholder="Senha" required>
+                <button type="submit" class="btn btn-primary">Entrar</button>
+            </form>
+            <p style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: var(--text-secondary);">
+                Não tem conta? <a onclick="showSection('register-modal', true)">Cadastre-se</a>
+            </p>
+        </div>
     </div>
 
-    <div id="notification-box"></div>
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Cadastre-se</h3>
+            <form id="register-form">
+                <input type="text" id="register-name" placeholder="Nome Completo" required>
+                <input type="email" id="register-email" placeholder="E-mail" required>
+                <input type="password" id="register-password" placeholder="Criar Senha" required>
+                <button type="submit" class="btn btn-primary">Criar Conta</button>
+            </form>
+            <p style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: var(--text-secondary);">
+                Já tem conta? <a onclick="showSection('login-modal', true)">Fazer Login</a>
+            </p>
+        </div>
+    </div>
+    
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Finalizar Compra</h3>
+            <div class="checkout-summary">
+                <h4>Resumo do Item</h4>
+                <p id="checkout-product-name">Roteiro Personalizado</p>
+                <p>Preço: <span id="checkout-product-price">R$ 99,90</span></p>
+                <span class="final-price" id="checkout-final-price">R$ 99,90</span>
+            </div>
+            
+            <form id="payment-form">
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <button type="button" class="payment-option-btn active" data-type="pix">PIX</button>
+                    <button type="button" class="payment-option-btn" data-type="card">Cartão de Crédito</button>
+                </div>
+
+                <div id="card-fields" style="display: none;">
+                    <input type="text" placeholder="Nome no Cartão" required>
+                    <input type="text" placeholder="Número do Cartão" maxlength="19" required>
+                    <div class="card-grid">
+                        <input type="text" placeholder="MM/AA" maxlength="5" required>
+                        <input type="text" placeholder="CVV" maxlength="4" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Pagar <span id="payment-amount">R$ 99,90</span></button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="review-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('review-modal')">&times;</span>
+            <h3 style="color: var(--primary-color);">Obrigado!</h3>
+            <p style="text-align: center;">Sua percepção foi registrada com sucesso.</p>
+            <p style="text-align: center;">A **Curadoria Elite Travel** agradece seu feedback.</p>
+        </div>
+    </div>
 
     <header>
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <div class="logo-image">
-                        <div class="compass-icon">
-                            <div class="compass-rose">
-                                <div class="compass-line compass-line-h"></div>
-                                <div class="compass-line compass-line-v"></div>
-                                <div class="compass-line compass-line-ne"></div>
-                                <div class="compass-line compass-line-nw"></div>
-                                <div class="compass-center"></div>
-                                <div class="compass-direction compass-n">N</div>
-                                <div class="compass-direction compass-e">E</div>
-                                <div class="compass-direction compass-s">S</div>
-                                <div class="compass-direction compass-w">W</div>
+                
+                <div class="header-left">
+                    <div class="logo">
+                        <div class="logo-image">
+                            <div class="compass-icon">
+                                <div class="compass-rose">
+                                    <div class="compass-line compass-line-h"></div>
+                                    <div class="compass-line compass-line-v"></div>
+                                    <div class="compass-line compass-line-ne"></div>
+                                    <div class="compass-line compass-line-nw"></div>
+                                    <div class="compass-center"></div>
+                                </div>
+                            </div>
+                            <div class="logo-text">
+                                <h1>Curadoria Elite Travel</h1>
+                                <span>O seu mundo, bem indicado.</span>
                             </div>
                         </div>
-                        <div class="logo-text">
-                            <h1>CURADORIA ELITE TRAVEL</h1>
-                            <span>+ O seu mundo, bem indicado</span>
-                        </div>
+                    </div>
+                    <div class="theme-toggle" onclick="toggleTheme()">
+                        <i id="theme-icon" class="fas fa-sun" style="font-size: 1.5rem; cursor: pointer; color: var(--text-color);"></i>
                     </div>
                 </div>
-                
+
+
                 <nav>
                     <ul>
                         <li><a onclick="showSection('hero')">Início</a></li>
                         <li><a onclick="showSection('about-us')">Quem Somos</a></li>
-                        <li><a onclick="showSection('categories')">Categorias</a></li>
+                        <li><a onclick="showSection('categories')">Curadorias</a></li>
                         <li><a onclick="showSection('daily-columns')">Colunas Diárias</a></li>
-                        <li><a onclick="showSection('review-form')">Avaliação</a></li> <li><a onclick="showSection('contact-form')">Contato</a></li>
+                        <li><a onclick="showSection('review-form')">Avaliação</a></li>
+                        <li><a onclick="showSection('contact-form')">Contato</a></li>
                     </ul>
                 </nav>
-                
+
                 <div class="auth-buttons" id="auth-buttons">
-                    <button class="btn btn-outline" onclick="showAdminLoginModal()">Admin</button>
-                    <button class="btn btn-outline" id="login-btn" onclick="showLoginModal()">Login</button>
-                    <button class="btn btn-primary" id="register-btn" onclick="showRegisterModal()">Cadastre-se</button>
+                    <button class="btn btn-outline btn-small" onclick="showSection('admin-login-modal', true)">Admin</button>
+                    <button class="btn btn-outline btn-small" onclick="showSection('login-modal', true)">Log in</button>
+                    <button class="btn btn-primary btn-small" onclick="showSection('register-modal', true)">Cadastre-se</button>
                 </div>
                 
                 <div class="user-info" id="user-info">
-                    <div class="user-avatar" id="user-avatar" onclick="showSection('user-profile')">U</div>
-                    <div class="user-name" id="user-name">Usuário</div>
-                    <button class="logout-btn" onclick="logoutUser()">Sair</button>
+                    <div class="user-avatar" onclick="showSection('user-profile')">A</div>
+                    <span class="user-name" id="display-user-name">Usuário</span>
+                    <button class="logout-btn" onclick="logout()">Sair</button>
                 </div>
             </div>
         </div>
     </header>
 
-    <section id="hero" class="active-section">
-        <div class="container">
-            <div class="hero-content">
-                <h2>O Seu Mundo, Bem Indicado.</h2>
-                <p>Curadoria exclusiva de destinos, restaurantes, hotéis e mais, para a nova elite.</p>
-                <button class="btn btn-primary" onclick="showSection('categories')">Descubra Nossas Curadorias</button>
+    <div id="admin-login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('admin-login-modal')">&times;</span>
+            <h3>Login Administrativo</h3>
+            <form id="admin-login-form">
+                <input type="email" id="admin-login-email" placeholder="E-mail Admin" required>
+                <input type="password" id="admin-login-password" placeholder="Senha Admin" required>
+                <button type="submit" class="btn btn-primary">Entrar como Admin</button>
+            </form>
+        </div>
+    </div>
+
+    <section id="hero">
+        <div class="container hero-content">
+            <div class="social-icons">
+                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
             </div>
+            
+            <h2>O seu mundo, bem indicado.</h2>
+            
+            <p>Curadoria do melhor de cada cidade, reunida para acompanhar você em qualquer viagem.</p>
+            
+            <button class="btn btn-primary" onclick="showSection('categories')">Acesse nossas seleções</button>
         </div>
     </section>
 
     <section id="about-us">
         <div class="container">
-            <h2>Quem Somos</h2> <p class="about-text">
-                Na **Curadoria Elite Travel**, acreditamos que seu tempo é seu bem mais valioso. Percebemos que, em um mundo onde a praticidade digital é essencial, o viajante moderno buscava autonomia sem abrir mão de inspiração e confiança – uma assistência ágil e personalizada que ainda não existia. Foi dessa necessidade que nascemos: somos a resposta para quem deseja explorar o mundo de forma inteligente, com curadorias que transformam destinos em universos referenciados e acessíveis digitalmente. Abraçamos essa missão com excelência, oferecendo narrativas turísticas sob medida para que sua próxima aventura seja não apenas planejada, mas vivida intensamente, mesmo antes de partir. O seu mundo, bem indicado.
-            </p>
+            <h2>Quem Somos</h2>
             
-            <h3 class="about-cards-title">Nossa Filosofia</h3>
+            <p class="about-text">
+                Na Curadoria Elite Travel, acreditamos que seu tempo é seu bem mais valioso. Percebemos que, em um mundo onde a praticidade digital é essencial, o viajante moderno buscava autonomia sem abrir mão de inspiração e confiança – uma assistência ágil e personalizada que ainda não existia. Foi dessa necessidade que nascemos: somos a resposta para quem deseja explorar o mundo de forma inteligente, com curadorias que transformam destinos em universos referenciados e acessíveis digitalmente. Abraçamos essa missão com excelência, oferecendo narrativas turísticas sob medida para que sua próxima aventura seja não apenas planejada, mas vivida intensamente, mesmo antes de partir. O seu mundo, bem indicado.
+            </p>
+
+            <h3 class="about-cards-title">Nossos Pilares</h3>
 
             <div class="grid-3">
                 <div class="card">
                     <h3>Visão</h3>
-                    <p>Ser o principal guia digital para a elite ascendente que busca experiências autênticas, de 3 a 4 estrelas, com curadoria de alto nível, sem o excesso do luxo.</p>
+                    <p>
+                        Ser a principal referência digital para quem busca apoio, inspiração e orientação em viagens, oferecendo uma curadoria de alto nível que torna a descoberta de destinos mais clara, elegante e acessível — um ponto de partida confiável para explorar o mundo com profundidade e propósito.
+                    </p>
                 </div>
                 <div class="card">
-                    <h3>Nossa Missão</h3>
-                    <p>Oferecer materiais digitais de pesquisa de alta qualidade, indicando o melhor em destinos, gastronomia, compras e passeios, focando na excelência e no custo-benefício refinado.</p>
+                    <h3>Missão</h3>
+                    <p>
+                        Oferecer materiais de apoio que iluminam a escolha dos melhores lugares, reunindo conteúdo de qualidade, excelência na seleção e uma visão equilibrada entre experiência e valor.
+                    </p>
                 </div>
                 <div class="card">
-                    <h3>O Nicho</h3>
-                    <p>Focamos em experiências de 3 a 4 estrelas. Não é luxo ostensivo, é **elite ascendente**: qualidade superior, inteligência na escolha e curadoria impecável.</p>
+                    <h3>Nicho</h3>
+                    <p>
+                        Viajantes que buscam experiências entre 3 e 4 estrelas, desejando conhecer os principais destinos de forma acolhedora, inteligente e cuidadosamente selecionada.
+                    </p>
                 </div>
             </div>
         </div>
@@ -1114,96 +1171,70 @@
 
     <section id="categories">
         <div class="container">
-            <h2>A Arte de Indicar & Inspirar</h2> <p style="text-align: center; margin-bottom: 40px; color: var(--text-light);">
-                Encontre, em cada categoria, a recomendação perfeita para sua próxima viagem. </p>
+            <h2>Nossas Curadorias</h2>
+            <p class="subtitle" id="categories-subtitle">Acesso a todas as categorias é liberado após o cadastro.</p>
 
-            <div class="categories-grid">
-                <div class="category-card" onclick="showProducts('restaurantes')">
-                    <i class="fas fa-utensils"></i>
-                    <h4>Restaurantes</h4>
+            <div class="categories-grid" id="categories-grid">
                 </div>
-                <div class="category-card" onclick="showProducts('bares')">
-                    <i class="fas fa-cocktail"></i>
-                    <h4>Bares & Cafés</h4>
-                </div>
-                <div class="category-card" onclick="showProducts('city-guides')">
-                    <i class="fas fa-city"></i>
-                    <h4>City Guides</h4>
-                </div>
-                <div class="category-card" onclick="showProducts('pontos-turisticos')">
-                    <i class="fas fa-camera-retro"></i>
-                    <h4>Pontos Turísticos</h4>
-                </div>
-                <div class="category-card" onclick="showProducts('passeios')">
-                    <i class="fas fa-mountain"></i>
-                    <h4>Passeios Exclusivos</h4>
-                </div>
-                <div class="category-card" onclick="showProducts('vida-noturna')">
-                    <i class="fas fa-moon"></i>
-                    <h4>Vida Noturna</h4>
-                </div>
-                <div class="category-card disabled">
-                    <i class="fas fa-shopping-bag"></i>
-                    <h4>Compras de Luxo</h4>
-                    <span class="coming-soon-badge">Em Breve</span>
-                </div>
-                <div class="category-card disabled">
-                    <i class="fas fa-car"></i>
-                    <h4>Roteiros Auto</h4>
-                    <span class="coming-soon-badge">Em Breve</span>
-                </div>
+            
+            <div id="coming-soon-message" style="text-align: center; margin-top: 30px;">
+                <h3 style="color: var(--text-secondary);">Em breve, teremos as categorias disponíveis!</h3>
+                <p style="color: var(--text-secondary);">Cadastre-se para ser avisado sobre o lançamento das nossas curadorias.</p>
             </div>
-
-            <div id="products">
+        </div>
+        
+        <div class="container" id="products">
+            <h2 id="products-category-title">Produtos de Curadoria</h2>
+            <div class="products-container">
                 </div>
         </div>
     </section>
 
     <section id="daily-columns">
         <div class="container">
-            <h2>Colunas Diárias</h2> <p class="subtitle">Reflexões que inspiram escolhas melhores, todos os dias.</p> <div id="columns-container">
-                <div class="column-card">
-                    <h4>O Poder da Desaceleração: Um Novo Luxo</h4>
-                    <p>O verdadeiro luxo não é ter, mas ter tempo. Analisamos como a elite moderna está redefinindo o descanso e a produtividade através de viagens de imersão e digital detox.</p>
+            <h2>Colunas Diárias</h2>
+            
+            <p class="subtitle" id="daily-columns-message">
+                Em breve, teremos colunas diárias com dicas, histórias e inspirações para sua próxima aventura. Fique ligado!
+            </p>
+            
+            <div id="columns-list" class="grid-3">
                 </div>
-                <div class="column-card">
-                    <h4>Investimento Inteligente em Experiências</h4>
-                    <p>Viajar não é gasto, é investimento. Um olhar aprofundado sobre como escolher destinos que não apenas enriquecem o espírito, mas também aprimoram o networking e a visão de mundo.</p>
-                </div>
-            </div>
         </div>
     </section>
-    
+
     <section id="review-form">
         <div class="container">
-            <h2>Sua Opinião Vale Ouro</h2>
-
+            <h2>Sua percepção nos ajuda a evoluir</h2>
+            
             <div class="review-section">
-                <p>Por favor, avalie nosso trabalho e material:</p>
-
-                <form id="site-review-form">
-                    <div class="rating-input">
-                        <input type="radio" id="star5" name="rating" value="5" required>
-                        <label for="star5" title="Excelente Trabalho (5 estrelas)" data-message="Excelente Trabalho (5)">★</label>
-                        
-                        <input type="radio" id="star4" name="rating" value="4">
-                        <label for="star4" title="Excelente Trabalho (4 estrelas)" data-message="Excelente Trabalho (4)">★</label>
-                        
-                        <input type="radio" id="star3" name="rating" value="3">
-                        <label for="star3" title="Trabalho Regular (3 estrelas)" data-message="Trabalho Regular (3)">★</label>
-                        
-                        <input type="radio" id="star2" name="rating" value="2">
-                        <label for="star2" title="Trabalho Insuficiente (2 estrelas)" data-message="Trabalho Insuficiente (2)">★</label>
-                        
-                        <input type="radio" id="star1" name="rating" value="1">
-                        <label for="star1" title="Trabalho Insuficiente (1 estrela)" data-message="Trabalho Insuficiente (1)">★</label>
+                <form id="submit-review-form">
+                    <div class="form-group">
+                        <label for="review-name">Seu Nome/Apelido (Opcional)</label>
+                        <input type="text" id="review-name" name="review-name" placeholder="Ex: Viajante Ouro">
                     </div>
 
-                    <p id="rating-message" class="rating-message">Selecione uma nota</p>
-
                     <div class="form-group">
-                        <label for="review-thoughts">Compartilhe seus pensamentos (opcional)</label>
-                        <textarea id="review-thoughts" rows="4" placeholder="O que você achou do site e material?"></textarea>
+                        <div class="rating-message">Qual a sua avaliação geral?</div>
+                        
+                        <div class="rating-input">
+                            <input type="radio" id="star5" name="rating" value="5" required>
+                            <label for="star5" title="Excelente (5 estrelas)"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star4" name="rating" value="4">
+                            <label for="star4" title="Muito Bom (4 estrelas)"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star3" name="rating" value="3">
+                            <label for="star3" title="Bom (3 estrelas)"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star2" name="rating" value="2">
+                            <label for="star2" title="Razoável (2 estrelas)"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star1" name="rating" value="1">
+                            <label for="star1" title="Ruim (1 estrela)"><i class="fas fa-star"></i></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="review-message">Compartilhe sua percepção (Max. 300 caracteres)</label>
+                        <textarea id="review-message" name="review-message" rows="4" maxlength="300" placeholder="O que você achou do nosso trabalho?" required></textarea>
+                        <span class="char-count" id="review-char-count">0 / 300</span> 
                     </div>
 
                     <button type="submit" class="btn btn-primary">Enviar Avaliação</button>
@@ -1214,711 +1245,566 @@
 
     <section id="contact-form">
         <div class="container">
-            <h2>Fale Conosco</h2>
-            
-            <form id="contact-form-data">
-                
-                <div class="form-group full-width">
-                    <label for="message-type">Tipo de Mensagem</label>
-                    <select id="message-type" name="message_type" required>
-                        <option value="" disabled selected>Selecione o tipo de mensagem</option>
-                        <option value="Comentário">Comentário</option>
-                        <option value="Sugestão">Sugestão</option>
-                    </select>
-                </div>
-                
-                <div class="form-group full-width">
-                    <label for="full-name">Nome Completo</label>
-                    <input type="text" id="full-name" name="full_name" required>
-                </div>
-                
-                <div class="form-group full-width">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                
+            <h2>Entre em Contato</h2>
+            <form id="contact-us-form">
                 <div class="contact-grid">
                     <div class="form-group">
-                        <label for="state">Estado</label>
-                        <input type="text" id="state" name="state" required>
+                        <label for="contact-name">Nome</label>
+                        <input type="text" id="contact-name" name="name" required>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="city">Cidade</label>
-                        <input type="text" id="city" name="city" required>
+                        <label for="contact-email">E-mail</label>
+                        <input type="email" id="contact-email" name="email" required>
                     </div>
-                    
                     <div class="form-group full-width">
-                        <label for="gender">Gênero</label>
-                        <select id="gender" name="gender" required>
-                            <option value="" disabled selected>Selecione</option>
-                            <option value="Feminino">Feminino</option>
-                            <option value="Masculino">Masculino</option>
-                            <option value="Outro">Outro</option>
-                            <option value="Prefiro não dizer">Prefiro não dizer</option>
-                        </select>
+                        <label for="contact-subject">Assunto</label>
+                        <input type="text" id="contact-subject" name="subject" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="contact-message">Mensagem</label>
+                        <textarea id="contact-message" name="message" rows="6" required></textarea>
                     </div>
                 </div>
-                
-                <div class="form-group full-width">
-                    <label for="message">Mensagem (Máx. 300 caracteres)</label>
-                    <textarea id="message" name="message" rows="4" maxlength="300" required></textarea>
-                    <span id="char-count" class="char-count">0 / 300 caracteres</span>
-                </div>
-                
-                <button type="submit" class="btn btn-primary full-width">Enviar Mensagem</button>
+                <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+                <p id="contact-status" style="text-align: center; margin-top: 15px; color: var(--gold-color);"></p>
             </form>
-        </div>
-    </section>
-    
-    <section id="user-profile">
-        <div class="container">
-            <h2>Minha Conta Elite Travel</h2>
-            
-            <div class="profile-tabs">
-                <div class="profile-tab active" data-tab="dados-pessoais">Dados Pessoais</div>
-                <div class="profile-tab" data-tab="pagamentos">Pagamentos</div>
-                <div class="profile-tab" data-tab="compras">Minhas Compras</div>
-            </div>
-            
-            <div id="dados-pessoais-content" class="tab-content active">
-                <h3>Dados de Registro</h3>
-                <form id="profile-update-form" class="profile-form">
-                    
-                    <div class="contact-grid">
-                        <div class="form-group">
-                            <label for="profile-name">Nome Completo</label>
-                            <input type="text" id="profile-name" value="Nome do Usuário" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="profile-email">E-mail</label>
-                            <input type="email" id="profile-email" value="email@exemplo.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="profile-password">Senha (Deixe vazio para não alterar)</label>
-                            <input type="password" id="profile-password" placeholder="Nova Senha">
-                        </div>
-                        <div class="form-group">
-                            <label for="profile-state">Estado</label>
-                            <input type="text" id="profile-state" value="SP" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="profile-city">Cidade</label>
-                            <input type="text" id="profile-city" value="São Paulo" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="profile-gender">Gênero</label>
-                            <select id="profile-gender" required>
-                                <option value="Feminino">Feminino</option>
-                                <option value="Masculino" selected>Masculino</option>
-                                <option value="Outro">Outro</option>
-                                <option value="Prefiro não dizer">Prefiro não dizer</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-                </form>
-            </div>
-            
-            <div id="pagamentos-content" class="tab-content">
-                <h3>Cartões Cadastrados</h3>
-                
-                <div class="card-info">
-                    <span>Cartão Final **1234 (Visa)</span>
-                    <button class="btn btn-outline" onclick="removeCard('1234')">Remover</button>
-                </div>
-                <div class="card-info">
-                    <span>Cartão Final **5678 (Mastercard)</span>
-                    <button class="btn btn-outline" onclick="removeCard('5678')">Remover</button>
-                </div>
-                
-                <button class="btn btn-outline full-width" onclick="showPaymentOptions()">+ Adicionar Novo Cartão</button>
-            </div>
-            
-            <div id="compras-content" class="tab-content">
-                <h3>Produtos Comprados</h3>
-                
-                <div class="purchase-item">
-                    <span>Guia de Restaurantes - Paris 🇫🇷</span>
-                    <div>
-                        <a href="guia_paris.pdf" target="_blank" class="btn btn-primary btn-small">Ver Material</a>
-                    </div>
-                </div>
-                <div class="purchase-item">
-                    <span>Roteiro Exclusivo - Toscana 🇮🇹</span>
-                    <div>
-                        <a href="roteiro_toscana.pdf" target="_blank" class="btn btn-primary btn-small">Ver Material</a>
-                    </div>
-                </div>
-                <p style="margin-top: 20px; color: var(--text-secondary);">O ambiente baixado é o arquivo PDF do seu guia de curadoria.</p>
-            </div>
         </div>
     </section>
 
     <section id="admin">
         <div class="container">
+            <h2>Painel Administrativo</h2>
+            <button class="logout-btn" onclick="adminLogout()" style="float: right; margin-top: -40px;">Sair Admin</button>
+
             <div id="admin-panel">
-                <h2>Painel Administrativo</h2>
-                
                 <div class="admin-section">
-                    <h3>Estatísticas Rápidas</h3>
+                    <h3>Visão Geral (Simulação)</h3>
                     <div class="stats-grid">
                         <div class="stat-card">
-                            <h4>Vendas (Mês)</h4>
-                            <p>R$ 15.400</p>
+                            <h4>Usuários Registrados</h4>
+                            <p id="stat-users">150</p>
                         </div>
                         <div class="stat-card">
-                            <h4>Novos Clientes</h4>
-                            <p>87</p>
+                            <h4>Curadorias Ativas</h4>
+                            <p id="stat-products">10</p>
                         </div>
                         <div class="stat-card">
-                            <h4>Avaliação Média</h4>
-                            <p>4.8 ★</p>
-                        </div>
-                        <div class="stat-card">
-                            <h4>Colunas Publicadas</h4>
-                            <p id="published-columns-count">2</p>
+                            <h4>Média de Avaliação</h4>
+                            <p id="stat-rating">4.8</p>
                         </div>
                     </div>
                 </div>
+
+                <div class="admin-section">
+                    <h3>Gerenciar Curadorias/Links</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                        Use esta seção para adicionar, editar ou remover os links das curadorias.
+                    </p>
+                    <form id="add-product-form">
+                        <div class="contact-grid">
+                            <input type="text" id="product-name" placeholder="Nome da Curadoria" required>
+                            <input type="text" id="product-link" placeholder="Link do Conteúdo" required>
+                            <input type="number" id="product-price" placeholder="Preço (R$)" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Adicionar Curadoria</button>
+                    </form>
+
+                    <h4 style="margin-top: 30px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px;">Lista de Curadorias</h4>
+                    <ul class="product-list" id="admin-product-list">
+                        </ul>
+                </div>
                 
                 <div class="admin-section">
-                    <h3>Publicar Nova Coluna Diária</h3>
-                    <form id="daily-column-form" onsubmit="publishDailyColumn(event)">
-                        <div class="form-group full-width">
+                    <h3>Adicionar Coluna Diária</h3>
+                    <form id="daily-column-form">
+                        <div class="form-group">
                             <label for="column-title">Título da Coluna</label>
                             <input type="text" id="column-title" required>
                         </div>
-                        <div class="form-group full-width">
-                            <label for="column-author">Autor (Opcional)</label>
-                            <input type="text" id="column-author">
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="column-content">Conteúdo da Coluna</label>
-                            <textarea id="column-content" rows="6" required></textarea>
+                        <div class="form-group">
+                            <label for="column-content">Conteúdo</label>
+                            <textarea id="column-content" rows="5" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Publicar Coluna</button>
                     </form>
+                    <h4 style="margin-top: 30px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px;">Colunas Publicadas (Simulação)</h4>
+                    <ul class="product-list" id="admin-column-list">
+                        </ul>
                 </div>
-                
-                <div class="admin-section">
-                    <h3>Gerenciamento de Produtos</h3>
-                    </div>
-
             </div>
         </div>
     </section>
-    
-    <footer>
+
+    <section id="user-profile">
         <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2025 Curadoria Elite Travel. Todos os direitos reservados.</p>
-                <div class="social-links">
-                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-pinterest"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
+            <h2>Meu Perfil</h2>
 
-
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
-            <h3>Login de Cliente</h3>
-            <form id="login-form">
-                <input type="email" id="login-email" placeholder="E-mail" required>
-                <input type="password" id="login-password" placeholder="Senha" required>
-                <button type="submit" class="btn btn-primary">Entrar</button>
-                <button type="button" class="btn btn-outline" onclick="showRegisterModal(); closeModal('login-modal');">Cadastre-se</button>
-            </form>
-        </div>
-    </div>
-    
-    <div id="register-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('register-modal')">&times;</span>
-            <h3>Cadastro de Novo Cliente</h3>
-            <form id="register-form">
-                <input type="text" id="register-name" placeholder="Nome Completo" required>
-                <input type="email" id="register-email" placeholder="E-mail" required>
-                <input type="password" id="register-password" placeholder="Senha" required>
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
-            </form>
-        </div>
-    </div>
-    
-    <div id="admin-login-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('admin-login-modal')">&times;</span>
-            <h3>Acesso Administrativo</h3>
-            <form id="admin-login-form">
-                <input type="email" id="admin-email" placeholder="E-mail Admin" required>
-                <input type="password" id="admin-password" placeholder="Senha Admin" required>
-                <button type="submit" class="btn btn-primary">Entrar como Admin</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="checkout-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('checkout-modal')">&times;</span>
-            <h3>Finalizar Compra</h3>
-
-            <div class="checkout-summary">
-                <h4>Resumo do Pedido</h4>
-                <p id="checkout-product-name">Produto: Guia de Culinária Gourmet</p>
-                <p>Valor: <span id="checkout-price">R$ 99,00</span></p>
-                <span class="final-price" id="final-price">R$ 99,00</span>
+            <div class="profile-tabs">
+                <div class="profile-tab active" data-tab="info">Informações</div>
+                <div class="profile-tab" data-tab="purchases">Minhas Curadorias</div>
             </div>
 
-            <form id="payment-form">
-                <h4>Selecione a forma de pagamento</h4>
-                <button type="button" class="payment-option-btn active" data-type="credit-card">
-                    <i class="fas fa-credit-card"></i> Cartão de Crédito
-                </button>
-                
-                <div id="card-fields">
-                    <p style="color: var(--gold-color); margin-bottom: 10px;">Dados do Cartão</p>
-
-                    <div class="form-group full-width">
-                        <label for="card-number">Número do Cartão</label>
-                        <input type="text" id="card-number" placeholder="XXXX XXXX XXXX XXXX" required>
-                    </div>
-
-                    <div class="form-group full-width">
-                        <label for="card-name">Nome Impresso no Cartão</label>
-                        <input type="text" id="card-name" required>
-                    </div>
-
-                    <div class="card-grid">
-                        <div class="form-group">
-                            <label for="card-expiry">Validade (MM/AA)</label>
-                            <input type="text" id="card-expiry" placeholder="MM/AA" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="card-cvv">CVV</label>
-                            <input type="text" id="card-cvv" placeholder="123" required>
-                        </div>
-                    </div>
+            <div id="info-content" class="tab-content active">
+                <div class="card-info">
+                    <span>Nome:</span>
+                    <span id="profile-name">Usuário Padrão</span>
+                </div>
+                <div class="card-info">
+                    <span>E-mail:</span>
+                    <span id="profile-email">usuario@exemplo.com</span>
                 </div>
                 
-                <button type="submit" class="btn btn-primary full-width" style="margin-top: 20px;">Pagar e Baixar Material</button>
-            </form>
+                <h3 style="margin-top: 30px; margin-bottom: 20px;">Atualizar Dados</h3>
+                <form id="profile-form" class="profile-form">
+                    <div class="contact-grid">
+                        <input type="text" placeholder="Novo Nome">
+                        <input type="email" placeholder="Novo E-mail">
+                        <input type="password" placeholder="Nova Senha">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </form>
+            </div>
+
+            <div id="purchases-content" class="tab-content">
+                <p style="margin-bottom: 20px; color: var(--text-secondary);">
+                    Aqui estão todas as Curadorias que você adquiriu. Clique para acessar o link!
+                </p>
+                <div id="purchases-list">
+                    <div class="purchase-item">
+                        <span>Guia de Restaurantes em Paris</span>
+                        <strong><a href="#" target="_blank">Acessar</a></strong>
+                    </div>
+                    <div class="purchase-item">
+                        <span>Roteiro de 5 dias em Roma</span>
+                        <strong><a href="#" target="_blank">Acessar</a></strong>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </div>
-    
-    <div id="review-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('review-modal')">&times;</span>
-            <h3>🎉 Avaliação Registrada com Sucesso!</h3>
-            <p>Sua opinião é fundamental para continuarmos aprimorando a curadoria. Obrigado por dedicar seu tempo!</p>
-            <button class="btn btn-primary" onclick="closeModal('review-modal')">Continuar Navegando</button>
-        </div>
-    </div>
+    </section>
 
     <script>
-        // Variáveis globais simuladas para estado do usuário
-        let isUserLoggedIn = false;
-        let isUserAdmin = false;
-        let userName = '';
-        let userEmail = '';
-        let publishedColumns = [
-            { title: "O Poder da Desaceleração: Um Novo Luxo", content: "O verdadeiro luxo não é ter, mas ter tempo. Analisamos como a elite moderna está redefinindo o descanso e a produtividade através de viagens de imersão e digital detox.", author: "Redação CET" },
-            { title: "Investimento Inteligente em Experiências", content: "Viajar não é gasto, é investimento. Um olhar aprofundado sobre como escolher destinos que não apenas enriquecem o espírito, mas também aprimoram o networking e a visão de mundo.", author: "Redação CET" }
+        // =========================================================
+        // VARIAVEIS GLOBAIS
+        // =========================================================
+        let currentUser = null;
+        const ADMIN_CREDENTIALS = {
+            // ALTERAÇÃO 7: Credenciais de Admin
+            email: 'admin@elitetravel.com',
+            password: 'admin@123'
+        };
+        const CATEGORIES_DATA = [
+            // ALTERAÇÃO 4: Apenas as categorias solicitadas
+            { id: 'city-guides', name: 'City Guides', icon: 'fas fa-map-marked-alt', link: 'https://link-do-city-guide.com' },
+            { id: 'restaurantes', name: 'Restaurantes', icon: 'fas fa-utensils', link: 'https://link-dos-restaurantes.com' },
+            { id: 'bares', name: 'Bares', icon: 'fas fa-cocktail', link: 'https://link-dos-bares.com' },
+            { id: 'pontos-turisticos', name: 'Pontos Turísticos', icon: 'fas fa-landmark', link: 'https://link-dos-pontos-turisticos.com' },
+            { id: 'passeios', name: 'Passeios', icon: 'fas fa-mountain', link: 'https://link-dos-passeios.com' },
+            { id: 'vida-noturna', name: 'Vida Noturna', icon: 'fas fa-moon', link: 'https://link-da-vida-noturna.com' },
+            { id: 'compras', name: 'Compras', icon: 'fas fa-shopping-bag', link: 'https://link-de-compras.com' },
+            { id: 'presentes', name: 'Presentes', icon: 'fas fa-gifts', link: 'https://link-de-presentes.com' },
+            { id: 'hoteis', name: 'Hotéis', icon: 'fas fa-hotel', link: 'https://link-dos-hoteis.com' },
+            { id: 'cruzeiros', name: 'Cruzeiros', icon: 'fas fa-ship', link: 'https://link-dos-cruzeiros.com' }
         ];
 
-        // Dados simulados de produtos
-        const allProducts = {
-            'restaurantes': [
-                { id: 1, name: "Guia de Restaurantes - Paris", price: 99.00, desc: "As melhores mesas bistrô e gourmet de 3 estrelas em Paris.", image: 'https://picsum.photos/300/200?random=10' },
-                { id: 2, name: "Guia de Restaurantes - Nova York", price: 119.00, desc: "Opções de culinária internacional e bares conceituais.", image: 'https://picsum.photos/300/200?random=11' }
-            ],
-            'bares': [
-                { id: 3, name: "Roteiro de Vinhos - Toscana", price: 89.00, desc: "Experiências vinícolas e melhores enotecas.", image: 'https://picsum.photos/300/200?random=12' }
-            ]
-        };
+        // Inicializar o EmailJS
+        (function() {
+            emailjs.init("YOUR_PUBLIC_KEY"); // Substitua com sua chave pública EmailJS
+        })();
 
-        // ==================== FUNÇÕES DE NAVEGAÇÃO E TEMA ====================
-        
-        function showSection(id) {
-            document.querySelectorAll('section').forEach(section => {
-                section.style.display = 'none';
-            });
-            document.getElementById(id).style.display = 'block';
-            
-            // Oculta produtos ao mudar de seção (exceto se for para 'categories')
-            if (id !== 'categories') {
-                document.getElementById('products').style.display = 'none';
-            }
-            
-            // Reseta a classe ativa na navegação
-            document.querySelectorAll('nav a').forEach(link => {
-                link.classList.remove('active');
-            });
-            const activeLink = document.querySelector(`nav a[onclick*="${id}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
-        }
+        // =========================================================
+        // FUNÇÕES DE NAVEGAÇÃO E TEMA
+        // =========================================================
 
+        /** Altera o tema entre 'dark-theme' e 'light-theme' */
         function toggleTheme() {
             const body = document.body;
             const icon = document.getElementById('theme-icon');
             if (body.classList.contains('dark-theme')) {
                 body.classList.remove('dark-theme');
                 body.classList.add('light-theme');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
             } else {
                 body.classList.remove('light-theme');
                 body.classList.add('dark-theme');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
             }
         }
 
-        // ==================== FUNÇÕES DE AUTENTICAÇÃO E PERFIL ====================
+        /** Exibe uma seção e esconde as outras, ou exibe um modal. */
+        function showSection(id, isModal = false) {
+            // Fecha todos os modais
+            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
 
-        function showLoginModal() {
-            document.getElementById('login-modal').style.display = 'block';
+            if (isModal) {
+                document.getElementById(id).style.display = 'block';
+            } else {
+                // Esconde todas as seções, exceto a admin-panel (que fica dentro da #admin)
+                document.querySelectorAll('section').forEach(section => section.style.display = 'none');
+                
+                // Exibe a seção solicitada
+                const targetSection = document.getElementById(id);
+                if (targetSection) {
+                    targetSection.style.display = 'block';
+                }
+                
+                // Rola para o topo da seção
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Recarrega o conteúdo das categorias ou colunas se necessário
+                if (id === 'categories') {
+                    renderCategories();
+                    document.getElementById('products').style.display = 'none'; // Esconde a subseção de produtos
+                }
+                if (id === 'daily-columns') {
+                    renderDailyColumns();
+                }
+            }
         }
 
-        function showRegisterModal() {
-            document.getElementById('register-modal').style.display = 'block';
-        }
-
-        function showAdminLoginModal() {
-            document.getElementById('admin-login-modal').style.display = 'block';
-        }
-        
+        /** Fecha um modal específico. */
         function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.style.display = 'none';
+            }
         }
         
-        // Simulação de Login de Cliente
-        document.getElementById('login-form').onsubmit = function(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            // Simulação: qualquer email e senha '123' funciona
-            if (email && document.getElementById('login-password').value === '123') {
-                isUserLoggedIn = true;
-                userName = email.split('@')[0].toUpperCase();
-                userEmail = email;
-                updateAuthStatus();
-                closeModal('login-modal');
-                showNotification(`Bem-vindo, ${userName}!`, 'success');
-            } else {
-                showNotification('Login ou senha incorretos. Tente email@exemplo.com e senha 123.', 'error');
-            }
-        };
+        // =========================================================
+        // FUNÇÕES DE AUTENTICAÇÃO
+        // =========================================================
 
-        // Simulação de Login de Admin
-        document.getElementById('admin-login-form').onsubmit = function(e) {
-            e.preventDefault();
-            // Senha e email fixos para o Admin (simulação)
-            if (document.getElementById('admin-email').value === 'admin@elite.com' && document.getElementById('admin-password').value === 'admin123') {
-                isUserLoggedIn = true;
-                isUserAdmin = true;
-                userName = 'ADMIN';
-                userEmail = 'admin@elite.com';
-                updateAuthStatus();
-                closeModal('admin-login-modal');
-                showSection('admin');
-                showNotification('Acesso Administrativo Concedido.', 'success');
-            } else {
-                showNotification('Credenciais de Admin incorretas.', 'error');
-            }
-        };
-
-        function updateAuthStatus() {
+        /** Atualiza a barra de navegação com o status do usuário. */
+        function updateAuthUI() {
             const authButtons = document.getElementById('auth-buttons');
             const userInfo = document.getElementById('user-info');
             
-            if (isUserLoggedIn) {
+            if (currentUser) {
                 authButtons.style.display = 'none';
                 userInfo.style.display = 'flex';
-                document.getElementById('user-avatar').textContent = userName[0];
-                document.getElementById('user-name').textContent = userName;
-            } else {
-                authButtons.style.display = 'flex';
-                userInfo.style.display = 'none';
-                showSection('hero'); // Volta para a página inicial ao deslogar
-                if (isUserAdmin) {
-                    isUserAdmin = false; // Garante que o estado de admin seja desativado
+                const userName = currentUser.name || currentUser.email.split('@')[0];
+                document.getElementById('display-user-name').textContent = userName;
+                document.getElementById('profile-name').textContent = userName;
+                document.getElementById('profile-email').textContent = currentUser.email;
+                document.getElementById('user-avatar').textContent = userName.charAt(0).toUpperCase();
+                
+                // Se for Admin, esconde a info de usuário e mostra o botão Admin se não estiver na seção Admin
+                if (currentUser.isAdmin) {
+                    userInfo.style.display = 'none'; 
+                    authButtons.style.display = 'flex';
+                    authButtons.innerHTML = `<button class="btn btn-primary btn-small" onclick="showSection('admin')">Admin Panel</button><button class="btn btn-outline btn-small" onclick="adminLogout()">Sair Admin</button>`;
                 }
+                
+            } else {
+                // Estado deslogado padrão
+                userInfo.style.display = 'none';
+                authButtons.style.display = 'flex';
+                // Recria os botões padrão (Admin, Log in, Cadastre-se)
+                authButtons.innerHTML = `
+                    <button class="btn btn-outline btn-small" onclick="showSection('admin-login-modal', true)">Admin</button>
+                    <button class="btn btn-outline btn-small" onclick="showSection('login-modal', true)">Log in</button>
+                    <button class="btn btn-primary btn-small" onclick="showSection('register-modal', true)">Cadastre-se</button>
+                `;
             }
+            
+            // Re-renderiza categorias para aplicar o efeito 'disabled'
+            renderCategories();
+        }
+
+        /** Simula o Login do Usuário. */
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            // Apenas para simulação: verifica se é um login válido
+            if (email.includes('@') && document.getElementById('login-password').value.length > 0) {
+                currentUser = { name: 'Novo Cliente', email: email, isAdmin: false };
+                closeModal('login-modal');
+                updateAuthUI();
+                showSection('hero'); // Volta para a tela inicial
+            } else {
+                alert('Credenciais de login inválidas.');
+            }
+        });
+        
+        /** Simula o Cadastro do Usuário. */
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            // Apenas para simulação: assume que o cadastro é bem-sucedido
+            currentUser = { name: name, email: email, isAdmin: false };
+            closeModal('register-modal');
+            updateAuthUI();
+            showSection('user-profile'); // Vai para o perfil
+            alert(`Bem-vindo, ${name}! Seu cadastro foi concluído.`);
+        });
+        
+        /** Simula o Login do Admin. */
+        document.getElementById('admin-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('admin-login-email').value;
+            const password = document.getElementById('admin-login-password').value;
+            
+            // ALTERAÇÃO 7: Verifica as credenciais de Admin
+            if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
+                currentUser = { name: 'Admin', email: email, isAdmin: true };
+                closeModal('admin-login-modal');
+                updateAuthUI();
+                showSection('admin'); 
+                document.getElementById('admin-panel').style.display = 'block';
+            } else {
+                alert('Credenciais de Admin inválidas.');
+            }
+        });
+
+        /** Logout do Usuário. */
+        function logout() {
+            currentUser = null;
+            updateAuthUI();
+            showSection('hero');
+            document.getElementById('admin-panel').style.display = 'none';
         }
         
-        function logoutUser() {
-            isUserLoggedIn = false;
-            isUserAdmin = false;
-            userName = '';
-            userEmail = '';
-            updateAuthStatus();
-            showNotification('Você saiu da sua conta.', 'success');
+        /** Logout do Admin. */
+        function adminLogout() {
+            currentUser = null;
+            updateAuthUI();
+            showSection('hero');
+            document.getElementById('admin-panel').style.display = 'none';
         }
 
-        // ==================== FUNÇÕES DE PRODUTOS E CATEGORIAS ====================
+        // =========================================================
+        // FUNÇÕES DE CATEGORIAS (CURADORIAS)
+        // =========================================================
+        
+        /** Renderiza a grade de categorias (Alteração 4) */
+        function renderCategories() {
+            const grid = document.getElementById('categories-grid');
+            const subtitle = document.getElementById('categories-subtitle');
+            const comingSoon = document.getElementById('coming-soon-message');
+            grid.innerHTML = '';
+            
+            // ALTERAÇÃO 4: Apenas mostra a mensagem de 'em breve'
+            const categoriesAvailable = false; 
 
-        function showProducts(category) {
-            const productsContainer = document.getElementById('products-container');
-            const productsSection = document.getElementById('products');
-            productsSection.style.display = 'block';
-
-            if (!productsContainer) {
-                productsSection.innerHTML = `
-                    <h2>Produtos em ${category.toUpperCase()}</h2>
-                    <div class="products-container" id="products-container"></div>
-                `;
-            } else {
-                document.querySelector('#products h2').textContent = `Produtos em ${category.toUpperCase()}`;
-                productsContainer.innerHTML = '';
-            }
-
-            const products = allProducts[category] || [];
-            if (products.length === 0) {
-                productsSection.innerHTML = `
-                    <h2>Produtos em ${category.toUpperCase()}</h2>
-                    <p style="text-align: center; margin-top: 20px;">Em breve teremos curadorias nesta categoria!</p>
-                `;
+            if (!categoriesAvailable) {
+                grid.style.display = 'none';
+                subtitle.style.display = 'none';
+                comingSoon.style.display = 'block';
+                
+                // Adiciona as categorias como botões inativos para mostrar o que está vindo
+                CATEGORIES_DATA.forEach(cat => {
+                    const card = document.createElement('div');
+                    card.className = 'category-card disabled';
+                    card.innerHTML = `
+                        <i class="${cat.icon}"></i>
+                        <h4>${cat.name}</h4>
+                    `;
+                    grid.appendChild(card);
+                });
+                grid.style.display = 'grid'; // Reexibe a grade com os cards inativos
+                
                 return;
             }
 
-            products.forEach(product => {
+            // Lógica original (que está desabilitada pela regra acima, mas mantida para referência)
+            comingSoon.style.display = 'none';
+            subtitle.style.display = 'block';
+            grid.style.display = 'grid';
+
+            CATEGORIES_DATA.forEach(cat => {
+                const card = document.createElement('div');
+                let isDisabled = !currentUser; // Desabilita se não estiver logado
+
+                card.className = `category-card ${isDisabled ? 'disabled' : ''}`;
+                card.onclick = isDisabled ? null : () => showProducts(cat);
+                
+                card.innerHTML = `
+                    <i class="${cat.icon}"></i>
+                    <h4>${cat.name}</h4>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        
+        // Função para simular a exibição de produtos (não alterada)
+        function showProducts(category) {
+            document.getElementById('products-category-title').textContent = `Curadoria: ${category.name}`;
+            document.getElementById('products').style.display = 'block';
+            
+            const productsContainer = document.querySelector('.products-container');
+            productsContainer.innerHTML = '';
+            
+            // Simulação de produtos
+            for (let i = 1; i <= 3; i++) {
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card';
                 productCard.innerHTML = `
-                    <div class="product-image-placeholder">
-                        <i class="fas fa-file-pdf"></i>
-                    </div>
-                    <div class="product-content">
-                        <h3>${product.name}</h3>
-                        <p>${product.desc}</p>
-                        <div class="product-price">R$ ${product.price.toFixed(2).replace('.', ',')}</div>
-                        <button class="btn btn-primary" onclick="initiatePurchase(${product.id}, '${product.name}', ${product.price})">Comprar e Baixar</button>
-                    </div>
+                    <h4>${category.name} - Roteiro ${i}</h4>
+                    <p>O guia essencial para explorar o melhor de ${category.name} em 3 dias.</p>
+                    <span class="product-price">R$ 49,90</span>
+                    <button class="btn btn-primary" onclick="showCheckoutModal('${category.name} - Roteiro ${i}', '49,90')">Comprar Agora</button>
                 `;
-                document.getElementById('products-container').appendChild(productCard);
-            });
+                productsContainer.appendChild(productCard);
+            }
             
+            // Rola para a seção de produtos
+            const productsSection = document.getElementById('products');
             productsSection.scrollIntoView({ behavior: 'smooth' });
         }
-
-        // ==================== FUNÇÕES DO COLUNAS DIÁRIAS (ALTERAÇÃO 4 & 7) ====================
         
+        // =========================================================
+        // FUNÇÕES DE COLUNAS DIÁRIAS
+        // =========================================================
+        
+        // Renderiza as colunas diárias (vazias, devido à Alteração 5)
         function renderDailyColumns() {
-            const container = document.getElementById('columns-container');
-            container.innerHTML = '';
+            const columnsList = document.getElementById('columns-list');
+            const message = document.getElementById('daily-columns-message');
+            
+            // Por causa da Alteração 5, apenas mostra a mensagem
+            columnsList.innerHTML = '';
+            columnsList.style.display = 'none';
+            message.style.display = 'block';
+        }
 
-            if (publishedColumns.length === 0) {
-                container.innerHTML = '<p style="text-align: center;">Nenhuma coluna publicada ainda.</p>';
+        // =========================================================
+        // FUNÇÕES DE AVALIAÇÃO (REVIEW)
+        // =========================================================
+        
+        // Contador de Caracteres para o campo de avaliação (Alteração 6)
+        document.getElementById('review-message').addEventListener('input', function() {
+            const count = this.value.length;
+            const max = this.maxLength;
+            document.getElementById('review-char-count').textContent = `${count} / ${max}`;
+        });
+        
+        /** Simula o envio do formulário de avaliação. */
+        document.getElementById('submit-review-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Lógica de envio da avaliação (simulação)
+            
+            const rating = document.querySelector('input[name="rating"]:checked');
+            const message = document.getElementById('review-message').value;
+            const name = document.getElementById('review-name').value || 'Anônimo';
+
+            if (!rating) {
+                alert('Por favor, selecione uma avaliação em estrelas.');
                 return;
             }
             
-            publishedColumns.forEach(column => {
-                const columnCard = document.createElement('div');
-                columnCard.className = 'column-card';
-                columnCard.innerHTML = `
-                    <h4>${column.title}</h4>
-                    <p>${column.content}</p>
-                    <small style="color: var(--text-secondary);">Por: ${column.author || 'Redação CET'}</small>
-                `;
-                container.appendChild(columnCard);
-            });
-        }
+            console.log(`Avaliação Recebida de ${name}: ${rating.value} estrelas. Mensagem: ${message}`);
+            
+            // Resetar o formulário
+            this.reset();
+            document.getElementById('review-char-count').textContent = `0 / 300`;
+            
+            // Exibir modal de sucesso
+            showSection('review-modal', true);
+        });
+
+        // =========================================================
+        // FUNÇÕES DE CONTATO
+        // =========================================================
         
-        // Chamada inicial para renderizar as colunas simuladas
-        document.addEventListener('DOMContentLoaded', renderDailyColumns);
-
-        // Publicar coluna - Ação do Admin (ALTERAÇÃO 7)
-        function publishDailyColumn(e) {
+        /** Simula o envio do formulário de contato via EmailJS. */
+        document.getElementById('contact-us-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            const title = document.getElementById('column-title').value;
-            const author = document.getElementById('column-author').value;
-            const content = document.getElementById('column-content').value;
+            const status = document.getElementById('contact-status');
+            status.textContent = 'Enviando...';
+            status.style.color = 'var(--gold-color)';
 
-            if (title && content) {
-                publishedColumns.unshift({ title, content, author }); // Adiciona no início da lista
-                document.getElementById('column-title').value = '';
-                document.getElementById('column-author').value = '';
-                document.getElementById('column-content').value = '';
-                document.getElementById('published-columns-count').textContent = publishedColumns.length;
-                showNotification('Coluna publicada com sucesso! Lembre-se que é uma simulação.', 'success');
-                renderDailyColumns(); // Atualiza a seção para o cliente (em um app real, seria um fetch/API)
-            }
-        }
+            // Simulação de envio
+            setTimeout(() => {
+                status.textContent = 'Mensagem enviada com sucesso! Em breve, retornaremos.';
+                status.style.color = '#28a745'; // Verde
+                document.getElementById('contact-us-form').reset();
+            }, 1500);
 
-
-        // ==================== FUNÇÕES DE CONTATO (ALTERAÇÃO 5) ====================
-
-        // Contagem de caracteres (ALTERAÇÃO 5)
-        document.getElementById('message').addEventListener('input', function() {
-            const count = this.value.length;
-            const max = this.getAttribute('maxlength');
-            const charCountElement = document.getElementById('char-count');
-            charCountElement.textContent = `${count} / ${max} caracteres`;
+            /*
+            // Código real do EmailJS (descomentar se for usar)
+            emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+                .then(function() {
+                    status.textContent = 'Mensagem enviada com sucesso! Em breve, retornaremos.';
+                    status.style.color = '#28a745';
+                    document.getElementById('contact-us-form').reset();
+                }, function(error) {
+                    status.textContent = 'Falha ao enviar. Tente novamente.';
+                    status.style.color = 'red';
+                    console.log('FALHA...', error);
+                });
+            */
         });
         
-        // Envio do formulário de contato (Mantido, mas com novos campos)
-        document.getElementById('contact-form-data').onsubmit = function(e) {
-            e.preventDefault();
-            // Lógica de envio do EmailJS (ou seu backend) deve ser adaptada aqui
-            // Os novos campos (type, state, city, gender) estarão no `e.target`
+        // =========================================================
+        // FUNÇÕES DE INICIALIZAÇÃO
+        // =========================================================
 
-            showNotification('Mensagem enviada com sucesso! Em breve entraremos em contato.', 'success');
-            this.reset();
-            document.getElementById('char-count').textContent = '0 / 300 caracteres';
-        };
-
-
-        // ==================== FUNÇÕES DE AVALIAÇÃO (ALTERAÇÃO 6) ====================
-        
-        // Lógica para mostrar a mensagem de classificação
-        const ratingLabels = document.querySelectorAll('.rating-input label');
-        const ratingMessage = document.getElementById('rating-message');
-        
-        ratingLabels.forEach(label => {
-            label.addEventListener('click', function() {
-                // Remove a classe 'checked-star' de todas as estrelas
-                ratingLabels.forEach(l => l.classList.remove('checked-star'));
-                
-                // Adiciona a classe 'checked-star' nas estrelas após a estrela clicada (e na clicada)
-                let clickedStar = this;
-                let addClass = false;
-                
-                // Itera sobre as labels em ordem inversa (do 5 para o 1)
-                for (let i = ratingLabels.length - 1; i >= 0; i--) {
-                    if (ratingLabels[i] === clickedStar) {
-                        addClass = true;
-                    }
-                    if (addClass) {
-                        ratingLabels[i].classList.add('checked-star');
+        window.onload = function() {
+            updateAuthUI();
+            renderCategories();
+            renderDailyColumns();
+            
+            // Fechar modais ao clicar fora
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.onclick = function(event) {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
                     }
                 }
-
-                ratingMessage.textContent = this.getAttribute('data-message');
             });
-        });
-        
-        // Envio do formulário de avaliação
-        document.getElementById('site-review-form').onsubmit = function(e) {
-            e.preventDefault();
-            const rating = document.querySelector('input[name="rating"]:checked');
-            const thoughts = document.getElementById('review-thoughts').value;
-            
-            if (rating) {
-                // Simulação de envio para o backend
-                console.log(`Avaliação enviada: ${rating.value} estrelas. Pensamentos: ${thoughts}`);
-                
-                // Mostrar modal de sucesso (Alteração 6)
-                document.getElementById('review-modal').style.display = 'block';
-                this.reset();
-                ratingLabels.forEach(l => l.classList.remove('checked-star')); // Reseta as estrelas
-                ratingMessage.textContent = 'Selecione uma nota';
-            } else {
-                showNotification('Por favor, selecione uma nota para avaliar.', 'error');
-            }
-        };
 
-        // ==================== FUNÇÕES DE PERFIL (ALTERAÇÃO 8) ====================
+            // Fechar modais ao clicar no X
+            document.querySelectorAll('.close-btn').forEach(btn => {
+                btn.onclick = function() {
+                    this.closest('.modal').style.display = 'none';
+                }
+            });
+            
+            // Lógica de Tabs do Perfil
+            document.querySelectorAll('.profile-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    document.getElementById(this.getAttribute('data-tab') + '-content').classList.add('active');
+                });
+            });
+        };
         
-        // Lógica de Tabs do Perfil
-        document.querySelectorAll('.profile-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
+        // Funções para simular a compra/checkout (mantidas)
+        function showCheckoutModal(productName, productPrice) {
+            document.getElementById('checkout-product-name').textContent = productName;
+            document.getElementById('checkout-product-price').textContent = `R$ ${productPrice}`;
+            document.getElementById('checkout-final-price').textContent = `R$ ${productPrice}`;
+            document.getElementById('payment-amount').textContent = `R$ ${productPrice}`;
+            showSection('checkout-modal', true);
+        }
+        
+        // Lógica de pagamento (simplificada, mantida)
+        document.querySelectorAll('.payment-option-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.payment-option-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
-                document.getElementById(this.getAttribute('data-tab') + '-content').classList.add('active');
+                const cardFields = document.getElementById('card-fields');
+                if (this.getAttribute('data-type') === 'card') {
+                    cardFields.style.display = 'block';
+                } else {
+                    cardFields.style.display = 'none';
+                }
             });
         });
-
-        // Simulação de remoção de cartão
-        function removeCard(lastDigits) {
-            if (confirm(`Tem certeza que deseja remover o cartão final ${lastDigits}?`)) {
-                // Lógica de remoção do backend
-                showNotification(`Cartão final ${lastDigits} removido.`, 'success');
-                // Em um ambiente real, você atualizaria a div 'pagamentos-content'
-            }
-        }
         
-        // Redireciona para o perfil ao clicar no avatar
-        document.getElementById('user-avatar').addEventListener('click', () => {
-             if (isUserLoggedIn) {
-                 showSection('user-profile');
-             } else {
-                 showLoginModal();
-             }
+        document.getElementById('payment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Pagamento processado com sucesso! Redirecionando para o seu conteúdo.');
+            closeModal('checkout-modal');
         });
-        
-        // Simulação de atualização de perfil
-        document.getElementById('profile-update-form').onsubmit = function(e) {
-            e.preventDefault();
-            // Lógica de envio para o backend
-            showNotification('Dados pessoais atualizados com sucesso!', 'success');
-        };
 
-        // ==================== FUNÇÕES DE PAGAMENTO (ALTERAÇÃO 9) ====================
-
-        function initiatePurchase(productId, productName, price) {
-            if (!isUserLoggedIn) {
-                showNotification('Você precisa estar logado para finalizar a compra.', 'error');
-                showLoginModal();
-                return;
-            }
-
-            // Popula o modal de checkout (Alteração 9)
-            document.getElementById('checkout-product-name').textContent = `Produto: ${productName}`;
-            document.getElementById('checkout-price').textContent = `R$ ${price.toFixed(2).replace('.', ',')}`;
-            document.getElementById('final-price').textContent = `R$ ${price.toFixed(2).replace('.', ',')}`;
-            
-            // Lógica para preencher dados de pagamento se já existir um cartão (simulação)
-            // Aqui você faria uma chamada API para buscar cartões salvos e preencher os campos.
-
-            document.getElementById('checkout-modal').style.display = 'block';
-        }
-
-        // Simulação do formulário de pagamento (Alteração 9)
-        document.getElementById('payment-form').onsubmit = function(e) {
-            e.preventDefault();
-            
-            // Validações básicas (simulação)
-            const cardNumber = document.getElementById('card-number').value;
-            if (cardNumber.length < 16) {
-                showNotification('Número de cartão inválido.', 'error');
-                return;
-            }
-            
-            // Simulação de processamento de pagamento
-            showNotification('Pagamento processado com sucesso! Redirecionando para download...', 'success');
-            
-            // Simulação de download
-            setTimeout(() => {
-                closeModal('checkout-modal');
-                // Em um ambiente real, você redirecionaria para o PDF ou dispararia o download.
-                alert("Download do seu material iniciado! Verifique a seção 'Minhas Compras' no seu perfil.");
-            }, 1000);
-        };
-        
-        // ==================== FUNÇÕES DE NOTIFICAÇÃO (Mantido) ====================
-
-        function showNotification(message, type) {
-            const box = document.getElementById('notification-box');
-            box.textContent = message;
-            box.className = '';
-            box.classList.add('notification-' + type);
-            box.style.display = 'block';
-
-            setTimeout(() => {
-                box.style.display = 'none';
-            }, 4000);
-        }
-
-        // Inicializa o estado de autenticação (caso o usuário esteja logado via cookies/session)
-        updateAuthStatus();
     </script>
 </body>
 </html>
