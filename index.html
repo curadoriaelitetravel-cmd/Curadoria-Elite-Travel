@@ -103,8 +103,8 @@
             z-index: 2;
         }
 
-        section:first-child {
-            display: block; /* A seção de herói (hero) é a primeira a ser exibida */
+        section.active {
+            display: block; /* A seção ativa */
         }
 
         /* ==================== 1.1. ESTILOS DE FUNDO ==================== */
@@ -133,7 +133,8 @@
         #daily-columns .container, 
         #contact-form .container,
         #user-profile .container,
-        #review-form .container {
+        #review-form .container,
+        #admin .container {
             color: var(--text-light); 
         }
 
@@ -147,7 +148,7 @@
         
         /* Estilo específico para o Admin/Review para centralizar o conteúdo */
         #admin .container, #review-form .container {
-            max-width: 800px;
+            max-width: 90%;
         }
 
 
@@ -361,7 +362,7 @@
             border-bottom: 2px solid var(--gold-color);
         }
         
-        /* REMOVENDO BOTÃO DE TEMA DO HEADER (Alteração 1) */
+        /* REMOVENDO BOTÃO DE TEMA DO HEADER */
         .theme-toggle {
             display: none;
         }
@@ -375,14 +376,8 @@
             display: flex;
             gap: 10px;
         }
-
-        .user-info {
-            display: none; 
-            align-items: center;
-            gap: 10px;
-        }
         
-        /* Botão Admin - Alteração 4 */
+        /* Botão Admin - Alteração 8 */
         .btn-admin {
             background-color: var(--secondary-color);
             color: var(--text-light);
@@ -392,6 +387,16 @@
             background-color: #666666;
             border-color: #666666;
             color: var(--text-light);
+        }
+        
+        /* Estilos para quando o usuário está logado */
+        .user-info {
+            display: none; 
+            align-items: center;
+            gap: 10px;
+        }
+        .user-info.logged-in {
+            display: flex;
         }
 
 
@@ -432,6 +437,9 @@
         .hero-content p {
             font-size: 1.2rem;
             margin-bottom: 30px;
+            /* Alteração 2 - Estilo para o novo subtítulo */
+            font-family: 'Cinzel', serif;
+            font-weight: 400;
         }
         
         .social-icons {
@@ -447,6 +455,10 @@
         }
         .social-icons a:hover {
             color: var(--gold-color); /* Efeito hover dourado */
+        }
+        /* Alteração 1 - Remover ícone do Facebook (classe específica) */
+        .social-icons .fa-facebook-f {
+            display: none;
         }
 
         /* ==================== 6. MODALS (Pop-ups) ==================== */
@@ -536,8 +548,26 @@
         .modal-content .btn {
             width: 100%;
         }
+        
+        /* Mensagens de feedback do formulário/modal */
+        .feedback-message {
+            text-align: center;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .feedback-success {
+            background-color: #388e3c33;
+            color: #4CAF50;
+        }
+        .feedback-error {
+            background-color: #d32f2f33;
+            color: #F44336;
+        }
 
-        /* ==================== 7. ADMIN PANEL ==================== */
+        /* ==================== 7. ADMIN PANEL (Alteração 8) ==================== */
         #admin-panel {
             background-color: var(--card-bg);
             padding: 40px;
@@ -545,10 +575,22 @@
             border-radius: 8px;
             border: 1px solid var(--border-color);
         }
+        #admin .container {
+            max-width: 1200px; /* Mais largura para o admin */
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--gold-color);
+            padding-bottom: 10px;
+        }
 
         #admin-panel h2 {
-            margin-bottom: 20px;
+            margin: 0;
             color: var(--gold-color);
+            font-size: 1.8rem;
         }
         
         .admin-section {
@@ -560,16 +602,17 @@
 
         .admin-section h3 {
             margin-top: 0;
-            border-bottom: 1px solid var(--gold-color);
+            border-bottom: 1px solid var(--text-secondary);
             padding-bottom: 10px;
             margin-bottom: 20px;
             color: var(--text-color);
             font-size: 1.2rem;
         }
 
+        /* Dashboard de Estatísticas */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -583,18 +626,18 @@
         }
 
         .stat-card h4 {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
             margin-bottom: 5px;
         }
 
         .stat-card p {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: var(--primary-color);
         }
         
-        /* Gerenciamento de Produtos e Colunas */
+        /* Formulários Admin - Categoria e Produto */
         .admin-form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -604,61 +647,55 @@
             grid-column: 1 / -1;
         }
         
-        #product-manager, #column-manager {
-            border: 1px solid var(--gold-color);
+        #category-manager, #product-manager, #column-manager, #export-data {
+            border: 1px solid var(--primary-color);
             padding: 20px;
             border-radius: 6px;
+            margin-bottom: 20px;
         }
         
-        #product-manager h3, #column-manager h3 {
+        #category-manager h3, #product-manager h3, #column-manager h3, #export-data h3 {
             border-bottom: none;
             padding-bottom: 0;
             text-align: center;
             margin-bottom: 15px;
+            color: var(--gold-color);
         }
         
-        .product-list {
+        /* Botões de Ação na Lista Admin */
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: flex-end;
+        }
+        
+        /* Estilos de Lista */
+        .admin-list {
             list-style: none;
             padding: 0;
+            margin-top: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
         }
-
-        .product-list li {
+        .admin-list li {
             background-color: var(--bg-dark);
-            padding: 15px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
             border-radius: 4px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-left: 3px solid var(--secondary-color);
+            font-size: 0.9rem;
         }
-
-        .product-info {
-            flex-grow: 1;
-        }
-
-        .product-info strong {
+        .admin-list .item-info strong {
             color: var(--primary-color);
         }
-        
-        .product-actions {
+        .admin-list .item-actions {
             display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .product-price-admin {
-            font-weight: bold;
-            color: var(--gold-color);
-            margin-right: 15px;
-        }
-        
-        .product-count {
-            text-align: right;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-top: -10px;
-            margin-bottom: 15px;
+            gap: 5px;
         }
 
 
@@ -690,19 +727,36 @@
         }
 
         #about-us .card p {
-            color: var(--text-secondary);
+            /* Alteração 4 - Corrigindo a cor da nova descrição */
+            color: var(--text-color); 
+            font-size: 1rem;
         }
         
-        /* Estilos para Categoria */
+        /* Estilos para Categoria (Alteração 5) */
+        #categories .subtitle {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 40px;
+        }
+        #categories .subtitle h2 {
+            margin-bottom: 5px;
+            color: var(--gold-color);
+        }
+        #categories .subtitle p {
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--text-light);
+        }
+
         .categories-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Mais compacto */
+            gap: 15px;
             margin-bottom: 40px;
         }
         .category-card {
             background-color: var(--card-bg);
-            padding: 30px;
+            padding: 15px;
             border-radius: 8px;
             text-align: center;
             border: 2px solid var(--border-color);
@@ -718,13 +772,19 @@
             cursor: not-allowed;
         }
         .category-card i {
-            font-size: 3rem;
+            font-size: 2rem; /* Ícones um pouco menores */
             color: var(--gold-color);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         .category-card h4 {
             color: var(--text-color);
-            font-size: 1rem;
+            font-size: 0.85rem; /* Fonte menor */
+            margin: 0;
+        }
+        .category-card p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
         }
 
         /* Estilos para Produtos */
@@ -748,13 +808,30 @@
         .product-price { font-size: 1.5rem; color: var(--gold-color); font-weight: bold; margin: 15px 0; }
         .product-card .btn { width: 100%; }
         
-        /* Estilos para Colunas Diárias */
-        .subtitle {
+        /* Estilos para Colunas Diárias (Alteração 6) */
+        #daily-columns .subtitle {
             text-align: center;
-            color: var(--text-light);
+            color: var(--text-color);
             margin-bottom: 40px;
         }
+        #daily-columns .subtitle h2 {
+            margin-bottom: 5px;
+            color: var(--gold-color);
+        }
+        #daily-columns .subtitle p {
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--text-light);
+        }
+        .columns-horizontal-list {
+            display: flex;
+            overflow-x: auto; /* Permite rolagem horizontal */
+            gap: 20px;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch; /* Suaviza a rolagem em iOS */
+        }
         .column-card {
+            min-width: 300px; /* Largura mínima para cada coluna */
             background-color: var(--card-bg);
             padding: 25px;
             border-radius: 8px;
@@ -762,6 +839,7 @@
             box-shadow: 0 2px 5px var(--box-shadow-color);
             transition: background-color 0.3s;
             cursor: pointer;
+            flex-shrink: 0; /* Impede que os cartões encolham */
         }
         .column-card:hover {
             background-color: var(--bg-dark);
@@ -777,7 +855,21 @@
         }
 
 
-        /* ==================== 12. CAMPO DE CONTATO ==================== */
+        /* ==================== 12. CAMPO DE CONTATO (Alteração 7) ==================== */
+        #contact-form .subtitle {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 40px;
+        }
+        #contact-form .subtitle h2 {
+            margin-bottom: 5px;
+            color: var(--gold-color);
+        }
+        #contact-form .subtitle p {
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--text-light);
+        }
         #contact-form form {
             max-width: 600px;
             margin: 0 auto;
@@ -809,7 +901,7 @@
             margin-bottom: 15px;
         }
         
-        /* ==================== 13. AVALIAÇÃO (Review Form) ==================== */
+        /* ==================== 13. AVALIAÇÃO (Review Form) (Alteração 8) ==================== */
         #review-form h2, #review-form p {
             text-align: center;
             color: var(--text-color);
@@ -828,15 +920,47 @@
             justify-content: center;
             margin-bottom: 20px;
             font-size: 2rem;
+            position: relative;
         }
         .star-rating i {
             color: var(--text-secondary);
             cursor: pointer;
             transition: color 0.2s;
+            position: relative;
+            margin: 0 5px;
         }
-        .star-rating i.active, .star-rating i:hover {
+        /* Estrela colorida */
+        .star-rating i.selected {
             color: var(--gold-color);
         }
+        
+        /* Tooltip de Legenda da Estrela */
+        .star-rating i::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-5px);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            padding: 5px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, transform 0.3s;
+            font-size: 0.8rem;
+            pointer-events: none;
+            border: 1px solid var(--gold-color);
+            font-family: 'Playfair Display', serif;
+        }
+        .star-rating i:hover::before {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+
         .review-count {
             text-align: center;
             margin-top: 20px;
@@ -844,7 +968,7 @@
         }
 
 
-        /* ==================== 16. RODAPÉ ==================== */
+        /* ==================== 16. RODAPÉ (Alteração 3) ==================== */
         footer {
             background-color: var(--card-bg);
             color: var(--text-color);
@@ -866,12 +990,21 @@
             padding: 10px;
         }
 
+        /* Novo texto e estilo do footer-left (Alteração 3) */
         .footer-left p {
-            font-size: 0.8rem; /* Letras pequenas */
+            font-size: 0.9rem;
             margin: 0;
             text-align: left;
-            color: var(--text-secondary);
+            color: var(--text-color);
+            line-height: 1.4;
         }
+        .footer-left strong {
+            color: var(--gold-color);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
 
         .footer-center {
             display: flex;
@@ -912,6 +1045,21 @@
         
         /* Media Query para telas menores */
         @media (max-width: 800px) {
+            .header-content, nav ul {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            nav ul {
+                margin-top: 10px;
+                gap: 15px;
+            }
+            .auth-buttons {
+                margin-top: 15px;
+            }
+            .hero-content h2 {
+                font-size: 2.2rem;
+            }
             .footer-content {
                 flex-direction: column;
             }
@@ -929,448 +1077,580 @@
             .footer-contact-item {
                 justify-content: center;
             }
-            nav ul {
-                display: none; /* Esconde a navegação principal em telas pequenas para simplificar */
+            .categories-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+            .stat-card {
+                min-width: 100%;
             }
         }
     </style>
 </head>
 <body class="dark-theme">
+
+    <header>
+        <div class="container header-content">
+            <div class="header-left">
+                <a href="#hero" class="logo" onclick="navigateTo('hero')">
+                    <div class="logo-image">
+                        <div class="compass-icon">
+                            <div class="compass-rose">
+                                <div class="compass-line compass-line-h"></div>
+                                <div class="compass-line compass-line-v"></div>
+                                <div class="compass-line compass-line-ne"></div>
+                                <div class="compass-line compass-line-nw"></div>
+                                <div class="compass-center"></div>
+                                <span class="compass-direction compass-n">N</span>
+                                <span class="compass-direction compass-e">E</span>
+                                <span class="compass-direction compass-s">S</span>
+                                <span class="compass-direction compass-w">W</span>
+                            </div>
+                        </div>
+                        <div class="logo-text">
+                            <h1>Elite Travel</h1>
+                            <span>Curadoria Exclusiva</span>
+                        </div>
+                    </div>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a onclick="navigateTo('hero')">Início</a></li>
+                        <li><a onclick="navigateTo('about-us')">Quem Somos</a></li>
+                        <li><a onclick="navigateTo('categories')">Curadoria</a></li>
+                        <li><a onclick="navigateTo('daily-columns')">Colunas</a></li>
+                        <li><a onclick="navigateTo('contact-form')">Contato</a></li>
+                        <li><a onclick="navigateTo('review-form')">Avaliação</a></li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <div class="auth-buttons" id="auth-buttons">
+                <button class="btn btn-admin btn-small" id="admin-login-btn">
+                    <i class="fas fa-user-shield"></i> Admin
+                </button>
+            </div>
+            
+            <div class="user-info" id="user-info">
+                <span class="user-name" id="user-name"></span>
+                <div class="user-avatar" id="user-avatar-initial"></div>
+                <button class="logout-btn" id="admin-logout-btn" onclick="adminLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section id="hero" class="active">
+        <div class="container hero-content">
+            <h2>Orquestramos cada detalhe com cuidado e expertise, para que você possa focar exclusivamente em viver experiências memoráveis</h2>
+            <p>Curadoria exclusiva para as experiências de viagem mais inesquecíveis.</p>
+            
+            <div class="social-icons">
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about-us">
+        <div class="container">
+            <div class="card">
+                <h3>Quem Somos</h3>
+                <p>Na Curadoria Elite Travel, acreditamos que seu tempo é seu bem mais valioso. Percebemos que, em um mundo onde a praticidade digital é essencial, o viajante moderno buscava autonomia sem abrir mão de inspiração e confiança – uma assistência ágil e personalizada que ainda não existia. Foi dessa necessidade que nascemos: somos a resposta para quem deseja explorar o mundo de forma inteligente, com curadorias que transformam destinos em universos referenciados e acessíveis digitalmente. Abraçamos essa missão com excelência, oferecendo narrativas turísticas sob medida para que sua próxima aventura seja não apenas planejada, mas vivida intensamente, mesmo antes de partir. **O seu mundo, bem indicado.**</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="categories">
+        <div class="container">
+            <div class="subtitle">
+                <h2>Categorias de Curadoria</h2>
+                <p>Navegue pelos temas que definem sua próxima aventura.</p>
+            </div>
+            
+            <div id="categories-content">
+                <div id="categories-grid" class="categories-grid">
+                    </div>
+                <div id="products">
+                    <h2 id="products-category-title"></h2>
+                    <div class="products-container" id="products-list">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="daily-columns">
+        <div class="container">
+            <div class="subtitle">
+                <h2>Colunas Diárias</h2>
+                <p>Notícias e curiosidades dos principais destinos</p>
+            </div>
+            
+            <div id="columns-container" class="columns-horizontal-list">
+                </div>
+        </div>
+    </section>
+
+    <section id="contact-form">
+        <div class="container">
+            <div class="subtitle">
+                <h2>Fale Conosco</h2>
+                <p>Envie sua sugestão, comentário ou dúvida.</p>
+            </div>
+            
+            <form id="contactForm">
+                <div class="contact-grid">
+                    <div class="form-group">
+                        <label for="contact-name">Nome:</label>
+                        <input type="text" id="contact-name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-email">Email:</label>
+                        <input type="email" id="contact-email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="contact-subject">Assunto:</label>
+                        <input type="text" id="contact-subject" name="subject" placeholder="Ex: Informações sobre Parcerias" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="contact-message">Mensagem:</label>
+                        <textarea id="contact-message" name="message" rows="5" maxlength="300" required></textarea>
+                        <span id="charCount" class="char-count">0/300 caracteres</span>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+                        <div id="contact-feedback" class="feedback-message" style="display: none;"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
     
+    <section id="review-form">
+        <div class="container">
+            <h2>Sua percepção nos ajuda a evoluir</h2>
+            <p>Ajude-nos a manter o nível de excelência da Curadoria Elite Travel. Deixe sua avaliação:</p>
+
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label for="reviewer-name">Seu Nome:</label>
+                    <input type="text" id="reviewer-name" name="reviewer-name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="review-title">Título da Avaliação:</label>
+                    <input type="text" id="review-title" name="review-title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Sua Nota:</label>
+                    <div class="star-rating" id="star-rating">
+                        <i class="far fa-star" data-rating="1" data-tooltip="Ruim"></i>
+                        <i class="far fa-star" data-rating="2" data-tooltip="Ruim"></i>
+                        <i class="far fa-star" data-rating="3" data-tooltip="Regular"></i>
+                        <i class="far fa-star" data-rating="4" data-tooltip="Muito bom"></i>
+                        <i class="far fa-star" data-rating="5" data-tooltip="Excelente"></i>
+                        <input type="hidden" id="review-score" name="review-score" value="0" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="review-comments">Comentários (Opcional):</label>
+                    <textarea id="review-comments" name="review-comments" rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary full-width">Enviar Avaliação</button>
+                <div id="review-feedback" class="feedback-message" style="display: none;"></div>
+            </form>
+
+            <div class="review-count">
+                <span id="average-rating">5.0</span> estrelas em <span id="total-reviews">0</span> avaliações.
+            </div>
+        </div>
+    </section>
+
+
+    <section id="admin">
+        <div class="container">
+            <div id="admin-panel">
+                <div class="admin-header">
+                    <h2>Painel Administrativo</h2>
+                    <button class="logout-btn" onclick="adminLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </button>
+                </div>
+                
+                <div class="admin-section">
+                    <h3>Dashboard de Estatísticas</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Visualizações de Página</h4>
+                            <p id="stat-page-views">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Materiais Baixados</h4>
+                            <p id="stat-downloads">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Valor Total de Compras (R$)</h4>
+                            <p id="stat-total-sales">0.00</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Avaliações Recebidas</h4>
+                            <p id="stat-reviews">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Mensagens de Contato</h4>
+                            <p id="stat-messages">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Perfis de Usuários</h4>
+                            <p id="stat-users">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Novos Cadastros</h4>
+                            <p id="stat-registrations">0</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-section" id="category-manager">
+                    <h3>Gerenciamento de Categorias</h3>
+                    <form id="addCategoryForm">
+                        <div class="admin-form-grid">
+                            <div class="form-group full-width">
+                                <label for="new-category-name">Nome da Categoria:</label>
+                                <input type="text" id="new-category-name" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="new-category-description">Descrição (Para o card):</label>
+                                <textarea id="new-category-description" rows="2" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-category-icon">Ícone (Classe Font Awesome Ex: fas fa-city):</label>
+                                <input type="text" id="new-category-icon" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-category-price">Preço (R$):</label>
+                                <input type="number" id="new-category-price" min="0" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-category-active">Ativar na tela de Categorias:</label>
+                                <select id="new-category-active">
+                                    <option value="true">Sim</option>
+                                    <option value="false">Não</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="admin-actions">
+                            <button type="submit" class="btn btn-primary btn-small">Adicionar Categoria</button>
+                        </div>
+                    </form>
+                    
+                    <ul id="category-list-admin" class="admin-list">
+                        </ul>
+                </div>
+                
+                <div class="admin-section" id="product-manager">
+                    <h3>Gerenciamento de Produtos</h3>
+                    <form id="addProductForm">
+                        <div class="admin-form-grid">
+                            <div class="form-group">
+                                <label for="new-product-code">Código do Produto:</label>
+                                <input type="text" id="new-product-code" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-product-category">Categoria:</label>
+                                <select id="new-product-category" required>
+                                    </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-product-country">País:</label>
+                                <input type="text" id="new-product-country" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-product-city">Cidade:</label>
+                                <input type="text" id="new-product-city" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="new-product-description">Descrição do Produto:</label>
+                                <textarea id="new-product-description" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-product-price-list">Preço (R$):</label>
+                                <input type="number" id="new-product-price-list" min="0" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-product-file">Arquivo (PDF):</label>
+                                <input type="file" id="new-product-file" accept=".pdf" required>
+                            </div>
+                        </div>
+                        <div class="admin-actions">
+                            <button type="submit" class="btn btn-primary btn-small">Adicionar Produto</button>
+                        </div>
+                    </form>
+                    
+                    <ul id="product-list-admin" class="admin-list">
+                        </ul>
+                </div>
+                
+                <div class="admin-section" id="column-manager">
+                    <h3>Gerenciamento de Colunas Diárias</h3>
+                    <form id="addColumnForm">
+                        <div class="admin-form-grid">
+                            <div class="form-group full-width">
+                                <label for="new-column-title">Título:</label>
+                                <input type="text" id="new-column-title" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="new-column-content">Conteúdo:</label>
+                                <textarea id="new-column-content" rows="4" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-column-date">Data de Publicação (dd/mm/aaaa):</label>
+                                <input type="text" id="new-column-date" placeholder="dd/mm/aaaa" required>
+                            </div>
+                        </div>
+                        <div class="admin-actions">
+                            <button type="submit" class="btn btn-primary btn-small">Adicionar Coluna</button>
+                        </div>
+                    </form>
+                    
+                    <ul id="column-list-admin" class="admin-list">
+                        </ul>
+                </div>
+                
+                <div class="admin-section" id="export-data">
+                    <h3>Exportar Dados em Excel</h3>
+                    <form id="exportForm">
+                        <div class="admin-form-grid">
+                            <div class="form-group">
+                                <label for="export-start-date">Data de Início:</label>
+                                <input type="date" id="export-start-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="export-end-date">Data de Fim:</label>
+                                <input type="date" id="export-end-date" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="export-data-type">Tipo de Dados:</label>
+                                <select id="export-data-type" required>
+                                    <option value="messages">Mensagens de Contato</option>
+                                    <option value="reviews">Avaliações do Site</option>
+                                    <option value="purchases">Dados de Compras</option>
+                                    <option value="users">Cadastros de Usuários</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="admin-actions">
+                            <button type="submit" class="btn btn-outline btn-small">Exportar para Excel</button>
+                        </div>
+                    </form>
+                    <div id="export-feedback" class="feedback-message" style="display: none;"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-left">
+                <p>
+                    <strong>O seu mundo, perfeitamente indicado.</strong> 
+                    Oferecemos soluções de viagem com curadoria especializada, transformando seus destinos em experiências inesquecíveis.
+                </p>
+            </div>
+            
+            <div class="footer-center">
+                <button class="theme-toggle-footer" onclick="toggleTheme()" aria-label="Alternar Tema Escuro/Claro">
+                    <i class="fas fa-sun" id="theme-icon"></i>
+                </button>
+                <small>&copy; 2025 Elite Travel. Todos os direitos reservados.</small>
+            </div>
+            
+            <div class="footer-right">
+                <div class="footer-contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:curadoriaelitetravel@gmail.com">curadoriaelitetravel@gmail.com</a>
+                </div>
+                
+                <div class="social-icons">
+                    <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <div id="admin-login-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('admin-login-modal')">&times;</span>
-            <h3>Acesso Administrativo</h3>
-            <form id="admin-login-form">
+            <h3>Login Administrativo</h3>
+            <form id="adminLoginForm">
                 <input type="email" id="admin-email" placeholder="Email" required>
                 <input type="password" id="admin-password" placeholder="Senha" required>
-                <button type="submit" class="btn btn-primary">Entrar como Admin</button>
+                <button type="submit" class="btn btn-primary">Entrar</button>
+                <div id="admin-login-feedback" class="feedback-message" style="display: none;"></div>
             </form>
-            <p style="text-align: center; margin-top: 10px; font-size: 0.9rem; color: red;" id="admin-error-msg"></p>
+        </div>
+    </div>
+    
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('register-modal')">&times;</span>
+            <h3>Crie Sua Conta</h3>
+            <form id="registerForm">
+                <input type="text" id="register-name" placeholder="Nome Completo" required>
+                <input type="email" id="register-email" placeholder="Email" required>
+                <input type="password" id="register-password" placeholder="Senha" required>
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <div id="register-feedback" class="feedback-message" style="display: none;"></div>
+            </form>
+            <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
+                Já tem conta? <a onclick="openLoginModal(); closeModal('register-modal');">Faça Login</a>
+            </p>
         </div>
     </div>
     
     <div id="login-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
-            <h3>Login de Usuário</h3>
-            <form id="login-form">
+            <h3>Acesso à Área do Cliente</h3>
+            <form id="loginForm">
                 <input type="email" id="login-email" placeholder="Email" required>
                 <input type="password" id="login-password" placeholder="Senha" required>
                 <button type="submit" class="btn btn-primary">Entrar</button>
+                <div id="login-feedback" class="feedback-message" style="display: none;"></div>
             </form>
-            <p style="text-align: center; margin-top: 10px; font-size: 0.9rem; color: red;" id="login-error-msg"></p>
+            <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
+                Não tem conta? <a onclick="openRegisterModal(); closeModal('login-modal');">Cadastre-se</a>
+            </p>
         </div>
     </div>
     
-    <div id="signup-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('signup-modal')">&times;</span>
-            <h3>Cadastro de Usuário</h3>
-            <form id="signup-form">
-                <input type="text" id="signup-name" placeholder="Nome" required>
-                <input type="email" id="signup-email" placeholder="Email" required>
-                <input type="password" id="signup-password" placeholder="Criar Senha" required>
-                <button type="submit" class="btn btn-primary">Criar Conta</button>
-            </form>
-            <p style="text-align: center; margin-top: 10px; font-size: 0.9rem; color: red;" id="signup-error-msg"></p>
-        </div>
-    </div>
-
     <div id="checkout-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('checkout-modal')">&times;</span>
-            <h3>Finalizar Compra</h3>
-            <div id="checkout-items">
-                <div class="checkout-item"><span>Roteiro Exemplo</span><span style="color: var(--gold-color);">R$ 1.500,00</span></div>
+            <h3>Resumo do Pedido</h3>
+            <div id="checkout-summary">
+                </div>
+            <div class="checkout-total">
+                Total: <span id="checkout-total-value"></span>
             </div>
-            <div class="checkout-total">Total: R$ <span id="checkout-total-value">1.500,00</span></div>
-            <p style="color: var(--text-secondary); margin-bottom: 20px;">Você será redirecionado para a plataforma de pagamento após a confirmação.</p>
-            <button class="btn btn-primary" onclick="completeCheckout()">Confirmar e Pagar</button>
+            <p>Seu arquivo PDF será enviado por email após a confirmação do pagamento.</p>
+            <button class="btn btn-primary" id="confirm-purchase-btn">Confirmar Compra</button>
         </div>
     </div>
 
 
-    <header>
-        <div class="container header-content">
-            <div class="logo">
-                <a href="#hero" onclick="navigateTo('hero')" class="logo-image">
-                    <div class="compass-icon">
-                        <div class="compass-rose">
-                            <div class="compass-line compass-line-h"></div>
-                            <div class="compass-line compass-line-v"></div>
-                            <div class="compass-line compass-line-ne"></div>
-                            <div class="compass-line compass-line-nw"></div>
-                            <div class="compass-center"></div>
-                            <span class="compass-direction compass-n">N</span>
-                        </div>
-                    </div>
-                    <div class="logo-text">
-                        <h1>Curadoria Elite Travel</h1>
-                        <span>O seu mundo, bem indicado</span>
-                    </div>
-                </a>
-            </div>
-            <nav>
-                <ul>
-                    <li><a onclick="navigateTo('hero')">Início</a></li>
-                    <li><a onclick="navigateTo('about-us')">Quem Somos</a></li>
-                    <li><a onclick="navigateTo('categories')">Categorias</a></li>
-                    <li><a onclick="navigateTo('daily-columns')">Colunas Diárias</a></li>
-                    <li><a onclick="navigateTo('contact-form')">Contato</a></li>
-                    <li><a onclick="navigateTo('review-form')">Avaliação</a></li>
-                </ul>
-            </nav>
-            <div class="auth-buttons" id="auth-buttons">
-                <button class="btn btn-small btn-admin" onclick="openAdminLoginModal()">Admin</button>
-                <button class="btn btn-small btn-outline" onclick="openModal('login-modal')">Log in</button>
-                <button class="btn btn-small btn-primary" onclick="openModal('signup-modal')">Cadastra-se</button>
-            </div>
-            <div class="user-info" id="user-info">
-                <span class="user-name" id="display-user-name"></span>
-                <div class="user-avatar" id="user-avatar" onclick="navigateTo('user-profile')">US</div>
-                <button class="logout-btn" onclick="logout()">Sair</button>
-            </div>
-        </div>
-    </header>
-
-    <main>
-        <section id="hero">
-            <div class="container hero-content">
-                <h2>Seu Próximo Destino de Luxo</h2>
-                <p>Curadoria exclusiva para as experiências de viagem mais inesquecíveis.</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                </div>
-                <a onclick="navigateTo('categories')" class="btn btn-primary">Explorar Curadorias</a>
-            </div>
-        </section>
-
-        <section id="about-us">
-            <div class="container">
-                <h2>Quem Somos</h2>
-                <p class="about-text">A <strong>Curadoria Elite Travel</strong> nasceu da paixão por viagens exclusivas e bem planejadas. Nossos especialistas transformam destinos em experiências de vida, oferecendo roteiros e informações detalhadas para o viajante que busca o extraordinário.</p>
-                <h3 class="about-cards-title">Nossa Filosofia</h3>
-                <div class="grid-3">
-                    <div class="card">
-                        <h3>Excelência</h3>
-                        <p>Compromisso com o mais alto padrão de qualidade em cada detalhe da sua viagem.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Exclusividade</h3>
-                        <p>Roteiros e materiais únicos, pensados para atender aos desejos mais refinados.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Paixão</h3>
-                        <p>Amor por viajar e compartilhar o melhor que o mundo tem a oferecer com você.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="categories">
-            <div class="container">
-                <h2>Categorias de Curadoria</h2>
-                <p style="margin-bottom: 40px; color: var(--text-light);">Navegue pelos temas que definem sua próxima aventura.</p>
-                <div class="categories-grid">
-                    <div class="category-card" onclick="showProducts('luxo')">
-                        <i class="fas fa-gem"></i>
-                        <h4>Luxo e Exclusividade</h4>
-                    </div>
-                    <div class="category-card" onclick="showProducts('aventura')">
-                        <i class="fas fa-hiking"></i>
-                        <h4>Aventura e Natureza</h4>
-                    </div>
-                    <div class="category-card disabled">
-                        <i class="fas fa-wine-glass"></i>
-                        <h4>Gastronomia e Vinhos (Em Breve)</h4>
-                    </div>
-                    <div class="category-card" onclick="showProducts('cultural')">
-                        <i class="fas fa-archway"></i>
-                        <h4>Imersão Cultural</h4>
-                    </div>
-                    <div class="category-card" onclick="showProducts('familia')">
-                        <i class="fas fa-users"></i>
-                        <h4>Viagens em Família</h4>
-                    </div>
-                </div>
-                <div id="products">
-                    <h2>Produtos da Categoria <span id="category-title" style="color: var(--text-color);"></span></h2>
-                    <div class="products-container" id="products-list">
-                        </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="daily-columns">
-            <div class="container">
-                <h2>Colunas Diárias</h2>
-                <p class="subtitle">Insights e tendências do mundo do turismo de elite.</p>
-                <div class="grid-3" id="columns-container">
-                    </div>
-            </div>
-        </section>
-
-        <section id="contact-form">
-            <div class="container">
-                <h2>Fale Conosco</h2>
-                <p style="text-align: center; color: var(--text-light); margin-bottom: 30px;">Envie sua sugestão, comentário ou dúvida. Responderemos em até 48h.</p>
-                <form id="submit-contact-form">
-                    <div class="contact-grid">
-                        <div class="form-group">
-                            <label for="contact-name">Seu Nome</label>
-                            <input type="text" id="contact-name" name="from_name" placeholder="Seu Nome Completo" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact-email">Seu Email</label>
-                            <input type="email" id="contact-email" name="from_email" placeholder="seu@email.com" required>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="contact-subject">Assunto</label>
-                            <input type="text" id="contact-subject" name="subject" placeholder="Ex: Dúvida sobre roteiro África do Sul" required>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="contact-message">Mensagem (Máx: 500 caracteres)</label>
-                            <textarea id="contact-message" name="message" rows="5" maxlength="500" placeholder="Escreva sua mensagem aqui..." required></textarea>
-                            <span class="char-count" id="message-char-count">0/500</span>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary full-width" id="contact-submit-btn">Enviar Mensagem</button>
-                    <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;" id="contact-status-msg"></p>
-                </form>
-            </div>
-        </section>
-        
-        <section id="review-form">
-            <div class="container">
-                <h2>Sua Opinião Vale Ouro</h2>
-                <p>Ajude-nos a manter o nível de excelência da Curadoria Elite Travel. Deixe sua avaliação:</p>
-                
-                <form id="submit-review-form">
-                    <div class="form-group">
-                        <label for="review-name">Seu Nome (Opcional)</label>
-                        <input type="text" id="review-name" placeholder="Nome para exibição">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Sua Nota</label>
-                        <div class="star-rating" data-rating="0">
-                            <i class="far fa-star" data-value="1"></i>
-                            <i class="far fa-star" data-value="2"></i>
-                            <i class="far fa-star" data-value="3"></i>
-                            <i class="far fa-star" data-value="4"></i>
-                            <i class="far fa-star" data-value="5"></i>
-                        </div>
-                        <input type="hidden" id="review-rating" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="review-comment">Comentário (Máx: 300 caracteres)</label>
-                        <textarea id="review-comment" rows="3" maxlength="300" placeholder="Conte-nos sobre sua experiência..."></textarea>
-                        <span class="char-count" id="review-char-count">0/300</span>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary full-width" id="review-submit-btn">Enviar Avaliação</button>
-                    <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;" id="review-status-msg"></p>
-                </form>
-                
-                <p class="review-count">Avaliação Média: <strong id="average-rating">4.8</strong> de 5.0 (Baseado em <strong id="total-reviews">125</strong> avaliações)</p>
-            </div>
-        </section>
-
-        <section id="admin">
-            <div class="container">
-                <div id="admin-panel">
-                    <h2>Painel Administrativo 🔑</h2>
-                    <p style="margin-bottom: 30px; color: var(--text-secondary);">Gerenciamento de Conteúdo e Estatísticas.</p>
-                    
-                    <div class="admin-section">
-                        <h3>Estatísticas Rápidas</h3>
-                        <div class="stats-grid">
-                            <div class="stat-card">
-                                <h4>Curadorias Ativas</h4>
-                                <p id="stat-products">5</p>
-                            </div>
-                            <div class="stat-card">
-                                <h4>Colunas Publicadas</h4>
-                                <p id="stat-columns">3</p>
-                            </div>
-                            <div class="stat-card">
-                                <h4>Usuários Cadastrados</h4>
-                                <p id="stat-users">15</p>
-                            </div>
-                            <div class="stat-card">
-                                <h4>Vendas (Fake)</h4>
-                                <p id="stat-sales">R$ 45.000</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="admin-form-grid">
-                        
-                        <div id="product-manager">
-                            <h3>Gerenciar Curadorias (Produtos)</h3>
-                            <form id="add-product-form">
-                                <input type="text" id="prod-name" placeholder="Nome do Roteiro" required>
-                                <textarea id="prod-desc" rows="2" placeholder="Breve Descrição" required></textarea>
-                                <div class="form-group" style="margin-bottom: 0;">
-                                    <label for="prod-category" style="font-size: 0.9rem;">Categoria</label>
-                                    <select id="prod-category" required>
-                                        <option value="">Selecione a Categoria</option>
-                                        <option value="luxo">Luxo e Exclusividade</option>
-                                        <option value="aventura">Aventura e Natureza</option>
-                                        <option value="cultural">Imersão Cultural</option>
-                                        <option value="familia">Viagens em Família</option>
-                                    </select>
-                                </div>
-                                <input type="number" id="prod-price" placeholder="Preço (R$)" min="0" step="100" required>
-                                <button type="submit" class="btn btn-primary full-width">Adicionar Curadoria</button>
-                            </form>
-                            
-                            <hr style="margin: 20px 0; border-color: var(--border-color);">
-                            
-                            <h4>Curadorias Atuais:</h4>
-                            <p class="product-count" id="product-list-count">Total: 5</p>
-                            <ul class="product-list" id="current-products-list">
-                                </ul>
-                        </div>
-                        
-                        <div id="column-manager">
-                            <h3>Gerenciar Colunas Diárias</h3>
-                            <form id="add-column-form">
-                                <input type="text" id="col-title" placeholder="Título da Coluna" required>
-                                <textarea id="col-content" rows="4" placeholder="Conteúdo/Resumo da Coluna" required></textarea>
-                                <input type="text" id="col-date" placeholder="Data (Ex: 11/11/2025)" required>
-                                <button type="submit" class="btn btn-primary full-width">Publicar Coluna</button>
-                            </form>
-                            
-                            <hr style="margin: 20px 0; border-color: var(--border-color);">
-                            
-                            <h4>Colunas Atuais:</h4>
-                            <p class="product-count" id="column-list-count">Total: 3</p>
-                            <ul class="product-list" id="current-columns-list">
-                                </ul>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="user-profile">
-            <div class="container">
-                <h2>Perfil de <span id="profile-user-name">Usuário</span></h2>
-                <p style="margin-bottom: 30px; color: var(--text-secondary);">Gerencie suas informações e histórico.</p>
-                <div class="card" style="max-width: 600px; margin: 0 auto;">
-                    <h3>Informações da Conta</h3>
-                    <p><strong>Email:</strong> <span id="profile-user-email">user@example.com</span></p>
-                    <p><strong>Status:</strong> <span style="color: var(--gold-color); font-weight: bold;">Membro Elite</span></p>
-                    
-                    <h3 style="margin-top: 30px;">Histórico de Compras (Fake)</h3>
-                    <ul style="list-style: disc; margin-left: 20px; font-size: 0.95rem; color: var(--text-secondary);">
-                        <li>Roteiro VIP Grécia - <span style="color: var(--primary-color);">Concluído (01/10/2025)</span></li>
-                        <li>Guia Safári de Luxo - <span style="color: var(--primary-color);">Concluído (15/09/2025)</span></li>
-                    </ul>
-
-                    <button class="btn btn-outline" style="margin-top: 30px;" onclick="logout()">Sair da Conta</button>
-                </div>
-            </div>
-        </section>
-
-
-    </main>
-
-    <footer>
-        <div class="container footer-content">
-            <div class="footer-left">
-                <p>Curadoria Elite Travel © 2025. Todos os direitos reservados.
-                <br>Design exclusivo para viajantes de bom gosto.</p>
-            </div>
-            <div class="footer-center">
-                <button class="theme-toggle-footer" onclick="toggleTheme()">
-                    <i class="fas fa-moon" id="theme-icon"></i>
-                </button>
-                <small>Alternar para Tema <span id="theme-label">Claro</span></small>
-            </div>
-            <div class="footer-right">
-                <div class="footer-contact-item">
-                    <i class="fas fa-phone"></i>
-                    <a href="tel:+5511987654321">+55 (11) 98765-4321</a>
-                </div>
-                <div class="footer-contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <a href="mailto:contato@elitetravel.com">contato@elitetravel.com</a>
-                </div>
-                <div class="footer-contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>São Paulo, Brasil</span>
-                </div>
-            </div>
-        </div>
-    </footer>
-
     <script>
-        // ==================== DADOS FAKE ====================
-        let products = [
-            { id: 1, category: 'luxo', name: 'Roteiro VIP: Ilhas Gregas de Iate', description: 'Uma semana de luxo absoluto navegando pelo Mar Egeu.', price: 15000.00 },
-            { id: 2, category: 'luxo', name: 'Guia Gastronômico de Paris', description: 'Os melhores restaurantes estrelados e bistrôs secretos da capital francesa.', price: 950.00 },
-            { id: 3, category: 'aventura', name: 'Expedição Patagônia Austral', description: 'Trekking e aventura nos picos e glaciares do fim do mundo.', price: 12000.00 },
-            { id: 4, category: 'cultural', name: 'Imersão no Japão Imperial', description: 'Descubra a tradição e modernidade entre Kyoto e Tokyo.', price: 8500.00 },
-            { id: 5, category: 'familia', name: 'Disney World Deluxe (VIP Tour)', description: 'Experiência mágica com acesso e serviços VIP para toda a família.', price: 6000.00 },
-        ];
+        // ==================== VARIÁVEIS GLOBAIS DE SIMULAÇÃO ====================
+        
+        let loggedInUser = null; // Simulação de estado de login de usuário normal
+        let isAdmin = false; // Simulação de estado de login de admin
+        const ADMIN_EMAIL = 'admin@elitetravel.com'; // Alteração 8
+        const ADMIN_PASSWORD = 'admin@123'; // Alteração 8
 
-        let columns = [
-            { id: 101, title: 'A Magia de Santorini ao Pôr do Sol', content: 'Descubra os melhores pontos para apreciar o espetáculo grego, longe das multidões.', date: '10/11/2025' },
-            { id: 102, title: 'Guia Essencial para Safáris na África do Sul', content: 'Tudo o que você precisa saber sobre as reservas privadas de luxo.', date: '09/11/2025' },
-            { id: 103, title: 'Os 5 Hotéis Mais Sustentáveis e Luxuosos do Mundo', content: 'Onde o conforto encontra a consciência ambiental.', date: '08/11/2025' },
+        // Dados simulados do backend (LocalStorage)
+        let categories = JSON.parse(localStorage.getItem('categories')) || [
+            { id: 1, name: 'City Guide', description: 'O essencial da metrópole.', icon: 'fas fa-city', price: 99.00, active: true },
+            { id: 2, name: 'Restaurante', description: 'Curadoria gastronômica de elite.', icon: 'fas fa-utensils', price: 79.00, active: true },
+            { id: 3, name: 'Bares', description: 'Os melhores spots de coquetelaria.', icon: 'fas fa-cocktail', price: 59.00, active: true },
+            { id: 4, name: 'Pontos Turisticos', description: 'O que não pode faltar no seu roteiro.', icon: 'fas fa-landmark', price: 49.00, active: true },
+            { id: 5, name: 'Passeios', description: 'Aventuras exclusivas e bem planejadas.', icon: 'fas fa-car-side', price: 69.00, active: true },
+            { id: 6, name: 'Vida Noturna', description: 'Descubra a noite dos seus sonhos.', icon: 'fas fa-moon', price: 59.00, active: true },
+            { id: 7, name: 'Compras', description: 'Guia de luxo e boutiques exclusivas.', icon: 'fas fa-shopping-bag', price: 89.00, active: true },
+            { id: 8, name: 'Presentes', description: 'Mimos inesquecíveis para quem você ama.', icon: 'fas fa-gift', price: 45.00, active: true },
+            { id: 9, name: 'Hoteis', description: 'As acomodações mais luxuosas.', icon: 'fas fa-bed', price: 129.00, active: true },
+            { id: 10, name: 'Cruzeiros', description: 'Viagens de alto mar com conforto.', icon: 'fas fa-ship', price: 149.00, active: true },
         ];
         
-        let currentUser = null; // Guarda o usuário logado
-        let isAdmin = false; // Flag para admin
-        const ADMIN_EMAIL = 'admin@elitetravel.com';
-        const ADMIN_PASS = 'eliteadmin123';
+        let products = JSON.parse(localStorage.getItem('products')) || [
+            { id: 101, code: 'NY001', categoryId: 1, country: 'EUA', city: 'Nova York', description: 'Guia completo de 7 dias para Manhattan.', price: 149.00, file: 'dummy_ny_guide.pdf' },
+            { id: 102, code: 'PAR02', categoryId: 2, country: 'França', city: 'Paris', description: 'Os 10 melhores restaurantes com estrela Michelin.', price: 119.00, file: 'dummy_paris_food.pdf' },
+        ];
+        
+        let columns = JSON.parse(localStorage.getItem('columns')) || [
+            { id: 201, title: 'Um refúgio nas Maldivas: o novo resort de luxo', content: 'Detalhes sobre a inauguração do Soneva Jani.', date: '15/11/2025' },
+            { id: 202, title: 'Tendências de Viagem para 2026', content: 'Explorando o ecoturismo de alto padrão na Patagônia.', date: '01/11/2025' },
+        ];
+        
+        let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        let messages = JSON.parse(localStorage.getItem('messages')) || [];
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let totalSales = parseFloat(localStorage.getItem('totalSales')) || 0;
+        let pageViews = parseInt(localStorage.getItem('pageViews')) || 0;
+        let downloads = parseInt(localStorage.getItem('downloads')) || 0;
 
-        // ==================== 1. LÓGICA DE NAVEGAÇÃO (SPA) ====================
 
-        /**
-         * Navega para a seção especificada e esconde as outras.
-         * @param {string} sectionId O ID da seção para navegar.
-         */
+        // ==================== FUNÇÕES DE PERSISTÊNCIA (LocalStorage) ====================
+        
+        function saveToLocalStorage() {
+            localStorage.setItem('categories', JSON.stringify(categories));
+            localStorage.setItem('products', JSON.stringify(products));
+            localStorage.setItem('columns', JSON.stringify(columns));
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+            localStorage.setItem('messages', JSON.stringify(messages));
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('totalSales', totalSales.toFixed(2));
+            localStorage.setItem('pageViews', pageViews.toString());
+            localStorage.setItem('downloads', downloads.toString());
+        }
+        
+        // Simulação de contador de visualizações
+        function trackPageView() {
+            pageViews++;
+            saveToLocalStorage();
+        }
+        window.onload = trackPageView;
+
+
+        // ==================== NAVEGAÇÃO / SPA ====================
+        
         function navigateTo(sectionId) {
             document.querySelectorAll('section').forEach(section => {
-                section.style.display = 'none';
+                section.classList.remove('active');
             });
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
-                targetSection.style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                // Se for a seção admin, atualiza a lista de produtos/colunas
-                if (sectionId === 'admin') {
-                    renderAdminLists();
-                }
+                targetSection.classList.add('active');
+            }
+            window.scrollTo(0, 0); // Volta ao topo
+        }
+
+
+        // ==================== TEMA ====================
+        
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('light-theme');
+            const icon = document.getElementById('theme-icon');
+            if (body.classList.contains('light-theme')) {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
             }
         }
 
-        // Adiciona um listener para a mudança de hash na URL (para navegação no histórico)
-        window.addEventListener('hashchange', () => {
-            const hash = window.location.hash.substring(1) || 'hero';
-            navigateTo(hash);
-        });
-
-        // Garante que a seção correta é carregada no início
-        document.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.substring(1) || 'hero';
-            navigateTo(hash);
-            renderAdminLists(); // Carrega as listas iniciais para o painel admin
-            // Inicializa EmailJS
-            emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Substitua pelo seu ID real
-            updateThemeUI(); // Atualiza o ícone de tema no rodapé
-        });
+        // Aplica o tema salvo ao carregar a página
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-theme');
+            document.getElementById('theme-icon').classList.remove('fa-sun');
+            document.getElementById('theme-icon').classList.add('fa-moon');
+        }
 
 
-        // ==================== 2. MODALS E AUTENTICAÇÃO FAKE ====================
+        // ==================== MODALS E AUTENTICAÇÃO ====================
         
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
@@ -1378,489 +1658,532 @@
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
-            // Limpa mensagens de erro
-            document.querySelectorAll('.modal-content p[id$="-error-msg"]').forEach(p => p.textContent = '');
-        }
-
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                closeModal(event.target.id);
-            }
         }
         
-        // --- ADMIN LOGIN ---
-        function openAdminLoginModal() {
-            openModal('admin-login-modal');
-        }
-
-        document.getElementById('admin-login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
+        // Event Listeners para abrir Modals
+        document.getElementById('admin-login-btn').addEventListener('click', () => openModal('admin-login-modal'));
+        
+        // Função de Login Admin (Alteração 8)
+        document.getElementById('adminLoginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
             const email = document.getElementById('admin-email').value;
             const password = document.getElementById('admin-password').value;
-            const errorMsg = document.getElementById('admin-error-msg');
-
-            if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
-                isAdmin = true;
-                currentUser = { name: 'Admin', email: ADMIN_EMAIL, is_admin: true };
-                updateAuthUI();
-                closeModal('admin-login-modal');
-                navigateTo('admin');
-            } else {
-                errorMsg.textContent = 'Credenciais de Admin incorretas.';
-            }
-        });
-
-        // --- USER LOGIN/SIGNUP ---
-        document.getElementById('login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            // Lógica de login fake: qualquer coisa passa, exceto admin
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            const errorMsg = document.getElementById('login-error-msg');
-
-            if (email === ADMIN_EMAIL) {
-                errorMsg.textContent = 'Por favor, use o botão Admin para fazer login como administrador.';
-            } else if (email && password) {
-                currentUser = { name: email.split('@')[0], email: email, is_admin: false };
-                updateAuthUI();
-                closeModal('login-modal');
-                alert(`Bem-vindo de volta, ${currentUser.name}!`);
-            } else {
-                errorMsg.textContent = 'Preencha todos os campos.';
-            }
-        });
-        
-        document.getElementById('signup-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            // Lógica de cadastro fake: assume sucesso
-            const name = document.getElementById('signup-name').value;
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-            const errorMsg = document.getElementById('signup-error-msg');
+            const feedback = document.getElementById('admin-login-feedback');
             
-            if (email === ADMIN_EMAIL) {
-                 errorMsg.textContent = 'Este email está reservado.';
-            } else if (name && email && password) {
-                currentUser = { name: name, email: email, is_admin: false };
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                isAdmin = true;
+                loggedInUser = { name: 'Admin', email: ADMIN_EMAIL };
                 updateAuthUI();
-                closeModal('signup-modal');
-                alert(`Conta criada com sucesso, ${currentUser.name}!`);
+                navigateTo('admin');
+                closeModal('admin-login-modal');
+                renderAdminPanel(); // Renderiza o painel ao logar
             } else {
-                errorMsg.textContent = 'Preencha todos os campos.';
+                feedback.textContent = 'Credenciais inválidas.';
+                feedback.classList.remove('feedback-success');
+                feedback.classList.add('feedback-error');
+                feedback.style.display = 'block';
             }
         });
         
-        // --- GESTÃO DE AUTENTICAÇÃO E UI ---
+        // Função de Logout Admin (Alteração 8)
+        function adminLogout() {
+            isAdmin = false;
+            loggedInUser = null;
+            updateAuthUI();
+            navigateTo('hero');
+        }
+        
+        // Atualiza a interface de autenticação (Alteração 8)
         function updateAuthUI() {
             const authButtons = document.getElementById('auth-buttons');
             const userInfo = document.getElementById('user-info');
-            const userNameDisplay = document.getElementById('display-user-name');
-            const userAvatar = document.getElementById('user-avatar');
-            const profileName = document.getElementById('profile-user-name');
-            const profileEmail = document.getElementById('profile-user-email');
-
-            if (currentUser) {
+            
+            if (isAdmin) {
                 authButtons.style.display = 'none';
-                userInfo.style.display = 'flex';
-                userNameDisplay.textContent = currentUser.name;
-                userAvatar.textContent = currentUser.name.substring(0, 2).toUpperCase();
-                
-                // Atualiza perfil
-                if (profileName) profileName.textContent = currentUser.name;
-                if (profileEmail) profileEmail.textContent = currentUser.email;
-                
-                // Exibe botão Admin no header se for admin
-                if (currentUser.is_admin) {
-                     authButtons.querySelector('.btn-admin').style.display = 'block';
-                } else {
-                     authButtons.querySelector('.btn-admin').style.display = 'none';
-                }
+                userInfo.classList.add('logged-in');
+                document.getElementById('user-name').textContent = loggedInUser.name;
+                document.getElementById('user-avatar-initial').textContent = loggedInUser.name.charAt(0);
             } else {
                 authButtons.style.display = 'flex';
-                userInfo.style.display = 'none';
-                // Garante que o botão Admin está visível no estado de logout
-                 authButtons.querySelector('.btn-admin').style.display = 'block';
+                userInfo.classList.remove('logged-in');
+            }
+        }
+        updateAuthUI(); // Chama ao carregar a página
+
+
+        // ==================== SEÇÃO 3: CATEGORIAS (CURADORIA) ====================
+        
+        function renderCategories() {
+            const grid = document.getElementById('categories-grid');
+            grid.innerHTML = ''; // Limpa antes de renderizar
+
+            categories.filter(c => c.active).forEach(category => {
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.innerHTML = `
+                    <i class="${category.icon}"></i>
+                    <h4>${category.name}</h4>
+                    <p>R$ ${category.price.toFixed(2)}</p>
+                `;
+                card.onclick = () => showProducts(category.id, category.name);
+                grid.appendChild(card);
+            });
+            
+            // Alteração 5: Coloca "Em Breve" se não houver categorias
+            if (categories.length === 0) {
+                 grid.innerHTML = '<div class="full-width" style="text-align: center; color: var(--text-color); padding: 50px;"><h2>EM BREVE</h2><p>Novas categorias de curadoria serão adicionadas aqui.</p></div>';
             }
         }
         
-        function logout() {
-            currentUser = null;
-            isAdmin = false;
-            updateAuthUI();
-            navigateTo('hero');
-            alert('Você saiu da sua conta.');
-        }
-
-        // ==================== 3. LÓGICA DE PRODUTOS/COMPRA ====================
-
-        /**
-         * Exibe os produtos de uma categoria.
-         * @param {string} category A chave da categoria (ex: 'luxo').
-         */
-        function showProducts(category) {
-            const categoryMap = {
-                'luxo': 'Luxo e Exclusividade',
-                'aventura': 'Aventura e Natureza',
-                'cultural': 'Imersão Cultural',
-                'familia': 'Viagens em Família',
-                'gastronomia': 'Gastronomia e Vinhos'
-            };
-            
-            if (category === 'gastronomia') {
-                alert('Esta categoria estará disponível em breve!');
-                return;
-            }
-
-            const filteredProducts = products.filter(p => p.category === category);
-            const productsListDiv = document.getElementById('products-list');
-            const categoryTitleSpan = document.getElementById('category-title');
+        function showProducts(categoryId, categoryName) {
             const productsSection = document.getElementById('products');
+            const titleElement = document.getElementById('products-category-title');
+            const listElement = document.getElementById('products-list');
+            
+            titleElement.textContent = `Curadorias: ${categoryName}`;
+            listElement.innerHTML = '';
+            
+            const categoryProducts = products.filter(p => p.categoryId === categoryId);
 
-            categoryTitleSpan.textContent = categoryMap[category] || '';
-            productsListDiv.innerHTML = ''; // Limpa a lista anterior
-
-            if (filteredProducts.length > 0) {
-                filteredProducts.forEach(product => {
+            if (categoryProducts.length === 0) {
+                 listElement.innerHTML = '<div class="full-width" style="text-align: center; color: var(--text-color); padding: 30px;">Nenhum produto cadastrado nesta categoria.</div>';
+            } else {
+                categoryProducts.forEach(product => {
                     const card = document.createElement('div');
                     card.className = 'product-card';
                     card.innerHTML = `
-                        <h4>${product.name}</h4>
+                        <h4>${product.city} - ${product.country}</h4>
                         <p>${product.description}</p>
-                        <div class="product-price">R$ ${product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
-                        <button class="btn btn-primary" onclick="addToCart(${product.id})">Comprar Curadoria</button>
+                        <div class="product-price">R$ ${product.price.toFixed(2)}</div>
+                        <button class="btn btn-primary" onclick="openCheckoutModal(${product.id})">Comprar Agora</button>
                     `;
-                    productsListDiv.appendChild(card);
+                    listElement.appendChild(card);
                 });
-                productsSection.style.display = 'block';
-            } else {
-                productsListDiv.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Nenhum produto disponível nesta categoria no momento.</p>';
-                productsSection.style.display = 'block';
-            }
-        }
-        
-        function addToCart(productId) {
-            if (!currentUser || currentUser.is_admin) {
-                alert('Você precisa estar logado como usuário para fazer uma compra.');
-                openModal('login-modal');
-                return;
             }
             
+            productsSection.style.display = 'block';
+            productsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Simulação do Checkout
+        function openCheckoutModal(productId) {
             const product = products.find(p => p.id === productId);
-            if (product) {
-                // Lógica de carrinho fake: abre o modal de checkout com o item
-                const checkoutItemsDiv = document.getElementById('checkout-items');
-                const checkoutTotalSpan = document.getElementById('checkout-total-value');
-                
-                checkoutItemsDiv.innerHTML = `
-                    <div class="checkout-item">
-                        <span>${product.name}</span>
-                        <span style="color: var(--gold-color);">R$ ${product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-                    </div>
-                `;
-                checkoutTotalSpan.textContent = product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-                openModal('checkout-modal');
-            }
+            if (!product) return;
+            
+            document.getElementById('checkout-summary').innerHTML = `
+                <div class="checkout-item">
+                    <span>${product.city} - ${product.country} (${product.code})</span>
+                    <span>R$ ${product.price.toFixed(2)}</span>
+                </div>
+            `;
+            document.getElementById('checkout-total-value').textContent = `R$ ${product.price.toFixed(2)}`;
+            
+            const confirmBtn = document.getElementById('confirm-purchase-btn');
+            confirmBtn.onclick = () => confirmPurchase(productId, product.price);
+            openModal('checkout-modal');
         }
-
-        function completeCheckout() {
-            // Lógica de finalização fake
-            alert('Parabéns! Sua compra foi processada (simulada) com sucesso. Você receberá os detalhes no seu email.');
+        
+        function confirmPurchase(productId, price) {
+            // Lógica de compra simulada: incremento de estatísticas
+            downloads++;
+            totalSales += price;
+            saveToLocalStorage();
+            
+            // Simulação de envio do arquivo (o arquivo PDF está hardcoded como "dummy_...")
+            alert(`Compra de R$ ${price.toFixed(2)} confirmada! O link para o PDF será enviado para seu e-mail (simulação).`);
             closeModal('checkout-modal');
-            // Navega para a home ou perfil
-            navigateTo('user-profile');
-        }
-
-        // ==================== 4. PAINEL ADMIN E CRUD FAKE ====================
-        
-        /**
-         * Renderiza as listas de produtos e colunas no Painel Admin.
-         */
-        function renderAdminLists() {
-            const productList = document.getElementById('current-products-list');
-            const columnList = document.getElementById('current-columns-list');
-            const productCount = document.getElementById('product-list-count');
-            const columnCount = document.getElementById('column-list-count');
-
-            if (!productList || !columnList) return; // Se a seção não foi carregada
-
-            productList.innerHTML = '';
-            products.forEach(p => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <div class="product-info">
-                        <strong>${p.name}</strong> (${p.category})
-                    </div>
-                    <div class="product-actions">
-                        <span class="product-price-admin">R$ ${p.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-                        <button class="btn btn-small btn-outline" onclick="deleteItem('product', ${p.id})">Excluir</button>
-                    </div>
-                `;
-                productList.appendChild(li);
-            });
-            productCount.textContent = `Total: ${products.length}`;
-            
-            columnList.innerHTML = '';
-            columns.forEach(c => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <div class="product-info">
-                        <strong>${c.title}</strong>
-                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px;">${c.date}</p>
-                    </div>
-                    <div class="product-actions">
-                        <button class="btn btn-small btn-outline" onclick="deleteItem('column', ${c.id})">Excluir</button>
-                    </div>
-                `;
-                columnList.appendChild(li);
-            });
-            columnCount.textContent = `Total: ${columns.length}`;
-            
-            // Atualiza Stats (Fake)
-            document.getElementById('stat-products').textContent = products.length;
-            document.getElementById('stat-columns').textContent = columns.length;
-        }
-
-        /**
-         * Adiciona um novo produto (Curadoria)
-         */
-        document.getElementById('add-product-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (!isAdmin) return alert('Acesso negado.');
-
-            const name = document.getElementById('prod-name').value;
-            const desc = document.getElementById('prod-desc').value;
-            const category = document.getElementById('prod-category').value;
-            const price = parseFloat(document.getElementById('prod-price').value);
-
-            const newProduct = {
-                id: Date.now(),
-                name: name,
-                description: desc,
-                category: category,
-                price: price
-            };
-            products.push(newProduct);
-            renderAdminLists();
-            e.target.reset(); // Limpa o formulário
-            alert('Curadoria adicionada com sucesso!');
-        });
-        
-        /**
-         * Adiciona uma nova coluna
-         */
-        document.getElementById('add-column-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (!isAdmin) return alert('Acesso negado.');
-
-            const title = document.getElementById('col-title').value;
-            const content = document.getElementById('col-content').value;
-            const date = document.getElementById('col-date').value;
-
-            const newColumn = {
-                id: Date.now() + 1,
-                title: title,
-                content: content,
-                date: date
-            };
-            columns.push(newColumn);
-            renderColumnsGrid(); // Renderiza na seção Colunas
-            renderAdminLists(); // Renderiza no Admin
-            e.target.reset();
-            alert('Coluna publicada com sucesso!');
-        });
-
-        /**
-         * Exclui um item (Produto ou Coluna)
-         */
-        function deleteItem(type, id) {
-             if (!isAdmin || !confirm(`Tem certeza que deseja excluir este ${type}?`)) return;
-             
-             if (type === 'product') {
-                 products = products.filter(p => p.id !== id);
-             } else if (type === 'column') {
-                 columns = columns.filter(c => c.id !== id);
-             }
-             renderAdminLists();
-             // Renderiza a seção de colunas se for uma coluna
-             if (type === 'column') renderColumnsGrid();
-             // Renderiza a seção de produtos se for um produto e a categoria estiver sendo exibida
-             const currentCategory = document.getElementById('category-title').textContent;
-             if (currentCategory) showProducts(Object.keys(categoryMap).find(key => categoryMap[key] === currentCategory));
-             alert(`${type.charAt(0).toUpperCase() + type.slice(1)} excluído com sucesso!`);
+            renderAdminPanel(); // Atualiza dashboard de admin
         }
         
-        // ==================== 5. RENDERIZAÇÃO DE CONTEÚDO DINÂMICO ====================
+        // Chamada inicial
+        renderCategories();
+
+
+        // ==================== SEÇÃO 4: COLUNAS DIÁRIAS ====================
         
-        /**
-         * Renderiza as colunas na seção #daily-columns
-         */
-        function renderColumnsGrid() {
-            const columnsContainer = document.getElementById('columns-container');
-            columnsContainer.innerHTML = '';
+        function renderColumns() {
+            const container = document.getElementById('columns-container');
+            container.innerHTML = '';
             
             columns.forEach(column => {
                 const card = document.createElement('div');
                 card.className = 'column-card';
                 card.innerHTML = `
                     <h4>${column.title}</h4>
-                    <p>${column.content} <strong>(${column.date})</strong></p>
+                    <small style="color: var(--gold-color);">${column.date}</small>
+                    <p>${column.content.substring(0, 100)}...</p>
                 `;
-                columnsContainer.appendChild(card);
+                // Adicionar lógica de clique para expandir ou modal se necessário
+                container.appendChild(card);
             });
+            
+            if (columns.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: var(--text-color); padding: 50px;">Nenhuma coluna diária cadastrada.</div>';
+            }
         }
-        
-        document.addEventListener('DOMContentLoaded', renderColumnsGrid); // Renderiza ao carregar
+        renderColumns();
 
-        // ==================== 6. FORMULÁRIO DE CONTATO (EmailJS) ====================
+
+        // ==================== SEÇÃO 5: CONTATO (Alteração 7) ====================
         
-        document.getElementById('contact-message').addEventListener('input', function() {
-            const charCount = document.getElementById('message-char-count');
-            charCount.textContent = `${this.value.length}/${this.maxLength}`;
+        // Contador de Caracteres
+        const messageTextarea = document.getElementById('contact-message');
+        const charCountSpan = document.getElementById('charCount');
+        
+        messageTextarea.addEventListener('input', function() {
+            const currentLength = this.value.length;
+            charCountSpan.textContent = `${currentLength}/${this.maxLength} caracteres`;
         });
-
-        document.getElementById('submit-contact-form').addEventListener('submit', function(event) {
+        
+        // Envio do formulário de contato (usando EmailJS para simulação real)
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            
-            const statusMsg = document.getElementById('contact-status-msg');
-            const submitBtn = document.getElementById('contact-submit-btn');
-            
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Enviando...';
-            statusMsg.textContent = 'Aguarde...';
-            statusMsg.style.color = 'var(--text-color)';
+            const feedback = document.getElementById('contact-feedback');
 
-            emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this) // Substitua pelos seus IDs
-                .then(function() {
-                    statusMsg.textContent = 'Mensagem enviada com sucesso! Em breve entraremos em contato.';
-                    statusMsg.style.color = 'var(--gold-color)';
-                    document.getElementById('submit-contact-form').reset();
-                }, function(error) {
-                    console.log('FALHA NO ENVIO...', error);
-                    statusMsg.textContent = 'Falha ao enviar. Por favor, tente novamente mais tarde ou contate-nos por telefone.';
-                    statusMsg.style.color = 'red';
-                })
-                .finally(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Enviar Mensagem';
-                });
+            // Simulação de envio para backend (e-mail real seria feito pelo EmailJS se configurado)
+            const newMessage = {
+                id: Date.now(),
+                name: document.getElementById('contact-name').value,
+                email: document.getElementById('contact-email').value,
+                subject: document.getElementById('contact-subject').value,
+                message: document.getElementById('contact-message').value,
+                date: new Date().toISOString()
+            };
+            messages.push(newMessage);
+            saveToLocalStorage();
+
+            // Simulação de sucesso
+            feedback.textContent = 'Mensagem enviada com sucesso! Entraremos em contato o mais breve possível.';
+            feedback.classList.remove('feedback-error');
+            feedback.classList.add('feedback-success');
+            feedback.style.display = 'block';
+
+            this.reset();
+            charCountSpan.textContent = `0/300 caracteres`;
+            renderAdminPanel();
         });
+
+
+        // ==================== SEÇÃO 6: AVALIAÇÃO (Alteração 8) ====================
         
-        // ==================== 7. FORMULÁRIO DE AVALIAÇÃO ====================
+        const starRatingElement = document.getElementById('star-rating');
+        const reviewScoreInput = document.getElementById('review-score');
+        const stars = starRatingElement.querySelectorAll('i');
         
-        document.getElementById('review-comment').addEventListener('input', function() {
-            const charCount = document.getElementById('review-char-count');
-            charCount.textContent = `${this.value.length}/${this.maxLength}`;
-        });
-        
-        const stars = document.querySelectorAll('.star-rating i');
-        stars.forEach(star => {
-            star.addEventListener('click', function() {
-                const ratingValue = this.getAttribute('data-value');
-                document.querySelector('.star-rating').setAttribute('data-rating', ratingValue);
-                document.getElementById('review-rating').value = ratingValue;
-                
-                // Atualiza as estrelas
-                stars.forEach(s => s.classList.remove('active', 'fas'));
-                stars.forEach(s => s.classList.add('far'));
-                for(let i = 0; i < ratingValue; i++) {
-                    stars[i].classList.remove('far');
-                    stars[i].classList.add('fas', 'active');
+        function updateStarColor(score) {
+            stars.forEach((star, index) => {
+                if (index < score) {
+                    star.classList.remove('far');
+                    star.classList.add('fas', 'selected');
+                } else {
+                    star.classList.remove('fas', 'selected');
+                    star.classList.add('far');
                 }
             });
+        }
+
+        starRatingElement.addEventListener('click', function(e) {
+            const clickedStar = e.target.closest('i');
+            if (clickedStar) {
+                const score = parseInt(clickedStar.getAttribute('data-rating'));
+                reviewScoreInput.value = score;
+                updateStarColor(score);
+            }
         });
         
-        document.getElementById('submit-review-form').addEventListener('submit', function(e) {
-             e.preventDefault();
-             
-             const rating = document.getElementById('review-rating').value;
-             const comment = document.getElementById('review-comment').value;
-             const name = document.getElementById('review-name').value || 'Anônimo';
-             const statusMsg = document.getElementById('review-status-msg');
+        // Atualiza a média de avaliações
+        function updateAverageReview() {
+            const totalScore = reviews.reduce((sum, review) => sum + review.score, 0);
+            const totalReviews = reviews.length;
+            const avg = totalReviews > 0 ? (totalScore / totalReviews).toFixed(1) : '5.0';
+            
+            document.getElementById('average-rating').textContent = avg;
+            document.getElementById('total-reviews').textContent = totalReviews;
+        }
+        updateAverageReview();
 
-             if (!rating) {
-                 statusMsg.textContent = 'Por favor, selecione uma nota.';
-                 statusMsg.style.color = 'red';
+        // Envio do formulário de avaliação
+        document.getElementById('reviewForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const feedback = document.getElementById('review-feedback');
+            const score = parseInt(reviewScoreInput.value);
+            
+            if (score === 0) {
+                feedback.textContent = 'Por favor, selecione uma pontuação em estrelas.';
+                feedback.classList.remove('feedback-success');
+                feedback.classList.add('feedback-error');
+                feedback.style.display = 'block';
+                return;
+            }
+            
+            const newReview = {
+                id: Date.now(),
+                name: document.getElementById('reviewer-name').value,
+                title: document.getElementById('review-title').value,
+                score: score,
+                comments: document.getElementById('review-comments').value,
+                date: new Date().toISOString()
+            };
+            reviews.push(newReview);
+            saveToLocalStorage();
+
+            feedback.textContent = 'Sua avaliação foi enviada com sucesso! Agradecemos o seu feedback.';
+            feedback.classList.remove('feedback-error');
+            feedback.classList.add('feedback-success');
+            feedback.style.display = 'block';
+            
+            this.reset();
+            reviewScoreInput.value = '0';
+            updateStarColor(0);
+            updateAverageReview();
+            renderAdminPanel();
+        });
+
+
+        // ==================== SEÇÃO 7: PAINEL ADMIN (Alteração 8) ====================
+        
+        function renderAdminPanel() {
+            if (!isAdmin) return; // Garante que só renderiza se for admin
+            
+            // 1. DASHBOARD DE ESTATÍSTICAS
+            document.getElementById('stat-page-views').textContent = pageViews.toLocaleString('pt-BR');
+            document.getElementById('stat-downloads').textContent = downloads.toLocaleString('pt-BR');
+            document.getElementById('stat-total-sales').textContent = totalSales.toFixed(2).replace('.', ',');
+            document.getElementById('stat-reviews').textContent = reviews.length.toLocaleString('pt-BR');
+            document.getElementById('stat-messages').textContent = messages.length.toLocaleString('pt-BR');
+            document.getElementById('stat-users').textContent = users.length.toLocaleString('pt-BR');
+            document.getElementById('stat-registrations').textContent = users.length.toLocaleString('pt-BR'); // Simplesmente usa o total de usuários para cadastros
+
+            // 2. GERENCIAMENTO DE CATEGORIAS
+            renderCategoryListAdmin();
+            
+            // 3. GERENCIAMENTO DE PRODUTOS
+            populateCategorySelect();
+            renderProductListAdmin();
+            
+            // 4. GERENCIAMENTO DE COLUNAS
+            renderColumnListAdmin();
+        }
+        
+        // Funções do Gerenciamento de Categorias
+        document.getElementById('addCategoryForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const newCategory = {
+                id: Date.now(),
+                name: document.getElementById('new-category-name').value,
+                description: document.getElementById('new-category-description').value,
+                icon: document.getElementById('new-category-icon').value,
+                price: parseFloat(document.getElementById('new-category-price').value),
+                active: document.getElementById('new-category-active').value === 'true'
+            };
+            categories.push(newCategory);
+            saveToLocalStorage();
+            renderAdminPanel();
+            renderCategories(); // Atualiza a seção pública
+            this.reset();
+        });
+        
+        function renderCategoryListAdmin() {
+            const list = document.getElementById('category-list-admin');
+            list.innerHTML = '';
+            categories.forEach(category => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="item-info">
+                        <i class="${category.icon}"></i>
+                        <strong>${category.name}</strong> (R$ ${category.price.toFixed(2)}) - ${category.active ? 'Ativo' : 'Inativo'}
+                    </span>
+                    <div class="item-actions">
+                        <button class="btn btn-outline btn-small" onclick="deleteCategory(${category.id})"><i class="fas fa-trash"></i> Excluir</button>
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        function deleteCategory(id) {
+            if (confirm('Tem certeza que deseja excluir esta categoria e todos os produtos relacionados?')) {
+                categories = categories.filter(c => c.id !== id);
+                products = products.filter(p => p.categoryId !== id); // Exclui produtos relacionados
+                saveToLocalStorage();
+                renderAdminPanel();
+                renderCategories();
+            }
+        }
+
+        // Funções do Gerenciamento de Produtos
+        function populateCategorySelect() {
+            const select = document.getElementById('new-product-category');
+            select.innerHTML = '';
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.id;
+                option.textContent = category.name;
+                select.appendChild(option);
+            });
+        }
+        
+        document.getElementById('addProductForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('new-product-file');
+            // Simulação: na vida real, o arquivo seria enviado para um servidor (ex: Amazon S3)
+            const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : 'placeholder.pdf';
+
+            const newProduct = {
+                id: Date.now(),
+                code: document.getElementById('new-product-code').value,
+                categoryId: parseInt(document.getElementById('new-product-category').value),
+                country: document.getElementById('new-product-country').value,
+                city: document.getElementById('new-product-city').value,
+                description: document.getElementById('new-product-description').value,
+                price: parseFloat(document.getElementById('new-product-price-list').value),
+                file: fileName // Simulação de URL/caminho do arquivo
+            };
+            
+            // Verifica se o produto já existe (exemplo: por código)
+            if (products.some(p => p.code === newProduct.code)) {
+                alert('Erro: Já existe um produto com este código.');
+                return;
+            }
+            
+            products.push(newProduct);
+            saveToLocalStorage();
+            renderAdminPanel();
+            this.reset();
+            // Nenhuma atualização imediata da seção pública de produtos, pois ela é carregada sob demanda
+        });
+
+        function renderProductListAdmin() {
+            const list = document.getElementById('product-list-admin');
+            list.innerHTML = '';
+            products.forEach(product => {
+                const category = categories.find(c => c.id === product.categoryId);
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="item-info">
+                        <strong>${product.code}</strong> - ${product.city} (${category ? category.name : 'Desconhecida'})
+                    </span>
+                    <div class="item-actions">
+                         <span class="product-price-admin">R$ ${product.price.toFixed(2)}</span>
+                        <button class="btn btn-outline btn-small" onclick="deleteProduct(${product.id})"><i class="fas fa-trash"></i> Excluir</button>
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        function deleteProduct(id) {
+            if (confirm('Tem certeza que deseja excluir este produto?')) {
+                products = products.filter(p => p.id !== id);
+                saveToLocalStorage();
+                renderAdminPanel();
+            }
+        }
+        
+        // Funções do Gerenciamento de Colunas Diárias
+        document.getElementById('addColumnForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const newColumn = {
+                id: Date.now(),
+                title: document.getElementById('new-column-title').value,
+                content: document.getElementById('new-column-content').value,
+                date: document.getElementById('new-column-date').value
+            };
+            
+            // Adiciona a nova coluna no início da lista (mais recente)
+            columns.unshift(newColumn);
+            saveToLocalStorage();
+            renderAdminPanel();
+            renderColumns(); // Atualiza a seção pública
+            this.reset();
+        });
+
+        function renderColumnListAdmin() {
+            const list = document.getElementById('column-list-admin');
+            list.innerHTML = '';
+            columns.forEach(column => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="item-info">
+                        <strong>${column.title}</strong> - ${column.date}
+                    </span>
+                    <div class="item-actions">
+                        <button class="btn btn-outline btn-small" onclick="deleteColumn(${column.id})"><i class="fas fa-trash"></i> Excluir</button>
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+        }
+        
+        function deleteColumn(id) {
+            if (confirm('Tem certeza que deseja excluir esta coluna diária?')) {
+                columns = columns.filter(c => c.id !== id);
+                saveToLocalStorage();
+                renderAdminPanel();
+                renderColumns();
+            }
+        }
+        
+        // Exportar Dados em Excel (Simulação)
+        document.getElementById('exportForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const dataType = document.getElementById('export-data-type').value;
+            const startDate = document.getElementById('export-start-date').value;
+            const endDate = document.getElementById('export-end-date').value;
+            const feedback = document.getElementById('export-feedback');
+            
+            let dataToExport = [];
+            let fileName = 'export_';
+            
+            // Filtrar dados (simulação)
+            const start = new Date(startDate).getTime();
+            const end = new Date(endDate).getTime();
+
+            switch (dataType) {
+                case 'messages':
+                    dataToExport = messages.filter(m => new Date(m.date).getTime() >= start && new Date(m.date).getTime() <= end);
+                    fileName += 'mensagens.csv';
+                    break;
+                case 'reviews':
+                    dataToExport = reviews.filter(r => new Date(r.date).getTime() >= start && new Date(r.date).getTime() <= end);
+                    fileName += 'avaliacoes.csv';
+                    break;
+                case 'purchases':
+                    // Simulação: criar dados de compra a partir de um log imaginário
+                    dataToExport.push({ id: 1, date: new Date().toLocaleDateString(), value: totalSales, count: downloads });
+                    fileName += 'compras.csv';
+                    break;
+                case 'users':
+                    dataToExport = users.filter(u => new Date(u.date).getTime() >= start && new Date(u.date).getTime() <= end);
+                    fileName += 'usuarios.csv';
+                    break;
+                default:
+                    feedback.textContent = 'Tipo de dado inválido.';
+                    feedback.classList.remove('feedback-success');
+                    feedback.classList.add('feedback-error');
+                    feedback.style.display = 'block';
+                    return;
+            }
+            
+            if (dataToExport.length === 0) {
+                 feedback.textContent = 'Nenhum dado encontrado no período especificado.';
+                 feedback.classList.remove('feedback-success');
+                 feedback.classList.add('feedback-error');
+                 feedback.style.display = 'block';
                  return;
-             }
+            }
 
-             // Simula o envio
-             const submitBtn = document.getElementById('review-submit-btn');
-             submitBtn.disabled = true;
-             submitBtn.textContent = 'Enviando...';
-             statusMsg.textContent = 'Aguarde...';
-             statusMsg.style.color = 'var(--text-color)';
-             
-             setTimeout(() => {
-                 // Lógica de feedback fake: atualiza a média
-                 const totalReviewsSpan = document.getElementById('total-reviews');
-                 let totalReviews = parseInt(totalReviewsSpan.textContent);
-                 totalReviews += 1;
-                 totalReviewsSpan.textContent = totalReviews;
-                 
-                 // Lógica de média fake para manter a nota alta
-                 const newAverage = 4.85 + (rating - 4.85) / totalReviews; 
-                 document.getElementById('average-rating').textContent = newAverage.toFixed(1);
-                 
-                 statusMsg.textContent = `Avaliação enviada com sucesso! Obrigado, ${name}.`;
-                 statusMsg.style.color = 'var(--gold-color)';
-                 submitBtn.disabled = false;
-                 submitBtn.textContent = 'Enviar Avaliação';
-                 
-                 // Limpa o formulário e estrelas
-                 document.getElementById('submit-review-form').reset();
-                 document.querySelector('.star-rating').setAttribute('data-rating', '0');
-                 stars.forEach(s => s.classList.remove('active', 'fas'));
-                 stars.forEach(s => s.classList.add('far'));
-             }, 1500);
+            // Simulação de geração de CSV/Excel (apenas alerta)
+            feedback.textContent = `Simulação: Exportação de ${dataToExport.length} registros para ${fileName} concluída.`;
+            feedback.classList.remove('feedback-error');
+            feedback.classList.add('feedback-success');
+            feedback.style.display = 'block';
+            
+            // Em uma aplicação real, você usaria uma biblioteca (como SheetJS/PapaParse) 
+            // ou enviaria os dados para um backend que gerasse o arquivo real.
         });
-        
-        // ==================== 8. TEMA CLARO/ESCURO ====================
-        
-        function toggleTheme() {
-            const body = document.body;
-            const isDark = body.classList.contains('dark-theme');
-            
-            if (isDark) {
-                body.classList.remove('dark-theme');
-                body.classList.add('light-theme');
-                localStorage.setItem('theme', 'light');
-            } else {
-                body.classList.remove('light-theme');
-                body.classList.add('dark-theme');
-                localStorage.setItem('theme', 'dark');
-            }
-            updateThemeUI();
-        }
 
-        function updateThemeUI() {
-            const isDark = document.body.classList.contains('dark-theme');
-            const icon = document.getElementById('theme-icon');
-            const label = document.getElementById('theme-label');
-            
-            if (isDark) {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-                label.textContent = 'Claro';
-            } else {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-                label.textContent = 'Escuro';
-            }
-        }
-        
-        // Carrega o tema salvo no localStorage
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        if (savedTheme === 'light') {
-            document.body.classList.remove('dark-theme');
-            document.body.classList.add('light-theme');
-        } else {
-             document.body.classList.remove('light-theme');
-             document.body.classList.add('dark-theme');
-        }
 
-        
-        // Inicializa o estado de autenticação ao carregar
-        document.addEventListener('DOMContentLoaded', updateAuthUI);
     </script>
 </body>
 </html>
