@@ -377,7 +377,7 @@
             gap: 10px;
         }
         
-        /* Botão Admin - Alteração 8 */
+        /* Botão Admin */
         .btn-admin {
             background-color: var(--secondary-color);
             color: var(--text-light);
@@ -460,6 +460,11 @@
         .social-icons .fa-facebook-f {
             display: none;
         }
+        /* --- ALTERAÇÃO 1: Botão no Hero --- */
+        .hero-content .btn-curadoria {
+            margin-top: 30px;
+        }
+        /* --------------------------------- */
 
         /* ==================== 6. MODALS (Pop-ups) ==================== */
         .modal {
@@ -513,6 +518,26 @@
             padding: 15px 0;
             margin-top: 10px;
         }
+        /* --- ALTERAÇÃO 3: Modal de Coluna Completa --- */
+        #column-modal .modal-content {
+            max-width: 800px;
+            text-align: left;
+        }
+        #column-modal .modal-content h3 {
+            color: var(--gold-color);
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        #column-modal .modal-content p.column-date {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        #column-modal .modal-content p.column-content {
+            white-space: pre-wrap; /* Mantém quebras de linha e espaços do textarea */
+            color: var(--text-color);
+        }
+        /* ------------------------------------------- */
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
@@ -567,7 +592,7 @@
             color: #F44336;
         }
 
-        /* ==================== 7. ADMIN PANEL (Alteração 8) ==================== */
+        /* ==================== 7. ADMIN PANEL ==================== */
         #admin-panel {
             background-color: var(--card-bg);
             padding: 40px;
@@ -705,6 +730,27 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
         }
+        
+        /* --- ALTERAÇÃO 2: Estilos para Cards QUEM SOMOS --- */
+        #about-us .grid-3 {
+            margin-top: 40px;
+        }
+        #about-us .card {
+            text-align: center;
+            border-top: 5px solid var(--gold-color);
+            border-left: 1px solid var(--border-color); /* Sobrescreve a borda padrão para dar destaque vertical */
+            padding-top: 40px;
+        }
+        #about-us .card h3 {
+            color: var(--text-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        #about-us .card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        /* ---------------------------------------------------- */
 
         .card {
             background-color: var(--card-bg);
@@ -726,10 +772,11 @@
             margin-bottom: 15px;
         }
 
-        #about-us .card p {
-            /* Alteração 4 - Corrigindo a cor da nova descrição */
+        #about-us .container > p { /* Parágrafo principal abaixo do título "Quem Somos" */
+             /* Corrigindo a cor da nova descrição */
             color: var(--text-color); 
-            font-size: 1rem;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
         }
         
         /* Estilos para Categoria (Alteração 5) */
@@ -852,6 +899,12 @@
         .column-card p {
             font-size: 0.9rem;
             color: var(--text-secondary);
+            /* --- ALTERAÇÃO 3: Limita o texto de preview com reticências --- */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Limita a 2 linhas de preview */
+            -webkit-box-orient: vertical;
         }
 
 
@@ -901,7 +954,7 @@
             margin-bottom: 15px;
         }
         
-        /* ==================== 13. AVALIAÇÃO (Review Form) (Alteração 8) ==================== */
+        /* ==================== 13. AVALIAÇÃO (Review Form) ==================== */
         #review-form h2, #review-form p {
             text-align: center;
             color: var(--text-color);
@@ -922,6 +975,7 @@
             font-size: 2rem;
             position: relative;
         }
+        /* --- ALTERAÇÃO 4: Estrelas de Avaliação --- */
         .star-rating i {
             color: var(--text-secondary);
             cursor: pointer;
@@ -931,8 +985,9 @@
         }
         /* Estrela colorida */
         .star-rating i.selected {
-            color: var(--gold-color);
+            color: var(--gold-color); /* Dourado/Amarelo conforme solicitado */
         }
+        /* ---------------------------------------- */
         
         /* Tooltip de Legenda da Estrela */
         .star-rating i::before {
@@ -940,148 +995,70 @@
             position: absolute;
             bottom: 100%;
             left: 50%;
-            transform: translateX(-50%) translateY(-5px);
+            transform: translateX(-50%);
             background-color: var(--bg-dark);
             color: var(--text-light);
-            padding: 5px 10px;
+            padding: 5px 8px;
             border-radius: 4px;
+            font-size: 0.75rem;
             white-space: nowrap;
             opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, transform 0.3s;
-            font-size: 0.8rem;
             pointer-events: none;
-            border: 1px solid var(--gold-color);
-            font-family: 'Playfair Display', serif;
+            transition: opacity 0.3s;
         }
+
         .star-rating i:hover::before {
             opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(-10px);
         }
 
 
-        .review-count {
-            text-align: center;
-            margin-top: 20px;
-            color: var(--text-secondary);
-        }
-
-
-        /* ==================== 16. RODAPÉ (Alteração 3) ==================== */
+        /* ==================== 14. RODAPÉ ==================== */
         footer {
             background-color: var(--card-bg);
-            color: var(--text-color);
-            padding: 20px 0;
+            padding: 30px 0;
+            text-align: center;
             border-top: 1px solid var(--border-color);
         }
 
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-align: center;
-            flex-wrap: wrap; /* Para responsividade */
-        }
-
-        .footer-left, .footer-center, .footer-right {
-            flex: 1;
-            min-width: 250px; /* Garante que não fiquem muito estreitos em telas pequenas */
-            padding: 10px;
-        }
-
-        /* Novo texto e estilo do footer-left (Alteração 3) */
-        .footer-left p {
+        footer p {
             font-size: 0.9rem;
-            margin: 0;
-            text-align: left;
-            color: var(--text-color);
-            line-height: 1.4;
-        }
-        .footer-left strong {
-            color: var(--gold-color);
-            display: block;
-            margin-bottom: 5px;
-            font-size: 1rem;
-        }
-
-
-        .footer-center {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .footer-center small {
-            font-size: 0.75rem;
             color: var(--text-secondary);
-            margin-top: 5px;
-        }
-
-        .footer-right {
-            text-align: right;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .footer-contact-item {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 10px;
-            font-size: 0.9rem;
+            margin-top: 10px;
         }
         
-        .footer-contact-item i {
-            color: var(--gold-color);
-            font-size: 1.2rem;
-        }
-        
-        .footer-contact-item a {
-            color: var(--text-color);
-        }
-        
-        /* Media Query para telas menores */
-        @media (max-width: 800px) {
-            .header-content, nav ul {
+        /* Responsividade (Ajustes para telas menores) */
+        @media (max-width: 768px) {
+            .header-content {
                 flex-direction: column;
-                align-items: center;
-                text-align: center;
+                align-items: flex-start;
+                padding-bottom: 10px;
             }
             nav ul {
+                flex-wrap: wrap;
                 margin-top: 10px;
-                gap: 15px;
+            }
+            nav ul li {
+                margin-left: 0;
+                margin-right: 15px;
+                margin-bottom: 5px;
             }
             .auth-buttons {
-                margin-top: 15px;
+                margin-top: 10px;
             }
             .hero-content h2 {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
-            .footer-content {
-                flex-direction: column;
+            .hero-content p {
+                font-size: 1rem;
             }
-            .footer-left, .footer-right, .footer-center {
-                text-align: center;
-                min-width: 100%;
-                margin-bottom: 20px;
+            .grid-3 {
+                grid-template-columns: 1fr;
             }
-            .footer-left p {
-                text-align: center;
+            .admin-form-grid {
+                grid-template-columns: 1fr;
             }
-            .footer-right {
-                align-items: center;
-            }
-            .footer-contact-item {
-                justify-content: center;
-            }
-            .categories-grid {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            }
-            .stat-card {
-                min-width: 100%;
+            .contact-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1091,7 +1068,7 @@
     <header>
         <div class="container header-content">
             <div class="header-left">
-                <a href="#hero" class="logo" onclick="navigateTo('hero')">
+                <a href="#hero" class="logo" onclick="navigate('hero')">
                     <div class="logo-image">
                         <div class="compass-icon">
                             <div class="compass-rose">
@@ -1107,76 +1084,88 @@
                             </div>
                         </div>
                         <div class="logo-text">
-                            <h1>Elite Travel</h1>
-                            <span>Curadoria Exclusiva</span>
+                            <h1>Curadoria Elite Travel</h1>
+                            <span>O seu mundo, bem indicado.</span>
                         </div>
                     </div>
                 </a>
                 <nav>
                     <ul>
-                        <li><a onclick="navigateTo('hero')">Início</a></li>
-                        <li><a onclick="navigateTo('about-us')">Quem Somos</a></li>
-                        <li><a onclick="navigateTo('categories')">Curadoria</a></li>
-                        <li><a onclick="navigateTo('daily-columns')">Colunas</a></li>
-                        <li><a onclick="navigateTo('contact-form')">Contato</a></li>
-                        <li><a onclick="navigateTo('review-form')">Avaliação</a></li>
+                        <li><a onclick="navigate('hero')">Início</a></li>
+                        <li><a onclick="navigate('about-us')">Quem Somos</a></li>
+                        <li><a onclick="navigate('categories')">Curadoria</a></li>
+                        <li><a onclick="navigate('daily-columns')">Colunas</a></li>
+                        <li><a onclick="navigate('contact-form')">Contato</a></li>
                     </ul>
                 </nav>
             </div>
             
-            <div class="auth-buttons" id="auth-buttons">
-                <button class="btn btn-admin btn-small" id="admin-login-btn">
-                    <i class="fas fa-user-shield"></i> Admin
-                </button>
+            <div class="auth-buttons">
+                <button class="btn btn-small btn-outline" id="login-button">Entrar</button>
+                <button class="btn btn-small btn-primary" id="register-button">Cadastrar</button>
+                <button class="btn btn-small btn-admin" id="admin-button" style="display: none;" onclick="openAdminModal()">A</button>
             </div>
             
-            <div class="user-info" id="user-info">
-                <span class="user-name" id="user-name"></span>
-                <div class="user-avatar" id="user-avatar-initial"></div>
-                <button class="logout-btn" id="admin-logout-btn" onclick="adminLogout()">
-                    <i class="fas fa-sign-out-alt"></i> Sair
-                </button>
+            <div class="user-info" id="user-info-display">
+                <div class="user-avatar" id="user-avatar-initial" onclick="navigate('user-profile')">U</div>
+                <button class="logout-btn" onclick="logout()">Sair</button>
             </div>
         </div>
     </header>
 
     <section id="hero" class="active">
         <div class="container hero-content">
-            <h2>Orquestramos cada detalhe com cuidado e expertise, para que você possa focar exclusivamente em viver experiências memoráveis</h2>
+            <h2>Curadoria Elite Travel</h2>
+            <p>Orquestramos cada detalhe com cuidado e expertise, para que você possa focar exclusivamente em viver experiências memoráveis</p>
             <p>Curadoria exclusiva para as experiências de viagem mais inesquecíveis.</p>
             
             <div class="social-icons">
                 <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
                 <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
             </div>
-        </div>
+
+            <button class="btn btn-primary btn-curadoria" onclick="navigate('categories')">Descubra Nossas Curadorias</button>
+            </div>
     </section>
 
     <section id="about-us">
         <div class="container">
-            <div class="card">
-                <h3>Quem Somos</h3>
-                <p>Na Curadoria Elite Travel, acreditamos que seu tempo é seu bem mais valioso. Percebemos que, em um mundo onde a praticidade digital é essencial, o viajante moderno buscava autonomia sem abrir mão de inspiração e confiança – uma assistência ágil e personalizada que ainda não existia. Foi dessa necessidade que nascemos: somos a resposta para quem deseja explorar o mundo de forma inteligente, com curadorias que transformam destinos em universos referenciados e acessíveis digitalmente. Abraçamos essa missão com excelência, oferecendo narrativas turísticas sob medida para que sua próxima aventura seja não apenas planejada, mas vivida intensamente, mesmo antes de partir. **O seu mundo, bem indicado.**</p>
+            <h2>Quem Somos</h2>
+            <p>Na Curadoria Elite Travel, acreditamos que seu tempo é seu bem mais valioso. Percebemos que, em um mundo onde a praticidade digital é essencial, o viajante moderno buscava autonomia sem abrir mão de inspiração e confiança – uma assistência ágil e personalizada que ainda não existia. Foi dessa necessidade que nascemos: somos a resposta para quem deseja explorar o mundo de forma inteligente, com curadorias que transformam destinos em universos referenciados e acessíveis digitalmente. Abraçamos essa missão com excelência, oferecendo narrativas turísticas sob medida para que sua próxima aventura seja não apenas planejada, mas vivida intensamente, mesmo antes de partir. **O seu mundo, bem indicado.**</p>
+
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Visão</h3>
+                    <p>Ser a principal referência digital para quem busca apoio, inspiração e orientação em viagens, oferecendo uma curadoria de alto nível que torna a descoberta de destinos mais clara, elegante e acessível — um ponto de partida confiável para explorar o mundo com profundidade e propósito.</p>
+                </div>
+                <div class="card">
+                    <h3>Missão</h3>
+                    <p>Oferecer materiais de apoio que iluminam a escolha dos melhores lugares, reunindo conteúdo de qualidade, excelência na seleção e uma visão equilibrada entre experiência e valor.</p>
+                </div>
+                <div class="card">
+                    <h3>Nicho</h3>
+                    <p>Viajantes que buscam experiências entre 3 e 4 estrelas, desejando conhecer os principais destinos de forma acolhedora, inteligente e cuidadosamente selecionada.</p>
+                </div>
             </div>
-        </div>
+            </div>
     </section>
 
     <section id="categories">
         <div class="container">
             <div class="subtitle">
-                <h2>Categorias de Curadoria</h2>
-                <p>Navegue pelos temas que definem sua próxima aventura.</p>
+                <h2>Curadoria</h2>
+                <p>Descubra o mundo através das nossas lentes.</p>
             </div>
             
-            <div id="categories-content">
-                <div id="categories-grid" class="categories-grid">
-                    </div>
-                <div id="products">
-                    <h2 id="products-category-title"></h2>
-                    <div class="products-container" id="products-list">
-                        </div>
+            <div class="categories-grid" id="categories-list">
                 </div>
+
+            <div id="products">
+                <h2>Obras Curadas em <span id="category-title"></span></h2>
+                <div class="products-container" id="products-container">
+                    </div>
             </div>
+
         </div>
     </section>
 
@@ -1184,10 +1173,10 @@
         <div class="container">
             <div class="subtitle">
                 <h2>Colunas Diárias</h2>
-                <p>Notícias e curiosidades dos principais destinos</p>
+                <p>Inspirações e dicas para a sua próxima jornada.</p>
             </div>
-            
-            <div id="columns-container" class="columns-horizontal-list">
+
+            <div class="columns-horizontal-list" id="columns-list">
                 </div>
         </div>
     </section>
@@ -1196,462 +1185,356 @@
         <div class="container">
             <div class="subtitle">
                 <h2>Fale Conosco</h2>
-                <p>Envie sua sugestão, comentário ou dúvida.</p>
+                <p>Envie-nos uma mensagem, será um prazer conversar.</p>
             </div>
-            
-            <form id="contactForm">
+
+            <form id="contact-message-form">
                 <div class="contact-grid">
                     <div class="form-group">
-                        <label for="contact-name">Nome:</label>
+                        <label for="contact-name">Nome</label>
                         <input type="text" id="contact-name" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="contact-email">Email:</label>
+                        <label for="contact-email">Email</label>
                         <input type="email" id="contact-email" name="email" required>
                     </div>
-                    
                     <div class="form-group full-width">
-                        <label for="contact-subject">Assunto:</label>
-                        <input type="text" id="contact-subject" name="subject" placeholder="Ex: Informações sobre Parcerias" required>
+                        <label for="contact-subject">Assunto</label>
+                        <input type="text" id="contact-subject" name="subject" required>
                     </div>
-
                     <div class="form-group full-width">
-                        <label for="contact-message">Mensagem:</label>
-                        <textarea id="contact-message" name="message" rows="5" maxlength="300" required></textarea>
-                        <span id="charCount" class="char-count">0/300 caracteres</span>
-                    </div>
-                    
-                    <div class="form-group full-width">
-                        <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
-                        <div id="contact-feedback" class="feedback-message" style="display: none;"></div>
+                        <label for="contact-message">Mensagem (Máx. 500 caracteres)</label>
+                        <textarea id="contact-message" name="message" rows="5" maxlength="500" required></textarea>
+                        <span class="char-count" id="message-char-count">0/500</span>
                     </div>
                 </div>
+                <div class="feedback-message" id="contact-feedback" style="display: none;"></div>
+                <button type="submit" class="btn btn-primary full-width">Enviar Mensagem</button>
             </form>
         </div>
     </section>
-    
-    <section id="review-form">
+
+    <section id="user-profile">
         <div class="container">
-            <h2>Sua percepção nos ajuda a evoluir</h2>
-            <p>Ajude-nos a manter o nível de excelência da Curadoria Elite Travel. Deixe sua avaliação:</p>
-
-            <form id="reviewForm">
-                <div class="form-group">
-                    <label for="reviewer-name">Seu Nome:</label>
-                    <input type="text" id="reviewer-name" name="reviewer-name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="review-title">Título da Avaliação:</label>
-                    <input type="text" id="review-title" name="review-title" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Sua Nota:</label>
-                    <div class="star-rating" id="star-rating">
-                        <i class="far fa-star" data-rating="1" data-tooltip="Ruim"></i>
-                        <i class="far fa-star" data-rating="2" data-tooltip="Ruim"></i>
-                        <i class="far fa-star" data-rating="3" data-tooltip="Regular"></i>
-                        <i class="far fa-star" data-rating="4" data-tooltip="Muito bom"></i>
-                        <i class="far fa-star" data-rating="5" data-tooltip="Excelente"></i>
-                        <input type="hidden" id="review-score" name="review-score" value="0" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="review-comments">Comentários (Opcional):</label>
-                    <textarea id="review-comments" name="review-comments" rows="3"></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary full-width">Enviar Avaliação</button>
-                <div id="review-feedback" class="feedback-message" style="display: none;"></div>
-            </form>
-
-            <div class="review-count">
-                <span id="average-rating">5.0</span> estrelas em <span id="total-reviews">0</span> avaliações.
+            <h2>Meu Perfil</h2>
+            <div id="user-profile-content">
+                <p><strong>Nome:</strong> <span id="profile-name"></span></p>
+                <p><strong>Email:</strong> <span id="profile-email"></span></p>
+                <p><strong>Minhas Avaliações:</strong></p>
+                <ul id="user-reviews-list">
+                    </ul>
+                <button class="btn btn-outline" onclick="navigate('review-form')">Deixar Nova Avaliação</button>
             </div>
         </div>
     </section>
 
+    <section id="review-form">
+        <div class="container">
+            <h2>Deixe sua Avaliação</h2>
+            <p>Compartilhe sua experiência conosco. Sua opinião é valiosa!</p>
+            <form id="submit-review-form">
+                <div class="form-group">
+                    <label>Sua Nota</label>
+                    <div class="star-rating" id="rating-stars">
+                        <i class="fa fa-star" data-rating="1" data-tooltip="Péssimo"></i>
+                        <i class="fa fa-star" data-rating="2" data-tooltip="Ruim"></i>
+                        <i class="fa fa-star" data-rating="3" data-tooltip="Regular"></i>
+                        <i class="fa fa-star" data-rating="4" data-tooltip="Bom"></i>
+                        <i class="fa fa-star" data-rating="5" data-tooltip="Excelente"></i>
+                    </div>
+                    <input type="hidden" id="review-rating" name="rating" value="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="review-title">Título (Máx. 50 caracteres)</label>
+                    <input type="text" id="review-title" name="title" maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label for="review-comment">Comentário (Máx. 300 caracteres)</label>
+                    <textarea id="review-comment" name="comment" rows="4" maxlength="300" required></textarea>
+                    <span class="char-count" id="review-char-count">0/300</span>
+                </div>
+                <div class="feedback-message" id="review-feedback" style="display: none;"></div>
+                <button type="submit" class="btn btn-primary">Enviar Avaliação</button>
+            </form>
+        </div>
+    </section>
 
     <section id="admin">
         <div class="container">
-            <div id="admin-panel">
+            <div id="admin-panel" style="display: none;">
                 <div class="admin-header">
                     <h2>Painel Administrativo</h2>
-                    <button class="logout-btn" onclick="adminLogout()">
-                        <i class="fas fa-sign-out-alt"></i> Sair
-                    </button>
+                    <button class="logout-btn" onclick="logoutAdmin()">Sair do Admin</button>
                 </div>
-                
+
                 <div class="admin-section">
-                    <h3>Dashboard de Estatísticas</h3>
+                    <h3>Resumo</h3>
                     <div class="stats-grid">
                         <div class="stat-card">
-                            <h4>Visualizações de Página</h4>
-                            <p id="stat-page-views">0</p>
+                            <h4>Total de Categorias</h4>
+                            <p id="stat-categories">0</p>
                         </div>
                         <div class="stat-card">
-                            <h4>Materiais Baixados</h4>
-                            <p id="stat-downloads">0</p>
+                            <h4>Total de Produtos</h4>
+                            <p id="stat-products">0</p>
                         </div>
                         <div class="stat-card">
-                            <h4>Valor Total de Compras (R$)</h4>
-                            <p id="stat-total-sales">0.00</p>
+                            <h4>Total de Colunas</h4>
+                            <p id="stat-columns">0</p>
                         </div>
                         <div class="stat-card">
-                            <h4>Avaliações Recebidas</h4>
-                            <p id="stat-reviews">0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h4>Mensagens de Contato</h4>
-                            <p id="stat-messages">0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h4>Perfis de Usuários</h4>
-                            <p id="stat-users">0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h4>Novos Cadastros</h4>
-                            <p id="stat-registrations">0</p>
+                            <h4>Média Avaliações</h4>
+                            <p id="stat-avg-rating">0.0</p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="admin-section" id="category-manager">
-                    <h3>Gerenciamento de Categorias</h3>
-                    <form id="addCategoryForm">
-                        <div class="admin-form-grid">
-                            <div class="form-group full-width">
-                                <label for="new-category-name">Nome da Categoria:</label>
-                                <input type="text" id="new-category-name" required>
-                            </div>
-                            <div class="form-group full-width">
-                                <label for="new-category-description">Descrição (Para o card):</label>
-                                <textarea id="new-category-description" rows="2" required></textarea>
+
+                <div class="admin-form-grid">
+                    <div id="column-manager">
+                        <h3>Gerenciar Colunas Diárias</h3>
+                        <form id="add-column-form">
+                            <div class="form-group">
+                                <label for="column-title">Título</label>
+                                <input type="text" id="column-title" name="title" required>
                             </div>
                             <div class="form-group">
-                                <label for="new-category-icon">Ícone (Classe Font Awesome Ex: fas fa-city):</label>
-                                <input type="text" id="new-category-icon" required>
+                                <label for="column-date">Data (YYYY-MM-DD)</label>
+                                <input type="text" id="column-date" name="date" value="2025-01-25" required>
                             </div>
                             <div class="form-group">
-                                <label for="new-category-price">Preço (R$):</label>
-                                <input type="number" id="new-category-price" min="0" step="0.01" required>
+                                <label for="column-content">Conteúdo Completo</label>
+                                <textarea id="column-content" name="content" rows="6" required></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="new-category-active">Ativar na tela de Categorias:</label>
-                                <select id="new-category-active">
-                                    <option value="true">Sim</option>
-                                    <option value="false">Não</option>
-                                </select>
-                            </div>
+                            <button type="submit" class="btn btn-primary full-width">Adicionar Coluna</button>
+                        </form>
+                        <div class="feedback-message" id="column-feedback" style="display: none;"></div>
+                        <h4>Colunas Atuais</h4>
+                        <ul class="admin-list" id="columns-admin-list">
+                            </ul>
+                    </div>
+
+                    <div id="category-product-management">
+                        <div id="category-manager">
+                            <h3>Gerenciar Categorias</h3>
+                            <form id="add-category-form">
+                                <div class="form-group">
+                                    <label for="category-name">Nome</label>
+                                    <input type="text" id="category-name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="category-icon">Ícone (Ex: fa-utensils)</label>
+                                    <input type="text" id="category-icon" name="icon" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="category-description">Descrição Curta</label>
+                                    <input type="text" id="category-description" name="description" required>
+                                </div>
+                                <button type="submit" class="btn btn-outline full-width">Adicionar Categoria</button>
+                            </form>
+                            <div class="feedback-message" id="category-feedback" style="display: none;"></div>
+                            <h4>Categorias Atuais</h4>
+                            <ul class="admin-list" id="categories-admin-list"></ul>
                         </div>
-                        <div class="admin-actions">
-                            <button type="submit" class="btn btn-primary btn-small">Adicionar Categoria</button>
+
+                        <div id="product-manager" style="margin-top: 20px;">
+                            <h3>Gerenciar Produtos</h3>
+                            <form id="add-product-form">
+                                <div class="form-group">
+                                    <label for="product-category">Categoria</label>
+                                    <select id="product-category" name="category" required></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-name">Nome do Produto</label>
+                                    <input type="text" id="product-name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-price">Preço</label>
+                                    <input type="number" id="product-price" name="price" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-description">Descrição</label>
+                                    <textarea id="product-description" name="description" rows="3" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary full-width">Adicionar Produto</button>
+                            </form>
+                            <div class="feedback-message" id="product-feedback" style="display: none;"></div>
+                            <h4>Produtos Atuais</h4>
+                            <ul class="admin-list" id="products-admin-list"></ul>
                         </div>
-                    </form>
-                    
-                    <ul id="category-list-admin" class="admin-list">
-                        </ul>
-                </div>
-                
-                <div class="admin-section" id="product-manager">
-                    <h3>Gerenciamento de Produtos</h3>
-                    <form id="addProductForm">
-                        <div class="admin-form-grid">
-                            <div class="form-group">
-                                <label for="new-product-code">Código do Produto:</label>
-                                <input type="text" id="new-product-code" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="new-product-category">Categoria:</label>
-                                <select id="new-product-category" required>
-                                    </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="new-product-country">País:</label>
-                                <input type="text" id="new-product-country" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="new-product-city">Cidade:</label>
-                                <input type="text" id="new-product-city" required>
-                            </div>
-                            <div class="form-group full-width">
-                                <label for="new-product-description">Descrição do Produto:</label>
-                                <textarea id="new-product-description" rows="3" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="new-product-price-list">Preço (R$):</label>
-                                <input type="number" id="new-product-price-list" min="0" step="0.01" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="new-product-file">Arquivo (PDF):</label>
-                                <input type="file" id="new-product-file" accept=".pdf" required>
-                            </div>
-                        </div>
-                        <div class="admin-actions">
-                            <button type="submit" class="btn btn-primary btn-small">Adicionar Produto</button>
-                        </div>
-                    </form>
-                    
-                    <ul id="product-list-admin" class="admin-list">
-                        </ul>
-                </div>
-                
-                <div class="admin-section" id="column-manager">
-                    <h3>Gerenciamento de Colunas Diárias</h3>
-                    <form id="addColumnForm">
-                        <div class="admin-form-grid">
-                            <div class="form-group full-width">
-                                <label for="new-column-title">Título:</label>
-                                <input type="text" id="new-column-title" required>
-                            </div>
-                            <div class="form-group full-width">
-                                <label for="new-column-content">Conteúdo:</label>
-                                <textarea id="new-column-content" rows="4" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="new-column-date">Data de Publicação (dd/mm/aaaa):</label>
-                                <input type="text" id="new-column-date" placeholder="dd/mm/aaaa" required>
-                            </div>
-                        </div>
-                        <div class="admin-actions">
-                            <button type="submit" class="btn btn-primary btn-small">Adicionar Coluna</button>
-                        </div>
-                    </form>
-                    
-                    <ul id="column-list-admin" class="admin-list">
-                        </ul>
-                </div>
-                
-                <div class="admin-section" id="export-data">
-                    <h3>Exportar Dados em Excel</h3>
-                    <form id="exportForm">
-                        <div class="admin-form-grid">
-                            <div class="form-group">
-                                <label for="export-start-date">Data de Início:</label>
-                                <input type="date" id="export-start-date" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="export-end-date">Data de Fim:</label>
-                                <input type="date" id="export-end-date" required>
-                            </div>
-                            <div class="form-group full-width">
-                                <label for="export-data-type">Tipo de Dados:</label>
-                                <select id="export-data-type" required>
-                                    <option value="messages">Mensagens de Contato</option>
-                                    <option value="reviews">Avaliações do Site</option>
-                                    <option value="purchases">Dados de Compras</option>
-                                    <option value="users">Cadastros de Usuários</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="admin-actions">
-                            <button type="submit" class="btn btn-outline btn-small">Exportar para Excel</button>
-                        </div>
-                    </form>
-                    <div id="export-feedback" class="feedback-message" style="display: none;"></div>
+                    </div>
                 </div>
 
+                <div id="export-data" class="admin-section full-width">
+                    <h3>Exportar Dados e Avaliações</h3>
+                    <button class="btn btn-outline" onclick="exportData('reviews')">Exportar Avaliações (CSV)</button>
+                    <button class="btn btn-outline" onclick="exportData('all')">Exportar Todos os Dados (JSON)</button>
+                </div>
             </div>
         </div>
     </section>
 
-
     <footer>
-        <div class="container footer-content">
-            <div class="footer-left">
-                <p>
-                    <strong>O seu mundo, perfeitamente indicado.</strong> 
-                    Oferecemos soluções de viagem com curadoria especializada, transformando seus destinos em experiências inesquecíveis.
-                </p>
-            </div>
-            
-            <div class="footer-center">
-                <button class="theme-toggle-footer" onclick="toggleTheme()" aria-label="Alternar Tema Escuro/Claro">
-                    <i class="fas fa-sun" id="theme-icon"></i>
-                </button>
-                <small>&copy; 2025 Elite Travel. Todos os direitos reservados.</small>
-            </div>
-            
-            <div class="footer-right">
-                <div class="footer-contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <a href="mailto:curadoriaelitetravel@gmail.com">curadoriaelitetravel@gmail.com</a>
-                </div>
-                
-                <div class="social-icons">
-                    <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
+        <div class="container">
+            <button class="theme-toggle-footer" onclick="toggleTheme()" aria-label="Alternar Tema">
+                <i class="fas fa-moon" id="theme-icon"></i>
+            </button>
+            <p>&copy; <span id="current-year"></span> Curadoria Elite Travel. Todos os direitos reservados. O seu mundo, bem indicado.</p>
         </div>
     </footer>
+
+
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('auth-modal')">&times;</span>
+            <h3 id="auth-title">Entrar</h3>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label for="auth-email">Email</label>
+                    <input type="email" id="auth-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="auth-password">Senha</label>
+                    <input type="password" id="auth-password" name="password" required>
+                </div>
+                <div class="feedback-message" id="auth-feedback" style="display: none;"></div>
+                <button type="submit" class="btn btn-primary" id="auth-submit-btn">Entrar</button>
+            </form>
+            <button class="btn btn-outline" id="toggle-auth-mode" onclick="toggleAuthMode()">Ainda não tem conta? Cadastre-se</button>
+        </div>
+    </div>
 
     <div id="admin-login-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('admin-login-modal')">&times;</span>
             <h3>Login Administrativo</h3>
-            <form id="adminLoginForm">
-                <input type="email" id="admin-email" placeholder="Email" required>
-                <input type="password" id="admin-password" placeholder="Senha" required>
-                <button type="submit" class="btn btn-primary">Entrar</button>
-                <div id="admin-login-feedback" class="feedback-message" style="display: none;"></div>
+            <form id="admin-login-form">
+                <div class="form-group">
+                    <label for="admin-email">Email Admin</label>
+                    <input type="email" id="admin-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin-password">Senha Admin</label>
+                    <input type="password" id="admin-password" name="password" required>
+                </div>
+                <div class="feedback-message" id="admin-login-feedback" style="display: none;"></div>
+                <button type="submit" class="btn btn-primary">Entrar como Admin</button>
             </form>
-        </div>
-    </div>
-    
-    <div id="register-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('register-modal')">&times;</span>
-            <h3>Crie Sua Conta</h3>
-            <form id="registerForm">
-                <input type="text" id="register-name" placeholder="Nome Completo" required>
-                <input type="email" id="register-email" placeholder="Email" required>
-                <input type="password" id="register-password" placeholder="Senha" required>
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
-                <div id="register-feedback" class="feedback-message" style="display: none;"></div>
-            </form>
-            <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
-                Já tem conta? <a onclick="openLoginModal(); closeModal('register-modal');">Faça Login</a>
-            </p>
-        </div>
-    </div>
-    
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
-            <h3>Acesso à Área do Cliente</h3>
-            <form id="loginForm">
-                <input type="email" id="login-email" placeholder="Email" required>
-                <input type="password" id="login-password" placeholder="Senha" required>
-                <button type="submit" class="btn btn-primary">Entrar</button>
-                <div id="login-feedback" class="feedback-message" style="display: none;"></div>
-            </form>
-            <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
-                Não tem conta? <a onclick="openRegisterModal(); closeModal('login-modal');">Cadastre-se</a>
-            </p>
         </div>
     </div>
     
     <div id="checkout-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('checkout-modal')">&times;</span>
-            <h3>Resumo do Pedido</h3>
-            <div id="checkout-summary">
+            <i class="fas fa-shopping-cart" style="font-size: 2rem; color: var(--gold-color); margin-bottom: 15px;"></i>
+            <h3>Finalizar Compra</h3>
+            <div id="checkout-product-details">
+                <div class="checkout-item">
+                    <span>Produto:</span>
+                    <span id="checkout-product-name"></span>
                 </div>
-            <div class="checkout-total">
-                Total: <span id="checkout-total-value"></span>
+                <div class="checkout-item">
+                    <span>Preço:</span>
+                    <span id="checkout-product-price"></span>
+                </div>
+                <div class="checkout-total">
+                    Total: <span id="checkout-total-price"></span>
+                </div>
             </div>
-            <p>Seu arquivo PDF será enviado por email após a confirmação do pagamento.</p>
-            <button class="btn btn-primary" id="confirm-purchase-btn">Confirmar Compra</button>
+            <form id="checkout-form">
+                <div class="form-group">
+                    <label for="checkout-name">Nome no Cartão</label>
+                    <input type="text" id="checkout-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="checkout-card">Número do Cartão</label>
+                    <input type="text" id="checkout-card" placeholder="**** **** **** ****" required>
+                </div>
+                <div class="feedback-message" id="checkout-feedback" style="display: none;"></div>
+                <button type="submit" class="btn btn-primary">Confirmar e Pagar</button>
+            </form>
         </div>
     </div>
-
-
+    
+    <div id="column-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('column-modal')">&times;</span>
+            <h3 id="modal-column-title">Título da Coluna</h3>
+            <p class="column-date" id="modal-column-date">00/00/0000</p>
+            <p class="column-content" id="modal-column-content">Conteúdo Completo</p>
+        </div>
+    </div>
     <script>
-        // ==================== VARIÁVEIS GLOBAIS DE SIMULAÇÃO ====================
-        
-        let loggedInUser = null; // Simulação de estado de login de usuário normal
-        let isAdmin = false; // Simulação de estado de login de admin
-        const ADMIN_EMAIL = 'admin@elitetravel.com'; // Alteração 8
-        const ADMIN_PASSWORD = 'admin@123'; // Alteração 8
+        document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // Dados simulados do backend (LocalStorage)
-        let categories = JSON.parse(localStorage.getItem('categories')) || [
-            { id: 1, name: 'City Guide', description: 'O essencial da metrópole.', icon: 'fas fa-city', price: 99.00, active: true },
-            { id: 2, name: 'Restaurante', description: 'Curadoria gastronômica de elite.', icon: 'fas fa-utensils', price: 79.00, active: true },
-            { id: 3, name: 'Bares', description: 'Os melhores spots de coquetelaria.', icon: 'fas fa-cocktail', price: 59.00, active: true },
-            { id: 4, name: 'Pontos Turisticos', description: 'O que não pode faltar no seu roteiro.', icon: 'fas fa-landmark', price: 49.00, active: true },
-            { id: 5, name: 'Passeios', description: 'Aventuras exclusivas e bem planejadas.', icon: 'fas fa-car-side', price: 69.00, active: true },
-            { id: 6, name: 'Vida Noturna', description: 'Descubra a noite dos seus sonhos.', icon: 'fas fa-moon', price: 59.00, active: true },
-            { id: 7, name: 'Compras', description: 'Guia de luxo e boutiques exclusivas.', icon: 'fas fa-shopping-bag', price: 89.00, active: true },
-            { id: 8, name: 'Presentes', description: 'Mimos inesquecíveis para quem você ama.', icon: 'fas fa-gift', price: 45.00, active: true },
-            { id: 9, name: 'Hoteis', description: 'As acomodações mais luxuosas.', icon: 'fas fa-bed', price: 129.00, active: true },
-            { id: 10, name: 'Cruzeiros', description: 'Viagens de alto mar com conforto.', icon: 'fas fa-ship', price: 149.00, active: true },
+        // Variáveis de estado
+        let isRegisterMode = false;
+        let loggedInUser = null;
+        const ADMIN_EMAIL = 'admin@elite.com';
+        const ADMIN_PASSWORD = 'admin123';
+        let isAdminLoggedIn = false;
+
+        // Dados Mock
+        let MOCK_USERS = [
+            { id: 1, name: "João Silva", email: "joao@teste.com", password: "123" },
         ];
-        
-        let products = JSON.parse(localStorage.getItem('products')) || [
-            { id: 101, code: 'NY001', categoryId: 1, country: 'EUA', city: 'Nova York', description: 'Guia completo de 7 dias para Manhattan.', price: 149.00, file: 'dummy_ny_guide.pdf' },
-            { id: 102, code: 'PAR02', categoryId: 2, country: 'França', city: 'Paris', description: 'Os 10 melhores restaurantes com estrela Michelin.', price: 119.00, file: 'dummy_paris_food.pdf' },
+        let MOCK_CATEGORIES = [
+            { id: 1, name: "Gastronomia", icon: "fa-utensils", description: "Onde comer e o que provar." },
+            { id: 2, name: "Hospedagem", icon: "fa-bed", description: "Opções de estadias 3 e 4 estrelas." },
+            { id: 3, name: "Aventura", icon: "fa-mountain", description: "Trilhas e experiências emocionantes." },
+            { id: 4, name: "Cultura", icon: "fa-palette", description: "Museus, história e arte local." },
+            { id: 5, name: "Negócios", icon: "fa-briefcase", description: "Dicas de viagens a trabalho." }
         ];
-        
-        let columns = JSON.parse(localStorage.getItem('columns')) || [
-            { id: 201, title: 'Um refúgio nas Maldivas: o novo resort de luxo', content: 'Detalhes sobre a inauguração do Soneva Jani.', date: '15/11/2025' },
-            { id: 202, title: 'Tendências de Viagem para 2026', content: 'Explorando o ecoturismo de alto padrão na Patagônia.', date: '01/11/2025' },
+        let MOCK_PRODUCTS = [
+            { id: 101, categoryId: 1, name: "Guia Michelin SP", price: 49.90, description: "Os melhores restaurantes de São Paulo com 3 e 4 estrelas." },
+            { id: 102, categoryId: 2, name: "Pacote Hotel Boutique Gramado", price: 1250.00, description: "3 noites em hotel charmoso na Serra Gaúcha." },
+            { id: 103, categoryId: 1, name: "Rota dos Vinhos - Portugal", price: 180.00, description: "E-book completo sobre vinícolas imperdíveis." }
         ];
-        
-        let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
-        let messages = JSON.parse(localStorage.getItem('messages')) || [];
-        let users = JSON.parse(localStorage.getItem('users')) || [];
-        let totalSales = parseFloat(localStorage.getItem('totalSales')) || 0;
-        let pageViews = parseInt(localStorage.getItem('pageViews')) || 0;
-        let downloads = parseInt(localStorage.getItem('downloads')) || 0;
+        let MOCK_COLUMNS = [
+            { id: 201, title: "Curiosidades Sobre a cidade de São Paulo", date: "2025-01-25", content: "Em 25 de janeiro, a cidade de São Paulo comemora seu 471º aniversário, marcando o dia de sua fundação. Esta metrópole vibrante é um caldeirão cultural e gastronômico, oferecendo aos viajantes de 3 e 4 estrelas uma variedade incrível de experiências, desde museus de classe mundial até bairros históricos charmosos. Não deixe de visitar o Parque Ibirapuera e a Avenida Paulista! \n\nDetalhe adicional sobre a coluna: O aniversário de São Paulo é um feriado importante. A celebração inclui shows gratuitos e eventos culturais em vários pontos da cidade, tornando este um período excelente para a imersão cultural." }
+        ];
+        let MOCK_REVIEWS = [
+            { id: 301, userId: 1, userName: "João Silva", rating: 5, title: "Viagem Incrível!", comment: "As dicas de hospedagem foram perfeitas. Recomendo muito o serviço de curadoria." },
+        ];
 
 
-        // ==================== FUNÇÕES DE PERSISTÊNCIA (LocalStorage) ====================
-        
-        function saveToLocalStorage() {
-            localStorage.setItem('categories', JSON.stringify(categories));
-            localStorage.setItem('products', JSON.stringify(products));
-            localStorage.setItem('columns', JSON.stringify(columns));
-            localStorage.setItem('reviews', JSON.stringify(reviews));
-            localStorage.setItem('messages', JSON.stringify(messages));
-            localStorage.setItem('users', JSON.stringify(users));
-            localStorage.setItem('totalSales', totalSales.toFixed(2));
-            localStorage.setItem('pageViews', pageViews.toString());
-            localStorage.setItem('downloads', downloads.toString());
-        }
-        
-        // Simulação de contador de visualizações
-        function trackPageView() {
-            pageViews++;
-            saveToLocalStorage();
-        }
-        window.onload = trackPageView;
+        // ==================== Funções de Navegação e Theme ====================
 
-
-        // ==================== NAVEGAÇÃO / SPA ====================
-        
-        function navigateTo(sectionId) {
+        function navigate(sectionId) {
             document.querySelectorAll('section').forEach(section => {
                 section.classList.remove('active');
             });
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Recarrega conteúdo específico
+            if (sectionId === 'categories') {
+                renderCategories();
+            } else if (sectionId === 'daily-columns') {
+                renderColumns();
+            } else if (sectionId === 'user-profile') {
+                renderUserProfile();
+            } else if (sectionId === 'admin') {
+                renderAdminDashboard();
             }
-            window.scrollTo(0, 0); // Volta ao topo
         }
 
-
-        // ==================== TEMA ====================
-        
         function toggleTheme() {
             const body = document.body;
-            body.classList.toggle('light-theme');
             const icon = document.getElementById('theme-icon');
-            if (body.classList.contains('light-theme')) {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-                localStorage.setItem('theme', 'light');
-            } else {
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
-                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
             }
         }
 
-        // Aplica o tema salvo ao carregar a página
-        if (localStorage.getItem('theme') === 'light') {
-            document.body.classList.add('light-theme');
-            document.getElementById('theme-icon').classList.remove('fa-sun');
-            document.getElementById('theme-icon').classList.add('fa-moon');
-        }
+        // ==================== Funções de Autenticação ====================
 
-
-        // ==================== MODALS E AUTENTICAÇÃO ====================
-        
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
         }
@@ -1659,531 +1542,587 @@
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
+
+        function toggleAuthMode() {
+            isRegisterMode = !isRegisterMode;
+            const title = document.getElementById('auth-title');
+            const submitBtn = document.getElementById('auth-submit-btn');
+            const toggleBtn = document.getElementById('toggle-auth-mode');
+
+            if (isRegisterMode) {
+                title.textContent = 'Cadastrar';
+                submitBtn.textContent = 'Cadastrar';
+                toggleBtn.textContent = 'Já tem conta? Entrar';
+            } else {
+                title.textContent = 'Entrar';
+                submitBtn.textContent = 'Entrar';
+                toggleBtn.textContent = 'Ainda não tem conta? Cadastre-se';
+            }
+            document.getElementById('auth-feedback').style.display = 'none';
+        }
+
+        document.getElementById('login-button').addEventListener('click', () => {
+            isRegisterMode = false;
+            toggleAuthMode(); // Garante que está no modo "Entrar"
+            openModal('auth-modal');
+        });
+
+        document.getElementById('register-button').addEventListener('click', () => {
+            isRegisterMode = true;
+            toggleAuthMode(); // Garante que está no modo "Cadastrar"
+            openModal('auth-modal');
+        });
+
+        document.getElementById('auth-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            const feedback = document.getElementById('auth-feedback');
+            feedback.style.display = 'block';
+
+            if (isRegisterMode) {
+                // Simulação de Cadastro
+                if (MOCK_USERS.some(u => u.email === email)) {
+                    feedback.className = 'feedback-message feedback-error';
+                    feedback.textContent = 'Este email já está cadastrado.';
+                } else {
+                    const newUser = { 
+                        id: MOCK_USERS.length + 1, 
+                        name: email.split('@')[0], 
+                        email: email, 
+                        password: password 
+                    };
+                    MOCK_USERS.push(newUser);
+                    loggedInUser = newUser;
+                    updateAuthDisplay();
+                    closeModal('auth-modal');
+                    navigate('user-profile');
+                    feedback.className = 'feedback-message feedback-success';
+                    feedback.textContent = 'Cadastro realizado com sucesso!';
+                }
+            } else {
+                // Simulação de Login
+                const user = MOCK_USERS.find(u => u.email === email && u.password === password);
+                if (user) {
+                    loggedInUser = user;
+                    updateAuthDisplay();
+                    closeModal('auth-modal');
+                    navigate('hero');
+                    feedback.className = 'feedback-message feedback-success';
+                    feedback.textContent = 'Login realizado com sucesso!';
+                } else {
+                    feedback.className = 'feedback-message feedback-error';
+                    feedback.textContent = 'Email ou senha incorretos.';
+                }
+            }
+        });
+
+        function logout() {
+            loggedInUser = null;
+            updateAuthDisplay();
+            if (isAdminLoggedIn) {
+                logoutAdmin();
+            }
+            navigate('hero');
+        }
+
+        function updateAuthDisplay() {
+            const loginBtn = document.getElementById('login-button');
+            const registerBtn = document.getElementById('register-button');
+            const userInfo = document.getElementById('user-info-display');
+            const userAvatar = document.getElementById('user-avatar-initial');
+            const adminBtn = document.getElementById('admin-button');
+
+            if (loggedInUser) {
+                loginBtn.style.display = 'none';
+                registerBtn.style.display = 'none';
+                userInfo.classList.add('logged-in');
+                userAvatar.textContent = loggedInUser.name.charAt(0).toUpperCase();
+                
+                // Exibe o botão Admin se o usuário logado for o admin
+                if (loggedInUser.email === ADMIN_EMAIL) {
+                    adminBtn.style.display = 'block';
+                } else {
+                    adminBtn.style.display = 'none';
+                }
+
+            } else {
+                loginBtn.style.display = 'block';
+                registerBtn.style.display = 'block';
+                userInfo.classList.remove('logged-in');
+                adminBtn.style.display = 'none'; // Sempre esconde o botão Admin se não houver usuário logado
+            }
+        }
+
+        // ==================== Funções de Admin ====================
+
+        document.getElementById('admin-button').addEventListener('click', () => {
+            // Apenas abre o painel se já estiver logado como admin
+            if (isAdminLoggedIn) {
+                 navigate('admin'); // ALTERAÇÃO 5: Ao clicar no "A", navega para a seção Admin
+                 return;
+            }
+            // Se for o usuário principal, mas não o admin (o que não deve acontecer pelo updateAuthDisplay) ou se o admin não estiver autenticado no modal:
+            if (loggedInUser && loggedInUser.email === ADMIN_EMAIL && !isAdminLoggedIn) {
+                 openModal('admin-login-modal');
+            } else {
+                // Se o botão 'A' estiver visível, o usuário é admin, mas a flag pode estar errada (erro de estado), forçamos o login.
+                openModal('admin-login-modal');
+            }
+        });
+
+        function openAdminModal() {
+            if (isAdminLoggedIn) {
+                navigate('admin'); // ALTERAÇÃO 5: Ao clicar no "A" e já logado, navega para a seção Admin
+            } else {
+                // Aqui podemos optar por usar o modal de login padrão para o admin ou o modal específico.
+                // Como o botão 'A' já deve ter sido clicado, usamos o modal de login do admin.
+                openModal('admin-login-modal');
+            }
+        }
         
-        // Event Listeners para abrir Modals
-        document.getElementById('admin-login-btn').addEventListener('click', () => openModal('admin-login-modal'));
-        
-        // Função de Login Admin (Alteração 8)
-        document.getElementById('adminLoginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+        document.getElementById('admin-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
             const email = document.getElementById('admin-email').value;
             const password = document.getElementById('admin-password').value;
             const feedback = document.getElementById('admin-login-feedback');
-            
-            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-                isAdmin = true;
-                loggedInUser = { name: 'Admin', email: ADMIN_EMAIL };
-                updateAuthUI();
-                navigateTo('admin');
-                closeModal('admin-login-modal');
-                renderAdminPanel(); // Renderiza o painel ao logar
-            } else {
-                feedback.textContent = 'Credenciais inválidas.';
-                feedback.classList.remove('feedback-success');
-                feedback.classList.add('feedback-error');
-                feedback.style.display = 'block';
-            }
-        });
-        
-        // Função de Logout Admin (Alteração 8)
-        function adminLogout() {
-            isAdmin = false;
-            loggedInUser = null;
-            updateAuthUI();
-            navigateTo('hero');
-        }
-        
-        // Atualiza a interface de autenticação (Alteração 8)
-        function updateAuthUI() {
-            const authButtons = document.getElementById('auth-buttons');
-            const userInfo = document.getElementById('user-info');
-            
-            if (isAdmin) {
-                authButtons.style.display = 'none';
-                userInfo.classList.add('logged-in');
-                document.getElementById('user-name').textContent = loggedInUser.name;
-                document.getElementById('user-avatar-initial').textContent = loggedInUser.name.charAt(0);
-            } else {
-                authButtons.style.display = 'flex';
-                userInfo.classList.remove('logged-in');
-            }
-        }
-        updateAuthUI(); // Chama ao carregar a página
-
-
-        // ==================== SEÇÃO 3: CATEGORIAS (CURADORIA) ====================
-        
-        function renderCategories() {
-            const grid = document.getElementById('categories-grid');
-            grid.innerHTML = ''; // Limpa antes de renderizar
-
-            categories.filter(c => c.active).forEach(category => {
-                const card = document.createElement('div');
-                card.className = 'category-card';
-                card.innerHTML = `
-                    <i class="${category.icon}"></i>
-                    <h4>${category.name}</h4>
-                    <p>R$ ${category.price.toFixed(2)}</p>
-                `;
-                card.onclick = () => showProducts(category.id, category.name);
-                grid.appendChild(card);
-            });
-            
-            // Alteração 5: Coloca "Em Breve" se não houver categorias
-            if (categories.length === 0) {
-                 grid.innerHTML = '<div class="full-width" style="text-align: center; color: var(--text-color); padding: 50px;"><h2>EM BREVE</h2><p>Novas categorias de curadoria serão adicionadas aqui.</p></div>';
-            }
-        }
-        
-        function showProducts(categoryId, categoryName) {
-            const productsSection = document.getElementById('products');
-            const titleElement = document.getElementById('products-category-title');
-            const listElement = document.getElementById('products-list');
-            
-            titleElement.textContent = `Curadorias: ${categoryName}`;
-            listElement.innerHTML = '';
-            
-            const categoryProducts = products.filter(p => p.categoryId === categoryId);
-
-            if (categoryProducts.length === 0) {
-                 listElement.innerHTML = '<div class="full-width" style="text-align: center; color: var(--text-color); padding: 30px;">Nenhum produto cadastrado nesta categoria.</div>';
-            } else {
-                categoryProducts.forEach(product => {
-                    const card = document.createElement('div');
-                    card.className = 'product-card';
-                    card.innerHTML = `
-                        <h4>${product.city} - ${product.country}</h4>
-                        <p>${product.description}</p>
-                        <div class="product-price">R$ ${product.price.toFixed(2)}</div>
-                        <button class="btn btn-primary" onclick="openCheckoutModal(${product.id})">Comprar Agora</button>
-                    `;
-                    listElement.appendChild(card);
-                });
-            }
-            
-            productsSection.style.display = 'block';
-            productsSection.scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // Simulação do Checkout
-        function openCheckoutModal(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            
-            document.getElementById('checkout-summary').innerHTML = `
-                <div class="checkout-item">
-                    <span>${product.city} - ${product.country} (${product.code})</span>
-                    <span>R$ ${product.price.toFixed(2)}</span>
-                </div>
-            `;
-            document.getElementById('checkout-total-value').textContent = `R$ ${product.price.toFixed(2)}`;
-            
-            const confirmBtn = document.getElementById('confirm-purchase-btn');
-            confirmBtn.onclick = () => confirmPurchase(productId, product.price);
-            openModal('checkout-modal');
-        }
-        
-        function confirmPurchase(productId, price) {
-            // Lógica de compra simulada: incremento de estatísticas
-            downloads++;
-            totalSales += price;
-            saveToLocalStorage();
-            
-            // Simulação de envio do arquivo (o arquivo PDF está hardcoded como "dummy_...")
-            alert(`Compra de R$ ${price.toFixed(2)} confirmada! O link para o PDF será enviado para seu e-mail (simulação).`);
-            closeModal('checkout-modal');
-            renderAdminPanel(); // Atualiza dashboard de admin
-        }
-        
-        // Chamada inicial
-        renderCategories();
-
-
-        // ==================== SEÇÃO 4: COLUNAS DIÁRIAS ====================
-        
-        function renderColumns() {
-            const container = document.getElementById('columns-container');
-            container.innerHTML = '';
-            
-            columns.forEach(column => {
-                const card = document.createElement('div');
-                card.className = 'column-card';
-                card.innerHTML = `
-                    <h4>${column.title}</h4>
-                    <small style="color: var(--gold-color);">${column.date}</small>
-                    <p>${column.content.substring(0, 100)}...</p>
-                `;
-                // Adicionar lógica de clique para expandir ou modal se necessário
-                container.appendChild(card);
-            });
-            
-            if (columns.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: var(--text-color); padding: 50px;">Nenhuma coluna diária cadastrada.</div>';
-            }
-        }
-        renderColumns();
-
-
-        // ==================== SEÇÃO 5: CONTATO (Alteração 7) ====================
-        
-        // Contador de Caracteres
-        const messageTextarea = document.getElementById('contact-message');
-        const charCountSpan = document.getElementById('charCount');
-        
-        messageTextarea.addEventListener('input', function() {
-            const currentLength = this.value.length;
-            charCountSpan.textContent = `${currentLength}/${this.maxLength} caracteres`;
-        });
-        
-        // Envio do formulário de contato (usando EmailJS para simulação real)
-        document.getElementById('contactForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const feedback = document.getElementById('contact-feedback');
-
-            // Simulação de envio para backend (e-mail real seria feito pelo EmailJS se configurado)
-            const newMessage = {
-                id: Date.now(),
-                name: document.getElementById('contact-name').value,
-                email: document.getElementById('contact-email').value,
-                subject: document.getElementById('contact-subject').value,
-                message: document.getElementById('contact-message').value,
-                date: new Date().toISOString()
-            };
-            messages.push(newMessage);
-            saveToLocalStorage();
-
-            // Simulação de sucesso
-            feedback.textContent = 'Mensagem enviada com sucesso! Entraremos em contato o mais breve possível.';
-            feedback.classList.remove('feedback-error');
-            feedback.classList.add('feedback-success');
             feedback.style.display = 'block';
 
-            this.reset();
-            charCountSpan.textContent = `0/300 caracteres`;
-            renderAdminPanel();
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                loggedInUser = MOCK_USERS.find(u => u.email === ADMIN_EMAIL);
+                updateAuthDisplay();
+                closeModal('admin-login-modal');
+                feedback.className = 'feedback-message feedback-success';
+                feedback.textContent = 'Login Admin realizado com sucesso!';
+                navigate('admin');
+            } else {
+                feedback.className = 'feedback-message feedback-error';
+                feedback.textContent = 'Credenciais de Admin incorretas.';
+            }
         });
 
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            // Verifica se o usuário logado é o admin, se sim, desloga completamente.
+            if (loggedInUser && loggedInUser.email === ADMIN_EMAIL) {
+                loggedInUser = null;
+            }
+            document.getElementById('admin-panel').style.display = 'none';
+            updateAuthDisplay();
+            navigate('hero');
+        }
+        
+        function renderAdminDashboard() {
+            if (!isAdminLoggedIn) {
+                document.getElementById('admin-panel').style.display = 'none';
+                return;
+            }
+            document.getElementById('admin-panel').style.display = 'block';
+            
+            // Atualiza estatísticas
+            document.getElementById('stat-categories').textContent = MOCK_CATEGORIES.length;
+            document.getElementById('stat-products').textContent = MOCK_PRODUCTS.length;
+            document.getElementById('stat-columns').textContent = MOCK_COLUMNS.length;
+            
+            const totalRating = MOCK_REVIEWS.reduce((sum, review) => sum + review.rating, 0);
+            const avgRating = MOCK_REVIEWS.length > 0 ? (totalRating / MOCK_REVIEWS.length).toFixed(1) : '0.0';
+            document.getElementById('stat-avg-rating').textContent = avgRating;
+            
+            // Renderiza listas
+            renderAdminLists();
+            
+            // Preenche o dropdown de categoria de produto
+            const productCategorySelect = document.getElementById('product-category');
+            productCategorySelect.innerHTML = MOCK_CATEGORIES.map(cat => 
+                `<option value="${cat.id}">${cat.name}</option>`
+            ).join('');
+        }
 
-        // ==================== SEÇÃO 6: AVALIAÇÃO (Alteração 8) ====================
+        // Função simplificada para renderizar as listas no Admin
+        function renderAdminLists() {
+            // Colunas
+            const columnsList = document.getElementById('columns-admin-list');
+            columnsList.innerHTML = MOCK_COLUMNS.map(col => `
+                <li>
+                    <span class="item-info">
+                        <strong>${col.title}</strong><br>
+                        <span>Data: ${col.date}</span>
+                    </span>
+                    <div class="item-actions">
+                        <button class="btn btn-small btn-outline" onclick="deleteItem('columns', ${col.id})">Excluir</button>
+                    </div>
+                </li>
+            `).join('');
+
+            // Categorias
+            const categoriesList = document.getElementById('categories-admin-list');
+            categoriesList.innerHTML = MOCK_CATEGORIES.map(cat => `
+                <li>
+                    <span class="item-info">
+                        <strong>${cat.name}</strong><br>
+                        <span>Ícone: ${cat.icon}</span>
+                    </span>
+                    <div class="item-actions">
+                        <button class="btn btn-small btn-outline" onclick="deleteItem('categories', ${cat.id})">Excluir</button>
+                    </div>
+                </li>
+            `).join('');
+
+            // Produtos
+            const productsList = document.getElementById('products-admin-list');
+            productsList.innerHTML = MOCK_PRODUCTS.map(prod => {
+                const category = MOCK_CATEGORIES.find(c => c.id === prod.categoryId);
+                return `
+                    <li>
+                        <span class="item-info">
+                            <strong>${prod.name}</strong> - R$${prod.price.toFixed(2)}<br>
+                            <span>Cat: ${category ? category.name : 'N/A'}</span>
+                        </span>
+                        <div class="item-actions">
+                            <button class="btn btn-small btn-outline" onclick="deleteItem('products', ${prod.id})">Excluir</button>
+                        </div>
+                    </li>
+                `;
+            }).join('');
+        }
+
+        function deleteItem(type, id) {
+            if (!confirm(`Tem certeza que deseja excluir este item de ${type}?`)) return;
+
+            if (type === 'columns') {
+                MOCK_COLUMNS = MOCK_COLUMNS.filter(item => item.id !== id);
+            } else if (type === 'categories') {
+                MOCK_CATEGORIES = MOCK_CATEGORIES.filter(item => item.id !== id);
+                MOCK_PRODUCTS = MOCK_PRODUCTS.filter(item => item.categoryId !== id); // Remove produtos relacionados
+            } else if (type === 'products') {
+                MOCK_PRODUCTS = MOCK_PRODUCTS.filter(item => item.id !== id);
+            }
+
+            renderAdminDashboard();
+            renderCategories();
+            renderColumns();
+        }
+
+        // Formulário de Coluna
+        document.getElementById('add-column-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('column-title').value;
+            const date = document.getElementById('column-date').value;
+            const content = document.getElementById('column-content').value;
+            const feedback = document.getElementById('column-feedback');
+            
+            const newColumn = {
+                id: Math.max(0, ...MOCK_COLUMNS.map(c => c.id)) + 1,
+                title: title,
+                date: date,
+                content: content
+            };
+            MOCK_COLUMNS.unshift(newColumn); // Adiciona no início para aparecer primeiro
+
+            this.reset();
+            feedback.className = 'feedback-message feedback-success';
+            feedback.textContent = 'Coluna adicionada com sucesso!';
+            feedback.style.display = 'block';
+
+            renderAdminDashboard();
+            renderColumns();
+        });
+
+        // Formulário de Categoria
+        document.getElementById('add-category-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('category-name').value;
+            const icon = document.getElementById('category-icon').value;
+            const description = document.getElementById('category-description').value;
+            const feedback = document.getElementById('category-feedback');
+
+            const newCategory = {
+                id: Math.max(0, ...MOCK_CATEGORIES.map(c => c.id)) + 1,
+                name: name,
+                icon: icon,
+                description: description
+            };
+            MOCK_CATEGORIES.push(newCategory);
+            
+            this.reset();
+            feedback.className = 'feedback-message feedback-success';
+            feedback.textContent = 'Categoria adicionada com sucesso!';
+            feedback.style.display = 'block';
+
+            renderAdminDashboard();
+            renderCategories();
+        });
+
+        // Formulário de Produto
+        document.getElementById('add-product-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const categoryId = parseInt(document.getElementById('product-category').value);
+            const name = document.getElementById('product-name').value;
+            const price = parseFloat(document.getElementById('product-price').value);
+            const description = document.getElementById('product-description').value;
+            const feedback = document.getElementById('product-feedback');
+
+            const newProduct = {
+                id: Math.max(100, ...MOCK_PRODUCTS.map(p => p.id)) + 1,
+                categoryId: categoryId,
+                name: name,
+                price: price,
+                description: description
+            };
+            MOCK_PRODUCTS.push(newProduct);
+            
+            this.reset();
+            feedback.className = 'feedback-message feedback-success';
+            feedback.textContent = 'Produto adicionado com sucesso!';
+            feedback.style.display = 'block';
+
+            renderAdminDashboard();
+            renderCategories(categoryId);
+        });
+
+        // ==================== Funções de Conteúdo ====================
+
+        function renderCategories() {
+            const categoriesList = document.getElementById('categories-list');
+            categoriesList.innerHTML = MOCK_CATEGORIES.map(category => `
+                <div class="category-card" onclick="selectCategory(${category.id}, '${category.name}')">
+                    <i class="fas ${category.icon}"></i>
+                    <h4>${category.name}</h4>
+                    <p>${category.description}</p>
+                </div>
+            `).join('');
+            
+            document.getElementById('products').style.display = 'none';
+        }
+
+        function selectCategory(categoryId, categoryName) {
+            document.getElementById('category-title').textContent = categoryName;
+            const productsContainer = document.getElementById('products-container');
+            const categoryProducts = MOCK_PRODUCTS.filter(p => p.categoryId === categoryId);
+
+            productsContainer.innerHTML = categoryProducts.map(product => `
+                <div class="product-card">
+                    <h4>${product.name}</h4>
+                    <p>${product.description}</p>
+                    <div class="product-price">R$ ${product.price.toFixed(2).replace('.', ',')}</div>
+                    <button class="btn btn-primary" onclick="checkoutProduct(${product.id})">Comprar Curadoria</button>
+                </div>
+            `).join('');
+
+            document.getElementById('products').style.display = 'block';
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function renderColumns() {
+            const columnsList = document.getElementById('columns-list');
+            columnsList.innerHTML = MOCK_COLUMNS
+                .sort((a, b) => new Date(b.date) - new Date(a.date)) // Ordena pela data mais recente
+                .map(column => `
+                <div class="column-card" onclick="openColumnModal(${column.id})">
+                    <h4>${column.title}</h4>
+                    <p>${new Date(column.date).toLocaleDateString('pt-BR')} - ${column.content}</p>
+                </div>
+            `).join('');
+        }
         
-        const starRatingElement = document.getElementById('star-rating');
-        const reviewScoreInput = document.getElementById('review-score');
-        const stars = starRatingElement.querySelectorAll('i');
+        // --- ALTERAÇÃO 3: Função para abrir modal de Coluna Completa ---
+        function openColumnModal(columnId) {
+            const column = MOCK_COLUMNS.find(c => c.id === columnId);
+            if (!column) return;
+
+            document.getElementById('modal-column-title').textContent = column.title;
+            document.getElementById('modal-column-date').textContent = new Date(column.date).toLocaleDateString('pt-BR');
+            document.getElementById('modal-column-content').textContent = column.content;
+
+            openModal('column-modal');
+        }
+        // -------------------------------------------------------------
+
+        // ==================== Funções de Contato ====================
+
+        document.getElementById('contact-message').addEventListener('input', function() {
+            const count = this.value.length;
+            document.getElementById('message-char-count').textContent = `${count}/500`;
+        });
+
+        document.getElementById('contact-message-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const feedback = document.getElementById('contact-feedback');
+            
+            // Simulação de envio de e-mail (usando emailjs para mock)
+            emailjs.init("YOUR_USER_ID"); // Substituir por User ID real no futuro
+            
+            emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+                .then(function() {
+                    feedback.className = 'feedback-message feedback-success';
+                    feedback.textContent = 'Mensagem enviada com sucesso! Em breve entraremos em contato.';
+                    feedback.style.display = 'block';
+                    document.getElementById('contact-message-form').reset();
+                    document.getElementById('message-char-count').textContent = '0/500';
+                }, function(error) {
+                    feedback.className = 'feedback-message feedback-error';
+                    feedback.textContent = 'Falha ao enviar mensagem. Tente novamente mais tarde.';
+                    feedback.style.display = 'block';
+                    console.log('FALHA NO ENVIO...', error);
+                });
+        });
+
+        // ==================== Funções de Avaliação (Review) ====================
+
+        function renderUserProfile() {
+            if (!loggedInUser) {
+                navigate('hero');
+                return;
+            }
+            document.getElementById('profile-name').textContent = loggedInUser.name;
+            document.getElementById('profile-email').textContent = loggedInUser.email;
+
+            const userReviewsList = document.getElementById('user-reviews-list');
+            const userReviews = MOCK_REVIEWS.filter(r => r.userId === loggedInUser.id);
+
+            if (userReviews.length === 0) {
+                userReviewsList.innerHTML = '<li>Você ainda não deixou nenhuma avaliação.</li>';
+            } else {
+                userReviewsList.innerHTML = userReviews.map(review => `
+                    <li>
+                        <strong>${review.title}</strong> (${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)})
+                        <p>${review.comment}</p>
+                    </li>
+                `).join('');
+            }
+        }
         
-        function updateStarColor(score) {
-            stars.forEach((star, index) => {
-                if (index < score) {
-                    star.classList.remove('far');
-                    star.classList.add('fas', 'selected');
+        // --- ALTERAÇÃO 4: Lógica de seleção de estrelas ---
+        document.querySelectorAll('#rating-stars i').forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                const currentRating = parseInt(document.getElementById('review-rating').value);
+                
+                let newRating = rating;
+
+                if (rating === currentRating) {
+                    newRating = 0; // Se clicar na estrela que já está selecionada, desmarca
+                } 
+
+                document.getElementById('review-rating').value = newRating;
+                updateStarDisplay(newRating);
+            });
+        });
+
+        function updateStarDisplay(selectedRating) {
+            document.querySelectorAll('#rating-stars i').forEach(star => {
+                const starRating = parseInt(star.getAttribute('data-rating'));
+                if (starRating <= selectedRating) {
+                    star.classList.add('selected');
                 } else {
-                    star.classList.remove('fas', 'selected');
-                    star.classList.add('far');
+                    star.classList.remove('selected');
                 }
             });
         }
-
-        starRatingElement.addEventListener('click', function(e) {
-            const clickedStar = e.target.closest('i');
-            if (clickedStar) {
-                const score = parseInt(clickedStar.getAttribute('data-rating'));
-                reviewScoreInput.value = score;
-                updateStarColor(score);
-            }
+        
+        // Inicializa o display das estrelas ao carregar a seção (no caso de uma nova avaliação)
+        document.addEventListener('DOMContentLoaded', () => {
+            updateStarDisplay(0); // Garante que as estrelas estão descoloridas no início
         });
         
-        // Atualiza a média de avaliações
-        function updateAverageReview() {
-            const totalScore = reviews.reduce((sum, review) => sum + review.score, 0);
-            const totalReviews = reviews.length;
-            const avg = totalReviews > 0 ? (totalScore / totalReviews).toFixed(1) : '5.0';
+        // Atualiza a contagem de caracteres do comentário
+        document.getElementById('review-comment').addEventListener('input', function() {
+            const count = this.value.length;
+            document.getElementById('review-char-count').textContent = `${count}/300`;
+        });
+        
+        // Submissão da avaliação
+        document.getElementById('submit-review-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!loggedInUser) {
+                alert('Você precisa estar logado para enviar uma avaliação.');
+                return;
+            }
             
-            document.getElementById('average-rating').textContent = avg;
-            document.getElementById('total-reviews').textContent = totalReviews;
-        }
-        updateAverageReview();
-
-        // Envio do formulário de avaliação
-        document.getElementById('reviewForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+            const rating = parseInt(document.getElementById('review-rating').value);
+            const title = document.getElementById('review-title').value;
+            const comment = document.getElementById('review-comment').value;
             const feedback = document.getElementById('review-feedback');
-            const score = parseInt(reviewScoreInput.value);
-            
-            if (score === 0) {
-                feedback.textContent = 'Por favor, selecione uma pontuação em estrelas.';
-                feedback.classList.remove('feedback-success');
-                feedback.classList.add('feedback-error');
+
+            if (rating === 0) {
+                feedback.className = 'feedback-message feedback-error';
+                feedback.textContent = 'Por favor, selecione uma nota de 1 a 5 estrelas.';
                 feedback.style.display = 'block';
                 return;
             }
-            
+
             const newReview = {
-                id: Date.now(),
-                name: document.getElementById('reviewer-name').value,
-                title: document.getElementById('review-title').value,
-                score: score,
-                comments: document.getElementById('review-comments').value,
-                date: new Date().toISOString()
+                id: MOCK_REVIEWS.length + 1,
+                userId: loggedInUser.id,
+                userName: loggedInUser.name,
+                rating: rating,
+                title: title,
+                comment: comment
             };
-            reviews.push(newReview);
-            saveToLocalStorage();
+            MOCK_REVIEWS.unshift(newReview); // Adiciona a nova avaliação
+            
+            this.reset();
+            updateStarDisplay(0);
+            document.getElementById('review-char-count').textContent = '0/300';
+            document.getElementById('review-rating').value = '0';
 
-            feedback.textContent = 'Sua avaliação foi enviada com sucesso! Agradecemos o seu feedback.';
-            feedback.classList.remove('feedback-error');
-            feedback.classList.add('feedback-success');
+            feedback.className = 'feedback-message feedback-success';
+            feedback.textContent = 'Avaliação enviada com sucesso! Obrigado pela sua opinião.';
             feedback.style.display = 'block';
-            
-            this.reset();
-            reviewScoreInput.value = '0';
-            updateStarColor(0);
-            updateAverageReview();
-            renderAdminPanel();
+
+            // Volta para o perfil após um breve delay
+            setTimeout(() => {
+                navigate('user-profile');
+            }, 2000);
         });
 
+        // ==================== Funções de Checkout (Simulação) ====================
 
-        // ==================== SEÇÃO 7: PAINEL ADMIN (Alteração 8) ====================
-        
-        function renderAdminPanel() {
-            if (!isAdmin) return; // Garante que só renderiza se for admin
-            
-            // 1. DASHBOARD DE ESTATÍSTICAS
-            document.getElementById('stat-page-views').textContent = pageViews.toLocaleString('pt-BR');
-            document.getElementById('stat-downloads').textContent = downloads.toLocaleString('pt-BR');
-            document.getElementById('stat-total-sales').textContent = totalSales.toFixed(2).replace('.', ',');
-            document.getElementById('stat-reviews').textContent = reviews.length.toLocaleString('pt-BR');
-            document.getElementById('stat-messages').textContent = messages.length.toLocaleString('pt-BR');
-            document.getElementById('stat-users').textContent = users.length.toLocaleString('pt-BR');
-            document.getElementById('stat-registrations').textContent = users.length.toLocaleString('pt-BR'); // Simplesmente usa o total de usuários para cadastros
+        function checkoutProduct(productId) {
+            const product = MOCK_PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
 
-            // 2. GERENCIAMENTO DE CATEGORIAS
-            renderCategoryListAdmin();
-            
-            // 3. GERENCIAMENTO DE PRODUTOS
-            populateCategorySelect();
-            renderProductListAdmin();
-            
-            // 4. GERENCIAMENTO DE COLUNAS
-            renderColumnListAdmin();
-        }
-        
-        // Funções do Gerenciamento de Categorias
-        document.getElementById('addCategoryForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const newCategory = {
-                id: Date.now(),
-                name: document.getElementById('new-category-name').value,
-                description: document.getElementById('new-category-description').value,
-                icon: document.getElementById('new-category-icon').value,
-                price: parseFloat(document.getElementById('new-category-price').value),
-                active: document.getElementById('new-category-active').value === 'true'
-            };
-            categories.push(newCategory);
-            saveToLocalStorage();
-            renderAdminPanel();
-            renderCategories(); // Atualiza a seção pública
-            this.reset();
-        });
-        
-        function renderCategoryListAdmin() {
-            const list = document.getElementById('category-list-admin');
-            list.innerHTML = '';
-            categories.forEach(category => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <span class="item-info">
-                        <i class="${category.icon}"></i>
-                        <strong>${category.name}</strong> (R$ ${category.price.toFixed(2)}) - ${category.active ? 'Ativo' : 'Inativo'}
-                    </span>
-                    <div class="item-actions">
-                        <button class="btn btn-outline btn-small" onclick="deleteCategory(${category.id})"><i class="fas fa-trash"></i> Excluir</button>
-                    </div>
-                `;
-                list.appendChild(li);
-            });
+            document.getElementById('checkout-product-name').textContent = product.name;
+            document.getElementById('checkout-product-price').textContent = `R$ ${product.price.toFixed(2).replace('.', ',')}`;
+            document.getElementById('checkout-total-price').textContent = `R$ ${product.price.toFixed(2).replace('.', ',')}`;
+
+            openModal('checkout-modal');
         }
 
-        function deleteCategory(id) {
-            if (confirm('Tem certeza que deseja excluir esta categoria e todos os produtos relacionados?')) {
-                categories = categories.filter(c => c.id !== id);
-                products = products.filter(p => p.categoryId !== id); // Exclui produtos relacionados
-                saveToLocalStorage();
-                renderAdminPanel();
-                renderCategories();
-            }
-        }
-
-        // Funções do Gerenciamento de Produtos
-        function populateCategorySelect() {
-            const select = document.getElementById('new-product-category');
-            select.innerHTML = '';
-            categories.forEach(category => {
-                const option = document.createElement('option');
-                option.value = category.id;
-                option.textContent = category.name;
-                select.appendChild(option);
-            });
-        }
-        
-        document.getElementById('addProductForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const fileInput = document.getElementById('new-product-file');
-            // Simulação: na vida real, o arquivo seria enviado para um servidor (ex: Amazon S3)
-            const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : 'placeholder.pdf';
-
-            const newProduct = {
-                id: Date.now(),
-                code: document.getElementById('new-product-code').value,
-                categoryId: parseInt(document.getElementById('new-product-category').value),
-                country: document.getElementById('new-product-country').value,
-                city: document.getElementById('new-product-city').value,
-                description: document.getElementById('new-product-description').value,
-                price: parseFloat(document.getElementById('new-product-price-list').value),
-                file: fileName // Simulação de URL/caminho do arquivo
-            };
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const feedback = document.getElementById('checkout-feedback');
             
-            // Verifica se o produto já existe (exemplo: por código)
-            if (products.some(p => p.code === newProduct.code)) {
-                alert('Erro: Já existe um produto com este código.');
+            // Simulação de validação de pagamento
+            if (document.getElementById('checkout-card').value.length < 16) {
+                feedback.className = 'feedback-message feedback-error';
+                feedback.textContent = 'Número do cartão inválido.';
+                feedback.style.display = 'block';
                 return;
             }
-            
-            products.push(newProduct);
-            saveToLocalStorage();
-            renderAdminPanel();
-            this.reset();
-            // Nenhuma atualização imediata da seção pública de produtos, pois ela é carregada sob demanda
-        });
 
-        function renderProductListAdmin() {
-            const list = document.getElementById('product-list-admin');
-            list.innerHTML = '';
-            products.forEach(product => {
-                const category = categories.find(c => c.id === product.categoryId);
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <span class="item-info">
-                        <strong>${product.code}</strong> - ${product.city} (${category ? category.name : 'Desconhecida'})
-                    </span>
-                    <div class="item-actions">
-                         <span class="product-price-admin">R$ ${product.price.toFixed(2)}</span>
-                        <button class="btn btn-outline btn-small" onclick="deleteProduct(${product.id})"><i class="fas fa-trash"></i> Excluir</button>
-                    </div>
-                `;
-                list.appendChild(li);
-            });
-        }
-
-        function deleteProduct(id) {
-            if (confirm('Tem certeza que deseja excluir este produto?')) {
-                products = products.filter(p => p.id !== id);
-                saveToLocalStorage();
-                renderAdminPanel();
-            }
-        }
-        
-        // Funções do Gerenciamento de Colunas Diárias
-        document.getElementById('addColumnForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const newColumn = {
-                id: Date.now(),
-                title: document.getElementById('new-column-title').value,
-                content: document.getElementById('new-column-content').value,
-                date: document.getElementById('new-column-date').value
-            };
-            
-            // Adiciona a nova coluna no início da lista (mais recente)
-            columns.unshift(newColumn);
-            saveToLocalStorage();
-            renderAdminPanel();
-            renderColumns(); // Atualiza a seção pública
-            this.reset();
-        });
-
-        function renderColumnListAdmin() {
-            const list = document.getElementById('column-list-admin');
-            list.innerHTML = '';
-            columns.forEach(column => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <span class="item-info">
-                        <strong>${column.title}</strong> - ${column.date}
-                    </span>
-                    <div class="item-actions">
-                        <button class="btn btn-outline btn-small" onclick="deleteColumn(${column.id})"><i class="fas fa-trash"></i> Excluir</button>
-                    </div>
-                `;
-                list.appendChild(li);
-            });
-        }
-        
-        function deleteColumn(id) {
-            if (confirm('Tem certeza que deseja excluir esta coluna diária?')) {
-                columns = columns.filter(c => c.id !== id);
-                saveToLocalStorage();
-                renderAdminPanel();
-                renderColumns();
-            }
-        }
-        
-        // Exportar Dados em Excel (Simulação)
-        document.getElementById('exportForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const dataType = document.getElementById('export-data-type').value;
-            const startDate = document.getElementById('export-start-date').value;
-            const endDate = document.getElementById('export-end-date').value;
-            const feedback = document.getElementById('export-feedback');
-            
-            let dataToExport = [];
-            let fileName = 'export_';
-            
-            // Filtrar dados (simulação)
-            const start = new Date(startDate).getTime();
-            const end = new Date(endDate).getTime();
-
-            switch (dataType) {
-                case 'messages':
-                    dataToExport = messages.filter(m => new Date(m.date).getTime() >= start && new Date(m.date).getTime() <= end);
-                    fileName += 'mensagens.csv';
-                    break;
-                case 'reviews':
-                    dataToExport = reviews.filter(r => new Date(r.date).getTime() >= start && new Date(r.date).getTime() <= end);
-                    fileName += 'avaliacoes.csv';
-                    break;
-                case 'purchases':
-                    // Simulação: criar dados de compra a partir de um log imaginário
-                    dataToExport.push({ id: 1, date: new Date().toLocaleDateString(), value: totalSales, count: downloads });
-                    fileName += 'compras.csv';
-                    break;
-                case 'users':
-                    dataToExport = users.filter(u => new Date(u.date).getTime() >= start && new Date(u.date).getTime() <= end);
-                    fileName += 'usuarios.csv';
-                    break;
-                default:
-                    feedback.textContent = 'Tipo de dado inválido.';
-                    feedback.classList.remove('feedback-success');
-                    feedback.classList.add('feedback-error');
-                    feedback.style.display = 'block';
-                    return;
-            }
-            
-            if (dataToExport.length === 0) {
-                 feedback.textContent = 'Nenhum dado encontrado no período especificado.';
-                 feedback.classList.remove('feedback-success');
-                 feedback.classList.add('feedback-error');
-                 feedback.style.display = 'block';
-                 return;
-            }
-
-            // Simulação de geração de CSV/Excel (apenas alerta)
-            feedback.textContent = `Simulação: Exportação de ${dataToExport.length} registros para ${fileName} concluída.`;
-            feedback.classList.remove('feedback-error');
-            feedback.classList.add('feedback-success');
+            feedback.className = 'feedback-message feedback-success';
+            feedback.textContent = 'Compra realizada com sucesso! Você receberá o material por email.';
             feedback.style.display = 'block';
             
-            // Em uma aplicação real, você usaria uma biblioteca (como SheetJS/PapaParse) 
-            // ou enviaria os dados para um backend que gerasse o arquivo real.
+            setTimeout(() => {
+                closeModal('checkout-modal');
+                this.reset();
+                feedback.style.display = 'none';
+            }, 2000);
         });
 
-
+        // ==================== Funções de Inicialização ====================
+        
+        // Inicializa a navegação, categorias e colunas
+        document.addEventListener('DOMContentLoaded', () => {
+            navigate('hero');
+            renderCategories();
+            renderColumns();
+            updateAuthDisplay();
+        });
+        
     </script>
 </body>
 </html>
