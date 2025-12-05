@@ -1,5 +1,7 @@
 import sgMail from '@sendgrid/mail';
 
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método não permitido' });
@@ -7,11 +9,9 @@ export default async function handler(req, res) {
 
   const { name, email, message, rating } = req.body;
 
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
   const msg = {
     to: 'curadoriaelitetravel@gmail.com',
-    from: 'curadoriaelitetravel@gmail.com',
+    from: 'curadoriaelitetravel@gmail.com', // e-mail verificado no SendGrid
     subject: 'Nova mensagem do site',
     html: `
       <h2>Nova mensagem enviada pelo site</h2>
@@ -28,9 +28,9 @@ export default async function handler(req, res) {
 
   try {
     await sgMail.send(msg);
-    res.status(200).json({ success: true });
+    return res.status(200).json({ success: true });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao enviar email' });
+    console.error('Erro ao enviar email:', error);
+    return res.status(500).json({ error: 'Erro ao enviar email' });
   }
 }
