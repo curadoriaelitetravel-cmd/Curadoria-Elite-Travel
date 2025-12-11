@@ -1,34 +1,9 @@
-// /api/list-materials.js
-// Mock para listar materiais/produtos no painel ADMIN
-// Depois pode ser substituído por banco de dados
-
-export default function handler(req, res) {
+// api/list-materials.js
+export default function handler(req, res){
+  // Retorna dados mock — substitua por Supabase / DB no futuro
   const items = [
-    {
-      title: "Guia Veneza — Essencial",
-      category: "Guia Digital",
-      city: "Veneza",
-      country: "Itália",
-      price: 89.90,
-      file_url: "https://curadoriaelitetravel.com/materials/veneza.pdf"
-    },
-    {
-      title: "Guia Paris — 3 Dias Inspiradores",
-      category: "Guia Digital",
-      city: "Paris",
-      country: "França",
-      price: 119.90,
-      file_url: "https://curadoriaelitetravel.com/materials/paris.pdf"
-    },
-    {
-      title: "Guia Vale Sagrado — Completo",
-      category: "Guia Digital",
-      city: "Cusco",
-      country: "Peru",
-      price: 99.90,
-      file_url: "https://curadoriaelitetravel.com/materials/valesagrado.pdf"
-    }
+    { title:'Guia de Paris', category:'City Guide', city:'Paris', country:'França', price:49.90, file_url:'#' },
+    { title:'Guia Nova York - restaurantes', category:'Restaurantes', city:'Nova York', country:'EUA', price:29.90, file_url:'#' }
   ];
-
-  res.status(200).json({ items });
+  res.status(200).json(items);
 }
