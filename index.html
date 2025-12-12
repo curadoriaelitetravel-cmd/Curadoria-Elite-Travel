@@ -1,230 +1,233 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Curadoria Elite Travel — O seu mundo, bem indicado.</title>
 
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <!-- Fonts & icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- CSS -->
+  <!-- Main stylesheet -->
   <link rel="stylesheet" href="src/styles/style.css">
-
 </head>
 <body>
 
-  <header>
-    <div class="container header-content">
-      <div class="logo">
-        <img src="images/rosa-dos-ventos.png" alt="Rosa dos Ventos" class="logo-image">
-      </div>
-      <div class="logo-text">
-        <h1>Curadoria Elite Travel</h1>
-        <span class="slogan">O seu mundo, bem indicado.</span>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+
+      <div class="logo-area">
+        <!-- Substitua a imagem por /src/images/rosa-dos-ventos.png no repositório -->
+        <img src="src/images/rosa-dos-ventos.png" alt="Rosa dos Ventos" class="logo-image">
+        <div class="logo-text">
+          <div class="brand">Curadoria Elite Travel</div>
+          <div class="slogan">O seu mundo, bem indicado.</div>
+        </div>
       </div>
 
-      <nav>
-        <ul class="desktop-menu">
-          <li><a href="#hero" onclick="showSection('hero')">Início</a></li>
+      <nav class="main-nav">
+        <ul class="menu-desktop">
+          <li><a href="#inicio" onclick="showSection('inicio')">Início</a></li>
           <li><a href="#quem-somos" onclick="showSection('quem-somos')">Quem Somos</a></li>
-          <li><a href="#categories" onclick="showSection('categories')">Curadoria</a></li>
-          <li><a href="#daily-columns" onclick="showSection('daily-columns')">Colunas</a></li>
-          <li><a href="#review-form" onclick="showSection('review-form')">Avalie-nos</a></li>
-          <li><a href="#contact-form" onclick="showSection('contact-form')">Contato</a></li>
+          <li><a href="#curadoria" onclick="showSection('curadoria')">Curadoria</a></li>
+          <li><a href="#colunas" onclick="showSection('colunas')">Colunas</a></li>
+          <li><a href="#avalie" onclick="showSection('avalie')">Avalie-nos</a></li>
+          <li><a href="#contato" onclick="showSection('contato')">Contato</a></li>
         </ul>
       </nav>
 
       <div class="header-actions">
-        <button class="btn btn-outline btn-admin" onclick="openAdminLoginModal()">Admin</button>
-        <button class="btn btn-outline" onclick="openAuthModal('login')">Entrar ou Cadastrar</button>
-        <button id="mobile-menu-btn" class="mobile-only" aria-label="Abrir menu">&#9776;</button>
+        <button class="btn btn-outline" onclick="openAdminLogin()">Admin</button>
+        <button class="btn btn-outline" onclick="openAuth('login')">Entrar / Cadastrar</button>
+        <button id="hamburgerBtn" class="hamburger" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
       </div>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section id="hero" class="active section-hero">
-    <div class="container hero-inner">
-      <h2>CURADORIA ELITE TRAVEL</h2>
-      <p class="hero-sub">Orquestramos cada detalhe com cuidado e expertise — para que você possa focar em viver experiências memoráveis.</p>
-      <div class="social-icons">
-        <a href="https://www.instagram.com/curadoriaelitetravel/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.linkedin.com/company/curadoria-elite-travel" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-      </div>
-      <button class="btn btn-primary" onclick="showSection('categories')">Descubra nossas curadorias</button>
-    </div>
-  </section>
+  <!-- MOBILE MENU & OVERLAY -->
+  <div id="menuOverlay" class="overlay" onclick="closeMobileMenu()"></div>
+  <aside id="mobileMenu" class="mobile-menu" aria-hidden="true">
+    <button class="mobile-close" onclick="closeMobileMenu()" aria-label="Fechar menu">&times;</button>
+    <nav class="mobile-nav">
+      <a onclick="closeMobileMenu(); showSection('inicio')">Início</a>
+      <a onclick="closeMobileMenu(); showSection('quem-somos')">Quem Somos</a>
+      <a onclick="closeMobileMenu(); showSection('curadoria')">Curadoria</a>
+      <a onclick="closeMobileMenu(); showSection('colunas')">Colunas</a>
+      <a onclick="closeMobileMenu(); showSection('avalie')">Avalie-nos</a>
+      <a onclick="closeMobileMenu(); showSection('contato')">Contato</a>
+      <hr>
+      <a onclick="closeMobileMenu(); openAdminLogin()">Admin</a>
+      <a class="mobile-cta" onclick="closeMobileMenu(); openAuth('login')">Entrar / Cadastrar</a>
+    </nav>
+  </aside>
 
-  <!-- QUEM SOMOS -->
-  <section id="quem-somos" class="section">
-    <div class="container">
-      <h2 class="center">Quem Somos</h2>
-      <p class="center who-text">
-        Na Curadoria Elite Travel, acreditamos que seu tempo é seu bem mais valioso. Percebemos que, em um mundo onde a praticidade digital é essencial, o viajante moderno buscava autonomia sem abrir mão de inspiração e confiança – uma assistência ágil e personalizada que ainda não existia. Foi dessa necessidade que nascemos: somos a resposta para quem deseja explorar o mundo de forma inteligente, com curadorias que transformam destinos em universos referenciados e acessíveis digitalmente. Abraçamos essa missão com excelência, oferecendo narrativas turísticas sob medida para que sua próxima aventura seja não apenas planejada, mas vivida intensamente, mesmo antes de partir. O seu mundo, bem indicado.
-      </p>
+  <!-- MAIN SECTIONS (SPA) -->
+  <main id="mainContent">
 
-      <div class="grid-3 who-cards">
-        <div class="card">
-          <h3>Visão</h3>
-          <p>Ser a principal referência digital para quem busca apoio, inspiração e orientação em viagens, oferecendo uma curadoria de alto nível que torna a descoberta de destinos mais clara, elegante e acessível — um ponto de partida confiável para explorar o mundo com profundidade e propósito.</p>
-        </div>
-        <div class="card">
-          <h3>Missão</h3>
-          <p>Oferecer materiais de apoio que iluminam a escolha dos melhores lugares, reunindo conteúdo de qualidade, excelência na seleção e uma visão equilibrada entre experiência e valor.</p>
-        </div>
-        <div class="card">
-          <h3>Nicho</h3>
-          <p>Viajantes que buscam experiências entre 3 e 4 estrelas, desejando conhecer os principais destinos de forma acolhedora, inteligente e cuidadosamente selecionada.</p>
+    <!-- INÍCIO -->
+    <section id="inicio" class="section active">
+      <div class="container">
+        <h1 class="hero-title">Curadoria Elite Travel</h1>
+        <p class="hero-sub">Orquestramos cada detalhe com cuidado e expertise, para que você possa focar exclusivamente em viver experiências memoráveis.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#curadoria" onclick="showSection('curadoria')">Descubra nossas curadorias</a>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CATEGORIAS -->
-  <section id="categories" class="section">
-    <div class="container">
-      <h2>Categorias de Curadoria</h2>
-      <p class="subtitle">Seleções elegantes e práticas para descobrir o melhor de cada destino.</p>
+    <!-- QUEM SOMOS -->
+    <section id="quem-somos" class="section">
+      <div class="container">
+        <h2 class="section-title">Quem Somos</h2>
+        <p class="lead">
+          Na Curadoria Elite Travel, acreditamos que seu tempo é seu bem mais valioso. Percebemos que, em um mundo onde a praticidade digital é essencial, o viajante moderno buscava autonomia sem abrir mão de inspiração e confiança – uma assistência ágil e personalizada que ainda não existia. Foi dessa necessidade que nascemos: somos a resposta para quem deseja explorar o mundo de forma inteligente, com curadorias que transformam destinos em universos referenciados e acessíveis digitalmente. Abraçamos essa missão com excelência, oferecendo narrativas turísticas sob medida para que sua próxima aventura seja não apenas planejada, mas vivida intensamente, mesmo antes de partir. O seu mundo, bem indicado.
+        </p>
 
-      <div class="categories-grid" id="category-cards-container"></div>
-
-      <div id="products" class="products-section" style="display:none;">
-        <h3>Curadorias em <span id="current-category-title"></span></h3>
-        <div class="products-container" id="products-container"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- COLUNAS DIÁRIAS -->
-  <section id="daily-columns" class="section">
-    <div class="container">
-      <h2>Colunas Diárias</h2>
-      <p class="subtitle">Dicas, inspirações e tendências do mundo das viagens.</p>
-      <div class="columns-container" id="columns-container"></div>
-    </div>
-  </section>
-
-  <!-- AVALIE-NOS -->
-  <section id="review-form" class="section">
-    <div class="container">
-      <h2>Sua percepção nos ajuda a evoluir</h2>
-      <div id="rating-stars" class="stars-row"></div>
-      <div id="rating-legend" class="rating-legend">Clique nas estrelas para nos avaliar</div>
-
-      <form id="submit-review-form">
-        <div class="form-row">
-          <input type="text" id="review-nome" placeholder="Nome" required>
-          <input type="text" id="review-sobrenome" placeholder="Sobrenome" required>
-        </div>
-        <div class="form-row">
-          <input type="email" id="review-email" placeholder="Email" required>
-          <input type="text" id="review-genero" placeholder="Gênero">
-        </div>
-        <div class="form-row">
-          <input type="date" id="review-aniversario" placeholder="Data de Nascimento">
-          <input type="text" id="review-estado" placeholder="Estado">
-        </div>
-        <input type="text" id="review-cidade" placeholder="Cidade">
-        <select id="review-tipo" required>
-          <option value="">Tipo de feedback</option>
-          <option>Comentário</option>
-          <option>Sugestão</option>
-        </select>
-        <textarea id="review-comentario" placeholder="Comentário (máx 200 caracteres)" maxlength="200"></textarea>
-        <div id="review-feedback" class="feedback-message" style="display:none"></div>
-        <button class="btn btn-primary" type="submit">Enviar Avaliação</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- CONTATO -->
-  <section id="contact-form" class="section">
-    <div class="container narrow">
-      <h2>Fale Conosco</h2>
-      <div class="card">
-        <form id="contactForm">
-          <input type="text" name="name" placeholder="Nome" required>
-          <input type="email" name="email" placeholder="Email" required>
-          <input type="text" name="subject" placeholder="Assunto" required>
-          <textarea name="message" placeholder="Mensagem (máx 300 caracteres)" maxlength="300" required></textarea>
-          <div id="contactFeedback" class="feedback-message" style="display:none"></div>
-          <button class="btn btn-primary" type="submit">Enviar Mensagem</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- ADMIN (painel mockado) -->
-  <section id="admin" class="section">
-    <div class="container">
-      <div id="admin-panel" style="display:none"></div>
-    </div>
-  </section>
-
-  <!-- USER PROFILE (mock) -->
-  <section id="user-profile" class="section">
-    <div class="container">
-      <div id="profile-content" class="profile-container" style="display:none"></div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container footer-content">
-      <div class="footer-left">
-        <h3>Curadoria Elite Travel</h3>
-        <p>O seu mundo, bem indicado. Oferecemos soluções de viagem com curadoria especializada, transformando seus destinos em experiências inesquecíveis.</p>
-      </div>
-      <div class="footer-right">
-        <div class="contact-info">
-          <div class="contact-item">curadoriaelitetravel@gmail.com <i class="fas fa-envelope"></i></div>
-          <div class="contact-item">São Paulo, SP <i class="fas fa-map-marker-alt"></i></div>
-          <div class="social-footer">
-            <a href="https://www.instagram.com/curadoriaelitetravel/" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.linkedin.com/company/curadoria-elite-travel" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <div class="cards-3">
+          <div class="card">
+            <h3>Visão</h3>
+            <p>Ser a principal referência digital para quem busca apoio, inspiração e orientação em viagens, oferecendo uma curadoria de alto nível que torna a descoberta de destinos mais clara, elegante e acessível — um ponto de partida confiável para explorar o mundo com profundidade e propósito.</p>
+          </div>
+          <div class="card">
+            <h3>Missão</h3>
+            <p>Oferecer materiais de apoio que iluminam a escolha dos melhores lugares, reunindo conteúdo de qualidade, excelência na seleção e uma visão equilibrada entre experiência e valor.</p>
+          </div>
+          <div class="card">
+            <h3>Nicho</h3>
+            <p>Viajantes que buscam experiências entre 3 e 4 estrelas, desejando conhecer os principais destinos de forma acolhedora, inteligente e cuidadosamente selecionada.</p>
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- CURADORIA -->
+    <section id="curadoria" class="section">
+      <div class="container">
+        <h2 class="section-title">Categorias de Curadoria</h2>
+        <div id="categoryCards" class="category-grid">
+          <!-- preenchido pelo JS -->
+        </div>
+
+        <div id="products" class="products" style="display:none;">
+          <h3>Material em <span id="currentCategoryName"></span></h3>
+          <div id="productsList" class="products-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLUNAS -->
+    <section id="colunas" class="section">
+      <div class="container">
+        <h2 class="section-title">Colunas Diárias</h2>
+        <div id="columnsList" class="columns-list">
+          <!-- preenchido pelo JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- AVALIE-NOS -->
+    <section id="avalie" class="section">
+      <div class="container">
+        <h2 class="section-title">Avalie-nos</h2>
+        <div class="rating-stars" id="ratingStars"></div>
+        <form id="reviewForm" class="form">
+          <input type="text" id="revName" name="name" placeholder="Nome" required>
+          <input type="email" id="revEmail" name="email" placeholder="Email" required>
+          <textarea id="revComment" name="comment" rows="4" placeholder="Comentário (opcional)"></textarea>
+          <div id="reviewFeedback" class="form-feedback" aria-live="polite"></div>
+          <button class="btn btn-primary" type="submit">Enviar Avaliação</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section id="contato" class="section">
+      <div class="container">
+        <h2 class="section-title">Fale Conosco</h2>
+        <form id="contactForm" class="form">
+          <input type="text" id="contName" name="name" placeholder="Nome" required>
+          <input type="email" id="contEmail" name="email" placeholder="Email" required>
+          <input type="text" id="contSubject" name="subject" placeholder="Assunto" required>
+          <textarea id="contMessage" name="message" rows="5" placeholder="Mensagem" maxlength="500" required></textarea>
+          <div id="contactFeedback" class="form-feedback" aria-live="polite"></div>
+          <button class="btn btn-primary" type="submit">Enviar Mensagem</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ADMIN (mock UI) -->
+    <section id="admin" class="section">
+      <div class="container">
+        <div id="adminPanel" class="admin-panel" style="display:none;">
+          <!-- gerado pelo JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <strong>Curadoria Elite Travel</strong>
+        <p>O seu mundo, bem indicado.</p>
+      </div>
+      <div class="footer-right">
+        <div>curadoriaelitetravel@gmail.com</div>
+        <div>São Paulo, SP</div>
+      </div>
     </div>
-    <div class="container footer-bottom">
-      <p>© 2025 Curadoria Elite Travel. Todos os direitos reservados. O seu mundo, bem indicado.</p>
-    </div>
+    <div class="container footer-bottom">© 2025 Curadoria Elite Travel. Todos os direitos reservados.</div>
   </footer>
 
-  <!-- ADMIN LOGIN MODAL -->
-  <div id="admin-login-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModal('admin-login-modal')">&times;</span>
-      <h3>Acesso Administrativo</h3>
-      <form id="admin-login-form">
-        <input type="email" id="admin-email" placeholder="Email" required>
-        <input type="password" id="admin-password" placeholder="Senha" required>
-        <div id="admin-login-feedback" class="feedback-message" style="display:none"></div>
+  <!-- MODAIS (admin / auth / column / checkout) -->
+  <div id="adminLoginModal" class="modal" aria-hidden="true">
+    <div class="modal-inner">
+      <button class="modal-close" onclick="closeModal('adminLoginModal')">&times;</button>
+      <h3>Login Administrativo</h3>
+      <form id="adminLoginForm">
+        <input type="email" id="adminEmail" placeholder="Email" required>
+        <input type="password" id="adminPassword" placeholder="Senha" required>
+        <div id="adminLoginFeedback" class="form-feedback"></div>
         <button class="btn btn-primary" type="submit">Entrar</button>
       </form>
     </div>
   </div>
 
-  <!-- GENERIC MODALS -->
-  <div id="column-modal" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('column-modal')">&times;</span><h3 id="modal-column-title"></h3><p id="modal-column-date"></p><p id="modal-column-content"></p></div></div>
-  <div id="checkout-modal" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('checkout-modal')">&times;</span><h3>Finalizar Compra</h3><div id="checkout-product-name"></div><div id="checkout-product-price"></div><div id="checkout-feedback" class="feedback-message" style="display:none"></div><button class="btn btn-primary" onclick="processPayment()">Confirmar</button></div></div>
+  <div id="authModal" class="modal" aria-hidden="true">
+    <div class="modal-inner">
+      <button class="modal-close" onclick="closeModal('authModal')">&times;</button>
+      <h3>Entrar / Cadastrar</h3>
+      <div class="auth-forms">
+        <form id="loginForm">
+          <input type="email" id="loginEmail" placeholder="Email" required>
+          <input type="password" id="loginPassword" placeholder="Senha" required>
+          <div id="loginFeedback" class="form-feedback"></div>
+          <button class="btn btn-primary" type="submit">Entrar</button>
+        </form>
+        <hr>
+        <form id="registerForm">
+          <input type="text" id="registerName" placeholder="Nome" required>
+          <input type="email" id="registerEmail" placeholder="Email" required>
+          <input type="password" id="registerPassword" placeholder="Senha" required>
+          <div id="registerFeedback" class="form-feedback"></div>
+          <button class="btn btn-primary" type="submit">Cadastrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
-  <!-- MOBILE MENU -->
-  <div id="mobile-menu-overlay"></div>
-  <div id="mobile-menu">
-    <button id="mobile-menu-close" aria-label="Fechar menu">&times;</button>
-    <ul>
-      <li onclick="showSection('hero')">INÍCIO</li>
-      <li onclick="showSection('quem-somos')">QUEM SOMOS</li>
-      <li onclick="showSection('categories')">CURADORIA</li>
-      <li onclick="showSection('daily-columns')">COLUNAS</li>
-      <li onclick="showSection('review-form')">AVALIE-NOS</li>
-      <li onclick="showSection('contact-form')">CONTATO</li>
-      <li onclick="openAdminLoginModal()">ADMIN</li>
-      <li class="btn-mobile-login" onclick="openAuthModal('login')">ENTRAR / CADASTRAR</li>
-    </ul>
+  <!-- column modal -->
+  <div id="columnModal" class="modal" aria-hidden="true">
+    <div class="modal-inner">
+      <button class="modal-close" onclick="closeModal('columnModal')">&times;</button>
+      <h3 id="columnModalTitle"></h3>
+      <p id="columnModalDate" class="muted small"></p>
+      <div id="columnModalBody"></div>
+    </div>
   </div>
 
   <!-- SCRIPTS -->
