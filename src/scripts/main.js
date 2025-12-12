@@ -1,258 +1,267 @@
-// main.js — lógica central do site
+// main.js — lógica central: SPA, formulários, render, admin mock
 document.addEventListener('DOMContentLoaded', () => {
-  // config
-  const SEND_EMAIL_API = '/api/send-email';
-  const LIST_MATERIALS_API = '/api/list-materials';
-  const DEST_EMAIL = 'curadoriaelitetravel@gmail.com';
+  // Config
+  const API_SEND = '/api/send-email';
+  const API_LIST = '/api/list-materials';
+  const EMAIL_DEST = 'curadoriaelitetravel@gmail.com';
 
-  // mock data (será substituído por backend real no futuro)
-  window.MOCK_CATEGORIES = [
-    { id: 1, name: "City Guide", icon: "map", price: 49.90, status: 'enabled', description: 'Guias urbanos essenciais.' },
-    { id: 2, name: "Restaurantes", icon: "restaurant", price: 29.90, status: 'enabled', description: 'Seleção gastronômica refinada.' },
-    { id: 3, name: "Bares", icon: "local_bar", price: 19.90, status: 'enabled', description: 'Drinks e bares recomendados.' },
-    { id: 4, name: "Passeios", icon: "hiking", price: 45.90, status: 'enabled', description: 'Passeios e tours selecionados.' },
-    { id: 5, name: "Vida Noturna", icon: "nights_stay", price: 25.90, status: 'enabled', description: 'Vida noturna e entretenimento.' },
-    { id: 6, name: "Hotéis", icon: "hotel", price: 59.90, status: 'enabled', description: 'Hotéis selecionados.' },
-    { id: 7, name: "Cruzeiros", icon: "directions_boat", price: 79.90, status: 'disabled', description: 'EM BREVE' }
+  // -- Mock data (substituir por DB no futuro) --
+  window.CATEGORIES = [
+    { id:1, name:'City Guide', description:'Guias urbanos essenciais', status:'enabled' },
+    { id:2, name:'Restaurantes', description:'Seleção gastronômica', status:'enabled' },
+    { id:3, name:'Bares', description:'Bares e coquetéis', status:'enabled' },
+    { id:4, name:'Passeios', description:'Passeios e tours', status:'enabled' },
+    { id:5, name:'Vida Noturna', description:'Noitada e entretenimento', status:'enabled' },
+    { id:6, name:'Hotéis', description:'Hospedagens selecionadas', status:'enabled' },
+    { id:7, name:'Cruzeiros', description:'EM BREVE', status:'disabled' }
   ];
 
-  window.MOCK_PRODUCTS = [
-    { id: 101, code:'CG-PAR-24', categoryId:1, country:'França', city:'Paris', price:49.90, description:'Guia de Paris 3 dias', fileUrl:'#' }
+  window.PRODUCTS = [
+    { id:101, code:'CG-PAR', categoryId:1, country:'França', city:'Paris', price:49.90, description:'Guia de Paris (exemplo)', fileUrl:'#' }
   ];
 
-  window.MOCK_COLUMNS = [
-    { id:1, title:'O Despertar de Lisboa', date:'15/11/2025', content:'Lisboa cativa...' },
-    { id:2, title:'Gastronomia de Milão', date:'10/11/2025', content:'Milão e sua culinária...' }
+  window.COLUMNS = [
+    { id:1, title:'O Despertar de Lisboa', date:'15/11/2025', content:'Lisboa é encantadora...' }
   ];
 
-  // utilities
-  function el(selector){ return document.querySelector(selector); }
-  function elAll(selector){ return Array.from(document.querySelectorAll(selector)); }
-
-  // SPA helper
-  window.showSection = function(sectionId){
-    document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
-    const target = document.getElementById(sectionId);
-    if(target) target.classList.add('active');
-    window.location.hash = sectionId;
+  // --- SPA helpers ---
+  window.showSection = (id) => {
+    document.querySelectorAll('main .section').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('active');
+    window.scrollTo(0,0);
+    // special: render profile or admin when needed
+    if (id === 'admin') renderAdminPanel();
   };
 
-  // init
-  renderCategoryCards();
-  renderColumns();
-  renderRatingStars();
-  applyInitialHash();
-
-  // CONTACT form
-  const contactForm = document.getElementById('contactForm');
-  const contactFeedback = document.getElementById('contactFeedback');
-  if(contactForm){
-    contactForm.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      contactFeedback.style.display='none';
-      const payload = {
-        type:'contact',
-        name: contactForm.name.value,
-        email: contactForm.email.value,
-        subject: contactForm.subject.value,
-        message: contactForm.message.value
-      };
-      try {
-        const res = await fetch(SEND_EMAIL_API, {
-          method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)
-        });
-        const json = await res.json().catch(()=>({}));
-        if(res.ok && json.success!==false){
-          contactFeedback.textContent='Mensagem enviada — responderemos em breve.';
-          contactFeedback.className='feedback-message';
-          contactFeedback.style.display='block';
-          contactForm.reset();
-        } else {
-          contactFeedback.textContent='Erro ao enviar mensagem. Verifique a configuração do servidor.';
-          contactFeedback.className='feedback-message';
-          contactFeedback.style.display='block';
-        }
-      } catch(err){
-        console.error(err);
-        contactFeedback.textContent='Erro de conexão ao enviar mensagem.';
-        contactFeedback.className='feedback-message';
-        contactFeedback.style.display='block';
-      }
-    });
-  }
-
-  // REVIEW form
-  let selectedRating = 0;
-  function renderRatingStars(){
-    const container = document.getElementById('rating-stars');
-    container.innerHTML='';
-    for(let i=1;i<=5;i++){
-      const iEl = document.createElement('i');
-      iEl.className = `fa fa-star ${i<=selectedRating ? 'selected' : ''}`;
-      iEl.dataset.value = i;
-      iEl.addEventListener('click', ()=>{ selectedRating = (selectedRating===i?0:i); renderRatingStars();});
-      container.appendChild(iEl);
-    }
-    updateRatingLegend();
-  }
-  function updateRatingLegend(){
-    const legend = document.getElementById('rating-legend');
-    if(selectedRating===0) legend.textContent='Clique nas estrelas para nos avaliar';
-    else if(selectedRating<=2) legend.textContent='1 a 2 Estrela - Muito ruim';
-    else if(selectedRating===3) legend.textContent='3 Estrela - Regular';
-    else if(selectedRating===4) legend.textContent='4 Estrela - Bom';
-    else legend.textContent='5 Estrela - Excelente';
-  }
-
-  const reviewForm = document.getElementById('submit-review-form');
-  const reviewFeedback = document.getElementById('review-feedback');
-  if(reviewForm){
-    reviewForm.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      const payload = {
-        type:'review',
-        rating:selectedRating,
-        name: document.getElementById('review-nome').value,
-        lastName: document.getElementById('review-sobrenome').value,
-        email: document.getElementById('review-email').value,
-        gender: document.getElementById('review-genero').value,
-        birthDate: document.getElementById('review-aniversario').value,
-        state: document.getElementById('review-estado').value,
-        city: document.getElementById('review-cidade').value,
-        type: document.getElementById('review-tipo').value,
-        comment: document.getElementById('review-comentario').value
-      };
-      try {
-        const res = await fetch(SEND_EMAIL_API, {
-          method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)
-        });
-        const json = await res.json().catch(()=>({}));
-        if(res.ok && json.success!==false){
-          reviewFeedback.textContent='Avaliação enviada — obrigado!';
-          reviewFeedback.style.display='block';
-          reviewForm.reset();
-          selectedRating = 0; renderRatingStars();
-        } else {
-          reviewFeedback.textContent='Erro ao enviar avaliação — verifique o servidor.';
-          reviewFeedback.style.display='block';
-        }
-      } catch(err){
-        console.error(err);
-        reviewFeedback.textContent='Erro de conexão ao enviar avaliação.';
-        reviewFeedback.style.display='block';
-      }
-    });
-  }
-
-  // RENDER categories/products
-  function renderCategoryCards(){
-    const container = document.getElementById('category-cards-container');
+  // Render category cards
+  function renderCategories(){
+    const container = document.getElementById('categoryCards');
     if(!container) return;
-    container.innerHTML = window.MOCK_CATEGORIES.map(cat=>{
-      const disabled = cat.status==='disabled' ? 'disabled' : '';
-      const click = cat.status==='disabled' ? '' : `onclick="selectCategory(${cat.id})"`;
-      const statusText = cat.status==='disabled' ? ' — EM BREVE' : '';
-      return `<div class="category-card ${disabled}" ${click}><h4>${cat.name.toUpperCase()}</h4><p>${cat.description}${statusText}</p></div>`;
-    }).join('');
+    container.innerHTML = '';
+    window.CATEGORIES.forEach(cat => {
+      const disabled = cat.status === 'disabled';
+      const card = document.createElement('div');
+      card.className = 'category-card';
+      card.innerHTML = `<h3>${cat.name}</h3><p>${cat.description}${disabled ? ' — EM BREVE' : ''}</p>`;
+      if(!disabled) card.addEventListener('click', ()=> selectCategory(cat.id));
+      container.appendChild(card);
+    });
   }
 
-  window.selectCategory = function(categoryId){
-    const cat = window.MOCK_CATEGORIES.find(c=>c.id===categoryId);
+  window.selectCategory = (id) => {
+    const cat = window.CATEGORIES.find(c => c.id === id);
     if(!cat) return;
-    document.getElementById('current-category-title').textContent = cat.name;
-    document.getElementById('products').style.display='block';
-    renderProducts(categoryId);
+    document.getElementById('currentCategoryName').textContent = cat.name;
+    document.getElementById('products').style.display = 'block';
+    renderProducts(id);
+    showSection('curadoria');
   };
 
   function renderProducts(categoryId){
-    const container = document.getElementById('products-container');
-    const filtered = window.MOCK_PRODUCTS.filter(p => p.categoryId===categoryId);
-    container.innerHTML = filtered.length ? filtered.map(p=>`
-      <div class="product-card card">
-        <h4>${p.country} — ${p.city}</h4>
-        <p>${p.description}</p>
-        <p class="product-price">R$ ${p.price.toFixed(2).replace('.',',')}</p>
-        <button class="btn btn-primary" onclick="openCheckoutModal(${p.id})">Comprar</button>
-      </div>
-    `).join('') : `<p style="text-align:center;color:var(--muted)">Nenhum material disponível.</p>`;
+    const list = document.getElementById('productsList');
+    if(!list) return;
+    list.innerHTML = '';
+    const items = window.PRODUCTS.filter(p => p.categoryId === categoryId);
+    if(items.length === 0) {
+      list.innerHTML = '<p class="muted">Nenhum material disponível.</p>';
+      return;
+    }
+    items.forEach(p => {
+      const el = document.createElement('div');
+      el.className = 'product-card';
+      el.innerHTML = `<h4>${p.country} — ${p.city}</h4><p>${p.description}</p><p class="muted">R$ ${p.price.toFixed(2)}</p><a class="btn btn-outline" href="${p.fileUrl}" target="_blank">Abrir</a>`;
+      list.appendChild(el);
+    });
   }
 
-  // COLUMNS
+  // Render columns
   function renderColumns(){
-    const container = document.getElementById('columns-container');
+    const container = document.getElementById('columnsList');
     if(!container) return;
-    container.innerHTML = window.MOCK_COLUMNS.map(c=>`
-      <div class="column-card card" onclick="openColumnModal(${c.id})">
-        <h4>${c.title}</h4>
-        <div class="column-preview">${c.content.substring(0,140)}...</div>
-        <div class="column-date">Publicado em ${c.date}</div>
-      </div>
-    `).join('');
+    container.innerHTML = '';
+    window.COLUMNS.forEach(c => {
+      const card = document.createElement('div');
+      card.className = 'column-item card';
+      card.innerHTML = `<h4>${c.title}</h4><p class="muted">Publicado em ${c.date}</p><p>${c.content.substring(0,150)}...</p>`;
+      card.addEventListener('click', () => openColumnModal(c));
+      container.appendChild(card);
+    });
   }
 
-  window.openColumnModal = function(id){
-    const c = window.MOCK_COLUMNS.find(x=>x.id===id);
-    if(!c) return;
-    document.getElementById('modal-column-title').textContent = c.title;
-    document.getElementById('modal-column-date').textContent = `Publicado em ${c.date}`;
-    document.getElementById('modal-column-content').textContent = c.content;
-    document.getElementById('column-modal').style.display = 'flex';
+  window.openColumnModal = (col) => {
+    document.getElementById('columnModalTitle').textContent = col.title;
+    document.getElementById('columnModalDate').textContent = `Publicado em ${col.date}`;
+    document.getElementById('columnModalBody').textContent = col.content;
+    openModal('columnModal');
   };
 
-  // ADMIN login (mock)
-  const adminForm = document.getElementById('admin-login-form');
-  if(adminForm){
-    adminForm.addEventListener('submit', (e)=>{
+  // --- Modals helpers ---
+  function openModal(id){
+    const m = document.getElementById(id);
+    if(!m) return;
+    m.style.display = 'flex';
+    m.setAttribute('aria-hidden', 'false');
+  }
+  window.openModal = openModal;
+
+  window.closeModal = (id) => {
+    const m = document.getElementById(id);
+    if(!m) return;
+    m.style.display = 'none';
+    m.setAttribute('aria-hidden','true');
+  };
+
+  // --- Mobile menu helpers (safe fallback) ---
+  window.openAdminLogin = () => openModal('adminLoginModal');
+  window.openAuth = (tab) => openModal('authModal');
+
+  // --- Rating (Avalie-nos) ---
+  let selectedRating = 0;
+  function renderRatingStars(){
+    const container = document.getElementById('ratingStars');
+    if(!container) return;
+    container.innerHTML = '';
+    for(let i=1;i<=5;i++){
+      const iEl = document.createElement('i');
+      iEl.className = 'fa fa-star';
+      if(i <= selectedRating) iEl.classList.add('active');
+      iEl.dataset.value = i;
+      iEl.addEventListener('click', ()=> {
+        selectedRating = (selectedRating === i ? 0 : i);
+        renderRatingStars();
+      });
+      container.appendChild(iEl);
+    }
+  }
+
+  // --- Forms: contact & review send to /api/send-email ---
+  async function postJSON(url, payload){
+    return fetch(url, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+  }
+
+  // Contact
+  const contactForm = document.getElementById('contactForm');
+  if(contactForm){
+    contactForm.addEventListener('submit', async (e)=>{
       e.preventDefault();
-      const email = document.getElementById('admin-email').value;
-      const pw = document.getElementById('admin-password').value;
-      if(email==='admin@elitetravel.com' && pw==='admin@123'){
-        localStorage.setItem('isAdminLoggedIn','true');
-        document.getElementById('admin-panel').style.display='block';
-        showSection('admin');
-        renderAdminPanel();
-        closeModal('admin-login-modal');
-      } else {
-        document.getElementById('admin-login-feedback').textContent='Credenciais de Admin incorretas.';
-        document.getElementById('admin-login-feedback').style.display='block';
+      const payload = {
+        type:'contact',
+        name: document.getElementById('contName').value,
+        email: document.getElementById('contEmail').value,
+        subject: document.getElementById('contSubject').value,
+        message: document.getElementById('contMessage').value
+      };
+      const feedback = document.getElementById('contactFeedback');
+      feedback.textContent = 'Enviando...';
+      try {
+        const res = await postJSON(API_SEND, payload);
+        const json = await res.json().catch(()=>({}));
+        if(res.ok && json.success !== false){
+          feedback.textContent = 'Mensagem enviada — obrigada!';
+          contactForm.reset();
+        } else {
+          feedback.textContent = 'Erro ao enviar. Verifique a configuração.';
+          console.error('send error', json);
+        }
+      } catch(err){
+        feedback.textContent = 'Erro de rede ao enviar.';
+        console.error(err);
       }
     });
   }
 
-  function renderAdminPanel(){
-    const panel = document.getElementById('admin-panel');
-    panel.style.display='block';
-    panel.innerHTML = `<div class="card"><h3>Painel Administrativo (mock)</h3>
-      <p>Material cadastrados: ${window.MOCK_PRODUCTS.length}</p>
-      <p>Categorias: ${window.MOCK_CATEGORIES.length}</p>
-      <p>Colunas: ${window.MOCK_COLUMNS.length}</p>
-    </div>`;
+  // Review
+  const reviewForm = document.getElementById('reviewForm');
+  if(reviewForm){
+    reviewForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      if(selectedRating === 0){
+        document.getElementById('reviewFeedback').textContent = 'Por favor selecione 1 a 5 estrelas.';
+        return;
+      }
+      const payload = {
+        type:'review',
+        rating:selectedRating,
+        name: document.getElementById('revName').value,
+        email: document.getElementById('revEmail').value,
+        message: document.getElementById('revComment').value
+      };
+      const feedback = document.getElementById('reviewFeedback');
+      feedback.textContent = 'Enviando...';
+      try {
+        const res = await postJSON(API_SEND, payload);
+        const json = await res.json().catch(()=>({}));
+        if(res.ok && json.success !== false){
+          feedback.textContent = 'Avaliação enviada — obrigado!';
+          reviewForm.reset();
+          selectedRating = 0;
+          renderRatingStars();
+        } else {
+          feedback.textContent = 'Erro ao enviar avaliação.';
+        }
+      } catch(err){
+        feedback.textContent = 'Erro de rede ao enviar.';
+        console.error(err);
+      }
+    });
   }
 
-  // modal helpers
-  window.closeModal = function(id){
-    const el = document.getElementById(id);
-    if(el) el.style.display='none';
-  };
-
-  // checkout mock
-  window.openCheckoutModal = function(productId){
-    const p = window.MOCK_PRODUCTS.find(x=>x.id===productId);
-    if(!p){ alert('Produto não encontrado'); return; }
-    document.getElementById('checkout-product-name').textContent = `${p.description} (${p.city})`;
-    document.getElementById('checkout-product-price').textContent = `R$ ${p.price.toFixed(2).replace('.',',')}`;
-    document.getElementById('checkout-modal').style.display='flex';
-  };
-
-  window.processPayment = function(){
-    alert('Processamento de pagamento (mock). Integre Stripe / Supabase para produção.');
-    closeModal('checkout-modal');
-  };
-
-  // initial hash show
-  function applyInitialHash(){
-    const initial = window.location.hash ? window.location.hash.substring(1) : 'hero';
-    showSection(initial);
+  // --- Admin login (mock) ---
+  const adminForm = document.getElementById('adminLoginForm');
+  if(adminForm){
+    adminForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const email = document.getElementById('adminEmail').value;
+      const pw = document.getElementById('adminPassword').value;
+      if(email === 'admin@elitetravel.com' && pw === 'admin@123'){
+        // show admin panel
+        const panel = document.getElementById('adminPanel');
+        panel.style.display = 'block';
+        panel.innerHTML = `<div class="card"><h3>Painel administrativo (mock)</h3>
+          <p>Materiais: ${window.PRODUCTS.length}</p>
+          <p>Categorias: ${window.CATEGORIES.length}</p>
+          <p>Colunas: ${window.COLUMNS.length}</p></div>`;
+        showSection('admin');
+        closeModal('adminLoginModal');
+      } else {
+        document.getElementById('adminLoginFeedback').textContent = 'Credenciais incorretas.';
+      }
+    });
   }
+
+  // --- Add material (admin mock) ---
+  const addMaterialForm = document.getElementById('addMaterialForm');
+  if(addMaterialForm){
+    addMaterialForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // fallback: local add only
+      const title = document.getElementById('matTitle').value;
+      const category = document.getElementById('matCategory').value;
+      const city = document.getElementById('matCity').value;
+      const country = document.getElementById('matCountry').value;
+      const price = parseFloat(document.getElementById('matPrice').value || 0);
+      const file = document.getElementById('matFile').value;
+      window.PRODUCTS.push({
+        id: 1000 + window.PRODUCTS.length + 1,
+        code: title.slice(0,6).toUpperCase(),
+        categoryId: (window.CATEGORIES.find(c=>c.name===category)||{id:1}).id,
+        country, city, price, description:title, fileUrl:file
+      });
+      document.getElementById('addMaterialFeedback').textContent = 'Material adicionado (local).';
+      renderProducts();
+    });
+  }
+
+  // --- Initialization ---
+  renderCategories();
+  renderProducts(window.CATEGORIES[0].id);
+  renderColumns();
+  renderRatingStars();
 
 });
