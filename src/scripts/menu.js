@@ -1,27 +1,25 @@
-// menu.js — abre/fecha menu mobile e controla overlay
+// menu.js — controla o menu mobile (abrir/fechar)
 document.addEventListener('DOMContentLoaded', () => {
-  const mobileBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const overlay = document.getElementById('mobile-menu-overlay');
-  const closeBtn = document.getElementById('mobile-menu-close');
+  const hamburger = document.getElementById('hamburgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const overlay = document.getElementById('menuOverlay');
 
-  function openMenu(){
-    mobileMenu.classList.add('open');
-    overlay.style.display = 'block';
+  function openMenu() {
+    if (mobileMenu) mobileMenu.classList.add('active');
+    if (overlay) overlay.classList.add('active');
   }
-  function closeMenu(){
-    mobileMenu.classList.remove('open');
-    overlay.style.display = 'none';
+  function closeMenu() {
+    if (mobileMenu) mobileMenu.classList.remove('active');
+    if (overlay) overlay.classList.remove('active');
   }
 
-  if(mobileBtn) mobileBtn.addEventListener('click', openMenu);
-  if(closeBtn) closeBtn.addEventListener('click', closeMenu);
-  if(overlay) overlay.addEventListener('click', closeMenu);
+  window.toggleMenu = function() {
+    if (mobileMenu && mobileMenu.classList.contains('active')) closeMenu();
+    else openMenu();
+  };
 
-  // close when clicking a menu item
-  document.querySelectorAll('#mobile-menu ul li').forEach(li=>{
-    li.addEventListener('click', () => {
-      closeMenu();
-    });
-  });
+  window.closeMobileMenu = closeMenu;
+
+  if (hamburger) hamburger.addEventListener('click', openMenu);
+  if (overlay) overlay.addEventListener('click', closeMenu);
 });
