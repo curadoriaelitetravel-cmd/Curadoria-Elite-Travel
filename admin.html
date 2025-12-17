@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Admin — Curadoria Elite Travel</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Playfair+Display&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --gold:#D4AF37;
+  --bg:#0e0e0e;
+  --card:#151515;
+  --text:#f2f2f2;
+  --muted:#aaa;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Playfair Display",serif}
+
+header{
+  background:#000;
+  border-bottom:2px solid var(--gold);
+  padding:18px;
+  text-align:center;
+}
+header h1{
+  margin:0;
+  font-family:Cinzel,serif;
+  color:var(--gold);
+}
+
+main{padding:40px 8%}
+
+h2{font-family:Cinzel,serif;color:var(--gold)}
+
+.card{
+  background:var(--card);
+  padding:22px;
+  border-radius:12px;
+  margin-bottom:30px;
+  border:1px solid rgba(255,255,255,.08)
+}
+
+label{display:block;margin-top:14px;color:var(--muted)}
+input,select{
+  width:100%;
+  padding:10px;
+  margin-top:6px;
+  background:#000;
+  border:1px solid rgba(255,255,255,.15);
+  color:#fff;
+  border-radius:6px;
+}
+
+button{
+  margin-top:18px;
+  background:var(--gold);
+  border:none;
+  padding:12px 22px;
+  font-family:Cinzel,serif;
+  cursor:pointer;
+}
+
+.list{
+  margin-top:20px;
+  border-top:1px solid rgba(255,255,255,.1);
+  padding-top:15px;
+}
+.item{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.item span{color:#ddd}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Painel Administrativo</h1>
+</header>
+
+<main>
+
+  <div class="card">
+    <h2>Cadastrar Categoria</h2>
+    <label>Nome da categoria</label>
+    <input id="catName">
+    <button onclick="addCategory()">Adicionar Categoria</button>
+
+    <div class="list" id="categoryList"></div>
+  </div>
+
+  <div class="card">
+    <h2>Cadastrar PDF</h2>
+
+    <label>Título do PDF</label>
+    <input id="pdfTitle">
+
+    <label>Categoria</label>
+    <select id="pdfCategory"></select>
+
+    <label>Link do PDF</label>
+    <input id="pdfLink" placeholder="https://...">
+
+    <button onclick="addPDF()">Adicionar PDF</button>
+
+    <div class="list" id="pdfList"></div>
+  </div>
+
+</main>
+
+<script src="scripts/admin.js"></script>
+</body>
+</html>
