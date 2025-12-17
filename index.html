@@ -22,7 +22,7 @@
 
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text)}
-    a{text-decoration:none;color:var(--gold)}
+    a{text-decoration:none;color:inherit}
     .container{width:90%;max-width:1200px;margin:0 auto}
 
     /* HEADER */
@@ -34,7 +34,7 @@
     .slogan{font-size:.75rem;color:var(--muted)}
 
     nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0}
-    nav li a{font-family:Cinzel,serif;font-size:.85rem}
+    nav li a{font-family:Cinzel,serif;font-size:.85rem;cursor:pointer}
     nav li a:hover{color:var(--hover)}
 
     .actions{display:flex;gap:10px}
@@ -48,76 +48,82 @@
       cursor:pointer;
       transition:.3s;
     }
-    .btn.primary{
-      background:var(--gold);
-      color:#111;
-    }
-    .btn:hover{transform:translateY(-2px);opacity:.9}
+    .btn.primary{background:var(--gold);color:#111}
+    .btn:hover{transform:translateY(-2px)}
 
-    /* HERO + CAROUSEL */
+    /* HERO */
     main{padding-top:100px}
     .hero{
-      position:relative;
       height:85vh;
+      background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover;
       display:flex;
       align-items:center;
       justify-content:center;
       text-align:center;
-      overflow:hidden;
-    }
-    .slides{
-      position:absolute;
-      inset:0;
-      animation:slideShow 18s infinite;
-      background-size:cover;
-      background-position:center;
-    }
-    @keyframes slideShow{
-      0%{background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e')}
-      33%{background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee')}
-      66%{background-image:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470')}
-      100%{background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e')}
+      position:relative;
     }
     .hero::after{
       content:"";
       position:absolute;
       inset:0;
-      background:rgba(0,0,0,.55);
+      background:rgba(0,0,0,.6);
     }
-    .hero-content{
-      position:relative;
-      z-index:2;
-      max-width:900px;
-    }
-    .hero h1{
-      font-family:Cinzel,serif;
-      font-size:3rem;
-      color:var(--gold);
-    }
-    .hero p{
-      margin:20px auto;
-      color:#ddd;
-      font-size:1.05rem;
-    }
+    .hero-content{position:relative;z-index:2;max-width:900px}
+    .hero h1{font-family:Cinzel,serif;font-size:3rem;color:var(--gold)}
+    .hero p{color:#ddd;margin:20px auto}
 
     /* SECTIONS */
     section{padding:90px 0;display:none}
     section.active{display:block}
-    h2{text-align:center;color:var(--gold);font-family:Cinzel,serif}
-    .lead{text-align:center;max-width:900px;margin:0 auto;line-height:1.8}
+    h2{text-align:center;color:var(--gold);font-family:Cinzel,serif;margin-bottom:40px}
+
+    /* CURADORIA CARDS */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:30px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid rgba(255,255,255,.06);
+      padding:40px 30px;
+      border-radius:14px;
+      text-align:center;
+      cursor:pointer;
+      transition:.4s;
+      position:relative;
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:14px;
+      box-shadow:0 0 0 rgba(212,175,55,0);
+      transition:.4s;
+    }
+    .card:hover{
+      transform:translateY(-8px);
+    }
+    .card:hover::after{
+      box-shadow:0 0 35px rgba(212,175,55,.35);
+    }
+    .card h3{
+      font-family:Cinzel,serif;
+      color:var(--gold);
+      margin-bottom:12px;
+    }
+    .card p{color:var(--muted);font-size:.95rem}
 
     /* FOOTER */
     footer{
       background:var(--card);
       border-top:3px solid var(--gold);
       padding:40px 0;
-      margin-top:40px;
     }
     footer .container{
       display:flex;
       justify-content:space-between;
       flex-wrap:wrap;
-      gap:20px;
       color:var(--muted);
     }
     footer strong{color:var(--gold)}
@@ -133,7 +139,7 @@
 <header>
   <div class="header-inner">
     <div class="logo-area">
-      <img src="images/rosa-dos-ventos.png" alt="Rosa dos Ventos">
+      <img src="images/rosa-dos-ventos.png">
       <div>
         <div class="brand">Curadoria Elite Travel</div>
         <div class="slogan">O seu mundo, bem indicado.</div>
@@ -158,29 +164,42 @@
 </header>
 
 <main>
-  <!-- INÍCIO -->
-  <section id="inicio" class="hero active">
-    <div class="slides"></div>
-    <div class="hero-content">
-      <h1>Curadoria Elite Travel</h1>
-      <p>Orquestramos cada detalhe para que você explore o mundo com confiança, elegância e propósito.</p>
-      <button class="btn primary" onclick="showSection('curadoria')">
-        Descubra mais sobre nossa curadoria
-      </button>
-    </div>
-  </section>
 
-  <!-- QUEM SOMOS -->
-  <section id="quem">
-    <h2>Quem Somos</h2>
-    <p class="lead">
-      Criamos universos turísticos acessíveis e bem indicados para quem valoriza tempo, confiança e elegância.
-    </p>
-  </section>
+<section id="inicio" class="hero active">
+  <div class="hero-content">
+    <h1>Curadoria Elite Travel</h1>
+    <p>Experiências bem indicadas para quem valoriza tempo, confiança e elegância.</p>
+    <button class="btn primary" onclick="showSection('curadoria')">
+      Descubra nossa curadoria
+    </button>
+  </div>
+</section>
 
-  <section id="curadoria"><h2>Curadoria</h2></section>
-  <section id="avalie"><h2>Avalie-nos</h2></section>
-  <section id="contato"><h2>Contato</h2></section>
+<section id="quem">
+  <h2>Quem Somos</h2>
+  <p class="container" style="text-align:center">
+    Criamos universos turísticos acessíveis e bem indicados para viajantes exigentes.
+  </p>
+</section>
+
+<section id="curadoria">
+  <h2>Curadoria</h2>
+
+  <div class="container grid">
+    <div class="card"><h3>City Guide</h3><p>Guias completos por cidade</p></div>
+    <div class="card"><h3>Experiências Gastronômicas</h3><p>Bares e restaurantes selecionados</p></div>
+    <div class="card"><h3>Pontos Turísticos</h3><p>As melhores atrações da cidade</p></div>
+    <div class="card"><h3>Experiências Imersivas</h3><p>Passeios únicos e memoráveis</p></div>
+    <div class="card"><h3>Compras & Presentes</h3><p>Indicações exclusivas</p></div>
+    <div class="card"><h3>Vida Noturna</h3><p>Bares e baladas selecionados</p></div>
+    <div class="card"><h3>Hotéis & Hospedagens</h3><p>3 a 4 estrelas bem indicados</p></div>
+    <div class="card"><h3>Cruzeiros</h3><p>Experiências premium</p></div>
+  </div>
+</section>
+
+<section id="avalie"><h2>Avalie-nos</h2></section>
+<section id="contato"><h2>Contato</h2></section>
+
 </main>
 
 <footer>
