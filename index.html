@@ -10,186 +10,195 @@
 <style>
 :root{
   --gold:#D4AF37;
-  --gold-soft:rgba(212,175,55,.35);
-  --overlay:rgba(10,10,10,.65);
+  --bg:#0f0f0f;
+  --card:#151515;
   --text:#f2f2f2;
-  --muted:#b0b0b0;
-  font-family:"Playfair Display",serif;
+  --muted:#aaa;
 }
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:var(--text)}
 
-/* BACKGROUND */
-.bg{
-  position:fixed;inset:0;z-index:-2;
-  background:url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover;
-}
-.overlay{position:fixed;inset:0;background:var(--overlay);z-index:-1}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:Playfair Display,serif}
+a{text-decoration:none;color:inherit}
 
-/* HEADER */
 header{
   position:fixed;top:0;width:100%;
-  background:rgba(0,0,0,.75);
-  border-bottom:1px solid rgba(255,255,255,.08);
-  z-index:1000;
+  background:rgba(0,0,0,.9);
+  border-bottom:1px solid rgba(255,255,255,.05);
+  z-index:999;
 }
 .header-inner{
   display:flex;justify-content:space-between;align-items:center;
-  padding:14px 4%;
+  padding:16px 6%;
 }
-.logo{display:flex;gap:12px;align-items:center}
-.logo img{width:44px;height:44px}
-.brand{font-family:Cinzel,serif;color:var(--gold);font-weight:700}
-.slogan{font-size:.75rem;color:var(--muted)}
-nav ul{list-style:none;display:flex;gap:22px}
-nav a{font-family:Cinzel,serif;color:var(--gold);cursor:pointer}
+.logo{
+  display:flex;align-items:center;gap:12px;
+}
+.logo img{width:44px}
+.logo strong{font-family:Cinzel,serif;color:var(--gold)}
 
-/* MAIN */
-main{padding-top:110px}
-section{min-height:calc(100vh - 110px);padding:70px 10%;display:none}
-section.active{display:block}
-h1,h2{font-family:Cinzel,serif;color:var(--gold);text-align:center}
-.hero{text-align:center}
-.hero p{max-width:820px;margin:20px auto}
-.hero button{
-  margin-top:25px;
-  background:var(--gold);
-  border:none;
-  padding:12px 28px;
+nav a{
+  margin:0 14px;
+  font-family:Cinzel,serif;
+  font-size:.9rem;
+}
+nav a:hover{color:var(--gold)}
+
+.btn{
+  border:1px solid var(--gold);
+  padding:8px 14px;
+  border-radius:8px;
   font-family:Cinzel,serif;
   cursor:pointer;
 }
+.btn.primary{background:var(--gold);color:#111}
+
+main{padding-top:120px}
+
+/* HERO */
+.hero{
+  height:90vh;
+  background:url("https://picsum.photos/1600/900?travel") center/cover;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.hero h1{
+  font-family:Cinzel,serif;
+  color:var(--gold);
+  font-size:3rem;
+}
+.hero p{max-width:720px;margin:20px auto}
+.hero .btn{margin-top:20px}
+
+/* SECTIONS */
+section{display:none;padding:80px 8%}
+section.active{display:block}
+h2{
+  font-family:Cinzel,serif;
+  color:var(--gold);
+  text-align:center;
+  margin-bottom:30px;
+}
 
 /* CURADORIA */
-.cards{
+.grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:26px;margin-top:40px
+  gap:30px;
+  margin-top:40px;
 }
 .card{
-  background:rgba(15,15,15,.85);
-  padding:26px;border-radius:12px;
-  border:1px solid rgba(255,255,255,.08);
-  cursor:pointer;transition:.35s;position:relative
+  background:linear-gradient(180deg,#171717,#0f0f0f);
+  border:1px solid rgba(212,175,55,.15);
+  padding:28px;
+  border-radius:18px;
+  transition:.35s;
+  position:relative;
+  cursor:pointer;
 }
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at top left,rgba(212,175,55,.25),transparent 60%);
+  opacity:0;
+  transition:.35s;
+}
+.card:hover::before{opacity:1}
 .card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 20px 40px rgba(0,0,0,.6)
+  transform:translateY(-10px);
+  box-shadow:0 18px 45px rgba(212,175,55,.35);
 }
-.card h3{font-family:Cinzel,serif;color:var(--gold)}
-.card p{margin-top:10px;color:#ddd}
-
-/* CATEGORY VIEW */
-.back{
-  display:inline-block;margin-bottom:30px;
-  color:var(--gold);cursor:pointer
+.card h3{
+  font-family:Cinzel,serif;
+  color:var(--gold);
+  margin-bottom:10px;
 }
-.pdf-list{
-  max-width:700px;margin:40px auto;
-  display:flex;flex-direction:column;gap:16px
-}
-.pdf{
-  background:rgba(20,20,20,.85);
-  padding:18px;border-radius:10px;
-  border:1px solid rgba(255,255,255,.08);
-  display:flex;justify-content:space-between;align-items:center
-}
-.pdf span{color:#ddd}
-.pdf a{color:var(--gold);font-weight:700;text-decoration:none}
+.card p{color:#ccc}
 
 /* FOOTER */
 footer{
-  background:rgba(0,0,0,.85);
-  border-top:3px solid var(--gold);
-  padding:30px 10%
+  background:#111;
+  border-top:2px solid var(--gold);
+  padding:40px 8%;
+  margin-top:80px;
 }
-.footer-inner{
-  display:flex;justify-content:space-between;flex-wrap:wrap;color:var(--muted)
-}
+footer p{color:var(--muted);font-size:.9rem}
 </style>
 </head>
-
 <body>
-
-<div class="bg"></div>
-<div class="overlay"></div>
 
 <header>
   <div class="header-inner">
     <div class="logo">
       <img src="images/rosa-dos-ventos.png">
-      <div>
-        <div class="brand">Curadoria Elite Travel</div>
-        <div class="slogan">O seu mundo, bem indicado.</div>
-      </div>
+      <strong>Curadoria Elite Travel</strong>
     </div>
     <nav>
-      <ul>
-        <li><a onclick="show('inicio')">Início</a></li>
-        <li><a onclick="show('curadoria')">Curadoria</a></li>
-      </ul>
+      <a onclick="show('inicio')">Início</a>
+      <a onclick="show('quem')">Quem Somos</a>
+      <a onclick="show('curadoria')">Curadoria</a>
+      <a onclick="show('contato')">Contato</a>
+      <a onclick="show('avaliacoes')">Avalia-nos</a>
     </nav>
   </div>
 </header>
 
 <main>
 
-<section id="inicio" class="hero active">
-  <h1>Curadoria Elite Travel</h1>
-  <p>Experiências bem indicadas, organizadas e acessíveis digitalmente.</p>
-  <button onclick="show('curadoria')">Descubra nossa curadoria</button>
+<section id="inicio" class="active hero">
+  <div>
+    <h1>Curadoria Elite Travel</h1>
+    <p>Experiências bem indicadas para quem valoriza tempo, elegância e confiança.</p>
+    <button class="btn primary" onclick="show('curadoria')">
+      Descubra mais sobre nossa curadoria
+    </button>
+  </div>
+</section>
+
+<section id="quem">
+  <h2>Quem Somos</h2>
+  <p style="max-width:800px;margin:auto;text-align:center">
+    Somos uma curadoria independente que organiza o melhor do mundo em experiências claras, elegantes e acessíveis.
+  </p>
 </section>
 
 <section id="curadoria">
-  <h2>Categorias</h2>
-  <div class="cards">
-    <div class="card" onclick="openCategory('City Guide')"><h3>City Guide</h3><p>Guias completos por cidade</p></div>
-    <div class="card" onclick="openCategory('Experiências Gastronômicas')"><h3>Experiências Gastronômicas</h3></div>
-    <div class="card" onclick="openCategory('Pontos Turísticos')"><h3>Pontos Turísticos</h3></div>
-    <div class="card" onclick="openCategory('Hotéis & Hospedagens')"><h3>Hotéis & Hospedagens</h3></div>
+  <h2>Curadoria</h2>
+  <div class="grid">
+    <div class="card"><h3>City Guide</h3><p>Guias completos por cidade</p></div>
+    <div class="card"><h3>Experiências Gastronômicas</h3><p>Bares e restaurantes selecionados</p></div>
+    <div class="card"><h3>Pontos Turísticos</h3><p>Atrações imperdíveis</p></div>
+    <div class="card"><h3>Experiências Imersivas</h3><p>Passeios únicos</p></div>
+    <div class="card"><h3>Compras & Presentes</h3><p>Indicações especiais</p></div>
+    <div class="card"><h3>Vida Noturna</h3><p>Baladas e bares</p></div>
+    <div class="card"><h3>Hotéis & Hospedagens</h3><p>3 e 4 estrelas</p></div>
+    <div class="card"><h3>Cruzeiros</h3><p>Experiências selecionadas</p></div>
   </div>
 </section>
 
-<section id="categoria">
-  <span class="back" onclick="show('curadoria')">← Voltar para Curadoria</span>
-  <h2 id="categoryTitle"></h2>
+<section id="contato">
+  <h2>Contato</h2>
+  <p style="text-align:center">curadoriaelitetravel@gmail.com</p>
+</section>
 
-  <div class="pdf-list">
-    <div class="pdf">
-      <span>Guia Premium — PDF Exemplo</span>
-      <a href="#">Abrir PDF</a>
-    </div>
-    <div class="pdf">
-      <span>Roteiro Curado — PDF Exemplo</span>
-      <a href="#">Abrir PDF</a>
-    </div>
-  </div>
+<section id="avaliacoes">
+  <h2>Avaliações</h2>
+  <p style="text-align:center">Em breve você poderá avaliar nossas experiências.</p>
 </section>
 
 </main>
 
 <footer>
-  <div class="footer-inner">
-    <div>
-      <strong>Curadoria Elite Travel</strong>
-      <p>O seu mundo, bem indicado.</p>
-    </div>
-    <div>
-      <p>curadoriaelitetravel@gmail.com</p>
-      <p>São Paulo — SP</p>
-    </div>
-  </div>
+  <p><strong>Curadoria Elite Travel</strong></p>
+  <p>O seu mundo, bem indicado.</p>
 </footer>
-
 <script>
 function show(id){
   document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-}
-
-function openCategory(name){
-  document.getElementById("categoryTitle").innerText = name;
-  show("categoria");
+  window.scrollTo(0,0);
 }
 </script>
 
