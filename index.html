@@ -1,226 +1,212 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Curadoria Elite Travel — O seu mundo, bem indicado.</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Curadoria Elite Travel — O seu mundo, bem indicado.</title>
 
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      --gold:#D4AF37;
-      --bg:#0f0f0f;
-      --card:#151515;
-      --muted:#9a9a9a;
-      --text:#f2f2f2;
-      --hover:#E1C16E;
-      font-family:"Playfair Display",serif;
-    }
+<style>
+:root{
+--gold:#D4AF37;
+--bg:#0f0f0f;
+--card:#151515;
+--text:#f2f2f2;
+--muted:#9a9a9a;
+font-family:"Playfair Display",serif;
+}
 
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text)}
-    a{text-decoration:none;color:inherit}
-    .container{width:90%;max-width:1200px;margin:0 auto}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text)}
+a{text-decoration:none;color:inherit}
 
-    /* HEADER */
-    header{position:fixed;top:0;width:100%;background:rgba(0,0,0,.85);z-index:1000}
-    .header-inner{display:flex;justify-content:space-between;align-items:center;padding:14px 4%}
-    .logo-area{display:flex;gap:12px;align-items:center}
-    .logo-area img{width:46px;height:46px}
-    .brand{font-family:Cinzel,serif;color:var(--gold);font-weight:700}
-    .slogan{font-size:.75rem;color:var(--muted)}
+header{
+position:fixed;top:0;width:100%;z-index:1000;
+background:rgba(0,0,0,.85);
+padding:14px 5%;
+display:flex;justify-content:space-between;align-items:center
+}
 
-    nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0}
-    nav li a{font-family:Cinzel,serif;font-size:.85rem;cursor:pointer}
-    nav li a:hover{color:var(--hover)}
+.brand{font-family:Cinzel,serif;color:var(--gold);font-size:1.2rem}
+nav a{margin-left:20px;font-family:Cinzel,serif;cursor:pointer}
 
-    .actions{display:flex;gap:10px}
-    .btn{
-      border:2px solid var(--gold);
-      background:transparent;
-      color:var(--gold);
-      padding:10px 18px;
-      border-radius:6px;
-      font-family:Cinzel,serif;
-      cursor:pointer;
-      transition:.3s;
-    }
-    .btn.primary{background:var(--gold);color:#111}
-    .btn:hover{transform:translateY(-2px)}
+main{padding-top:90px}
+section{display:none;padding:80px 0}
+section.active{display:block}
 
-    /* HERO */
-    main{padding-top:100px}
-    .hero{
-      height:85vh;
-      background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      position:relative;
-    }
-    .hero::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:rgba(0,0,0,.6);
-    }
-    .hero-content{position:relative;z-index:2;max-width:900px}
-    .hero h1{font-family:Cinzel,serif;font-size:3rem;color:var(--gold)}
-    .hero p{color:#ddd;margin:20px auto}
+/* HERO */
+.hero{
+height:85vh;
+position:relative;
+overflow:hidden;
+}
 
-    /* SECTIONS */
-    section{padding:90px 0;display:none}
-    section.active{display:block}
-    h2{text-align:center;color:var(--gold);font-family:Cinzel,serif;margin-bottom:40px}
+.carousel{
+height:100%;
+display:flex;
+animation:slide 18s infinite;
+}
 
-    /* CURADORIA CARDS */
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:30px;
-    }
-    .card{
-      background:var(--card);
-      border:1px solid rgba(255,255,255,.06);
-      padding:40px 30px;
-      border-radius:14px;
-      text-align:center;
-      cursor:pointer;
-      transition:.4s;
-      position:relative;
-    }
-    .card::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:14px;
-      box-shadow:0 0 0 rgba(212,175,55,0);
-      transition:.4s;
-    }
-    .card:hover{
-      transform:translateY(-8px);
-    }
-    .card:hover::after{
-      box-shadow:0 0 35px rgba(212,175,55,.35);
-    }
-    .card h3{
-      font-family:Cinzel,serif;
-      color:var(--gold);
-      margin-bottom:12px;
-    }
-    .card p{color:var(--muted);font-size:.95rem}
+.carousel img{
+width:100%;
+object-fit:cover;
+flex-shrink:0;
+}
 
-    /* FOOTER */
-    footer{
-      background:var(--card);
-      border-top:3px solid var(--gold);
-      padding:40px 0;
-    }
-    footer .container{
-      display:flex;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      color:var(--muted);
-    }
-    footer strong{color:var(--gold)}
+@keyframes slide{
+0%{transform:translateX(0)}
+33%{transform:translateX(-100%)}
+66%{transform:translateX(-200%)}
+100%{transform:translateX(0)}
+}
 
-    @media(max-width:900px){
-      nav{display:none}
-    }
-  </style>
+.hero-overlay{
+position:absolute;inset:0;
+background:rgba(0,0,0,.6);
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:20px;
+}
+
+.hero-overlay h1{
+font-family:Cinzel,serif;
+color:var(--gold);
+font-size:3rem;
+}
+
+.hero-overlay p{max-width:700px;margin:20px auto}
+
+.btn{
+border:2px solid var(--gold);
+padding:12px 24px;
+color:var(--gold);
+background:transparent;
+font-family:Cinzel,serif;
+cursor:pointer;
+transition:.3s;
+}
+
+.btn:hover{
+background:var(--gold);
+color:#111;
+}
+
+/* CURADORIA */
+.container{width:90%;max-width:1200px;margin:0 auto}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+.card{
+background:var(--card);
+padding:30px;
+border-radius:14px;
+transition:.3s;
+cursor:pointer;
+border:1px solid rgba(255,255,255,.06);
+}
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 0 30px rgba(212,175,55,.35);
+}
+
+.card h3{
+font-family:Cinzel,serif;
+color:var(--gold);
+}
+
+/* FOOTER */
+footer{
+background:#151515;
+border-top:3px solid var(--gold);
+padding:40px 5%;
+margin-top:40px;
+}
+
+footer p{color:var(--muted)}
+</style>
 </head>
 
 <body>
 
 <header>
-  <div class="header-inner">
-    <div class="logo-area">
-      <img src="images/rosa-dos-ventos.png">
-      <div>
-        <div class="brand">Curadoria Elite Travel</div>
-        <div class="slogan">O seu mundo, bem indicado.</div>
-      </div>
-    </div>
-
-    <nav>
-      <ul>
-        <li><a onclick="showSection('inicio')">Início</a></li>
-        <li><a onclick="showSection('quem')">Quem Somos</a></li>
-        <li><a onclick="showSection('curadoria')">Curadoria</a></li>
-        <li><a onclick="showSection('avalie')">Avalie-nos</a></li>
-        <li><a onclick="showSection('contato')">Contato</a></li>
-      </ul>
-    </nav>
-
-    <div class="actions">
-      <button class="btn">Admin</button>
-      <button class="btn">Entrar</button>
-    </div>
-  </div>
+<div class="brand">Curadoria Elite Travel</div>
+<nav>
+<a onclick="showSection('inicio')">Início</a>
+<a onclick="showSection('quem')">Quem Somos</a>
+<a onclick="showSection('curadoria')">Curadoria</a>
+<a onclick="showSection('avalie')">Avalie-nos</a>
+<a onclick="showSection('contato')">Contato</a>
+</nav>
 </header>
 
 <main>
 
-<section id="inicio" class="hero active">
-  <div class="hero-content">
-    <h1>Curadoria Elite Travel</h1>
-    <p>Experiências bem indicadas para quem valoriza tempo, confiança e elegância.</p>
-    <button class="btn primary" onclick="showSection('curadoria')">
-      Descubra nossa curadoria
-    </button>
-  </div>
+<section id="inicio" class="active hero">
+<div class="carousel">
+<img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
+<img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
+<img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
+</div>
+
+<div class="hero-overlay">
+<div>
+<h1>Curadoria Elite Travel</h1>
+<p>Experiências bem indicadas para quem valoriza tempo, confiança e elegância.</p>
+<button class="btn" onclick="showSection('curadoria')">
+Descubra mais sobre nossa curadoria
+</button>
+</div>
+</div>
 </section>
 
 <section id="quem">
-  <h2>Quem Somos</h2>
-  <p class="container" style="text-align:center">
-    Criamos universos turísticos acessíveis e bem indicados para viajantes exigentes.
-  </p>
+<div class="container">
+<h2>Quem Somos</h2>
+<p>Transformamos destinos em experiências claras, elegantes e acessíveis.</p>
+</div>
 </section>
 
 <section id="curadoria">
-  <h2>Curadoria</h2>
-
-  <div class="container grid">
-    <div class="card"><h3>City Guide</h3><p>Guias completos por cidade</p></div>
-    <div class="card"><h3>Experiências Gastronômicas</h3><p>Bares e restaurantes selecionados</p></div>
-    <div class="card"><h3>Pontos Turísticos</h3><p>As melhores atrações da cidade</p></div>
-    <div class="card"><h3>Experiências Imersivas</h3><p>Passeios únicos e memoráveis</p></div>
-    <div class="card"><h3>Compras & Presentes</h3><p>Indicações exclusivas</p></div>
-    <div class="card"><h3>Vida Noturna</h3><p>Bares e baladas selecionados</p></div>
-    <div class="card"><h3>Hotéis & Hospedagens</h3><p>3 a 4 estrelas bem indicados</p></div>
-    <div class="card"><h3>Cruzeiros</h3><p>Experiências premium</p></div>
-  </div>
+<div class="container">
+<h2>Curadoria</h2>
+<div class="grid">
+<div class="card"><h3>City Guide</h3></div>
+<div class="card"><h3>Experiências Gastronômicas</h3></div>
+<div class="card"><h3>Pontos Turísticos</h3></div>
+<div class="card"><h3>Experiências Imersivas</h3></div>
+<div class="card"><h3>Compras & Presentes</h3></div>
+<div class="card"><h3>Vida Noturna</h3></div>
+<div class="card"><h3>Hotéis & Hospedagens</h3></div>
+<div class="card"><h3>Cruzeiros</h3></div>
+</div>
+</div>
 </section>
 
-<section id="avalie"><h2>Avalie-nos</h2></section>
-<section id="contato"><h2>Contato</h2></section>
+<section id="avalie"><div class="container"><h2>Avalie-nos</h2></div></section>
+<section id="contato"><div class="container"><h2>Contato</h2></div></section>
 
 </main>
 
 <footer>
-  <div class="container">
-    <div>
-      <strong>Curadoria Elite Travel</strong>
-      <p>O seu mundo, bem indicado.</p>
-    </div>
-    <div>
-      <p>curadoriaelitetravel@gmail.com</p>
-      <p>São Paulo — SP</p>
-    </div>
-  </div>
+<p><strong>Curadoria Elite Travel</strong></p>
+<p>O seu mundo, bem indicado.</p>
+<p>curadoriaelitetravel@gmail.com</p>
+<p>São Paulo — SP</p>
 </footer>
 
 <script>
-  function showSection(id){
-    document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-    window.scrollTo({top:0,behavior:"smooth"});
-  }
+function showSection(id){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+window.scrollTo({top:0,behavior:"smooth"});
+}
 </script>
 
 </body>
