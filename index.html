@@ -1,98 +1,170 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Curadoria Elite Travel — Admin</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Curadoria Elite Travel</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --gold:#D4AF37;
-  --bg:#0f0f0f;
-  --card:#151515;
+  --gold:#d4af37;
+  --bg:#0e0e0e;
+  --card:#171717;
+  --muted:#9a9a9a;
   --text:#f2f2f2;
-  --muted:#aaa;
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:"Playfair Display",serif}
-a{text-decoration:none;color:inherit}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Playfair Display",serif;
+  background:var(--bg);
+  color:var(--text);
+}
 
+/* ===== HEADER ===== */
 header{
-  background:#000;
+  position:fixed;
+  top:0;
+  width:100%;
+  background:rgba(0,0,0,.85);
   border-bottom:1px solid rgba(255,255,255,.05);
-  padding:16px 8%;
+  z-index:1000;
 }
-header strong{
+.header-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 5%;
+}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.logo img{width:42px}
+.brand{
   font-family:Cinzel,serif;
   color:var(--gold);
+  font-weight:700;
 }
+.slogan{font-size:.75rem;color:var(--muted)}
 
-section{
-  display:none;
-  padding:80px 8%;
+nav ul{
+  list-style:none;
+  display:flex;
+  gap:22px;
+  margin:0;
+  padding:0;
 }
-section.active{display:block}
-
-h2{
+nav a{
+  color:var(--text);
+  text-decoration:none;
   font-family:Cinzel,serif;
-  color:var(--gold);
-  text-align:center;
-  margin-bottom:30px;
+  font-size:.85rem;
 }
+nav a:hover{color:var(--gold)}
 
 .btn{
-  border:1px solid var(--gold);
-  padding:10px 16px;
-  border-radius:10px;
-  background:transparent;
+  border:2px solid var(--gold);
+  background:none;
   color:var(--gold);
-  font-family:Cinzel,serif;
+  padding:6px 12px;
+  border-radius:6px;
   cursor:pointer;
-}
-.btn.primary{
-  background:var(--gold);
-  color:#111;
+  font-family:Cinzel,serif;
 }
 
+/* ===== SECTIONS ===== */
+main{padding-top:100px}
+section{display:none;padding:80px 6%}
+section.active{display:block}
+
+/* ===== HERO ===== */
+.hero{
+  text-align:center;
+  background:url("https://images.unsplash.com/photo-1501785888041-af3ef285b470") center/cover;
+}
+.hero h1{
+  font-family:Cinzel,serif;
+  font-size:3rem;
+  color:var(--gold);
+}
+.hero p{
+  max-width:800px;
+  margin:20px auto;
+}
+.hero button{margin-top:20px}
+
+/* ===== CARDS ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+}
 .card{
   background:var(--card);
-  border:1px solid rgba(212,175,55,.15);
-  border-radius:16px;
-  padding:30px;
-  max-width:420px;
-  margin:40px auto;
+  padding:22px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.05);
+  transition:.3s;
 }
-
-input{
-  width:100%;
-  padding:12px;
-  margin:10px 0 20px;
-  border-radius:8px;
-  border:none;
+.card:hover{
+  box-shadow:0 0 25px rgba(212,175,55,.25);
+  transform:translateY(-6px);
 }
-
-.admin-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:30px;
-  margin-top:40px;
-}
-
-.admin-box{
-  background:#151515;
-  padding:30px;
-  border-radius:16px;
-  border:1px solid rgba(212,175,55,.2);
-  text-align:center;
-}
-
-.admin-box h3{
+.card h3{
   font-family:Cinzel,serif;
   color:var(--gold);
-  margin-bottom:10px;
+  margin-top:0;
+}
+
+/* ===== DASHBOARD ===== */
+.dashboard{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+.stat{
+  background:linear-gradient(145deg,#1a1a1a,#111);
+  padding:24px;
+  border-radius:12px;
+}
+.stat h2{
+  margin:0;
+  font-size:2rem;
+  color:var(--gold);
+}
+.stat span{color:var(--muted)}
+
+/* ===== LOGIN ===== */
+.login-box{
+  max-width:420px;
+  margin:0 auto;
+  background:var(--card);
+  padding:30px;
+  border-radius:12px;
+}
+.login-box input{
+  width:100%;
+  padding:12px;
+  margin-bottom:12px;
+  background:none;
+  border:1px solid rgba(255,255,255,.1);
+  color:white;
+  border-radius:6px;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  background:#151515;
+  border-top:3px solid var(--gold);
+  padding:30px 6%;
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
 }
 </style>
 </head>
@@ -100,84 +172,108 @@ input{
 <body>
 
 <header>
-  <strong>Curadoria Elite Travel — Admin</strong>
+  <div class="header-inner">
+    <div class="logo">
+      <img src="images/rosa-dos-ventos.png">
+      <div>
+        <div class="brand">Curadoria Elite Travel</div>
+        <div class="slogan">O seu mundo, bem indicado.</div>
+      </div>
+    </div>
+
+    <nav>
+      <ul>
+        <li><a onclick="show('inicio')">Início</a></li>
+        <li><a onclick="show('quem')">Quem Somos</a></li>
+        <li><a onclick="show('curadoria')">Curadoria</a></li>
+        <li><a onclick="show('contato')">Contato</a></li>
+        <li><a onclick="show('login')">Admin</a></li>
+      </ul>
+    </nav>
+  </div>
 </header>
 
 <main>
 
-<!-- LOGIN ADMIN -->
-<section id="login" class="active">
-  <div class="card">
-    <h2>Acesso Administrativo</h2>
-    <input type="email" id="adminEmail" placeholder="Email">
-    <input type="password" id="adminPass" placeholder="Senha">
-    <button class="btn primary" onclick="login()">Entrar</button>
-    <p id="loginMsg" style="margin-top:20px;color:#f88;text-align:center"></p>
+<section id="inicio" class="active hero">
+  <h1>Curadoria Elite Travel</h1>
+  <p>Curadorias inteligentes para quem valoriza tempo, clareza e boas escolhas.</p>
+  <button class="btn" onclick="show('curadoria')">Descubra nossa curadoria</button>
+</section>
+
+<section id="quem">
+  <h2>Quem Somos</h2>
+  <p style="max-width:900px;margin:auto;text-align:center">
+    Na Curadoria Elite Travel, acreditamos que seu tempo é seu bem mais valioso...
+  </p>
+</section>
+
+<section id="curadoria">
+  <h2>Categorias</h2>
+  <div class="grid">
+    <div class="card"><h3>City Guide</h3></div>
+    <div class="card"><h3>Gastronomia</h3></div>
+    <div class="card"><h3>Pontos Turísticos</h3></div>
+    <div class="card"><h3>Experiências Imersivas</h3></div>
+    <div class="card"><h3>Compras & Presentes</h3></div>
+    <div class="card"><h3>Vida Noturna</h3></div>
+    <div class="card"><h3>Hotéis & Hospedagens</h3></div>
+    <div class="card"><h3>Cruzeiros</h3></div>
   </div>
 </section>
 
-<!-- PAINEL ADMIN -->
-<section id="admin">
-  <h2>Painel Administrativo</h2>
-
-  <div class="admin-grid">
-    <div class="admin-box">
-      <h3>Gerenciar PDFs</h3>
-      <p>Adicionar e organizar materiais</p>
-      <button class="btn">Em breve</button>
-    </div>
-
-    <div class="admin-box">
-      <h3>Categorias</h3>
-      <p>Editar categorias da curadoria</p>
-      <button class="btn">Em breve</button>
-    </div>
-
-    <div class="admin-box">
-      <h3>Usuários</h3>
-      <p>Visualizar usuários cadastrados</p>
-      <button class="btn">Em breve</button>
-    </div>
-
-    <div class="admin-box">
-      <h3>Relatórios</h3>
-      <p>Acessos e downloads</p>
-      <button class="btn">Em breve</button>
-    </div>
+<section id="login">
+  <div class="login-box">
+    <h2>Login Admin</h2>
+    <input id="email" placeholder="Email">
+    <input id="senha" type="password" placeholder="Senha">
+    <button class="btn" onclick="login()">Entrar</button>
+    <p id="erro" style="color:#e57373"></p>
   </div>
+</section>
 
-  <div style="text-align:center;margin-top:60px">
-    <button class="btn" onclick="logout()">Sair</button>
+<section id="dashboard">
+  <h2>Dashboard</h2>
+  <div class="dashboard">
+    <div class="stat"><h2>128</h2><span>Usuários</span></div>
+    <div class="stat"><h2>54</h2><span>Downloads</span></div>
+    <div class="stat"><h2>22</h2><span>Materiais</span></div>
+    <div class="stat"><h2>31</h2><span>Avaliações</span></div>
   </div>
+</section>
+
+<section id="contato">
+  <h2>Contato</h2>
+  <p>Email: curadoriaelitetravel@gmail.com</p>
 </section>
 
 </main>
 
+<footer>
+  <div>
+    <strong>Curadoria Elite Travel</strong>
+    <p>O seu mundo, bem indicado.</p>
+  </div>
+  <div>
+    São Paulo — SP<br>
+    © 2025
+  </div>
+</footer>
+
 <script>
-function login(){
-  const email = document.getElementById("adminEmail").value;
-  const pass  = document.getElementById("adminPass").value;
-
-  if(email === "admin@elitetravel.com" && pass === "admin@123"){
-    localStorage.setItem("admin","logado");
-    show("admin");
-  }else{
-    document.getElementById("loginMsg").innerText = "Email ou senha inválidos";
-  }
-}
-
-function logout(){
-  localStorage.removeItem("admin");
-  show("login");
-}
-
 function show(id){
-  document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-if(localStorage.getItem("admin") === "logado"){
-  show("admin");
+function login(){
+  const e=document.getElementById("email").value;
+  const s=document.getElementById("senha").value;
+  if(e==="admin@elitetravel.com" && s==="admin@123"){
+    show("dashboard");
+  }else{
+    document.getElementById("erro").innerText="Login inválido";
+  }
 }
 </script>
 
