@@ -58,6 +58,11 @@ input,select{
   width:100%;padding:10px;margin-bottom:12px;
   background:#111;border:1px solid #333;color:#fff;border-radius:6px
 }
+canvas{
+  background:#111;
+  border-radius:12px;
+  padding:16px
+}
 footer{
   background:#151515;border-top:3px solid var(--gold);
   padding:30px 6%;color:var(--muted);
@@ -127,6 +132,13 @@ footer{
     </div>
   </div>
 
+  <h2>Visão Gráfica</h2>
+
+  <div class="grid">
+    <canvas id="barChart"></canvas>
+    <canvas id="pieChart"></canvas>
+  </div>
+
   <h2>Adicionar PDF</h2>
 
   <select id="catSelect">
@@ -157,11 +169,7 @@ footer{
 const adminEmail="admin@elitetravel.com"
 const adminSenha="admin@123"
 
-const data={
-  city:[],
-  gastro:[],
-  hotel:[]
-}
+const data={ city:[], gastro:[], hotel:[] }
 
 function show(id){
   document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
@@ -172,36 +180,64 @@ function login(){
   if(email.value===adminEmail && senha.value===adminSenha){
     show("admin")
     updateDashboard()
-  }else alert("Login inválido")
+  } else alert("Login inválido")
 }
 
 function addPDF(){
-  const cat=catSelect.value
-  data[cat].push({name:pdfName.value,link:pdfLink.value})
+  data[catSelect.value].push({name:pdfName.value,link:pdfLink.value})
   pdfName.value=""
   pdfLink.value=""
   updateDashboard()
 }
 
 function updateDashboard(){
-  const total=data.city.length+data.gastro.length+data.hotel.length
-  totalPdfs.innerText=total
-  cityCount.innerText=data.city.length
-  gastroCount.innerText=data.gastro.length
-  hotelCount.innerText=data.hotel.length
+  const city=data.city.length
+  const gastro=data.gastro.length
+  const hotel=data.hotel.length
+  totalPdfs.innerText=city+gastro+hotel
+  cityCount.innerText=city
+  gastroCount.innerText=gastro
+  hotelCount.innerText=hotel
+  drawCharts(city,gastro,hotel)
+}
+
+function drawCharts(city,gastro,hotel){
+  const bar=document.getElementById("barChart").getContext("2d")
+  bar.clearRect(0,0,400,300)
+  const values=[city,gastro,hotel]
+  const labels=["City","Gastro","Hotel"]
+  values.forEach((v,i)=>{
+    bar.fillStyle="#d4af37"
+    bar.fillRect(60+i*90,200-v*20,50,v*20)
+    bar.fillStyle="#fff"
+    bar.fillText(labels[i],60+i*90,230)
+  })
+
+  const pie=document.getElementById("pieChart").getContext("2d")
+  pie.clearRect(0,0,300,300)
+  const total=city+gastro+hotel||1
+  let start=0
+  const colors=["#d4af37","#b38b2b","#888"]
+  values.forEach((v,i)=>{
+    const slice=(v/total)*Math.PI*2
+    pie.beginPath()
+    pie.moveTo(150,150)
+    pie.fillStyle=colors[i]
+    pie.arc(150,150,100,start,start+slice)
+    pie.fill()
+    start+=slice
+  })
 }
 
 function exportCSV(){
   let csv="Categoria,Nome,Link\n"
   Object.keys(data).forEach(cat=>{
-    data[cat].forEach(p=>{
-      csv+=`${cat},${p.name},${p.link}\n`
-    })
+    data[cat].forEach(p=>csv+=`${cat},${p.name},${p.link}\n`)
   })
   const blob=new Blob([csv],{type:"text/csv"})
   const a=document.createElement("a")
   a.href=URL.createObjectURL(blob)
-  a.download="relatorio-curadoria.csv"
+  a.download="dashboard-curadoria.csv"
   a.click()
 }
 </script>
