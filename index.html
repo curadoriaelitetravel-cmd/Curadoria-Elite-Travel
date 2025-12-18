@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Curadoria Elite Travel</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Playfair+Display&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 :root{
@@ -15,156 +16,52 @@
   --muted:#9a9a9a;
   --text:#f2f2f2;
 }
-
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:"Playfair Display",serif;
-  background:var(--bg);
-  color:var(--text);
-}
-
-/* ===== HEADER ===== */
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Playfair Display",serif}
 header{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:rgba(0,0,0,.85);
-  border-bottom:1px solid rgba(255,255,255,.05);
-  z-index:1000;
+  position:fixed;top:0;width:100%;z-index:1000;
+  background:rgba(0,0,0,.9);border-bottom:1px solid rgba(255,255,255,.05)
 }
 .header-inner{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  display:flex;justify-content:space-between;align-items:center;
   padding:14px 5%;
 }
-.logo{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.logo img{width:42px}
-.brand{
-  font-family:Cinzel,serif;
-  color:var(--gold);
-  font-weight:700;
-}
-.slogan{font-size:.75rem;color:var(--muted)}
-
-nav ul{
-  list-style:none;
-  display:flex;
-  gap:22px;
-  margin:0;
-  padding:0;
-}
-nav a{
-  color:var(--text);
-  text-decoration:none;
-  font-family:Cinzel,serif;
-  font-size:.85rem;
-}
+.brand{font-family:Cinzel,serif;color:var(--gold);font-weight:700}
+nav a{margin-left:18px;color:#fff;text-decoration:none;font-family:Cinzel}
 nav a:hover{color:var(--gold)}
-
-.btn{
-  border:2px solid var(--gold);
-  background:none;
-  color:var(--gold);
-  padding:6px 12px;
-  border-radius:6px;
-  cursor:pointer;
-  font-family:Cinzel,serif;
-}
-
-/* ===== SECTIONS ===== */
 main{padding-top:100px}
 section{display:none;padding:80px 6%}
 section.active{display:block}
-
-/* ===== HERO ===== */
-.hero{
-  text-align:center;
-  background:url("https://images.unsplash.com/photo-1501785888041-af3ef285b470") center/cover;
+.hero{text-align:center}
+.hero h1{font-family:Cinzel;font-size:3rem;color:var(--gold)}
+.btn{
+  border:2px solid var(--gold);background:none;color:var(--gold);
+  padding:8px 14px;border-radius:6px;cursor:pointer
 }
-.hero h1{
-  font-family:Cinzel,serif;
-  font-size:3rem;
-  color:var(--gold);
-}
-.hero p{
-  max-width:800px;
-  margin:20px auto;
-}
-.hero button{margin-top:20px}
-
-/* ===== CARDS ===== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:20px;
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
 .card{
-  background:var(--card);
-  padding:22px;
-  border-radius:10px;
-  border:1px solid rgba(255,255,255,.05);
-  transition:.3s;
+  background:var(--card);padding:22px;border-radius:10px;
+  transition:.3s;border:1px solid rgba(255,255,255,.05)
 }
-.card:hover{
-  box-shadow:0 0 25px rgba(212,175,55,.25);
-  transform:translateY(-6px);
-}
-.card h3{
-  font-family:Cinzel,serif;
-  color:var(--gold);
-  margin-top:0;
-}
-
-/* ===== DASHBOARD ===== */
-.dashboard{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-}
-.stat{
-  background:linear-gradient(145deg,#1a1a1a,#111);
-  padding:24px;
-  border-radius:12px;
-}
-.stat h2{
-  margin:0;
-  font-size:2rem;
-  color:var(--gold);
-}
-.stat span{color:var(--muted)}
-
-/* ===== LOGIN ===== */
+.card:hover{box-shadow:0 0 25px rgba(212,175,55,.25);transform:translateY(-6px)}
 .login-box{
-  max-width:420px;
-  margin:0 auto;
-  background:var(--card);
-  padding:30px;
-  border-radius:12px;
+  max-width:420px;margin:auto;background:var(--card);
+  padding:30px;border-radius:12px
 }
 .login-box input{
-  width:100%;
-  padding:12px;
-  margin-bottom:12px;
-  background:none;
-  border:1px solid rgba(255,255,255,.1);
-  color:white;
-  border-radius:6px;
+  width:100%;padding:12px;margin-bottom:12px;
+  background:none;border:1px solid rgba(255,255,255,.15);
+  color:#fff;border-radius:6px
 }
-
-/* ===== FOOTER ===== */
+.dashboard{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px
+}
+canvas{background:#111;padding:20px;border-radius:12px}
 footer{
-  background:#151515;
-  border-top:3px solid var(--gold);
-  padding:30px 6%;
-  display:flex;
-  justify-content:space-between;
-  color:var(--muted);
+  background:#151515;border-top:3px solid var(--gold);
+  padding:30px 6%;color:var(--muted);
+  display:flex;justify-content:space-between
 }
 </style>
 </head>
@@ -173,22 +70,12 @@ footer{
 
 <header>
   <div class="header-inner">
-    <div class="logo">
-      <img src="images/rosa-dos-ventos.png">
-      <div>
-        <div class="brand">Curadoria Elite Travel</div>
-        <div class="slogan">O seu mundo, bem indicado.</div>
-      </div>
-    </div>
-
+    <div class="brand">Curadoria Elite Travel</div>
     <nav>
-      <ul>
-        <li><a onclick="show('inicio')">Início</a></li>
-        <li><a onclick="show('quem')">Quem Somos</a></li>
-        <li><a onclick="show('curadoria')">Curadoria</a></li>
-        <li><a onclick="show('contato')">Contato</a></li>
-        <li><a onclick="show('login')">Admin</a></li>
-      </ul>
+      <a onclick="show('inicio')">Início</a>
+      <a onclick="show('curadoria')">Curadoria</a>
+      <a onclick="show('contato')">Contato</a>
+      <a onclick="show('login')">Admin</a>
     </nav>
   </div>
 </header>
@@ -197,28 +84,17 @@ footer{
 
 <section id="inicio" class="active hero">
   <h1>Curadoria Elite Travel</h1>
-  <p>Curadorias inteligentes para quem valoriza tempo, clareza e boas escolhas.</p>
+  <p>Decisões elegantes para quem valoriza tempo.</p>
   <button class="btn" onclick="show('curadoria')">Descubra nossa curadoria</button>
-</section>
-
-<section id="quem">
-  <h2>Quem Somos</h2>
-  <p style="max-width:900px;margin:auto;text-align:center">
-    Na Curadoria Elite Travel, acreditamos que seu tempo é seu bem mais valioso...
-  </p>
 </section>
 
 <section id="curadoria">
   <h2>Categorias</h2>
   <div class="grid">
-    <div class="card"><h3>City Guide</h3></div>
-    <div class="card"><h3>Gastronomia</h3></div>
-    <div class="card"><h3>Pontos Turísticos</h3></div>
-    <div class="card"><h3>Experiências Imersivas</h3></div>
-    <div class="card"><h3>Compras & Presentes</h3></div>
-    <div class="card"><h3>Vida Noturna</h3></div>
-    <div class="card"><h3>Hotéis & Hospedagens</h3></div>
-    <div class="card"><h3>Cruzeiros</h3></div>
+    <div class="card">City Guide</div>
+    <div class="card">Gastronomia</div>
+    <div class="card">Experiências</div>
+    <div class="card">Hotéis</div>
   </div>
 </section>
 
@@ -234,17 +110,18 @@ footer{
 
 <section id="dashboard">
   <h2>Dashboard</h2>
+  <button class="btn" onclick="exportar()">Exportar relatório</button>
+
   <div class="dashboard">
-    <div class="stat"><h2>128</h2><span>Usuários</span></div>
-    <div class="stat"><h2>54</h2><span>Downloads</span></div>
-    <div class="stat"><h2>22</h2><span>Materiais</span></div>
-    <div class="stat"><h2>31</h2><span>Avaliações</span></div>
+    <canvas id="graficoAcessos"></canvas>
+    <canvas id="graficoDownloads"></canvas>
+    <canvas id="graficoAvaliacoes"></canvas>
   </div>
 </section>
 
 <section id="contato">
   <h2>Contato</h2>
-  <p>Email: curadoriaelitetravel@gmail.com</p>
+  <p>curadoriaelitetravel@gmail.com</p>
 </section>
 
 </main>
@@ -254,10 +131,7 @@ footer{
     <strong>Curadoria Elite Travel</strong>
     <p>O seu mundo, bem indicado.</p>
   </div>
-  <div>
-    São Paulo — SP<br>
-    © 2025
-  </div>
+  <div>São Paulo — SP</div>
 </footer>
 
 <script>
@@ -267,13 +141,36 @@ function show(id){
 }
 
 function login(){
-  const e=document.getElementById("email").value;
-  const s=document.getElementById("senha").value;
-  if(e==="admin@elitetravel.com" && s==="admin@123"){
+  if(email.value==="admin@elitetravel.com" && senha.value==="admin@123"){
     show("dashboard");
+    renderCharts();
   }else{
-    document.getElementById("erro").innerText="Login inválido";
+    erro.innerText="Login inválido";
   }
+}
+
+function renderCharts(){
+  new Chart(graficoAcessos,{
+    type:'line',
+    data:{labels:['Jan','Fev','Mar','Abr'],datasets:[{label:'Acessos',data:[120,190,300,250],borderColor:'#d4af37'}]}
+  });
+  new Chart(graficoDownloads,{
+    type:'bar',
+    data:{labels:['PDFs','Guias','Listas'],datasets:[{label:'Downloads',data:[80,55,40],backgroundColor:'#d4af37'}]}
+  });
+  new Chart(graficoAvaliacoes,{
+    type:'doughnut',
+    data:{labels:['5★','4★','3★'],datasets:[{data:[60,30,10],backgroundColor:['#d4af37','#bfa030','#8c7a2b']}]}
+  });
+}
+
+function exportar(){
+  const csv="Tipo,Valor\nAcessos,250\nDownloads,175\nAvaliações,31";
+  const blob=new Blob([csv],{type:"text/csv"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="relatorio-dashboard.csv";
+  a.click();
 }
 </script>
 
