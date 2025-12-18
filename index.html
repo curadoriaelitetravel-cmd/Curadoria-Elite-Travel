@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Curadoria Elite Travel — O seu mundo, bem indicado.</title>
+<title>Curadoria Elite Travel — Admin</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 
@@ -21,36 +21,11 @@ body{background:var(--bg);color:var(--text);font-family:Playfair Display,serif}
 a{text-decoration:none;color:inherit}
 
 header{
-  position:fixed;top:0;width:100%;
-  background:rgba(0,0,0,.9);
+  background:#000;
   border-bottom:1px solid rgba(255,255,255,.05);
-  z-index:999;
+  padding:16px 8%;
 }
-.header-inner{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:16px 6%;
-}
-.logo{display:flex;align-items:center;gap:12px}
-.logo img{width:44px}
-.logo strong{font-family:Cinzel,serif;color:var(--gold)}
-
-nav a{
-  margin:0 14px;
-  font-family:Cinzel,serif;
-  font-size:.9rem;
-}
-nav a:hover{color:var(--gold)}
-
-.btn{
-  border:1px solid var(--gold);
-  padding:8px 14px;
-  border-radius:8px;
-  font-family:Cinzel,serif;
-  cursor:pointer;
-}
-.btn.primary{background:var(--gold);color:#111}
-
-main{padding-top:120px}
+header strong{font-family:Cinzel,serif;color:var(--gold)}
 
 section{display:none;padding:80px 8%}
 section.active{display:block}
@@ -62,178 +37,134 @@ h2{
   margin-bottom:30px;
 }
 
-/* HERO */
-.hero{
-  height:90vh;
-  background:url("https://picsum.photos/1600/900?travel") center/cover;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-.hero h1{
-  font-family:Cinzel,serif;
+.btn{
+  border:1px solid var(--gold);
+  padding:10px 16px;
+  border-radius:10px;
+  background:transparent;
   color:var(--gold);
-  font-size:3rem;
+  font-family:Cinzel,serif;
+  cursor:pointer;
 }
-.hero p{max-width:720px;margin:20px auto}
+.btn.primary{background:var(--gold);color:#111}
 
-/* CURADORIA */
-.grid{
+.card{
+  background:var(--card);
+  border:1px solid rgba(212,175,55,.15);
+  border-radius:16px;
+  padding:30px;
+  max-width:420px;
+  margin:40px auto;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin:10px 0 20px;
+  border-radius:8px;
+  border:none;
+}
+
+.admin-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:30px;
   margin-top:40px;
 }
-.card{
-  background:linear-gradient(180deg,#171717,#0f0f0f);
-  border:1px solid rgba(212,175,55,.15);
-  padding:28px;
-  border-radius:18px;
-  transition:.35s;
-  cursor:pointer;
+.admin-box{
+  background:#151515;
+  padding:30px;
+  border-radius:16px;
+  border:1px solid rgba(212,175,55,.2);
+  text-align:center;
 }
-.card:hover{
-  transform:translateY(-10px);
-  box-shadow:0 18px 45px rgba(212,175,55,.35);
-}
-.card h3{
+.admin-box h3{
   font-family:Cinzel,serif;
   color:var(--gold);
   margin-bottom:10px;
 }
-.card p{color:#ccc}
-
-/* LISTA PDF */
-.pdf-list{
-  max-width:700px;
-  margin:40px auto;
-}
-.pdf-item{
-  background:#151515;
-  border:1px solid rgba(212,175,55,.2);
-  padding:18px 22px;
-  border-radius:14px;
-  margin-bottom:18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.pdf-item span{color:#ddd}
-.pdf-item a{
-  color:var(--gold);
-  font-family:Cinzel,serif;
-}
-
-/* FOOTER */
-footer{
-  background:#111;
-  border-top:2px solid var(--gold);
-  padding:40px 8%;
-  margin-top:80px;
-}
-footer p{color:var(--muted);font-size:.9rem}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-inner">
-    <div class="logo">
-      <img src="images/rosa-dos-ventos.png">
-      <strong>Curadoria Elite Travel</strong>
-    </div>
-    <nav>
-      <a onclick="show('inicio')">Início</a>
-      <a onclick="show('quem')">Quem Somos</a>
-      <a onclick="show('curadoria')">Curadoria</a>
-      <a onclick="show('contato')">Contato</a>
-      <a onclick="show('avaliacoes')">Avalia-nos</a>
-    </nav>
-  </div>
+  <strong>Curadoria Elite Travel — Admin</strong>
 </header>
 
 <main>
 
-<section id="inicio" class="active hero">
-  <div>
-    <h1>Curadoria Elite Travel</h1>
-    <p>Experiências bem indicadas para quem valoriza tempo, elegância e confiança.</p>
-    <button class="btn primary" onclick="show('curadoria')">
-      Descubra mais sobre nossa curadoria
-    </button>
+<!-- LOGIN ADMIN -->
+<section id="login" class="active">
+  <div class="card">
+    <h2>Acesso Administrativo</h2>
+    <input type="email" id="adminEmail" placeholder="Email">
+    <input type="password" id="adminPass" placeholder="Senha">
+    <button class="btn primary" onclick="login()">Entrar</button>
+    <p id="loginMsg" style="margin-top:20px;color:#f88;text-align:center"></p>
   </div>
 </section>
 
-<section id="quem">
-  <h2>Quem Somos</h2>
-  <p style="max-width:800px;margin:auto;text-align:center">
-    Criamos universos turísticos claros, elegantes e acessíveis para quem deseja explorar o mundo com confiança.
-  </p>
-</section>
+<!-- PAINEL ADMIN -->
+<section id="admin">
+  <h2>Painel Administrativo</h2>
 
-<section id="curadoria">
-  <h2>Curadoria</h2>
-  <div class="grid">
-    <div class="card" onclick="openCategory('city')"><h3>City Guide</h3><p>Guias completos por cidade</p></div>
-    <div class="card" onclick="openCategory('gastro')"><h3>Experiências Gastronômicas</h3><p>Bares e restaurantes</p></div>
-    <div class="card" onclick="openCategory('pontos')"><h3>Pontos Turísticos</h3><p>Atrações imperdíveis</p></div>
-    <div class="card" onclick="openCategory('imersivas')"><h3>Experiências Imersivas</h3><p>Passeios únicos</p></div>
-    <div class="card" onclick="openCategory('compras')"><h3>Compras & Presentes</h3><p>Indicações especiais</p></div>
-    <div class="card" onclick="openCategory('noturna')"><h3>Vida Noturna</h3><p>Baladas e bares</p></div>
-    <div class="card" onclick="openCategory('hoteis')"><h3>Hotéis & Hospedagens</h3><p>3 e 4 estrelas</p></div>
-    <div class="card" onclick="openCategory('cruzeiros')"><h3>Cruzeiros</h3><p>Experiências selecionadas</p></div>
+  <div class="admin-grid">
+    <div class="admin-box">
+      <h3>Gerenciar PDFs</h3>
+      <p>Adicionar e organizar materiais</p>
+      <button class="btn">Em breve</button>
+    </div>
+
+    <div class="admin-box">
+      <h3>Categorias</h3>
+      <p>Editar categorias da curadoria</p>
+      <button class="btn">Em breve</button>
+    </div>
+
+    <div class="admin-box">
+      <h3>Usuários</h3>
+      <p>Visualizar usuários cadastrados</p>
+      <button class="btn">Em breve</button>
+    </div>
+
+    <div class="admin-box">
+      <h3>Relatórios</h3>
+      <p>Acessos e downloads</p>
+      <button class="btn">Em breve</button>
+    </div>
   </div>
-</section>
 
-<section id="categoria">
-  <h2 id="categoriaTitulo"></h2>
-  <div class="pdf-list">
-    <div class="pdf-item"><span>Guia Exemplo 01</span><a href="#">Ver PDF</a></div>
-    <div class="pdf-item"><span>Guia Exemplo 02</span><a href="#">Ver PDF</a></div>
-    <div class="pdf-item"><span>Guia Exemplo 03</span><a href="#">Ver PDF</a></div>
+  <div style="text-align:center;margin-top:60px">
+    <button class="btn" onclick="logout()">Sair</button>
   </div>
-  <div style="text-align:center">
-    <button class="btn" onclick="show('curadoria')">Voltar à Curadoria</button>
-  </div>
-</section>
-
-<section id="contato">
-  <h2>Contato</h2>
-  <p style="text-align:center">curadoriaelitetravel@gmail.com</p>
-</section>
-
-<section id="avaliacoes">
-  <h2>Avaliações</h2>
-  <p style="text-align:center">Em breve você poderá avaliar nossas experiências.</p>
 </section>
 
 </main>
-
-<footer>
-  <p><strong>Curadoria Elite Travel</strong></p>
-  <p>O seu mundo, bem indicado.</p>
-</footer>
 <script>
+function login(){
+  const email=document.getElementById("adminEmail").value;
+  const pass=document.getElementById("adminPass").value;
+
+  if(email==="admin@curadoria.com" && pass==="123456"){
+    localStorage.setItem("admin","logado");
+    show("admin");
+  }else{
+    document.getElementById("loginMsg").innerText="Credenciais inválidas";
+  }
+}
+
+function logout(){
+  localStorage.removeItem("admin");
+  show("login");
+}
+
 function show(id){
   document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-  window.scrollTo(0,0);
 }
 
-function openCategory(tipo){
-  const titles={
-    city:"City Guide",
-    gastro:"Experiências Gastronômicas",
-    pontos:"Pontos Turísticos",
-    imersivas:"Experiências Imersivas",
-    compras:"Compras & Presentes",
-    noturna:"Vida Noturna",
-    hoteis:"Hotéis & Hospedagens",
-    cruzeiros:"Cruzeiros"
-  };
-  document.getElementById("categoriaTitulo").innerText=titles[tipo];
-  show("categoria");
+if(localStorage.getItem("admin")==="logado"){
+  show("admin");
 }
 </script>
 
