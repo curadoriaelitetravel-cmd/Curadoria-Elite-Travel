@@ -47,9 +47,16 @@ section.active{display:block}
   box-shadow:0 0 30px rgba(212,175,55,.35);
   transform:translateY(-6px)
 }
-.pdf-card{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:14px
+.stat{
+  text-align:center
+}
+.stat h3{margin:0;color:var(--gold);font-family:Cinzel}
+table{
+  width:100%;border-collapse:collapse;margin-top:20px
+}
+th,td{
+  padding:10px;border-bottom:1px solid rgba(255,255,255,.08);
+  text-align:left
 }
 footer{
   background:#151515;border-top:3px solid var(--gold);
@@ -109,19 +116,42 @@ input,select{
 </section>
 
 <section id="admin">
-  <h2>Painel Administrativo</h2>
+  <h2>Dashboard Administrativo</h2>
 
-  <select id="catSelect">
-    <option value="city">City Guide</option>
-    <option value="gastro">Gastronomia</option>
-    <option value="pontos">Pontos Turísticos</option>
-    <option value="hotel">Hotéis</option>
-  </select>
+  <div class="grid">
+    <div class="card stat">
+      <h3 id="totalPDFs">0</h3>
+      <p>Total de PDFs</p>
+    </div>
+    <div class="card stat">
+      <h3 id="cityCount">0</h3>
+      <p>City Guide</p>
+    </div>
+    <div class="card stat">
+      <h3 id="gastroCount">0</h3>
+      <p>Gastronomia</p>
+    </div>
+    <div class="card stat">
+      <h3 id="pontosCount">0</h3>
+      <p>Pontos Turísticos</p>
+    </div>
+    <div class="card stat">
+      <h3 id="hotelCount">0</h3>
+      <p>Hotéis</p>
+    </div>
+  </div>
 
-  <input id="pdfName" placeholder="Nome do PDF">
-  <input type="file" id="pdfFile" accept="application/pdf">
+  <button class="btn" onclick="exportCSV()">Exportar relatório (Excel)</button>
 
-  <button class="btn primary" onclick="uploadPDF()">Enviar PDF</button>
+  <table>
+    <thead>
+      <tr>
+        <th>Categoria</th>
+        <th>Nome do PDF</th>
+      </tr>
+    </thead>
+    <tbody id="reportTable"></tbody>
+  </table>
 </section>
 
 </main>
@@ -147,29 +177,13 @@ function save(){ localStorage.setItem("cetData",JSON.stringify(data)) }
 function show(id){
   document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
   document.getElementById(id).classList.add("active")
+  if(id==="admin") updateDashboard()
 }
 
 function login(){
   if(email.value===adminEmail && senha.value===adminSenha){
     show("admin")
   } else alert("Login inválido")
-}
-
-function uploadPDF(){
-  const file = pdfFile.files[0]
-  if(!file){ alert("Selecione um PDF"); return }
-  const reader = new FileReader()
-  reader.onload = () => {
-    data[catSelect.value].push({
-      name: pdfName.value || file.name,
-      content: reader.result
-    })
-    save()
-    pdfName.value=""
-    pdfFile.value=""
-    alert("PDF enviado com sucesso")
-  }
-  reader.readAsDataURL(file)
 }
 
 function openCategory(cat){
@@ -186,13 +200,49 @@ function openCategory(cat){
   }
   data[cat].forEach(p=>{
     pdfList.innerHTML+=`
-      <div class="card pdf-card">
-        <span>${p.name}</span>
+      <div class="card">
+        <strong>${p.name}</strong>
+        <br><br>
         <a class="btn" href="${p.content}" target="_blank">Abrir PDF</a>
       </div>
     `
   })
   show("category-view")
+}
+
+function updateDashboard(){
+  cityCount.innerText=data.city.length
+  gastroCount.innerText=data.gastro.length
+  pontosCount.innerText=data.pontos.length
+  hotelCount.innerText=data.hotel.length
+  totalPDFs.innerText=
+    data.city.length+data.gastro.length+data.pontos.length+data.hotel.length
+
+  reportTable.innerHTML=""
+  Object.keys(data).forEach(cat=>{
+    data[cat].forEach(p=>{
+      reportTable.innerHTML+=`
+        <tr>
+          <td>${cat}</td>
+          <td>${p.name}</td>
+        </tr>
+      `
+    })
+  })
+}
+
+function exportCSV(){
+  let csv="Categoria,Nome do PDF\n"
+  Object.keys(data).forEach(cat=>{
+    data[cat].forEach(p=>{
+      csv+=`${cat},${p.name}\n`
+    })
+  })
+  const blob=new Blob([csv],{type:"text/csv"})
+  const link=document.createElement("a")
+  link.href=URL.createObjectURL(blob)
+  link.download="relatorio-curadoria.csv"
+  link.click()
 }
 </script>
 
