@@ -17,7 +17,7 @@
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:Playfair Display,serif}
+body{background:var(--bg);color:var(--text);font-family:"Playfair Display",serif}
 a{text-decoration:none;color:inherit}
 
 header{
@@ -25,9 +25,15 @@ header{
   border-bottom:1px solid rgba(255,255,255,.05);
   padding:16px 8%;
 }
-header strong{font-family:Cinzel,serif;color:var(--gold)}
+header strong{
+  font-family:Cinzel,serif;
+  color:var(--gold);
+}
 
-section{display:none;padding:80px 8%}
+section{
+  display:none;
+  padding:80px 8%;
+}
 section.active{display:block}
 
 h2{
@@ -46,7 +52,10 @@ h2{
   font-family:Cinzel,serif;
   cursor:pointer;
 }
-.btn.primary{background:var(--gold);color:#111}
+.btn.primary{
+  background:var(--gold);
+  color:#111;
+}
 
 .card{
   background:var(--card);
@@ -71,6 +80,7 @@ input{
   gap:30px;
   margin-top:40px;
 }
+
 .admin-box{
   background:#151515;
   padding:30px;
@@ -78,6 +88,7 @@ input{
   border:1px solid rgba(212,175,55,.2);
   text-align:center;
 }
+
 .admin-box h3{
   font-family:Cinzel,serif;
   color:var(--gold);
@@ -85,6 +96,7 @@ input{
 }
 </style>
 </head>
+
 <body>
 
 <header>
@@ -140,16 +152,17 @@ input{
 </section>
 
 </main>
+
 <script>
 function login(){
-  const email=document.getElementById("adminEmail").value;
-  const pass=document.getElementById("adminPass").value;
+  const email = document.getElementById("adminEmail").value;
+  const pass  = document.getElementById("adminPass").value;
 
-  if(email==="admin@curadoria.com" && pass==="123456"){
+  if(email === "admin@elitetravel.com" && pass === "admin@123"){
     localStorage.setItem("admin","logado");
     show("admin");
   }else{
-    document.getElementById("loginMsg").innerText="Credenciais inválidas";
+    document.getElementById("loginMsg").innerText = "Email ou senha inválidos";
   }
 }
 
@@ -159,11 +172,11 @@ function logout(){
 }
 
 function show(id){
-  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-if(localStorage.getItem("admin")==="logado"){
+if(localStorage.getItem("admin") === "logado"){
   show("admin");
 }
 </script>
