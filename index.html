@@ -41,7 +41,7 @@ section.active{display:block}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
 .card{
   background:var(--card);padding:22px;border-radius:14px;
-  transition:.3s;border:1px solid rgba(255,255,255,.05);
+  transition:.3s;border:1px solid rgba(255,255,255,.05)
 }
 .card.hover:hover{
   box-shadow:0 0 30px rgba(212,175,55,.35);
@@ -55,6 +55,10 @@ footer{
   background:#151515;border-top:3px solid var(--gold);
   padding:30px 6%;color:var(--muted);
   display:flex;justify-content:space-between
+}
+input,select{
+  width:100%;padding:10px;margin-bottom:10px;
+  background:#111;border:1px solid #333;color:#fff;border-radius:6px
 }
 </style>
 </head>
@@ -94,7 +98,7 @@ footer{
   <h2 id="categoryTitle"></h2>
   <div id="pdfList"></div>
   <br>
-  <button class="btn" onclick="show('curadoria')">← Voltar às categorias</button>
+  <button class="btn" onclick="show('curadoria')">← Voltar</button>
 </section>
 
 <section id="admin-login">
@@ -115,9 +119,9 @@ footer{
   </select>
 
   <input id="pdfName" placeholder="Nome do PDF">
-  <input id="pdfLink" placeholder="Link do PDF">
+  <input type="file" id="pdfFile" accept="application/pdf">
 
-  <button class="btn primary" onclick="addPDF()">Adicionar PDF</button>
+  <button class="btn primary" onclick="uploadPDF()">Enviar PDF</button>
 </section>
 
 </main>
@@ -134,12 +138,11 @@ footer{
 const adminEmail="admin@elitetravel.com"
 const adminSenha="admin@123"
 
-const data={
-  city:[],
-  gastro:[],
-  pontos:[],
-  hotel:[]
+let data = JSON.parse(localStorage.getItem("cetData")) || {
+  city:[], gastro:[], pontos:[], hotel:[]
 }
+
+function save(){ localStorage.setItem("cetData",JSON.stringify(data)) }
 
 function show(id){
   document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
@@ -152,14 +155,21 @@ function login(){
   } else alert("Login inválido")
 }
 
-function addPDF(){
-  data[catSelect.value].push({
-    name:pdfName.value,
-    link:pdfLink.value
-  })
-  pdfName.value=""
-  pdfLink.value=""
-  alert("PDF adicionado com sucesso")
+function uploadPDF(){
+  const file = pdfFile.files[0]
+  if(!file){ alert("Selecione um PDF"); return }
+  const reader = new FileReader()
+  reader.onload = () => {
+    data[catSelect.value].push({
+      name: pdfName.value || file.name,
+      content: reader.result
+    })
+    save()
+    pdfName.value=""
+    pdfFile.value=""
+    alert("PDF enviado com sucesso")
+  }
+  reader.readAsDataURL(file)
 }
 
 function openCategory(cat){
@@ -172,13 +182,13 @@ function openCategory(cat){
   categoryTitle.innerText=titles[cat]
   pdfList.innerHTML=""
   if(data[cat].length===0){
-    pdfList.innerHTML="<p>Nenhum material disponível ainda.</p>"
+    pdfList.innerHTML="<p>Nenhum material disponível.</p>"
   }
   data[cat].forEach(p=>{
     pdfList.innerHTML+=`
       <div class="card pdf-card">
         <span>${p.name}</span>
-        <a class="btn" href="${p.link}" target="_blank">Abrir PDF</a>
+        <a class="btn" href="${p.content}" target="_blank">Abrir PDF</a>
       </div>
     `
   })
