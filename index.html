@@ -42,24 +42,26 @@ section.active{display:block}
 .card{
   background:var(--card);padding:22px;border-radius:12px;
   transition:.3s;border:1px solid rgba(255,255,255,.05);
-  cursor:pointer
 }
-.card:hover{
+.card.hover:hover{
   box-shadow:0 0 30px rgba(212,175,55,.35);
   transform:translateY(-6px)
 }
-.pdf{
-  background:#121212;padding:16px;border-radius:10px;
-  margin-bottom:12px;border:1px solid rgba(255,255,255,.05)
+.dashboard{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  margin-bottom:40px
+}
+.dashboard .card h3{color:var(--gold);margin:0}
+input,select{
+  width:100%;padding:10px;margin-bottom:12px;
+  background:#111;border:1px solid #333;color:#fff;border-radius:6px
 }
 footer{
   background:#151515;border-top:3px solid var(--gold);
   padding:30px 6%;color:var(--muted);
   display:flex;justify-content:space-between
-}
-input,select{
-  width:100%;padding:10px;margin-bottom:12px;
-  background:#111;border:1px solid #333;color:#fff;border-radius:6px
 }
 </style>
 </head>
@@ -88,18 +90,11 @@ input,select{
 <section id="curadoria">
   <h2>Categorias</h2>
   <div class="grid">
-    <div class="card" onclick="openCategory('city')">City Guide</div>
-    <div class="card" onclick="openCategory('gastronomia')">Experiências Gastronômicas</div>
-    <div class="card" onclick="openCategory('pontos')">Pontos Turísticos</div>
-    <div class="card" onclick="openCategory('hoteis')">Hotéis & Hospedagens</div>
+    <div class="card hover">City Guide</div>
+    <div class="card hover">Experiências Gastronômicas</div>
+    <div class="card hover">Pontos Turísticos</div>
+    <div class="card hover">Hotéis & Hospedagens</div>
   </div>
-</section>
-
-<section id="categoria">
-  <h2 id="catTitle"></h2>
-  <div id="pdfList"></div>
-  <br>
-  <button class="btn" onclick="show('curadoria')">Voltar</button>
 </section>
 
 <section id="admin-login">
@@ -110,16 +105,42 @@ input,select{
 </section>
 
 <section id="admin">
-  <h2>Painel Admin</h2>
+
+  <h2>Dashboard</h2>
+
+  <div class="dashboard">
+    <div class="card">
+      <h3 id="totalPdfs">0</h3>
+      <p>Total de PDFs</p>
+    </div>
+    <div class="card">
+      <h3 id="cityCount">0</h3>
+      <p>City Guides</p>
+    </div>
+    <div class="card">
+      <h3 id="gastroCount">0</h3>
+      <p>Gastronomia</p>
+    </div>
+    <div class="card">
+      <h3 id="hotelCount">0</h3>
+      <p>Hotéis</p>
+    </div>
+  </div>
+
+  <h2>Adicionar PDF</h2>
+
   <select id="catSelect">
     <option value="city">City Guide</option>
-    <option value="gastronomia">Gastronomia</option>
-    <option value="pontos">Pontos Turísticos</option>
-    <option value="hoteis">Hotéis</option>
+    <option value="gastro">Gastronomia</option>
+    <option value="hotel">Hotéis</option>
   </select>
+
   <input id="pdfName" placeholder="Nome do PDF">
   <input id="pdfLink" placeholder="Link do PDF">
-  <button class="btn primary" onclick="addPDF()">Adicionar</button>
+
+  <button class="btn primary" onclick="addPDF()">Adicionar PDF</button>
+  <button class="btn" onclick="exportCSV()">Exportar Excel</button>
+
 </section>
 
 </main>
@@ -138,9 +159,8 @@ const adminSenha="admin@123"
 
 const data={
   city:[],
-  gastronomia:[],
-  pontos:[],
-  hoteis:[]
+  gastro:[],
+  hotel:[]
 }
 
 function show(id){
@@ -151,6 +171,7 @@ function show(id){
 function login(){
   if(email.value===adminEmail && senha.value===adminSenha){
     show("admin")
+    updateDashboard()
   }else alert("Login inválido")
 }
 
@@ -159,16 +180,29 @@ function addPDF(){
   data[cat].push({name:pdfName.value,link:pdfLink.value})
   pdfName.value=""
   pdfLink.value=""
-  alert("PDF adicionado")
+  updateDashboard()
 }
 
-function openCategory(cat){
-  catTitle.innerText=cat
-  pdfList.innerHTML=""
-  data[cat].forEach(p=>{
-    pdfList.innerHTML+=`<div class="pdf"><a href="${p.link}" target="_blank">📄 ${p.name}</a></div>`
+function updateDashboard(){
+  const total=data.city.length+data.gastro.length+data.hotel.length
+  totalPdfs.innerText=total
+  cityCount.innerText=data.city.length
+  gastroCount.innerText=data.gastro.length
+  hotelCount.innerText=data.hotel.length
+}
+
+function exportCSV(){
+  let csv="Categoria,Nome,Link\n"
+  Object.keys(data).forEach(cat=>{
+    data[cat].forEach(p=>{
+      csv+=`${cat},${p.name},${p.link}\n`
+    })
   })
-  show("categoria")
+  const blob=new Blob([csv],{type:"text/csv"})
+  const a=document.createElement("a")
+  a.href=URL.createObjectURL(blob)
+  a.download="relatorio-curadoria.csv"
+  a.click()
 }
 </script>
 
