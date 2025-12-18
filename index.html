@@ -37,6 +37,7 @@ section.active{display:block}
   border:2px solid var(--gold);background:none;color:var(--gold);
   padding:8px 14px;border-radius:6px;cursor:pointer
 }
+.btn.primary{background:var(--gold);color:#111}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
 .card{
   background:var(--card);padding:22px;border-radius:12px;
@@ -47,21 +48,18 @@ section.active{display:block}
   box-shadow:0 0 30px rgba(212,175,55,.35);
   transform:translateY(-6px)
 }
-.list{
-  max-width:900px;margin:auto
-}
 .pdf{
-  background:#121212;
-  padding:18px;
-  border-radius:10px;
-  margin-bottom:14px;
-  border:1px solid rgba(255,255,255,.05)
+  background:#121212;padding:16px;border-radius:10px;
+  margin-bottom:12px;border:1px solid rgba(255,255,255,.05)
 }
-.pdf a{color:var(--gold);font-weight:600}
 footer{
   background:#151515;border-top:3px solid var(--gold);
   padding:30px 6%;color:var(--muted);
   display:flex;justify-content:space-between
+}
+input,select{
+  width:100%;padding:10px;margin-bottom:12px;
+  background:#111;border:1px solid #333;color:#fff;border-radius:6px
 }
 </style>
 </head>
@@ -74,7 +72,7 @@ footer{
     <nav>
       <a onclick="show('inicio')">Início</a>
       <a onclick="show('curadoria')">Curadoria</a>
-      <a onclick="show('contato')">Contato</a>
+      <a onclick="show('admin-login')">Admin</a>
     </nav>
   </div>
 </header>
@@ -84,7 +82,7 @@ footer{
 <section id="inicio" class="active hero">
   <h1>Curadoria Elite Travel</h1>
   <p>Experiências selecionadas com inteligência e elegância.</p>
-  <button class="btn" onclick="show('curadoria')">Descubra nossa curadoria</button>
+  <button class="btn primary" onclick="show('curadoria')">Descubra nossa curadoria</button>
 </section>
 
 <section id="curadoria">
@@ -99,18 +97,29 @@ footer{
 
 <section id="categoria">
   <h2 id="catTitle"></h2>
-  <p id="catDesc" style="text-align:center;max-width:700px;margin:auto"></p>
-
-  <div class="list" id="pdfList"></div>
-
-  <div style="text-align:center;margin-top:40px">
-    <button class="btn" onclick="show('curadoria')">Voltar</button>
-  </div>
+  <div id="pdfList"></div>
+  <br>
+  <button class="btn" onclick="show('curadoria')">Voltar</button>
 </section>
 
-<section id="contato">
-  <h2>Contato</h2>
-  <p>curadoriaelitetravel@gmail.com</p>
+<section id="admin-login">
+  <h2>Login Admin</h2>
+  <input id="email" placeholder="Email">
+  <input id="senha" type="password" placeholder="Senha">
+  <button class="btn primary" onclick="login()">Entrar</button>
+</section>
+
+<section id="admin">
+  <h2>Painel Admin</h2>
+  <select id="catSelect">
+    <option value="city">City Guide</option>
+    <option value="gastronomia">Gastronomia</option>
+    <option value="pontos">Pontos Turísticos</option>
+    <option value="hoteis">Hotéis</option>
+  </select>
+  <input id="pdfName" placeholder="Nome do PDF">
+  <input id="pdfLink" placeholder="Link do PDF">
+  <button class="btn primary" onclick="addPDF()">Adicionar</button>
 </section>
 
 </main>
@@ -124,27 +133,14 @@ footer{
 </footer>
 
 <script>
+const adminEmail="admin@elitetravel.com"
+const adminSenha="admin@123"
+
 const data={
-  city:{
-    title:"City Guide",
-    desc:"Guias completos e elegantes por cidade.",
-    pdfs:["Paris Essencial","Roma Clássica","Nova York Curada"]
-  },
-  gastronomia:{
-    title:"Experiências Gastronômicas",
-    desc:"Restaurantes, bares e experiências únicas.",
-    pdfs:["Bares Icônicos","Alta Gastronomia","Cafés Históricos"]
-  },
-  pontos:{
-    title:"Pontos Turísticos",
-    desc:"As atrações que realmente valem seu tempo.",
-    pdfs:["Imperdíveis","Clássicos","Fora do Óbvio"]
-  },
-  hoteis:{
-    title:"Hotéis & Hospedagens",
-    desc:"Hospedagens 3 e 4 estrelas selecionadas.",
-    pdfs:["Boutique Hotels","Conforto Urbano","Estilo & Localização"]
-  }
+  city:[],
+  gastronomia:[],
+  pontos:[],
+  hoteis:[]
 }
 
 function show(id){
@@ -152,13 +148,25 @@ function show(id){
   document.getElementById(id).classList.add("active")
 }
 
-function openCategory(key){
-  const c=data[key]
-  catTitle.innerText=c.title
-  catDesc.innerText=c.desc
+function login(){
+  if(email.value===adminEmail && senha.value===adminSenha){
+    show("admin")
+  }else alert("Login inválido")
+}
+
+function addPDF(){
+  const cat=catSelect.value
+  data[cat].push({name:pdfName.value,link:pdfLink.value})
+  pdfName.value=""
+  pdfLink.value=""
+  alert("PDF adicionado")
+}
+
+function openCategory(cat){
+  catTitle.innerText=cat
   pdfList.innerHTML=""
-  c.pdfs.forEach(p=>{
-    pdfList.innerHTML+=`<div class="pdf"><a href="#">📄 ${p}</a></div>`
+  data[cat].forEach(p=>{
+    pdfList.innerHTML+=`<div class="pdf"><a href="${p.link}" target="_blank">📄 ${p.name}</a></div>`
   })
   show("categoria")
 }
