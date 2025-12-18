@@ -6,7 +6,6 @@
 <title>Curadoria Elite Travel</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Playfair+Display&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 :root{
@@ -40,24 +39,25 @@ section.active{display:block}
 }
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
 .card{
-  background:var(--card);padding:22px;border-radius:10px;
-  transition:.3s;border:1px solid rgba(255,255,255,.05)
+  background:var(--card);padding:22px;border-radius:12px;
+  transition:.3s;border:1px solid rgba(255,255,255,.05);
+  cursor:pointer
 }
-.card:hover{box-shadow:0 0 25px rgba(212,175,55,.25);transform:translateY(-6px)}
-.login-box{
-  max-width:420px;margin:auto;background:var(--card);
-  padding:30px;border-radius:12px
+.card:hover{
+  box-shadow:0 0 30px rgba(212,175,55,.35);
+  transform:translateY(-6px)
 }
-.login-box input{
-  width:100%;padding:12px;margin-bottom:12px;
-  background:none;border:1px solid rgba(255,255,255,.15);
-  color:#fff;border-radius:6px
+.list{
+  max-width:900px;margin:auto
 }
-.dashboard{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:30px
+.pdf{
+  background:#121212;
+  padding:18px;
+  border-radius:10px;
+  margin-bottom:14px;
+  border:1px solid rgba(255,255,255,.05)
 }
-canvas{background:#111;padding:20px;border-radius:12px}
+.pdf a{color:var(--gold);font-weight:600}
 footer{
   background:#151515;border-top:3px solid var(--gold);
   padding:30px 6%;color:var(--muted);
@@ -75,7 +75,6 @@ footer{
       <a onclick="show('inicio')">Início</a>
       <a onclick="show('curadoria')">Curadoria</a>
       <a onclick="show('contato')">Contato</a>
-      <a onclick="show('login')">Admin</a>
     </nav>
   </div>
 </header>
@@ -84,38 +83,28 @@ footer{
 
 <section id="inicio" class="active hero">
   <h1>Curadoria Elite Travel</h1>
-  <p>Decisões elegantes para quem valoriza tempo.</p>
+  <p>Experiências selecionadas com inteligência e elegância.</p>
   <button class="btn" onclick="show('curadoria')">Descubra nossa curadoria</button>
 </section>
 
 <section id="curadoria">
   <h2>Categorias</h2>
   <div class="grid">
-    <div class="card">City Guide</div>
-    <div class="card">Gastronomia</div>
-    <div class="card">Experiências</div>
-    <div class="card">Hotéis</div>
+    <div class="card" onclick="openCategory('city')">City Guide</div>
+    <div class="card" onclick="openCategory('gastronomia')">Experiências Gastronômicas</div>
+    <div class="card" onclick="openCategory('pontos')">Pontos Turísticos</div>
+    <div class="card" onclick="openCategory('hoteis')">Hotéis & Hospedagens</div>
   </div>
 </section>
 
-<section id="login">
-  <div class="login-box">
-    <h2>Login Admin</h2>
-    <input id="email" placeholder="Email">
-    <input id="senha" type="password" placeholder="Senha">
-    <button class="btn" onclick="login()">Entrar</button>
-    <p id="erro" style="color:#e57373"></p>
-  </div>
-</section>
+<section id="categoria">
+  <h2 id="catTitle"></h2>
+  <p id="catDesc" style="text-align:center;max-width:700px;margin:auto"></p>
 
-<section id="dashboard">
-  <h2>Dashboard</h2>
-  <button class="btn" onclick="exportar()">Exportar relatório</button>
+  <div class="list" id="pdfList"></div>
 
-  <div class="dashboard">
-    <canvas id="graficoAcessos"></canvas>
-    <canvas id="graficoDownloads"></canvas>
-    <canvas id="graficoAvaliacoes"></canvas>
+  <div style="text-align:center;margin-top:40px">
+    <button class="btn" onclick="show('curadoria')">Voltar</button>
   </div>
 </section>
 
@@ -135,42 +124,43 @@ footer{
 </footer>
 
 <script>
-function show(id){
-  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
-
-function login(){
-  if(email.value==="admin@elitetravel.com" && senha.value==="admin@123"){
-    show("dashboard");
-    renderCharts();
-  }else{
-    erro.innerText="Login inválido";
+const data={
+  city:{
+    title:"City Guide",
+    desc:"Guias completos e elegantes por cidade.",
+    pdfs:["Paris Essencial","Roma Clássica","Nova York Curada"]
+  },
+  gastronomia:{
+    title:"Experiências Gastronômicas",
+    desc:"Restaurantes, bares e experiências únicas.",
+    pdfs:["Bares Icônicos","Alta Gastronomia","Cafés Históricos"]
+  },
+  pontos:{
+    title:"Pontos Turísticos",
+    desc:"As atrações que realmente valem seu tempo.",
+    pdfs:["Imperdíveis","Clássicos","Fora do Óbvio"]
+  },
+  hoteis:{
+    title:"Hotéis & Hospedagens",
+    desc:"Hospedagens 3 e 4 estrelas selecionadas.",
+    pdfs:["Boutique Hotels","Conforto Urbano","Estilo & Localização"]
   }
 }
 
-function renderCharts(){
-  new Chart(graficoAcessos,{
-    type:'line',
-    data:{labels:['Jan','Fev','Mar','Abr'],datasets:[{label:'Acessos',data:[120,190,300,250],borderColor:'#d4af37'}]}
-  });
-  new Chart(graficoDownloads,{
-    type:'bar',
-    data:{labels:['PDFs','Guias','Listas'],datasets:[{label:'Downloads',data:[80,55,40],backgroundColor:'#d4af37'}]}
-  });
-  new Chart(graficoAvaliacoes,{
-    type:'doughnut',
-    data:{labels:['5★','4★','3★'],datasets:[{data:[60,30,10],backgroundColor:['#d4af37','#bfa030','#8c7a2b']}]}
-  });
+function show(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
+  document.getElementById(id).classList.add("active")
 }
 
-function exportar(){
-  const csv="Tipo,Valor\nAcessos,250\nDownloads,175\nAvaliações,31";
-  const blob=new Blob([csv],{type:"text/csv"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download="relatorio-dashboard.csv";
-  a.click();
+function openCategory(key){
+  const c=data[key]
+  catTitle.innerText=c.title
+  catDesc.innerText=c.desc
+  pdfList.innerHTML=""
+  c.pdfs.forEach(p=>{
+    pdfList.innerHTML+=`<div class="pdf"><a href="#">📄 ${p}</a></div>`
+  })
+  show("categoria")
 }
 </script>
 
