@@ -1,14 +1,173 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Categoria | Curadoria Elite Travel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold: #D4AF37;
+      --gold-hover: #E6C86E;
+      --bg: #0f0f0f;
+      --card: #171717;
+      --text: #f2f2f2;
+      --muted: #9a9a9a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Playfair Display", serif;
+    }
+
+    header {
+      padding: 20px 6%;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    header a {
+      color: var(--gold);
+      text-decoration: none;
+      font-family: Cinzel, serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    main {
+      padding: 70px 6% 90px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .category-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .category-header h1 {
+      font-family: Cinzel, serif;
+      font-size: 2.6rem;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .category-header p {
+      color: var(--muted);
+      max-width: 800px;
+      margin: auto;
+      line-height: 1.7;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 26px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 26px 24px 30px;
+      transition: all .35s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(212,175,55,0.18), transparent 70%);
+      opacity: 0;
+      transition: opacity .35s;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: var(--gold);
+      box-shadow: 0 18px 50px rgba(212,175,55,0.15);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-family: Cinzel, serif;
+      color: var(--gold);
+      font-size: 1.2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: .95rem;
+      color: var(--muted);
+      line-height: 1.6;
+      position: relative;
+      z-index: 2;
+    }
+
+    footer {
+      text-align: center;
+      padding: 26px;
+      color: var(--muted);
+      font-size: .85rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>Categoria</h1>
-<p>Página de categoria carregada com sucesso.</p>
+<header>
+  <a href="index.html">← Voltar para o início</a>
+</header>
+
+<main>
+  <div class="category-header">
+    <h1>City Guide</h1>
+    <p>
+      Guias completos e bem indicados para explorar cada cidade com inteligência,
+      clareza e elegância — tudo reunido em um único ponto de partida.
+    </p>
+  </div>
+
+  <section class="cards-grid">
+
+    <!-- CARD EXEMPLO -->
+    <div class="card">
+      <h3>Paris Essencial</h3>
+      <p>Guia completo com atrações, bairros, gastronomia e dicas práticas.</p>
+    </div>
+
+    <div class="card">
+      <h3>Nova York Selecionada</h3>
+      <p>Uma curadoria objetiva para viver o melhor da cidade sem excessos.</p>
+    </div>
+
+    <div class="card">
+      <h3>Roma Atemporal</h3>
+      <p>História, sabores e experiências essenciais reunidas com cuidado.</p>
+    </div>
+
+  </section>
+</main>
+
+<footer>
+  Curadoria Elite Travel — O seu mundo, bem indicado.
+</footer>
 
 </body>
 </html>
