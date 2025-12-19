@@ -1,249 +1,163 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Curadoria Elite Travel</title>
+  <meta charset="UTF-8" />
+  <title>Curadoria Elite Travel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Playfair+Display&display=swap" rel="stylesheet">
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
-:root{
-  --gold:#d4af37;
-  --bg:#0e0e0e;
-  --card:#171717;
-  --muted:#9a9a9a;
-  --text:#f2f2f2;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:"Playfair Display",serif}
-header{
-  position:fixed;top:0;width:100%;z-index:1000;
-  background:rgba(0,0,0,.9);border-bottom:1px solid rgba(255,255,255,.05)
-}
-.header-inner{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:14px 5%;
-}
-.brand{font-family:Cinzel,serif;color:var(--gold);font-weight:700}
-nav a{margin-left:18px;color:#fff;text-decoration:none;font-family:Cinzel}
-nav a:hover{color:var(--gold)}
-main{padding-top:100px}
-section{display:none;padding:80px 6%}
-section.active{display:block}
-.hero{text-align:center}
-.hero h1{font-family:Cinzel;font-size:3rem;color:var(--gold)}
-.btn{
-  border:2px solid var(--gold);background:none;color:var(--gold);
-  padding:8px 14px;border-radius:6px;cursor:pointer
-}
-.btn.primary{background:var(--gold);color:#111}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
-.card{
-  background:var(--card);padding:22px;border-radius:14px;
-  transition:.3s;border:1px solid rgba(255,255,255,.05)
-}
-.card.hover:hover{
-  box-shadow:0 0 30px rgba(212,175,55,.35);
-  transform:translateY(-6px)
-}
-.stat{
-  text-align:center
-}
-.stat h3{margin:0;color:var(--gold);font-family:Cinzel}
-table{
-  width:100%;border-collapse:collapse;margin-top:20px
-}
-th,td{
-  padding:10px;border-bottom:1px solid rgba(255,255,255,.08);
-  text-align:left
-}
-footer{
-  background:#151515;border-top:3px solid var(--gold);
-  padding:30px 6%;color:var(--muted);
-  display:flex;justify-content:space-between
-}
-input,select{
-  width:100%;padding:10px;margin-bottom:10px;
-  background:#111;border:1px solid #333;color:#fff;border-radius:6px
-}
-</style>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #0b0b0b;
+      color: #fff;
+    }
+
+    header {
+      padding: 20px 40px;
+      border-bottom: 1px solid #222;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      margin-left: 20px;
+      color: #d4af37;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 60px 0 20px;
+      color: #d4af37;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #111, #000);
+      border: 1px solid #222;
+      border-radius: 14px;
+      padding: 30px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(212,175,55,0.15), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: #d4af37;
+      box-shadow: 0 20px 40px rgba(212,175,55,0.25);
+    }
+
+    .card:hover::after {
+      opacity: 1;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      color: #d4af37;
+      font-size: 20px;
+    }
+
+    .card p {
+      color: #ccc;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    footer {
+      border-top: 1px solid #222;
+      margin-top: 80px;
+      padding: 30px;
+      text-align: center;
+      color: #888;
+      font-size: 14px;
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-  <div class="header-inner">
-    <div class="brand">Curadoria Elite Travel</div>
-    <nav>
-      <a onclick="show('inicio')">Início</a>
-      <a onclick="show('curadoria')">Curadoria</a>
-      <a onclick="show('admin-login')">Admin</a>
-    </nav>
-  </div>
+  <strong>Curadoria Elite Travel</strong>
+  <nav>
+    <a href="#">Início</a>
+    <a href="#">Quem Somos</a>
+    <a href="#">Curadoria</a>
+    <a href="#">Contato</a>
+    <a href="#">Avalia-nos</a>
+  </nav>
 </header>
 
-<main>
+<h1>Curadoria</h1>
 
-<section id="inicio" class="active hero">
-  <h1>Curadoria Elite Travel</h1>
-  <p>Experiências selecionadas com inteligência e elegância.</p>
-  <button class="btn primary" onclick="show('curadoria')">Descubra nossa curadoria</button>
-</section>
-
-<section id="curadoria">
-  <h2>Categorias</h2>
-  <div class="grid">
-    <div class="card hover" onclick="openCategory('city')">City Guide</div>
-    <div class="card hover" onclick="openCategory('gastro')">Experiências Gastronômicas</div>
-    <div class="card hover" onclick="openCategory('pontos')">Pontos Turísticos</div>
-    <div class="card hover" onclick="openCategory('hotel')">Hotéis & Hospedagens</div>
-  </div>
-</section>
-
-<section id="category-view">
-  <h2 id="categoryTitle"></h2>
-  <div id="pdfList"></div>
-  <br>
-  <button class="btn" onclick="show('curadoria')">← Voltar</button>
-</section>
-
-<section id="admin-login">
-  <h2>Login Admin</h2>
-  <input id="email" placeholder="Email">
-  <input id="senha" type="password" placeholder="Senha">
-  <button class="btn primary" onclick="login()">Entrar</button>
-</section>
-
-<section id="admin">
-  <h2>Dashboard Administrativo</h2>
-
-  <div class="grid">
-    <div class="card stat">
-      <h3 id="totalPDFs">0</h3>
-      <p>Total de PDFs</p>
-    </div>
-    <div class="card stat">
-      <h3 id="cityCount">0</h3>
-      <p>City Guide</p>
-    </div>
-    <div class="card stat">
-      <h3 id="gastroCount">0</h3>
-      <p>Gastronomia</p>
-    </div>
-    <div class="card stat">
-      <h3 id="pontosCount">0</h3>
-      <p>Pontos Turísticos</p>
-    </div>
-    <div class="card stat">
-      <h3 id="hotelCount">0</h3>
-      <p>Hotéis</p>
-    </div>
-  </div>
-
-  <button class="btn" onclick="exportCSV()">Exportar relatório (Excel)</button>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Categoria</th>
-        <th>Nome do PDF</th>
-      </tr>
-    </thead>
-    <tbody id="reportTable"></tbody>
-  </table>
-</section>
-
-</main>
+<section class="grid" id="categories"></section>
 
 <footer>
-  <div>
-    <strong>Curadoria Elite Travel</strong>
-    <p>O seu mundo, bem indicado.</p>
-  </div>
-  <div>São Paulo — SP</div>
+  Curadoria Elite Travel · O seu mundo, bem indicado.<br>
+  São Paulo – SP · curadoriaelitetravel@gmail.com
 </footer>
 
 <script>
-const adminEmail="admin@elitetravel.com"
-const adminSenha="admin@123"
+  // 🔐 CONEXÃO SUPABASE (USE SUA PUBLISHABLE KEY)
+  const SUPABASE_URL = "https://SEU-PROJETO.supabase.co";
+  const SUPABASE_KEY = "SUA_PUBLISHABLE_KEY_AQUI";
 
-let data = JSON.parse(localStorage.getItem("cetData")) || {
-  city:[], gastro:[], pontos:[], hotel:[]
-}
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-function save(){ localStorage.setItem("cetData",JSON.stringify(data)) }
+  async function carregarCategorias() {
+    const { data, error } = await supabase
+      .from("categories")
+      .select("*")
+      .order("created_at", { ascending: true });
 
-function show(id){
-  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
-  document.getElementById(id).classList.add("active")
-  if(id==="admin") updateDashboard()
-}
+    if (error) {
+      console.error(error);
+      return;
+    }
 
-function login(){
-  if(email.value===adminEmail && senha.value===adminSenha){
-    show("admin")
-  } else alert("Login inválido")
-}
+    const container = document.getElementById("categories");
 
-function openCategory(cat){
-  const titles={
-    city:"City Guide",
-    gastro:"Experiências Gastronômicas",
-    pontos:"Pontos Turísticos",
-    hotel:"Hotéis & Hospedagens"
+    data.forEach(cat => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h3>${cat.title}</h3>
+        <p>${cat.description || ""}</p>
+      `;
+
+      card.onclick = () => {
+        window.location.href = `categoria.html?slug=${cat.slug}`;
+      };
+
+      container.appendChild(card);
+    });
   }
-  categoryTitle.innerText=titles[cat]
-  pdfList.innerHTML=""
-  if(data[cat].length===0){
-    pdfList.innerHTML="<p>Nenhum material disponível.</p>"
-  }
-  data[cat].forEach(p=>{
-    pdfList.innerHTML+=`
-      <div class="card">
-        <strong>${p.name}</strong>
-        <br><br>
-        <a class="btn" href="${p.content}" target="_blank">Abrir PDF</a>
-      </div>
-    `
-  })
-  show("category-view")
-}
 
-function updateDashboard(){
-  cityCount.innerText=data.city.length
-  gastroCount.innerText=data.gastro.length
-  pontosCount.innerText=data.pontos.length
-  hotelCount.innerText=data.hotel.length
-  totalPDFs.innerText=
-    data.city.length+data.gastro.length+data.pontos.length+data.hotel.length
-
-  reportTable.innerHTML=""
-  Object.keys(data).forEach(cat=>{
-    data[cat].forEach(p=>{
-      reportTable.innerHTML+=`
-        <tr>
-          <td>${cat}</td>
-          <td>${p.name}</td>
-        </tr>
-      `
-    })
-  })
-}
-
-function exportCSV(){
-  let csv="Categoria,Nome do PDF\n"
-  Object.keys(data).forEach(cat=>{
-    data[cat].forEach(p=>{
-      csv+=`${cat},${p.name}\n`
-    })
-  })
-  const blob=new Blob([csv],{type:"text/csv"})
-  const link=document.createElement("a")
-  link.href=URL.createObjectURL(blob)
-  link.download="relatorio-curadoria.csv"
-  link.click()
-}
+  carregarCategorias();
 </script>
 
 </body>
