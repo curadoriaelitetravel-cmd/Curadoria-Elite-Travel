@@ -1,57 +1,70 @@
-const sections = document.querySelectorAll("section");
+/* ===============================
+   CONFIGURAÇÃO SUPABASE
+================================ */
 
-function showSection(id){
-  sections.forEach(sec => sec.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  window.scrollTo(0,0);
-}
+const SUPABASE_BASE_URL =
+  "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais";
 
-/* MENU MOBILE */
-function toggleMenu(){
-  document.getElementById("mobileMenu").classList.toggle("active");
-  document.getElementById("overlay").style.display =
-    document.getElementById("mobileMenu").classList.contains("active")
-      ? "block" : "none";
-}
+/* ===============================
+   MAPA DE CATEGORIAS
+================================ */
 
-/* CURADORIA DINÂMICA */
-const categories = JSON.parse(localStorage.getItem("categories")) || [];
-const pdfs = JSON.parse(localStorage.getItem("pdfs")) || [];
+const categorias = {
+  "city-guide": {
+    titulo: "City Guide — Guias completos por cidade",
+    arquivos: [
+      {
+        nome: "City Guide Paris",
+        descricao: "Guia completo com atrações, gastronomia e experiências.",
+        arquivo: "city-guide/paris-city-guide.pdf"
+      }
+    ]
+  }
+};
 
-const curadoriaSection = document.getElementById("curadoria");
+/* ===============================
+   CARREGAR CATEGORIA
+================================ */
 
-function renderCuradoria(){
-  curadoriaSection.innerHTML = `<h2>Curadoria</h2><div class="grid"></div>`;
-  const grid = curadoriaSection.querySelector(".grid");
+function carregarCategoria() {
+  const params = new URLSearchParams(window.location.search);
+  const categoriaId = params.get("cat");
 
-  categories.forEach(cat=>{
+  if (!categoriaId || !categorias[categoriaId]) {
+    document.getElementById("pdfGrid").innerHTML =
+      "<p>Categoria não encontrada.</p>";
+    return;
+  }
+
+  const categoria = categorias[categoriaId];
+  document.getElementById("categoryTitle").innerText = categoria.titulo;
+
+  const grid = document.getElementById("pdfGrid");
+  grid.innerHTML = "";
+
+  categoria.arquivos.forEach(item => {
     const card = document.createElement("div");
-    card.className = "card-cat";
-    card.innerHTML = `<h3>${cat}</h3><p>Explorar indicações selecionadas</p>`;
-    card.onclick = () => openCategory(cat);
-    grid.appendChild(card);
-  });
-}
+    card.className = "card";
 
-function openCategory(category){
-  curadoriaSection.innerHTML = `
-    <button class="btn-back" onclick="renderCuradoria()">← Voltar</button>
-    <h2>${category}</h2>
-    <div class="grid"></div>
-  `;
-
-  const grid = curadoriaSection.querySelector(".grid");
-  const filtered = pdfs.filter(p => p.category === category);
-
-  filtered.forEach(p=>{
-    const card = document.createElement("div");
-    card.className = "card-pdf";
     card.innerHTML = `
-      <h4>${p.title}</h4>
-      <a href="${p.link}" target="_blank">Abrir PDF</a>
+      <h3>${item.nome}</h3>
+      <p>${item.descricao}</p>
     `;
+
+    card.onclick = () => {
+      window.open(`${SUPABASE_BASE_URL}/${item.arquivo}`, "_blank");
+    };
+
     grid.appendChild(card);
   });
 }
 
-renderCuradoria();
+carregarCategoria();
+
+/* ===============================
+   INDEX — NAVEGAÇÃO
+================================ */
+
+function showCategory(cat){
+  window.location.href = `categoria.html?cat=${cat}`;
+}
