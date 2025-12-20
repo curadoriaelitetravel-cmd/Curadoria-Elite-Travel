@@ -1,89 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Curadoria | Curadoria Elite Travel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <title>Curadoria | Elite Travel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Playfair+Display&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      margin: 0;
-      background: #0f0f0f;
-      color: #f2f2f2;
-      font-family: "Playfair Display", serif;
+    body{
+      margin:0;
+      background:#0f0f0f;
+      color:#f2f2f2;
+      font-family:"Playfair Display",serif;
     }
 
-    header {
-      padding: 20px;
-      text-align: center;
-      border-bottom: 1px solid rgba(255,255,255,.08);
+    header{
+      padding:20px;
+      border-bottom:1px solid rgba(255,255,255,.1);
+      text-align:center;
     }
 
-    header h1 {
-      font-family: Cinzel, serif;
-      color: #D4AF37;
-      margin: 0;
+    h1{
+      font-family:Cinzel,serif;
+      color:#D4AF37;
+      margin:0;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 20px;
+    main{
+      max-width:1200px;
+      margin:40px auto;
+      padding:0 20px;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-      gap: 24px;
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+      gap:24px;
     }
 
-    .card {
-      background: #151515;
-      border: 1px solid rgba(255,255,255,.06);
-      border-radius: 10px;
-      padding: 20px;
-      transition: all .3s ease;
+    .card{
+      background:#151515;
+      border:1px solid rgba(212,175,55,.2);
+      border-radius:12px;
+      padding:20px;
+      cursor:pointer;
+      transition:.3s;
     }
 
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 40px rgba(212,175,55,.25);
-      border-color: #D4AF37;
+    .card:hover{
+      transform:translateY(-6px);
+      box-shadow:0 12px 30px rgba(212,175,55,.25);
+      border-color:#D4AF37;
     }
 
-    .card h3 {
-      font-family: Cinzel, serif;
-      color: #D4AF37;
-      margin-top: 0;
+    .card h3{
+      font-family:Cinzel,serif;
+      color:#D4AF37;
+      margin:0 0 10px;
+      font-size:1.1rem;
     }
 
-    .card a {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 10px 16px;
-      border: 2px solid #D4AF37;
-      border-radius: 6px;
-      color: #D4AF37;
-      text-decoration: none;
-      font-weight: bold;
-      transition: .3s;
-    }
-
-    .card a:hover {
-      background: #D4AF37;
-      color: #111;
-    }
-
-    .back {
-      text-align: center;
-      margin-top: 50px;
-    }
-
-    .back a {
-      color: #999;
-      text-decoration: none;
+    .card p{
+      font-size:.9rem;
+      color:#ccc;
     }
   </style>
 </head>
@@ -91,16 +71,14 @@
 <body>
 
 <header>
-  <h1 id="categoryTitle">Curadoria</h1>
+  <h1 id="tituloCategoria">Curadoria</h1>
 </header>
 
-<div class="container">
-  <div id="materialsGrid" class="grid"></div>
-
-  <div class="back">
-    <a href="index.html">← Voltar ao início</a>
+<main>
+  <div class="grid" id="listaPDFs">
+    <!-- PDFs entram aqui automaticamente -->
   </div>
-</div>
+</main>
 
 <script src="scripts/categoria.js"></script>
 </body>
