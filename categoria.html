@@ -2,82 +2,88 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <title>Curadoria | Curadoria Elite Travel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Curadoria Elite Travel — Categoria</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Playfair+Display&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --gold:#D4AF37;
-      --bg:#0f0f0f;
-      --card:#151515;
-      --text:#f2f2f2;
-      --muted:#9a9a9a;
+    body {
+      margin: 0;
+      background: #0f0f0f;
+      color: #f2f2f2;
+      font-family: "Playfair Display", serif;
     }
 
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--text);
-      font-family:"Playfair Display",serif;
+    header {
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
 
-    header{
-      padding:20px;
-      text-align:center;
-      border-bottom:1px solid rgba(255,255,255,.05);
+    header h1 {
+      font-family: Cinzel, serif;
+      color: #D4AF37;
+      margin: 0;
     }
 
-    h1{
-      font-family:"Cinzel",serif;
-      color:var(--gold);
-      margin:0;
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
 
-    main{
-      padding:50px 5%;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 24px;
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:24px;
-      margin-top:40px;
+    .card {
+      background: #151515;
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 10px;
+      padding: 20px;
+      transition: all .3s ease;
     }
 
-    .card{
-      background:var(--card);
-      padding:24px;
-      border-radius:10px;
-      cursor:pointer;
-      transition:all .35s ease;
-      border:1px solid rgba(255,255,255,.05);
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(212,175,55,.25);
+      border-color: #D4AF37;
     }
 
-    .card:hover{
-      transform:translateY(-6px);
-      box-shadow:0 0 30px rgba(212,175,55,.35);
-      border-color:var(--gold);
+    .card h3 {
+      font-family: Cinzel, serif;
+      color: #D4AF37;
+      margin-top: 0;
     }
 
-    .card h3{
-      margin:0 0 10px;
-      color:var(--gold);
-      font-family:"Cinzel",serif;
+    .card a {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 16px;
+      border: 2px solid #D4AF37;
+      border-radius: 6px;
+      color: #D4AF37;
+      text-decoration: none;
+      font-weight: bold;
+      transition: .3s;
     }
 
-    .card p{
-      color:var(--muted);
-      font-size:.95rem;
+    .card a:hover {
+      background: #D4AF37;
+      color: #111;
     }
 
-    footer{
-      text-align:center;
-      padding:30px;
-      color:var(--muted);
-      border-top:1px solid rgba(255,255,255,.05);
-      margin-top:60px;
+    .back {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .back a {
+      color: #999;
+      text-decoration: none;
     }
   </style>
 </head>
@@ -85,17 +91,17 @@
 <body>
 
 <header>
-  <h1 id="categoryTitle">Categoria</h1>
+  <h1 id="categoryTitle">Curadoria</h1>
 </header>
 
-<main>
-  <div id="pdfGrid" class="grid"></div>
-</main>
+<div class="container">
+  <div id="materialsGrid" class="grid"></div>
 
-<footer>
-  Curadoria Elite Travel — O seu mundo, bem indicado.
-</footer>
+  <div class="back">
+    <a href="index.html">← Voltar ao início</a>
+  </div>
+</div>
 
-<script src="scripts/main.js"></script>
+<script src="scripts/categoria.js"></script>
 </body>
 </html>
