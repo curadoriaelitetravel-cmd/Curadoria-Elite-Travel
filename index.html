@@ -104,9 +104,9 @@
 <header>
   <strong>Curadoria Elite Travel</strong>
   <nav>
-    <a href="#">Início</a>
+    <a href="index.html">Início</a>
     <a href="#">Quem Somos</a>
-    <a href="#">Curadoria</a>
+    <a href="index.html">Curadoria</a>
     <a href="#">Contato</a>
     <a href="#">Avalia-nos</a>
   </nav>
@@ -122,11 +122,14 @@
 </footer>
 
 <script>
-  // 🔐 CONEXÃO SUPABASE (USE SUA PUBLISHABLE KEY)
+  // 🔐 CONEXÃO REAL COM SUPABASE
   const SUPABASE_URL = "https://SEU-PROJETO.supabase.co";
-  const SUPABASE_KEY = "SUA_PUBLISHABLE_KEY_AQUI";
+  const SUPABASE_KEY = "SUA_CHAVE_PUBLISHABLE_AQUI";
 
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
   async function carregarCategorias() {
     const { data, error } = await supabase
@@ -135,11 +138,17 @@
       .order("created_at", { ascending: true });
 
     if (error) {
-      console.error(error);
+      console.error("Erro ao buscar categorias:", error);
       return;
     }
 
     const container = document.getElementById("categories");
+    container.innerHTML = "";
+
+    if (!data || data.length === 0) {
+      container.innerHTML = "<p style='text-align:center;color:#777'>Nenhuma categoria cadastrada.</p>";
+      return;
+    }
 
     data.forEach(cat => {
       const card = document.createElement("div");
