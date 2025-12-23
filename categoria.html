@@ -2,129 +2,171 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Curadoria | Curadoria Elite Travel</title>
+  <title>Curadoria Elite Travel · Categoria</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Reset isolado para garantir renderização -->
-  <style>
-    /* ========= RESET ISOLADO ========= */
-    .curadoria-page *,
-    .curadoria-page *::before,
-    .curadoria-page *::after {
-      box-sizing: border-box;
-    }
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    /* ========= BASE ========= */
+  <style>
     body {
       margin: 0;
-      background: #000;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "Segoe UI", sans-serif;
+      background: #0b0b0b;
       color: #fff;
     }
 
-    /* ========= CONTAINER PRINCIPAL ========= */
-    .curadoria-page {
-      min-height: 100vh;
-      padding: 80px 40px;
-      display: block;
+    header {
+      padding: 20px 40px;
+      border-bottom: 1px solid #222;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .curadoria-title {
-      text-align: center;
-      font-size: 36px;
+    nav a {
+      margin-left: 20px;
       color: #d4af37;
-      margin-bottom: 60px;
+      text-decoration: none;
+      font-weight: 500;
     }
 
-    /* ========= GRID DE CARDS ========= */
-    .curadoria-cards {
+    h1 {
+      text-align: center;
+      margin: 60px 0 10px;
+      color: #d4af37;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 40px;
+    }
+
+    .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 40px;
-      max-width: 1100px;
-      margin: 0 auto;
+      gap: 30px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
     }
 
-    .curadoria-card {
-      background: linear-gradient(180deg, #111, #000);
-      border: 1px solid rgba(212, 175, 55, 0.3);
+    .card {
+      background: linear-gradient(145deg, #111, #000);
+      border: 1px solid #222;
       border-radius: 14px;
-      padding: 40px 30px;
-      text-align: center;
+      padding: 30px;
       cursor: pointer;
-      transition: all 0.35s ease;
+      transition: all 0.4s ease;
     }
 
-    .curadoria-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(212, 175, 55, 0.25);
+    .card:hover {
+      transform: translateY(-6px);
       border-color: #d4af37;
+      box-shadow: 0 20px 40px rgba(212,175,55,0.25);
     }
 
-    .curadoria-card h3 {
-      font-size: 22px;
+    .card h3 {
+      margin: 0;
       color: #d4af37;
-      margin-bottom: 15px;
+      font-size: 18px;
     }
 
-    .curadoria-card p {
-      font-size: 15px;
-      line-height: 1.5;
-      color: #ccc;
-    }
-
-    /* ========= RESPONSIVO ========= */
-    @media (max-width: 768px) {
-      .curadoria-page {
-        padding: 60px 20px;
-      }
-
-      .curadoria-title {
-        font-size: 28px;
-      }
+    footer {
+      border-top: 1px solid #222;
+      margin-top: 80px;
+      padding: 30px;
+      text-align: center;
+      color: #888;
+      font-size: 14px;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ========= CONTEÚDO CURADORIA ========= -->
-  <main class="curadoria-page">
+<header>
+  <strong>Curadoria Elite Travel</strong>
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="#">Quem Somos</a>
+    <a href="index.html">Curadoria</a>
+    <a href="#">Contato</a>
+    <a href="#">Avalia-nos</a>
+  </nav>
+</header>
 
-    <h1 class="curadoria-title">Curadoria</h1>
+<h1 id="categoryTitle">Categoria</h1>
+<p class="subtitle">Seleção de materiais disponíveis</p>
 
-    <section class="curadoria-cards">
+<section class="grid" id="materials"></section>
 
-      <!-- CARD 1 -->
-      <div class="curadoria-card" onclick="alert('City Guides em breve')">
-        <h3>City Guides</h3>
-        <p>
-          Guias autorais com curadoria refinada, criados para viagens
-          bem indicadas, elegantes e memoráveis.
-        </p>
-      </div>
+<footer>
+  Curadoria Elite Travel · O seu mundo, bem indicado.<br>
+  São Paulo – SP · curadoriaelitetravel@gmail.com
+</footer>
 
-      <!-- CARD 2 -->
-      <div class="curadoria-card" onclick="alert('Experiências em breve')">
-        <h3>Experiências</h3>
-        <p>
-          Vivências exclusivas, hotéis icônicos, restaurantes e
-          experiências que elevam a jornada.
-        </p>
-      </div>
+<script>
+  const SUPABASE_URL = "https://lnyoqezizsakghtmim.supabase.co";
+  const SUPABASE_KEY = "SUA_CHAVE_PUBLICA_AQUI";
 
-      <!-- CARD 3 -->
-      <div class="curadoria-card" onclick="alert('Conteúdos especiais em breve')">
-        <h3>Conteúdos Especiais</h3>
-        <p>
-          Materiais selecionados para inspirar, planejar e transformar
-          a forma de viajar.
-        </p>
-      </div>
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-    </section>
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get("slug");
 
-  </main>
+  async function carregarCategoria() {
+    const { data, error } = await supabaseClient
+      .from("categories")
+      .select("*")
+      .eq("slug", slug)
+      .single();
+
+    if (error || !data) {
+      document.getElementById("categoryTitle").innerText = "Categoria não encontrada";
+      return;
+    }
+
+    document.getElementById("categoryTitle").innerText = data.title;
+
+    carregarMateriais(data.id);
+  }
+
+  async function carregarMateriais(categoryId) {
+    const { data, error } = await supabaseClient
+      .from("materials")
+      .select("*")
+      .eq("category_id", categoryId)
+      .order("created_at");
+
+    const container = document.getElementById("materials");
+    container.innerHTML = "";
+
+    if (error || !data || data.length === 0) {
+      container.innerHTML = "<p style='color:#777'>Nenhum material disponível.</p>";
+      return;
+    }
+
+    data.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<h3>${item.title}</h3>`;
+
+      card.onclick = () => {
+        const url = `${SUPABASE_URL}/storage/v1/object/public/materiais/${item.file_path}`;
+        window.open(url, "_blank");
+      };
+
+      container.appendChild(card);
+    });
+  }
+
+  carregarCategoria();
+</script>
 
 </body>
 </html>
