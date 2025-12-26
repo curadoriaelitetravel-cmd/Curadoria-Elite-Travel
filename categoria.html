@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Curadoria Elite Travel · Categoria</title>
+  <title>Curadoria Elite Travel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Supabase -->
@@ -55,22 +55,43 @@
     .card {
       background: linear-gradient(145deg, #111, #000);
       border: 1px solid #222;
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 30px;
       cursor: pointer;
       transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(212,175,55,0.18), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
     }
 
     .card:hover {
-      transform: translateY(-6px);
+      transform: translateY(-10px);
       border-color: #d4af37;
-      box-shadow: 0 20px 40px rgba(212,175,55,0.25);
+      box-shadow: 0 25px 50px rgba(212,175,55,0.25);
+    }
+
+    .card:hover::after {
+      opacity: 1;
     }
 
     .card h3 {
-      margin: 0;
+      margin: 0 0 10px;
       color: #d4af37;
-      font-size: 18px;
+      font-size: 20px;
+    }
+
+    .card p {
+      color: #ccc;
+      font-size: 14px;
+      line-height: 1.6;
     }
 
     footer {
@@ -90,15 +111,15 @@
   <strong>Curadoria Elite Travel</strong>
   <nav>
     <a href="index.html">Início</a>
-    <a href="#">Quem Somos</a>
-    <a href="index.html">Curadoria</a>
-    <a href="#">Contato</a>
+    <a href="index.html#quem">Quem Somos</a>
+    <a href="index.html#curadoria">Curadoria</a>
+    <a href="index.html#contato">Contato</a>
     <a href="#">Avalia-nos</a>
   </nav>
 </header>
 
-<h1 id="categoryTitle">Categoria</h1>
-<p class="subtitle">Seleção de materiais disponíveis</p>
+<h1 id="tituloCategoria">Curadoria</h1>
+<div class="subtitle">Seleção exclusiva de materiais</div>
 
 <section class="grid" id="materials"></section>
 
@@ -108,64 +129,59 @@
 </footer>
 
 <script>
-  const SUPABASE_URL = "https://lnyoqezizsakghtmim.supabase.co";
-  const SUPABASE_KEY = "SUA_CHAVE_PUBLICA_AQUI";
+  // 🔐 CONEXÃO SUPABASE
+  const SUPABASE_URL = "https://SEU-PROJETO.supabase.co";
+  const SUPABASE_KEY = "SUA_PUBLISHABLE_KEY_AQUI";
 
-  const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   const params = new URLSearchParams(window.location.search);
   const slug = params.get("slug");
 
-  async function carregarCategoria() {
-    const { data, error } = await supabaseClient
-      .from("categories")
-      .select("*")
-      .eq("slug", slug)
-      .single();
+  async function carregarMateriais() {
+    const titulo = document.getElementById("tituloCategoria");
+    titulo.textContent = slug.replace("-", " ").toUpperCase();
 
-    if (error || !data) {
-      document.getElementById("categoryTitle").innerText = "Categoria não encontrada";
-      return;
-    }
-
-    document.getElementById("categoryTitle").innerText = data.title;
-
-    carregarMateriais(data.id);
-  }
-
-  async function carregarMateriais(categoryId) {
     const { data, error } = await supabaseClient
       .from("materials")
       .select("*")
-      .eq("category_id", categoryId)
-      .order("created_at");
+      .order("created_at", { ascending: false });
 
-    const container = document.getElementById("materials");
-    container.innerHTML = "";
-
-    if (error || !data || data.length === 0) {
-      container.innerHTML = "<p style='color:#777'>Nenhum material disponível.</p>";
+    if (error) {
+      console.error(error);
       return;
     }
 
-    data.forEach(item => {
+    const container = document.getElementById("materials");
+
+    const filtrados = data.filter(item =>
+      item.file_path.startsWith(slug + "/")
+    );
+
+    if (filtrados.length === 0) {
+      container.innerHTML = "<p style='color:#aaa'>Nenhum material disponível.</p>";
+      return;
+    }
+
+    filtrados.forEach(item => {
       const card = document.createElement("div");
       card.className = "card";
-      card.innerHTML = `<h3>${item.title}</h3>`;
+      card.innerHTML = `
+        <h3>${item.title}</h3>
+        <p>Clique para abrir o material</p>
+      `;
+
+      const pdfUrl = `${SUPABASE_URL}/storage/v1/object/public/materiais/${item.file_path}`;
 
       card.onclick = () => {
-        const url = `${SUPABASE_URL}/storage/v1/object/public/materiais/${item.file_path}`;
-        window.open(url, "_blank");
+        window.open(pdfUrl, "_blank");
       };
 
       container.appendChild(card);
     });
   }
 
-  carregarCategoria();
+  carregarMateriais();
 </script>
 
 </body>
