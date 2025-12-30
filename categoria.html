@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Curadoria Elite Travel</title>
+  <title>Curadoria Elite Travel — Materiais</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Supabase -->
@@ -24,6 +24,11 @@
       align-items: center;
     }
 
+    header strong {
+      color: #d4af37;
+      font-size: 18px;
+    }
+
     nav a {
       margin-left: 20px;
       color: #d4af37;
@@ -33,14 +38,8 @@
 
     h1 {
       text-align: center;
-      margin: 60px 0 10px;
+      margin: 60px 0 20px;
       color: #d4af37;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #aaa;
-      margin-bottom: 40px;
     }
 
     .grid {
@@ -55,7 +54,7 @@
     .card {
       background: linear-gradient(145deg, #111, #000);
       border: 1px solid #222;
-      border-radius: 16px;
+      border-radius: 14px;
       padding: 30px;
       cursor: pointer;
       transition: all 0.4s ease;
@@ -67,15 +66,15 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at top, rgba(212,175,55,0.18), transparent 60%);
+      background: radial-gradient(circle at top, rgba(212,175,55,0.15), transparent 60%);
       opacity: 0;
       transition: opacity 0.4s ease;
     }
 
     .card:hover {
-      transform: translateY(-10px);
+      transform: translateY(-8px);
       border-color: #d4af37;
-      box-shadow: 0 25px 50px rgba(212,175,55,0.25);
+      box-shadow: 0 20px 40px rgba(212,175,55,0.25);
     }
 
     .card:hover::after {
@@ -111,15 +110,14 @@
   <strong>Curadoria Elite Travel</strong>
   <nav>
     <a href="index.html">Início</a>
-    <a href="index.html#quem">Quem Somos</a>
+    <a href="index.html#quem-somos">Quem Somos</a>
     <a href="index.html#curadoria">Curadoria</a>
     <a href="index.html#contato">Contato</a>
-    <a href="#">Avalia-nos</a>
+    <a href="index.html#avaliar">Avalie-nos</a>
   </nav>
 </header>
 
-<h1 id="tituloCategoria">Curadoria</h1>
-<div class="subtitle">Seleção exclusiva de materiais</div>
+<h1>Materiais da Curadoria</h1>
 
 <section class="grid" id="materials"></section>
 
@@ -129,52 +127,51 @@
 </footer>
 
 <script>
-  // 🔐 CONEXÃO SUPABASE
-  const SUPABASE_URL = "https://SEU-PROJETO.supabase.co";
-  const SUPABASE_KEY = "SUA_PUBLISHABLE_KEY_AQUI";
+  /* ===============================
+     🔐 CONEXÃO REAL COM SUPABASE
+  =============================== */
 
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_ltaNA7nnVozoSCOcZIjg";
 
-  const params = new URLSearchParams(window.location.search);
-  const slug = params.get("slug");
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  /* ===============================
+     📄 CARREGAR MATERIAIS
+  =============================== */
 
   async function carregarMateriais() {
-    const titulo = document.getElementById("tituloCategoria");
-    titulo.textContent = slug.replace("-", " ").toUpperCase();
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("slug");
 
-    const { data, error } = await supabaseClient
+    const { data, error } = await supabase
       .from("materials")
       .select("*")
       .order("created_at", { ascending: false });
 
     if (error) {
-      console.error(error);
+      console.error("Erro ao carregar materiais:", error);
       return;
     }
 
     const container = document.getElementById("materials");
+    container.innerHTML = "";
 
-    const filtrados = data.filter(item =>
-      item.file_path.startsWith(slug + "/")
-    );
-
-    if (filtrados.length === 0) {
-      container.innerHTML = "<p style='color:#aaa'>Nenhum material disponível.</p>";
-      return;
-    }
-
-    filtrados.forEach(item => {
+    data.forEach(mat => {
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
-        <h3>${item.title}</h3>
+        <h3>${mat.title}</h3>
         <p>Clique para abrir o material</p>
       `;
 
-      const pdfUrl = `${SUPABASE_URL}/storage/v1/object/public/materiais/${item.file_path}`;
+      card.onclick = async () => {
+        const { data: fileData } = supabase
+          .storage
+          .from("materiais")
+          .getPublicUrl(mat.file_path);
 
-      card.onclick = () => {
-        window.open(pdfUrl, "_blank");
+        window.open(fileData.publicUrl, "_blank");
       };
 
       container.appendChild(card);
