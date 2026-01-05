@@ -106,13 +106,13 @@
   <nav>
     <a href="index.html">Início</a>
     <a href="#">Quem Somos</a>
-    <a href="index.html">Curadoria</a>
+    <a href="#curadoria">Curadoria</a>
     <a href="#">Contato</a>
     <a href="#">Avalia-nos</a>
   </nav>
 </header>
 
-<h1>Curadoria</h1>
+<h1 id="curadoria">Curadoria</h1>
 
 <section class="grid" id="categories"></section>
 
@@ -122,23 +122,20 @@
 </footer>
 
 <script>
-  // 🔐 CONEXÃO REAL COM SUPABASE
-  const SUPABASE_URL = "https://SEU-PROJETO.supabase.co";
-  const SUPABASE_KEY = "SUA_CHAVE_PUBLISHABLE_AQUI";
+  // 🔐 CONEXÃO SUPABASE
+  const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
-  const supabase = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   async function carregarCategorias() {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("categories")
       .select("*")
       .order("created_at", { ascending: true });
 
     if (error) {
-      console.error("Erro ao buscar categorias:", error);
+      console.error("Erro ao carregar categorias:", error);
       return;
     }
 
@@ -146,7 +143,7 @@
     container.innerHTML = "";
 
     if (!data || data.length === 0) {
-      container.innerHTML = "<p style='text-align:center;color:#777'>Nenhuma categoria cadastrada.</p>";
+      container.innerHTML = "<p>Nenhuma categoria cadastrada ainda.</p>";
       return;
     }
 
