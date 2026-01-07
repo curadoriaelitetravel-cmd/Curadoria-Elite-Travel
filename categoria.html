@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Materiais</title>
+  <title>Materiais disponíveis</title>
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
@@ -10,15 +10,16 @@
     body {
       font-family: Arial, sans-serif;
       padding: 40px;
+      background: #fff;
     }
 
     h1 {
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 20px;
     }
 
@@ -31,12 +32,7 @@
     }
 
     .card:hover {
-      background: #f5f5f5;
-    }
-
-    .empty {
-      margin-top: 20px;
-      color: #777;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
   </style>
 </head>
@@ -45,69 +41,42 @@
   <h1>Materiais disponíveis</h1>
 
   <div id="materials" class="grid"></div>
-  <div id="empty" class="empty" style="display:none;">
-    Nenhum material encontrado.
-  </div>
 
   <script>
-    // ===============================
-    // CONFIGURAÇÃO SUPABASE
-    // ===============================
-    const supabaseUrl = "https://lnyoqoezezisakghtmim.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
+    const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
-    const supabase = window.supabase.createClient(
-      supabaseUrl,
-      supabaseKey
+    const supabaseClient = supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
     );
 
-    // ===============================
-    // PEGAR CATEGORIA DA URL
-    // ex: categoria.html?slug=city-guide
-    // ===============================
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get("slug");
-
     async function carregarMateriais() {
-      if (!slug) {
-        document.getElementById("empty").style.display = "block";
-        return;
-      }
-
-      // 1️⃣ Buscar a categoria pelo slug
-      const { data: categoria, error: catError } = await supabase
-        .from("categories")
-        .select("id, title")
-        .eq("slug", slug)
-        .single();
-
-      if (catError || !categoria) {
-        document.getElementById("empty").style.display = "block";
-        return;
-      }
-
-      // 2️⃣ Buscar materiais da categoria
-      const { data: materiais, error: matError } = await supabase
+      const { data, error } = await supabaseClient
         .from("materials")
-        .select("title, file_path")
-        .eq("category_id", categoria.id);
+        .select("*");
+
+      if (error) {
+        console.error("Erro ao buscar materiais:", error);
+        return;
+      }
 
       const container = document.getElementById("materials");
+      container.innerHTML = "";
 
-      if (matError || !materiais || materiais.length === 0) {
-        document.getElementById("empty").style.display = "block";
+      if (!data || data.length === 0) {
+        container.innerHTML = "<p>Nenhum material encontrado.</p>";
         return;
       }
 
-      // 3️⃣ Montar os cards
-      materiais.forEach((item) => {
+      data.forEach((item) => {
         const card = document.createElement("div");
         card.className = "card";
-        card.innerText = item.title;
+        card.innerHTML = `<h3>${item.title}</h3>`;
 
         card.onclick = () => {
-          const url = `${supabaseUrl}/storage/v1/object/public/materiais/${item.file_path}`;
-          window.open(url, "_blank");
+          const pdfUrl = `${SUPABASE_URL}/storage/v1/object/public/materiais/${item.file_path}`;
+          window.open(pdfUrl, "_blank");
         };
 
         container.appendChild(card);
