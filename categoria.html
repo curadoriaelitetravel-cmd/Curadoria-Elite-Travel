@@ -66,12 +66,21 @@
       margin-top: 0;
     }
 
-    iframe {
-      width: 100%;
-      height: 500px;
-      border: none;
-      border-radius: 10px;
+    .preview-button {
+      display: inline-block;
       margin-top: 20px;
+      padding: 14px 24px;
+      border-radius: 30px;
+      background: #d4af37;
+      color: #000;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .preview-button:hover {
+      opacity: 0.85;
+      transform: translateY(-2px);
     }
 
     .locked {
@@ -115,7 +124,7 @@
 
 <script>
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
+  const SUPABASE_KEY = "SUA_CHAVE_ANON_AQUI";
 
   const supabase = window.supabase.createClient(
     SUPABASE_URL,
@@ -132,23 +141,21 @@
       return;
     }
 
-    // Buscar categoria
-    const { data: categoria } = await supabase
+    const { data: categoria, error: categoriaError } = await supabase
       .from("categories")
       .select("id")
       .eq("slug", slug)
       .single();
 
-    if (!categoria) {
+    if (categoriaError || !categoria) {
       document.getElementById("materials").innerHTML =
         "<p>Categoria não encontrada.</p>";
       return;
     }
 
-    // Buscar materiais com preview
     const { data: materiais, error } = await supabase
       .from("materials")
-      .select("title, preview_path")
+      .select("title, file_path")
       .eq("category_id", categoria.id);
 
     if (error || !materiais || materiais.length === 0) {
@@ -167,11 +174,13 @@
       card.innerHTML = `
         <h3>${mat.title}</h3>
 
-        ${
-          mat.preview_path
-            ? `<iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/${mat.preview_path}"></iframe>`
-            : `<div class="locked">Prévia indisponível</div>`
-        }
+        <a
+          class="preview-button"
+          href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/${mat.file_path}"
+          target="_blank"
+        >
+          📖 Ver prévia do material
+        </a>
 
         <div class="locked">
           🔒 Conteúdo completo disponível após a compra
