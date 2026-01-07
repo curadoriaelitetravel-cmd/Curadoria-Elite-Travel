@@ -2,179 +2,129 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Materiais | Curadoria Elite Travel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+  <title>Materiais disponíveis</title>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <style>
     body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
       margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: #0b0b0b;
-      color: #fff;
-    }
-
-    header {
-      padding: 20px 40px;
-      border-bottom: 1px solid #222;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    nav a {
-      margin-left: 20px;
-      color: #d4af37;
-      text-decoration: none;
-      font-weight: 500;
+      padding: 40px;
     }
 
     h1 {
-      text-align: center;
-      margin: 50px 0 10px;
-      color: #d4af37;
+      margin-bottom: 24px;
     }
 
-    .subtitle {
-      text-align: center;
-      color: #aaa;
-      margin-bottom: 40px;
-    }
-
-    .grid {
+    .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      padding: 40px;
-      max-width: 1200px;
-      margin: auto;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
     }
 
     .card {
-      background: linear-gradient(145deg, #111, #000);
-      border: 1px solid #222;
-      border-radius: 14px;
-      padding: 30px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease;
     }
 
     .card:hover {
-      border-color: #d4af37;
-      box-shadow: 0 12px 30px rgba(212,175,55,0.25);
       transform: translateY(-4px);
     }
 
-    .card h3 {
-      margin: 0;
-      color: #d4af37;
-    }
-
     .preview {
-      max-width: 900px;
-      margin: 30px auto 80px;
-      padding: 30px;
-      border: 1px solid #222;
-      border-radius: 14px;
+      margin-top: 40px;
       display: none;
-      background: #0f0f0f;
+      background: white;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
 
-    iframe {
+    .preview iframe {
       width: 100%;
-      height: 520px;
-      border-radius: 10px;
+      height: 600px;
       border: none;
-      background: #000;
+      margin-top: 16px;
     }
 
     .lock {
-      margin-top: 20px;
-      padding: 15px;
-      background: rgba(212,175,55,0.1);
-      border: 1px dashed #d4af37;
-      border-radius: 10px;
+      margin-top: 16px;
+      padding: 16px;
+      background: #f0f0f0;
+      border-radius: 6px;
       text-align: center;
-      color: #d4af37;
-    }
-
-    footer {
-      border-top: 1px solid #222;
-      padding: 30px;
-      text-align: center;
-      color: #888;
+      font-weight: bold;
     }
   </style>
 </head>
-
 <body>
 
-<header>
-  <strong>Curadoria Elite Travel</strong>
-  <nav>
-    <a href="index.html">Início</a>
-    <a href="index.html#curadoria">Curadoria</a>
-  </nav>
-</header>
+  <h1>Materiais disponíveis</h1>
 
-<h1>Materiais disponíveis</h1>
-<p class="subtitle">Explore uma prévia antes de adquirir o conteúdo completo</p>
+  <div class="cards" id="cards"></div>
 
-<section class="grid" id="materials"></section>
+  <div class="preview" id="preview">
+    <h2 id="preview-title"></h2>
+    <p id="preview-description">
+      Explore uma prévia do material antes de adquirir o conteúdo completo.
+    </p>
 
-<section class="preview" id="preview">
-  <h2 id="previewTitle"></h2>
-  <iframe id="previewFrame"></iframe>
-  <div class="lock">🔒 Conteúdo completo disponível após a compra</div>
-</section>
+    <iframe id="preview-frame"></iframe>
 
-<footer>
-  Curadoria Elite Travel · O seu mundo, bem indicado.
-</footer>
+    <div class="lock">
+      🔒 Conteúdo completo disponível após a compra
+    </div>
+  </div>
 
-<script>
-  const supabase = supabase.createClient(
-    "https://lnyoqoezezisakghtmim.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA"
-  );
+  <script>
+    const supabase = window.supabase.createClient(
+      "https://lnyoqoezezisakghtmim.supabase.co",
+      "SUA_CHAVE_ANON_JA_EXISTENTE_AQUI"
+    );
 
-  async function carregarMateriais() {
-    const { data, error } = await supabase.from("materials").select("*");
+    async function carregarMateriais() {
+      const { data, error } = await supabase
+        .from("materials")
+        .select("*");
 
-    const container = document.getElementById("materials");
+      if (error) {
+        console.error(error);
+        return;
+      }
 
-    if (error || !data.length) {
-      container.innerHTML = "<p>Nenhum material encontrado.</p>";
-      return;
+      const cards = document.getElementById("cards");
+
+      data.forEach(material => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `<h3>${material.title}</h3>`;
+
+        card.onclick = () => mostrarPreview(material);
+
+        cards.appendChild(card);
+      });
     }
 
-    data.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `<h3>${item.title}</h3>`;
-      card.onclick = () => mostrarPreview(item);
-      container.appendChild(card);
-    });
-  }
+    function mostrarPreview(material) {
+      const preview = document.getElementById("preview");
+      const frame = document.getElementById("preview-frame");
 
-  function mostrarPreview(item) {
-    const preview = document.getElementById("preview");
-    const frame = document.getElementById("previewFrame");
-    const title = document.getElementById("previewTitle");
+      document.getElementById("preview-title").innerText = material.title;
 
-    title.textContent = item.title;
+      frame.src = `
+https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/${material.file_path}
+      `;
 
-    frame.src =
-      "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/" +
-      item.file_path;
+      preview.style.display = "block";
+      preview.scrollIntoView({ behavior: "smooth" });
+    }
 
-    preview.style.display = "block";
-    preview.scrollIntoView({ behavior: "smooth" });
-  }
-
-  carregarMateriais();
-</script>
+    carregarMateriais();
+  </script>
 
 </body>
 </html>
