@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Materiais | Curadoria Elite Travel</title>
+  <title>Materiais disponíveis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Supabase -->
@@ -19,56 +19,76 @@
     header {
       padding: 20px 40px;
       border-bottom: 1px solid #222;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header strong {
+      color: #d4af37;
+      font-size: 18px;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 20px;
     }
 
     h1 {
       text-align: center;
-      margin: 50px 0 10px;
       color: #d4af37;
+      margin-bottom: 10px;
     }
 
     p.subtitle {
       text-align: center;
       color: #aaa;
-      margin-bottom: 40px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      padding: 40px;
-      max-width: 1200px;
-      margin: auto;
+      margin-bottom: 50px;
     }
 
     .card {
       background: linear-gradient(145deg, #111, #000);
       border: 1px solid #222;
       border-radius: 14px;
-      padding: 24px;
-      transition: all 0.3s ease;
+      padding: 30px;
+      margin-bottom: 30px;
+      transition: all 0.4s ease;
+    }
+
+    .card:hover {
+      border-color: #d4af37;
+      box-shadow: 0 15px 35px rgba(212,175,55,0.25);
     }
 
     .card h3 {
-      margin: 0 0 15px;
       color: #d4af37;
+      margin-top: 0;
     }
 
     iframe {
       width: 100%;
-      height: 320px;
-      border-radius: 10px;
+      height: 500px;
       border: none;
-      background: #000;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .locked {
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px dashed #444;
+      border-radius: 10px;
+      color: #aaa;
+      text-align: center;
     }
 
     footer {
       border-top: 1px solid #222;
-      margin-top: 80px;
       padding: 30px;
       text-align: center;
-      color: #888;
+      color: #777;
+      margin-top: 60px;
       font-size: 14px;
     }
   </style>
@@ -80,63 +100,82 @@
   <strong>Curadoria Elite Travel</strong>
 </header>
 
-<h1>Materiais disponíveis</h1>
-<p class="subtitle">Explore uma prévia antes de adquirir o conteúdo completo</p>
+<main>
+  <h1>Materiais disponíveis</h1>
+  <p class="subtitle">Explore uma prévia antes de adquirir o conteúdo completo</p>
 
-<section class="grid" id="materials">
-  <p id="loading">Carregando…</p>
-</section>
+  <div id="materials">
+    <p>Carregando…</p>
+  </div>
+</main>
 
 <footer>
   Curadoria Elite Travel · O seu mundo, bem indicado.
 </footer>
 
 <script>
-  // 🔐 SUPABASE — DADOS REAIS (JÁ COLADOS)
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
   const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  const params = new URLSearchParams(window.location.search);
-  const slug = params.get("slug");
+  const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
   async function carregarMateriais() {
-    const container = document.getElementById("materials");
-    const loading = document.getElementById("loading");
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("slug");
 
-    const { data: category } = await supabase
+    if (!slug) {
+      document.getElementById("materials").innerHTML =
+        "<p>Nenhuma categoria selecionada.</p>";
+      return;
+    }
+
+    // Buscar categoria
+    const { data: categoria } = await supabase
       .from("categories")
       .select("id")
       .eq("slug", slug)
       .single();
 
-    if (!category) {
-      loading.innerText = "Categoria não encontrada.";
+    if (!categoria) {
+      document.getElementById("materials").innerHTML =
+        "<p>Categoria não encontrada.</p>";
       return;
     }
 
-    const { data: materials, error } = await supabase
+    // Buscar materiais com preview
+    const { data: materiais, error } = await supabase
       .from("materials")
-      .select("title, file_path")
-      .eq("category_id", category.id);
+      .select("title, preview_path")
+      .eq("category_id", categoria.id);
 
-    if (error || !materials.length) {
-      loading.innerText = "Nenhum material encontrado.";
+    if (error || !materiais || materiais.length === 0) {
+      document.getElementById("materials").innerHTML =
+        "<p>Nenhum material encontrado.</p>";
       return;
     }
 
-    loading.remove();
+    const container = document.getElementById("materials");
+    container.innerHTML = "";
 
-    materials.forEach(mat => {
+    materiais.forEach(mat => {
       const card = document.createElement("div");
       card.className = "card";
 
-      const pdfUrl = `${SUPABASE_URL}/storage/v1/object/public/materiais/${mat.file_path}`;
-
       card.innerHTML = `
         <h3>${mat.title}</h3>
-        <iframe src="${pdfUrl}#page=1&zoom=90"></iframe>
+
+        ${
+          mat.preview_path
+            ? `<iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/${mat.preview_path}"></iframe>`
+            : `<div class="locked">Prévia indisponível</div>`
+        }
+
+        <div class="locked">
+          🔒 Conteúdo completo disponível após a compra
+        </div>
       `;
 
       container.appendChild(card);
