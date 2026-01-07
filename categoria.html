@@ -2,89 +2,222 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Materiais disponíveis</title>
+  <title>Materiais | Curadoria Elite Travel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 40px;
-      background: #fff;
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #0b0b0b;
+      color: #fff;
+    }
+
+    header {
+      padding: 20px 40px;
+      border-bottom: 1px solid #222;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      margin-left: 20px;
+      color: #d4af37;
+      text-decoration: none;
+      font-weight: 500;
     }
 
     h1 {
-      margin-bottom: 24px;
+      text-align: center;
+      margin: 50px 0 10px;
+      color: #d4af37;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 40px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
     }
 
     .card {
-      border: 1px solid #ddd;
-      padding: 16px;
-      border-radius: 8px;
+      background: linear-gradient(145deg, #111, #000);
+      border: 1px solid #222;
+      border-radius: 14px;
+      padding: 30px;
       cursor: pointer;
-      transition: 0.2s;
+      transition: all 0.4s ease;
+      position: relative;
     }
 
     .card:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transform: translateY(-6px);
+      border-color: #d4af37;
+      box-shadow: 0 20px 40px rgba(212,175,55,0.25);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      color: #d4af37;
+      font-size: 20px;
+    }
+
+    .card p {
+      color: #ccc;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* PREVIEW */
+    .preview {
+      max-width: 900px;
+      margin: 20px auto 80px;
+      padding: 30px;
+      border: 1px solid #222;
+      border-radius: 14px;
+      display: none;
+      background: #0f0f0f;
+    }
+
+    .preview h2 {
+      color: #d4af37;
+      margin-bottom: 10px;
+    }
+
+    .preview p {
+      color: #bbb;
+      margin-bottom: 20px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 520px;
+      border: none;
+      border-radius: 10px;
+      background: #000;
+    }
+
+    .lock {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(212,175,55,0.08);
+      border: 1px dashed #d4af37;
+      border-radius: 10px;
+      text-align: center;
+      color: #d4af37;
+      font-weight: 500;
+    }
+
+    footer {
+      border-top: 1px solid #222;
+      margin-top: 80px;
+      padding: 30px;
+      text-align: center;
+      color: #888;
+      font-size: 14px;
     }
   </style>
 </head>
+
 <body>
 
-  <h1>Materiais disponíveis</h1>
+<header>
+  <strong>Curadoria Elite Travel</strong>
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="index.html#quem">Quem Somos</a>
+    <a href="index.html#curadoria">Curadoria</a>
+    <a href="index.html#contato">Contato</a>
+    <a href="#">Avalia-nos</a>
+  </nav>
+</header>
 
-  <div id="materials" class="grid"></div>
+<h1>Materiais disponíveis</h1>
+<p class="subtitle">Explore uma prévia antes de adquirir o conteúdo completo</p>
 
-  <script>
-    const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
+<section class="grid" id="materials"></section>
 
-    const supabaseClient = supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
-    );
+<section class="preview" id="preview">
+  <h2 id="previewTitle"></h2>
+  <p>Pré-visualização exclusiva das primeiras páginas do material.</p>
+  <iframe id="previewFrame"></iframe>
+  <div class="lock">🔒 Conteúdo completo disponível após a compra</div>
+</section>
 
-    async function carregarMateriais() {
-      const { data, error } = await supabaseClient
-        .from("materials")
-        .select("*");
+<footer>
+  Curadoria Elite Travel · O seu mundo, bem indicado.<br>
+  São Paulo – SP · curadoriaelitetravel@gmail.com
+</footer>
 
-      if (error) {
-        console.error("Erro ao buscar materiais:", error);
-        return;
-      }
+<script>
+  const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
-      const container = document.getElementById("materials");
-      container.innerHTML = "";
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-      if (!data || data.length === 0) {
-        container.innerHTML = "<p>Nenhum material encontrado.</p>";
-        return;
-      }
+  async function carregarMateriais() {
+    const { data, error } = await supabase
+      .from("materials")
+      .select("*")
+      .order("created_at", { ascending: true });
 
-      data.forEach((item) => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<h3>${item.title}</h3>`;
-
-        card.onclick = () => {
-          const pdfUrl = `${SUPABASE_URL}/storage/v1/object/public/materiais/${item.file_path}`;
-          window.open(pdfUrl, "_blank");
-        };
-
-        container.appendChild(card);
-      });
+    if (error) {
+      console.error(error);
+      return;
     }
 
-    carregarMateriais();
-  </script>
+    const container = document.getElementById("materials");
+
+    if (!data || data.length === 0) {
+      container.innerHTML = "<p style='color:#888'>Nenhum material encontrado.</p>";
+      return;
+    }
+
+    data.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h3>${item.title}</h3>
+        <p>Visualize uma prévia exclusiva antes de adquirir o guia completo.</p>
+      `;
+
+      card.onclick = () => mostrarPreview(item);
+
+      container.appendChild(card);
+    });
+  }
+
+  function mostrarPreview(item) {
+    const preview = document.getElementById("preview");
+    const title = document.getElementById("previewTitle");
+    const frame = document.getElementById("previewFrame");
+
+    title.textContent = item.title;
+
+    const previewUrl =
+      "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/" +
+      item.file_path;
+
+    frame.src = previewUrl;
+
+    preview.style.display = "block";
+    preview.scrollIntoView({ behavior: "smooth" });
+  }
+
+  carregarMateriais();
+</script>
 
 </body>
 </html>
