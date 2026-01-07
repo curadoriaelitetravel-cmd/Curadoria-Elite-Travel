@@ -2,187 +2,120 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Curadoria Elite Travel — Materiais</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Materiais</title>
 
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
   <style>
     body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: #0b0b0b;
-      color: #fff;
-    }
-
-    header {
-      padding: 20px 40px;
-      border-bottom: 1px solid #222;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    nav a {
-      margin-left: 20px;
-      color: #d4af37;
-      text-decoration: none;
-      font-weight: 500;
+      font-family: Arial, sans-serif;
+      padding: 40px;
     }
 
     h1 {
-      text-align: center;
-      margin: 60px 0 20px;
-      color: #d4af37;
+      margin-bottom: 20px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 30px;
-      padding: 40px;
-      max-width: 1200px;
-      margin: auto;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
     }
 
     .card {
-      background: linear-gradient(145deg, #111, #000);
-      border: 1px solid #222;
-      border-radius: 14px;
-      padding: 30px;
+      border: 1px solid #ddd;
+      padding: 16px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: all 0.4s ease;
+      transition: 0.2s;
     }
 
     .card:hover {
-      transform: translateY(-8px);
-      border-color: #d4af37;
-      box-shadow: 0 20px 40px rgba(212,175,55,0.25);
+      background: #f5f5f5;
     }
 
-    .card h3 {
-      margin: 0 0 10px;
-      color: #d4af37;
-    }
-
-    .card p {
-      color: #ccc;
-      font-size: 14px;
-    }
-
-    .status {
-      text-align: center;
-      margin-top: 60px;
-      color: #aaa;
-    }
-
-    footer {
-      border-top: 1px solid #222;
-      margin-top: 80px;
-      padding: 30px;
-      text-align: center;
-      color: #888;
-      font-size: 14px;
+    .empty {
+      margin-top: 20px;
+      color: #777;
     }
   </style>
 </head>
-
 <body>
 
-<header>
-  <strong>Curadoria Elite Travel</strong>
-  <nav>
-    <a href="index.html">Início</a>
-    <a href="index.html">Curadoria</a>
-    <a href="#">Contato</a>
-  </nav>
-</header>
+  <h1>Materiais disponíveis</h1>
 
-<h1>Materiais disponíveis</h1>
+  <div id="materials" class="grid"></div>
+  <div id="empty" class="empty" style="display:none;">
+    Nenhum material encontrado.
+  </div>
 
-<div class="status" id="status">Carregando materiais…</div>
-<section class="grid" id="materials"></section>
+  <script>
+    // ===============================
+    // CONFIGURAÇÃO SUPABASE
+    // ===============================
+    const supabaseUrl = "https://lnyoqoezezisakghtmim.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
-<footer>
-  Curadoria Elite Travel · O seu mundo, bem indicado.<br>
-  São Paulo – SP · curadoriaelitetravel@gmail.com
-</footer>
+    const supabase = window.supabase.createClient(
+      supabaseUrl,
+      supabaseKey
+    );
 
-<script>
-  // 🔐 SUPABASE — DADOS REAIS DO SEU PROJETO
-  const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
+    // ===============================
+    // PEGAR CATEGORIA DA URL
+    // ex: categoria.html?slug=city-guide
+    // ===============================
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("slug");
 
-  const supabase = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+    async function carregarMateriais() {
+      if (!slug) {
+        document.getElementById("empty").style.display = "block";
+        return;
+      }
 
-  const params = new URLSearchParams(window.location.search);
-  const slug = params.get("slug");
+      // 1️⃣ Buscar a categoria pelo slug
+      const { data: categoria, error: catError } = await supabase
+        .from("categories")
+        .select("id, title")
+        .eq("slug", slug)
+        .single();
 
-  async function carregarMateriais() {
-    const status = document.getElementById("status");
-    const container = document.getElementById("materials");
+      if (catError || !categoria) {
+        document.getElementById("empty").style.display = "block";
+        return;
+      }
 
-    if (!slug) {
-      status.innerText = "Categoria não informada.";
-      return;
+      // 2️⃣ Buscar materiais da categoria
+      const { data: materiais, error: matError } = await supabase
+        .from("materials")
+        .select("title, file_path")
+        .eq("category_id", categoria.id);
+
+      const container = document.getElementById("materials");
+
+      if (matError || !materiais || materiais.length === 0) {
+        document.getElementById("empty").style.display = "block";
+        return;
+      }
+
+      // 3️⃣ Montar os cards
+      materiais.forEach((item) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerText = item.title;
+
+        card.onclick = () => {
+          const url = `${supabaseUrl}/storage/v1/object/public/materiais/${item.file_path}`;
+          window.open(url, "_blank");
+        };
+
+        container.appendChild(card);
+      });
     }
 
-    // 1️⃣ Buscar categoria
-    const { data: categoria, error: catError } = await supabase
-      .from("categories")
-      .select("*")
-      .eq("slug", slug)
-      .single();
-
-    if (catError || !categoria) {
-      status.innerText = "Categoria não encontrada.";
-      return;
-    }
-
-    // 2️⃣ Buscar materiais da categoria
-    const { data: materiais, error: matError } = await supabase
-      .from("materials")
-      .select("*")
-      .eq("category_id", categoria.id);
-
-    if (matError) {
-      status.innerText = "Erro ao carregar materiais.";
-      return;
-    }
-
-    if (!materiais || materiais.length === 0) {
-      status.innerText = "Nenhum material encontrado.";
-      return;
-    }
-
-    status.style.display = "none";
-
-    materiais.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "card";
-
-      const pdfUrl =
-        `${SUPABASE_URL}/storage/v1/object/public/materiais/${item.file_path}`;
-
-      card.innerHTML = `
-        <h3>${item.title}</h3>
-        <p>Clique para abrir o material</p>
-      `;
-
-      card.onclick = () => {
-        window.open(pdfUrl, "_blank");
-      };
-
-      container.appendChild(card);
-    });
-  }
-
-  carregarMateriais();
-</script>
+    carregarMateriais();
+  </script>
 
 </body>
 </html>
