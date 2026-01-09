@@ -5,7 +5,7 @@
   <title>Materiais disponíveis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Supabase -->
+  <!-- Supabase JS v2 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -19,9 +19,6 @@
     header {
       padding: 20px 40px;
       border-bottom: 1px solid #222;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
 
     header strong {
@@ -53,12 +50,6 @@
       border-radius: 14px;
       padding: 30px;
       margin-bottom: 30px;
-      transition: all 0.4s ease;
-    }
-
-    .card:hover {
-      border-color: #d4af37;
-      box-shadow: 0 15px 35px rgba(212,175,55,0.25);
     }
 
     .card h3 {
@@ -75,12 +66,6 @@
       color: #000;
       font-weight: 600;
       text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .preview-button:hover {
-      opacity: 0.85;
-      transform: translateY(-2px);
     }
 
     .locked {
@@ -126,10 +111,8 @@
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
   const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
-  const supabase = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  const { createClient } = supabase;
+  const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 
   async function carregarMateriais() {
     const params = new URLSearchParams(window.location.search);
@@ -141,7 +124,7 @@
       return;
     }
 
-    const { data: categoria, error: categoriaError } = await supabase
+    const { data: categoria, error: categoriaError } = await supabaseClient
       .from("categories")
       .select("id")
       .eq("slug", slug)
@@ -153,7 +136,7 @@
       return;
     }
 
-    const { data: materiais, error } = await supabase
+    const { data: materiais, error } = await supabaseClient
       .from("materials")
       .select("title, file_path")
       .eq("category_id", categoria.id);
