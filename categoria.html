@@ -2,8 +2,10 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Amostra do Material</title>
+  <title>Materiais disponíveis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
@@ -16,9 +18,6 @@
     header {
       padding: 20px 40px;
       border-bottom: 1px solid #222;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
 
     header strong {
@@ -35,45 +34,77 @@
     h1 {
       text-align: center;
       color: #d4af37;
-      margin-bottom: 10px;
     }
 
-    p.subtitle {
+    .subtitle {
       text-align: center;
       color: #aaa;
       margin-bottom: 40px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #111, #000);
+      border: 1px solid #222;
+      border-radius: 14px;
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+
+    .preview-button,
+    .cta-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 14px 28px;
+      border-radius: 30px;
+      background: #d4af37;
+      color: #000;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .cta-button {
+      background: transparent;
+      border: 1px solid #d4af37;
+      color: #d4af37;
+      margin-left: 10px;
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .modal {
+      background: #111;
+      border-radius: 16px;
+      max-width: 520px;
+      padding: 40px;
+      border: 1px solid #333;
+      text-align: center;
+    }
+
+    .modal h2 {
+      color: #d4af37;
+      margin-top: 0;
+    }
+
+    .modal p {
+      color: #ccc;
       line-height: 1.6;
     }
 
-    .viewer-container {
-      position: relative;
-      width: 100%;
-      padding-top: 141%; /* proporção A4 */
-      background: #000;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid #222;
-    }
-
-    .viewer-container iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .locked {
+    .close {
       margin-top: 30px;
-      padding: 25px;
-      border: 1px dashed #444;
-      border-radius: 12px;
-      color: #bbb;
-      text-align: center;
-      font-size: 15px;
+      display: inline-block;
+      color: #aaa;
+      cursor: pointer;
     }
 
     footer {
@@ -83,16 +114,6 @@
       color: #777;
       margin-top: 60px;
       font-size: 14px;
-    }
-
-    @media (max-width: 768px) {
-      p.subtitle {
-        font-size: 15px;
-      }
-
-      .locked {
-        font-size: 14px;
-      }
     }
   </style>
 </head>
@@ -104,27 +125,59 @@
 </header>
 
 <main>
-  <h1>Amostra do Material</h1>
-  <p class="subtitle">
-    Esta é uma amostra do padrão, do cuidado editorial e da experiência que entregamos
-    em nossas curadorias. O conteúdo completo é liberado após a compra.
-  </p>
+  <h1>Materiais disponíveis</h1>
+  <p class="subtitle">Explore uma amostra do que entregamos</p>
 
-  <div class="viewer-container">
-    <iframe
-      src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
-      allowfullscreen
-    ></iframe>
-  </div>
+  <div class="card">
+    <h3>Overview da Curadoria</h3>
 
-  <div class="locked">
-    🔒 O conteúdo completo fica disponível após a compra e será acessível na sua conta.
+    <a
+      class="preview-button"
+      href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
+      target="_blank"
+    >
+      📖 Ver amostra do material
+    </a>
+
+    <button class="cta-button" onclick="openModal()">
+      🔒 Garantir Esta Curadoria
+    </button>
   </div>
 </main>
 
 <footer>
   Curadoria Elite Travel · O seu mundo, bem indicado.
 </footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h2>O que inclui esta curadoria</h2>
+
+    <p>
+      Um material cuidadosamente estruturado com critérios, escolhas
+      e recomendações que evitam excessos, economizam tempo e elevam
+      a experiência de viagem.
+    </p>
+
+    <p>
+      O acesso completo é liberado após confirmação.
+      Esta página é apenas uma amostra do que entregamos.
+    </p>
+
+    <div class="close" onclick="closeModal()">Fechar</div>
+  </div>
+</div>
+
+<script>
+  function openModal() {
+    document.getElementById("modal").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("modal").style.display = "none";
+  }
+</script>
 
 </body>
 </html>
