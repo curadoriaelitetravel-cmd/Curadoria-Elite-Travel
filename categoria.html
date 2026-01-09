@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Materiais disponíveis</title>
+  <title>Curadoria</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -47,7 +47,27 @@
       border: 1px solid #222;
       border-radius: 14px;
       padding: 30px;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .category-card {
+      background: linear-gradient(145deg, #111, #000);
+      border: 1px solid #222;
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .category-card.disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
     }
 
     .preview-button,
@@ -124,38 +144,61 @@
 </header>
 
 <main>
-  <h1>Materiais disponíveis</h1>
-  <p class="subtitle">Explore uma amostra do que entregamos</p>
 
-  <!-- CARD OVERVIEW -->
-  <div class="card">
-    <h3>Overview da Curadoria</h3>
+  <!-- VISÃO CURADORIA -->
+  <section id="view-curadoria">
+    <h1>Curadoria</h1>
+    <p class="subtitle">Explore as categorias disponíveis</p>
 
-    <a
-      class="preview-button"
-      href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
-      target="_blank"
-    >
-      📖 Ver amostra do material
-    </a>
+    <div class="card">
+      <h3>Overview da Curadoria</h3>
 
-    <button class="cta-button" onclick="openModal()">
-      🔒 Garantir Esta Curadoria
-    </button>
-  </div>
+      <a
+        class="preview-button"
+        href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
+        target="_blank"
+      >
+        📖 Ver amostra do material
+      </a>
 
-  <!-- CARD CITY GUIDE -->
-  <div class="card">
-    <h3>City Guide</h3>
+      <button class="cta-button" onclick="openModal()">
+        🔒 Garantir Esta Curadoria
+      </button>
+    </div>
 
-    <button class="preview-button" onclick="openModal()">
-      📖 Ver amostra do material
-    </button>
+    <div class="category-grid">
+      <div class="category-card" onclick="openCityGuide()">
+        City Guide
+      </div>
 
-    <button class="cta-button" onclick="openModal()">
-      🔒 Garantir Esta Curadoria
-    </button>
-  </div>
+      <div class="category-card disabled">Gastronomia</div>
+      <div class="category-card disabled">Atrações Turísticas</div>
+      <div class="category-card disabled">Experiências</div>
+      <div class="category-card disabled">Vida Noturna</div>
+      <div class="category-card disabled">Endereços para Compras</div>
+      <div class="category-card disabled">Sugestão de Presentes</div>
+      <div class="category-card disabled">Sugestão de Hotéis</div>
+      <div class="category-card disabled">Sugestão de Cruzeiros</div>
+    </div>
+  </section>
+
+  <!-- VISÃO CITY GUIDE -->
+  <section id="view-city-guide" style="display:none;">
+    <h1>City Guide</h1>
+    <p class="subtitle">Materiais disponíveis para consulta</p>
+
+    <div class="card">
+      <h3>City Guide — Visão Geral</h3>
+
+      <button class="preview-button" onclick="openModal()">
+        📖 Ver amostra do material
+      </button>
+
+      <button class="cta-button">
+        🔒 Adquirir acesso completo
+      </button>
+    </div>
+  </section>
 
 </main>
 
@@ -163,6 +206,7 @@
   Curadoria Elite Travel · O seu mundo, bem indicado.
 </footer>
 
+<!-- MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <h2>O que inclui esta curadoria</h2>
@@ -189,6 +233,12 @@
 
   function closeModal() {
     document.getElementById("modal").style.display = "none";
+  }
+
+  function openCityGuide() {
+    document.getElementById("view-curadoria").style.display = "none";
+    document.getElementById("view-city-guide").style.display = "block";
+    window.scrollTo(0, 0);
   }
 </script>
 
