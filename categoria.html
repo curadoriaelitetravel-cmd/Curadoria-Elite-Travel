@@ -2,182 +2,170 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Materiais disponíveis</title>
+  <title>Curadoria | Curadoria Elite Travel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
       margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: #0b0b0b;
-      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f7f7f7;
+      color: #222;
     }
 
-    header {
-      padding: 20px 40px;
-      border-bottom: 1px solid #222;
-    }
-
-    header strong {
-      color: #d4af37;
-      font-size: 18px;
-    }
-
-    main {
+    .container {
       max-width: 1100px;
-      margin: auto;
-      padding: 40px 20px;
+      margin: 0 auto;
+      padding: 60px 20px;
     }
 
     h1 {
-      text-align: center;
-      color: #d4af37;
+      font-size: 42px;
+      margin-bottom: 10px;
     }
 
     .subtitle {
-      text-align: center;
-      color: #aaa;
-      margin-bottom: 40px;
+      font-size: 18px;
+      color: #555;
+      max-width: 700px;
+      margin-bottom: 50px;
     }
 
-    .card {
-      background: linear-gradient(145deg, #111, #000);
-      border: 1px solid #222;
-      border-radius: 14px;
-      padding: 30px;
-      margin-bottom: 40px;
-    }
-
-    .preview-button,
-    .cta-button {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 14px 28px;
-      border-radius: 30px;
-      background: #d4af37;
-      color: #000;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .cta-button {
-      background: transparent;
-      border: 1px solid #d4af37;
-      color: #d4af37;
-      margin-left: 10px;
-    }
-
-    /* MODAL */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.75);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-    }
-
-    .modal {
+    /* Card grande */
+    .overview-card {
       background: #111;
-      border-radius: 16px;
-      max-width: 520px;
+      color: #fff;
       padding: 40px;
-      border: 1px solid #333;
-      text-align: center;
+      border-radius: 12px;
+      margin-bottom: 60px;
     }
 
-    .modal h2 {
-      color: #d4af37;
+    .overview-card h2 {
       margin-top: 0;
+      font-size: 28px;
     }
 
-    .modal p {
-      color: #ccc;
+    .overview-card p {
+      font-size: 17px;
       line-height: 1.6;
+      color: #ddd;
     }
 
-    .close {
-      margin-top: 30px;
-      display: inline-block;
-      color: #aaa;
+    /* Grid de categorias */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+
+    .category-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 30px 20px;
+      text-align: center;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .category-card.active {
       cursor: pointer;
     }
 
-    footer {
-      border-top: 1px solid #222;
-      padding: 30px;
-      text-align: center;
-      color: #777;
-      margin-top: 60px;
-      font-size: 14px;
+    .category-card.active:hover {
+      transform: translateY(-4px);
+    }
+
+    .category-card.inactive {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .category-icon {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    .category-title {
+      font-size: 16px;
+      font-weight: bold;
     }
   </style>
 </head>
-
 <body>
 
-<header>
-  <strong>Curadoria Elite Travel</strong>
-</header>
+  <div class="container">
 
-<main>
-  <h1>Materiais disponíveis</h1>
-  <p class="subtitle">Explore uma amostra do que entregamos</p>
-
-  <div class="card">
-    <h3>Overview da Curadoria</h3>
-
-    <a
-      class="preview-button"
-      href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
-      target="_blank"
-    >
-      📖 Ver amostra do material
-    </a>
-
-    <button class="cta-button" onclick="openModal()">
-      🔒 Garantir Esta Curadoria
-    </button>
-  </div>
-</main>
-
-<footer>
-  Curadoria Elite Travel · O seu mundo, bem indicado.
-</footer>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modal">
-  <div class="modal">
-    <h2>O que inclui esta curadoria</h2>
-
-    <p>
-      Um material cuidadosamente estruturado com critérios, escolhas
-      e recomendações que evitam excessos, economizam tempo e elevam
-      a experiência de viagem.
+    <!-- Título -->
+    <h1>Curadoria</h1>
+    <p class="subtitle">
+      Conteúdos organizados por categoria, criados para transformar informação em decisão segura e experiência bem vivida.
     </p>
 
-    <p>
-      O acesso completo é liberado após confirmação.
-      Esta página é apenas uma amostra do que entregamos.
-    </p>
+    <!-- Card de overview -->
+    <div class="overview-card">
+      <h2>O que você encontra aqui</h2>
+      <p>
+        Cada material da Curadoria Elite Travel foi pensado para quem valoriza contexto,
+        critério e clareza. Não são roteiros prontos, mas conteúdos selecionados para
+        apoiar escolhas melhores antes e durante a viagem.
+      </p>
+    </div>
 
-    <div class="close" onclick="closeModal()">Fechar</div>
+    <!-- Categorias -->
+    <div class="categories-grid">
+
+      <div class="category-card active" onclick="goToCategory('city-guide')">
+        <div class="category-icon">📍</div>
+        <div class="category-title">City Guide</div>
+      </div>
+
+      <div class="category-card inactive">
+        <div class="category-icon">🍽️</div>
+        <div class="category-title">Gastronomia</div>
+      </div>
+
+      <div class="category-card inactive">
+        <div class="category-icon">🏛️</div>
+        <div class="category-title">Atrações Turísticas</div>
+      </div>
+
+      <div class="category-card inactive">
+        <div class="category-icon">✨</div>
+        <div class="category-title">Experiências</div>
+      </div>
+
+      <div class="category-card inactive">
+        <div class="category-icon">🌙</div>
+        <div class="category-title">Vida Noturna</div>
+      </div>
+
+      <div class="category-card inactive">
+        <div class="category-icon">🛍️</div>
+        <div class="category-title">Endereços para Compras</div>
+      </div>
+
+      <div class="category-card inactive">
+        <div class="category-icon">🎁</div>
+        <div class="category-title">Sugestão de Presentes</div>
+      </div>
+
+      <div class="category-card inactive">
+        <div class="category-icon">🏨</div>
+        <div class="category-title">Sugestão de Hotéis</div>
+      </div>
+
+      <div class="category-card inactive">
+        <div class="category-icon">🚢</div>
+        <div class="category-title">Sugestão de Cruzeiros</div>
+      </div>
+
+    </div>
   </div>
-</div>
 
-<script>
-  function openModal() {
-    document.getElementById("modal").style.display = "flex";
-  }
-
-  function closeModal() {
-    document.getElementById("modal").style.display = "none";
-  }
-</script>
+  <script>
+    function goToCategory(slug) {
+      window.location.href = `categoria.html?slug=${slug}`;
+    }
+  </script>
 
 </body>
 </html>
