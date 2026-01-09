@@ -70,39 +70,6 @@
       margin-left: 10px;
     }
 
-    /* CATEGORIAS */
-    .categories-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 24px;
-      margin-top: 40px;
-    }
-
-    .category-card {
-      background: linear-gradient(145deg, #111, #000);
-      border: 1px solid #222;
-      border-radius: 14px;
-      padding: 24px;
-      text-align: center;
-      transition: opacity 0.2s ease;
-    }
-
-    .category-card.active {
-      cursor: pointer;
-    }
-
-    .category-card.inactive {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    .category-title {
-      color: #d4af37;
-      font-weight: 600;
-      margin-top: 10px;
-    }
-
-    /* MODAL */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -160,7 +127,7 @@
   <h1>Materiais disponíveis</h1>
   <p class="subtitle">Explore uma amostra do que entregamos</p>
 
-  <!-- CARD EXISTENTE (INTOCADO) -->
+  <!-- CARD OVERVIEW -->
   <div class="card">
     <h3>Overview da Curadoria</h3>
 
@@ -177,53 +144,25 @@
     </button>
   </div>
 
-  <!-- CATEGORIAS (NOVO, APENAS ADICIONADO) -->
-  <div class="categories-grid">
+  <!-- CARD CITY GUIDE -->
+  <div class="card">
+    <h3>City Guide</h3>
 
-    <div class="category-card active">
-      <div class="category-title">City Guide</div>
-    </div>
+    <button class="preview-button" onclick="openModal()">
+      📖 Ver amostra do material
+    </button>
 
-    <div class="category-card inactive">
-      <div class="category-title">Gastronomia</div>
-    </div>
-
-    <div class="category-card inactive">
-      <div class="category-title">Atrações Turísticas</div>
-    </div>
-
-    <div class="category-card inactive">
-      <div class="category-title">Experiências</div>
-    </div>
-
-    <div class="category-card inactive">
-      <div class="category-title">Vida Noturna</div>
-    </div>
-
-    <div class="category-card inactive">
-      <div class="category-title">Endereços para Compras</div>
-    </div>
-
-    <div class="category-card inactive">
-      <div class="category-title">Sugestão de Presentes</div>
-    </div>
-
-    <div class="category-card inactive">
-      <div class="category-title">Sugestão de Hotéis</div>
-    </div>
-
-    <div class="category-card inactive">
-      <div class="category-title">Sugestão de Cruzeiros</div>
-    </div>
-
+    <button class="cta-button" onclick="openModal()">
+      🔒 Garantir Esta Curadoria
+    </button>
   </div>
+
 </main>
 
 <footer>
   Curadoria Elite Travel · O seu mundo, bem indicado.
 </footer>
 
-<!-- MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <h2>O que inclui esta curadoria</h2>
