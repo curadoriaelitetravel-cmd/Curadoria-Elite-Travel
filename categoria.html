@@ -2,11 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Materiais disponíveis</title>
+  <title>Categorias</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
@@ -29,7 +26,7 @@
     main {
       max-width: 1200px;
       margin: auto;
-      padding: 40px 20px;
+      padding: 50px 20px;
     }
 
     h1 {
@@ -41,54 +38,42 @@
     p.subtitle {
       text-align: center;
       color: #aaa;
-      margin-bottom: 50px;
+      margin-bottom: 40px;
     }
 
-    .card {
-      background: linear-gradient(145deg, #111, #000);
-      border: 1px solid #222;
-      border-radius: 16px;
-      padding: 30px;
-      margin-bottom: 30px;
-      transition: all 0.4s ease;
+    .overview-section {
+      text-align: center;
+      margin-bottom: 60px;
     }
 
-    .card:hover {
-      border-color: #d4af37;
-      box-shadow: 0 15px 35px rgba(212,175,55,0.25);
-    }
-
-    .card h3 {
-      color: #d4af37;
-      margin-top: 0;
-    }
-
-    .preview-button {
+    .overview-button {
       display: inline-block;
-      margin-top: 20px;
-      padding: 14px 26px;
+      padding: 16px 30px;
       border-radius: 40px;
-      background: linear-gradient(135deg, #e6c46a, #bfa046);
+      background: #d4af37;
       color: #000;
       font-weight: 600;
       text-decoration: none;
       cursor: pointer;
       transition: all 0.3s ease;
-      border: none;
     }
 
-    .preview-button:hover {
+    .overview-button:hover {
+      opacity: 0.85;
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(212,175,55,0.4);
     }
 
-    .locked {
-      margin-top: 20px;
-      padding: 20px;
-      border: 1px dashed #444;
-      border-radius: 10px;
-      color: #aaa;
-      text-align: center;
+    .overview-preview {
+      margin-top: 40px;
+      display: none;
+    }
+
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      border-radius: 14px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
     }
 
     footer {
@@ -96,50 +81,8 @@
       padding: 30px;
       text-align: center;
       color: #777;
-      margin-top: 60px;
+      margin-top: 80px;
       font-size: 14px;
-    }
-
-    /* MODAL */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      justify-content: center;
-      align-items: center;
-      padding: 40px;
-    }
-
-    .modal-content {
-      background: #000;
-      border-radius: 14px;
-      width: 100%;
-      max-width: 900px;
-      height: 90%;
-      position: relative;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-      overflow: hidden;
-    }
-
-    .modal-content iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .close-modal {
-      position: absolute;
-      top: 14px;
-      right: 18px;
-      font-size: 28px;
-      color: #d4af37;
-      cursor: pointer;
-      z-index: 10;
     }
   </style>
 </head>
@@ -151,99 +94,38 @@
 </header>
 
 <main>
-  <h1>Materiais disponíveis</h1>
-  <p class="subtitle">Explore uma prévia antes de adquirir o conteúdo completo</p>
+  <h1>Nossas Curadorias</h1>
+  <p class="subtitle">
+    Materiais cuidadosamente desenvolvidos para orientar decisões com segurança e sofisticação
+  </p>
 
-  <div id="materials">
-    <p>Carregando…</p>
+  <!-- BLOCO DO OVERVIEW -->
+  <div class="overview-section">
+    <button class="overview-button" onclick="mostrarOverview()">
+      Conheça o padrão dos nossos materiais
+    </button>
+
+    <div class="overview-preview" id="overviewPreview">
+      <iframe
+        src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
+        loading="lazy">
+      </iframe>
+    </div>
   </div>
+
+  <!-- Aqui entram depois os cards das categorias -->
 </main>
 
 <footer>
   Curadoria Elite Travel · O seu mundo, bem indicado.
 </footer>
 
-<!-- MODAL -->
-<div id="previewModal" class="modal">
-  <div class="modal-content">
-    <span class="close-modal" onclick="fecharModal()">×</span>
-    <iframe id="previewFrame"></iframe>
-  </div>
-</div>
-
 <script>
-  const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
-
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  function abrirModal(filePath) {
-    const iframe = document.getElementById("previewFrame");
-    iframe.src = `https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/${filePath}`;
-    document.getElementById("previewModal").style.display = "flex";
+  function mostrarOverview() {
+    const preview = document.getElementById("overviewPreview");
+    preview.style.display = "block";
+    preview.scrollIntoView({ behavior: "smooth" });
   }
-
-  function fecharModal() {
-    document.getElementById("previewModal").style.display = "none";
-    document.getElementById("previewFrame").src = "";
-  }
-
-  async function carregarMateriais() {
-    const slug = new URLSearchParams(window.location.search).get("slug");
-
-    if (!slug) {
-      document.getElementById("materials").innerHTML =
-        "<p>Nenhuma categoria selecionada.</p>";
-      return;
-    }
-
-    const { data: categoria } = await supabase
-      .from("categories")
-      .select("id")
-      .eq("slug", slug)
-      .single();
-
-    if (!categoria) {
-      document.getElementById("materials").innerHTML =
-        "<p>Categoria não encontrada.</p>";
-      return;
-    }
-
-    const { data: materiais } = await supabase
-      .from("materials")
-      .select("title, file_path")
-      .eq("category_id", categoria.id);
-
-    if (!materiais || materiais.length === 0) {
-      document.getElementById("materials").innerHTML =
-        "<p>Nenhum material encontrado.</p>";
-      return;
-    }
-
-    const container = document.getElementById("materials");
-    container.innerHTML = "";
-
-    materiais.forEach(mat => {
-      const card = document.createElement("div");
-      card.className = "card";
-
-      card.innerHTML = `
-        <h3>${mat.title}</h3>
-
-        <button class="preview-button" onclick="abrirModal('${mat.file_path}')">
-          📖 Ver prévia do material
-        </button>
-
-        <div class="locked">
-          🔒 Conteúdo completo disponível após a compra
-        </div>
-      `;
-
-      container.appendChild(card);
-    });
-  }
-
-  carregarMateriais();
 </script>
 
 </body>
