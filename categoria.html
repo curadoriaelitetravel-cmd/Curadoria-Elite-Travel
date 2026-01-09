@@ -5,7 +5,7 @@
   <title>Materiais disponíveis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Supabase JS v2 -->
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -47,9 +47,15 @@
     .card {
       background: linear-gradient(145deg, #111, #000);
       border: 1px solid #222;
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 30px;
       margin-bottom: 30px;
+      transition: all 0.4s ease;
+    }
+
+    .card:hover {
+      border-color: #d4af37;
+      box-shadow: 0 15px 35px rgba(212,175,55,0.25);
     }
 
     .card h3 {
@@ -60,12 +66,20 @@
     .preview-button {
       display: inline-block;
       margin-top: 20px;
-      padding: 14px 24px;
-      border-radius: 30px;
-      background: #d4af37;
+      padding: 14px 26px;
+      border-radius: 40px;
+      background: linear-gradient(135deg, #e6c46a, #bfa046);
       color: #000;
       font-weight: 600;
       text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .preview-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212,175,55,0.4);
     }
 
     .locked {
@@ -84,6 +98,48 @@
       color: #777;
       margin-top: 60px;
       font-size: 14px;
+    }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .modal-content {
+      background: #000;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 900px;
+      height: 90%;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+      overflow: hidden;
+    }
+
+    .modal-content iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      font-size: 28px;
+      color: #d4af37;
+      cursor: pointer;
+      z-index: 10;
     }
   </style>
 </head>
@@ -107,16 +163,33 @@
   Curadoria Elite Travel · O seu mundo, bem indicado.
 </footer>
 
+<!-- MODAL -->
+<div id="previewModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="fecharModal()">×</span>
+    <iframe id="previewFrame"></iframe>
+  </div>
+</div>
+
 <script>
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
   const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
-  const { createClient } = supabase;
-  const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  function abrirModal(filePath) {
+    const iframe = document.getElementById("previewFrame");
+    iframe.src = `https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/${filePath}`;
+    document.getElementById("previewModal").style.display = "flex";
+  }
+
+  function fecharModal() {
+    document.getElementById("previewModal").style.display = "none";
+    document.getElementById("previewFrame").src = "";
+  }
 
   async function carregarMateriais() {
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get("slug");
+    const slug = new URLSearchParams(window.location.search).get("slug");
 
     if (!slug) {
       document.getElementById("materials").innerHTML =
@@ -124,24 +197,24 @@
       return;
     }
 
-    const { data: categoria, error: categoriaError } = await supabaseClient
+    const { data: categoria } = await supabase
       .from("categories")
       .select("id")
       .eq("slug", slug)
       .single();
 
-    if (categoriaError || !categoria) {
+    if (!categoria) {
       document.getElementById("materials").innerHTML =
         "<p>Categoria não encontrada.</p>";
       return;
     }
 
-    const { data: materiais, error } = await supabaseClient
+    const { data: materiais } = await supabase
       .from("materials")
       .select("title, file_path")
       .eq("category_id", categoria.id);
 
-    if (error || !materiais || materiais.length === 0) {
+    if (!materiais || materiais.length === 0) {
       document.getElementById("materials").innerHTML =
         "<p>Nenhum material encontrado.</p>";
       return;
@@ -157,13 +230,9 @@
       card.innerHTML = `
         <h3>${mat.title}</h3>
 
-        <a
-          class="preview-button"
-          href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/${mat.file_path}"
-          target="_blank"
-        >
+        <button class="preview-button" onclick="abrirModal('${mat.file_path}')">
           📖 Ver prévia do material
-        </a>
+        </button>
 
         <div class="locked">
           🔒 Conteúdo completo disponível após a compra
