@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Categorias</title>
+  <title>Amostra do Material</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -16,6 +16,9 @@
     header {
       padding: 20px 40px;
       border-bottom: 1px solid #222;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     header strong {
@@ -24,9 +27,9 @@
     }
 
     main {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: auto;
-      padding: 50px 20px;
+      padding: 40px 20px;
     }
 
     h1 {
@@ -39,41 +42,38 @@
       text-align: center;
       color: #aaa;
       margin-bottom: 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
     }
 
-    .overview-section {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    .overview-button {
-      display: inline-block;
-      padding: 16px 30px;
-      border-radius: 40px;
-      background: #d4af37;
-      color: #000;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .overview-button:hover {
-      opacity: 0.85;
-      transform: translateY(-2px);
-    }
-
-    .overview-preview {
-      margin-top: 40px;
-      display: none;
-    }
-
-    iframe {
+    .viewer-container {
+      position: relative;
       width: 100%;
-      height: 600px;
-      border: none;
+      padding-top: 141%; /* proporção A4 */
+      background: #000;
       border-radius: 14px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      overflow: hidden;
+      border: 1px solid #222;
+    }
+
+    .viewer-container iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .locked {
+      margin-top: 30px;
+      padding: 25px;
+      border: 1px dashed #444;
+      border-radius: 12px;
+      color: #bbb;
+      text-align: center;
+      font-size: 15px;
     }
 
     footer {
@@ -81,8 +81,18 @@
       padding: 30px;
       text-align: center;
       color: #777;
-      margin-top: 80px;
+      margin-top: 60px;
       font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      p.subtitle {
+        font-size: 15px;
+      }
+
+      .locked {
+        font-size: 14px;
+      }
     }
   </style>
 </head>
@@ -94,39 +104,27 @@
 </header>
 
 <main>
-  <h1>Nossas Curadorias</h1>
+  <h1>Amostra do Material</h1>
   <p class="subtitle">
-    Materiais cuidadosamente desenvolvidos para orientar decisões com segurança e sofisticação
+    Esta é uma amostra do padrão, do cuidado editorial e da experiência que entregamos
+    em nossas curadorias. O conteúdo completo é liberado após a compra.
   </p>
 
-  <!-- BLOCO DO OVERVIEW -->
-  <div class="overview-section">
-    <button class="overview-button" onclick="mostrarOverview()">
-      Conheça o padrão dos nossos materiais
-    </button>
-
-    <div class="overview-preview" id="overviewPreview">
-      <iframe
-        src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
-        loading="lazy">
-      </iframe>
-    </div>
+  <div class="viewer-container">
+    <iframe
+      src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
+      allowfullscreen
+    ></iframe>
   </div>
 
-  <!-- Aqui entram depois os cards das categorias -->
+  <div class="locked">
+    🔒 O conteúdo completo fica disponível após a compra e será acessível na sua conta.
+  </div>
 </main>
 
 <footer>
   Curadoria Elite Travel · O seu mundo, bem indicado.
 </footer>
-
-<script>
-  function mostrarOverview() {
-    const preview = document.getElementById("overviewPreview");
-    preview.style.display = "block";
-    preview.scrollIntoView({ behavior: "smooth" });
-  }
-</script>
 
 </body>
 </html>
