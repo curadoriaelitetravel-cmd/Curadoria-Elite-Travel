@@ -2,10 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Curadoria</title>
+  <title>City Guide · Curadoria Elite Travel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
@@ -42,43 +40,64 @@
       margin-bottom: 40px;
     }
 
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
     .card {
       background: linear-gradient(145deg, #111, #000);
       border: 1px solid #222;
       border-radius: 14px;
       padding: 30px;
-      margin-bottom: 30px;
-    }
-
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .category-card {
-      background: linear-gradient(145deg, #111, #000);
-      border: 1px solid #222;
-      border-radius: 14px;
-      padding: 24px;
-      text-align: center;
       cursor: pointer;
+      transition: transform 0.2s ease;
     }
 
-    .category-card.disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
+    .card:hover {
+      transform: translateY(-4px);
     }
 
-    .material-card {
-      cursor: pointer;
+    .card h3 {
+      margin-top: 0;
+      color: #d4af37;
     }
 
-    .preview-button,
-    .cta-button,
+    .material-view {
+      display: none;
+    }
+
     .back-button {
       display: inline-block;
-      margin-top: 20px;
+      margin-bottom: 30px;
+      color: #d4af37;
+      cursor: pointer;
+    }
+
+    .material-box {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 600px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .material-box h2 {
+      color: #d4af37;
+      margin-top: 0;
+    }
+
+    .material-box p {
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      display: inline-block;
+      margin-top: 30px;
       padding: 14px 28px;
       border-radius: 30px;
       background: #d4af37;
@@ -86,19 +105,6 @@
       font-weight: 600;
       text-decoration: none;
       cursor: pointer;
-    }
-
-    .cta-button {
-      background: transparent;
-      border: 1px solid #d4af37;
-      color: #d4af37;
-      margin-left: 10px;
-    }
-
-    .back-button {
-      background: transparent;
-      border: 1px solid #555;
-      color: #aaa;
     }
 
     footer {
@@ -120,83 +126,49 @@
 
 <main>
 
-  <!-- VISÃO CURADORIA -->
-  <section id="view-curadoria">
-    <h1>Curadoria</h1>
-    <p class="subtitle">Explore as categorias disponíveis</p>
+  <!-- VISÃO CATEGORIA -->
+  <section id="category-view">
+    <h1>City Guide</h1>
+    <p class="subtitle">Materiais disponíveis nesta curadoria</p>
 
-    <div class="card">
-      <h3>Overview da Curadoria</h3>
+    <div class="cards">
+      <div class="card" onclick="openMaterial('São Paulo — City Guide')">
+        <h3>São Paulo</h3>
+        <p>Uma leitura essencial para navegar pela cidade com critério.</p>
+      </div>
 
-      <a
-        class="preview-button"
-        href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
-        target="_blank"
-      >
-        📖 Ver amostra do material
-      </a>
+      <div class="card" onclick="openMaterial('Paris — City Guide')">
+        <h3>Paris</h3>
+        <p>Endereços, experiências e escolhas além do óbvio.</p>
+      </div>
 
-      <button class="cta-button">
-        🔒 Garantir Esta Curadoria
-      </button>
-    </div>
-
-    <div class="category-grid">
-      <div class="category-card" onclick="openCityGuide()">City Guide</div>
-      <div class="category-card disabled">Gastronomia</div>
-      <div class="category-card disabled">Atrações Turísticas</div>
-      <div class="category-card disabled">Experiências</div>
-      <div class="category-card disabled">Vida Noturna</div>
-      <div class="category-card disabled">Endereços para Compras</div>
-      <div class="category-card disabled">Sugestão de Presentes</div>
-      <div class="category-card disabled">Sugestão de Hotéis</div>
-      <div class="category-card disabled">Sugestão de Cruzeiros</div>
+      <div class="card" onclick="openMaterial('Nova York — City Guide')">
+        <h3>Nova York</h3>
+        <p>Curadoria estratégica para aproveitar a cidade com clareza.</p>
+      </div>
     </div>
   </section>
 
-  <!-- VISÃO CITY GUIDE -->
-  <section id="view-city-guide" style="display:none;">
-    <h1>City Guide</h1>
-    <p class="subtitle">O que inclui esta curadoria</p>
+  <!-- VISÃO MATERIAL -->
+  <section id="material-view" class="material-view">
+    <div class="back-button" onclick="backToCategory()">← Voltar para City Guide</div>
 
-    <div class="card">
+    <div class="material-box">
+      <h2 id="material-title"></h2>
+
       <p>
-        Um material cuidadosamente estruturado com critérios, escolhas e
-        recomendações que evitam excessos, economizam tempo e elevam a
-        experiência de viagem.
+        Um material cuidadosamente estruturado com critérios, escolhas
+        e recomendações que evitam excessos, economizam tempo e elevam
+        a experiência de viagem.
       </p>
+
       <p>
         O acesso completo é liberado após confirmação.
         Esta página é apenas uma amostra do que entregamos.
       </p>
+
+      <div class="cta-button">Adquirir Curadoria</div>
     </div>
-
-    <div class="card material-card" onclick="openMaterial()">
-      <h3>São Paulo — City Guide</h3>
-      <p>Curadoria completa para viver São Paulo com profundidade e critério.</p>
-    </div>
-
-    <button class="back-button" onclick="backToCuradoria()">← Voltar para Curadoria</button>
-  </section>
-
-  <!-- VISÃO MATERIAL -->
-  <section id="view-material" style="display:none;">
-    <h1>São Paulo — City Guide</h1>
-    <p class="subtitle">Detalhes do material</p>
-
-    <div class="card">
-      <p>
-        Este documento reúne uma seleção criteriosa de restaurantes,
-        experiências, compras e endereços essenciais para explorar São Paulo
-        com inteligência e sofisticação.
-      </p>
-
-      <button class="cta-button">
-        🔒 Adquirir Curadoria
-      </button>
-    </div>
-
-    <button class="back-button" onclick="backToCityGuide()">← Voltar para City Guide</button>
   </section>
 
 </main>
@@ -206,32 +178,15 @@
 </footer>
 
 <script>
-  function openCityGuide() {
-    document.getElementById("view-curadoria").style.display = "none";
-    document.getElementById("view-city-guide").style.display = "block";
-    document.getElementById("view-material").style.display = "none";
-    window.scrollTo(0, 0);
+  function openMaterial(title) {
+    document.getElementById('category-view').style.display = 'none';
+    document.getElementById('material-view').style.display = 'block';
+    document.getElementById('material-title').innerText = title;
   }
 
-  function openMaterial() {
-    document.getElementById("view-curadoria").style.display = "none";
-    document.getElementById("view-city-guide").style.display = "none";
-    document.getElementById("view-material").style.display = "block";
-    window.scrollTo(0, 0);
-  }
-
-  function backToCuradoria() {
-    document.getElementById("view-curadoria").style.display = "block";
-    document.getElementById("view-city-guide").style.display = "none";
-    document.getElementById("view-material").style.display = "none";
-    window.scrollTo(0, 0);
-  }
-
-  function backToCityGuide() {
-    document.getElementById("view-curadoria").style.display = "none";
-    document.getElementById("view-city-guide").style.display = "block";
-    document.getElementById("view-material").style.display = "none";
-    window.scrollTo(0, 0);
+  function backToCategory() {
+    document.getElementById('material-view').style.display = 'none';
+    document.getElementById('category-view').style.display = 'block';
   }
 </script>
 
