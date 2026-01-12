@@ -6,42 +6,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    /* RESET BÁSICO */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
+      margin: 0;
       font-family: "Segoe UI", sans-serif;
       color: #fff;
       background: #000;
-      overflow-x: hidden;
     }
 
-    /* FUNDO COM CARROSSEL */
-    .background {
+    /* FUNDO VISUAL */
+    body::before {
+      content: "";
       position: fixed;
       inset: 0;
-      z-index: -2;
+      background-image: url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=2000&q=80");
       background-size: cover;
       background-position: center;
-      animation: bg 30s infinite;
+      filter: brightness(0.35);
+      z-index: -2;
     }
 
-    .overlay {
+    body::after {
+      content: "";
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.72);
+      background: rgba(0,0,0,0.6);
       z-index: -1;
-    }
-
-    @keyframes bg {
-      0%   { background-image: url("images/bg1.jpg"); }
-      33%  { background-image: url("images/bg2.jpg"); }
-      66%  { background-image: url("images/bg3.jpg"); }
-      100% { background-image: url("images/bg1.jpg"); }
     }
 
     header {
@@ -55,58 +44,52 @@
     }
 
     main {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: auto;
-      padding: 60px 20px 80px;
+      padding: 60px 20px;
     }
 
     h1 {
       text-align: center;
       color: #d4af37;
-      margin-bottom: 10px;
-      font-size: 36px;
     }
 
     .subtitle {
       text-align: center;
-      color: #aaa;
+      color: #ccc;
       margin-bottom: 60px;
     }
 
     /* OVERVIEW */
     .overview-card {
+      background: rgba(10,10,10,0.85);
       border: 1px solid #d4af37;
-      border-radius: 22px;
-      padding: 50px 40px;
+      border-radius: 20px;
+      padding: 50px;
       text-align: center;
       margin-bottom: 80px;
-      background: linear-gradient(145deg, rgba(20,20,20,0.9), rgba(0,0,0,0.9));
     }
 
     .overview-card h2 {
       color: #d4af37;
-      margin-bottom: 20px;
-      font-size: 26px;
+      margin-top: 0;
     }
 
     .overview-card p {
-      color: #ccc;
-      max-width: 720px;
-      margin: 0 auto 16px;
-      line-height: 1.6;
-    }
-
-    .actions {
-      margin-top: 30px;
+      max-width: 750px;
+      margin: 20px auto;
+      color: #ddd;
+      line-height: 1.7;
     }
 
     .button {
       display: inline-block;
       padding: 14px 30px;
       border-radius: 30px;
-      text-decoration: none;
       font-weight: 600;
-      margin: 5px;
+      margin: 10px;
+      text-decoration: none;
+      cursor: pointer;
     }
 
     .primary {
@@ -119,20 +102,20 @@
       color: #d4af37;
     }
 
-    /* GRID DE CATEGORIAS */
+    /* CARDS */
     .cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 40px;
+      gap: 35px;
     }
 
     .card {
-      background: linear-gradient(145deg, #111, #000);
-      border: 1px solid #222;
-      border-radius: 18px;
+      background: rgba(15,15,15,0.9);
+      border-radius: 16px;
       overflow: hidden;
-      transition: transform 0.3s ease;
       cursor: pointer;
+      transition: transform 0.2s ease;
+      border: 1px solid #222;
     }
 
     .card:hover {
@@ -150,15 +133,15 @@
     }
 
     .card h3 {
+      margin: 0 0 8px;
       color: #d4af37;
-      margin-bottom: 8px;
-      font-size: 18px;
     }
 
     .card p {
+      margin: 0;
       color: #ccc;
       font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     footer {
@@ -174,119 +157,68 @@
 
 <body>
 
-  <!-- FUNDO -->
-  <div class="background"></div>
-  <div class="overlay"></div>
+<header>
+  <strong>Curadoria Elite Travel</strong>
+</header>
 
-  <header>
-    <strong>Curadoria Elite Travel</strong>
-  </header>
+<main>
 
-  <main>
-    <h1>Curadoria</h1>
-    <p class="subtitle">Seleções organizadas para cada dimensão da sua viagem</p>
+  <h1>Curadoria</h1>
+  <p class="subtitle">Seleções organizadas para cada dimensão da sua viagem</p>
 
-    <!-- OVERVIEW -->
-    <section class="overview-card">
-      <h2>Overview da Curadoria</h2>
+  <div class="overview-card">
+    <h2>Overview da Curadoria</h2>
 
-      <p>
-        Este material apresenta o modelo completo de como você recebe cada curadoria:
-        estrutura, critérios, linguagem e formato.
-      </p>
+    <p>
+      Um material cuidadosamente estruturado com critérios, escolhas e recomendações
+      que evitam excessos, economizam tempo e elevam a experiência de viagem.
+    </p>
 
-      <p>
-        Ele serve como referência clara do padrão Elite Travel antes de acessar
-        qualquer conteúdo específico.
-      </p>
+    <p>
+      Este material apresenta o modelo completo de como você recebe cada curadoria.
+    </p>
 
-      <div class="actions">
-        <a href="overview.pdf" class="button secondary">Ver overview</a>
-        <a href="#" class="button primary">Garantir Curadoria</a>
+    <a class="button secondary" target="_blank"
+       href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf">
+      Ver overview
+    </a>
+
+    <span class="button primary">Garantir Curadoria</span>
+  </div>
+
+  <div class="cards-grid">
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=1200&q=80">
+      <div class="card-content">
+        <h3>City Guide</h3>
+        <p>Visão estratégica das principais cidades.</p>
       </div>
-    </section>
+    </div>
 
-    <!-- CATEGORIAS -->
-    <section class="cards-grid">
-
-      <div class="card">
-        <img src="images/city.jpg" alt="City Guide">
-        <div class="card-content">
-          <h3>City Guide</h3>
-          <p>Visão estratégica e objetiva das principais cidades.</p>
-        </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80">
+      <div class="card-content">
+        <h3>Gastronomia</h3>
+        <p>Restaurantes e cafés bem escolhidos.</p>
       </div>
+    </div>
 
-      <div class="card">
-        <img src="images/gastronomia.jpg" alt="Gastronomia">
-        <div class="card-content">
-          <h3>Gastronomia</h3>
-          <p>Restaurantes, cafés e experiências selecionadas.</p>
-        </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1502920514313-52581002a659?auto=format&fit=crop&w=1200&q=80">
+      <div class="card-content">
+        <h3>Atrações Turísticas</h3>
+        <p>Pontos essenciais com critério.</p>
       </div>
+    </div>
 
-      <div class="card">
-        <img src="images/atracoes.jpg" alt="Atrações Turísticas">
-        <div class="card-content">
-          <h3>Atrações Turísticas</h3>
-          <p>Pontos essenciais com critério e contexto.</p>
-        </div>
-      </div>
+  </div>
 
-      <div class="card">
-        <img src="images/experiencias.jpg" alt="Experiências">
-        <div class="card-content">
-          <h3>Experiências</h3>
-          <p>Vivências únicas além do óbvio.</p>
-        </div>
-      </div>
+</main>
 
-      <div class="card">
-        <img src="images/noite.jpg" alt="Vida Noturna">
-        <div class="card-content">
-          <h3>Vida Noturna</h3>
-          <p>Bares, clubes e programas noturnos selecionados.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="images/compras.jpg" alt="Endereços para Compras">
-        <div class="card-content">
-          <h3>Endereços para Compras</h3>
-          <p>Lugares certeiros para comprar bem.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="images/presentes.jpg" alt="Sugestão de Presentes">
-        <div class="card-content">
-          <h3>Sugestão de Presentes</h3>
-          <p>Ideias com bom gosto e intenção.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="images/hoteis.jpg" alt="Sugestão de Hotéis">
-        <div class="card-content">
-          <h3>Sugestão de Hotéis</h3>
-          <p>Hospedagens alinhadas ao estilo da curadoria.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="images/cruzeiros.jpg" alt="Sugestão de Cruzeiros">
-        <div class="card-content">
-          <h3>Sugestão de Cruzeiros</h3>
-          <p>Experiências marítimas selecionadas.</p>
-        </div>
-      </div>
-
-    </section>
-  </main>
-
-  <footer>
-    Curadoria Elite Travel · O seu mundo, bem indicado.
-  </footer>
+<footer>
+  Curadoria Elite Travel · O seu mundo, bem indicado.
+</footer>
 
 </body>
 </html>
