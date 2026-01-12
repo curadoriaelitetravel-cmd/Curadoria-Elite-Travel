@@ -13,20 +13,27 @@
       background: #000;
     }
 
+    /* BACKGROUND CAROUSEL */
     .background {
       position: fixed;
       inset: 0;
       z-index: -1;
       background-size: cover;
       background-position: center;
-      animation: bg 30s infinite alternate;
+      animation: bg 36s infinite alternate;
       filter: brightness(0.35);
     }
 
     @keyframes bg {
-      0% { background-image: url("https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1600&q=80"); }
-      50% { background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80"); }
-      100% { background-image: url("https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1600&q=80"); }
+      0% {
+        background-image: url("https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1800&q=80");
+      }
+      50% {
+        background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80");
+      }
+      100% {
+        background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80");
+      }
     }
 
     header {
@@ -117,6 +124,7 @@
       width: 100%;
       height: 180px;
       object-fit: cover;
+      display: block;
     }
 
     .card-content {
@@ -170,7 +178,7 @@
 
   <div class="cards-grid">
 
-    <!-- CITY GUIDE (cidade/vila) -->
+    <!-- CITY GUIDE -->
     <div class="card">
       <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
       <div class="card-content">
@@ -211,9 +219,9 @@
       </div>
     </div>
 
-    <!-- ENDEREÇOS PARA COMPRAS (corrigido) -->
+    <!-- ENDEREÇOS PARA COMPRAS (CORRIGIDO DEFINITIVO) -->
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1515169067865-5387ec356754?auto=format&fit=crop&w=1200&q=80">
+      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80">
       <div class="card-content">
         <h3>Endereços para Compras</h3>
         <p>Onde vale realmente gastar tempo.</p>
@@ -228,7 +236,6 @@
       </div>
     </div>
 
-    <!-- SUGESTÃO DE HOTÉIS (corrigido) -->
     <div class="card">
       <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80">
       <div class="card-content">
