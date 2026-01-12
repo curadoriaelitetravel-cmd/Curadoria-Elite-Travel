@@ -70,8 +70,13 @@
       cursor: not-allowed;
     }
 
+    .material-card {
+      cursor: pointer;
+    }
+
     .preview-button,
-    .cta-button {
+    .cta-button,
+    .back-button {
       display: inline-block;
       margin-top: 20px;
       padding: 14px 28px;
@@ -90,40 +95,10 @@
       margin-left: 10px;
     }
 
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.75);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-    }
-
-    .modal {
-      background: #111;
-      border-radius: 16px;
-      max-width: 520px;
-      padding: 40px;
-      border: 1px solid #333;
-      text-align: center;
-    }
-
-    .modal h2 {
-      color: #d4af37;
-      margin-top: 0;
-    }
-
-    .modal p {
-      color: #ccc;
-      line-height: 1.6;
-    }
-
-    .close {
-      margin-top: 30px;
-      display: inline-block;
+    .back-button {
+      background: transparent;
+      border: 1px solid #555;
       color: #aaa;
-      cursor: pointer;
     }
 
     footer {
@@ -161,16 +136,13 @@
         📖 Ver amostra do material
       </a>
 
-      <button class="cta-button" onclick="openModal()">
+      <button class="cta-button">
         🔒 Garantir Esta Curadoria
       </button>
     </div>
 
     <div class="category-grid">
-      <div class="category-card" onclick="openCityGuide()">
-        City Guide
-      </div>
-
+      <div class="category-card" onclick="openCityGuide()">City Guide</div>
       <div class="category-card disabled">Gastronomia</div>
       <div class="category-card disabled">Atrações Turísticas</div>
       <div class="category-card disabled">Experiências</div>
@@ -185,19 +157,46 @@
   <!-- VISÃO CITY GUIDE -->
   <section id="view-city-guide" style="display:none;">
     <h1>City Guide</h1>
-    <p class="subtitle">Materiais disponíveis para consulta</p>
+    <p class="subtitle">O que inclui esta curadoria</p>
 
     <div class="card">
-      <h3>City Guide — Visão Geral</h3>
+      <p>
+        Um material cuidadosamente estruturado com critérios, escolhas e
+        recomendações que evitam excessos, economizam tempo e elevam a
+        experiência de viagem.
+      </p>
+      <p>
+        O acesso completo é liberado após confirmação.
+        Esta página é apenas uma amostra do que entregamos.
+      </p>
+    </div>
 
-      <button class="preview-button" onclick="openModal()">
-        📖 Ver amostra do material
-      </button>
+    <div class="card material-card" onclick="openMaterial()">
+      <h3>São Paulo — City Guide</h3>
+      <p>Curadoria completa para viver São Paulo com profundidade e critério.</p>
+    </div>
+
+    <button class="back-button" onclick="backToCuradoria()">← Voltar para Curadoria</button>
+  </section>
+
+  <!-- VISÃO MATERIAL -->
+  <section id="view-material" style="display:none;">
+    <h1>São Paulo — City Guide</h1>
+    <p class="subtitle">Detalhes do material</p>
+
+    <div class="card">
+      <p>
+        Este documento reúne uma seleção criteriosa de restaurantes,
+        experiências, compras e endereços essenciais para explorar São Paulo
+        com inteligência e sofisticação.
+      </p>
 
       <button class="cta-button">
-        🔒 Adquirir acesso completo
+        🔒 Adquirir Curadoria
       </button>
     </div>
+
+    <button class="back-button" onclick="backToCityGuide()">← Voltar para City Guide</button>
   </section>
 
 </main>
@@ -206,38 +205,32 @@
   Curadoria Elite Travel · O seu mundo, bem indicado.
 </footer>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modal">
-  <div class="modal">
-    <h2>O que inclui esta curadoria</h2>
-
-    <p>
-      Um material cuidadosamente estruturado com critérios, escolhas
-      e recomendações que evitam excessos, economizam tempo e elevam
-      a experiência de viagem.
-    </p>
-
-    <p>
-      O acesso completo é liberado após confirmação.
-      Esta página é apenas uma amostra do que entregamos.
-    </p>
-
-    <div class="close" onclick="closeModal()">Fechar</div>
-  </div>
-</div>
-
 <script>
-  function openModal() {
-    document.getElementById("modal").style.display = "flex";
-  }
-
-  function closeModal() {
-    document.getElementById("modal").style.display = "none";
-  }
-
   function openCityGuide() {
     document.getElementById("view-curadoria").style.display = "none";
     document.getElementById("view-city-guide").style.display = "block";
+    document.getElementById("view-material").style.display = "none";
+    window.scrollTo(0, 0);
+  }
+
+  function openMaterial() {
+    document.getElementById("view-curadoria").style.display = "none";
+    document.getElementById("view-city-guide").style.display = "none";
+    document.getElementById("view-material").style.display = "block";
+    window.scrollTo(0, 0);
+  }
+
+  function backToCuradoria() {
+    document.getElementById("view-curadoria").style.display = "block";
+    document.getElementById("view-city-guide").style.display = "none";
+    document.getElementById("view-material").style.display = "none";
+    window.scrollTo(0, 0);
+  }
+
+  function backToCityGuide() {
+    document.getElementById("view-curadoria").style.display = "none";
+    document.getElementById("view-city-guide").style.display = "block";
+    document.getElementById("view-material").style.display = "none";
     window.scrollTo(0, 0);
   }
 </script>
