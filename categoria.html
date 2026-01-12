@@ -9,8 +9,40 @@
     body {
       margin: 0;
       font-family: "Segoe UI", sans-serif;
-      background: #0b0b0b;
       color: #fff;
+      background: #0b0b0b;
+    }
+
+    /* BACKGROUND CAROUSEL */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -2;
+      animation: backgroundCarousel 36s infinite;
+      filter: saturate(0.8) brightness(0.55);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(11,11,11,0.85),
+        rgba(11,11,11,0.95)
+      );
+      z-index: -1;
+    }
+
+    @keyframes backgroundCarousel {
+      0%   { background-image: url("images/bg-1.jpg"); }
+      33%  { background-image: url("images/bg-2.jpg"); }
+      66%  { background-image: url("images/bg-3.jpg"); }
+      100% { background-image: url("images/bg-1.jpg"); }
     }
 
     header {
@@ -37,58 +69,23 @@
     .subtitle {
       text-align: center;
       color: #aaa;
-      margin-bottom: 40px;
-    }
-
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-    }
-
-    .card {
-      background: linear-gradient(145deg, #111, #000);
-      border: 1px solid #222;
-      border-radius: 14px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-    }
-
-    .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .card-content {
-      padding: 25px;
-    }
-
-    .card h3 {
-      margin: 0 0 10px;
-      color: #d4af37;
-    }
-
-    .card p {
-      margin: 0;
-      color: #ccc;
-      font-size: 14px;
-      line-height: 1.6;
+      margin-bottom: 50px;
     }
 
     /* OVERVIEW CARD */
     .overview-card {
-      margin-bottom: 60px;
-      padding: 40px;
-      border-radius: 18px;
-      background: linear-gradient(145deg, #111, #000);
-      border: 1px solid #222;
+      margin-bottom: 70px;
+      padding: 45px;
+      border-radius: 20px;
+      background: linear-gradient(
+        145deg,
+        rgba(20,20,20,0.9),
+        rgba(0,0,0,0.9)
+      );
+      border: 1px solid rgba(212,175,55,0.25);
       text-align: center;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
     }
 
     .overview-card h2 {
@@ -98,7 +95,7 @@
 
     .overview-card p {
       color: #ccc;
-      max-width: 750px;
+      max-width: 760px;
       margin: 20px auto;
       line-height: 1.7;
     }
@@ -128,6 +125,63 @@
       background: transparent;
     }
 
+    /* CARDS GRID */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, #111, #000);
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      filter: brightness(0.85);
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.05);
+    }
+
+    .card-content {
+      padding: 26px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      color: #d4af37;
+    }
+
+    .card p {
+      margin: 0;
+      color: #ccc;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    footer {
+      border-top: 1px solid #222;
+      padding: 30px;
+      text-align: center;
+      color: #777;
+      margin-top: 80px;
+      font-size: 14px;
+    }
+
     /* MODAL */
     .modal-overlay {
       position: fixed;
@@ -141,7 +195,7 @@
 
     .modal {
       background: #111;
-      border-radius: 16px;
+      border-radius: 18px;
       max-width: 520px;
       padding: 40px;
       border: 1px solid #333;
@@ -164,15 +218,6 @@
       color: #aaa;
       cursor: pointer;
     }
-
-    footer {
-      border-top: 1px solid #222;
-      padding: 30px;
-      text-align: center;
-      color: #777;
-      margin-top: 60px;
-      font-size: 14px;
-    }
   </style>
 </head>
 
@@ -184,7 +229,6 @@
 
 <main>
 
-  <!-- CURADORIA VIEW -->
   <section id="curadoria-view">
     <h1>Curadoria</h1>
     <p class="subtitle">Seleções organizadas para cada dimensão da sua viagem</p>
@@ -199,8 +243,8 @@
       </p>
 
       <p>
-        O acesso completo é liberado após confirmação.
-        Esta página apresenta apenas uma amostra do formato e da proposta.
+        Este material apresenta o modelo completo de como você recebe
+        cada curadoria.
       </p>
 
       <div class="actions">
@@ -209,7 +253,7 @@
           href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
           target="_blank"
         >
-          Ver amostra
+          Ver overview
         </a>
 
         <span class="button primary" onclick="openOverviewModal()">
@@ -221,7 +265,7 @@
     <!-- CATEGORIES -->
     <div class="cards-grid">
 
-      <div class="card" onclick="openCategory('city-guide')">
+      <div class="card">
         <img src="images/city.jpg">
         <div class="card-content">
           <h3>City Guide</h3>
@@ -229,7 +273,7 @@
         </div>
       </div>
 
-      <div class="card" onclick="openCategory('gastronomia')">
+      <div class="card">
         <img src="images/gastronomia.jpg">
         <div class="card-content">
           <h3>Gastronomia</h3>
@@ -237,7 +281,7 @@
         </div>
       </div>
 
-      <div class="card" onclick="openCategory('atracoes')">
+      <div class="card">
         <img src="images/atracoes.jpg">
         <div class="card-content">
           <h3>Atrações Turísticas</h3>
@@ -245,7 +289,7 @@
         </div>
       </div>
 
-      <div class="card" onclick="openCategory('experiencias')">
+      <div class="card">
         <img src="images/experiencias.jpg">
         <div class="card-content">
           <h3>Experiências</h3>
@@ -253,7 +297,7 @@
         </div>
       </div>
 
-      <div class="card" onclick="openCategory('vida-noturna')">
+      <div class="card">
         <img src="images/noite.jpg">
         <div class="card-content">
           <h3>Vida Noturna</h3>
@@ -261,7 +305,7 @@
         </div>
       </div>
 
-      <div class="card" onclick="openCategory('compras')">
+      <div class="card">
         <img src="images/compras.jpg">
         <div class="card-content">
           <h3>Endereços para Compras</h3>
@@ -269,7 +313,7 @@
         </div>
       </div>
 
-      <div class="card" onclick="openCategory('presentes')">
+      <div class="card">
         <img src="images/presentes.jpg">
         <div class="card-content">
           <h3>Sugestão de Presentes</h3>
@@ -277,7 +321,7 @@
         </div>
       </div>
 
-      <div class="card" onclick="openCategory('hoteis')">
+      <div class="card">
         <img src="images/hotel.jpg">
         <div class="card-content">
           <h3>Sugestão de Hotéis</h3>
@@ -285,7 +329,7 @@
         </div>
       </div>
 
-      <div class="card" onclick="openCategory('cruzeiros')">
+      <div class="card">
         <img src="images/cruzeiro.jpg">
         <div class="card-content">
           <h3>Sugestão de Cruzeiros</h3>
@@ -312,11 +356,6 @@
       e uma lógica que evita excessos e otimiza decisões.
     </p>
 
-    <p>
-      O acesso completo é liberado após confirmação.
-      Esta página é apenas uma amostra do que entregamos.
-    </p>
-
     <div class="close" onclick="closeOverviewModal()">Fechar</div>
   </div>
 </div>
@@ -328,12 +367,6 @@
 
   function closeOverviewModal() {
     document.getElementById("overview-modal").style.display = "none";
-  }
-
-  function openCategory(id) {
-    document.getElementById("curadoria-view").style.display = "none";
-    document.getElementById(id).style.display = "block";
-    window.scrollTo(0,0);
   }
 </script>
 
