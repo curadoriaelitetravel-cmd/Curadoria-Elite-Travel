@@ -9,38 +9,13 @@
     body {
       margin: 0;
       font-family: "Segoe UI", sans-serif;
+      background: #0b0b0b;
       color: #fff;
-      background: #000;
-    }
-
-    /* BACKGROUND CAROUSEL */
-    .background {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      background-size: cover;
-      background-position: center;
-      animation: bg 36s infinite alternate;
-      filter: brightness(0.35);
-    }
-
-    @keyframes bg {
-      0% {
-        background-image: url("https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1800&q=80");
-      }
-      50% {
-        background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80");
-      }
-      100% {
-        background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80");
-      }
     }
 
     header {
       padding: 20px 40px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(6px);
+      border-bottom: 1px solid #222;
     }
 
     header strong {
@@ -51,7 +26,7 @@
     main {
       max-width: 1100px;
       margin: auto;
-      padding: 60px 20px;
+      padding: 40px 20px;
     }
 
     h1 {
@@ -61,59 +36,35 @@
 
     .subtitle {
       text-align: center;
-      color: #ccc;
-      margin-bottom: 50px;
+      color: #aaa;
+      margin-bottom: 40px;
     }
 
-    .overview-card {
-      background: rgba(0,0,0,0.65);
-      border: 1px solid #222;
-      border-radius: 18px;
-      padding: 50px 40px;
-      text-align: center;
-      margin-bottom: 70px;
-      backdrop-filter: blur(8px);
-    }
-
-    .overview-card h2 {
-      color: #d4af37;
-      margin-top: 0;
-    }
-
-    .overview-card p {
-      color: #ccc;
-      max-width: 760px;
-      margin: 20px auto;
-      line-height: 1.7;
-    }
-
-    .button {
+    .back-link {
       display: inline-block;
-      padding: 14px 30px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 600;
-      margin: 6px;
-      cursor: pointer;
-    }
-
-    .secondary {
+      margin-bottom: 30px;
+      padding: 8px 18px;
+      border-radius: 20px;
       border: 1px solid #d4af37;
       color: #d4af37;
+      text-decoration: none;
+      font-size: 14px;
+      cursor: pointer;
     }
 
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 30px;
     }
 
     .card {
-      background: rgba(0,0,0,0.7);
+      background: linear-gradient(145deg, #111, #000);
       border: 1px solid #222;
-      border-radius: 16px;
+      border-radius: 14px;
       overflow: hidden;
-      transition: transform .2s ease;
+      cursor: pointer;
+      transition: transform 0.2s ease;
     }
 
     .card:hover {
@@ -124,40 +75,44 @@
       width: 100%;
       height: 180px;
       object-fit: cover;
-      display: block;
     }
 
     .card-content {
-      padding: 24px;
+      padding: 25px;
     }
 
     .card h3 {
-      color: #d4af37;
       margin: 0 0 10px;
+      color: #d4af37;
     }
 
     .card p {
+      margin: 0;
       color: #ccc;
       font-size: 14px;
       line-height: 1.6;
-      margin: 0;
     }
 
     footer {
       border-top: 1px solid #222;
       padding: 30px;
       text-align: center;
-      color: #aaa;
-      margin-top: 80px;
+      color: #777;
+      margin-top: 60px;
       font-size: 14px;
-      background: rgba(0,0,0,0.6);
+    }
+
+    section {
+      display: none;
+    }
+
+    #curadoria-view {
+      display: block;
     }
   </style>
 </head>
 
 <body>
-
-<div class="background"></div>
 
 <header>
   <strong>Curadoria Elite Travel</strong>
@@ -165,100 +120,74 @@
 
 <main>
 
-  <h1>Curadoria</h1>
-  <p class="subtitle">Seleções organizadas para cada dimensão da sua viagem</p>
+  <!-- CURADORIA -->
+  <section id="curadoria-view">
+    <h1>Curadoria</h1>
+    <p class="subtitle">Seleções organizadas para cada dimensão da sua viagem</p>
 
-  <div class="overview-card">
-    <h2>Overview da Curadoria</h2>
-    <p>Material modelo que demonstra como você receberá todas as curadorias.</p>
-    <a href="SEU_LINK_DO_OVERVIEW.pdf" target="_blank" class="button secondary">
-      Ver overview
-    </a>
-  </div>
+    <div class="cards-grid">
 
-  <div class="cards-grid">
-
-    <!-- CITY GUIDE -->
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>City Guide</h3>
-        <p>Visão estratégica das principais cidades.</p>
+      <div class="card" onclick="openGastronomia()">
+        <img src="images/gastronomia.jpg" alt="Gastronomia">
+        <div class="card-content">
+          <h3>Gastronomia</h3>
+          <p>Restaurantes e cafés escolhidos com critério.</p>
+        </div>
       </div>
-    </div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Gastronomia</h3>
-        <p>Restaurantes e cafés bem escolhidos.</p>
+      <div class="card">
+        <img src="images/city.jpg">
+        <div class="card-content">
+          <h3>City Guide</h3>
+          <p>Visão estratégica das cidades.</p>
+        </div>
       </div>
-    </div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Atrações Turísticas</h3>
-        <p>Pontos essenciais com critério.</p>
+    </div>
+  </section>
+
+  <!-- GASTRONOMIA -->
+  <section id="gastronomia-view">
+    <span class="back-link" onclick="backToCuradoria()">← Voltar para Curadoria</span>
+
+    <h1>Gastronomia</h1>
+    <p class="subtitle">Seleções gastronômicas com identidade e elegância</p>
+
+    <div class="cards-grid">
+
+      <div class="card">
+        <img src="images/restaurante-sp.jpg" alt="Restaurante São Paulo">
+        <div class="card-content">
+          <h3>Restaurante Modelo · São Paulo</h3>
+          <p>
+            Um endereço que representa a curadoria: ambiente refinado,
+            cozinha consistente e experiência equilibrada.
+          </p>
+        </div>
       </div>
-    </div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Experiências</h3>
-        <p>Vivências que elevam a viagem.</p>
-      </div>
     </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Vida Noturna</h3>
-        <p>Bares e cenas noturnas selecionadas.</p>
-      </div>
-    </div>
-
-    <!-- ENDEREÇOS PARA COMPRAS (CORRIGIDO DEFINITIVO) -->
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Endereços para Compras</h3>
-        <p>Onde vale realmente gastar tempo.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Sugestão de Presentes</h3>
-        <p>Ideias refinadas para levar consigo.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Sugestão de Hotéis</h3>
-        <p>Hospedagens alinhadas ao perfil da viagem.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Sugestão de Cruzeiros</h3>
-        <p>Rotas selecionadas com conforto e elegância.</p>
-      </div>
-    </div>
-
-  </div>
+  </section>
 
 </main>
 
 <footer>
-  © Elite Travel Curadoria
+  Curadoria Elite Travel · O seu mundo, bem indicado.
 </footer>
+
+<script>
+  function openGastronomia() {
+    document.getElementById("curadoria-view").style.display = "none";
+    document.getElementById("gastronomia-view").style.display = "block";
+    window.scrollTo(0, 0);
+  }
+
+  function backToCuradoria() {
+    document.getElementById("gastronomia-view").style.display = "none";
+    document.getElementById("curadoria-view").style.display = "block";
+    window.scrollTo(0, 0);
+  }
+</script>
 
 </body>
 </html>
