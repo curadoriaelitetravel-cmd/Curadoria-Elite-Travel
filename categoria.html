@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>City Guide · Curadoria Elite Travel</title>
+  <title>Curadoria · City Guide</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -40,7 +40,18 @@
       margin-bottom: 40px;
     }
 
-    .cards {
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #d4af37;
+      text-decoration: none;
+      border: 1px solid #d4af37;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 30px;
@@ -50,7 +61,7 @@
       background: linear-gradient(145deg, #111, #000);
       border: 1px solid #222;
       border-radius: 14px;
-      padding: 30px;
+      overflow: hidden;
       cursor: pointer;
       transition: transform 0.2s ease;
     }
@@ -59,52 +70,67 @@
       transform: translateY(-4px);
     }
 
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
     .card h3 {
-      margin-top: 0;
+      margin: 0 0 10px;
       color: #d4af37;
+    }
+
+    .card p {
+      margin: 0;
+      color: #ccc;
+      font-size: 14px;
+      line-height: 1.5;
     }
 
     .material-view {
       display: none;
-    }
-
-    .back-button {
-      display: inline-block;
-      margin-bottom: 30px;
-      color: #d4af37;
-      cursor: pointer;
-    }
-
-    .material-box {
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 40px;
-      max-width: 600px;
-      margin: auto;
       text-align: center;
     }
 
-    .material-box h2 {
+    .material-view h2 {
       color: #d4af37;
-      margin-top: 0;
     }
 
-    .material-box p {
+    .material-view p {
       color: #ccc;
+      max-width: 700px;
+      margin: 20px auto;
       line-height: 1.6;
     }
 
-    .cta-button {
-      display: inline-block;
+    .actions {
       margin-top: 30px;
+    }
+
+    .button {
+      display: inline-block;
       padding: 14px 28px;
       border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    .primary {
       background: #d4af37;
       color: #000;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
+    }
+
+    .secondary {
+      border: 1px solid #d4af37;
+      color: #d4af37;
+      background: transparent;
     }
 
     footer {
@@ -126,69 +152,17 @@
 
 <main>
 
-  <!-- VISÃO CATEGORIA -->
+  <!-- CATEGORY VIEW -->
   <section id="category-view">
+
+    <!-- BOTÃO VOLTAR PARA CURADORIA -->
+    <a href="categoria.html" class="back-link">← Voltar para Curadoria</a>
+
     <h1>City Guide</h1>
-    <p class="subtitle">Materiais disponíveis nesta curadoria</p>
+    <p class="subtitle">Curadorias urbanas para explorar cidades com critério e elegância</p>
 
-    <div class="cards">
+    <div class="cards-grid">
+
       <div class="card" onclick="openMaterial('São Paulo — City Guide')">
-        <h3>São Paulo</h3>
-        <p>Uma leitura essencial para navegar pela cidade com critério.</p>
-      </div>
-
-      <div class="card" onclick="openMaterial('Paris — City Guide')">
-        <h3>Paris</h3>
-        <p>Endereços, experiências e escolhas além do óbvio.</p>
-      </div>
-
-      <div class="card" onclick="openMaterial('Nova York — City Guide')">
-        <h3>Nova York</h3>
-        <p>Curadoria estratégica para aproveitar a cidade com clareza.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- VISÃO MATERIAL -->
-  <section id="material-view" class="material-view">
-    <div class="back-button" onclick="backToCategory()">← Voltar para City Guide</div>
-
-    <div class="material-box">
-      <h2 id="material-title"></h2>
-
-      <p>
-        Um material cuidadosamente estruturado com critérios, escolhas
-        e recomendações que evitam excessos, economizam tempo e elevam
-        a experiência de viagem.
-      </p>
-
-      <p>
-        O acesso completo é liberado após confirmação.
-        Esta página é apenas uma amostra do que entregamos.
-      </p>
-
-      <div class="cta-button">Adquirir Curadoria</div>
-    </div>
-  </section>
-
-</main>
-
-<footer>
-  Curadoria Elite Travel · O seu mundo, bem indicado.
-</footer>
-
-<script>
-  function openMaterial(title) {
-    document.getElementById('category-view').style.display = 'none';
-    document.getElementById('material-view').style.display = 'block';
-    document.getElementById('material-title').innerText = title;
-  }
-
-  function backToCategory() {
-    document.getElementById('material-view').style.display = 'none';
-    document.getElementById('category-view').style.display = 'block';
-  }
-</script>
-
-</body>
-</html>
+        <img src="images/sp.jpg" alt="São Paulo">
+        <div class="card-cont
