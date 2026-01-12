@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Curadoria · City Guide</title>
+  <title>Curadoria · Categorias</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -40,7 +40,6 @@
       margin-bottom: 40px;
     }
 
-    /* BOTÃO VOLTAR */
     .back-link {
       display: inline-block;
       margin-bottom: 20px;
@@ -93,7 +92,6 @@
       line-height: 1.5;
     }
 
-    /* MATERIAL VIEW */
     .material-view {
       display: none;
       text-align: center;
@@ -154,84 +152,31 @@
 
 <main>
 
-  <!-- CATEGORY VIEW -->
-  <section id="category-view">
-
-    <!-- VOLTAR PARA CURADORIA -->
+  <!-- CITY GUIDE -->
+  <section id="city-guide">
     <a href="categoria.html" class="back-link">← Voltar para Curadoria</a>
-
     <h1>City Guide</h1>
     <p class="subtitle">Curadorias urbanas para explorar cidades com critério e elegância</p>
 
     <div class="cards-grid">
-
       <div class="card" onclick="openMaterial('São Paulo — City Guide')">
-        <img src="images/sp.jpg" alt="São Paulo">
+        <img src="images/sp.jpg">
         <div class="card-content">
           <h3>São Paulo</h3>
           <p>Uma leitura estratégica para navegar a cidade com precisão.</p>
         </div>
       </div>
-
-      <div class="card" onclick="openMaterial('Paris — City Guide')">
-        <img src="images/paris.jpg" alt="Paris">
-        <div class="card-content">
-          <h3>Paris</h3>
-          <p>Curadoria refinada para vivenciar Paris além do óbvio.</p>
-        </div>
-      </div>
-
-      <div class="card" onclick="openMaterial('Nova York — City Guide')">
-        <img src="images/ny.jpg" alt="Nova York">
-        <div class="card-content">
-          <h3>Nova York</h3>
-          <p>Recomendações diretas para aproveitar a cidade sem excessos.</p>
-        </div>
-      </div>
-
     </div>
   </section>
 
-  <!-- MATERIAL VIEW -->
-  <section id="material-view" class="material-view">
-    <h2 id="material-title"></h2>
-
-    <p>
-      Um material cuidadosamente estruturado com critérios, escolhas e recomendações
-      que evitam excessos, economizam tempo e elevam a experiência de viagem.
-    </p>
-
-    <p>
-      O acesso completo é liberado após confirmação.
-      Esta página é apenas uma amostra do que entregamos.
-    </p>
-
-    <div class="actions">
-      <span class="button secondary" onclick="backToCategory()">Voltar</span>
-      <span class="button primary">Adquirir Curadoria</span>
-    </div>
+  <!-- GASTRONOMIA -->
+  <section id="gastronomia" style="display:none">
+    <a href="categoria.html" class="back-link">← Voltar para Curadoria</a>
+    <h1>Gastronomia</h1>
+    <p class="subtitle">Restaurantes, cafés e experiências gastronômicas selecionadas</p>
+    <div class="cards-grid"></div>
   </section>
 
-</main>
-
-<footer>
-  Curadoria Elite Travel · O seu mundo, bem indicado.
-</footer>
-
-<script>
-  function openMaterial(title) {
-    document.getElementById("material-title").innerText = title;
-    document.getElementById("category-view").style.display = "none";
-    document.getElementById("material-view").style.display = "block";
-    window.scrollTo(0, 0);
-  }
-
-  function backToCategory() {
-    document.getElementById("material-view").style.display = "none";
-    document.getElementById("category-view").style.display = "block";
-    window.scrollTo(0, 0);
-  }
-</script>
-
-</body>
-</html>
+  <!-- ATRAÇÕES -->
+  <section id="atracoes" style="display:none">
+    <a href="cat
