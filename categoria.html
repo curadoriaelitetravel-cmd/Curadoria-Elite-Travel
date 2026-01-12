@@ -13,29 +13,28 @@
       background: #000;
     }
 
-    /* FUNDO VISUAL */
-    body::before {
-      content: "";
+    /* BACKGROUND CAROUSEL */
+    .background {
       position: fixed;
       inset: 0;
-      background-image: url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=2000&q=80");
+      z-index: -1;
       background-size: cover;
       background-position: center;
+      animation: bg 30s infinite alternate;
       filter: brightness(0.35);
-      z-index: -2;
     }
 
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.6);
-      z-index: -1;
+    @keyframes bg {
+      0% { background-image: url("https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1600&q=80"); }
+      50% { background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80"); }
+      100% { background-image: url("https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1600&q=80"); }
     }
 
     header {
       padding: 20px 40px;
-      border-bottom: 1px solid #222;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
     }
 
     header strong {
@@ -57,17 +56,18 @@
     .subtitle {
       text-align: center;
       color: #ccc;
-      margin-bottom: 60px;
+      margin-bottom: 50px;
     }
 
     /* OVERVIEW */
     .overview-card {
-      background: rgba(10,10,10,0.85);
-      border: 1px solid #d4af37;
-      border-radius: 20px;
-      padding: 50px;
+      background: rgba(0,0,0,0.65);
+      border: 1px solid #222;
+      border-radius: 18px;
+      padding: 50px 40px;
       text-align: center;
-      margin-bottom: 80px;
+      margin-bottom: 70px;
+      backdrop-filter: blur(8px);
     }
 
     .overview-card h2 {
@@ -76,9 +76,9 @@
     }
 
     .overview-card p {
-      max-width: 750px;
+      color: #ccc;
+      max-width: 760px;
       margin: 20px auto;
-      color: #ddd;
       line-height: 1.7;
     }
 
@@ -86,9 +86,9 @@
       display: inline-block;
       padding: 14px 30px;
       border-radius: 30px;
-      font-weight: 600;
-      margin: 10px;
       text-decoration: none;
+      font-weight: 600;
+      margin: 6px;
       cursor: pointer;
     }
 
@@ -102,24 +102,23 @@
       color: #d4af37;
     }
 
-    /* CARDS */
+    /* CATEGORIES */
     .cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 35px;
+      gap: 30px;
     }
 
     .card {
-      background: rgba(15,15,15,0.9);
+      background: rgba(0,0,0,0.7);
+      border: 1px solid #222;
       border-radius: 16px;
       overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-      border: 1px solid #222;
+      transition: transform .2s ease;
     }
 
     .card:hover {
-      transform: translateY(-6px);
+      transform: translateY(-4px);
     }
 
     .card img {
@@ -129,33 +128,36 @@
     }
 
     .card-content {
-      padding: 22px;
+      padding: 24px;
     }
 
     .card h3 {
-      margin: 0 0 8px;
       color: #d4af37;
+      margin: 0 0 10px;
     }
 
     .card p {
-      margin: 0;
       color: #ccc;
       font-size: 14px;
       line-height: 1.6;
+      margin: 0;
     }
 
     footer {
       border-top: 1px solid #222;
       padding: 30px;
       text-align: center;
-      color: #777;
+      color: #aaa;
       margin-top: 80px;
       font-size: 14px;
+      background: rgba(0,0,0,0.6);
     }
   </style>
 </head>
 
 <body>
+
+<div class="background"></div>
 
 <header>
   <strong>Curadoria Elite Travel</strong>
@@ -171,27 +173,30 @@
     <h2>Overview da Curadoria</h2>
 
     <p>
-      Um material cuidadosamente estruturado com critérios, escolhas e recomendações
-      que evitam excessos, economizam tempo e elevam a experiência de viagem.
+      Um material modelo que demonstra exatamente como você receberá
+      as curadorias: organização clara, critérios bem definidos e
+      escolhas refinadas.
     </p>
 
     <p>
-      Este material apresenta o modelo completo de como você recebe cada curadoria.
+      Esta visualização é pública e serve como referência do formato,
+      da linguagem e da profundidade do conteúdo.
     </p>
 
-    <a class="button secondary" target="_blank"
-       href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf">
+    <a
+      href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
+      target="_blank"
+      class="button secondary"
+    >
       Ver overview
     </a>
-
-    <span class="button primary">Garantir Curadoria</span>
   </div>
 
-  <!-- CATEGORIAS (AS 9, SEM TIRAR NENHUMA) -->
+  <!-- CATEGORIES -->
   <div class="cards-grid">
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=1200&q=80">
+      <img src="https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=1200&q=80">
       <div class="card-content">
         <h3>City Guide</h3>
         <p>Visão estratégica das principais cidades.</p>
@@ -199,7 +204,7 @@
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80">
+      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80">
       <div class="card-content">
         <h3>Gastronomia</h3>
         <p>Restaurantes e cafés bem escolhidos.</p>
@@ -207,7 +212,7 @@
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1502920514313-52581002a659?auto=format&fit=crop&w=1200&q=80">
+      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
       <div class="card-content">
         <h3>Atrações Turísticas</h3>
         <p>Pontos essenciais com critério.</p>
@@ -215,7 +220,7 @@
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80">
+      <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80">
       <div class="card-content">
         <h3>Experiências</h3>
         <p>Vivências que elevam a viagem.</p>
@@ -223,7 +228,7 @@
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80">
+      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80">
       <div class="card-content">
         <h3>Vida Noturna</h3>
         <p>Bares e cenas noturnas selecionadas.</p>
@@ -231,7 +236,7 @@
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1521335629791-ce4aec67dd47?auto=format&fit=crop&w=1200&q=80">
+      <img src="https://images.unsplash.com/photo-1515169067865-5387ec356754?auto=format&fit=crop&w=1200&q=80">
       <div class="card-content">
         <h3>Endereços para Compras</h3>
         <p>Onde vale realmente gastar tempo.</p>
@@ -239,7 +244,7 @@
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80">
+      <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80">
       <div class="card-content">
         <h3>Sugestão de Presentes</h3>
         <p>Ideias refinadas para levar consigo.</p>
@@ -247,7 +252,7 @@
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80">
+      <img src="https://images.unsplash.com/photo-1501117716987-c8e1ecb210f3?auto=format&fit=crop&w=1200&q=80">
       <div class="card-content">
         <h3>Sugestão de Hotéis</h3>
         <p>Hospedagens alinhadas à curadoria.</p>
