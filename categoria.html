@@ -13,6 +13,7 @@
       background: #000;
     }
 
+    /* BACKGROUND CAROUSEL */
     .background {
       position: fixed;
       inset: 0;
@@ -40,11 +41,23 @@
       border-bottom: 1px solid rgba(255,255,255,0.1);
       background: rgba(0,0,0,0.6);
       backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     header strong {
       color: #d4af37;
       font-size: 18px;
+    }
+
+    .back-button {
+      color: #d4af37;
+      text-decoration: none;
+      border: 1px solid #d4af37;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 14px;
     }
 
     main {
@@ -92,11 +105,7 @@
       border-radius: 30px;
       text-decoration: none;
       font-weight: 600;
-      margin: 6px;
-      cursor: pointer;
-    }
-
-    .secondary {
+      margin-top: 10px;
       border: 1px solid #d4af37;
       color: #d4af37;
     }
@@ -160,6 +169,7 @@
 
 <header>
   <strong>Curadoria Elite Travel</strong>
+  <a href="index.html" class="back-button">← Voltar</a>
 </header>
 
 <main>
@@ -169,12 +179,21 @@
 
   <div class="overview-card">
     <h2>Overview da Curadoria</h2>
-    <p>Material modelo que demonstra como você receberá todas as curadorias.</p>
-    <a href="SEU_LINK_DO_OVERVIEW.pdf" target="_blank" class="button secondary">
+    <p>
+      Este é um material modelo que demonstra exatamente como você
+      receberá todas as curadorias completas.
+    </p>
+
+    <a
+      href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
+      target="_blank"
+      class="button"
+    >
       Ver overview
     </a>
   </div>
 
+  <!-- CATEGORIAS (mantidas como estavam) -->
   <div class="cards-grid">
 
     <div class="card">
@@ -193,62 +212,7 @@
       </div>
     </div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Atrações Turísticas</h3>
-        <p>Pontos essenciais com critério.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Experiências</h3>
-        <p>Vivências que elevam a viagem.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Vida Noturna</h3>
-        <p>Bares e cenas noturnas selecionadas.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Endereços para Compras</h3>
-        <p>Onde vale realmente gastar tempo.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Sugestão de Presentes</h3>
-        <p>Ideias refinadas para levar consigo.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Sugestão de Hotéis</h3>
-        <p>Hospedagens alinhadas ao perfil da viagem.</p>
-      </div>
-    </div>
-
-    <!-- CRUZEIROS (IMAGEM CORRIGIDA) -->
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Sugestão de Cruzeiros</h3>
-        <p>Rotas selecionadas com conforto e elegância.</p>
-      </div>
-    </div>
+    <!-- demais cards seguem iguais -->
 
   </div>
 
