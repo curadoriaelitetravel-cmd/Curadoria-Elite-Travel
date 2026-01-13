@@ -108,8 +108,9 @@
 <header>
   <strong>Curadoria Elite Travel</strong>
   <nav>
-    <a href="index.html">Início</a>
+    <a href="#">Início</a>
     <a href="#">Quem Somos</a>
+    <!-- ✅ CONEXÃO CORRETA COM A CURADORIA -->
     <a href="categoria.html">Curadoria</a>
     <a href="#">Contato</a>
     <a href="#">Avalie-nos</a>
@@ -121,12 +122,12 @@
 <section class="grid" id="categories"></section>
 
 <footer>
-  Curadoria Elite Travel · O seu mundo, bem indicado.<br>
+  Curadoria Elite Travel · O seu mundo, bem indicado.<br />
   São Paulo – SP · curadoriaelitetravel@gmail.com
 </footer>
 
 <script>
-  // CONEXÃO COM SUPABASE
+  // ✅ CONEXÃO REAL COM SEU SUPABASE
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
   const SUPABASE_ANON_KEY =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
@@ -150,7 +151,7 @@
     const container = document.getElementById("categories");
     container.innerHTML = "";
 
-    data.forEach(cat => {
+    data.forEach((cat) => {
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
