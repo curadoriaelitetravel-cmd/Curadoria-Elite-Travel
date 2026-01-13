@@ -2,167 +2,276 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Curadoria Elite Travel</title>
+  <title>Curadoria · Elite Travel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
       margin: 0;
       font-family: "Segoe UI", sans-serif;
-      background: #0b0b0b;
       color: #fff;
+      background: #000;
+    }
+
+    /* BACKGROUND CAROUSEL */
+    .background {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-size: cover;
+      background-position: center;
+      animation: bg 36s infinite alternate;
+      filter: brightness(0.35);
+    }
+
+    @keyframes bg {
+      0% {
+        background-image: url("https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1800&q=80");
+      }
+      50% {
+        background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80");
+      }
+      100% {
+        background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80");
+      }
     }
 
     header {
       padding: 20px 40px;
-      border-bottom: 1px solid #222;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
     }
 
-    nav a {
-      margin-left: 20px;
+    header strong {
       color: #d4af37;
-      text-decoration: none;
-      font-weight: 500;
+      font-size: 18px;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 70px 20px;
     }
 
     h1 {
       text-align: center;
-      margin: 60px 0 20px;
       color: #d4af37;
     }
 
-    .grid {
+    .subtitle {
+      text-align: center;
+      color: #ccc;
+      margin-bottom: 60px;
+    }
+
+    /* OVERVIEW */
+    .overview-card {
+      background: rgba(0,0,0,0.65);
+      border: 1px solid #222;
+      border-radius: 18px;
+      padding: 50px 40px;
+      text-align: center;
+      margin-bottom: 80px;
+      backdrop-filter: blur(8px);
+    }
+
+    .overview-card h2 {
+      color: #d4af37;
+      margin-top: 0;
+    }
+
+    .overview-card p {
+      color: #ccc;
+      max-width: 760px;
+      margin: 20px auto;
+      line-height: 1.7;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 14px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 20px;
+      border: 1px solid #d4af37;
+      color: #d4af37;
+    }
+
+    /* CARDS */
+    .cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 30px;
-      padding: 40px;
-      max-width: 1200px;
-      margin: auto;
     }
 
     .card {
-      background: linear-gradient(145deg, #111, #000);
+      background: rgba(0,0,0,0.7);
       border: 1px solid #222;
-      border-radius: 14px;
-      padding: 30px;
-      cursor: pointer;
-      transition: all 0.4s ease;
-      position: relative;
+      border-radius: 16px;
       overflow: hidden;
-    }
-
-    .card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top, rgba(212,175,55,0.18), transparent 60%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
+      cursor: pointer;
+      transition: transform .2s ease;
     }
 
     .card:hover {
-      transform: translateY(-8px);
-      border-color: #d4af37;
-      box-shadow: 0 20px 40px rgba(212,175,55,0.25);
+      transform: translateY(-4px);
     }
 
-    .card:hover::after {
-      opacity: 1;
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-content {
+      padding: 24px;
     }
 
     .card h3 {
-      margin: 0 0 10px;
       color: #d4af37;
-      font-size: 20px;
+      margin: 0 0 10px;
     }
 
     .card p {
       color: #ccc;
       font-size: 14px;
       line-height: 1.6;
+      margin: 0;
     }
 
     footer {
       border-top: 1px solid #222;
-      margin-top: 80px;
       padding: 30px;
       text-align: center;
-      color: #888;
+      color: #aaa;
+      margin-top: 90px;
       font-size: 14px;
+      background: rgba(0,0,0,0.6);
     }
   </style>
 </head>
 
 <body>
 
+<div class="background"></div>
+
 <header>
   <strong>Curadoria Elite Travel</strong>
-  <nav>
-    <a href="#">Início</a>
-    <a href="#">Quem Somos</a>
-    <a href="#">Curadoria</a>
-    <a href="#">Contato</a>
-    <a href="#">Avalie-nos</a>
-  </nav>
 </header>
 
-<h1>Curadoria</h1>
+<main>
 
-<section class="grid" id="categories"></section>
+  <h1>Curadoria</h1>
+  <p class="subtitle">Seleções organizadas para cada dimensão da sua viagem</p>
+
+  <!-- OVERVIEW -->
+  <div class="overview-card">
+    <h2>Overview da Curadoria</h2>
+    <p>
+      Este material demonstra exatamente como você receberá todas as curadorias:
+      organização, critérios claros e escolhas refinadas para orientar sua viagem
+      com segurança e elegância.
+    </p>
+
+    <a
+      href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
+      target="_blank"
+      class="button"
+    >
+      Ver overview
+    </a>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="cards-grid">
+
+    <div class="card" onclick="goTo('city-guide')">
+      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
+      <div class="card-content">
+        <h3>City Guide</h3>
+        <p>Visão estratégica das principais cidades.</p>
+      </div>
+    </div>
+
+    <div class="card" onclick="goTo('gastronomia')">
+      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80">
+      <div class="card-content">
+        <h3>Gastronomia</h3>
+        <p>Restaurantes e cafés bem escolhidos.</p>
+      </div>
+    </div>
+
+    <div class="card" onclick="goTo('atracoes')">
+      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
+      <div class="card-content">
+        <h3>Atrações Turísticas</h3>
+        <p>Pontos essenciais com critério.</p>
+      </div>
+    </div>
+
+    <div class="card" onclick="goTo('experiencias')">
+      <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80">
+      <div class="card-content">
+        <h3>Experiências</h3>
+        <p>Vivências que elevam a viagem.</p>
+      </div>
+    </div>
+
+    <div class="card" onclick="goTo('vida-noturna')">
+      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80">
+      <div class="card-content">
+        <h3>Vida Noturna</h3>
+        <p>Bares e cenas noturnas selecionadas.</p>
+      </div>
+    </div>
+
+    <div class="card" onclick="goTo('compras')">
+      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80">
+      <div class="card-content">
+        <h3>Endereços para Compras</h3>
+        <p>Onde vale realmente gastar tempo.</p>
+      </div>
+    </div>
+
+    <div class="card" onclick="goTo('presentes')">
+      <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80">
+      <div class="card-content">
+        <h3>Sugestão de Presentes</h3>
+        <p>Ideias refinadas para levar consigo.</p>
+      </div>
+    </div>
+
+    <div class="card" onclick="goTo('hoteis')">
+      <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80">
+      <div class="card-content">
+        <h3>Sugestão de Hotéis</h3>
+        <p>Hospedagens alinhadas ao perfil da viagem.</p>
+      </div>
+    </div>
+
+    <div class="card" onclick="goTo('cruzeiros')">
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80">
+      <div class="card-content">
+        <h3>Sugestão de Cruzeiros</h3>
+        <p>Rotas selecionadas com conforto e elegância.</p>
+      </div>
+    </div>
+
+  </div>
+
+</main>
 
 <footer>
-  Curadoria Elite Travel · O seu mundo, bem indicado.<br>
-  São Paulo – SP · curadoriaelitetravel@gmail.com
+  Curadoria Elite Travel · O seu mundo, bem indicado.
 </footer>
 
 <script>
-  // ✅ CONEXÃO REAL COM SEU SUPABASE
-  const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-  const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
-
-  const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
-
-  async function carregarCategorias() {
-    const { data, error } = await supabaseClient
-      .from("categories")
-      .select("*")
-      .order("created_at", { ascending: true });
-
-    if (error) {
-      console.error("Erro ao carregar categorias:", error);
-      return;
-    }
-
-    const container = document.getElementById("categories");
-    container.innerHTML = "";
-
-    data.forEach(cat => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <h3>${cat.title}</h3>
-        <p>${cat.description || ""}</p>
-      `;
-
-      card.onclick = () => {
-        window.location.href = `categoria.html?slug=${cat.slug}`;
-      };
-
-      container.appendChild(card);
-    });
+  function goTo(slug) {
+    window.location.href = `categoria.html?slug=${slug}`;
   }
-
-  carregarCategorias();
 </script>
 
 </body>
