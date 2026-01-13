@@ -61,7 +61,11 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at top, rgba(212,175,55,0.18), transparent 60%);
+      background: radial-gradient(
+        circle at top,
+        rgba(212, 175, 55, 0.18),
+        transparent 60%
+      );
       opacity: 0;
       transition: opacity 0.4s ease;
     }
@@ -69,7 +73,7 @@
     .card:hover {
       transform: translateY(-8px);
       border-color: #d4af37;
-      box-shadow: 0 20px 40px rgba(212,175,55,0.25);
+      box-shadow: 0 20px 40px rgba(212, 175, 55, 0.25);
     }
 
     .card:hover::after {
@@ -122,6 +126,7 @@
 </footer>
 
 <script>
+  // CONEXÃO COM SUPABASE
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
   const SUPABASE_ANON_KEY =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
