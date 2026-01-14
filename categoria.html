@@ -2,21 +2,24 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Curadoria | Elite Travel</title>
+<title>Curadoria</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #000;
+  font-family: "Segoe UI", sans-serif;
+  background: #0b0b0b;
   color: #fff;
 }
 
 h1 {
   text-align: center;
-  margin: 40px 0 20px;
+  color: #d4af37;
+  margin: 40px 0;
 }
 
-.container {
+.section {
   max-width: 1200px;
   margin: auto;
   padding: 20px;
@@ -25,80 +28,63 @@ h1 {
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
+  gap: 25px;
 }
 
 .card {
-  background-size: cover;
-  background-position: center;
-  height: 220px;
-  position: relative;
+  background: linear-gradient(145deg, #111, #000);
+  border: 1px solid #222;
+  border-radius: 14px;
+  padding: 25px;
+  text-align: center;
   cursor: pointer;
 }
 
-.card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
+.card h3 {
+  color: #d4af37;
 }
 
-.card-content {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-}
-
-button {
-  margin-top: 10px;
+.card button {
+  margin-top: 15px;
   padding: 10px 18px;
+  background: #d4af37;
   border: none;
   cursor: pointer;
-}
-
-.primary {
-  background: #c9a24d;
-  color: #000;
-}
-
-.secondary {
-  background: #333;
-  color: #fff;
 }
 
 .hidden {
   display: none;
 }
 
-/* Modal */
+/* MODAL */
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.85);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 99;
+  z-index: 1000;
 }
 
 .modal-content {
   background: #111;
+  border-radius: 14px;
   padding: 30px;
-  max-width: 700px;
+  max-width: 600px;
   width: 90%;
   text-align: center;
 }
 
-.small-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+.modal-content iframe {
+  width: 100%;
+  height: 400px;
+  border: none;
+}
+
+.modal-content button {
+  margin: 10px;
+  padding: 10px 18px;
 }
 </style>
 </head>
@@ -107,133 +93,71 @@ button {
 
 <h1>CURADORIA</h1>
 
-<div class="container">
+<div class="section">
 
-<!-- TELA CURADORIA -->
-<div id="curadoria">
-
-  <!-- MATERIAL AMOSTRA -->
-  <div class="card" style="background:#111;height:260px;">
-    <div class="card-content">
-      <h2>Material Amostra</h2>
-      <p>Veja um exemplo do material entregue</p>
-      <button class="primary" onclick="openPdf()">Visualizar PDF</button>
-    </div>
-  </div>
-
-  <br><br>
-
-  <!-- CATEGORIAS -->
-  <div class="grid">
-    <div class="card" onclick="openCityGuide()" style="background-image:url('https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80')">
-      <div class="card-content"><h2>CITY GUIDE</h2></div>
-    </div>
-
-    <div class="card" style="background-image:url('https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80')">
-      <div class="card-content"><h2>GASTRONOMIA</h2></div>
-    </div>
-
-    <div class="card" style="background-image:url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80')">
-      <div class="card-content"><h2>ATRAÇÕES TURÍSTICAS</h2></div>
-    </div>
-
-    <div class="card" style="background-image:url('https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80')">
-      <div class="card-content"><h2>EXPERIÊNCIAS</h2></div>
-    </div>
-
-    <div class="card" style="background-image:url('https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80')">
-      <div class="card-content"><h2>VIDA NOTURNA</h2></div>
-    </div>
-
-    <div class="card" style="background-image:url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80')">
-      <div class="card-content"><h2>ENDEREÇOS PARA COMPRAS</h2></div>
-    </div>
-
-    <div class="card" style="background-image:url('https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80')">
-      <div class="card-content"><h2>SUGESTÃO DE PRESENTES</h2></div>
-    </div>
-
-    <div class="card" style="background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80')">
-      <div class="card-content"><h2>SUGESTÃO DE HOTÉIS</h2></div>
-    </div>
-
-    <div class="card" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80')">
-      <div class="card-content"><h2>CRUZEIROS</h2></div>
-    </div>
-  </div>
+<!-- MATERIAL AMOSTRA -->
+<div class="card">
+  <h3>Material de Amostra</h3>
+  <p>Veja como nossos materiais são apresentados.</p>
+  <button onclick="openPDF()">Visualizar PDF</button>
 </div>
 
-<!-- TELA CITY GUIDE -->
-<div id="cityGuide" class="hidden">
-  <button class="secondary" onclick="backCuradoria()">← Voltar</button>
-  <h2>City Guide</h2>
+<br><br>
 
-  <div class="small-grid">
-    <div class="card" style="background:#111;height:160px;">
-      <div class="card-content">
-        <p>São Paulo – SP – Brasil</p>
-        <button class="primary" onclick="openConfirm()">Acessar material</button>
-      </div>
-    </div>
-
-    <div class="card" style="background:#111;height:160px;">
-      <div class="card-content">
-        <p>Rio de Janeiro – RJ – Brasil</p>
-        <button class="primary" onclick="openConfirm()">Acessar material</button>
-      </div>
-    </div>
-
-    <div class="card" style="background:#111;height:160px;">
-      <div class="card-content">
-        <p>Paris – França</p>
-        <button class="primary" onclick="openConfirm()">Acessar material</button>
-      </div>
-    </div>
-
-    <div class="card" style="background:#111;height:160px;">
-      <div class="card-content">
-        <p>New York – USA</p>
-        <button class="primary" onclick="openConfirm()">Acessar material</button>
-      </div>
-    </div>
-  </div>
+<!-- CATEGORIAS -->
+<div class="grid">
+  <div class="card" onclick="showCities()">City Guide</div>
+  <div class="card">Gastronomia</div>
+  <div class="card">Atrações Turísticas</div>
+  <div class="card">Experiências</div>
+  <div class="card">Vida Noturna</div>
+  <div class="card">Endereços para Compras</div>
+  <div class="card">Sugestão de Presentes</div>
+  <div class="card">Sugestão de Hotéis</div>
+  <div class="card">Cruzeiros</div>
 </div>
 
-<!-- MODAIS -->
-<div id="pdfModal" class="modal hidden">
-  <div class="modal-content">
-    <iframe src="overview.pdf" width="100%" height="400"></iframe>
-    <br><br>
-    <button class="secondary" onclick="closePdf()">Fechar</button>
-  </div>
+<!-- CIDADES -->
+<div id="cities" class="grid hidden" style="margin-top:40px;">
+  <div class="card" onclick="openCity()">São Paulo – SP – Brasil</div>
+  <div class="card" onclick="openCity()">Rio de Janeiro – RJ – Brasil</div>
+  <div class="card" onclick="openCity()">Paris – França</div>
+  <div class="card" onclick="openCity()">New York – USA</div>
 </div>
 
-<div id="confirmModal" class="modal hidden">
-  <div class="modal-content">
-    <h3>City Guide</h3>
-    <p>Material digital de apoio à viagem. Não há troca ou reembolso.</p>
-    <button class="primary">Prosseguir para compra</button>
-    <br><br>
-    <button class="secondary" onclick="closeConfirm()">Fechar</button>
-  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal hidden">
+  <div class="modal-content" id="modalContent"></div>
 </div>
 
 <script>
-function openCityGuide(){
-  document.getElementById('curadoria').classList.add('hidden');
-  document.getElementById('cityGuide').classList.remove('hidden');
+function openPDF() {
+  document.getElementById("modal").classList.remove("hidden");
+  document.getElementById("modalContent").innerHTML = `
+    <iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"></iframe>
+    <br>
+    <button onclick="closeModal()">Fechar</button>
+  `;
 }
 
-function backCuradoria(){
-  document.getElementById('cityGuide').classList.add('hidden');
-  document.getElementById('curadoria').classList.remove('hidden');
+function showCities() {
+  document.getElementById("cities").classList.remove("hidden");
 }
 
-function openPdf(){ document.getElementById('pdfModal').classList.remove('hidden'); }
-function closePdf(){ document.getElementById('pdfModal').classList.add('hidden'); }
+function openCity() {
+  document.getElementById("modal").classList.remove("hidden");
+  document.getElementById("modalContent").innerHTML = `
+    <p>Este material é digital, sem troca ou reembolso.</p>
+    <button>Prosseguir</button>
+    <button onclick="closeModal()">Fechar</button>
+  `;
+}
 
-function openConfirm(){ document.getElementById('confirmModal').classList.remove('hidden'); }
-function closeConfirm(){ document.getElementById('confirmModal').classList.add('hidden'); }
+function closeModal() {
+  document.getElementById("modal").classList.add("hidden");
+}
 </script>
 
 </body>
