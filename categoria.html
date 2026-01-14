@@ -155,10 +155,11 @@
       background: rgba(0,0,0,0.6);
     }
 
+    /* MODAL */
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.85);
       display: none;
       align-items: center;
       justify-content: center;
@@ -166,24 +167,40 @@
     }
 
     .modal-content {
-      background: rgba(0,0,0,0.9);
+      background: rgba(0,0,0,0.95);
       border: 1px solid #333;
       border-radius: 18px;
-      padding: 50px;
-      max-width: 800px;
       width: 90%;
-      text-align: center;
+      max-width: 900px;
+      height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
       backdrop-filter: blur(10px);
     }
 
-    .modal-content h2 {
-      color: #d4af37;
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid #222;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .modal-content p {
-      color: #ccc;
-      line-height: 1.7;
-      margin: 20px 0 30px;
+    .modal-header h2 {
+      color: #d4af37;
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .modal-body {
+      flex: 1;
+    }
+
+    .modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
   </style>
 </head>
@@ -201,12 +218,14 @@
   <h1>Curadoria</h1>
   <p class="subtitle">Seleções organizadas para cada dimensão da sua viagem</p>
 
+  <!-- OVERVIEW -->
   <div class="overview-card" onclick="abrirOverview()">
     <h2>Overview da Curadoria</h2>
     <p>Material modelo que demonstra como você receberá todas as curadorias.</p>
     <span class="button secondary">Ver overview</span>
   </div>
 
+  <!-- CATEGORIAS -->
   <div class="cards-grid">
 
     <div class="card">
@@ -289,14 +308,16 @@
   © Elite Travel Curadoria
 </footer>
 
+<!-- MODAL OVERVIEW -->
 <div class="modal" id="overviewModal">
   <div class="modal-content">
-    <h2>Overview da Curadoria</h2>
-    <p>
-      Aqui você apresenta o modelo real de como os materiais da Curadoria Elite Travel
-      são organizados, entregues e pensados para elevar a experiência da viagem.
-    </p>
-    <button class="button secondary" onclick="fecharOverview()">Fechar</button>
+    <div class="modal-header">
+      <h2>Overview da Curadoria</h2>
+      <span class="button secondary" onclick="fecharOverview()">Fechar</span>
+    </div>
+    <div class="modal-body">
+      <iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"></iframe>
+    </div>
   </div>
 </div>
 
