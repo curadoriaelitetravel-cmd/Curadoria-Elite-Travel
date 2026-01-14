@@ -2,62 +2,66 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Curadoria · Elite Travel</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curadoria | Elite Travel</title>
 
 <style>
 body {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: #000;
-  color: #fff;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
 }
 
 header {
-  padding: 20px 40px;
-  border-bottom: 1px solid #222;
+  background: #000;
+  color: #fff;
+  padding: 20px;
 }
 
-header strong {
-  color: #d4af37;
-  font-size: 18px;
+.container {
+  padding: 40px;
 }
 
-main {
-  max-width: 1200px;
-  margin: auto;
-  padding: 60px 20px;
+/* CARD AMOSTRA */
+.sample-card {
+  background: #ffffff;
+  padding: 30px;
+  margin-bottom: 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.12);
 }
 
-h1 {
-  text-align: center;
-  color: #d4af37;
+.sample-card h2 {
+  margin-top: 0;
 }
 
-.subtitle {
-  text-align: center;
-  color: #ccc;
-  margin-bottom: 50px;
+.sample-card button {
+  margin-top: 20px;
+  padding: 14px 26px;
+  background: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 15px;
 }
 
-/* cards */
+/* GRID CATEGORIAS */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 28px;
 }
 
 .card {
-  background: rgba(0,0,0,0.7);
-  border: 1px solid #222;
-  border-radius: 16px;
+  background: #fff;
+  border-radius: 12px;
   overflow: hidden;
-  cursor: pointer;
-  transition: transform .2s;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  transition: transform .3s ease;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
 }
 
 .card img {
@@ -66,72 +70,56 @@ h1 {
   object-fit: cover;
 }
 
-.card-content {
-  padding: 22px;
-}
-
 .card h3 {
-  color: #d4af37;
-  margin: 0 0 10px;
+  padding: 18px;
+  margin: 0;
+  font-size: 17px;
 }
 
-.card p {
-  color: #ccc;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.button {
-  display: inline-block;
-  margin-top: 15px;
-  padding: 12px 26px;
-  border-radius: 30px;
-  border: 1px solid #d4af37;
-  color: #d4af37;
-  background: transparent;
-  cursor: pointer;
-}
-
-/* telas internas */
-.screen {
-  display: none;
-}
-
-.screen.active {
-  display: block;
-}
-
-/* modal */
+/* MODAL */
 .modal {
+  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
-  display: none;
-  align-items: center;
+  background: rgba(0,0,0,0.75);
+  z-index: 1000;
   justify-content: center;
-  z-index: 999;
+  align-items: center;
 }
 
 .modal-content {
-  background: #000;
-  border: 1px solid #333;
-  border-radius: 20px;
-  max-width: 600px;
-  padding: 40px;
-  text-align: center;
+  background: #fff;
+  width: 90%;
+  max-width: 900px;
+  height: 80%;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
 }
 
-.modal-content h2 {
-  color: #d4af37;
+.modal-header {
+  padding: 16px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
 }
 
-.modal-content p {
-  color: #ccc;
-  line-height: 1.6;
+.modal-body {
+  flex: 1;
+  padding: 15px;
 }
 
-.modal-content .button {
-  margin: 10px;
+.modal-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.close {
+  cursor: pointer;
+  font-size: 22px;
 }
 </style>
 </head>
@@ -139,96 +127,93 @@ h1 {
 <body>
 
 <header>
-  <strong>Curadoria Elite Travel</strong>
+  <h1>Curadoria Elite Travel</h1>
 </header>
 
-<main>
+<div class="container">
 
-<!-- ===== CURADORIA ===== -->
-<section id="curadoria" class="screen active">
-  <h1>Curadoria</h1>
-  <p class="subtitle">Seleções organizadas para cada dimensão da sua viagem</p>
-
-  <!-- overview -->
-  <div class="card" style="margin-bottom:50px" onclick="openModal('overviewModal')">
-    <div class="card-content">
-      <h3>Material de amostra</h3>
-      <p>Veja um exemplo de como os materiais da Curadoria são apresentados.</p>
-      <span class="button">Ver amostra</span>
-    </div>
+  <!-- CARD DE AMOSTRA -->
+  <div class="sample-card">
+    <h2>Material de Amostra</h2>
+    <p>
+      Este é um exemplo do material digital entregue após a compra.
+      Por se tratar de conteúdo digital, não é possível troca, devolução
+      ou reembolso.
+    </p>
+    <button onclick="abrirModal()">Ver amostra</button>
   </div>
 
-  <!-- categorias -->
+  <!-- GRID DE CATEGORIAS -->
   <div class="grid">
-    <div class="card" onclick="openCityGuide()">
+
+    <div class="card">
       <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content"><h3>City Guide</h3></div>
+      <h3>City Guide</h3>
     </div>
 
-    <div class="card"><img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Gastronomia</h3></div></div>
-    <div class="card"><img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Atrações Turísticas</h3></div></div>
-    <div class="card"><img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Experiências</h3></div></div>
-    <div class="card"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Vida Noturna</h3></div></div>
-    <div class="card"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Endereços para Compras</h3></div></div>
-    <div class="card"><img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Sugestão de Presentes</h3></div></div>
-    <div class="card"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Sugestão de Hotéis</h3></div></div>
-    <div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Cruzeiros</h3></div></div>
-  </div>
-</section>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80">
+      <h3>Gastronomia</h3>
+    </div>
 
-<!-- ===== CITY GUIDE ===== -->
-<section id="cityguide" class="screen">
-  <h1>City Guide</h1>
-  <p class="subtitle">Materiais disponíveis</p>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
+      <h3>Atrações Turísticas</h3>
+    </div>
 
-  <button class="button" onclick="backToCuradoria()">Voltar para Curadoria</button>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80">
+      <h3>Experiências</h3>
+    </div>
 
-  <div class="grid" style="margin-top:40px">
-    <div class="card" onclick="openModal('cityModal')"><div class="card-content"><h3>São Paulo · Brasil</h3><p>Acessar material</p></div></div>
-    <div class="card" onclick="openModal('cityModal')"><div class="card-content"><h3>Rio de Janeiro · Brasil</h3><p>Acessar material</p></div></div>
-    <div class="card" onclick="openModal('cityModal')"><div class="card-content"><h3>Paris · França</h3><p>Acessar material</p></div></div>
-    <div class="card" onclick="openModal('cityModal')"><div class="card-content"><h3>New York · USA</h3><p>Acessar material</p></div></div>
-  </div>
-</section>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80">
+      <h3>Vida Noturna</h3>
+    </div>
 
-</main>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80">
+      <h3>Endereços para Compras</h3>
+    </div>
 
-<!-- MODAIS -->
-<div id="overviewModal" class="modal">
-  <div class="modal-content">
-    <h2>Material de amostra</h2>
-    <p>Este material demonstra como as curadorias são entregues.</p>
-    <button class="button" onclick="window.open('https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf')">Ver PDF</button>
-    <button class="button" onclick="closeModal()">Fechar</button>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80">
+      <h3>Sugestão de Presentes</h3>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80">
+      <h3>Sugestão de Hotéis</h3>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80">
+      <h3>Cruzeiros</h3>
+    </div>
+
   </div>
 </div>
 
-<div id="cityModal" class="modal">
+<!-- MODAL AMOSTRA -->
+<div class="modal" id="modal">
   <div class="modal-content">
-    <h2>City Guide</h2>
-    <p>Material digital de apoio à viagem. Não há troca ou reembolso.</p>
-    <button class="button">Prosseguir</button>
-    <button class="button" onclick="closeModal()">Fechar</button>
+    <div class="modal-header">
+      Amostra – Curadoria Elite Travel
+      <span class="close" onclick="fecharModal()">✕</span>
+    </div>
+    <div class="modal-body">
+      <iframe src="amostra.pdf"></iframe>
+    </div>
   </div>
 </div>
 
 <script>
-function openCityGuide(){
-  document.getElementById('curadoria').classList.remove('active');
-  document.getElementById('cityguide').classList.add('active');
+function abrirModal() {
+  document.getElementById("modal").style.display = "flex";
 }
 
-function backToCuradoria(){
-  document.getElementById('cityguide').classList.remove('active');
-  document.getElementById('curadoria').classList.add('active');
-}
-
-function openModal(id){
-  document.getElementById(id).style.display = 'flex';
-}
-
-function closeModal(){
-  document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+function fecharModal() {
+  document.getElementById("modal").style.display = "none";
 }
 </script>
 
