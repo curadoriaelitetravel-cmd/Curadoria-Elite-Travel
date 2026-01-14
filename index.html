@@ -1,304 +1,260 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Curadoria Elite Travel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>Curadoria | Curadoria Elite Travel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: #0b0b0b;
-      color: #fff;
-      overflow-x: hidden;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #0b0b0b;
+  color: #fff;
+}
 
-    header {
-      padding: 20px 40px;
-      border-bottom: 1px solid #222;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: fixed;
-      width: 100%;
-      background: rgba(0,0,0,0.85);
-      z-index: 1000;
-    }
+header {
+  padding: 20px 40px;
+  border-bottom: 1px solid #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    nav a {
-      margin-left: 20px;
-      color: #d4af37;
-      text-decoration: none;
-      font-weight: 500;
-      cursor: pointer;
-    }
+nav a {
+  margin-left: 20px;
+  color: #d4af37;
+  text-decoration: none;
+}
 
-    section {
-      display: none;
-      padding: 120px 40px 60px 40px;
-      max-width: 1200px;
-      margin: auto;
-    }
+h1 {
+  text-align: center;
+  margin: 50px 0 30px;
+  color: #d4af37;
+}
 
-    section.active {
-      display: block;
-    }
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 40px 80px;
+}
 
-    h1, h2 {
-      text-align: center;
-      color: #d4af37;
-    }
+.card {
+  background: linear-gradient(145deg, #111, #000);
+  border: 1px solid #222;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 40px;
+  text-align: center;
+}
 
-    .carousel {
-      display: flex;
-      overflow: hidden;
-      border-radius: 14px;
-      margin-bottom: 40px;
-      max-height: 400px;
-      position: relative;
-    }
+button {
+  background: #d4af37;
+  border: none;
+  color: #000;
+  padding: 12px 26px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+}
 
-    .carousel img {
-      width: 100%;
-      object-fit: cover;
-      transition: transform 0.8s ease;
-    }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 30px;
-      margin-top: 20px;
-    }
+.category-card {
+  height: 200px;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid #222;
+}
 
-    .card {
-      background: linear-gradient(145deg, #111, #000);
-      border: 1px solid #222;
-      border-radius: 14px;
-      padding: 20px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.4s ease;
-      position: relative;
-    }
+.category-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  border-radius: 16px;
+}
 
-    .card img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 12px;
-    }
+.category-card span {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 2;
+  color: #d4af37;
+  font-size: 18px;
+  font-weight: 600;
+}
 
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: #d4af37;
-      box-shadow: 0 10px 20px rgba(212,175,55,0.25);
-    }
+.cities {
+  display: none;
+}
 
-    button {
-      cursor: pointer;
-      padding: 8px 14px;
-      border-radius: 6px;
-      border: none;
-      background: #d4af37;
-      color: #000;
-      font-weight: 600;
-      margin-top: 8px;
-    }
+.city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
 
-    /* POPUP */
-    .popup-bg {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-    }
+.city-card {
+  background: #111;
+  border: 1px solid #222;
+  padding: 20px;
+  border-radius: 14px;
+  text-align: center;
+}
 
-    .popup-bg.active {
-      display: flex;
-    }
+.back-btn {
+  margin-bottom: 30px;
+}
 
-    .popup-content {
-      background: #111;
-      padding: 30px;
-      max-width: 600px;
-      border-radius: 14px;
-      text-align: center;
-      color: #fff;
-      position: relative;
-    }
+.popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
 
-    .popup-content button {
-      margin: 10px 8px 0 8px;
-    }
+.popup-content {
+  background: #111;
+  border-radius: 16px;
+  padding: 30px;
+  width: 90%;
+  max-width: 700px;
+  border: 1px solid #222;
+}
 
-    footer {
-      border-top: 1px solid #222;
-      margin-top: 40px;
-      padding: 30px;
-      text-align: center;
-      color: #888;
-      font-size: 14px;
-    }
-  </style>
+iframe {
+  width: 100%;
+  height: 70vh;
+  border: none;
+}
+</style>
 </head>
+
 <body>
 
 <header>
-  <strong>Curadoria Elite Travel</strong>
-  <nav>
-    <a onclick="showSection('inicio')">Início</a>
-    <a onclick="showSection('quem')">Quem Somos</a>
-    <a onclick="showSection('curadoria')">Curadoria</a>
-    <a onclick="showSection('contato')">Contato</a>
-    <a onclick="showSection('avaliacao')">Avalie-nos</a>
-  </nav>
+<strong>Curadoria Elite Travel</strong>
+<nav>
+<a href="/">Início</a>
+<a href="#">Quem Somos</a>
+<a href="#">Curadoria</a>
+<a href="#">Contato</a>
+<a href="#">Avalie-nos</a>
+</nav>
 </header>
 
-<!-- INICIO -->
-<section id="inicio" class="active">
-  <h1>Seja Bem-vindo</h1>
-  <p style="text-align:center; color:#ccc; margin-bottom:20px;">
-    Orquestramos cada detalhe com cuidado e expertise, para que você possa focar exclusivamente em viver experiências memoráveis.
-  </p>
-  <div class="carousel">
-    <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
-    <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
-    <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80">
-  </div>
-</section>
+<h1>Curadoria</h1>
 
-<!-- QUEM SOMOS -->
-<section id="quem">
-  <h1>Quem Somos</h1>
-  <p style="text-align:center; color:#ccc;">Texto sobre a empresa...</p>
-</section>
+<div class="container">
 
-<!-- CURADORIA -->
-<section id="curadoria">
-  <h1>Curadoria</h1>
-  <div class="grid">
-    <!-- Overview -->
-    <div class="card" onclick="openOverview()">
-      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
-      <h3>Overview</h3>
-      <p>Veja uma amostra de como entregamos os materiais.</p>
-    </div>
-
-    <!-- Categorias -->
-    <div class="card" onclick="openCategoria('City Guide')">
-      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
-      <h3>City Guide</h3>
-    </div>
-    <div class="card" onclick="openCategoria('Gastronomia')">
-      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80">
-      <h3>Gastronomia</h3>
-    </div>
-    <div class="card" onclick="openCategoria('Atrações Turísticas')">
-      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
-      <h3>Atrações Turísticas</h3>
-    </div>
-    <div class="card" onclick="openCategoria('Experiências')">
-      <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80">
-      <h3>Experiências</h3>
-    </div>
-  </div>
-</section>
-
-<!-- CATEGORIA INTERNA -->
-<section id="categoria-interna">
-  <h1 id="categoria-title"></h1>
-  <div class="grid" id="categoria-cards"></div>
-  <button onclick="showSection('curadoria')">Voltar</button>
-</section>
-
-<!-- POPUP Overview e Material -->
-<div class="popup-bg" id="popup">
-  <div class="popup-content" id="popup-content">
-    <p id="popup-text"></p>
-    <button id="popup-prosseguir">Prosseguir para compra</button>
-    <button onclick="closePopup()">Fechar</button>
-  </div>
+<!-- MATERIAL AMOSTRA -->
+<div class="card">
+<h2 style="color:#d4af37;">Material de Amostra</h2>
+<p>Veja um exemplo de como nossos materiais são entregues.</p>
+<button onclick="openPdf()">Visualizar amostra</button>
 </div>
 
-<footer>
-  Curadoria Elite Travel · O seu mundo, bem indicado.<br />
-  São Paulo – SP · curadoriaelitetravel@gmail.com
-</footer>
+<!-- CATEGORIAS -->
+<div id="categoriesView">
+<div class="grid">
+
+<div class="category-card" onclick="openCities()"
+style="background-image:url('https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80')">
+<span>City Guide</span></div>
+
+<div class="category-card" onclick="openCities()"
+style="background-image:url('https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80')">
+<span>Gastronomia</span></div>
+
+<div class="category-card" onclick="openCities()"
+style="background-image:url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80')">
+<span>Atrações Turísticas</span></div>
+
+<div class="category-card"
+style="background-image:url('https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80')">
+<span>Experiências</span></div>
+
+<div class="category-card" onclick="openCities()"
+style="background-image:url('https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80')">
+<span>Vida Noturna</span></div>
+
+<div class="category-card" onclick="openCities()"
+style="background-image:url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80')">
+<span>Endereços para Compras</span></div>
+
+<div class="category-card" onclick="openCities()"
+style="background-image:url('https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80')">
+<span>Sugestão de Presentes</span></div>
+
+<div class="category-card"
+style="background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80')">
+<span>Sugestão de Hotéis</span></div>
+
+<div class="category-card"
+style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80')">
+<span>Cruzeiros</span></div>
+
+</div>
+</div>
+
+<!-- CIDADES -->
+<div class="cities" id="citiesView">
+<button class="back-btn" onclick="goBack()">← Voltar</button>
+
+<div class="city-grid">
+<div class="city-card"><h4>São Paulo – Brasil</h4><button onclick="openInfo()">Acessar</button></div>
+<div class="city-card"><h4>Rio de Janeiro – Brasil</h4><button onclick="openInfo()">Acessar</button></div>
+<div class="city-card"><h4>Paris – França</h4><button onclick="openInfo()">Acessar</button></div>
+<div class="city-card"><h4>New York – EUA</h4><button onclick="openInfo()">Acessar</button></div>
+</div>
+</div>
+
+</div>
+
+<!-- POPUP PDF -->
+<div class="popup" id="pdfPopup">
+<div class="popup-content">
+<button onclick="closePdf()">Fechar</button>
+<iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"></iframe>
+</div>
+</div>
+
+<!-- POPUP INFO -->
+<div class="popup" id="infoPopup">
+<div class="popup-content">
+<p>Material digital de apoio à viagem. Não possui troca ou reembolso.</p>
+<button>Prosseguir</button>
+<button onclick="closeInfo()">Fechar</button>
+</div>
+</div>
 
 <script>
-  // Função para mostrar tela
-  function showSection(id) {
-    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-  }
+function openPdf(){pdfPopup.style.display="flex";}
+function closePdf(){pdfPopup.style.display="none";}
 
-  // Overview
-  function openOverview() {
-    const popup = document.getElementById("popup");
-    const text = document.getElementById("popup-text");
-    text.innerHTML = `Preview do material Curadoria: <br>
-      <a href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf" target="_blank" style="color:#d4af37;">Clique aqui para abrir o overview</a>`;
-    document.getElementById("popup-prosseguir").style.display = "none";
-    popup.classList.add("active");
-  }
+function openCities(){
+categoriesView.style.display="none";
+citiesView.style.display="block";
+}
 
-  // POPUP fechar
-  function closePopup() {
-    document.getElementById("popup").classList.remove("active");
-  }
+function goBack(){
+citiesView.style.display="none";
+categoriesView.style.display="block";
+}
 
-  // CATEGORIA INTERNA
-  const categoriaMateriais = {
-    "City Guide": [
-      { cidade: "São Paulo, SP - Brasil" },
-      { cidade: "Rio de Janeiro, RJ - Brasil" },
-      { cidade: "Paris, França" },
-      { cidade: "New York, NY - USA" }
-    ],
-    "Gastronomia": [
-      { cidade: "São Paulo, SP - Brasil" },
-      { cidade: "Rio de Janeiro, RJ - Brasil" }
-    ]
-  }
-
-  function openCategoria(categoria) {
-    showSection('categoria-interna');
-    document.getElementById("categoria-title").innerText = categoria;
-    const container = document.getElementById("categoria-cards");
-    container.innerHTML = "";
-    (categoriaMateriais[categoria] || []).forEach(item => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `<h3>${item.cidade}</h3>
-        <button onclick="openMaterialPopup('${categoria}')">Clique para acessar material</button>`;
-      container.appendChild(card);
-    });
-  }
-
-  function openMaterialPopup(categoria) {
-    const popup = document.getElementById("popup");
-    const text = document.getElementById("popup-text");
-    text.innerHTML = `${categoria} é um material digital de apoio à viagem. Não é possível troca ou reembolso.`;
-    document.getElementById("popup-prosseguir").style.display = "inline-block";
-    popup.classList.add("active");
-  }
-
-  // CARROSSEL SIMPLES
-  let carouselIndex = 0;
-  const carousel = document.querySelector(".carousel");
-  if(carousel) {
-    const imgs = carousel.querySelectorAll("img");
-    setInterval(() => {
-      imgs.forEach((img,i) => img.style.transform = `translateX(-${carouselIndex*100}%)`);
-      carouselIndex = (carouselIndex+1) % imgs.length;
-    }, 4000);
-  }
+function openInfo(){infoPopup.style.display="flex";}
+function closeInfo(){infoPopup.style.display="none";}
 </script>
 
 </body>
