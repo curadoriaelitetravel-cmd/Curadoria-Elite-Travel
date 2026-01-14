@@ -21,7 +21,7 @@ header {
 h1 {
   text-align: center;
   color: #d4af37;
-  margin: 50px 0 20px;
+  margin: 40px 0 20px;
 }
 
 .hidden { display: none; }
@@ -30,6 +30,21 @@ h1 {
   max-width: 1100px;
   margin: auto;
   padding: 20px;
+}
+
+/* BOTÃO VOLTAR */
+.back-wrapper {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.back-wrapper button {
+  padding: 10px 26px;
+  border-radius: 25px;
+  border: 1px solid #d4af37;
+  background: transparent;
+  color: #d4af37;
+  cursor: pointer;
 }
 
 /* MATERIAL AMOSTRA */
@@ -124,6 +139,7 @@ h1 {
   padding: 30px;
   max-width: 900px;
   width: 90%;
+  text-align: center;
 }
 
 .modal-content iframe {
@@ -150,6 +166,7 @@ h1 {
 <strong>Curadoria Elite Travel</strong>
 </header>
 
+<!-- CURADORIA -->
 <div class="container" id="curadoria">
 
 <h1>Curadoria</h1>
@@ -161,31 +178,38 @@ h1 {
 </div>
 
 <div class="grid">
-  <div class="card" onclick="openCategory('City Guide')"><img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>City Guide</h3></div></div>
-  <div class="card" onclick="openCategory('Gastronomia')"><img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Gastronomia</h3></div></div>
-  <div class="card" onclick="openCategory('Atrações Turísticas')"><img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Atrações Turísticas</h3></div></div>
-  <div class="card"><img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Experiências</h3></div></div>
-  <div class="card" onclick="openCategory('Vida Noturna')"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Vida Noturna</h3></div></div>
-  <div class="card" onclick="openCategory('Endereços para Compras')"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Endereços para Compras</h3></div></div>
-  <div class="card" onclick="openCategory('Sugestão de Presentes')"><img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Sugestão de Presentes</h3></div></div>
-  <div class="card"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Sugestão de Hotéis</h3></div></div>
-  <div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>Cruzeiros</h3></div></div>
+  <div class="card" onclick="openCategory('City Guide')"><img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad"><div class="card-content"><h3>City Guide</h3></div></div>
+  <div class="card" onclick="openCategory('Gastronomia')"><img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1"><div class="card-content"><h3>Gastronomia</h3></div></div>
+  <div class="card" onclick="openCategory('Atrações Turísticas')"><img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1"><div class="card-content"><h3>Atrações Turísticas</h3></div></div>
+  <div class="card"><img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429"><div class="card-content"><h3>Experiências</h3></div></div>
+  <div class="card" onclick="openCategory('Vida Noturna')"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063"><div class="card-content"><h3>Vida Noturna</h3></div></div>
+  <div class="card" onclick="openCategory('Endereços para Compras')"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b"><div class="card-content"><h3>Endereços para Compras</h3></div></div>
+  <div class="card" onclick="openCategory('Sugestão de Presentes')"><img src="https://images.unsplash.com/photo-1512909006721-3d6018887383"><div class="card-content"><h3>Sugestão de Presentes</h3></div></div>
+  <div class="card"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945"><div class="card-content"><h3>Sugestão de Hotéis</h3></div></div>
+  <div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e"><div class="card-content"><h3>Cruzeiros</h3></div></div>
 </div>
 
 </div>
 
+<!-- CATEGORIA -->
 <div class="container hidden" id="category-view">
+
 <h1 id="category-title"></h1>
-<button onclick="back()">Voltar para Curadoria</button>
+
+<div class="back-wrapper">
+  <button onclick="back()">← Voltar para Curadoria</button>
+</div>
 
 <div class="grid">
-  <div class="city-card"><h3>São Paulo – SP – Brasil</h3><button onclick="openInfo()">Ter acesso ao material</button></div>
-  <div class="city-card"><h3>Rio de Janeiro – RJ – Brasil</h3><button onclick="openInfo()">Ter acesso ao material</button></div>
+  <div class="city-card"><h3>São Paulo – Brasil</h3><button onclick="openInfo()">Ter acesso ao material</button></div>
+  <div class="city-card"><h3>Rio de Janeiro – Brasil</h3><button onclick="openInfo()">Ter acesso ao material</button></div>
   <div class="city-card"><h3>Paris – França</h3><button onclick="openInfo()">Ter acesso ao material</button></div>
-  <div class="city-card"><h3>New York – USA</h3><button onclick="openInfo()">Ter acesso ao material</button></div>
-</div>
+  <div class="city-card"><h3>New York – EUA</h3><button onclick="openInfo()">Ter acesso ao material</button></div>
 </div>
 
+</div>
+
+<!-- MODAIS -->
 <div class="modal" id="pdfModal">
 <div class="modal-content">
 <iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"></iframe>
@@ -196,29 +220,29 @@ h1 {
 <div class="modal" id="infoModal">
 <div class="modal-content">
 <h3>Sobre este material</h3>
-<p>Material digital de apoio à viagem. Não possui troca ou reembolso.</p>
-<button>Prosseguir</button>
+<p>Material digital. Não há troca ou reembolso.</p>
+<button>Prosseguir</button><br>
 <button onclick="closeInfo()">Fechar</button>
 </div>
 </div>
 
 <script>
-function openPdf(){ document.getElementById("pdfModal").style.display="flex"; }
-function closePdf(){ document.getElementById("pdfModal").style.display="none"; }
+function openPdf(){ pdfModal.style.display="flex"; }
+function closePdf(){ pdfModal.style.display="none"; }
 
 function openCategory(name){
- document.getElementById("curadoria").classList.add("hidden");
- document.getElementById("category-view").classList.remove("hidden");
- document.getElementById("category-title").innerText = name;
+  curadoria.classList.add("hidden");
+  category-view.classList.remove("hidden");
+  category-title.innerText = name;
 }
 
 function back(){
- document.getElementById("category-view").classList.add("hidden");
- document.getElementById("curadoria").classList.remove("hidden");
+  category-view.classList.add("hidden");
+  curadoria.classList.remove("hidden");
 }
 
-function openInfo(){ document.getElementById("infoModal").style.display="flex"; }
-function closeInfo(){ document.getElementById("infoModal").style.display="none"; }
+function openInfo(){ infoModal.style.display="flex"; }
+function closeInfo(){ infoModal.style.display="none"; }
 </script>
 
 </body>
