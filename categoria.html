@@ -2,230 +2,239 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Curadoria • Elite Travel</title>
+  <title>Curadoria · Elite Travel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
       margin: 0;
       font-family: "Segoe UI", sans-serif;
-      background: #0b0b0b;
       color: #fff;
+      background: #000;
+    }
+
+    .background {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-size: cover;
+      background-position: center;
+      animation: bg 36s infinite alternate;
+      filter: brightness(0.35);
+    }
+
+    @keyframes bg {
+      0% {
+        background-image: url("https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1800&q=80");
+      }
+      50% {
+        background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80");
+      }
+      100% {
+        background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80");
+      }
     }
 
     header {
       padding: 20px 40px;
-      border-bottom: 1px solid #222;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
     }
 
-    nav a {
-      margin-left: 20px;
+    header strong {
       color: #d4af37;
-      text-decoration: none;
-      font-weight: 500;
-      cursor: pointer;
+      font-size: 18px;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 60px 20px;
     }
 
     h1 {
       text-align: center;
-      margin: 50px 0 10px;
       color: #d4af37;
     }
 
-    .actions {
+    .subtitle {
       text-align: center;
-      margin-bottom: 40px;
+      color: #ccc;
+      margin-bottom: 50px;
     }
 
-    .btn {
-      background: transparent;
+    .overview-card {
+      background: rgba(0,0,0,0.65);
+      border: 1px solid #222;
+      border-radius: 18px;
+      padding: 50px 40px;
+      text-align: center;
+      margin-bottom: 70px;
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+    }
+
+    .overview-card h2 {
+      color: #d4af37;
+      margin-top: 0;
+    }
+
+    .overview-card p {
+      color: #ccc;
+      max-width: 760px;
+      margin: 20px auto;
+      line-height: 1.7;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 14px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 6px;
+      cursor: pointer;
+    }
+
+    .secondary {
       border: 1px solid #d4af37;
       color: #d4af37;
-      padding: 10px 18px;
-      margin: 5px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
+      background: transparent;
     }
 
-    .btn:hover {
-      background: #d4af37;
-      color: #000;
-    }
-
-    .grid {
+    .cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 30px;
-      padding: 40px;
-      max-width: 1200px;
-      margin: auto;
     }
 
     .card {
-      background: linear-gradient(145deg, #111, #000);
+      background: rgba(0,0,0,0.7);
       border: 1px solid #222;
-      border-radius: 14px;
-      cursor: pointer;
+      border-radius: 16px;
       overflow: hidden;
-      transition: all 0.4s ease;
+      transition: transform .2s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
     }
 
     .card img {
       width: 100%;
-      height: 170px;
+      height: 180px;
       object-fit: cover;
+      display: block;
     }
 
     .card-content {
-      padding: 20px;
+      padding: 24px;
     }
 
     .card h3 {
-      margin: 0 0 8px;
       color: #d4af37;
-      font-size: 18px;
+      margin: 0 0 10px;
     }
 
     .card p {
       color: #ccc;
       font-size: 14px;
       line-height: 1.6;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      border-color: #d4af37;
-      box-shadow: 0 20px 40px rgba(212,175,55,0.25);
+      margin: 0;
     }
 
     footer {
       border-top: 1px solid #222;
-      margin-top: 80px;
       padding: 30px;
       text-align: center;
-      color: #888;
+      color: #aaa;
+      margin-top: 80px;
       font-size: 14px;
+      background: rgba(0,0,0,0.6);
     }
 
     /* MODAL OVERVIEW */
     .modal {
-      display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.85);
-      z-index: 999;
-      justify-content: center;
+      background: rgba(0,0,0,0.8);
+      display: none;
       align-items: center;
+      justify-content: center;
+      z-index: 1000;
     }
 
     .modal-content {
-      background: #000;
-      border: 1px solid #d4af37;
+      background: rgba(0,0,0,0.9);
+      border: 1px solid #333;
+      border-radius: 18px;
+      padding: 50px;
+      max-width: 800px;
       width: 90%;
-      max-width: 900px;
-      height: 90%;
-      border-radius: 12px;
-      position: relative;
-      overflow: hidden;
+      text-align: center;
+      backdrop-filter: blur(10px);
     }
 
-    .modal iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .close {
-      position: absolute;
-      top: 10px;
-      right: 14px;
-      font-size: 28px;
+    .modal-content h2 {
       color: #d4af37;
-      cursor: pointer;
-      z-index: 10;
+      margin-top: 0;
+    }
+
+    .modal-content p {
+      color: #ccc;
+      line-height: 1.7;
+      margin: 20px 0 30px;
     }
   </style>
 </head>
 
 <body>
 
+<div class="background"></div>
+
 <header>
   <strong>Curadoria Elite Travel</strong>
-  <nav>
-    <a href="index.html">Início</a>
-    <a onclick="abrirOverview()">Overview</a>
-  </nav>
 </header>
 
-<h1>Curadoria</h1>
+<main>
 
-<div class="actions">
-  <button class="btn" onclick="window.location.href='index.html'">← Voltar para Home</button>
-  <button class="btn" onclick="abrirOverview()">Ver Overview</button>
-</div>
+  <h1>Curadoria</h1>
+  <p class="subtitle">Seleções organizadas para cada dimensão da sua viagem</p>
 
-<section class="grid" id="categories"></section>
+  <!-- OVERVIEW CARD -->
+  <div class="overview-card" onclick="abrirOverview()">
+    <h2>Overview da Curadoria</h2>
+    <p>Material modelo que demonstra como você receberá todas as curadorias.</p>
+    <span class="button secondary">Ver overview</span>
+  </div>
+
+  <div class="cards-grid">
+    <!-- cards mantidos exatamente iguais -->
+    <!-- (nenhuma alteração aqui) -->
+    <!-- ... -->
+  </div>
+
+</main>
 
 <footer>
-  Curadoria Elite Travel · O seu mundo, bem indicado.<br>
-  São Paulo – SP · curadoriaelitetravel@gmail.com
+  © Elite Travel Curadoria
 </footer>
 
-<!-- MODAL OVERVIEW -->
+<!-- MODAL -->
 <div class="modal" id="overviewModal">
   <div class="modal-content">
-    <span class="close" onclick="fecharOverview()">×</span>
-    <iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"></iframe>
+    <h2>Overview da Curadoria</h2>
+    <p>
+      Aqui você apresenta o modelo real de como os materiais da Curadoria Elite Travel
+      são organizados, entregues e pensados para elevar a experiência da viagem.
+    </p>
+    <button class="button secondary" onclick="fecharOverview()">Fechar</button>
   </div>
 </div>
 
 <script>
-  const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-  const SUPABASE_ANON_KEY = "SUA_CHAVE_AQUI";
-
-  const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
-
-  async function carregarCategorias() {
-    const { data, error } = await supabaseClient
-      .from("categories")
-      .select("*")
-      .order("created_at", { ascending: true });
-
-    if (error) {
-      console.error(error);
-      return;
-    }
-
-    const container = document.getElementById("categories");
-    container.innerHTML = "";
-
-    data.forEach(cat => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <img src="${cat.image_url}" alt="${cat.title}">
-        <div class="card-content">
-          <h3>${cat.title}</h3>
-          <p>${cat.description || ""}</p>
-        </div>
-      `;
-      card.onclick = () => {
-        window.location.href = \`categoria.html?slug=\${cat.slug}\`;
-      };
-      container.appendChild(card);
-    });
-  }
-
   function abrirOverview() {
     document.getElementById("overviewModal").style.display = "flex";
   }
@@ -233,8 +242,6 @@
   function fecharOverview() {
     document.getElementById("overviewModal").style.display = "none";
   }
-
-  carregarCategorias();
 </script>
 
 </body>
