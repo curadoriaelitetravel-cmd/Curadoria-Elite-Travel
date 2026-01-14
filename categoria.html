@@ -1,208 +1,154 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Curadoria · Elite Travel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>Curadoria · Elite Travel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      color: #fff;
-      background: #000;
-    }
+<style>
+body{
+  margin:0;
+  font-family:"Segoe UI",sans-serif;
+  background:#000;
+  color:#fff;
+}
 
-    .background {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      background-size: cover;
-      background-position: center;
-      animation: bg 36s infinite alternate;
-      filter: brightness(0.35);
-    }
+.background{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background:url("https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1800&q=80") center/cover;
+  filter:brightness(.35);
+}
 
-    @keyframes bg {
-      0% {
-        background-image: url("https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1800&q=80");
-      }
-      50% {
-        background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80");
-      }
-      100% {
-        background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80");
-      }
-    }
+header{
+  padding:20px 40px;
+  background:rgba(0,0,0,.6);
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
 
-    header {
-      padding: 20px 40px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(6px);
-    }
+header strong{color:#d4af37}
 
-    header strong {
-      color: #d4af37;
-      font-size: 18px;
-    }
+main{
+  max-width:1100px;
+  margin:auto;
+  padding:60px 20px;
+}
 
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 60px 20px;
-    }
+h1{
+  text-align:center;
+  color:#d4af37;
+}
 
-    h1 {
-      text-align: center;
-      color: #d4af37;
-    }
+.subtitle{
+  text-align:center;
+  color:#ccc;
+  margin-bottom:50px;
+}
 
-    .subtitle {
-      text-align: center;
-      color: #ccc;
-      margin-bottom: 50px;
-    }
+.overview-card{
+  background:rgba(0,0,0,.7);
+  border:1px solid #222;
+  border-radius:20px;
+  padding:50px;
+  text-align:center;
+  cursor:pointer;
+  margin-bottom:70px;
+}
 
-    .overview-card {
-      background: rgba(0,0,0,0.65);
-      border: 1px solid #222;
-      border-radius: 18px;
-      padding: 50px 40px;
-      text-align: center;
-      margin-bottom: 70px;
-      backdrop-filter: blur(8px);
-      cursor: pointer;
-    }
+.overview-card h2{color:#d4af37}
 
-    .overview-card h2 {
-      color: #d4af37;
-      margin-top: 0;
-    }
+.overview-card p{
+  color:#ccc;
+  max-width:760px;
+  margin:20px auto;
+}
 
-    .overview-card p {
-      color: #ccc;
-      max-width: 760px;
-      margin: 20px auto;
-      line-height: 1.7;
-    }
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+}
 
-    .button {
-      display: inline-block;
-      padding: 14px 30px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 600;
-      margin: 6px;
-      cursor: pointer;
-    }
+.card{
+  background:rgba(0,0,0,.7);
+  border:1px solid #222;
+  border-radius:16px;
+  overflow:hidden;
+}
 
-    .secondary {
-      border: 1px solid #d4af37;
-      color: #d4af37;
-      background: transparent;
-    }
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
 
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 30px;
-    }
+.card-content{
+  padding:22px;
+}
 
-    .card {
-      background: rgba(0,0,0,0.7);
-      border: 1px solid #222;
-      border-radius: 16px;
-      overflow: hidden;
-      transition: transform .2s ease;
-      cursor: pointer;
-    }
+.card-content h3{
+  color:#d4af37;
+  margin:0;
+  font-size:16px;
+}
 
-    .card:hover {
-      transform: translateY(-4px);
-    }
+footer{
+  margin-top:80px;
+  padding:30px;
+  border-top:1px solid #222;
+  text-align:center;
+  color:#aaa;
+  background:rgba(0,0,0,.6);
+}
 
-    .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      display: block;
-    }
+/* MODAL */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
 
-    .card-content {
-      padding: 24px;
-    }
+.modal-box{
+  width:90%;
+  max-width:900px;
+  height:85vh;
+  background:#000;
+  border-radius:18px;
+  border:1px solid #333;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
 
-    .card h3 {
-      color: #d4af37;
-      margin: 0 0 10px;
-    }
+.modal-header{
+  padding:16px 20px;
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px solid #222;
+}
 
-    .card p {
-      color: #ccc;
-      font-size: 14px;
-      line-height: 1.6;
-      margin: 0;
-    }
+.modal-header h3{color:#d4af37;margin:0}
 
-    footer {
-      border-top: 1px solid #222;
-      padding: 30px;
-      text-align: center;
-      color: #aaa;
-      margin-top: 80px;
-      font-size: 14px;
-      background: rgba(0,0,0,0.6);
-    }
+.modal-header button{
+  background:none;
+  border:1px solid #d4af37;
+  color:#d4af37;
+  padding:6px 16px;
+  border-radius:20px;
+  cursor:pointer;
+}
 
-    /* MODAL */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background: rgba(0,0,0,0.95);
-      border: 1px solid #333;
-      border-radius: 18px;
-      width: 90%;
-      max-width: 900px;
-      height: 85vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      backdrop-filter: blur(10px);
-    }
-
-    .modal-header {
-      padding: 20px;
-      border-bottom: 1px solid #222;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modal-header h2 {
-      color: #d4af37;
-      margin: 0;
-      font-size: 18px;
-    }
-
-    .modal-body {
-      flex: 1;
-    }
-
-    .modal-body iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-  </style>
+.modal iframe{
+  flex:1;
+  width:100%;
+  border:none;
+}
+</style>
 </head>
 
 <body>
@@ -210,125 +156,62 @@
 <div class="background"></div>
 
 <header>
-  <strong>Curadoria Elite Travel</strong>
+<strong>Curadoria Elite Travel</strong>
 </header>
 
 <main>
 
-  <h1>Curadoria</h1>
-  <p class="subtitle">Seleções organizadas para cada dimensão da sua viagem</p>
+<h1>Curadoria</h1>
+<p class="subtitle">Seleções organizadas para cada dimensão da sua viagem</p>
 
-  <!-- OVERVIEW -->
-  <div class="overview-card" onclick="abrirOverview()">
-    <h2>Overview da Curadoria</h2>
-    <p>Material modelo que demonstra como você receberá todas as curadorias.</p>
-    <span class="button secondary">Ver overview</span>
-  </div>
+<div class="overview-card" onclick="abrirOverview()">
+<h2>Overview da Curadoria</h2>
+<p>Material modelo que demonstra como os conteúdos da Curadoria Elite Travel são apresentados.</p>
+</div>
 
-  <!-- CATEGORIAS -->
-  <div class="cards-grid">
+<div class="cards-grid">
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>City Guide</h3>
-        <p>Visão estratégica das principais cidades.</p>
-      </div>
-    </div>
+<div class="card"><img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>CITY GUIDE</h3></div></div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Gastronomia</h3>
-        <p>Restaurantes e cafés bem escolhidos.</p>
-      </div>
-    </div>
+<div class="card"><img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>GASTRONOMIA</h3></div></div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Atrações Turísticas</h3>
-        <p>Pontos essenciais com critério.</p>
-      </div>
-    </div>
+<div class="card"><img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>ATRAÇÕES TURÍSTICAS</h3></div></div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Experiências</h3>
-        <p>Vivências que elevam a viagem.</p>
-      </div>
-    </div>
+<div class="card"><img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>EXPERIÊNCIAS</h3></div></div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Vida Noturna</h3>
-        <p>Bares e cenas noturnas selecionadas.</p>
-      </div>
-    </div>
+<div class="card"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>VIDA NOTURNA</h3></div></div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Endereços para Compras</h3>
-        <p>Onde vale realmente gastar tempo.</p>
-      </div>
-    </div>
+<div class="card"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>ENDEREÇOS PARA COMPRAS</h3></div></div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Sugestão de Presentes</h3>
-        <p>Ideias refinadas para levar consigo.</p>
-      </div>
-    </div>
+<div class="card"><img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>SUGESTÃO DE PRESENTES</h3></div></div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Sugestão de Hotéis</h3>
-        <p>Hospedagens alinhadas ao perfil da viagem.</p>
-      </div>
-    </div>
+<div class="card"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>SUGESTÃO DE HOTÉIS</h3></div></div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80">
-      <div class="card-content">
-        <h3>Sugestão de Cruzeiros</h3>
-        <p>Rotas selecionadas com conforto e elegância.</p>
-      </div>
-    </div>
+<div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>CRUZEIROS</h3></div></div>
 
-  </div>
+</div>
 
 </main>
 
-<footer>
-  © Elite Travel Curadoria
-</footer>
+<footer>© Elite Travel Curadoria</footer>
 
-<!-- MODAL OVERVIEW -->
-<div class="modal" id="overviewModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Overview da Curadoria</h2>
-      <span class="button secondary" onclick="fecharOverview()">Fechar</span>
-    </div>
-    <div class="modal-body">
-      <iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"></iframe>
-    </div>
-  </div>
+<div class="modal" id="modalOverview">
+<div class="modal-box">
+<div class="modal-header">
+<h3>Overview da Curadoria</h3>
+<button onclick="fecharOverview()">Fechar</button>
+</div>
+<iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"></iframe>
+</div>
 </div>
 
 <script>
-  function abrirOverview() {
-    document.getElementById("overviewModal").style.display = "flex";
-  }
-
-  function fecharOverview() {
-    document.getElementById("overviewModal").style.display = "none";
-  }
+function abrirOverview(){
+ document.getElementById("modalOverview").style.display="flex";
+}
+function fecharOverview(){
+ document.getElementById("modalOverview").style.display="none";
+}
 </script>
 
 </body>
