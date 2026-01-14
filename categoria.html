@@ -8,23 +8,15 @@
 <style>
 body{
   margin:0;
-  font-family:"Segoe UI",sans-serif;
+  font-family:Arial, sans-serif;
   background:#000;
   color:#fff;
 }
 
-.background{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  background:url("https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1800&q=80") center/cover;
-  filter:brightness(.35);
-}
-
 header{
   padding:20px 40px;
-  background:rgba(0,0,0,.6);
-  border-bottom:1px solid rgba(255,255,255,.1);
+  background:#000;
+  border-bottom:1px solid #222;
 }
 
 header strong{color:#d4af37}
@@ -43,36 +35,39 @@ h1{
 .subtitle{
   text-align:center;
   color:#ccc;
-  margin-bottom:50px;
+  margin-bottom:40px;
 }
 
-.overview-card{
-  background:rgba(0,0,0,.7);
-  border:1px solid #222;
-  border-radius:20px;
-  padding:50px;
+.overview{
+  background:#111;
+  border:2px solid #d4af37;
+  border-radius:18px;
+  padding:40px;
   text-align:center;
-  cursor:pointer;
-  margin-bottom:70px;
+  margin-bottom:60px;
 }
 
-.overview-card h2{color:#d4af37}
+.overview h2{color:#d4af37}
 
-.overview-card p{
-  color:#ccc;
-  max-width:760px;
-  margin:20px auto;
+.overview a{
+  display:inline-block;
+  margin-top:20px;
+  padding:14px 30px;
+  border:1px solid #d4af37;
+  border-radius:30px;
+  color:#d4af37;
+  text-decoration:none;
 }
 
-.cards-grid{
+.cards{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:30px;
 }
 
 .card{
-  background:rgba(0,0,0,.7);
-  border:1px solid #222;
+  background:#111;
+  border:1px solid #333;
   border-radius:16px;
   overflow:hidden;
 }
@@ -83,77 +78,23 @@ h1{
   object-fit:cover;
 }
 
-.card-content{
-  padding:22px;
-}
-
-.card-content h3{
+.card h3{
+  margin:16px;
   color:#d4af37;
-  margin:0;
   font-size:16px;
 }
 
 footer{
   margin-top:80px;
   padding:30px;
-  border-top:1px solid #222;
   text-align:center;
+  border-top:1px solid #222;
   color:#aaa;
-  background:rgba(0,0,0,.6);
-}
-
-/* MODAL */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.85);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-}
-
-.modal-box{
-  width:90%;
-  max-width:900px;
-  height:85vh;
-  background:#000;
-  border-radius:18px;
-  border:1px solid #333;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-}
-
-.modal-header{
-  padding:16px 20px;
-  display:flex;
-  justify-content:space-between;
-  border-bottom:1px solid #222;
-}
-
-.modal-header h3{color:#d4af37;margin:0}
-
-.modal-header button{
-  background:none;
-  border:1px solid #d4af37;
-  color:#d4af37;
-  padding:6px 16px;
-  border-radius:20px;
-  cursor:pointer;
-}
-
-.modal iframe{
-  flex:1;
-  width:100%;
-  border:none;
 }
 </style>
 </head>
 
 <body>
-
-<div class="background"></div>
 
 <header>
 <strong>Curadoria Elite Travel</strong>
@@ -164,55 +105,39 @@ footer{
 <h1>Curadoria</h1>
 <p class="subtitle">Seleções organizadas para cada dimensão da sua viagem</p>
 
-<div class="overview-card" onclick="abrirOverview()">
+<div class="overview">
 <h2>Overview da Curadoria</h2>
-<p>Material modelo que demonstra como os conteúdos da Curadoria Elite Travel são apresentados.</p>
+<p>Material modelo que demonstra como os conteúdos são apresentados.</p>
+<a href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf" target="_blank">
+Ver Overview
+</a>
 </div>
 
-<div class="cards-grid">
+<div class="cards">
 
-<div class="card"><img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>CITY GUIDE</h3></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80"><h3>CITY GUIDE</h3></div>
 
-<div class="card"><img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>GASTRONOMIA</h3></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80"><h3>GASTRONOMIA</h3></div>
 
-<div class="card"><img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>ATRAÇÕES TURÍSTICAS</h3></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80"><h3>ATRAÇÕES TURÍSTICAS</h3></div>
 
-<div class="card"><img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>EXPERIÊNCIAS</h3></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80"><h3>EXPERIÊNCIAS</h3></div>
 
-<div class="card"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>VIDA NOTURNA</h3></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80"><h3>VIDA NOTURNA</h3></div>
 
-<div class="card"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>ENDEREÇOS PARA COMPRAS</h3></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80"><h3>ENDEREÇOS PARA COMPRAS</h3></div>
 
-<div class="card"><img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>SUGESTÃO DE PRESENTES</h3></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80"><h3>SUGESTÃO DE PRESENTES</h3></div>
 
-<div class="card"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>SUGESTÃO DE HOTÉIS</h3></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"><h3>SUGESTÃO DE HOTÉIS</h3></div>
 
-<div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"><div class="card-content"><h3>CRUZEIROS</h3></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"><h3>CRUZEIROS</h3></div>
 
 </div>
 
 </main>
 
 <footer>© Elite Travel Curadoria</footer>
-
-<div class="modal" id="modalOverview">
-<div class="modal-box">
-<div class="modal-header">
-<h3>Overview da Curadoria</h3>
-<button onclick="fecharOverview()">Fechar</button>
-</div>
-<iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"></iframe>
-</div>
-</div>
-
-<script>
-function abrirOverview(){
- document.getElementById("modalOverview").style.display="flex";
-}
-function fecharOverview(){
- document.getElementById("modalOverview").style.display="none";
-}
-</script>
 
 </body>
 </html>
