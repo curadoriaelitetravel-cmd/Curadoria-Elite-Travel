@@ -4,29 +4,147 @@
   <meta charset="UTF-8" />
   <title>Curadoria Elite Travel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
-    body { margin:0; font-family:"Segoe UI", sans-serif; background:#0b0b0b; color:#fff; overflow-x:hidden;}
-    header {padding:20px 40px; border-bottom:1px solid #222; display:flex; justify-content:space-between; align-items:center; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);}
-    nav a, nav button {margin-left:20px; color:#d4af37; text-decoration:none; font-weight:500; background:none; border:none; cursor:pointer; font-size:14px;}
-    h1,h2{color:#d4af37;text-align:center;}
-    p{color:#ccc;text-align:center;}
-    .hidden{display:none;}
-    main{position:relative; min-height:80vh;}
-    .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:30px; padding:40px; max-width:1200px; margin:auto;}
-    .card{background:linear-gradient(145deg, #111, #000); border:1px solid #222; border-radius:14px; padding:30px; cursor:pointer; transition:all 0.4s ease; position:relative; overflow:hidden;}
-    .card::after{content:""; position:absolute; inset:0; background:radial-gradient(circle at top, rgba(212,175,55,0.18), transparent 60%); opacity:0; transition:opacity 0.4s ease;}
-    .card:hover{transform:translateY(-8px); border-color:#d4af37; box-shadow:0 20px 40px rgba(212,175,55,0.25);}
-    .card:hover::after{opacity:1;}
-    .card h3{margin:0 0 10px; font-size:20px;}
-    .card p{font-size:14px; line-height:1.6;}
-    .back-button{background:none; border:1px solid #d4af37; color:#d4af37; border-radius:20px; padding:8px 20px; cursor:pointer; margin:20px auto; display:block;}
-    .material-card{background:rgba(0,0,0,0.7); border:1px solid #222; border-radius:14px; padding:20px; margin:15px 0; display:flex; justify-content:space-between; align-items:center;}
-    .material-card button{background:#d4af37; border:none; padding:8px 16px; border-radius:12px; cursor:pointer; font-weight:600;}
-    .modal{position:fixed; inset:0; background:rgba(0,0,0,0.8); display:flex; justify-content:center; align-items:center; z-index:50;}
-    .modal-content{background:#111; border-radius:14px; max-width:600px; width:90%; padding:20px; text-align:center;}
-    .modal-content iframe{width:100%; height:80vh; border:none; border-radius:10px;}
-    .close-modal, .proceed-modal{background:#d4af37; border:none; padding:8px 16px; margin:10px 5px 0 5px; cursor:pointer; border-radius:12px; font-weight:600;}
-    footer{border-top:1px solid #222; margin-top:80px; padding:30px; text-align:center; color:#888; font-size:14px;}
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #0b0b0b;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    header {
+      padding: 20px 40px;
+      border-bottom: 1px solid #222;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+    }
+
+    nav a {
+      margin-left: 20px;
+      color: #d4af37;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    section {
+      display: none;
+      padding: 120px 40px 60px 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #d4af37;
+    }
+
+    .carousel {
+      display: flex;
+      overflow: hidden;
+      border-radius: 14px;
+      margin-bottom: 40px;
+      max-height: 400px;
+      position: relative;
+    }
+
+    .carousel img {
+      width: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #111, #000);
+      border: 1px solid #222;
+      border-radius: 14px;
+      padding: 20px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: #d4af37;
+      box-shadow: 0 10px 20px rgba(212,175,55,0.25);
+    }
+
+    button {
+      cursor: pointer;
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: none;
+      background: #d4af37;
+      color: #000;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    /* POPUP */
+    .popup-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .popup-bg.active {
+      display: flex;
+    }
+
+    .popup-content {
+      background: #111;
+      padding: 30px;
+      max-width: 600px;
+      border-radius: 14px;
+      text-align: center;
+      color: #fff;
+      position: relative;
+    }
+
+    .popup-content button {
+      margin: 10px 8px 0 8px;
+    }
+
+    footer {
+      border-top: 1px solid #222;
+      margin-top: 40px;
+      padding: 30px;
+      text-align: center;
+      color: #888;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -34,125 +152,153 @@
 <header>
   <strong>Curadoria Elite Travel</strong>
   <nav>
-    <a href="#" id="nav-inicio">Início</a>
-    <a href="#" id="nav-quem-somos">Quem Somos</a>
-    <a href="#" id="nav-curadoria">Curadoria</a>
-    <a href="#" id="nav-contato">Contato</a>
-    <a href="#" id="nav-avaliar">Avalie-nos</a>
-    <button id="btn-admin">Admin</button>
-    <button id="btn-login">Log In</button>
+    <a onclick="showSection('inicio')">Início</a>
+    <a onclick="showSection('quem')">Quem Somos</a>
+    <a onclick="showSection('curadoria')">Curadoria</a>
+    <a onclick="showSection('contato')">Contato</a>
+    <a onclick="showSection('avaliacao')">Avalie-nos</a>
   </nav>
 </header>
 
-<main id="main-screen">
-
-  <div id="tela-inicio">
-    <h1>Orquestramos cada detalhe com cuidado e expertise</h1>
-    <p>para que você possa focar exclusivamente em viver experiências memoráveis.<br/>Seja bem-vindo</p>
+<!-- INICIO -->
+<section id="inicio" class="active">
+  <h1>Seja Bem-vindo</h1>
+  <p style="text-align:center; color:#ccc; margin-bottom:20px;">
+    Orquestramos cada detalhe com cuidado e expertise, para que você possa focar exclusivamente em viver experiências memoráveis.
+  </p>
+  <div class="carousel">
+    <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
+    <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
+    <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80">
   </div>
+</section>
 
-  <div id="tela-curadoria" class="hidden">
-    <h1>Curadoria</h1>
-    <button id="btn-overview" class="back-button">Visualizar amostra da curadoria</button>
-    <section class="grid" id="categories"></section>
-    <button class="back-button" id="voltar-hub">Voltar para Início</button>
+<!-- QUEM SOMOS -->
+<section id="quem">
+  <h1>Quem Somos</h1>
+  <p style="text-align:center; color:#ccc;">Texto sobre a empresa...</p>
+</section>
+
+<!-- CURADORIA -->
+<section id="curadoria">
+  <h1>Curadoria</h1>
+  <div class="grid">
+    <!-- Overview -->
+    <div class="card" onclick="openOverview()">
+      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
+      <h3>Overview</h3>
+      <p>Veja uma amostra de como entregamos os materiais.</p>
+    </div>
+
+    <!-- Categorias -->
+    <div class="card" onclick="openCategoria('City Guide')">
+      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
+      <h3>City Guide</h3>
+    </div>
+    <div class="card" onclick="openCategoria('Gastronomia')">
+      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80">
+      <h3>Gastronomia</h3>
+    </div>
+    <div class="card" onclick="openCategoria('Atrações Turísticas')">
+      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
+      <h3>Atrações Turísticas</h3>
+    </div>
+    <div class="card" onclick="openCategoria('Experiências')">
+      <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80">
+      <h3>Experiências</h3>
+    </div>
   </div>
+</section>
 
-  <div id="tela-city-guide" class="hidden">
-    <button class="back-button" id="voltar-curadoria">Voltar para Curadoria</button>
-    <h2>City Guide</h2>
-    <p>Veja abaixo os materiais disponíveis para cada cidade. Clique no botão para acessar o material.</p>
-    <div id="city-materials"></div>
-  </div>
+<!-- CATEGORIA INTERNA -->
+<section id="categoria-interna">
+  <h1 id="categoria-title"></h1>
+  <div class="grid" id="categoria-cards"></div>
+  <button onclick="showSection('curadoria')">Voltar</button>
+</section>
 
-</main>
-
-<div id="modal-overview" class="modal hidden">
-  <div class="modal-content">
-    <iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"></iframe>
-    <button class="close-modal" id="close-overview">Fechar</button>
-  </div>
-</div>
-
-<div id="modal-city-guide" class="modal hidden">
-  <div class="modal-content">
-    <p>City Guide é um material digital de apoio à viagem. Não é possível troca ou reembolso.</p>
-    <button class="proceed-modal" id="proceed-purchase">Prosseguir para compra</button>
-    <button class="close-modal" id="close-city-modal">Fechar</button>
+<!-- POPUP Overview e Material -->
+<div class="popup-bg" id="popup">
+  <div class="popup-content" id="popup-content">
+    <p id="popup-text"></p>
+    <button id="popup-prosseguir">Prosseguir para compra</button>
+    <button onclick="closePopup()">Fechar</button>
   </div>
 </div>
 
 <footer>
-  Curadoria Elite Travel · O seu mundo, bem indicado.<br/>
+  Curadoria Elite Travel · O seu mundo, bem indicado.<br />
   São Paulo – SP · curadoriaelitetravel@gmail.com
 </footer>
 
 <script>
-  const telaInicio = document.getElementById("tela-inicio");
-  const telaCuradoria = document.getElementById("tela-curadoria");
-  const telaCityGuide = document.getElementById("tela-city-guide");
-  const modalOverview = document.getElementById("modal-overview");
-  const modalCityGuide = document.getElementById("modal-city-guide");
-
-  function showTela(tela){
-    telaInicio.classList.add("hidden");
-    telaCuradoria.classList.add("hidden");
-    telaCityGuide.classList.add("hidden");
-    if(tela==="inicio") telaInicio.classList.remove("hidden");
-    if(tela==="curadoria") telaCuradoria.classList.remove("hidden");
-    if(tela==="city-guide") telaCityGuide.classList.remove("hidden");
+  // Função para mostrar tela
+  function showSection(id) {
+    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
   }
 
-  document.getElementById("nav-inicio").onclick = ()=>showTela("inicio");
-  document.getElementById("nav-curadoria").onclick = ()=>showTela("curadoria");
-  document.getElementById("voltar-hub").onclick = ()=>showTela("inicio");
-  document.getElementById("voltar-curadoria").onclick = ()=>showTela("curadoria");
-  document.getElementById("btn-overview").onclick = ()=>modalOverview.classList.remove("hidden");
-  document.getElementById("close-overview").onclick = ()=>modalOverview.classList.add("hidden");
-  document.getElementById("close-city-modal").onclick = ()=>modalCityGuide.classList.add("hidden");
-  document.getElementById("proceed-purchase").onclick = ()=>alert("Ir para tela de compra");
+  // Overview
+  function openOverview() {
+    const popup = document.getElementById("popup");
+    const text = document.getElementById("popup-text");
+    text.innerHTML = `Preview do material Curadoria: <br>
+      <a href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf" target="_blank" style="color:#d4af37;">Clique aqui para abrir o overview</a>`;
+    document.getElementById("popup-prosseguir").style.display = "none";
+    popup.classList.add("active");
+  }
 
-  // Categorias Curadoria
-  const categories = [
-    { title:"City Guide", description:"Visão estratégica das principais cidades.", slug:"city-guide" },
-    { title:"Gastronomia", description:"Restaurantes e cafés bem escolhidos.", slug:"gastronomia" },
-    { title:"Atrações Turísticas", description:"Pontos essenciais com critério.", slug:"atracoes-turisticas" },
-    { title:"Experiências", description:"Vivências que elevam a viagem.", slug:"experiencias" },
-    { title:"Vida Noturna", description:"Bares e cenas noturnas selecionadas.", slug:"vida-noturna" },
-    { title:"Endereços para Compras", description:"Onde vale realmente gastar tempo.", slug:"enderecos-compras" },
-    { title:"Sugestão de Presentes", description:"Ideias refinadas para levar consigo.", slug:"sugestao-presentes" },
-    { title:"Sugestão de Hotéis", description:"Hospedagens alinhadas ao perfil da viagem.", slug:"sugestao-hoteis" },
-    { title:"Cruzeiros", description:"Rotas selecionadas com conforto e elegância.", slug:"cruzeiros" }
-  ];
+  // POPUP fechar
+  function closePopup() {
+    document.getElementById("popup").classList.remove("active");
+  }
 
-  const container = document.getElementById("categories");
-  categories.forEach(cat=>{
-    const card = document.createElement("div");
-    card.className="card";
-    card.innerHTML=`<h3>${cat.title}</h3><p>${cat.description}</p>`;
-    card.onclick=()=>{
-      if(cat.slug==="city-guide") showTela("city-guide");
-      else alert(`Categoria ${cat.title} em desenvolvimento`);
-    };
-    container.appendChild(card);
-  });
+  // CATEGORIA INTERNA
+  const categoriaMateriais = {
+    "City Guide": [
+      { cidade: "São Paulo, SP - Brasil" },
+      { cidade: "Rio de Janeiro, RJ - Brasil" },
+      { cidade: "Paris, França" },
+      { cidade: "New York, NY - USA" }
+    ],
+    "Gastronomia": [
+      { cidade: "São Paulo, SP - Brasil" },
+      { cidade: "Rio de Janeiro, RJ - Brasil" }
+    ]
+  }
 
-  // Materiais City Guide
-  const materiaisCityGuide = [
-    {cidade:"São Paulo, SP – BRASIL"},
-    {cidade:"Rio de Janeiro, RJ – BRASIL"},
-    {cidade:"Paris – FRANÇA"},
-    {cidade:"New York, NY – USA"}
-  ];
-  const containerMateriais = document.getElementById("city-materials");
-  materiaisCityGuide.forEach(mat=>{
-    const div=document.createElement("div");
-    div.className="material-card";
-    div.innerHTML=`<span>${mat.cidade}</span><button>Clique aqui para acessar o material</button>`;
-    div.querySelector("button").onclick = ()=>modalCityGuide.classList.remove("hidden");
-    containerMateriais.appendChild(div);
-  });
+  function openCategoria(categoria) {
+    showSection('categoria-interna');
+    document.getElementById("categoria-title").innerText = categoria;
+    const container = document.getElementById("categoria-cards");
+    container.innerHTML = "";
+    (categoriaMateriais[categoria] || []).forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<h3>${item.cidade}</h3>
+        <button onclick="openMaterialPopup('${categoria}')">Clique para acessar material</button>`;
+      container.appendChild(card);
+    });
+  }
 
+  function openMaterialPopup(categoria) {
+    const popup = document.getElementById("popup");
+    const text = document.getElementById("popup-text");
+    text.innerHTML = `${categoria} é um material digital de apoio à viagem. Não é possível troca ou reembolso.`;
+    document.getElementById("popup-prosseguir").style.display = "inline-block";
+    popup.classList.add("active");
+  }
+
+  // CARROSSEL SIMPLES
+  let carouselIndex = 0;
+  const carousel = document.querySelector(".carousel");
+  if(carousel) {
+    const imgs = carousel.querySelectorAll("img");
+    setInterval(() => {
+      imgs.forEach((img,i) => img.style.transform = `translateX(-${carouselIndex*100}%)`);
+      carouselIndex = (carouselIndex+1) % imgs.length;
+    }, 4000);
+  }
 </script>
 
 </body>
