@@ -2,13 +2,13 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Curadoria | Elite Travel</title>
+<title>Curadoria · Elite Travel</title>
 
 <style>
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
-  background: #0b0b0b;
+  background: #000;
   color: #fff;
 }
 
@@ -17,44 +17,50 @@ header {
   border-bottom: 1px solid #222;
 }
 
-.container {
+main {
   max-width: 1200px;
   margin: auto;
-  padding: 40px;
+  padding: 50px 20px;
 }
 
-/* ===== AMOSTRA ===== */
+h1 {
+  text-align: center;
+  color: #d4af37;
+  margin-bottom: 40px;
+}
+
+/* CARD AMOSTRA */
 .sample-card {
-  background: linear-gradient(145deg, #111, #000);
+  background: rgba(0,0,0,0.7);
   border: 1px solid #222;
-  border-radius: 14px;
+  border-radius: 18px;
   padding: 40px;
   text-align: center;
   margin-bottom: 60px;
 }
 
-.sample-card h1 {
+.sample-card h2 {
   color: #d4af37;
-  margin-bottom: 15px;
+  margin-top: 0;
 }
 
 .sample-card p {
   color: #ccc;
-  line-height: 1.6;
+  max-width: 700px;
+  margin: 20px auto;
 }
 
 .sample-card button {
-  margin-top: 25px;
-  padding: 14px 30px;
-  background: #d4af37;
-  color: #000;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  padding: 14px 34px;
+  border-radius: 30px;
+  border: 1px solid #d4af37;
+  background: transparent;
+  color: #d4af37;
   cursor: pointer;
+  font-weight: 600;
 }
 
-/* ===== GRID PRINCIPAL ===== */
+/* GRID CATEGORIAS */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -62,10 +68,16 @@ header {
 }
 
 .card {
-  background: linear-gradient(145deg, #111, #000);
+  background: rgba(0,0,0,0.75);
   border: 1px solid #222;
-  border-radius: 14px;
+  border-radius: 16px;
+  overflow: hidden;
   cursor: pointer;
+  transition: transform .2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
 }
 
 .card img {
@@ -77,11 +89,13 @@ header {
 .card h3 {
   padding: 20px;
   color: #d4af37;
+  margin: 0;
 }
 
-/* ===== TELA INTERNA ===== */
-.hidden {
+/* VISÃO INTERNA */
+#internalView {
   display: none;
+  margin-top: 60px;
 }
 
 .city-grid {
@@ -91,53 +105,64 @@ header {
 }
 
 .city-card {
-  background: #111;
+  background: rgba(0,0,0,0.7);
   border: 1px solid #222;
-  border-radius: 12px;
   padding: 25px;
+  border-radius: 14px;
   text-align: center;
-}
-
-.city-card button {
-  margin-top: 15px;
-  padding: 10px 18px;
-  background: #d4af37;
-  border: none;
-  border-radius: 6px;
-  font-weight: 600;
   cursor: pointer;
 }
 
-/* ===== MODAL ===== */
+.city-card h4 {
+  margin: 0;
+  color: #d4af37;
+}
+
+/* MODAL */
 .modal {
   display: none;
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.85);
+  z-index: 1000;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
 }
 
 .modal-content {
   background: #000;
   border: 1px solid #333;
-  border-radius: 14px;
-  max-width: 520px;
-  padding: 30px;
-  text-align: center;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 900px;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
 }
 
-.modal-content h2 {
+.modal-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   color: #d4af37;
 }
 
-.modal-content button {
-  margin: 10px;
-  padding: 10px 20px;
-  border-radius: 6px;
+.modal-body {
+  flex: 1;
+  padding: 20px;
+}
+
+.modal-body iframe {
+  width: 100%;
+  height: 100%;
   border: none;
+}
+
+.close {
   cursor: pointer;
+  font-size: 22px;
 }
 </style>
 </head>
@@ -148,90 +173,84 @@ header {
   <strong>Curadoria Elite Travel</strong>
 </header>
 
-<div class="container">
+<main>
 
-  <!-- AMOSTRA -->
-  <div class="sample-card">
-    <h1>Curadoria</h1>
-    <p>
-      Visualize um exemplo de como os materiais digitais são apresentados.
-      Conteúdo digital sem possibilidade de troca ou reembolso.
-    </p>
-    <button onclick="abrirAmostra()">Ver amostra</button>
-  </div>
+<h1>Curadoria</h1>
 
-  <!-- CATEGORIAS -->
-  <div id="categorias" class="grid">
-    <div class="card" onclick="abrirCategoria('City Guide')">
-      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
-      <h3>City Guide</h3>
-    </div>
-
-    <div class="card" onclick="abrirCategoria('Gastronomia')">
-      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80">
-      <h3>Gastronomia</h3>
-    </div>
-
-    <div class="card" onclick="abrirCategoria('Vida Noturna')">
-      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80">
-      <h3>Vida Noturna</h3>
-    </div>
-  </div>
-
-  <!-- CIDADES -->
-  <div id="cidades" class="hidden">
-    <h2 id="tituloCategoria"></h2>
-    <div class="city-grid">
-      <div class="city-card">
-        São Paulo – SP – Brasil
-        <button onclick="abrirCompra()">Acessar material</button>
-      </div>
-      <div class="city-card">
-        Rio de Janeiro – RJ – Brasil
-        <button onclick="abrirCompra()">Acessar material</button>
-      </div>
-      <div class="city-card">
-        Paris – França
-        <button onclick="abrirCompra()">Acessar material</button>
-      </div>
-    </div>
-  </div>
-
+<div class="sample-card">
+  <h2>Material de Amostra</h2>
+  <p>
+    Exemplo de como os materiais digitais da Curadoria Elite Travel são entregues.
+    Conteúdo digital não possui troca ou reembolso.
+  </p>
+  <button onclick="openPdf()">Ver material de amostra</button>
 </div>
 
-<!-- MODAL COMPRA -->
-<div id="modalCompra" class="modal">
+<div class="grid">
+  <div class="card" onclick="openCategory()">
+    <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad">
+    <h3>City Guide</h3>
+  </div>
+  <div class="card"><img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1"><h3>Gastronomia</h3></div>
+  <div class="card"><img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1"><h3>Atrações Turísticas</h3></div>
+  <div class="card"><img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429"><h3>Experiências</h3></div>
+  <div class="card"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063"><h3>Vida Noturna</h3></div>
+  <div class="card"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b"><h3>Endereços para Compras</h3></div>
+  <div class="card"><img src="https://images.unsplash.com/photo-1512909006721-3d6018887383"><h3>Sugestão de Presentes</h3></div>
+  <div class="card"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945"><h3>Sugestão de Hotéis</h3></div>
+  <div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e"><h3>Cruzeiros</h3></div>
+</div>
+
+<div id="internalView">
+  <h2 style="color:#d4af37;">City Guide disponíveis</h2>
+  <div class="city-grid">
+    <div class="city-card" onclick="openInfo()">São Paulo · Brasil</div>
+    <div class="city-card" onclick="openInfo()">Rio de Janeiro · Brasil</div>
+    <div class="city-card" onclick="openInfo()">Paris · França</div>
+    <div class="city-card" onclick="openInfo()">New York · USA</div>
+  </div>
+</div>
+
+</main>
+
+<!-- MODAIS -->
+<div class="modal" id="pdfModal">
   <div class="modal-content">
-    <h2>Material Digital</h2>
-    <p>
-      Este material é um conteúdo digital de apoio à viagem.
-      Não é possível troca, devolução ou reembolso.
-    </p>
-    <button onclick="fecharCompra()">Fechar</button>
-    <button>Prosseguir</button>
+    <div class="modal-header">
+      Material de Amostra
+      <span class="close" onclick="closeModal('pdfModal')">✕</span>
+    </div>
+    <div class="modal-body">
+      <iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"></iframe>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="infoModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      City Guide
+      <span class="close" onclick="closeModal('infoModal')">✕</span>
+    </div>
+    <div class="modal-body">
+      <p>Material digital de apoio à viagem. Não possui troca ou reembolso.</p>
+      <button style="margin-top:20px;">Prosseguir para compra</button>
+    </div>
   </div>
 </div>
 
 <script>
-function abrirCategoria(nome) {
-  document.getElementById("categorias").style.display = "none";
-  document.getElementById("cidades").classList.remove("hidden");
-  document.getElementById("tituloCategoria").innerText = nome;
+function openPdf() {
+  document.getElementById("pdfModal").style.display = "flex";
 }
-
-function abrirCompra() {
-  document.getElementById("modalCompra").style.display = "flex";
+function openCategory() {
+  document.getElementById("internalView").style.display = "block";
 }
-
-function fecharCompra() {
-  document.getElementById("modalCompra").style.display = "none";
+function openInfo() {
+  document.getElementById("infoModal").style.display = "flex";
 }
-
-function abrirAmostra() {
-  window.open(
-    "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf",
-    "_blank"
-  );
+function closeModal(id) {
+  document.getElementById(id).style.display = "none";
 }
 </script>
 
