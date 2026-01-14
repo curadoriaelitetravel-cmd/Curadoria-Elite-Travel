@@ -35,10 +35,21 @@
       font-size: 14px;
     }
 
-    h1 {
-      text-align: center;
-      margin: 60px 0 20px;
+    h1, h2 {
       color: #d4af37;
+      text-align: center;
+    }
+
+    p {
+      color: #ccc;
+      text-align: center;
+    }
+
+    .hidden { display: none; }
+
+    main {
+      position: relative;
+      min-height: 80vh;
     }
 
     .grid {
@@ -78,22 +89,19 @@
 
     .card:hover::after { opacity: 1; }
 
-    .card h3 { margin: 0 0 10px; color: #d4af37; font-size: 20px; }
-    .card p { color: #ccc; font-size: 14px; line-height: 1.6; }
+    .card h3 { margin: 0 0 10px; font-size: 20px; }
+    .card p { font-size: 14px; line-height: 1.6; }
 
-    .hidden { display: none; }
-
-    .category-screen {
-      position: absolute;
-      inset: 0;
-      background: #0b0b0b;
-      padding: 60px 40px;
-      overflow-y: auto;
-      z-index: 10;
+    .back-button {
+      background: none;
+      border: 1px solid #d4af37;
+      color: #d4af37;
+      border-radius: 20px;
+      padding: 8px 20px;
+      cursor: pointer;
+      margin: 20px auto;
+      display: block;
     }
-
-    .category-screen h2 { color: #d4af37; text-align: center; }
-    .category-screen p { color: #ccc; text-align: center; max-width: 800px; margin: 20px auto; }
 
     .material-card {
       background: rgba(0,0,0,0.7);
@@ -115,26 +123,7 @@
       font-weight: 600;
     }
 
-    .back-button {
-      background: none;
-      border: 1px solid #d4af37;
-      color: #d4af37;
-      border-radius: 20px;
-      padding: 8px 20px;
-      cursor: pointer;
-      margin-bottom: 20px;
-    }
-
-    footer {
-      border-top: 1px solid #222;
-      margin-top: 80px;
-      padding: 30px;
-      text-align: center;
-      color: #888;
-      font-size: 14px;
-    }
-
-    /* Modal para overview */
+    /* Modal */
     .modal {
       position: fixed;
       inset: 0;
@@ -148,10 +137,9 @@
     .modal-content {
       background: #111;
       border-radius: 14px;
-      max-width: 90%;
-      max-height: 90%;
+      max-width: 600px;
+      width: 90%;
       padding: 20px;
-      overflow: auto;
       text-align: center;
     }
 
@@ -162,14 +150,23 @@
       border-radius: 10px;
     }
 
-    .close-modal {
+    .close-modal, .proceed-modal {
       background: #d4af37;
       border: none;
       padding: 8px 16px;
-      margin-top: 10px;
+      margin: 10px 5px 0 5px;
       cursor: pointer;
       border-radius: 12px;
       font-weight: 600;
+    }
+
+    footer {
+      border-top: 1px solid #222;
+      margin-top: 80px;
+      padding: 30px;
+      text-align: center;
+      color: #888;
+      font-size: 14px;
     }
 
   </style>
@@ -191,6 +188,7 @@
 </header>
 
 <main id="main-screen">
+
   <!-- Tela de boas-vindas -->
   <div id="tela-inicio">
     <h1>Orquestramos cada detalhe com cuidado e expertise</h1>
@@ -206,12 +204,13 @@
   </div>
 
   <!-- Tela interna City Guide -->
-  <div id="tela-city-guide" class="category-screen hidden">
+  <div id="tela-city-guide" class="hidden">
     <button class="back-button" id="voltar-curadoria">Voltar para Curadoria</button>
     <h2>City Guide</h2>
-    <p>Veja abaixo os materiais disponíveis para cada cidade. Clique em "Comprar / Acessar" para interagir.</p>
+    <p>Veja abaixo os materiais disponíveis para cada cidade. Clique em "Clique aqui para acessar o material" para mais informações.</p>
     <div id="city-materials"></div>
   </div>
+
 </main>
 
 <!-- Modal Overview -->
@@ -219,6 +218,15 @@
   <div class="modal-content">
     <iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"></iframe>
     <button class="close-modal" id="close-overview">Fechar</button>
+  </div>
+</div>
+
+<!-- Modal City Guide explicativo -->
+<div id="modal-city-guide" class="modal hidden">
+  <div class="modal-content">
+    <p>City Guide é um material digital de apoio à viagem. Não é possível troca ou reembolso.</p>
+    <button class="proceed-modal" id="proceed-purchase">Prosseguir para compra</button>
+    <button class="close-modal" id="close-city-modal">Fechar</button>
   </div>
 </div>
 
@@ -232,29 +240,30 @@
   const telaCuradoria = document.getElementById("tela-curadoria");
   const telaCityGuide = document.getElementById("tela-city-guide");
   const modalOverview = document.getElementById("modal-overview");
+  const modalCityGuide = document.getElementById("modal-city-guide");
 
-  // Navegação interna
+  // Navegação
   document.getElementById("nav-inicio").onclick = () => showTela("inicio");
-  document.getElementById("nav-quem-somos").onclick = () => alert("Tela Quem Somos (em desenvolvimento)");
   document.getElementById("nav-curadoria").onclick = () => showTela("curadoria");
-  document.getElementById("nav-contato").onclick = () => alert("Tela Contato (em desenvolvimento)");
-  document.getElementById("nav-avaliar").onclick = () => alert("Tela Avalie-nos (em desenvolvimento)");
   document.getElementById("voltar-hub").onclick = () => showTela("inicio");
   document.getElementById("voltar-curadoria").onclick = () => showTela("curadoria");
   document.getElementById("btn-overview").onclick = () => modalOverview.classList.remove("hidden");
   document.getElementById("close-overview").onclick = () => modalOverview.classList.add("hidden");
 
-  function showTela(tela) {
+  document.getElementById("close-city-modal").onclick = () => modalCityGuide.classList.add("hidden");
+  document.getElementById("proceed-purchase").onclick = () => alert("Ir para tela de compra (em desenvolvimento)");
+
+  function showTela(tela){
     telaInicio.classList.add("hidden");
     telaCuradoria.classList.add("hidden");
     telaCityGuide.classList.add("hidden");
 
-    if (tela === "inicio") telaInicio.classList.remove("hidden");
-    if (tela === "curadoria") telaCuradoria.classList.remove("hidden");
-    if (tela === "city-guide") telaCityGuide.classList.remove("hidden");
+    if(tela === "inicio") telaInicio.classList.remove("hidden");
+    if(tela === "curadoria") telaCuradoria.classList.remove("hidden");
+    if(tela === "city-guide") telaCityGuide.classList.remove("hidden");
   }
 
-  // Carregar categorias (hub Curadoria)
+  // Categorias Curadoria
   const categories = [
     { title: "City Guide", description: "Visão estratégica das principais cidades.", slug: "city-guide" },
     { title: "Gastronomia", description: "Restaurantes e cafés bem escolhidos.", slug: "gastronomia" },
@@ -279,18 +288,20 @@
     container.appendChild(card);
   });
 
-  // Materiais City Guide (apenas listagem)
+  // Materiais City Guide
   const materiaisCityGuide = [
-    { cidade: "São Paulo", descricao: "Seleções estratégicas de SP", comprado: false },
-    { cidade: "Rio de Janeiro", descricao: "Seleções estratégicas do RJ", comprado: false },
-    { cidade: "Paris", descricao: "Seleções estratégicas de Paris", comprado: false }
+    { cidade: "São Paulo, SP – BRASIL" },
+    { cidade: "Rio de Janeiro, RJ – BRASIL" },
+    { cidade: "Paris – FRANÇA" },
+    { cidade: "New York, NY – USA" }
   ];
 
   const containerMateriais = document.getElementById("city-materials");
   materiaisCityGuide.forEach(mat => {
     const div = document.createElement("div");
     div.className = "material-card";
-    div.innerHTML = `<span>${mat.cidade} - ${mat.descricao}</span><button>${mat.comprado ? "Acessar" : "Comprar"}</button>`;
+    div.innerHTML = `<span>${mat.cidade}</span><button>Clique aqui para acessar o material</button>`;
+    div.querySelector("button").onclick = () => modalCityGuide.classList.remove("hidden");
     containerMateriais.appendChild(div);
   });
 
