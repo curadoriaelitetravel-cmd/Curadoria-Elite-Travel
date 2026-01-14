@@ -2,282 +2,221 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Curadoria · Elite Travel</title>
+  <title>Curadoria Elite Travel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
       margin: 0;
       font-family: "Segoe UI", sans-serif;
+      background: #0b0b0b;
       color: #fff;
-      background: #000;
-    }
-
-    .background {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      background-size: cover;
-      background-position: center;
-      animation: bg 36s infinite alternate;
-      filter: brightness(0.35);
-    }
-
-    @keyframes bg {
-      0% {
-        background-image: url("https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1800&q=80");
-      }
-      50% {
-        background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80");
-      }
-      100% {
-        background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80");
-      }
     }
 
     header {
       padding: 20px 40px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(6px);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    header strong {
-      color: #d4af37;
-      font-size: 18px;
-    }
-
-    .back-home {
-      color: #d4af37;
-      text-decoration: none;
-      font-weight: 600;
-      border: 1px solid #d4af37;
-      padding: 8px 18px;
-      border-radius: 20px;
-      font-size: 14px;
-    }
-
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 60px 20px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #d4af37;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #ccc;
-      margin-bottom: 50px;
-    }
-
-    .overview-card {
-      background: rgba(0,0,0,0.65);
-      border: 1px solid #222;
-      border-radius: 18px;
-      padding: 50px 40px;
-      text-align: center;
-      margin-bottom: 70px;
-      backdrop-filter: blur(8px);
-    }
-
-    .overview-card h2 {
-      color: #d4af37;
-      margin-top: 0;
-    }
-
-    .overview-card p {
-      color: #ccc;
-      max-width: 760px;
-      margin: 20px auto;
-      line-height: 1.7;
-    }
-
-    .button {
-      display: inline-block;
-      padding: 14px 30px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 600;
-      margin: 6px;
-      cursor: pointer;
-    }
-
-    .secondary {
-      border: 1px solid #d4af37;
-      color: #d4af37;
-      background: transparent;
-    }
-
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 30px;
-    }
-
-    .card {
-      background: rgba(0,0,0,0.7);
-      border: 1px solid #222;
-      border-radius: 16px;
-      overflow: hidden;
-      transition: transform .2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-    }
-
-    .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .card-content {
-      padding: 24px;
-    }
-
-    .card h3 {
-      color: #d4af37;
-      margin: 0 0 10px;
-    }
-
-    .card p {
-      color: #ccc;
-      font-size: 14px;
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    footer {
-      border-top: 1px solid #222;
-      padding: 30px;
-      text-align: center;
-      color: #aaa;
-      margin-top: 80px;
-      font-size: 14px;
-      background: rgba(0,0,0,0.6);
-    }
-
-    /* ===== MODAL OVERVIEW ===== */
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(6px);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-content {
-      background: #0b0b0b;
-      border: 1px solid #222;
-      border-radius: 18px;
-      max-width: 900px;
-      width: 90%;
-      height: 80vh;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .modal-header {
-      padding: 20px;
       border-bottom: 1px solid #222;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .modal-header h3 {
+    nav a {
+      margin-left: 20px;
       color: #d4af37;
-      margin: 0;
-    }
-
-    .close-modal {
+      text-decoration: none;
+      font-weight: 500;
       cursor: pointer;
+    }
+
+    /* ===== TELAS ===== */
+    .screen {
+      display: none;
+      min-height: calc(100vh - 120px);
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    /* ===== INÍCIO ===== */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 40px;
+    }
+
+    .hero h1 {
       color: #d4af37;
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      max-width: 700px;
+      font-size: 18px;
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    /* ===== CURADORIA ===== */
+    h2 {
+      text-align: center;
+      margin: 60px 0 20px;
+      color: #d4af37;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #111, #000);
+      border: 1px solid #222;
+      border-radius: 14px;
+      padding: 30px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(212,175,55,0.18), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: #d4af37;
+      box-shadow: 0 20px 40px rgba(212,175,55,0.25);
+    }
+
+    .card:hover::after {
+      opacity: 1;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      color: #d4af37;
+      font-size: 20px;
+    }
+
+    .card p {
+      color: #ccc;
       font-size: 14px;
-      border: 1px solid #d4af37;
-      padding: 6px 14px;
-      border-radius: 20px;
+      line-height: 1.6;
     }
 
-    .modal-body {
-      height: calc(100% - 70px);
-    }
-
-    .modal-body iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
+    footer {
+      border-top: 1px solid #222;
+      padding: 30px;
+      text-align: center;
+      color: #888;
+      font-size: 14px;
     }
   </style>
 </head>
 
 <body>
 
-<div class="background"></div>
-
 <header>
   <strong>Curadoria Elite Travel</strong>
-  <a href="/" class="back-home">Voltar para Home</a>
+  <nav>
+    <a onclick="showScreen('inicio')">Início</a>
+    <a onclick="showScreen('quem-somos')">Quem Somos</a>
+    <a onclick="showScreen('curadoria')">Curadoria</a>
+    <a onclick="showScreen('contato')">Contato</a>
+    <a onclick="showScreen('avaliar')">Avalie-nos</a>
+  </nav>
 </header>
 
-<main>
-
-  <h1>Curadoria</h1>
-  <p class="subtitle">Seleções organizadas para cada dimensão da sua viagem</p>
-
-  <div class="overview-card">
-    <h2>Overview da Curadoria</h2>
-    <p>Material modelo que demonstra como você receberá todas as curadorias.</p>
-    <button class="button secondary" onclick="openModal()">Ver overview</button>
+<!-- ===== INÍCIO ===== -->
+<section id="inicio" class="screen active">
+  <div class="hero">
+    <h1>Seja bem-vindo</h1>
+    <p>
+      Orquestramos cada detalhe com cuidado e expertise, para que você possa focar
+      exclusivamente em viver experiências memoráveis
+    </p>
   </div>
+</section>
 
-  <!-- GRID MANTIDO INTACTO -->
-  <!-- (todo o conteúdo original permanece exatamente igual) -->
-  <!-- ... cards exatamente como você enviou ... -->
+<!-- ===== QUEM SOMOS ===== -->
+<section id="quem-somos" class="screen">
+  <h2>Quem Somos</h2>
+</section>
 
-</main>
+<!-- ===== CURADORIA ===== -->
+<section id="curadoria" class="screen">
+  <h2>Curadoria</h2>
+  <section class="grid" id="categories"></section>
+</section>
+
+<!-- ===== CONTATO ===== -->
+<section id="contato" class="screen">
+  <h2>Contato</h2>
+</section>
+
+<!-- ===== AVALIAÇÃO ===== -->
+<section id="avaliar" class="screen">
+  <h2>Avalie-nos</h2>
+</section>
 
 <footer>
-  © Elite Travel Curadoria
+  Curadoria Elite Travel · O seu mundo, bem indicado.<br />
+  São Paulo – SP · curadoriaelitetravel@gmail.com
 </footer>
 
-<!-- MODAL -->
-<div class="modal" id="overviewModal" onclick="closeModal(event)">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>Overview da Curadoria</h3>
-      <div class="close-modal" onclick="closeModal()">Fechar</div>
-    </div>
-    <div class="modal-body">
-      <!-- PDF EMBEDADO -->
-      <iframe src="SEU_LINK_DO_OVERVIEW.pdf"></iframe>
-    </div>
-  </div>
-</div>
-
 <script>
-  function openModal() {
-    document.getElementById('overviewModal').style.display = 'flex';
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
   }
 
-  function closeModal(e) {
-    if (!e || e.target.id === 'overviewModal') {
-      document.getElementById('overviewModal').style.display = 'none';
+  const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
+
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function carregarCategorias() {
+    const { data, error } = await supabaseClient
+      .from('categories')
+      .select('*')
+      .order('created_at', { ascending: true });
+
+    if (error) {
+      console.error(error);
+      return;
     }
+
+    const container = document.getElementById('categories');
+    container.innerHTML = '';
+
+    data.forEach(cat => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<h3>${cat.title}</h3><p>${cat.description || ''}</p>`;
+      container.appendChild(card);
+    });
   }
+
+  carregarCategorias();
 </script>
 
 </body>
