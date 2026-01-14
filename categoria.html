@@ -7,61 +7,64 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  font-family: "Segoe UI", sans-serif;
+  background: #0b0b0b;
+  color: #ffffff;
 }
 
 header {
-  background: #000;
-  color: #fff;
-  padding: 20px;
+  padding: 20px 40px;
+  border-bottom: 1px solid #222;
 }
 
 .container {
   padding: 40px;
+  max-width: 1200px;
+  margin: auto;
 }
 
 /* CARD AMOSTRA */
 .sample-card {
-  background: #ffffff;
+  background: linear-gradient(145deg, #111, #000);
+  border: 1px solid #222;
+  border-radius: 14px;
   padding: 30px;
-  margin-bottom: 40px;
-  border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+  margin-bottom: 50px;
 }
 
 .sample-card h2 {
+  color: #d4af37;
   margin-top: 0;
+}
+
+.sample-card p {
+  color: #ccc;
+  line-height: 1.6;
 }
 
 .sample-card button {
   margin-top: 20px;
-  padding: 14px 26px;
-  background: #000;
-  color: #fff;
+  padding: 14px 28px;
+  background: #d4af37;
+  color: #000;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
-  border-radius: 6px;
-  font-size: 15px;
+  font-weight: 600;
 }
 
-/* GRID CATEGORIAS */
+/* GRID */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
 }
 
 .card {
-  background: #fff;
-  border-radius: 12px;
+  background: linear-gradient(145deg, #111, #000);
+  border: 1px solid #222;
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-  transition: transform .3s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
 }
 
 .card img {
@@ -71,9 +74,10 @@ header {
 }
 
 .card h3 {
-  padding: 18px;
+  padding: 20px;
   margin: 0;
-  font-size: 17px;
+  color: #d4af37;
+  font-size: 18px;
 }
 
 /* MODAL */
@@ -81,20 +85,21 @@ header {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.75);
-  z-index: 1000;
+  background: rgba(0,0,0,0.85);
+  z-index: 9999;
   justify-content: center;
   align-items: center;
 }
 
 .modal-content {
-  background: #fff;
+  background: #000;
   width: 90%;
   max-width: 900px;
   height: 80%;
-  border-radius: 12px;
+  border-radius: 14px;
   display: flex;
   flex-direction: column;
+  border: 1px solid #333;
 }
 
 .modal-header {
@@ -102,13 +107,12 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #ddd;
-  font-weight: bold;
+  border-bottom: 1px solid #222;
+  color: #d4af37;
 }
 
 .modal-body {
   flex: 1;
-  padding: 15px;
 }
 
 .modal-body iframe {
@@ -127,23 +131,23 @@ header {
 <body>
 
 <header>
-  <h1>Curadoria Elite Travel</h1>
+  <strong>Curadoria Elite Travel</strong>
 </header>
 
 <div class="container">
 
-  <!-- CARD DE AMOSTRA -->
+  <!-- AMOSTRA -->
   <div class="sample-card">
     <h2>Material de Amostra</h2>
     <p>
-      Este é um exemplo do material digital entregue após a compra.
-      Por se tratar de conteúdo digital, não é possível troca, devolução
-      ou reembolso.
+      Visualize um exemplo de como os materiais digitais da Curadoria Elite Travel
+      são apresentados. Por se tratar de conteúdo digital, não é possível troca,
+      devolução ou reembolso.
     </p>
     <button onclick="abrirModal()">Ver amostra</button>
   </div>
 
-  <!-- GRID DE CATEGORIAS -->
+  <!-- CATEGORIAS -->
   <div class="grid">
 
     <div class="card">
@@ -194,7 +198,7 @@ header {
   </div>
 </div>
 
-<!-- MODAL AMOSTRA -->
+<!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <div class="modal-header">
@@ -202,7 +206,7 @@ header {
       <span class="close" onclick="fecharModal()">✕</span>
     </div>
     <div class="modal-body">
-      <iframe src="amostra.pdf"></iframe>
+      <iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"></iframe>
     </div>
   </div>
 </div>
@@ -211,7 +215,6 @@ header {
 function abrirModal() {
   document.getElementById("modal").style.display = "flex";
 }
-
 function fecharModal() {
   document.getElementById("modal").style.display = "none";
 }
