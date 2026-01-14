@@ -1,161 +1,148 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Curadoria · Elite Travel</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<title>Curadoria | Curadoria Elite Travel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <style>
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
-  background: #000;
+  background: #0b0b0b;
   color: #fff;
 }
 
 header {
   padding: 20px 40px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav a {
+  margin-left: 20px;
+  color: #d4af37;
+  text-decoration: none;
 }
 
 h1 {
   text-align: center;
+  margin: 50px 0 30px;
   color: #d4af37;
-  margin: 40px 0 20px;
 }
-
-.hidden { display: none; }
 
 .container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: auto;
-  padding: 20px;
+  padding: 0 40px 80px;
 }
 
-/* BOTÃO VOLTAR */
-.back-wrapper {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.back-wrapper button {
-  padding: 10px 26px;
-  border-radius: 25px;
-  border: 1px solid #d4af37;
-  background: transparent;
-  color: #d4af37;
-  cursor: pointer;
-}
-
-/* MATERIAL AMOSTRA */
-.sample-card {
-  background: rgba(0,0,0,0.7);
+/* CARD GERAL */
+.card {
+  background: linear-gradient(145deg, #111, #000);
   border: 1px solid #222;
-  border-radius: 18px;
-  padding: 40px;
-  text-align: center;
-  margin-bottom: 60px;
+  border-radius: 14px;
+  padding: 30px;
+  margin-bottom: 40px;
 }
 
-.sample-card h2 {
-  color: #d4af37;
-}
-
-.sample-card button {
-  margin-top: 20px;
-  padding: 14px 30px;
+/* BOTÕES */
+button {
+  background: #d4af37;
+  border: none;
+  color: #000;
+  padding: 12px 24px;
   border-radius: 30px;
-  border: 1px solid #d4af37;
-  background: transparent;
-  color: #d4af37;
   cursor: pointer;
+  font-weight: 600;
 }
 
-/* GRID */
+/* GRID CATEGORIAS */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 30px;
 }
 
-.card {
-  background: rgba(0,0,0,0.7);
-  border: 1px solid #222;
+/* CARD CATEGORIA */
+.category-card {
+  background-size: cover;
+  background-position: center;
+  height: 200px;
   border-radius: 16px;
-  overflow: hidden;
+  position: relative;
   cursor: pointer;
+  border: 1px solid #222;
 }
 
-.card img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
+.category-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  border-radius: 16px;
 }
 
-.card-content {
-  padding: 20px;
-  text-align: center;
-}
-
-.card-content h3 {
+.category-card span {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 2;
   color: #d4af37;
-  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 /* CIDADES */
+.cities {
+  display: none;
+}
+
+.city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
 .city-card {
-  background: rgba(0,0,0,0.75);
+  background: #111;
   border: 1px solid #222;
-  border-radius: 14px;
   padding: 20px;
+  border-radius: 12px;
   text-align: center;
 }
 
-.city-card button {
-  margin-top: 15px;
-  padding: 10px 22px;
-  border-radius: 20px;
-  border: 1px solid #d4af37;
-  background: transparent;
-  color: #d4af37;
-  cursor: pointer;
+/* BOTÃO VOLTAR */
+.back-btn {
+  margin-bottom: 30px;
 }
 
-/* MODAL */
-.modal {
+/* POPUP */
+.popup {
+  display: none;
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.85);
-  display: none;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 999;
 }
 
-.modal-content {
-  background: #000;
-  border: 1px solid #333;
-  border-radius: 18px;
+.popup-content {
+  background: #111;
   padding: 30px;
-  max-width: 900px;
+  max-width: 700px;
   width: 90%;
-  text-align: center;
+  border-radius: 16px;
+  border: 1px solid #222;
 }
 
-.modal-content iframe {
+iframe {
   width: 100%;
-  height: 500px;
+  height: 70vh;
   border: none;
-}
-
-.modal-content button {
-  margin-top: 20px;
-  padding: 10px 24px;
-  border-radius: 20px;
-  border: 1px solid #d4af37;
-  background: transparent;
-  color: #d4af37;
-  cursor: pointer;
 }
 </style>
 </head>
@@ -164,85 +151,87 @@ h1 {
 
 <header>
 <strong>Curadoria Elite Travel</strong>
+<nav>
+<a href="/">Início</a>
+<a href="#">Quem Somos</a>
+<a href="#">Curadoria</a>
+<a href="#">Contato</a>
+<a href="#">Avalie-nos</a>
+</nav>
 </header>
-
-<!-- CURADORIA -->
-<div class="container" id="curadoria">
 
 <h1>Curadoria</h1>
 
-<div class="sample-card">
-  <h2>Material de Amostra</h2>
-  <p>Veja como nossos materiais são apresentados.</p>
-  <button onclick="openPdf()">Visualizar PDF</button>
+<div class="container">
+
+<!-- MATERIAL AMOSTRA -->
+<div class="card" style="text-align:center;">
+  <h2 style="color:#d4af37;">Material de Amostra</h2>
+  <p>Veja um exemplo de como nossos materiais são entregues.</p>
+  <button onclick="openPdf()">Visualizar amostra</button>
 </div>
 
-<div class="grid">
-  <div class="card" onclick="openCategory('City Guide')"><img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad"><div class="card-content"><h3>City Guide</h3></div></div>
-  <div class="card" onclick="openCategory('Gastronomia')"><img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1"><div class="card-content"><h3>Gastronomia</h3></div></div>
-  <div class="card" onclick="openCategory('Atrações Turísticas')"><img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1"><div class="card-content"><h3>Atrações Turísticas</h3></div></div>
-  <div class="card"><img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429"><div class="card-content"><h3>Experiências</h3></div></div>
-  <div class="card" onclick="openCategory('Vida Noturna')"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063"><div class="card-content"><h3>Vida Noturna</h3></div></div>
-  <div class="card" onclick="openCategory('Endereços para Compras')"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b"><div class="card-content"><h3>Endereços para Compras</h3></div></div>
-  <div class="card" onclick="openCategory('Sugestão de Presentes')"><img src="https://images.unsplash.com/photo-1512909006721-3d6018887383"><div class="card-content"><h3>Sugestão de Presentes</h3></div></div>
-  <div class="card"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945"><div class="card-content"><h3>Sugestão de Hotéis</h3></div></div>
-  <div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e"><div class="card-content"><h3>Cruzeiros</h3></div></div>
+<!-- CATEGORIAS -->
+<div id="categoriesView">
+  <div class="grid">
+    <div class="category-card" onclick="openCategory()"
+      style="background-image:url('https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80')">
+      <span>City Guide</span>
+    </div>
+    <div class="category-card" style="background-image:url('https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80')"><span>Gastronomia</span></div>
+    <div class="category-card" style="background-image:url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80')"><span>Atrações Turísticas</span></div>
+    <div class="category-card" style="background-image:url('https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80')"><span>Experiências</span></div>
+    <div class="category-card" style="background-image:url('https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80')"><span>Vida Noturna</span></div>
+    <div class="category-card" style="background-image:url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80')"><span>Compras</span></div>
+    <div class="category-card" style="background-image:url('https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80')"><span>Presentes</span></div>
+    <div class="category-card" style="background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80')"><span>Hotéis</span></div>
+    <div class="category-card" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80')"><span>Cruzeiros</span></div>
+  </div>
+</div>
+
+<!-- CIDADES -->
+<div class="cities" id="citiesView">
+  <button class="back-btn" onclick="goBack()">← Voltar</button>
+  <div class="city-grid">
+    <div class="city-card"><h4>São Paulo – Brasil</h4><button onclick="openInfo()">Acessar</button></div>
+    <div class="city-card"><h4>Rio de Janeiro – Brasil</h4><button onclick="openInfo()">Acessar</button></div>
+    <div class="city-card"><h4>Paris – França</h4><button onclick="openInfo()">Acessar</button></div>
+    <div class="city-card"><h4>New York – EUA</h4><button onclick="openInfo()">Acessar</button></div>
+  </div>
 </div>
 
 </div>
 
-<!-- CATEGORIA -->
-<div class="container hidden" id="category-view">
-
-<h1 id="category-title"></h1>
-
-<div class="back-wrapper">
-  <button onclick="back()">← Voltar para Curadoria</button>
+<!-- POPUP PDF -->
+<div class="popup" id="pdfPopup">
+  <div class="popup-content">
+    <button onclick="closePdf()">Fechar</button>
+    <iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"></iframe>
+  </div>
 </div>
 
-<div class="grid">
-  <div class="city-card"><h3>São Paulo – Brasil</h3><button onclick="openInfo()">Ter acesso ao material</button></div>
-  <div class="city-card"><h3>Rio de Janeiro – Brasil</h3><button onclick="openInfo()">Ter acesso ao material</button></div>
-  <div class="city-card"><h3>Paris – França</h3><button onclick="openInfo()">Ter acesso ao material</button></div>
-  <div class="city-card"><h3>New York – EUA</h3><button onclick="openInfo()">Ter acesso ao material</button></div>
-</div>
-
-</div>
-
-<!-- MODAIS -->
-<div class="modal" id="pdfModal">
-<div class="modal-content">
-<iframe src="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"></iframe>
-<button onclick="closePdf()">Fechar</button>
-</div>
-</div>
-
-<div class="modal" id="infoModal">
-<div class="modal-content">
-<h3>Sobre este material</h3>
-<p>Material digital. Não há troca ou reembolso.</p>
-<button>Prosseguir</button><br>
-<button onclick="closeInfo()">Fechar</button>
-</div>
+<!-- POPUP INFO -->
+<div class="popup" id="infoPopup">
+  <div class="popup-content">
+    <p>Material digital de apoio à viagem. Não possui troca ou reembolso.</p>
+    <button>Prosseguir</button>
+    <button onclick="closeInfo()">Fechar</button>
+  </div>
 </div>
 
 <script>
-function openPdf(){ pdfModal.style.display="flex"; }
-function closePdf(){ pdfModal.style.display="none"; }
-
-function openCategory(name){
-  curadoria.classList.add("hidden");
-  category-view.classList.remove("hidden");
-  category-title.innerText = name;
+function openPdf(){document.getElementById("pdfPopup").style.display="flex";}
+function closePdf(){document.getElementById("pdfPopup").style.display="none";}
+function openCategory(){
+  document.getElementById("categoriesView").style.display="none";
+  document.getElementById("citiesView").style.display="block";
 }
-
-function back(){
-  category-view.classList.add("hidden");
-  curadoria.classList.remove("hidden");
+function goBack(){
+  document.getElementById("citiesView").style.display="none";
+  document.getElementById("categoriesView").style.display="block";
 }
-
-function openInfo(){ infoModal.style.display="flex"; }
-function closeInfo(){ infoModal.style.display="none"; }
+function openInfo(){document.getElementById("infoPopup").style.display="flex";}
+function closeInfo(){document.getElementById("infoPopup").style.display="none";}
 </script>
 
 </body>
