@@ -5,16 +5,13 @@
   <title>Curadoria Elite Travel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <style>
     body {
       margin: 0;
       font-family: "Segoe UI", sans-serif;
       background: #0b0b0b;
       color: #fff;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     header {
@@ -198,7 +195,6 @@
   <div id="tela-inicio">
     <h1>Orquestramos cada detalhe com cuidado e expertise</h1>
     <p>para que você possa focar exclusivamente em viver experiências memoráveis.<br/>Seja bem-vindo</p>
-    <!-- Carrossel ou imagens podem ser adicionadas aqui futuramente -->
   </div>
 
   <!-- Tela de Curadoria -->
@@ -209,14 +205,12 @@
     <button class="back-button" id="voltar-hub">Voltar para Início</button>
   </div>
 
-  <!-- Tela da categoria City Guide -->
+  <!-- Tela interna City Guide -->
   <div id="tela-city-guide" class="category-screen hidden">
     <button class="back-button" id="voltar-curadoria">Voltar para Curadoria</button>
     <h2>City Guide</h2>
-    <p>Descubra cada cidade com seleções estratégicas e materiais exclusivos.</p>
-    <div id="city-materials">
-      <!-- Materiais carregados aqui -->
-    </div>
+    <p>Veja abaixo os materiais disponíveis para cada cidade. Clique em "Comprar / Acessar" para interagir.</p>
+    <div id="city-materials"></div>
   </div>
 </main>
 
@@ -234,16 +228,12 @@
 </footer>
 
 <script>
-  const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  // Navegação interna
   const telaInicio = document.getElementById("tela-inicio");
   const telaCuradoria = document.getElementById("tela-curadoria");
   const telaCityGuide = document.getElementById("tela-city-guide");
   const modalOverview = document.getElementById("modal-overview");
 
+  // Navegação interna
   document.getElementById("nav-inicio").onclick = () => showTela("inicio");
   document.getElementById("nav-quem-somos").onclick = () => alert("Tela Quem Somos (em desenvolvimento)");
   document.getElementById("nav-curadoria").onclick = () => showTela("curadoria");
@@ -251,7 +241,6 @@
   document.getElementById("nav-avaliar").onclick = () => alert("Tela Avalie-nos (em desenvolvimento)");
   document.getElementById("voltar-hub").onclick = () => showTela("inicio");
   document.getElementById("voltar-curadoria").onclick = () => showTela("curadoria");
-
   document.getElementById("btn-overview").onclick = () => modalOverview.classList.remove("hidden");
   document.getElementById("close-overview").onclick = () => modalOverview.classList.add("hidden");
 
@@ -265,52 +254,43 @@
     if (tela === "city-guide") telaCityGuide.classList.remove("hidden");
   }
 
-  // Carregar categorias
-  async function carregarCategorias() {
-    const categories = [
-      { title: "City Guide", description: "Visão estratégica das principais cidades.", slug: "city-guide", img: "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80" },
-      { title: "Gastronomia", description: "Restaurantes e cafés bem escolhidos.", slug: "gastronomia", img: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80" },
-      { title: "Atrações Turísticas", description: "Pontos essenciais com critério.", slug: "atracoes-turisticas", img: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80" },
-      { title: "Experiências", description: "Vivências que elevam a viagem.", slug: "experiencias", img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80" },
-      { title: "Vida Noturna", description: "Bares e cenas noturnas selecionadas.", slug: "vida-noturna", img: "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80" },
-      { title: "Endereços para Compras", description: "Onde vale realmente gastar tempo.", slug: "enderecos-compras", img: "https://images.unsplash.com/photo-1483985988355-763728e1935-763728e1935?auto=format&fit=crop&w=1200&q=80" },
-      { title: "Sugestão de Presentes", description: "Ideias refinadas para levar consigo.", slug: "sugestao-presentes", img: "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80" },
-      { title: "Sugestão de Hotéis", description: "Hospedagens alinhadas ao perfil da viagem.", slug: "sugestao-hoteis", img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80" },
-      { title: "Cruzeiros", description: "Rotas selecionadas com conforto e elegância.", slug: "cruzeiros", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" }
-    ];
+  // Carregar categorias (hub Curadoria)
+  const categories = [
+    { title: "City Guide", description: "Visão estratégica das principais cidades.", slug: "city-guide" },
+    { title: "Gastronomia", description: "Restaurantes e cafés bem escolhidos.", slug: "gastronomia" },
+    { title: "Atrações Turísticas", description: "Pontos essenciais com critério.", slug: "atracoes-turisticas" },
+    { title: "Experiências", description: "Vivências que elevam a viagem.", slug: "experiencias" },
+    { title: "Vida Noturna", description: "Bares e cenas noturnas selecionadas.", slug: "vida-noturna" },
+    { title: "Endereços para Compras", description: "Onde vale realmente gastar tempo.", slug: "enderecos-compras" },
+    { title: "Sugestão de Presentes", description: "Ideias refinadas para levar consigo.", slug: "sugestao-presentes" },
+    { title: "Sugestão de Hotéis", description: "Hospedagens alinhadas ao perfil da viagem.", slug: "sugestao-hoteis" },
+    { title: "Cruzeiros", description: "Rotas selecionadas com conforto e elegância.", slug: "cruzeiros" }
+  ];
 
-    const container = document.getElementById("categories");
-    container.innerHTML = "";
+  const container = document.getElementById("categories");
+  categories.forEach(cat => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `<h3>${cat.title}</h3><p>${cat.description}</p>`;
+    card.onclick = () => {
+      if(cat.slug === "city-guide") showTela("city-guide");
+      else alert(`Categoria ${cat.title} (em desenvolvimento)`);
+    };
+    container.appendChild(card);
+  });
 
-    categories.forEach(cat => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `<h3>${cat.title}</h3><p>${cat.description}</p>`;
-      card.onclick = () => {
-        if (cat.slug === "city-guide") showTela("city-guide");
-        else alert(`Categoria ${cat.title} (tela em desenvolvimento)`);
-      };
-      container.appendChild(card);
-    });
-  }
-
-  carregarCategorias();
-
-  // Carregar materiais City Guide (exemplo bloqueado)
+  // Materiais City Guide (apenas listagem)
   const materiaisCityGuide = [
-    { cidade: "São Paulo", comprado: false },
-    { cidade: "Rio de Janeiro", comprado: false },
-    { cidade: "Paris", comprado: false }
+    { cidade: "São Paulo", descricao: "Seleções estratégicas de SP", comprado: false },
+    { cidade: "Rio de Janeiro", descricao: "Seleções estratégicas do RJ", comprado: false },
+    { cidade: "Paris", descricao: "Seleções estratégicas de Paris", comprado: false }
   ];
 
   const containerMateriais = document.getElementById("city-materials");
   materiaisCityGuide.forEach(mat => {
     const div = document.createElement("div");
     div.className = "material-card";
-    div.innerHTML = `
-      <span>${mat.cidade}</span>
-      <button>${mat.comprado ? "Acessar" : "Comprar"}</button>
-    `;
+    div.innerHTML = `<span>${mat.cidade} - ${mat.descricao}</span><button>${mat.comprado ? "Acessar" : "Comprar"}</button>`;
     containerMateriais.appendChild(div);
   });
 
