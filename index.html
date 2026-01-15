@@ -21,14 +21,13 @@
       justify-content: space-between;
       align-items: center;
       position: fixed;
-      width:: 100%;
+      width: 100%;
       top: 0;
       z-index: 1000;
       background: rgba(0,0,0,0.25);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(255,255,255,0.06);
       box-sizing: border-box;
-      width: 100%;
     }
 
     /* BRAND */
@@ -70,6 +69,7 @@
       padding: 120px 40px 60px;
       max-width: 1200px;
       margin: auto;
+      box-sizing: border-box;
     }
 
     section.active {
@@ -176,9 +176,14 @@
 
 <section id="inicio" class="active">
   <div class="hero">
-    <!-- Duas camadas para FADE suave -->
-    <div class="hero-bg active" id="bg1"></div>
-    <div class="hero-bg" id="bg2"></div>
+    <!-- IMPORTANTE: já deixo a 1ª imagem "fixa" aqui pra nunca ficar vazio -->
+    <div class="hero-bg active" id="bg1"
+      style="background-image:url('https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80');">
+    </div>
+
+    <div class="hero-bg" id="bg2"
+      style="background-image:url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=2400&q=80');">
+    </div>
 
     <div class="hero-overlay"></div>
 
@@ -192,23 +197,23 @@
   </div>
 </section>
 
-<!-- (essas seções vamos refinar depois, como você pediu) -->
-<section id="quem" class="">
+<!-- Mantive suas seções; vamos refiná-las depois como você pediu -->
+<section id="quem">
   <h2 style="text-align:center; color:#d4af37;">Quem Somos</h2>
   <p style="text-align:center; color:#ccc;">(refinaremos essa seção em seguida)</p>
 </section>
 
-<section id="curadoria" class="">
+<section id="curadoria">
   <h2 style="text-align:center; color:#d4af37;">Curadoria</h2>
   <p style="text-align:center; color:#ccc;">(refinaremos essa seção em seguida)</p>
 </section>
 
-<section id="contato" class="">
+<section id="contato">
   <h2 style="text-align:center; color:#d4af37;">Contato</h2>
   <p style="text-align:center; color:#ccc;">(estrutura e refinamento em seguida)</p>
 </section>
 
-<section id="avaliacao" class="">
+<section id="avaliacao">
   <h2 style="text-align:center; color:#d4af37;">Avalie-nos</h2>
   <p style="text-align:center; color:#ccc;">(estrutura e refinamento em seguida)</p>
 </section>
@@ -225,18 +230,18 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  // 5 imagens (cidade + natureza), mais “mundo”
+  // Imagens estáveis (cidade + natureza)
   const heroImages = [
-    // Londres
-    "https://images.unsplash.com/photo-1720202087430-2d99d8e1c7ae?auto=format&fit=crop&w=2200&q=80",
-    // Paris
-    "https://images.unsplash.com/photo-1639962299877-6f78d0cbe7b1?auto=format&fit=crop&w=2200&q=80",
+    // Londres (Big Ben / Londres)
+    "https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80",
+    // Paris (Torre Eiffel)
+    "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=2400&q=80",
     // Muralha da China
-    "https://images.unsplash.com/photo-1504022462188-88b4a9aefecd?auto=format&fit=crop&w=2200&q=80",
+    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=2400&q=80",
     // Praia
-    "https://images.unsplash.com/photo-1714685448672-9e9a09d4b4a2?auto=format&fit=crop&w=2200&q=80",
-    // Trilha / montanha
-    "https://images.unsplash.com/photo-1721161206996-4f61adcd40dd?auto=format&fit=crop&w=2200&q=80"
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=80",
+    // Trilha / Montanha
+    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=2400&q=80"
   ];
 
   const bg1 = document.getElementById("bg1");
@@ -245,20 +250,14 @@
   let current = 0;
   let showingFirst = true;
 
-  // inicia
-  bg1.style.backgroundImage = `url('${heroImages[0]}')`;
-  bg2.style.backgroundImage = `url('${heroImages[1]}')`;
-
   function rotateHero() {
     current = (current + 1) % heroImages.length;
 
     if (showingFirst) {
-      // bg2 entra
       bg2.style.backgroundImage = `url('${heroImages[current]}')`;
       bg2.classList.add("active");
       bg1.classList.remove("active");
     } else {
-      // bg1 entra
       bg1.style.backgroundImage = `url('${heroImages[current]}')`;
       bg1.classList.add("active");
       bg2.classList.remove("active");
