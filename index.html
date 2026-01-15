@@ -21,13 +21,14 @@
       justify-content: space-between;
       align-items: center;
       position: fixed;
-      width: 100%;
+      width:: 100%;
       top: 0;
       z-index: 1000;
       background: rgba(0,0,0,0.25);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(255,255,255,0.06);
       box-sizing: border-box;
+      width: 100%;
     }
 
     /* BRAND */
@@ -86,6 +87,7 @@
       height: 100vh;
       position: relative;
       overflow: hidden;
+      background: #0b0b0b;
     }
 
     .hero-bg {
@@ -96,6 +98,7 @@
       filter: brightness(0.45) saturate(0.6);
       opacity: 0;
       transition: opacity 3s ease;
+      transform: scale(1.03);
     }
 
     .hero-bg.active {
@@ -117,6 +120,7 @@
       justify-content: center;
       text-align: center;
       padding: 20px;
+      box-sizing: border-box;
     }
 
     .hero-content h1 {
@@ -138,6 +142,14 @@
       text-align: center;
       color: #888;
       font-size: 14px;
+    }
+
+    @media (max-width: 720px) {
+      header { padding: 14px 16px; }
+      nav a { margin-left: 14px; }
+      .brand-name { font-size: 16px; }
+      .brand-tagline { font-size: 12px; }
+      .brand img { height: 30px; width: 30px; }
     }
   </style>
 </head>
@@ -164,10 +176,9 @@
 
 <section id="inicio" class="active">
   <div class="hero">
-    <div class="hero-bg active" id="bg1"
-      style="background-image:url('https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=2000&q=80')"></div>
-    <div class="hero-bg" id="bg2"
-      style="background-image:url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=2000&q=80')"></div>
+    <!-- Duas camadas para FADE suave -->
+    <div class="hero-bg active" id="bg1"></div>
+    <div class="hero-bg" id="bg2"></div>
 
     <div class="hero-overlay"></div>
 
@@ -179,6 +190,27 @@
       </div>
     </div>
   </div>
+</section>
+
+<!-- (essas seções vamos refinar depois, como você pediu) -->
+<section id="quem" class="">
+  <h2 style="text-align:center; color:#d4af37;">Quem Somos</h2>
+  <p style="text-align:center; color:#ccc;">(refinaremos essa seção em seguida)</p>
+</section>
+
+<section id="curadoria" class="">
+  <h2 style="text-align:center; color:#d4af37;">Curadoria</h2>
+  <p style="text-align:center; color:#ccc;">(refinaremos essa seção em seguida)</p>
+</section>
+
+<section id="contato" class="">
+  <h2 style="text-align:center; color:#d4af37;">Contato</h2>
+  <p style="text-align:center; color:#ccc;">(estrutura e refinamento em seguida)</p>
+</section>
+
+<section id="avaliacao" class="">
+  <h2 style="text-align:center; color:#d4af37;">Avalie-nos</h2>
+  <p style="text-align:center; color:#ccc;">(estrutura e refinamento em seguida)</p>
 </section>
 
 <footer>
@@ -193,15 +225,50 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  // 5 imagens (cidade + natureza), mais “mundo”
+  const heroImages = [
+    // Londres
+    "https://images.unsplash.com/photo-1720202087430-2d99d8e1c7ae?auto=format&fit=crop&w=2200&q=80",
+    // Paris
+    "https://images.unsplash.com/photo-1639962299877-6f78d0cbe7b1?auto=format&fit=crop&w=2200&q=80",
+    // Muralha da China
+    "https://images.unsplash.com/photo-1504022462188-88b4a9aefecd?auto=format&fit=crop&w=2200&q=80",
+    // Praia
+    "https://images.unsplash.com/photo-1714685448672-9e9a09d4b4a2?auto=format&fit=crop&w=2200&q=80",
+    // Trilha / montanha
+    "https://images.unsplash.com/photo-1721161206996-4f61adcd40dd?auto=format&fit=crop&w=2200&q=80"
+  ];
+
   const bg1 = document.getElementById("bg1");
   const bg2 = document.getElementById("bg2");
-  let showFirst = false;
 
-  setInterval(() => {
-    showFirst = !showFirst;
-    bg1.classList.toggle("active", showFirst);
-    bg2.classList.toggle("active", !showFirst);
-  }, 16000);
+  let current = 0;
+  let showingFirst = true;
+
+  // inicia
+  bg1.style.backgroundImage = `url('${heroImages[0]}')`;
+  bg2.style.backgroundImage = `url('${heroImages[1]}')`;
+
+  function rotateHero() {
+    current = (current + 1) % heroImages.length;
+
+    if (showingFirst) {
+      // bg2 entra
+      bg2.style.backgroundImage = `url('${heroImages[current]}')`;
+      bg2.classList.add("active");
+      bg1.classList.remove("active");
+    } else {
+      // bg1 entra
+      bg1.style.backgroundImage = `url('${heroImages[current]}')`;
+      bg1.classList.add("active");
+      bg2.classList.remove("active");
+    }
+
+    showingFirst = !showingFirst;
+  }
+
+  // LENTO e premium
+  setInterval(rotateHero, 16000);
 </script>
 
 </body>
