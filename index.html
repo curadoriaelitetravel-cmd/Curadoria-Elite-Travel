@@ -30,7 +30,6 @@
       box-sizing: border-box;
     }
 
-    /* BRAND */
     .brand {
       display: flex;
       align-items: center;
@@ -63,7 +62,6 @@
       cursor: pointer;
     }
 
-    /* SEÇÕES */
     section {
       display: none;
       padding: 120px 40px 60px;
@@ -95,9 +93,9 @@
       inset: 0;
       background-size: cover;
       background-position: center;
-      filter: brightness(0.45) saturate(0.6);
+      filter: brightness(0.42) saturate(0.6);
       opacity: 0;
-      transition: opacity 3s ease;
+      transition: opacity 3.2s ease;
       transform: scale(1.03);
     }
 
@@ -108,7 +106,7 @@
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.65);
+      background: rgba(0,0,0,0.68);
     }
 
     .hero-content {
@@ -143,14 +141,6 @@
       color: #888;
       font-size: 14px;
     }
-
-    @media (max-width: 720px) {
-      header { padding: 14px 16px; }
-      nav a { margin-left: 14px; }
-      .brand-name { font-size: 16px; }
-      .brand-tagline { font-size: 12px; }
-      .brand img { height: 30px; width: 30px; }
-    }
   </style>
 </head>
 
@@ -176,14 +166,8 @@
 
 <section id="inicio" class="active">
   <div class="hero">
-    <!-- IMPORTANTE: já deixo a 1ª imagem "fixa" aqui pra nunca ficar vazio -->
-    <div class="hero-bg active" id="bg1"
-      style="background-image:url('https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80');">
-    </div>
-
-    <div class="hero-bg" id="bg2"
-      style="background-image:url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=2400&q=80');">
-    </div>
+    <div class="hero-bg active" id="bg1"></div>
+    <div class="hero-bg" id="bg2"></div>
 
     <div class="hero-overlay"></div>
 
@@ -195,27 +179,6 @@
       </div>
     </div>
   </div>
-</section>
-
-<!-- Mantive suas seções; vamos refiná-las depois como você pediu -->
-<section id="quem">
-  <h2 style="text-align:center; color:#d4af37;">Quem Somos</h2>
-  <p style="text-align:center; color:#ccc;">(refinaremos essa seção em seguida)</p>
-</section>
-
-<section id="curadoria">
-  <h2 style="text-align:center; color:#d4af37;">Curadoria</h2>
-  <p style="text-align:center; color:#ccc;">(refinaremos essa seção em seguida)</p>
-</section>
-
-<section id="contato">
-  <h2 style="text-align:center; color:#d4af37;">Contato</h2>
-  <p style="text-align:center; color:#ccc;">(estrutura e refinamento em seguida)</p>
-</section>
-
-<section id="avaliacao">
-  <h2 style="text-align:center; color:#d4af37;">Avalie-nos</h2>
-  <p style="text-align:center; color:#ccc;">(estrutura e refinamento em seguida)</p>
 </section>
 
 <footer>
@@ -230,18 +193,18 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  // Imagens estáveis (cidade + natureza)
+  // CARROSSEL FINAL – CURADORIA APROVADA
   const heroImages = [
-    // Londres (Big Ben / Londres)
+    // Londres
     "https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80",
-    // Paris (Torre Eiffel)
+    // New York
+    "https://images.unsplash.com/photo-1549921296-3ecf6b4b38b3?auto=format&fit=crop&w=2400&q=80",
+    // Roma
     "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=2400&q=80",
-    // Muralha da China
-    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=2400&q=80",
+    // Taj Mahal
+    "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=2400&q=80",
     // Praia
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=80",
-    // Trilha / Montanha
-    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=2400&q=80"
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=80"
   ];
 
   const bg1 = document.getElementById("bg1");
@@ -249,6 +212,8 @@
 
   let current = 0;
   let showingFirst = true;
+
+  bg1.style.backgroundImage = `url('${heroImages[0]}')`;
 
   function rotateHero() {
     current = (current + 1) % heroImages.length;
@@ -266,7 +231,7 @@
     showingFirst = !showingFirst;
   }
 
-  // LENTO e premium
+  // transição lenta e elegante
   setInterval(rotateHero, 16000);
 </script>
 
