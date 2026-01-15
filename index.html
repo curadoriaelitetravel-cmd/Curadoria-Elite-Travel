@@ -14,7 +14,6 @@
       overflow-x: hidden;
     }
 
-    /* HEADER */
     header {
       padding: 16px 40px;
       display: flex;
@@ -64,8 +63,8 @@
 
     section {
       display: none;
-      padding: 120px 40px 60px;
-      max-width: 1200px;
+      padding: 120px 40px 80px;
+      max-width: 1100px;
       margin: auto;
       box-sizing: border-box;
     }
@@ -74,18 +73,51 @@
       display: block;
     }
 
-    /* HERO FULL SCREEN */
+    h2 {
+      text-align: center;
+      color: #d4af37;
+      margin-bottom: 40px;
+    }
+
+    .text-block {
+      color: #ddd;
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 800px;
+      margin: 0 auto 60px auto;
+      text-align: center;
+    }
+
+    .rules-block {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 14px;
+      padding: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    footer {
+      border-top: 1px solid #222;
+      padding: 30px;
+      text-align: center;
+      color: #888;
+      font-size: 14px;
+    }
+
+    /* HERO (HOME) */
     #inicio {
       padding: 0;
       max-width: none;
-      margin: 0;
     }
 
     .hero {
       height: 100vh;
       position: relative;
       overflow: hidden;
-      background: #0b0b0b;
     }
 
     .hero-bg {
@@ -95,8 +127,7 @@
       background-position: center;
       filter: brightness(0.42) saturate(0.6);
       opacity: 0;
-      transition: opacity 3.2s ease;
-      transform: scale(1.03);
+      transition: opacity 3s ease;
     }
 
     .hero-bg.active {
@@ -118,7 +149,6 @@
       justify-content: center;
       text-align: center;
       padding: 20px;
-      box-sizing: border-box;
     }
 
     .hero-content h1 {
@@ -131,15 +161,6 @@
       color: rgba(255,255,255,0.85);
       margin: 6px 0;
       font-size: 15px;
-      line-height: 1.6;
-    }
-
-    footer {
-      border-top: 1px solid #222;
-      padding: 30px;
-      text-align: center;
-      color: #888;
-      font-size: 14px;
     }
   </style>
 </head>
@@ -159,8 +180,7 @@
     <a onclick="showSection('inicio')">Início</a>
     <a onclick="showSection('quem')">Quem Somos</a>
     <a onclick="showSection('curadoria')">Curadoria</a>
-    <a onclick="showSection('contato')">Contato</a>
-    <a onclick="showSection('avaliacao')">Avalie-nos</a>
+    <a onclick="showSection('buscador')">Buscador</a>
   </nav>
 </header>
 
@@ -168,7 +188,6 @@
   <div class="hero">
     <div class="hero-bg active" id="bg1"></div>
     <div class="hero-bg" id="bg2"></div>
-
     <div class="hero-overlay"></div>
 
     <div class="hero-content">
@@ -178,6 +197,28 @@
         <p>Selecionamos e organizamos informações essenciais para decisões de viagem mais seguras e bem fundamentadas.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="quem">
+  <h2>Quem Somos</h2>
+
+  <div class="text-block">
+    Na Curadoria Elite Travel, acreditamos que o tempo é um dos bens mais valiosos de quem viaja.<br><br>
+    Em um cenário onde a praticidade digital é essencial, percebemos que o viajante moderno buscava autonomia sem abrir mão de inspiração, critério e confiança — uma forma clara e organizada de decidir melhor, que ainda não existia.<br><br>
+    Foi dessa necessidade que nascemos. A Curadoria Elite Travel é uma plataforma criada para organizar informações e oferecer indicações criteriosas, transformando destinos em universos referenciados e acessíveis digitalmente.<br><br>
+    Nossa curadoria é composta por indicações, referências e orientações práticas, pensadas para apoiar decisões de viagem antes e durante a experiência.<br><br>
+    Não somos uma agência de viagens e não realizamos reservas. Nosso papel é selecionar, estruturar e apresentar conhecimento de qualidade para quem prefere decidir com segurança e clareza.<br><br>
+    <strong>O seu mundo, bem indicado.</strong>
+  </div>
+
+  <div class="rules-block">
+    <strong>Informações Importantes</strong><br><br>
+    A Curadoria Elite Travel oferece exclusivamente materiais digitais de caráter informativo e orientativo, baseados em indicações, referências e conteúdos selecionados.<br><br>
+    Não realizamos reservas, vendas de passagens, hospedagens, experiências ou qualquer tipo de intermediação direta com fornecedores ou prestadores de serviço.<br><br>
+    As decisões de compra, contratação e utilização de serviços indicados nos materiais são de responsabilidade exclusiva do usuário, assim como qualquer tratativa, solicitação, alteração ou eventual problema relacionado aos serviços contratados.<br><br>
+    Por se tratar de conteúdo digital disponibilizado de forma imediata após a confirmação da compra, não é possível realizar cancelamentos, trocas ou reembolsos.<br><br>
+    Ao adquirir nossos materiais, o usuário declara estar ciente e de acordo com essas condições.
   </div>
 </section>
 
@@ -193,46 +234,32 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  // CARROSSEL FINAL – CURADORIA APROVADA
   const heroImages = [
-    // Londres
     "https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80",
-    // New York
     "https://images.unsplash.com/photo-1549921296-3ecf6b4b38b3?auto=format&fit=crop&w=2400&q=80",
-    // Roma
     "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=2400&q=80",
-    // Taj Mahal
     "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=2400&q=80",
-    // Praia
     "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=80"
   ];
 
   const bg1 = document.getElementById("bg1");
   const bg2 = document.getElementById("bg2");
-
   let current = 0;
   let showingFirst = true;
 
   bg1.style.backgroundImage = `url('${heroImages[0]}')`;
 
-  function rotateHero() {
+  setInterval(() => {
     current = (current + 1) % heroImages.length;
+    const next = showingFirst ? bg2 : bg1;
+    const currentBg = showingFirst ? bg1 : bg2;
 
-    if (showingFirst) {
-      bg2.style.backgroundImage = `url('${heroImages[current]}')`;
-      bg2.classList.add("active");
-      bg1.classList.remove("active");
-    } else {
-      bg1.style.backgroundImage = `url('${heroImages[current]}')`;
-      bg1.classList.add("active");
-      bg2.classList.remove("active");
-    }
+    next.style.backgroundImage = `url('${heroImages[current]}')`;
+    next.classList.add("active");
+    currentBg.classList.remove("active");
 
     showingFirst = !showingFirst;
-  }
-
-  // transição lenta e elegante
-  setInterval(rotateHero, 16000);
+  }, 16000);
 </script>
 
 </body>
