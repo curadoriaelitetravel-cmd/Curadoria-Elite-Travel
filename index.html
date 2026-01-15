@@ -162,6 +162,60 @@
       margin: 6px 0;
       font-size: 15px;
     }
+
+    /* CARROSSEL "QUEM SOMOS" (discreto e premium) */
+    .about-carousel {
+      position: relative;
+      height: 320px;
+      max-width: 980px;
+      margin: 0 auto 36px auto;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #222;
+      background: #0b0b0b;
+    }
+
+    .about-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.45) saturate(0.6) contrast(0.95);
+      opacity: 0;
+      transition: opacity 3.2s ease;
+      transform: scale(1.02);
+    }
+
+    .about-bg.active {
+      opacity: 1;
+    }
+
+    .about-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,0.70) 0%,
+        rgba(0,0,0,0.55) 45%,
+        rgba(0,0,0,0.72) 100%
+      );
+    }
+
+    .about-caption {
+      position: absolute;
+      left: 18px;
+      bottom: 16px;
+      z-index: 2;
+      color: rgba(255,255,255,0.78);
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+    }
+
+    @media (max-width: 720px) {
+      header { padding: 14px 16px; }
+      nav a { margin-left: 14px; }
+      .about-carousel { height: 240px; }
+    }
   </style>
 </head>
 
@@ -203,6 +257,14 @@
 <section id="quem">
   <h2>Quem Somos</h2>
 
+  <!-- Carrossel discreto (metodologia/curadoria) -->
+  <div class="about-carousel">
+    <div class="about-bg active" id="qbg1"></div>
+    <div class="about-bg" id="qbg2"></div>
+    <div class="about-overlay"></div>
+    <div class="about-caption">Critério · Orientação · Decisão</div>
+  </div>
+
   <div class="text-block">
     Na Curadoria Elite Travel, acreditamos que o tempo é um dos bens mais valiosos de quem viaja.<br><br>
     Em um cenário onde a praticidade digital é essencial, percebemos que o viajante moderno buscava autonomia sem abrir mão de inspiração, critério e confiança — uma forma clara e organizada de decidir melhor, que ainda não existia.<br><br>
@@ -230,16 +292,18 @@
 <script>
   function showSection(id) {
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
+    const el = document.getElementById(id);
+    if (el) el.classList.add("active");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  // HOME - carrossel global (já aprovado)
   const heroImages = [
-    "https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1549921296-3ecf6b4b38b3?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=80"
+    "https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80", // Londres
+    "https://images.unsplash.com/photo-1549921296-3ecf6b4b38b3?auto=format&fit=crop&w=2400&q=80", // New York
+    "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=2400&q=80", // Roma (mantido do seu conjunto atual)
+    "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=2400&q=80", // Taj Mahal
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=80"  // Praia
   ];
 
   const bg1 = document.getElementById("bg1");
@@ -260,6 +324,37 @@
 
     showingFirst = !showingFirst;
   }, 16000);
+
+  // QUEM SOMOS - carrossel metodologia/curadoria (3 imagens)
+  const aboutImages = [
+    // Biblioteca / pesquisa
+    "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=2400&q=80",
+    // Mapa + bússola / orientação
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2400&q=80",
+    // Viagem elegante / experiência (janela / deslocamento)
+    "https://images.unsplash.com/photo-1500043357865-c6b8827edf2a?auto=format&fit=crop&w=2400&q=80"
+  ];
+
+  const qbg1 = document.getElementById("qbg1");
+  const qbg2 = document.getElementById("qbg2");
+
+  let aboutIndex = 0;
+  let aboutShowingFirst = true;
+
+  qbg1.style.backgroundImage = `url('${aboutImages[0]}')`;
+
+  setInterval(() => {
+    aboutIndex = (aboutIndex + 1) % aboutImages.length;
+
+    const next = aboutShowingFirst ? qbg2 : qbg1;
+    const currentLayer = aboutShowingFirst ? qbg1 : qbg2;
+
+    next.style.backgroundImage = `url('${aboutImages[aboutIndex]}')`;
+    next.classList.add("active");
+    currentLayer.classList.remove("active");
+
+    aboutShowingFirst = !aboutShowingFirst;
+  }, 18000);
 </script>
 
 </body>
