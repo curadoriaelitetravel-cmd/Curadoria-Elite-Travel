@@ -76,7 +76,7 @@
     h2 {
       text-align: center;
       color: #d4af37;
-      margin-bottom: 40px;
+      margin: 50px 0 40px;
     }
 
     .text-block {
@@ -94,85 +94,21 @@
       border-radius: 14px;
       padding: 30px;
       max-width: 900px;
-      margin: 0 auto;
+      margin: 0 auto 80px;
       font-size: 14px;
       line-height: 1.6;
       color: #ccc;
     }
 
-    footer {
-      border-top: 1px solid #222;
-      padding: 30px;
-      text-align: center;
-      color: #888;
-      font-size: 14px;
-    }
-
-    /* HERO (HOME) */
-    #inicio {
-      padding: 0;
-      max-width: none;
-    }
-
-    .hero {
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      filter: brightness(0.42) saturate(0.6);
-      opacity: 0;
-      transition: opacity 3s ease;
-    }
-
-    .hero-bg.active {
-      opacity: 1;
-    }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.68);
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .hero-content h1 {
-      color: #d4af37;
-      font-size: clamp(28px, 4vw, 52px);
-      margin-bottom: 12px;
-    }
-
-    .hero-content p {
-      color: rgba(255,255,255,0.85);
-      margin: 6px 0;
-      font-size: 15px;
-    }
-
-    /* CARROSSEL "QUEM SOMOS" (discreto e premium) */
+    /* CARROSSEIS QUEM SOMOS */
     .about-carousel {
       position: relative;
-      height: 320px;
-      max-width: 980px;
-      margin: 0 auto 36px auto;
-      border-radius: 14px;
+      height: 300px;
+      max-width: 1000px;
+      margin: 0 auto 60px;
+      border-radius: 16px;
       overflow: hidden;
       border: 1px solid #222;
-      background: #0b0b0b;
     }
 
     .about-bg {
@@ -180,10 +116,9 @@
       inset: 0;
       background-size: cover;
       background-position: center;
-      filter: brightness(0.45) saturate(0.6) contrast(0.95);
+      filter: brightness(0.7) saturate(0.9);
       opacity: 0;
-      transition: opacity 3.2s ease;
-      transform: scale(1.02);
+      transition: opacity 3s ease;
     }
 
     .about-bg.active {
@@ -194,27 +129,23 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(
-        180deg,
-        rgba(0,0,0,0.70) 0%,
-        rgba(0,0,0,0.55) 45%,
-        rgba(0,0,0,0.72) 100%
+        rgba(0,0,0,0.45),
+        rgba(0,0,0,0.55)
       );
     }
 
-    .about-caption {
-      position: absolute;
-      left: 18px;
-      bottom: 16px;
-      z-index: 2;
-      color: rgba(255,255,255,0.78);
-      font-size: 12.5px;
-      letter-spacing: 0.2px;
+    footer {
+      border-top: 1px solid #222;
+      padding: 30px;
+      text-align: center;
+      color: #888;
+      font-size: 14px;
     }
 
     @media (max-width: 720px) {
+      .about-carousel { height: 220px; }
       header { padding: 14px 16px; }
       nav a { margin-left: 14px; }
-      .about-carousel { height: 240px; }
     }
   </style>
 </head>
@@ -238,31 +169,14 @@
   </nav>
 </header>
 
-<section id="inicio" class="active">
-  <div class="hero">
-    <div class="hero-bg active" id="bg1"></div>
-    <div class="hero-bg" id="bg2"></div>
-    <div class="hero-overlay"></div>
-
-    <div class="hero-content">
-      <div>
-        <h1>Uma plataforma de curadoria para viajar melhor.</h1>
-        <p>Curadoria que orienta. Decisão que flui.</p>
-        <p>Selecionamos e organizamos informações essenciais para decisões de viagem mais seguras e bem fundamentadas.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="quem">
+<section id="quem" class="active">
   <h2>Quem Somos</h2>
 
-  <!-- Carrossel discreto (metodologia/curadoria) -->
+  <!-- Carrossel 1 -->
   <div class="about-carousel">
-    <div class="about-bg active" id="qbg1"></div>
-    <div class="about-bg" id="qbg2"></div>
+    <div class="about-bg active" id="about1a"></div>
+    <div class="about-bg" id="about1b"></div>
     <div class="about-overlay"></div>
-    <div class="about-caption">Critério · Orientação · Decisão</div>
   </div>
 
   <div class="text-block">
@@ -272,6 +186,13 @@
     Nossa curadoria é composta por indicações, referências e orientações práticas, pensadas para apoiar decisões de viagem antes e durante a experiência.<br><br>
     Não somos uma agência de viagens e não realizamos reservas. Nosso papel é selecionar, estruturar e apresentar conhecimento de qualidade para quem prefere decidir com segurança e clareza.<br><br>
     <strong>O seu mundo, bem indicado.</strong>
+  </div>
+
+  <!-- Carrossel 2 -->
+  <div class="about-carousel">
+    <div class="about-bg active" id="about2a"></div>
+    <div class="about-bg" id="about2b"></div>
+    <div class="about-overlay"></div>
   </div>
 
   <div class="rules-block">
@@ -290,71 +211,34 @@
 </footer>
 
 <script>
-  function showSection(id) {
-    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
-    const el = document.getElementById(id);
-    if (el) el.classList.add("active");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  function fadeCarousel(images, elA, elB, interval = 16000) {
+    let index = 0;
+    let showA = true;
+
+    elA.style.backgroundImage = `url('${images[0]}')`;
+
+    setInterval(() => {
+      index = (index + 1) % images.length;
+      const next = showA ? elB : elA;
+      const current = showA ? elA : elB;
+
+      next.style.backgroundImage = `url('${images[index]}')`;
+      next.classList.add("active");
+      current.classList.remove("active");
+
+      showA = !showA;
+    }, interval);
   }
 
-  // HOME - carrossel global (já aprovado)
-  const heroImages = [
-    "https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80", // Londres
-    "https://images.unsplash.com/photo-1549921296-3ecf6b4b38b3?auto=format&fit=crop&w=2400&q=80", // New York
-    "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=2400&q=80", // Roma (mantido do seu conjunto atual)
-    "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=2400&q=80", // Taj Mahal
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=80"  // Praia
-  ];
-
-  const bg1 = document.getElementById("bg1");
-  const bg2 = document.getElementById("bg2");
-  let current = 0;
-  let showingFirst = true;
-
-  bg1.style.backgroundImage = `url('${heroImages[0]}')`;
-
-  setInterval(() => {
-    current = (current + 1) % heroImages.length;
-    const next = showingFirst ? bg2 : bg1;
-    const currentBg = showingFirst ? bg1 : bg2;
-
-    next.style.backgroundImage = `url('${heroImages[current]}')`;
-    next.classList.add("active");
-    currentBg.classList.remove("active");
-
-    showingFirst = !showingFirst;
-  }, 16000);
-
-  // QUEM SOMOS - carrossel metodologia/curadoria (3 imagens)
-  const aboutImages = [
-    // Biblioteca / pesquisa
+  fadeCarousel([
     "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=2400&q=80",
-    // Mapa + bússola / orientação
-    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2400&q=80",
-    // Viagem elegante / experiência (janela / deslocamento)
-    "https://images.unsplash.com/photo-1500043357865-c6b8827edf2a?auto=format&fit=crop&w=2400&q=80"
-  ];
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2400&q=80"
+  ], document.getElementById("about1a"), document.getElementById("about1b"));
 
-  const qbg1 = document.getElementById("qbg1");
-  const qbg2 = document.getElementById("qbg2");
-
-  let aboutIndex = 0;
-  let aboutShowingFirst = true;
-
-  qbg1.style.backgroundImage = `url('${aboutImages[0]}')`;
-
-  setInterval(() => {
-    aboutIndex = (aboutIndex + 1) % aboutImages.length;
-
-    const next = aboutShowingFirst ? qbg2 : qbg1;
-    const currentLayer = aboutShowingFirst ? qbg1 : qbg2;
-
-    next.style.backgroundImage = `url('${aboutImages[aboutIndex]}')`;
-    next.classList.add("active");
-    currentLayer.classList.remove("active");
-
-    aboutShowingFirst = !aboutShowingFirst;
-  }, 18000);
+  fadeCarousel([
+    "https://images.unsplash.com/photo-1500043357865-c6b8827edf2a?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=2400&q=80"
+  ], document.getElementById("about2a"), document.getElementById("about2b"));
 </script>
 
 </body>
