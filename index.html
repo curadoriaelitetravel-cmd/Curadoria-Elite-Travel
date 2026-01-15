@@ -14,34 +14,45 @@
       overflow-x: hidden;
     }
 
-    /* HEADER INTEGRADO AO HERO (UNIFICADO) */
+    /* HEADER */
     header {
-      padding: 18px 40px;
+      padding: 16px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: fixed;
       width: 100%;
-      left: 0;
       top: 0;
       z-index: 1000;
       background: rgba(0,0,0,0.25);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(255,255,255,0.06);
+      box-sizing: border-box;
     }
 
+    /* BRAND */
     .brand {
       display: flex;
       align-items: center;
-      gap: 14px;
-      min-width: 180px;
+      gap: 12px;
     }
 
     .brand img {
-      height: 46px;
-      width: auto;
-      display: block;
+      height: 34px;
+      width: 34px;
+    }
+
+    .brand-name {
+      font-family: "Cinzel", "Georgia", serif;
+      font-size: 18px;
+      color: #d4af37;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .brand-tagline {
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
     }
 
     nav a {
@@ -52,204 +63,81 @@
       cursor: pointer;
     }
 
+    /* SEÇÕES */
     section {
       display: none;
-      padding: 120px 40px 60px 40px;
+      padding: 120px 40px 60px;
       max-width: 1200px;
       margin: auto;
-      position: relative;
-      z-index: 2;
     }
 
     section.active {
       display: block;
     }
 
-    h1, h2 {
-      text-align: center;
-      color: #d4af37;
+    /* HERO FULL SCREEN */
+    #inicio {
+      padding: 0;
+      max-width: none;
+      margin: 0;
     }
 
-    /* HERO UNIFICADO (FUNDO + HEADER + HOME) */
-    .hero-wrap {
+    .hero {
+      height: 100vh;
       position: relative;
-      width: 100%;
-      height: 78vh;
-      min-height: 520px;
-      max-height: 760px;
-      border-radius: 16px;
       overflow: hidden;
-      margin-top: 86px; /* espaço do header fixo */
     }
 
-    .hero-bg-layer {
+    .hero-bg {
       position: absolute;
       inset: 0;
       background-size: cover;
       background-position: center;
-      transform: scale(1.03);
-      transition: opacity 1.6s ease;
+      filter: brightness(0.45) saturate(0.6);
       opacity: 0;
-      will-change: opacity;
+      transition: opacity 3s ease;
     }
 
-    .hero-bg-layer.active {
+    .hero-bg.active {
       opacity: 1;
     }
 
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        180deg,
-        rgba(0,0,0,0.62) 0%,
-        rgba(0,0,0,0.50) 45%,
-        rgba(0,0,0,0.70) 100%
-      );
-      z-index: 2;
-    }
-
-    /* Rosa dos ventos como marca d’água (bem sutil) */
-    .hero-watermark {
-      position: absolute;
-      inset: 0;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: min(520px, 70vw);
-      opacity: 0.10; /* bem discreto */
-      z-index: 3;
-      pointer-events: none;
-      filter: blur(0.2px);
+      background: rgba(0,0,0,0.65);
     }
 
     .hero-content {
       position: relative;
-      z-index: 4;
+      z-index: 2;
       height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 24px;
-    }
-
-    .hero-box {
-      max-width: 940px;
-      padding: 10px 18px;
-    }
-
-    .hero-title {
-      margin: 0 0 12px 0;
-      font-size: clamp(26px, 3.2vw, 44px);
-      line-height: 1.15;
-      font-weight: 700;
-      color: #d4af37;
-      letter-spacing: 0.2px;
-    }
-
-    .hero-sub {
-      margin: 0 0 10px 0;
-      color: #e8e8e8;
-      font-size: 16px;
-      line-height: 1.6;
-    }
-
-    .hero-support {
-      margin: 0;
-      color: #cfcfcf;
-      font-size: 14px;
-      line-height: 1.65;
-    }
-
-    /* RESTANTE DO SITE (inalterado) */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 30px;
-      margin-top: 20px;
-    }
-
-    .card {
-      background: linear-gradient(145deg, #111, #000);
-      border: 1px solid #222;
-      border-radius: 14px;
       padding: 20px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.4s ease;
-      position: relative;
     }
 
-    .card img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 10px;
+    .hero-content h1 {
+      color: #d4af37;
+      font-size: clamp(28px, 4vw, 52px);
       margin-bottom: 12px;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: #d4af37;
-      box-shadow: 0 10px 20px rgba(212,175,55,0.25);
-    }
-
-    button {
-      cursor: pointer;
-      padding: 8px 14px;
-      border-radius: 6px;
-      border: none;
-      background: #d4af37;
-      color: #000;
-      font-weight: 600;
-      margin-top: 8px;
-    }
-
-    /* POPUP */
-    .popup-bg {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-    }
-
-    .popup-bg.active {
-      display: flex;
-    }
-
-    .popup-content {
-      background: #111;
-      padding: 30px;
-      max-width: 600px;
-      border-radius: 14px;
-      text-align: center;
-      color: #fff;
-      position: relative;
-    }
-
-    .popup-content button {
-      margin: 10px 8px 0 8px;
+    .hero-content p {
+      color: rgba(255,255,255,0.85);
+      margin: 6px 0;
+      font-size: 15px;
+      line-height: 1.6;
     }
 
     footer {
       border-top: 1px solid #222;
-      margin-top: 40px;
       padding: 30px;
       text-align: center;
       color: #888;
       font-size: 14px;
-    }
-
-    /* MOBILE POLIMENTO LEVE (sem mudar layout) */
-    @media (max-width: 720px) {
-      header { padding: 14px 18px; }
-      nav a { margin-left: 14px; }
-      .brand img { height: 40px; }
-      section { padding: 110px 18px 50px 18px; }
-      .hero-wrap { margin-top: 74px; min-height: 480px; }
     }
   </style>
 </head>
@@ -258,11 +146,11 @@
 
 <header>
   <div class="brand">
-    <!-- Logo embutido (não precisa subir arquivo agora) -->
-    <img
-      alt="Curadoria Elite Travel"
-      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAABY2lDQ1BJQ0MgUHJvZmlsZQAAKJF9kT1Iw0AcxV9TtSIVBTsU4oJYKGqgKKiWqFQqHWFanSotQqgU0fA6cZqSFBdHwbXg4Mdi1cHR1cHFxVXB0cHf4f2SHoWk6xFz8c9+9x7n3fP4C8xqKpZbWQxjQKkY5Dsy8pU0oS8ihVwWfE8yY0rJv3c1z/0Y0pS8hJkXkq8Q7xJmWJxYxH0iJjHfE8cYxj5iWl8w3iWZ8TzxGgk8SSKx2i8xTjXlYxD0UeJY4q1YtZ1rVY5xTnWlXbVJk9lY0oS4iE0VQhQqIYhDCRkqGqVQm+f4h+0+o1lKXKkCkM8xHkQKq1gP+P4H/ju2b4yVqVwG4b7j3CwV4VgN4d6x1p8y4Q8g2Qw0b9cBfYz8s2bWq9wPpZ1l8a4A5g0dLrZ2t9pB+T+gqkq0i8w8gG0qzT7pB2C8S+gWZ1pY6wL8m8r9tFQF4m0H3m0Q4gZ5uC2Qb0z7wAAANlJREFUeF7t3QENAAAIw6D7Z8l9mQKqQbOeVwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4G8gAAQm6o7kAAAAASUVORK5CYII="
-    />
+    <img src="images/rosa-dos-ventos.png" alt="Rosa dos Ventos">
+    <div>
+      <div class="brand-name">Curadoria Elite Travel</div>
+      <div class="brand-tagline">O seu mundo, bem indicado.</div>
+    </div>
   </div>
 
   <nav>
@@ -274,195 +162,46 @@
   </nav>
 </header>
 
-<!-- INICIO -->
 <section id="inicio" class="active">
-  <div class="hero-wrap" id="heroWrap">
-    <!-- duas camadas para fade suave -->
-    <div class="hero-bg-layer active" id="bgA"></div>
-    <div class="hero-bg-layer" id="bgB"></div>
+  <div class="hero">
+    <div class="hero-bg active" id="bg1"
+      style="background-image:url('https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=2000&q=80')"></div>
+    <div class="hero-bg" id="bg2"
+      style="background-image:url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=2000&q=80')"></div>
 
     <div class="hero-overlay"></div>
 
-    <!-- rosa dos ventos (marca d’água) -->
-    <div
-      class="hero-watermark"
-      style="background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAABY2lDQ1BJQ0MgUHJvZmlsZQAAKJF9kT1Iw0AcxV9TtSIVBTsU4oJYKGqgKKiWqFQqHWFanSotQqgU0fA6cZqSFBdHwbXg4Mdi1cHR1cHFxVXB0cHf4f2SHoWk6xFz8c9+9x7n3fP4C8xqKpZbWQxjQKkY5Dsy8pU0oS8ihVwWfE8yY0rJv3c1z/0Y0pS8hJkXkq8Q7xJmWJxYxH0iJjHfE8cYxj5iWl8w3iWZ8TzxGgk8SSKx2i8xTjXlYxD0UeJY4q1YtZ1rVY5xTnWlXbVJk9lY0oS4iE0VQhQqIYhDCRkqGqVQm+f4h+0+o1lKXKkCkM8xHkQKq1gP+P4H/ju2b4yVqVwG4b7j3CwV4VgN4d6x1p8y4Q8g2Qw0b9cBfYz8s2bWq9wPpZ1l8a4A5g0dLrZ2t9pB+T+gqkq0i8w8gG0qzT7pB2C8S+gWZ1pY6wL8m8r9tFQF4m0H3m0Q4gZ5uC2Qb0z7wAAANlJREFUeF7t3QENAAAIw6D7Z8l9mQKqQbOeVwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4G8gAAQm6o7kAAAAASUVORK5CYII=');"
-    ></div>
-
     <div class="hero-content">
-      <div class="hero-box">
-        <h1 class="hero-title">Uma plataforma de curadoria para viajar melhor.</h1>
-        <p class="hero-sub">Curadoria que orienta. Decisão que flui.</p>
-        <p class="hero-support">
-          Selecionamos e organizamos informações essenciais para que suas escolhas de viagem sejam mais seguras, claras e bem fundamentadas.
-        </p>
+      <div>
+        <h1>Uma plataforma de curadoria para viajar melhor.</h1>
+        <p>Curadoria que orienta. Decisão que flui.</p>
+        <p>Selecionamos e organizamos informações essenciais para decisões de viagem mais seguras e bem fundamentadas.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- QUEM SOMOS -->
-<section id="quem">
-  <h1>Quem Somos</h1>
-  <p style="text-align:center; color:#ccc;">
-    A Curadoria Elite Travel nasce para organizar informações, indicar caminhos confiáveis e facilitar decisões de viagem com critério e clareza.
-  </p>
-</section>
-
-<!-- CURADORIA -->
-<section id="curadoria">
-  <h1>Curadoria</h1>
-  <p style="text-align:center; color:#ccc; margin-bottom:30px;">
-    Materiais digitais desenvolvidos para quem valoriza tempo, critério e boas decisões antes de viajar.
-  </p>
-
-  <div class="grid">
-    <!-- Overview -->
-    <div class="card" onclick="openOverview()">
-      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
-      <h3>Overview</h3>
-      <p>Conheça o formato, a profundidade e o padrão dos materiais que entregamos.</p>
-    </div>
-
-    <!-- Categorias -->
-    <div class="card" onclick="openCategoria('City Guide')">
-      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
-      <h3>City Guide</h3>
-    </div>
-    <div class="card" onclick="openCategoria('Gastronomia')">
-      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80">
-      <h3>Gastronomia</h3>
-    </div>
-    <div class="card" onclick="openCategoria('Atrações Turísticas')">
-      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
-      <h3>Atrações Turísticas</h3>
-    </div>
-    <div class="card" onclick="openCategoria('Experiências')">
-      <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80">
-      <h3>Experiências</h3>
-    </div>
-  </div>
-</section>
-
-<!-- CATEGORIA INTERNA -->
-<section id="categoria-interna">
-  <h1 id="categoria-title"></h1>
-  <div class="grid" id="categoria-cards"></div>
-  <button onclick="showSection('curadoria')">Voltar</button>
-</section>
-
-<!-- POPUP Overview e Material -->
-<div class="popup-bg" id="popup">
-  <div class="popup-content" id="popup-content">
-    <p id="popup-text"></p>
-    <button id="popup-prosseguir">Prosseguir para compra</button>
-    <button onclick="closePopup()">Fechar</button>
-  </div>
-</div>
-
 <footer>
-  Curadoria Elite Travel · O seu mundo, bem indicado.<br />
+  Curadoria Elite Travel · O seu mundo, bem indicado.<br>
   São Paulo – SP · curadoriaelitetravel@gmail.com
 </footer>
 
 <script>
-  // Navegação por seções
   function showSection(id) {
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
     document.getElementById(id).classList.add("active");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  // Overview
-  function openOverview() {
-    const popup = document.getElementById("popup");
-    const text = document.getElementById("popup-text");
-    text.innerHTML = `Preview do material Curadoria: <br>
-      <a href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf" target="_blank" style="color:#d4af37;">Clique aqui para abrir o overview</a>`;
-    document.getElementById("popup-prosseguir").style.display = "none";
-    popup.classList.add("active");
-  }
+  const bg1 = document.getElementById("bg1");
+  const bg2 = document.getElementById("bg2");
+  let showFirst = false;
 
-  function closePopup() {
-    document.getElementById("popup").classList.remove("active");
-  }
-
-  // Categorias (mantido como estava)
-  const categoriaMateriais = {
-    "City Guide": [
-      { cidade: "São Paulo, SP - Brasil" },
-      { cidade: "Rio de Janeiro, RJ - Brasil" },
-      { cidade: "Paris, França" },
-      { cidade: "New York, NY - USA" }
-    ],
-    "Gastronomia": [
-      { cidade: "São Paulo, SP - Brasil" },
-      { cidade: "Rio de Janeiro, RJ - Brasil" }
-    ]
-  };
-
-  function openCategoria(categoria) {
-    showSection('categoria-interna');
-    document.getElementById("categoria-title").innerText = categoria;
-    const container = document.getElementById("categoria-cards");
-    container.innerHTML = "";
-    (categoriaMateriais[categoria] || []).forEach(item => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `<h3>${item.cidade}</h3>
-        <button onclick="openMaterialPopup('${categoria}')">Clique para acessar material</button>`;
-      container.appendChild(card);
-    });
-  }
-
-  function openMaterialPopup(categoria) {
-    const popup = document.getElementById("popup");
-    const text = document.getElementById("popup-text");
-    text.innerHTML = `${categoria} é um material digital de apoio à viagem. Não é possível troca ou reembolso.`;
-    document.getElementById("popup-prosseguir").style.display = "inline-block";
-    popup.classList.add("active");
-  }
-
-  // HERO: carrossel suave (fade)
-  const heroImages = [
-    "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1800&q=80",
-    "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1800&q=80",
-    "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=80"
-  ];
-
-  let heroIndex = 0;
-  let useA = true;
-
-  const bgA = document.getElementById("bgA");
-  const bgB = document.getElementById("bgB");
-
-  function setLayerBg(layer, url) {
-    layer.style.backgroundImage = `url('${url}')`;
-  }
-
-  // inicia
-  setLayerBg(bgA, heroImages[0]);
-  bgA.classList.add("active");
-  bgB.classList.remove("active");
-
-  function rotateHero() {
-    heroIndex = (heroIndex + 1) % heroImages.length;
-
-    if (useA) {
-      setLayerBg(bgB, heroImages[heroIndex]);
-      bgB.classList.add("active");
-      bgA.classList.remove("active");
-    } else {
-      setLayerBg(bgA, heroImages[heroIndex]);
-      bgA.classList.add("active");
-      bgB.classList.remove("active");
-    }
-
-    useA = !useA;
-  }
-
-  // tempo do carrossel (suave)
-  setInterval(rotateHero, 6500);
+  setInterval(() => {
+    showFirst = !showFirst;
+    bg1.classList.toggle("active", showFirst);
+    bg2.classList.toggle("active", !showFirst);
+  }, 16000);
 </script>
 
 </body>
