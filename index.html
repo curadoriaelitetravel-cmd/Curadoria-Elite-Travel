@@ -14,16 +14,34 @@
       overflow-x: hidden;
     }
 
+    /* HEADER INTEGRADO AO HERO (UNIFICADO) */
     header {
-      padding: 20px 40px;
-      border-bottom: 1px solid #222;
+      padding: 18px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: fixed;
       width: 100%;
-      background: rgba(0,0,0,0.85);
+      left: 0;
+      top: 0;
       z-index: 1000;
+      background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 180px;
+    }
+
+    .brand img {
+      height: 46px;
+      width: auto;
+      display: block;
     }
 
     nav a {
@@ -52,48 +70,98 @@
       color: #d4af37;
     }
 
-    /* HERO COM FUNDO EM CARROSSEL */
-    .hero {
+    /* HERO UNIFICADO (FUNDO + HEADER + HOME) */
+    .hero-wrap {
       position: relative;
-      height: 420px;
+      width: 100%;
+      height: 78vh;
+      min-height: 520px;
+      max-height: 760px;
       border-radius: 16px;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      margin-bottom: 40px;
+      margin-top: 86px; /* espaço do header fixo */
     }
 
-    .hero::before {
-      content: "";
+    .hero-bg-layer {
       position: absolute;
       inset: 0;
       background-size: cover;
       background-position: center;
-      transition: opacity 1.5s ease;
-      z-index: 1;
+      transform: scale(1.03);
+      transition: opacity 1.6s ease;
+      opacity: 0;
+      will-change: opacity;
+    }
+
+    .hero-bg-layer.active {
+      opacity: 1;
     }
 
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.55);
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,0.62) 0%,
+        rgba(0,0,0,0.50) 45%,
+        rgba(0,0,0,0.70) 100%
+      );
       z-index: 2;
+    }
+
+    /* Rosa dos ventos como marca d’água (bem sutil) */
+    .hero-watermark {
+      position: absolute;
+      inset: 0;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: min(520px, 70vw);
+      opacity: 0.10; /* bem discreto */
+      z-index: 3;
+      pointer-events: none;
+      filter: blur(0.2px);
     }
 
     .hero-content {
       position: relative;
-      z-index: 3;
-      max-width: 900px;
-      padding: 20px;
+      z-index: 4;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
     }
 
-    .hero p {
-      color: #ccc;
+    .hero-box {
+      max-width: 940px;
+      padding: 10px 18px;
+    }
+
+    .hero-title {
+      margin: 0 0 12px 0;
+      font-size: clamp(26px, 3.2vw, 44px);
+      line-height: 1.15;
+      font-weight: 700;
+      color: #d4af37;
+      letter-spacing: 0.2px;
+    }
+
+    .hero-sub {
+      margin: 0 0 10px 0;
+      color: #e8e8e8;
       font-size: 16px;
+      line-height: 1.6;
     }
 
+    .hero-support {
+      margin: 0;
+      color: #cfcfcf;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    /* RESTANTE DO SITE (inalterado) */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -109,6 +177,7 @@
       cursor: pointer;
       text-align: center;
       transition: all 0.4s ease;
+      position: relative;
     }
 
     .card img {
@@ -136,6 +205,7 @@
       margin-top: 8px;
     }
 
+    /* POPUP */
     .popup-bg {
       position: fixed;
       inset: 0;
@@ -156,6 +226,12 @@
       max-width: 600px;
       border-radius: 14px;
       text-align: center;
+      color: #fff;
+      position: relative;
+    }
+
+    .popup-content button {
+      margin: 10px 8px 0 8px;
     }
 
     footer {
@@ -166,13 +242,29 @@
       color: #888;
       font-size: 14px;
     }
+
+    /* MOBILE POLIMENTO LEVE (sem mudar layout) */
+    @media (max-width: 720px) {
+      header { padding: 14px 18px; }
+      nav a { margin-left: 14px; }
+      .brand img { height: 40px; }
+      section { padding: 110px 18px 50px 18px; }
+      .hero-wrap { margin-top: 74px; min-height: 480px; }
+    }
   </style>
 </head>
 
 <body>
 
 <header>
-  <strong>Curadoria Elite Travel</strong>
+  <div class="brand">
+    <!-- Logo embutido (não precisa subir arquivo agora) -->
+    <img
+      alt="Curadoria Elite Travel"
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAABY2lDQ1BJQ0MgUHJvZmlsZQAAKJF9kT1Iw0AcxV9TtSIVBTsU4oJYKGqgKKiWqFQqHWFanSotQqgU0fA6cZqSFBdHwbXg4Mdi1cHR1cHFxVXB0cHf4f2SHoWk6xFz8c9+9x7n3fP4C8xqKpZbWQxjQKkY5Dsy8pU0oS8ihVwWfE8yY0rJv3c1z/0Y0pS8hJkXkq8Q7xJmWJxYxH0iJjHfE8cYxj5iWl8w3iWZ8TzxGgk8SSKx2i8xTjXlYxD0UeJY4q1YtZ1rVY5xTnWlXbVJk9lY0oS4iE0VQhQqIYhDCRkqGqVQm+f4h+0+o1lKXKkCkM8xHkQKq1gP+P4H/ju2b4yVqVwG4b7j3CwV4VgN4d6x1p8y4Q8g2Qw0b9cBfYz8s2bWq9wPpZ1l8a4A5g0dLrZ2t9pB+T+gqkq0i8w8gG0qzT7pB2C8S+gWZ1pY6wL8m8r9tFQF4m0H3m0Q4gZ5uC2Qb0z7wAAANlJREFUeF7t3QENAAAIw6D7Z8l9mQKqQbOeVwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4G8gAAQm6o7kAAAAASUVORK5CYII="
+    />
+  </div>
+
   <nav>
     <a onclick="showSection('inicio')">Início</a>
     <a onclick="showSection('quem')">Quem Somos</a>
@@ -182,27 +274,42 @@
   </nav>
 </header>
 
+<!-- INICIO -->
 <section id="inicio" class="active">
-  <div class="hero" id="hero">
+  <div class="hero-wrap" id="heroWrap">
+    <!-- duas camadas para fade suave -->
+    <div class="hero-bg-layer active" id="bgA"></div>
+    <div class="hero-bg-layer" id="bgB"></div>
+
     <div class="hero-overlay"></div>
+
+    <!-- rosa dos ventos (marca d’água) -->
+    <div
+      class="hero-watermark"
+      style="background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAABY2lDQ1BJQ0MgUHJvZmlsZQAAKJF9kT1Iw0AcxV9TtSIVBTsU4oJYKGqgKKiWqFQqHWFanSotQqgU0fA6cZqSFBdHwbXg4Mdi1cHR1cHFxVXB0cHf4f2SHoWk6xFz8c9+9x7n3fP4C8xqKpZbWQxjQKkY5Dsy8pU0oS8ihVwWfE8yY0rJv3c1z/0Y0pS8hJkXkq8Q7xJmWJxYxH0iJjHfE8cYxj5iWl8w3iWZ8TzxGgk8SSKx2i8xTjXlYxD0UeJY4q1YtZ1rVY5xTnWlXbVJk9lY0oS4iE0VQhQqIYhDCRkqGqVQm+f4h+0+o1lKXKkCkM8xHkQKq1gP+P4H/ju2b4yVqVwG4b7j3CwV4VgN4d6x1p8y4Q8g2Qw0b9cBfYz8s2bWq9wPpZ1l8a4A5g0dLrZ2t9pB+T+gqkq0i8w8gG0qzT7pB2C8S+gWZ1pY6wL8m8r9tFQF4m0H3m0Q4gZ5uC2Qb0z7wAAANlJREFUeF7t3QENAAAIw6D7Z8l9mQKqQbOeVwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4G8gAAQm6o7kAAAAASUVORK5CYII=');"
+    ></div>
+
     <div class="hero-content">
-      <h1>Curadoria que orienta. Decisão que flui.</h1>
-      <p>
-        Selecionamos e organizamos informações essenciais para que suas escolhas de viagem
-        sejam mais seguras, claras e bem fundamentadas.
-      </p>
+      <div class="hero-box">
+        <h1 class="hero-title">Uma plataforma de curadoria para viajar melhor.</h1>
+        <p class="hero-sub">Curadoria que orienta. Decisão que flui.</p>
+        <p class="hero-support">
+          Selecionamos e organizamos informações essenciais para que suas escolhas de viagem sejam mais seguras, claras e bem fundamentadas.
+        </p>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- QUEM SOMOS -->
 <section id="quem">
   <h1>Quem Somos</h1>
   <p style="text-align:center; color:#ccc;">
-    A Curadoria Elite Travel nasce para organizar informações, indicar caminhos confiáveis
-    e facilitar decisões de viagem com critério e clareza.
+    A Curadoria Elite Travel nasce para organizar informações, indicar caminhos confiáveis e facilitar decisões de viagem com critério e clareza.
   </p>
 </section>
 
+<!-- CURADORIA -->
 <section id="curadoria">
   <h1>Curadoria</h1>
   <p style="text-align:center; color:#ccc; margin-bottom:30px;">
@@ -210,17 +317,45 @@
   </p>
 
   <div class="grid">
+    <!-- Overview -->
     <div class="card" onclick="openOverview()">
       <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
       <h3>Overview</h3>
       <p>Conheça o formato, a profundidade e o padrão dos materiais que entregamos.</p>
     </div>
+
+    <!-- Categorias -->
+    <div class="card" onclick="openCategoria('City Guide')">
+      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
+      <h3>City Guide</h3>
+    </div>
+    <div class="card" onclick="openCategoria('Gastronomia')">
+      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80">
+      <h3>Gastronomia</h3>
+    </div>
+    <div class="card" onclick="openCategoria('Atrações Turísticas')">
+      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
+      <h3>Atrações Turísticas</h3>
+    </div>
+    <div class="card" onclick="openCategoria('Experiências')">
+      <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80">
+      <h3>Experiências</h3>
+    </div>
   </div>
 </section>
 
+<!-- CATEGORIA INTERNA -->
+<section id="categoria-interna">
+  <h1 id="categoria-title"></h1>
+  <div class="grid" id="categoria-cards"></div>
+  <button onclick="showSection('curadoria')">Voltar</button>
+</section>
+
+<!-- POPUP Overview e Material -->
 <div class="popup-bg" id="popup">
-  <div class="popup-content">
+  <div class="popup-content" id="popup-content">
     <p id="popup-text"></p>
+    <button id="popup-prosseguir">Prosseguir para compra</button>
     <button onclick="closePopup()">Fechar</button>
   </div>
 </div>
@@ -231,38 +366,103 @@
 </footer>
 
 <script>
+  // Navegação por seções
   function showSection(id) {
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
     document.getElementById(id).classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  // Overview
   function openOverview() {
-    document.getElementById("popup-text").innerHTML =
-      '<a href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf" target="_blank" style="color:#d4af37;">Clique aqui para abrir o overview</a>';
-    document.getElementById("popup").classList.add("active");
+    const popup = document.getElementById("popup");
+    const text = document.getElementById("popup-text");
+    text.innerHTML = `Preview do material Curadoria: <br>
+      <a href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf" target="_blank" style="color:#d4af37;">Clique aqui para abrir o overview</a>`;
+    document.getElementById("popup-prosseguir").style.display = "none";
+    popup.classList.add("active");
   }
 
   function closePopup() {
     document.getElementById("popup").classList.remove("active");
   }
 
+  // Categorias (mantido como estava)
+  const categoriaMateriais = {
+    "City Guide": [
+      { cidade: "São Paulo, SP - Brasil" },
+      { cidade: "Rio de Janeiro, RJ - Brasil" },
+      { cidade: "Paris, França" },
+      { cidade: "New York, NY - USA" }
+    ],
+    "Gastronomia": [
+      { cidade: "São Paulo, SP - Brasil" },
+      { cidade: "Rio de Janeiro, RJ - Brasil" }
+    ]
+  };
+
+  function openCategoria(categoria) {
+    showSection('categoria-interna');
+    document.getElementById("categoria-title").innerText = categoria;
+    const container = document.getElementById("categoria-cards");
+    container.innerHTML = "";
+    (categoriaMateriais[categoria] || []).forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<h3>${item.cidade}</h3>
+        <button onclick="openMaterialPopup('${categoria}')">Clique para acessar material</button>`;
+      container.appendChild(card);
+    });
+  }
+
+  function openMaterialPopup(categoria) {
+    const popup = document.getElementById("popup");
+    const text = document.getElementById("popup-text");
+    text.innerHTML = `${categoria} é um material digital de apoio à viagem. Não é possível troca ou reembolso.`;
+    document.getElementById("popup-prosseguir").style.display = "inline-block";
+    popup.classList.add("active");
+  }
+
+  // HERO: carrossel suave (fade)
   const heroImages = [
-    "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1600&q=80",
-    "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1600&q=80",
-    "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80"
+    "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1800&q=80",
+    "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1800&q=80",
+    "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=80"
   ];
 
   let heroIndex = 0;
-  const hero = document.getElementById("hero");
+  let useA = true;
 
-  function updateHeroBackground() {
-    hero.style.setProperty("--bg", `url('${heroImages[heroIndex]}')`);
-    hero.style.backgroundImage = `url('${heroImages[heroIndex]}')`;
-    heroIndex = (heroIndex + 1) % heroImages.length;
+  const bgA = document.getElementById("bgA");
+  const bgB = document.getElementById("bgB");
+
+  function setLayerBg(layer, url) {
+    layer.style.backgroundImage = `url('${url}')`;
   }
 
-  updateHeroBackground();
-  setInterval(updateHeroBackground, 5000);
+  // inicia
+  setLayerBg(bgA, heroImages[0]);
+  bgA.classList.add("active");
+  bgB.classList.remove("active");
+
+  function rotateHero() {
+    heroIndex = (heroIndex + 1) % heroImages.length;
+
+    if (useA) {
+      setLayerBg(bgB, heroImages[heroIndex]);
+      bgB.classList.add("active");
+      bgA.classList.remove("active");
+    } else {
+      setLayerBg(bgA, heroImages[heroIndex]);
+      bgA.classList.add("active");
+      bgB.classList.remove("active");
+    }
+
+    useA = !useA;
+  }
+
+  // tempo do carrossel (suave)
+  setInterval(rotateHero, 6500);
 </script>
 
 </body>
