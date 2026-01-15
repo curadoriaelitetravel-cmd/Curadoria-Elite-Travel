@@ -142,7 +142,7 @@
 
     /* ===== QUEM SOMOS (PAINÉIS LATERAIS) ===== */
     #quem {
-      max-width: none; /* permite os painéis irem mais para as laterais */
+      max-width: none;
       padding-left: 0;
       padding-right: 0;
     }
@@ -151,9 +151,14 @@
       display: grid;
       grid-template-columns: minmax(260px, 1fr) minmax(520px, 760px) minmax(260px, 1fr);
       gap: 26px;
-      align-items: start;
+      align-items: stretch; /* IMPORTANTE: estica as colunas para mesma altura */
       padding: 0 40px;
       box-sizing: border-box;
+    }
+
+    .about-center {
+      display: flex;
+      flex-direction: column;
     }
 
     .about-center h2 {
@@ -183,14 +188,32 @@
       color: #ccc;
     }
 
+    /* destaque premium (dourado pontual) */
+    .rules-block strong {
+      color: #d4af37;
+      font-weight: 700;
+    }
+
+    .rules-block .hl {
+      color: #d4af37;
+      font-weight: 600;
+    }
+
+    /* Painéis laterais agora seguem a altura do centro (sem altura fixa) */
     .side-panel {
       position: relative;
-      height: 520px; /* retângulo grande, como você pediu */
       border-radius: 18px;
       overflow: hidden;
       border: 1px solid #222;
       background: #0b0b0b;
-      margin-top: 92px; /* alinha visualmente com o conteúdo central */
+      margin-top: 92px;
+      height: calc(100% - 92px); /* termina junto com o centro */
+    }
+
+    /* Garantia caso o navegador interprete diferente */
+    .side-panel-inner {
+      position: absolute;
+      inset: 0;
     }
 
     .side-bg {
@@ -200,7 +223,6 @@
       opacity: 0;
       transition: opacity 3.2s ease;
       transform: scale(1.02);
-      /* um pouco mais de brilho, mas mantendo premium */
       filter: brightness(0.72) saturate(0.9) contrast(0.95);
     }
 
@@ -236,12 +258,11 @@
       header { padding: 14px 16px; }
       nav a { margin-left: 14px; }
 
-      #quem { padding-left: 0; padding-right: 0; }
-
       .about-layout {
         grid-template-columns: 1fr;
         padding: 0 16px;
         gap: 16px;
+        align-items: start;
       }
 
       .side-panel {
@@ -249,7 +270,6 @@
         margin-top: 0;
       }
 
-      /* No mobile, fica mais bonito centralizado */
       .side-bg.left, .side-bg.right { background-position: center; }
     }
   </style>
@@ -293,15 +313,17 @@
 <section id="quem">
   <div class="about-layout">
 
-    <!-- Painel lateral ESQUERDO (vermelho no seu print) -->
+    <!-- Painel lateral ESQUERDO -->
     <div class="side-panel" aria-hidden="true">
-      <div class="side-bg left active" id="sl1"></div>
-      <div class="side-bg left" id="sl2"></div>
-      <div class="side-overlay"></div>
-      <div class="side-caption">Critério · Orientação · Decisão</div>
+      <div class="side-panel-inner">
+        <div class="side-bg left active" id="sl1"></div>
+        <div class="side-bg left" id="sl2"></div>
+        <div class="side-overlay"></div>
+        <div class="side-caption">Critério · Orientação · Decisão</div>
+      </div>
     </div>
 
-    <!-- Centro (título + texto + regras) -->
+    <!-- Centro -->
     <div class="about-center">
       <h2>Quem Somos</h2>
 
@@ -316,19 +338,26 @@
 
       <div class="rules-block">
         <strong>Informações Importantes</strong><br><br>
+
         A Curadoria Elite Travel oferece exclusivamente materiais digitais de caráter informativo e orientativo, baseados em indicações, referências e conteúdos selecionados.<br><br>
+
         Não realizamos reservas, vendas de passagens, hospedagens, experiências ou qualquer tipo de intermediação direta com fornecedores ou prestadores de serviço.<br><br>
-        As decisões de compra, contratação e utilização de serviços indicados nos materiais são de responsabilidade exclusiva do usuário, assim como qualquer tratativa, solicitação, alteração ou eventual problema relacionado aos serviços contratados.<br><br>
-        Por se tratar de conteúdo digital disponibilizado de forma imediata após a confirmação da compra, não é possível realizar cancelamentos, trocas ou reembolsos.<br><br>
+
+        As decisões de compra, contratação e utilização de serviços indicados nos materiais são de <span class="hl">responsabilidade exclusiva do usuário</span>, assim como qualquer tratativa, solicitação, alteração ou eventual problema relacionado aos serviços contratados.<br><br>
+
+        Por se tratar de conteúdo digital disponibilizado de forma imediata após a confirmação da compra, <span class="hl">não é possível realizar cancelamentos, trocas ou reembolsos</span>.<br><br>
+
         Ao adquirir nossos materiais, o usuário declara estar ciente e de acordo com essas condições.
       </div>
     </div>
 
-    <!-- Painel lateral DIREITO (azul no seu print) -->
+    <!-- Painel lateral DIREITO -->
     <div class="side-panel" aria-hidden="true">
-      <div class="side-bg right active" id="sr1"></div>
-      <div class="side-bg right" id="sr2"></div>
-      <div class="side-overlay"></div>
+      <div class="side-panel-inner">
+        <div class="side-bg right active" id="sr1"></div>
+        <div class="side-bg right" id="sr2"></div>
+        <div class="side-overlay"></div>
+      </div>
     </div>
 
   </div>
@@ -357,13 +386,13 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  // HOME - carrossel global (já aprovado)
+  // HOME - carrossel global
   const heroImages = [
-    "https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80", // Londres
-    "https://images.unsplash.com/photo-1549921296-3ecf6b4b38b3?auto=format&fit=crop&w=2400&q=80", // New York
-    "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=2400&q=80", // Roma
-    "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=2400&q=80", // Taj Mahal
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=80"  // Praia
+    "https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1549921296-3ecf6b4b38b3?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=80"
   ];
 
   const bg1 = document.getElementById("bg1");
@@ -385,11 +414,11 @@
     showingFirst = !showingFirst;
   }, 16000);
 
-  // QUEM SOMOS — painéis laterais com a mesma imagem (esquerda/direita) trocando juntos
+  // QUEM SOMOS — painéis laterais trocando juntos
   const aboutPanoramaImages = [
-    "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=2400&q=80", // Biblioteca
-    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2400&q=80", // Mapa / orientação
-    "https://images.unsplash.com/photo-1500043357865-c6b8827edf2a?auto=format&fit=crop&w=2400&q=80"  // Viagem elegante
+    "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1500043357865-c6b8827edf2a?auto=format&fit=crop&w=2400&q=80"
   ];
 
   const sl1 = document.getElementById("sl1");
@@ -400,7 +429,6 @@
   let apIndex = 0;
   let apShowFirst = true;
 
-  // inicia com a primeira imagem em ambos os painéis
   sl1.style.backgroundImage = `url('${aboutPanoramaImages[0]}')`;
   sr1.style.backgroundImage = `url('${aboutPanoramaImages[0]}')`;
 
