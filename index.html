@@ -39,6 +39,8 @@
       padding: 120px 40px 60px 40px;
       max-width: 1200px;
       margin: auto;
+      position: relative;
+      z-index: 2;
     }
 
     section.active {
@@ -50,19 +52,46 @@
       color: #d4af37;
     }
 
-    .carousel {
-      display: flex;
-      overflow: hidden;
-      border-radius: 14px;
-      margin-bottom: 40px;
-      max-height: 400px;
+    /* HERO COM FUNDO EM CARROSSEL */
+    .hero {
       position: relative;
+      height: 420px;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 40px;
     }
 
-    .carousel img {
-      width: 100%;
-      object-fit: cover;
-      transition: transform 0.8s ease;
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: opacity 1.5s ease;
+      z-index: 1;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 900px;
+      padding: 20px;
+    }
+
+    .hero p {
+      color: #ccc;
+      font-size: 16px;
     }
 
     .grid {
@@ -80,7 +109,6 @@
       cursor: pointer;
       text-align: center;
       transition: all 0.4s ease;
-      position: relative;
     }
 
     .card img {
@@ -108,7 +136,6 @@
       margin-top: 8px;
     }
 
-    /* POPUP */
     .popup-bg {
       position: fixed;
       inset: 0;
@@ -129,12 +156,6 @@
       max-width: 600px;
       border-radius: 14px;
       text-align: center;
-      color: #fff;
-      position: relative;
-    }
-
-    .popup-content button {
-      margin: 10px 8px 0 8px;
     }
 
     footer {
@@ -147,6 +168,7 @@
     }
   </style>
 </head>
+
 <body>
 
 <header>
@@ -160,28 +182,27 @@
   </nav>
 </header>
 
-<!-- INICIO -->
 <section id="inicio" class="active">
-  <h1>Curadoria que orienta. Decisão que flui.</h1>
-  <p style="text-align:center; color:#ccc; margin-bottom:20px;">
-    Selecionamos e organizamos informações essenciais para que suas escolhas de viagem sejam mais seguras, claras e bem fundamentadas.
-  </p>
-  <div class="carousel">
-    <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
-    <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
-    <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80">
+  <div class="hero" id="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Curadoria que orienta. Decisão que flui.</h1>
+      <p>
+        Selecionamos e organizamos informações essenciais para que suas escolhas de viagem
+        sejam mais seguras, claras e bem fundamentadas.
+      </p>
+    </div>
   </div>
 </section>
 
-<!-- QUEM SOMOS -->
 <section id="quem">
   <h1>Quem Somos</h1>
   <p style="text-align:center; color:#ccc;">
-    A Curadoria Elite Travel nasce para organizar informações, indicar caminhos confiáveis e facilitar decisões de viagem com critério e clareza.
+    A Curadoria Elite Travel nasce para organizar informações, indicar caminhos confiáveis
+    e facilitar decisões de viagem com critério e clareza.
   </p>
 </section>
 
-<!-- CURADORIA -->
 <section id="curadoria">
   <h1>Curadoria</h1>
   <p style="text-align:center; color:#ccc; margin-bottom:30px;">
@@ -189,45 +210,17 @@
   </p>
 
   <div class="grid">
-    <!-- Overview -->
     <div class="card" onclick="openOverview()">
       <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
       <h3>Overview</h3>
       <p>Conheça o formato, a profundidade e o padrão dos materiais que entregamos.</p>
     </div>
-
-    <!-- Categorias -->
-    <div class="card" onclick="openCategoria('City Guide')">
-      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
-      <h3>City Guide</h3>
-    </div>
-    <div class="card" onclick="openCategoria('Gastronomia')">
-      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80">
-      <h3>Gastronomia</h3>
-    </div>
-    <div class="card" onclick="openCategoria('Atrações Turísticas')">
-      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
-      <h3>Atrações Turísticas</h3>
-    </div>
-    <div class="card" onclick="openCategoria('Experiências')">
-      <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80">
-      <h3>Experiências</h3>
-    </div>
   </div>
 </section>
 
-<!-- CATEGORIA INTERNA -->
-<section id="categoria-interna">
-  <h1 id="categoria-title"></h1>
-  <div class="grid" id="categoria-cards"></div>
-  <button onclick="showSection('curadoria')">Voltar</button>
-</section>
-
-<!-- POPUP Overview e Material -->
 <div class="popup-bg" id="popup">
-  <div class="popup-content" id="popup-content">
+  <div class="popup-content">
     <p id="popup-text"></p>
-    <button id="popup-prosseguir">Prosseguir para compra</button>
     <button onclick="closePopup()">Fechar</button>
   </div>
 </div>
@@ -244,62 +237,32 @@
   }
 
   function openOverview() {
-    const popup = document.getElementById("popup");
-    const text = document.getElementById("popup-text");
-    text.innerHTML = `Preview do material Curadoria: <br>
-      <a href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf" target="_blank" style="color:#d4af37;">Clique aqui para abrir o overview</a>`;
-    document.getElementById("popup-prosseguir").style.display = "none";
-    popup.classList.add("active");
+    document.getElementById("popup-text").innerHTML =
+      '<a href="https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf" target="_blank" style="color:#d4af37;">Clique aqui para abrir o overview</a>';
+    document.getElementById("popup").classList.add("active");
   }
 
   function closePopup() {
     document.getElementById("popup").classList.remove("active");
   }
 
-  const categoriaMateriais = {
-    "City Guide": [
-      { cidade: "São Paulo, SP - Brasil" },
-      { cidade: "Rio de Janeiro, RJ - Brasil" },
-      { cidade: "Paris, França" },
-      { cidade: "New York, NY - USA" }
-    ],
-    "Gastronomia": [
-      { cidade: "São Paulo, SP - Brasil" },
-      { cidade: "Rio de Janeiro, RJ - Brasil" }
-    ]
+  const heroImages = [
+    "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80"
+  ];
+
+  let heroIndex = 0;
+  const hero = document.getElementById("hero");
+
+  function updateHeroBackground() {
+    hero.style.setProperty("--bg", `url('${heroImages[heroIndex]}')`);
+    hero.style.backgroundImage = `url('${heroImages[heroIndex]}')`;
+    heroIndex = (heroIndex + 1) % heroImages.length;
   }
 
-  function openCategoria(categoria) {
-    showSection('categoria-interna');
-    document.getElementById("categoria-title").innerText = categoria;
-    const container = document.getElementById("categoria-cards");
-    container.innerHTML = "";
-    (categoriaMateriais[categoria] || []).forEach(item => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `<h3>${item.cidade}</h3>
-        <button onclick="openMaterialPopup('${categoria}')">Clique para acessar material</button>`;
-      container.appendChild(card);
-    });
-  }
-
-  function openMaterialPopup(categoria) {
-    const popup = document.getElementById("popup");
-    const text = document.getElementById("popup-text");
-    text.innerHTML = `${categoria} é um material digital de apoio à viagem. Não é possível troca ou reembolso.`;
-    document.getElementById("popup-prosseguir").style.display = "inline-block";
-    popup.classList.add("active");
-  }
-
-  let carouselIndex = 0;
-  const carousel = document.querySelector(".carousel");
-  if(carousel) {
-    const imgs = carousel.querySelectorAll("img");
-    setInterval(() => {
-      imgs.forEach((img,i) => img.style.transform = `translateX(-${carouselIndex*100}%)`);
-      carouselIndex = (carouselIndex+1) % imgs.length;
-    }, 4000);
-  }
+  updateHeroBackground();
+  setInterval(updateHeroBackground, 5000);
 </script>
 
 </body>
