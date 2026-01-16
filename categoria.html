@@ -252,35 +252,59 @@
       letter-spacing:0.2px;
     }
 
-    /* ========= CURADORIA (hub) ========= */
+    /* ========= CURADORIA ========= */
     #curadoria{
       position:relative;
+      max-width:none;
+      margin:0;
+      padding:0;
+      min-height:100vh;
+      overflow:hidden;
     }
 
-    /* Fundo com profundidade (elite, minimalista) */
-    #curadoria::before{
-      content:"";
+    /* Fundo (carrossel) em tela cheia */
+    .curadoria-bg{
       position:absolute;
-      inset:-80px -40px -80px;
-      pointer-events:none;
+      inset:0;
+      z-index:0;
+    }
+
+    .curadoria-bg-slide{
+      position:absolute;
+      inset:0;
+      background-size:cover;
+      background-position:center;
+      opacity:0;
+      transition:opacity 3s ease;
+      transform:scale(1.03);
+      filter:brightness(0.40) saturate(0.75) contrast(1.05);
+    }
+
+    .curadoria-bg-slide.active{ opacity:1; }
+
+    .curadoria-bg-overlay{
+      position:absolute;
+      inset:0;
       background:
-        radial-gradient(900px 520px at 50% -10%, rgba(212,175,55,0.08), rgba(0,0,0,0) 55%),
-        radial-gradient(760px 520px at 18% 35%, rgba(255,255,255,0.03), rgba(0,0,0,0) 62%),
-        radial-gradient(760px 520px at 82% 35%, rgba(255,255,255,0.02), rgba(0,0,0,0) 62%),
-        linear-gradient(180deg, rgba(17,17,17,0.10) 0%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.25) 100%);
-      opacity:1;
+        radial-gradient(900px 520px at 50% -10%, rgba(212,175,55,0.10), rgba(0,0,0,0) 55%),
+        linear-gradient(180deg, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.72) 55%, rgba(0,0,0,0.88) 100%);
+      pointer-events:none;
     }
 
-    #curadoria > *{
+    /* Conteúdo por cima do carrossel */
+    .curadoria-content{
       position:relative;
-      z-index:1;
+      z-index:2;
+      max-width:1100px;
+      margin:0 auto;
+      padding:120px 40px 80px;
+      box-sizing:border-box;
     }
 
-    /* Título maior (mais presença) */
     #curadoria h2{
       text-align:center;
       color:#d4af37;
-      margin:34px 0 12px;
+      margin:0 0 12px;
       font-size:36px;
       letter-spacing:0.25px;
     }
@@ -294,52 +318,22 @@
       font-size:15px;
     }
 
-    /* Carrossel widescreen da Curadoria (estilo Início, mas separado) */
-    .curadoria-hero{
-      position:relative;
+    /* “Placa” discreta para deixar os cards mais legíveis sobre o fundo */
+    .curadoria-stage{
       border-radius:18px;
-      overflow:hidden;
-      border:1px solid rgba(212,175,55,0.18);
-      background:#0b0b0b;
-      max-width:1040px;
-      margin:0 auto 26px;
-      height:58vh;
-      min-height:360px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(0,0,0,0.22);
+      backdrop-filter:blur(6px);
+      padding:18px;
+      box-sizing:border-box;
     }
 
-    .curadoria-hero-inner{
-      position:absolute;
-      inset:0;
-    }
-
-    .curadoria-hero-bg{
-      position:absolute;
-      inset:0;
-      background-size:cover;
-      background-position:center;
-      opacity:0;
-      transition:opacity 3s ease;
-      transform:scale(1.03);
-      filter:brightness(0.45) saturate(0.75) contrast(1.05);
-    }
-
-    .curadoria-hero-bg.active{ opacity:1; }
-
-    .curadoria-hero-overlay{
-      position:absolute;
-      inset:0;
-      background:rgba(0,0,0,0.62);
-      pointer-events:none;
-    }
-
-    .curadoria-hero-caption{
-      position:absolute;
-      left:22px;
-      bottom:18px;
-      z-index:2;
-      color:rgba(255,255,255,0.82);
-      font-size:12.8px;
+    .stage-caption{
+      text-align:center;
+      color:rgba(255,255,255,0.70);
+      font-size:12.5px;
       letter-spacing:0.22px;
+      margin:0 0 14px;
     }
 
     .card{
@@ -405,7 +399,7 @@
       font-weight:600;
     }
 
-    /* Painel interno: visual mais premium e organizado */
+    /* Painel interno da categoria */
     .curadoria-panel{
       display:none;
       margin-top:26px;
@@ -617,6 +611,7 @@
     @media (max-width:980px){
       header{ padding:14px 16px; }
       nav a{ margin-left:14px; }
+
       section{ padding:110px 16px 70px; }
 
       .about-layout{
@@ -634,19 +629,12 @@
         font-size:32px;
       }
 
-      .curadoria-hero{
-        height:42vh;
-        min-height:240px;
-        max-width:100%;
+      .curadoria-content{
+        padding:110px 16px 70px;
       }
 
-      .curadoria-hero-caption{
-        left:16px;
-        bottom:14px;
-      }
-
-      .curadoria-panel{
-        padding:16px;
+      .curadoria-stage{
+        padding:14px;
       }
 
       .panel-top{
@@ -655,10 +643,6 @@
 
       .search-wrap{
         max-width: 100%;
-      }
-
-      #curadoria::before{
-        inset:-70px -16px -70px;
       }
     }
   </style>
@@ -753,105 +737,110 @@
 
 <!-- CURADORIA -->
 <section id="curadoria">
-  <h2>Curadoria</h2>
-  <p class="subtitle">
-    Materiais digitais com indicações selecionadas e organização clara para decisões de viagem mais seguras e bem fundamentadas.
-  </p>
-
-  <!-- Carrossel widescreen da Curadoria (separado do Início e do Quem Somos) -->
-  <div class="curadoria-hero" aria-hidden="true">
-    <div class="curadoria-hero-inner">
-      <div class="curadoria-hero-bg active" id="cgb1"></div>
-      <div class="curadoria-hero-bg" id="cgb2"></div>
-      <div class="curadoria-hero-overlay"></div>
-      <div class="curadoria-hero-caption">Curadoria · Clareza · Decisão</div>
-    </div>
+  <!-- Fundo (carrossel) -->
+  <div class="curadoria-bg" aria-hidden="true">
+    <div class="curadoria-bg-slide active" id="cgb1"></div>
+    <div class="curadoria-bg-slide" id="cgb2"></div>
+    <div class="curadoria-bg-overlay"></div>
   </div>
 
-  <!-- A Essência da Curadoria -->
-  <div class="card" style="text-align:center; max-width:900px; margin:0 auto;">
-    <h3 style="margin-top:0;">A Essência da Curadoria</h3>
-    <p>Veja um exemplo do material e entenda como a curadoria é apresentada.</p>
-    <button onclick="openOverview()">Abrir</button>
-  </div>
+  <!-- Conteúdo por cima -->
+  <div class="curadoria-content">
+    <h2>Curadoria</h2>
+    <p class="subtitle">
+      Materiais digitais com indicações selecionadas e organização clara para decisões de viagem mais seguras e bem fundamentadas.
+    </p>
 
-  <!-- Grid de categorias (fixas) -->
-  <div id="curadoria-categories" class="grid" style="margin-top:26px;">
-    <div class="card" onclick="openCategory('City Guide')">
-      <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80" alt="City Guide">
-      <h3>City Guide</h3>
-      <p>Indicações essenciais por destino, com foco em clareza e praticidade.</p>
-    </div>
+    <div class="curadoria-stage">
+      <div class="stage-caption">Curadoria · Clareza · Decisão</div>
 
-    <div class="card" onclick="openCategory('Gastronomia')">
-      <img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=1200&q=80" alt="Gastronomia">
-      <h3>Gastronomia</h3>
-      <p>Seleções gastronômicas para decisões mais seguras e bem orientadas.</p>
-    </div>
+      <!-- A Essência da Curadoria -->
+      <div class="card" style="text-align:center; max-width:900px; margin:0 auto;">
+        <h3 style="margin-top:0;">A Essência da Curadoria</h3>
+        <p>Veja um exemplo do material e entenda como a curadoria é apresentada.</p>
+        <button onclick="openOverview()">Abrir</button>
+      </div>
 
-    <div class="card" onclick="openCategory('Atrações Turísticas')">
-      <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80" alt="Atrações Turísticas">
-      <h3>Atrações Turísticas</h3>
-      <p>O que vale seu tempo — com contexto e organização por destino.</p>
-    </div>
+      <!-- Grid de categorias (fixas) -->
+      <div id="curadoria-categories" class="grid" style="margin-top:18px;">
+        <div class="card" onclick="openCategory('City Guide')">
+          <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80" alt="City Guide">
+          <h3>City Guide</h3>
+          <p>Visão geral do destino, com pontos essenciais, referências gastronômicas e sugestões ao redor para você se situar com clareza.</p>
+        </div>
 
-    <div class="card" onclick="openCategory('Vida Noturna')">
-      <img src="https://images.unsplash.com/photo-1525268323446-0505b6fe7778?auto=format&fit=crop&w=1200&q=80" alt="Vida Noturna">
-      <h3>Vida Noturna</h3>
-      <p>Locais e experiências noturnas com curadoria e referências.</p>
-    </div>
+        <div class="card" onclick="openCategory('Gastronomia')">
+          <img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=1200&q=80" alt="Gastronomia">
+          <h3>Gastronomia</h3>
+          <p>Restaurantes, cafeterias e bares, com seleções que incluem rooftops, cervejarias e boas paradas para comer e beber.</p>
+        </div>
 
-    <div class="card" onclick="openCategory('Endereços para Compras')">
-      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80" alt="Endereços para Compras">
-      <h3>Endereços para Compras</h3>
-      <p>Lojas, regiões e referências para comprar bem e com intenção.</p>
-    </div>
+        <div class="card" onclick="openCategory('Atrações Turísticas')">
+          <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80" alt="Atrações Turísticas">
+          <h3>Atrações Turísticas</h3>
+          <p>Atrações essenciais e descobertas menos óbvias, com seleção criteriosa para você aproveitar melhor o destino.</p>
+        </div>
 
-    <div class="card" onclick="openCategory('Sugestão de Presentes')">
-      <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80" alt="Sugestão de Presentes">
-      <h3>Sugestão de Presentes</h3>
-      <p>Ideias e recomendações para presentes com bom senso e estilo.</p>
-    </div>
-  </div>
+        <div class="card" onclick="openCategory('Vida Noturna')">
+          <img src="https://images.unsplash.com/photo-1525268323446-0505b6fe7778?auto=format&fit=crop&w=1200&q=80" alt="Vida Noturna">
+          <h3>Vida Noturna</h3>
+          <p>Endereços para a noite: rooftops, bares e lugares com boa atmosfera, ideais para encontros e experiências bem escolhidas.</p>
+        </div>
 
-  <!-- Painel interno de categoria (sem sair da seção) -->
-  <div id="curadoria-panel" class="curadoria-panel">
-    <div class="panel-top">
-      <div>
-        <div class="breadcrumb" id="breadcrumb">Curadoria</div>
-        <h3 class="panel-title" id="panel-title">Categoria</h3>
+        <div class="card" onclick="openCategory('Endereços para Compras')">
+          <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80" alt="Endereços para Compras">
+          <h3>Endereços para Compras</h3>
+          <p>Lojas, regiões e referências para comprar bem e com intenção.</p>
+        </div>
 
-        <div class="panel-meta">
-          <span class="pill" id="cities-count">0 cidades</span>
-          <span class="pill" id="visible-count">Mostrando 0</span>
+        <div class="card" onclick="openCategory('Sugestão de Presentes')">
+          <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80" alt="Sugestão de Presentes">
+          <h3>Sugestão de Presentes</h3>
+          <p>Ideias e recomendações para presentes com bom senso e estilo.</p>
         </div>
       </div>
 
-      <div class="panel-actions">
-        <div class="search-wrap">
-          <input
-            id="city-search"
-            class="search-input"
-            type="text"
-            placeholder="Buscar cidade..."
-            oninput="onSearchCity()"
-          />
+      <!-- Painel interno de categoria (sem sair da seção) -->
+      <div id="curadoria-panel" class="curadoria-panel">
+        <div class="panel-top">
+          <div>
+            <div class="breadcrumb" id="breadcrumb">Curadoria</div>
+            <h3 class="panel-title" id="panel-title">Categoria</h3>
+
+            <div class="panel-meta">
+              <span class="pill" id="cities-count">0 cidades</span>
+              <span class="pill" id="visible-count">Mostrando 0</span>
+            </div>
+          </div>
+
+          <div class="panel-actions">
+            <div class="search-wrap">
+              <input
+                id="city-search"
+                class="search-input"
+                type="text"
+                placeholder="Buscar cidade..."
+                oninput="onSearchCity()"
+              />
+            </div>
+            <button class="btn-ghost" onclick="closeCategory()">← Voltar</button>
+          </div>
         </div>
-        <button class="btn-ghost" onclick="closeCategory()">← Voltar</button>
+
+        <div id="cities-grid" class="cities-grid"></div>
+
+        <div id="empty-state" class="empty-state" style="display:none;">
+          Nenhum resultado encontrado.<br>
+          Tente buscar por outro nome de cidade.
+        </div>
+
+        <div class="panel-footer">
+          <button id="btn-more" class="btn-ghost" style="display:none;" onclick="loadMoreCities()">
+            Ver mais cidades
+          </button>
+        </div>
       </div>
-    </div>
 
-    <div id="cities-grid" class="cities-grid"></div>
-
-    <div id="empty-state" class="empty-state" style="display:none;">
-      Nenhum resultado encontrado.<br>
-      Tente buscar por outro nome de cidade.
-    </div>
-
-    <div class="panel-footer">
-      <button id="btn-more" class="btn-ghost" style="display:none;" onclick="loadMoreCities()">
-        Ver mais cidades
-      </button>
     </div>
   </div>
 </section>
@@ -975,7 +964,7 @@
     apShowFirst = !apShowFirst;
   }, 18000);
 
-  /* ========= CURADORIA carrossel widescreen (separado) ========= */
+  /* ========= CURADORIA: carrossel ao fundo ========= */
   const curadoriaHeroImages = [
     "https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?auto=format&fit=crop&w=2400&q=80",
     "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=2400&q=80",
