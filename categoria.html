@@ -257,7 +257,7 @@
       position:relative;
     }
 
-    /* Fundo com profundidade (elite, minimalista, sem “cor chapada”) */
+    /* Fundo com profundidade (elite, minimalista) */
     #curadoria::before{
       content:"";
       position:absolute;
@@ -289,61 +289,57 @@
       text-align:center;
       color:rgba(255,255,255,0.78);
       max-width:860px;
-      margin:0 auto 26px;
+      margin:0 auto 22px;
       line-height:1.6;
       font-size:15px;
     }
 
-    /* Painel discreto com carrossel (Caminho A) */
-    .curadoria-accent{
+    /* Carrossel widescreen da Curadoria (estilo Início, mas separado) */
+    .curadoria-hero{
       position:relative;
       border-radius:18px;
       overflow:hidden;
       border:1px solid rgba(212,175,55,0.18);
       background:#0b0b0b;
-      max-width:980px;
+      max-width:1040px;
       margin:0 auto 26px;
-      height:220px;
+      height:58vh;
+      min-height:360px;
     }
 
-    .curadoria-accent-inner{
+    .curadoria-hero-inner{
       position:absolute;
       inset:0;
     }
 
-    .curadoria-accent-bg{
+    .curadoria-hero-bg{
       position:absolute;
       inset:0;
       background-size:cover;
       background-position:center;
       opacity:0;
-      transition:opacity 3.2s ease;
+      transition:opacity 3s ease;
       transform:scale(1.03);
-      filter:brightness(0.62) saturate(0.85) contrast(1.02);
+      filter:brightness(0.45) saturate(0.75) contrast(1.05);
     }
 
-    .curadoria-accent-bg.active{ opacity:1; }
+    .curadoria-hero-bg.active{ opacity:1; }
 
-    .curadoria-accent-overlay{
+    .curadoria-hero-overlay{
       position:absolute;
       inset:0;
-      background:linear-gradient(
-        180deg,
-        rgba(0,0,0,0.25) 0%,
-        rgba(0,0,0,0.55) 55%,
-        rgba(0,0,0,0.78) 100%
-      );
+      background:rgba(0,0,0,0.62);
       pointer-events:none;
     }
 
-    .curadoria-accent-caption{
+    .curadoria-hero-caption{
       position:absolute;
-      left:18px;
-      bottom:16px;
+      left:22px;
+      bottom:18px;
       z-index:2;
-      color:rgba(255,255,255,0.80);
-      font-size:12.5px;
-      letter-spacing:0.2px;
+      color:rgba(255,255,255,0.82);
+      font-size:12.8px;
+      letter-spacing:0.22px;
     }
 
     .card{
@@ -374,8 +370,6 @@
       object-fit:cover;
       border-radius:10px;
       margin-bottom:12px;
-
-      /* Tratamento sutil para tom mais “elite” */
       filter:brightness(0.72) saturate(0.72) contrast(1.05);
     }
 
@@ -640,8 +634,15 @@
         font-size:32px;
       }
 
-      .curadoria-accent{
-        height:190px;
+      .curadoria-hero{
+        height:42vh;
+        min-height:240px;
+        max-width:100%;
+      }
+
+      .curadoria-hero-caption{
+        left:16px;
+        bottom:14px;
       }
 
       .curadoria-panel{
@@ -757,13 +758,13 @@
     Materiais digitais com indicações selecionadas e organização clara para decisões de viagem mais seguras e bem fundamentadas.
   </p>
 
-  <!-- Painel discreto com carrossel (Caminho A) -->
-  <div class="curadoria-accent" aria-hidden="true">
-    <div class="curadoria-accent-inner">
-      <div class="curadoria-accent-bg active" id="cb1"></div>
-      <div class="curadoria-accent-bg" id="cb2"></div>
-      <div class="curadoria-accent-overlay"></div>
-      <div class="curadoria-accent-caption">Curadoria · Clareza · Decisão</div>
+  <!-- Carrossel widescreen da Curadoria (separado do Início e do Quem Somos) -->
+  <div class="curadoria-hero" aria-hidden="true">
+    <div class="curadoria-hero-inner">
+      <div class="curadoria-hero-bg active" id="cgb1"></div>
+      <div class="curadoria-hero-bg" id="cgb2"></div>
+      <div class="curadoria-hero-overlay"></div>
+      <div class="curadoria-hero-caption">Curadoria · Clareza · Decisão</div>
     </div>
   </div>
 
@@ -777,7 +778,7 @@
   <!-- Grid de categorias (fixas) -->
   <div id="curadoria-categories" class="grid" style="margin-top:26px;">
     <div class="card" onclick="openCategory('City Guide')">
-      <img src="https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?auto=format&fit=crop&w=1200&q=80" alt="City Guide">
+      <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80" alt="City Guide">
       <h3>City Guide</h3>
       <p>Indicações essenciais por destino, com foco em clareza e praticidade.</p>
     </div>
@@ -801,7 +802,7 @@
     </div>
 
     <div class="card" onclick="openCategory('Endereços para Compras')">
-      <img src="https://images.unsplash.com/photo-1521337581100-8ca9a73a5b9c?auto=format&fit=crop&w=1200&q=80" alt="Endereços para Compras">
+      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80" alt="Endereços para Compras">
       <h3>Endereços para Compras</h3>
       <p>Lojas, regiões e referências para comprar bem e com intenção.</p>
     </div>
@@ -974,31 +975,32 @@
     apShowFirst = !apShowFirst;
   }, 18000);
 
-  /* ========= CURADORIA (painel discreto com carrossel) ========= */
-  const curadoriaAccentImages = [
-    "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80"
+  /* ========= CURADORIA carrossel widescreen (separado) ========= */
+  const curadoriaHeroImages = [
+    "https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=2400&q=80"
   ];
 
-  const cb1 = document.getElementById("cb1");
-  const cb2 = document.getElementById("cb2");
-  let cIndex = 0;
-  let cShowFirst = true;
+  const cgb1 = document.getElementById("cgb1");
+  const cgb2 = document.getElementById("cgb2");
+  let cgIndex = 0;
+  let cgShowFirst = true;
 
-  if (cb1 && cb2) {
-    cb1.style.backgroundImage = `url('${curadoriaAccentImages[0]}')`;
+  if (cgb1 && cgb2) {
+    cgb1.style.backgroundImage = `url('${curadoriaHeroImages[0]}')`;
 
     setInterval(() => {
-      cIndex = (cIndex + 1) % curadoriaAccentImages.length;
-      const next = cShowFirst ? cb2 : cb1;
-      const currentBg = cShowFirst ? cb1 : cb2;
+      cgIndex = (cgIndex + 1) % curadoriaHeroImages.length;
+      const next = cgShowFirst ? cgb2 : cgb1;
+      const currentBg = cgShowFirst ? cgb1 : cgb2;
 
-      next.style.backgroundImage = `url('${curadoriaAccentImages[cIndex]}')`;
+      next.style.backgroundImage = `url('${curadoriaHeroImages[cgIndex]}')`;
       next.classList.add("active");
       currentBg.classList.remove("active");
 
-      cShowFirst = !cShowFirst;
+      cgShowFirst = !cgShowFirst;
     }, 17000);
   }
 
@@ -1126,25 +1128,20 @@
   function openCategory(category){
     currentCategory = category;
 
-    // mostra painel
     const panel = document.getElementById("curadoria-panel");
     panel.style.display = "block";
 
-    // atualiza breadcrumb e título
     document.getElementById("breadcrumb").innerText = "Curadoria > " + category;
     document.getElementById("panel-title").innerText = category;
 
-    // limpa busca
     const input = document.getElementById("city-search");
     input.value = "";
 
-    // define lista e reseta paginação
     filteredCities = (curadoriaData[category] || []).slice();
     visibleCount = Math.min(BATCH_SIZE, filteredCities.length);
 
     renderCities();
 
-    // rola para o painel
     setTimeout(() => {
       panel.scrollIntoView({ behavior: "smooth", block: "start" });
       input.focus({ preventScroll: true });
@@ -1185,12 +1182,10 @@
     const empty = document.getElementById("empty-state");
     const btnMore = document.getElementById("btn-more");
 
-    // contadores
     const total = filteredCities.length;
     document.getElementById("cities-count").innerText = total + (total === 1 ? " cidade" : " cidades");
     document.getElementById("visible-count").innerText = "Mostrando " + Math.min(visibleCount, total);
 
-    // estado vazio
     if (total === 0) {
       grid.innerHTML = "";
       empty.style.display = "block";
@@ -1200,7 +1195,6 @@
 
     empty.style.display = "none";
 
-    // render
     const slice = filteredCities.slice(0, visibleCount);
     grid.innerHTML = "";
 
@@ -1216,17 +1210,13 @@
       grid.appendChild(div);
     });
 
-    // botão ver mais
     if (visibleCount < total) {
       btnMore.style.display = "inline-flex";
     } else {
       btnMore.style.display = "none";
     }
 
-    // mantém posição (opcional)
-    if (keepPosition) {
-      // não faz scroll automático aqui — evita “pular” a tela
-    }
+    if (keepPosition) { }
   }
 
   function openCityModal(category, city){
