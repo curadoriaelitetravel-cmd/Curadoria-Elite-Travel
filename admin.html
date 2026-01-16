@@ -1,118 +1,570 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel Admin — Curadoria Elite Travel</title>
+  <meta charset="UTF-8" />
+  <title>Admin · Curadoria Elite Travel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    body{
+      margin:0;
+      font-family:"Segoe UI",sans-serif;
+      background:#0b0b0b;
+      color:#fff;
+      overflow-x:hidden;
+    }
 
-<style>
-:root{
-  --gold:#D4AF37;
-  --bg:#0e0e0e;
-  --card:#151515;
-  --text:#f2f2f2;
-  --muted:#aaa;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:"Playfair Display",serif}
+    header{
+      padding:16px 22px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:sticky;
+      top:0;
+      z-index:10;
+      background:rgba(0,0,0,0.65);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid rgba(255,255,255,0.08);
+    }
 
-header{
-  background:#000;
-  border-bottom:2px solid var(--gold);
-  padding:18px;
-  text-align:center;
-}
-header h1{
-  margin:0;
-  font-family:Cinzel,serif;
-  color:var(--gold);
-}
+    .brand{
+      font-family:"Cinzel","Georgia",serif;
+      color:#d4af37;
+      letter-spacing:0.8px;
+      text-transform:uppercase;
+      font-size:16px;
+    }
 
-main{padding:40px 8%}
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:22px;
+      box-sizing:border-box;
+    }
 
-h2{font-family:Cinzel,serif;color:var(--gold)}
+    .card{
+      background:linear-gradient(145deg,#111,#000);
+      border:1px solid #222;
+      border-radius:14px;
+      padding:18px;
+      box-sizing:border-box;
+      margin-bottom:14px;
+    }
 
-.card{
-  background:var(--card);
-  padding:22px;
-  border-radius:12px;
-  margin-bottom:30px;
-  border:1px solid rgba(255,255,255,.08)
-}
+    .title{
+      color:#d4af37;
+      margin:0 0 8px;
+      font-size:18px;
+      letter-spacing:0.2px;
+    }
 
-label{display:block;margin-top:14px;color:var(--muted)}
-input,select{
-  width:100%;
-  padding:10px;
-  margin-top:6px;
-  background:#000;
-  border:1px solid rgba(255,255,255,.15);
-  color:#fff;
-  border-radius:6px;
-}
+    .sub{
+      color:rgba(255,255,255,0.75);
+      margin:0 0 14px;
+      line-height:1.6;
+      font-size:13.8px;
+    }
 
-button{
-  margin-top:18px;
-  background:var(--gold);
-  border:none;
-  padding:12px 22px;
-  font-family:Cinzel,serif;
-  cursor:pointer;
-}
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
 
-.list{
-  margin-top:20px;
-  border-top:1px solid rgba(255,255,255,.1);
-  padding-top:15px;
-}
-.item{
-  display:flex;
-  justify-content:space-between;
-  padding:10px 0;
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-.item span{color:#ddd}
-</style>
+    @media (max-width:900px){
+      .row{ grid-template-columns:1fr; }
+    }
+
+    label{
+      display:block;
+      color:rgba(255,255,255,0.72);
+      font-size:12.5px;
+      margin:10px 0 8px;
+      letter-spacing:0.2px;
+    }
+
+    input, select{
+      width:100%;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid #222;
+      background:#0f0f0f;
+      color:#fff;
+      outline:none;
+      box-sizing:border-box;
+      font-size:14px;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+
+    button{
+      cursor:pointer;
+      padding:10px 14px;
+      border-radius:10px;
+      border:none;
+      background:#d4af37;
+      color:#000;
+      font-weight:700;
+    }
+
+    .btn-ghost{
+      background:transparent;
+      border:1px solid rgba(212,175,55,0.35);
+      color:#d4af37;
+      font-weight:600;
+    }
+
+    .table{
+      width:100%;
+      border-collapse:collapse;
+      overflow:hidden;
+      border-radius:12px;
+      border:1px solid #222;
+      background:#0f0f0f;
+    }
+
+    .table th, .table td{
+      padding:12px;
+      border-bottom:1px solid rgba(255,255,255,0.06);
+      vertical-align:top;
+      font-size:13px;
+      line-height:1.45;
+      color:rgba(255,255,255,0.82);
+    }
+
+    .table th{
+      color:rgba(255,255,255,0.78);
+      font-weight:600;
+      text-align:left;
+      background:rgba(255,255,255,0.03);
+    }
+
+    .pill{
+      display:inline-flex;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid #222;
+      background:#0b0b0b;
+      color:rgba(255,255,255,0.72);
+      font-size:12px;
+      line-height:1;
+      gap:8px;
+      align-items:center;
+      margin-right:6px;
+    }
+
+    .pill.ok{
+      border-color:rgba(212,175,55,0.35);
+      color:#d4af37;
+    }
+
+    .muted{
+      color:rgba(255,255,255,0.62);
+      font-size:12.5px;
+      line-height:1.55;
+    }
+
+    .error{
+      color:#ffb3b3;
+      font-size:13px;
+      line-height:1.55;
+      margin-top:10px;
+    }
+
+    .success{
+      color:#c7ffcf;
+      font-size:13px;
+      line-height:1.55;
+      margin-top:10px;
+    }
+
+    a{ color:#d4af37; text-decoration:none; }
+  </style>
 </head>
 
 <body>
+  <header>
+    <div class="brand">Curadoria Elite Travel · Admin</div>
+    <div class="muted" id="status">desconectado</div>
+  </header>
 
-<header>
-  <h1>Painel Administrativo</h1>
-</header>
+  <div class="wrap">
 
-<main>
+    <div class="card">
+      <h2 class="title">1) Configuração do Supabase</h2>
+      <p class="sub">
+        Cole aqui a <strong>ANON KEY</strong> do seu Supabase (a mesma que você vai colar no <code>index.html</code>).
+      </p>
 
-  <div class="card">
-    <h2>Cadastrar Categoria</h2>
-    <label>Nome da categoria</label>
-    <input id="catName">
-    <button onclick="addCategory()">Adicionar Categoria</button>
+      <label>Supabase URL</label>
+      <input id="sb-url" value="https://lnyoqoezezisakghtmim.supabase.co" />
 
-    <div class="list" id="categoryList"></div>
+      <label>Supabase ANON KEY</label>
+      <input id="sb-key" placeholder="Cole aqui sua anon key..." />
+
+      <div class="actions">
+        <button class="btn-ghost" onclick="saveConfig()">Salvar</button>
+        <button class="btn-ghost" onclick="loadConfig()">Carregar</button>
+      </div>
+
+      <div class="muted">
+        Dica: essa configuração fica salva no seu navegador (não aparece para clientes).
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="title">2) Acesso (Admin)</h2>
+      <p class="sub">
+        Faça login para cadastrar/editar materiais. (Esse login é do Supabase.)
+      </p>
+
+      <div class="row">
+        <div>
+          <label>Email</label>
+          <input id="login-email" type="email" placeholder="seuemail@exemplo.com" />
+        </div>
+        <div>
+          <label>Senha</label>
+          <input id="login-pass" type="password" placeholder="********" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button onclick="login()">Entrar</button>
+        <button class="btn-ghost" onclick="logout()">Sair</button>
+      </div>
+
+      <div class="error" id="login-error" style="display:none;"></div>
+      <div class="success" id="login-success" style="display:none;"></div>
+    </div>
+
+    <div class="card" id="panel" style="display:none;">
+      <h2 class="title">3) Cadastrar material</h2>
+      <p class="sub">
+        Você vai cadastrar: <strong>Categoria</strong> + <strong>Cidade (como aparece no site)</strong> + <strong>Link do PDF</strong> + <strong>Ano</strong> + <strong>Ativo</strong>.
+      </p>
+
+      <div class="row">
+        <div>
+          <label>Categoria</label>
+          <select id="m-category">
+            <option>City Guide</option>
+            <option>Gastronomia</option>
+            <option>Atrações Turísticas</option>
+            <option>Vida Noturna</option>
+            <option>Endereços para Compras</option>
+            <option>Sugestão de Presentes</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Cidade (EXATAMENTE como aparece no site)</label>
+          <input id="m-city" placeholder="Ex.: NEW YORK – USA" />
+        </div>
+      </div>
+
+      <label>Link do PDF (Supabase)</label>
+      <input id="m-url" placeholder="Cole o link público do PDF..." />
+
+      <div class="row">
+        <div>
+          <label>Ano (opcional)</label>
+          <input id="m-year" placeholder="Ex.: 2026" />
+        </div>
+        <div>
+          <label>Ativo (após compra)</label>
+          <select id="m-active">
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button onclick="saveMaterial()">Salvar material</button>
+        <button class="btn-ghost" onclick="clearForm()">Limpar</button>
+      </div>
+
+      <div class="muted">
+        Importante: o site não mostra o PDF antes da compra — mesmo que você cadastre aqui. Ele apenas marca como “disponível após confirmação”.
+      </div>
+
+      <div class="error" id="save-error" style="display:none;"></div>
+      <div class="success" id="save-success" style="display:none;"></div>
+    </div>
+
+    <div class="card" id="list" style="display:none;">
+      <h2 class="title">4) Materiais cadastrados</h2>
+      <p class="sub">Aqui você edita ou remove materiais. Clique em “Editar” para preencher o formulário acima.</p>
+
+      <div class="actions">
+        <button class="btn-ghost" onclick="refreshList()">Atualizar lista</button>
+      </div>
+
+      <div id="list-status" class="muted" style="margin-top:12px;"></div>
+
+      <div style="overflow:auto; margin-top:12px;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Categoria</th>
+              <th>Cidade</th>
+              <th>Ano</th>
+              <th>Status</th>
+              <th>PDF</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 
-  <div class="card">
-    <h2>Cadastrar PDF</h2>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    let supabaseClient = null;
+    let currentUser = null;
 
-    <label>Título do PDF</label>
-    <input id="pdfTitle">
+    function showMsg(elId, msg, type){
+      const el = document.getElementById(elId);
+      if (!el) return;
+      el.style.display = "block";
+      el.innerText = msg;
+      if (type === "error") {
+        el.className = "error";
+      } else {
+        el.className = "success";
+      }
+      setTimeout(() => { el.style.display = "none"; }, 4500);
+    }
 
-    <label>Categoria</label>
-    <select id="pdfCategory"></select>
+    function setStatus(text){
+      const el = document.getElementById("status");
+      if (el) el.innerText = text;
+    }
 
-    <label>Link do PDF</label>
-    <input id="pdfLink" placeholder="https://...">
+    function saveConfig(){
+      const url = document.getElementById("sb-url").value.trim();
+      const key = document.getElementById("sb-key").value.trim();
 
-    <button onclick="addPDF()">Adicionar PDF</button>
+      if (!url || !key) {
+        alert("Por favor, preencha a URL e a ANON KEY.");
+        return;
+      }
 
-    <div class="list" id="pdfList"></div>
-  </div>
+      localStorage.setItem("cet_supabase_url", url);
+      localStorage.setItem("cet_supabase_key", key);
+      alert("Configuração salva. Agora faça login.");
+      initSupabase();
+    }
 
-</main>
+    function loadConfig(){
+      const url = localStorage.getItem("cet_supabase_url") || "https://lnyoqoezezisakghtmim.supabase.co";
+      const key = localStorage.getItem("cet_supabase_key") || "";
 
-<script src="scripts/admin.js"></script>
+      document.getElementById("sb-url").value = url;
+      document.getElementById("sb-key").value = key;
+
+      initSupabase();
+    }
+
+    function initSupabase(){
+      const url = document.getElementById("sb-url").value.trim();
+      const key = document.getElementById("sb-key").value.trim();
+
+      if (!url || !key) {
+        setStatus("configurar supabase");
+        return;
+      }
+
+      supabaseClient = window.supabase.createClient(url, key);
+      setStatus("supabase ok");
+    }
+
+    async function login(){
+      try{
+        if (!supabaseClient) initSupabase();
+        if (!supabaseClient) {
+          alert("Configure o Supabase primeiro.");
+          return;
+        }
+
+        const email = document.getElementById("login-email").value.trim();
+        const pass = document.getElementById("login-pass").value.trim();
+
+        if (!email || !pass) {
+          alert("Preencha email e senha.");
+          return;
+        }
+
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password: pass });
+        if (error) {
+          showMsg("login-error", "Erro: " + error.message, "error");
+          return;
+        }
+
+        currentUser = data.user;
+        setStatus("logado");
+        document.getElementById("panel").style.display = "block";
+        document.getElementById("list").style.display = "block";
+        showMsg("login-success", "Login realizado com sucesso.", "ok");
+        refreshList();
+      } catch (e) {
+        showMsg("login-error", "Erro inesperado no login.", "error");
+      }
+    }
+
+    async function logout(){
+      if (!supabaseClient) return;
+      await supabaseClient.auth.signOut();
+      currentUser = null;
+      setStatus("desconectado");
+      document.getElementById("panel").style.display = "none";
+      document.getElementById("list").style.display = "none";
+      alert("Você saiu do Admin.");
+    }
+
+    function clearForm(){
+      document.getElementById("m-category").value = "City Guide";
+      document.getElementById("m-city").value = "";
+      document.getElementById("m-url").value = "";
+      document.getElementById("m-year").value = "";
+      document.getElementById("m-active").value = "true";
+    }
+
+    async function saveMaterial(){
+      try{
+        if (!supabaseClient || !currentUser) {
+          alert("Faça login primeiro.");
+          return;
+        }
+
+        const category = document.getElementById("m-category").value.trim();
+        const city_label = document.getElementById("m-city").value.trim();
+        const pdf_url = document.getElementById("m-url").value.trim();
+        const year = document.getElementById("m-year").value.trim();
+        const is_active = document.getElementById("m-active").value === "true";
+
+        if (!category || !city_label || !pdf_url) {
+          showMsg("save-error", "Preencha Categoria, Cidade e Link do PDF.", "error");
+          return;
+        }
+
+        // UPSERT por (category, city_label)
+        const { error } = await supabaseClient
+          .from("materials")
+          .upsert([{
+            category,
+            city_label,
+            pdf_url,
+            year: year || null,
+            is_active
+          }], { onConflict: "category,city_label" });
+
+        if (error) {
+          showMsg("save-error", "Erro ao salvar: " + error.message, "error");
+          return;
+        }
+
+        showMsg("save-success", "Material salvo com sucesso.", "ok");
+        clearForm();
+        refreshList();
+      } catch (e) {
+        showMsg("save-error", "Erro inesperado ao salvar.", "error");
+      }
+    }
+
+    async function refreshList(){
+      try{
+        if (!supabaseClient || !currentUser) return;
+
+        document.getElementById("list-status").innerText = "Carregando…";
+
+        const { data, error } = await supabaseClient
+          .from("materials")
+          .select("category,city_label,year,is_active,pdf_url")
+          .order("category", { ascending: true });
+
+        if (error) {
+          document.getElementById("list-status").innerText = "Erro ao carregar.";
+          return;
+        }
+
+        document.getElementById("list-status").innerText = (data || []).length + " materiais encontrados.";
+
+        const tbody = document.getElementById("tbody");
+        tbody.innerHTML = "";
+
+        (data || []).forEach(row => {
+          const tr = document.createElement("tr");
+
+          const statusPill = row.is_active
+            ? `<span class="pill ok">ativo</span>`
+            : `<span class="pill">inativo</span>`;
+
+          tr.innerHTML = `
+            <td>${row.category || ""}</td>
+            <td>${row.city_label || ""}</td>
+            <td>${row.year || ""}</td>
+            <td>${statusPill}</td>
+            <td><a href="${row.pdf_url}" target="_blank" rel="noopener noreferrer">abrir</a></td>
+            <td>
+              <button class="btn-ghost" onclick="editRow('${escapeQuotes(row.category)}','${escapeQuotes(row.city_label)}','${escapeQuotes(row.pdf_url)}','${escapeQuotes(row.year || "")}','${row.is_active ? "true" : "false"}')">Editar</button>
+              <button class="btn-ghost" onclick="removeRow('${escapeQuotes(row.category)}','${escapeQuotes(row.city_label)}')">Remover</button>
+            </td>
+          `;
+
+          tbody.appendChild(tr);
+        });
+
+      } catch (e) {
+        document.getElementById("list-status").innerText = "Erro inesperado.";
+      }
+    }
+
+    function escapeQuotes(str){
+      return (str || "").replace(/'/g, "\\'");
+    }
+
+    function editRow(category, city, url, year, active){
+      document.getElementById("m-category").value = category;
+      document.getElementById("m-city").value = city;
+      document.getElementById("m-url").value = url;
+      document.getElementById("m-year").value = year || "";
+      document.getElementById("m-active").value = active === "true" ? "true" : "false";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    async function removeRow(category, city){
+      if (!supabaseClient || !currentUser) return;
+
+      const ok = confirm("Deseja remover este material?\n\n" + category + " · " + city);
+      if (!ok) return;
+
+      const { error } = await supabaseClient
+        .from("materials")
+        .delete()
+        .eq("category", category)
+        .eq("city_label", city);
+
+      if (error) {
+        alert("Erro ao remover: " + error.message);
+        return;
+      }
+
+      alert("Material removido.");
+      refreshList();
+    }
+
+    // Auto-carregar config
+    loadConfig();
+  </script>
 </body>
 </html>
