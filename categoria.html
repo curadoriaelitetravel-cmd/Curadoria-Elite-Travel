@@ -102,7 +102,6 @@
       inset:0;
       background-size:cover;
       background-position:center;
-      /* + brilho (antes 0.56) */
       filter:brightness(0.66) saturate(0.78);
       opacity:0;
       transition:opacity 3s ease;
@@ -114,7 +113,6 @@
     .hero-overlay{
       position:absolute;
       inset:0;
-      /* overlay mais leve (antes 0.58) */
       background:rgba(0,0,0,0.52);
     }
 
@@ -225,7 +223,6 @@
       opacity:0;
       transition:opacity 3.2s ease;
       transform:scale(1.02);
-      /* + brilho (antes 0.72) */
       filter:brightness(0.80) saturate(0.92) contrast(0.98);
     }
 
@@ -236,7 +233,6 @@
     .side-overlay{
       position:absolute;
       inset:0;
-      /* levemente mais leve para enxergar melhor (mantém premium) */
       background:linear-gradient(
         180deg,
         rgba(0,0,0,0.36) 0%,
@@ -280,7 +276,6 @@
       opacity:0;
       transition:opacity 3s ease;
       transform:scale(1.03);
-      /* + brilho (antes 0.55) */
       filter:brightness(0.66) saturate(0.90) contrast(1.05);
     }
 
@@ -289,7 +284,6 @@
     .curadoria-bg-overlay{
       position:absolute;
       inset:0;
-      /* overlay mais leve (antes 0.48/0.62/0.80) */
       background:
         radial-gradient(900px 520px at 50% -10%, rgba(212,175,55,0.12), rgba(0,0,0,0) 55%),
         linear-gradient(180deg, rgba(0,0,0,0.40) 0%, rgba(0,0,0,0.56) 55%, rgba(0,0,0,0.74) 100%);
@@ -537,6 +531,139 @@
       line-height:1.6;
     }
 
+    /* ========= CONTATO & AVALIACOES ========= */
+    #contato h2{
+      text-align:center;
+      color:#d4af37;
+      margin:40px 0 14px;
+      font-size:28px;
+      letter-spacing:0.2px;
+    }
+
+    .contact-wrap{
+      max-width:980px;
+      margin:0 auto;
+    }
+
+    .contact-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .contact-card{
+      background:linear-gradient(145deg,#111,#000);
+      border:1px solid #222;
+      border-radius:14px;
+      padding:22px;
+    }
+
+    .contact-card h3{
+      margin:0 0 10px;
+      color:#d4af37;
+      letter-spacing:0.2px;
+      font-size:18px;
+    }
+
+    .contact-item{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      font-size:14px;
+      line-height:1.55;
+      color:rgba(255,255,255,0.82);
+    }
+
+    .contact-item a{
+      color:#d4af37;
+      text-decoration:none;
+      word-break:break-word;
+    }
+
+    .form-row{
+      margin-top:12px;
+    }
+
+    .form-label{
+      display:block;
+      color:rgba(255,255,255,0.72);
+      font-size:12.5px;
+      margin-bottom:8px;
+      letter-spacing:0.2px;
+    }
+
+    .input, .textarea{
+      width:100%;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid #222;
+      background:#0f0f0f;
+      color:#fff;
+      outline:none;
+      box-sizing:border-box;
+      font-size:14px;
+    }
+
+    .textarea{
+      min-height:120px;
+      resize:vertical;
+    }
+
+    .stars{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .stars input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .star-label{
+      cursor:pointer;
+      font-size:22px;
+      line-height:1;
+      color:rgba(255,255,255,0.25);
+      transition:transform 0.2s ease, color 0.2s ease;
+      user-select:none;
+    }
+
+    .star-label:hover{
+      transform:translateY(-1px);
+      color:rgba(212,175,55,0.85);
+    }
+
+    /* pinta as estrelas selecionadas (1..5) */
+    #rate-1:checked ~ label[for="rate-1"],
+    #rate-2:checked ~ label[for="rate-1"],
+    #rate-2:checked ~ label[for="rate-2"],
+    #rate-3:checked ~ label[for="rate-1"],
+    #rate-3:checked ~ label[for="rate-2"],
+    #rate-3:checked ~ label[for="rate-3"],
+    #rate-4:checked ~ label[for="rate-1"],
+    #rate-4:checked ~ label[for="rate-2"],
+    #rate-4:checked ~ label[for="rate-3"],
+    #rate-4:checked ~ label[for="rate-4"],
+    #rate-5:checked ~ label[for="rate-1"],
+    #rate-5:checked ~ label[for="rate-2"],
+    #rate-5:checked ~ label[for="rate-3"],
+    #rate-5:checked ~ label[for="rate-4"],
+    #rate-5:checked ~ label[for="rate-5"]{
+      color:#d4af37;
+    }
+
+    .note{
+      margin-top:10px;
+      font-size:12.5px;
+      line-height:1.55;
+      color:rgba(255,255,255,0.65);
+    }
+
     /* ========= POPUPS ========= */
     .popup-bg{
       position:fixed;
@@ -613,7 +740,6 @@
     @media (max-width:980px){
       header{ padding:14px 16px; }
       nav a{ margin-left:14px; }
-
       section{ padding:110px 16px 70px; }
 
       .about-layout{
@@ -627,24 +753,15 @@
       .side-bg.left,.side-bg.right{ background-position:center; }
       .brand{ min-width: auto; }
 
-      #curadoria h2{
-        font-size:32px;
-      }
+      #curadoria h2{ font-size:32px; }
+      .curadoria-content{ padding:110px 16px 70px; }
+      .curadoria-stage{ padding:14px; }
 
-      .curadoria-content{
-        padding:110px 16px 70px;
-      }
+      .panel-top{ align-items:flex-start; }
+      .search-wrap{ max-width: 100%; }
 
-      .curadoria-stage{
-        padding:14px;
-      }
-
-      .panel-top{
-        align-items:flex-start;
-      }
-
-      .search-wrap{
-        max-width: 100%;
+      .contact-grid{
+        grid-template-columns:1fr;
       }
     }
   </style>
@@ -666,6 +783,7 @@
     <a onclick="showSection('quem')">Quem Somos</a>
     <a onclick="showSection('curadoria')">Curadoria</a>
     <a onclick="showSection('buscador')">Buscador</a>
+    <a onclick="showSection('contato')">Contato & Avaliações</a>
   </nav>
 </header>
 
@@ -850,6 +968,70 @@
   </p>
 </section>
 
+<!-- CONTATO & AVALIACOES -->
+<section id="contato">
+  <div class="contact-wrap">
+    <h2>Contato & Avaliações</h2>
+    <p class="subtitle" style="margin-bottom:0;">
+      Canais oficiais da Curadoria Elite Travel e um espaço para você compartilhar sua experiência.
+    </p>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h3>Contato</h3>
+        <div class="contact-item">
+          <div><strong style="color:#d4af37;">Email:</strong> <a href="mailto:curadoriaelitetravel@gmail.com">curadoriaelitetravel@gmail.com</a></div>
+          <div><strong style="color:#d4af37;">Instagram:</strong> <a href="https://www.instagram.com/curadoriaelitetravel/" target="_blank" rel="noopener noreferrer">instagram.com/curadoriaelitetravel</a></div>
+          <div><strong style="color:#d4af37;">LinkedIn:</strong> <a href="https://www.linkedin.com/company/curadoria-elite-travel" target="_blank" rel="noopener noreferrer">linkedin.com/company/curadoria-elite-travel</a></div>
+        </div>
+
+        <div class="note">
+          Horário de resposta: em geral, retornamos em até 1 dia útil.
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <h3>Avaliação</h3>
+
+        <form id="review-form">
+          <div class="form-row">
+            <label class="form-label" for="review-name">Seu nome (opcional)</label>
+            <input id="review-name" class="input" type="text" placeholder="Ex.: Marina S." />
+          </div>
+
+          <div class="form-row">
+            <span class="form-label">Sua nota</span>
+            <div class="stars" aria-label="Selecione de 1 a 5 estrelas">
+              <input type="radio" id="rate-1" name="rating" value="1">
+              <input type="radio" id="rate-2" name="rating" value="2">
+              <input type="radio" id="rate-3" name="rating" value="3">
+              <input type="radio" id="rate-4" name="rating" value="4">
+              <input type="radio" id="rate-5" name="rating" value="5">
+
+              <label class="star-label" for="rate-1" title="1 estrela">★</label>
+              <label class="star-label" for="rate-2" title="2 estrelas">★</label>
+              <label class="star-label" for="rate-3" title="3 estrelas">★</label>
+              <label class="star-label" for="rate-4" title="4 estrelas">★</label>
+              <label class="star-label" for="rate-5" title="5 estrelas">★</label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="review-text">Sua avaliação</label>
+            <textarea id="review-text" class="textarea" placeholder="Conte como foi sua experiência com a Curadoria Elite Travel."></textarea>
+          </div>
+
+          <button type="submit">Enviar avaliação</button>
+
+          <div class="note">
+            Ao clicar em “Enviar avaliação”, abrimos seu e-mail já preenchido para envio.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- POPUP -->
 <div class="popup-bg" id="popup">
   <div class="popup-content" id="popup-content">
@@ -878,7 +1060,8 @@
 
 <footer>
   Curadoria Elite Travel · O seu mundo, bem indicado.<br>
-  São Paulo – SP · curadoriaelitetravel@gmail.com
+  São Paulo – SP · curadoriaelitetravel@gmail.com<br><br>
+  <span style="color:#d4af37; cursor:pointer;" onclick="showSection('contato')">Contato & Avaliações</span>
 </footer>
 
 <script>
@@ -1037,6 +1220,40 @@
     });
   }
 
+  /* AVALIACOES -> abre e-mail do cliente já preenchido */
+  const reviewForm = document.getElementById("review-form");
+  if (reviewForm) {
+    reviewForm.addEventListener("submit", function(e){
+      e.preventDefault();
+
+      const name = (document.getElementById("review-name").value || "").trim();
+      const text = (document.getElementById("review-text").value || "").trim();
+      const ratingEl = document.querySelector('input[name="rating"]:checked');
+      const rating = ratingEl ? ratingEl.value : "";
+
+      if (!rating) {
+        alert("Por favor, selecione uma nota de 1 a 5 estrelas.");
+        return;
+      }
+
+      if (!text) {
+        alert("Por favor, escreva sua avaliação.");
+        return;
+      }
+
+      const stars = "★".repeat(Number(rating)) + "☆".repeat(5 - Number(rating));
+      const subject = encodeURIComponent("Avaliação — Curadoria Elite Travel (" + rating + "/5)");
+      const body = encodeURIComponent(
+        "Nome: " + (name ? name : "Não informado") + "\n" +
+        "Nota: " + rating + "/5  " + stars + "\n\n" +
+        "Avaliação:\n" + text + "\n"
+      );
+
+      window.location.href = "mailto:curadoriaelitetravel@gmail.com?subject=" + subject + "&body=" + body;
+    });
+  }
+
+  /* CURADORIA dados (cidades) */
   const curadoriaData = {
     "City Guide": [
       { cidade: "São Paulo — Brasil" },
