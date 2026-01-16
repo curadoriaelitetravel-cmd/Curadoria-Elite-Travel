@@ -102,7 +102,8 @@
       inset:0;
       background-size:cover;
       background-position:center;
-      filter:brightness(0.42) saturate(0.6);
+      /* AUMENTO DE BRILHO (antes: brightness(0.42) saturate(0.6)) */
+      filter:brightness(0.56) saturate(0.75);
       opacity:0;
       transition:opacity 3s ease;
       transform:scale(1.03);
@@ -113,7 +114,8 @@
     .hero-overlay{
       position:absolute;
       inset:0;
-      background:rgba(0,0,0,0.68);
+      /* OVERLAY um pouco mais leve (antes: 0.68) */
+      background:rgba(0,0,0,0.58);
     }
 
     .hero-content{
@@ -262,7 +264,6 @@
       overflow:hidden;
     }
 
-    /* Fundo (carrossel) em tela cheia */
     .curadoria-bg{
       position:absolute;
       inset:0;
@@ -277,7 +278,8 @@
       opacity:0;
       transition:opacity 3s ease;
       transform:scale(1.03);
-      filter:brightness(0.40) saturate(0.75) contrast(1.05);
+      /* AUMENTO DE BRILHO (antes: brightness(0.40) saturate(0.75)) */
+      filter:brightness(0.55) saturate(0.85) contrast(1.05);
     }
 
     .curadoria-bg-slide.active{ opacity:1; }
@@ -285,13 +287,13 @@
     .curadoria-bg-overlay{
       position:absolute;
       inset:0;
+      /* Overlay mais leve para ver melhor o fundo (mantendo leitura) */
       background:
         radial-gradient(900px 520px at 50% -10%, rgba(212,175,55,0.10), rgba(0,0,0,0) 55%),
-        linear-gradient(180deg, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.72) 55%, rgba(0,0,0,0.88) 100%);
+        linear-gradient(180deg, rgba(0,0,0,0.48) 0%, rgba(0,0,0,0.62) 55%, rgba(0,0,0,0.80) 100%);
       pointer-events:none;
     }
 
-    /* Conteúdo por cima do carrossel */
     .curadoria-content{
       position:relative;
       z-index:2;
@@ -318,7 +320,6 @@
       font-size:15px;
     }
 
-    /* “Placa” discreta para deixar os cards mais legíveis sobre o fundo */
     .curadoria-stage{
       border-radius:18px;
       border:1px solid rgba(255,255,255,0.08);
@@ -399,7 +400,6 @@
       font-weight:600;
     }
 
-    /* Painel interno da categoria */
     .curadoria-panel{
       display:none;
       margin-top:26px;
