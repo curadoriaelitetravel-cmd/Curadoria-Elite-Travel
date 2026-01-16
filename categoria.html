@@ -253,6 +253,30 @@
     }
 
     /* ========= CURADORIA (hub) ========= */
+    #curadoria{
+      position:relative;
+    }
+
+    /* Fundo com profundidade (elite, minimalista, sem “cor chapada”) */
+    #curadoria::before{
+      content:"";
+      position:absolute;
+      inset:-80px -40px -80px;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 520px at 50% -10%, rgba(212,175,55,0.08), rgba(0,0,0,0) 55%),
+        radial-gradient(760px 520px at 18% 35%, rgba(255,255,255,0.03), rgba(0,0,0,0) 62%),
+        radial-gradient(760px 520px at 82% 35%, rgba(255,255,255,0.02), rgba(0,0,0,0) 62%),
+        linear-gradient(180deg, rgba(17,17,17,0.10) 0%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.25) 100%);
+      filter:blur(0px);
+      opacity:1;
+    }
+
+    #curadoria > *{
+      position:relative;
+      z-index:1;
+    }
+
     #curadoria h2{
       text-align:center;
       color:#d4af37;
@@ -298,7 +322,9 @@
       object-fit:cover;
       border-radius:10px;
       margin-bottom:12px;
-      filter:brightness(0.82) saturate(0.9);
+
+      /* Tratamento sutil para tom mais “elite” e consistente */
+      filter:brightness(0.72) saturate(0.72) contrast(1.05);
     }
 
     .card h3{
@@ -567,6 +593,10 @@
       .search-wrap{
         max-width: 100%;
       }
+
+      #curadoria::before{
+        inset:-70px -16px -70px;
+      }
     }
   </style>
 </head>
@@ -662,50 +692,50 @@
 <section id="curadoria">
   <h2>Curadoria</h2>
   <p class="subtitle">
-    Materiais digitais desenvolvidos para apoiar decisões de viagem com critério, clareza e indicações bem organizadas.
+    Materiais digitais com indicações selecionadas e organização clara para decisões de viagem mais seguras e bem fundamentadas.
   </p>
 
-  <!-- Overview -->
+  <!-- A Essência da Curadoria -->
   <div class="card" style="text-align:center; max-width:900px; margin:0 auto;">
-    <h3 style="margin-top:0;">Overview</h3>
-    <p>Conheça o formato, a profundidade e o padrão dos materiais que entregamos.</p>
-    <button onclick="openOverview()">Abrir overview</button>
+    <h3 style="margin-top:0;">A Essência da Curadoria</h3>
+    <p>Veja um exemplo do material e entenda como a curadoria é apresentada.</p>
+    <button onclick="openOverview()">Abrir</button>
   </div>
 
   <!-- Grid de categorias (fixas) -->
   <div id="curadoria-categories" class="grid" style="margin-top:26px;">
     <div class="card" onclick="openCategory('City Guide')">
-      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80" alt="City Guide">
+      <img src="https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?auto=format&fit=crop&w=1200&q=80" alt="City Guide">
       <h3>City Guide</h3>
       <p>Indicações essenciais por destino, com foco em clareza e praticidade.</p>
     </div>
 
     <div class="card" onclick="openCategory('Gastronomia')">
-      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80" alt="Gastronomia">
+      <img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=1200&q=80" alt="Gastronomia">
       <h3>Gastronomia</h3>
       <p>Seleções gastronômicas para decisões mais seguras e bem orientadas.</p>
     </div>
 
     <div class="card" onclick="openCategory('Atrações Turísticas')">
-      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80" alt="Atrações Turísticas">
+      <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80" alt="Atrações Turísticas">
       <h3>Atrações Turísticas</h3>
       <p>O que vale seu tempo — com contexto e organização por destino.</p>
     </div>
 
     <div class="card" onclick="openCategory('Vida Noturna')">
-      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80" alt="Vida Noturna">
+      <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80" alt="Vida Noturna">
       <h3>Vida Noturna</h3>
       <p>Locais e experiências noturnas com curadoria e referências.</p>
     </div>
 
     <div class="card" onclick="openCategory('Endereços para Compras')">
-      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80" alt="Endereços para Compras">
+      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80" alt="Endereços para Compras">
       <h3>Endereços para Compras</h3>
       <p>Lojas, regiões e referências para comprar bem e com intenção.</p>
     </div>
 
     <div class="card" onclick="openCategory('Sugestão de Presentes')">
-      <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80" alt="Sugestão de Presentes">
+      <img src="https://images.unsplash.com/photo-1515548212234-5f32f2b9b82d?auto=format&fit=crop&w=1200&q=80" alt="Sugestão de Presentes">
       <h3>Sugestão de Presentes</h3>
       <p>Ideias e recomendações para presentes com bom senso e estilo.</p>
     </div>
@@ -903,8 +933,8 @@
 
   function openOverview(){
     openPopup({
-      title: "Overview",
-      text: "Conheça o formato, a profundidade e o padrão dos materiais que entregamos.",
+      title: "A Essência da Curadoria",
+      text: "Veja um exemplo do material e entenda como a curadoria é apresentada.",
       showProsseguir: false,
       showRules: false,
       iframeSrc: "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
@@ -1102,7 +1132,7 @@
   function openCityModal(category, city){
     openPopup({
       title: city,
-      text: `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem.`,
+      text: `Um material digital completo, com indicações selecionadas e organização prática para você decidir melhor — com conteúdo informativo e orientativo para apoiar suas decisões de viagem.`,
       showProsseguir: true,
       showRules: true,
       iframeSrc: ""
