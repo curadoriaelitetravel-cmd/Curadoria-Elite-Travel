@@ -268,7 +268,6 @@
         radial-gradient(760px 520px at 18% 35%, rgba(255,255,255,0.03), rgba(0,0,0,0) 62%),
         radial-gradient(760px 520px at 82% 35%, rgba(255,255,255,0.02), rgba(0,0,0,0) 62%),
         linear-gradient(180deg, rgba(17,17,17,0.10) 0%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.25) 100%);
-      filter:blur(0px);
       opacity:1;
     }
 
@@ -277,21 +276,74 @@
       z-index:1;
     }
 
+    /* Título maior (mais presença) */
     #curadoria h2{
       text-align:center;
       color:#d4af37;
-      margin:40px 0 14px;
-      font-size:28px;
-      letter-spacing:0.2px;
+      margin:34px 0 12px;
+      font-size:36px;
+      letter-spacing:0.25px;
     }
 
     .subtitle{
       text-align:center;
       color:rgba(255,255,255,0.78);
       max-width:860px;
-      margin:0 auto 34px;
+      margin:0 auto 26px;
       line-height:1.6;
       font-size:15px;
+    }
+
+    /* Painel discreto com carrossel (Caminho A) */
+    .curadoria-accent{
+      position:relative;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(212,175,55,0.18);
+      background:#0b0b0b;
+      max-width:980px;
+      margin:0 auto 26px;
+      height:220px;
+    }
+
+    .curadoria-accent-inner{
+      position:absolute;
+      inset:0;
+    }
+
+    .curadoria-accent-bg{
+      position:absolute;
+      inset:0;
+      background-size:cover;
+      background-position:center;
+      opacity:0;
+      transition:opacity 3.2s ease;
+      transform:scale(1.03);
+      filter:brightness(0.62) saturate(0.85) contrast(1.02);
+    }
+
+    .curadoria-accent-bg.active{ opacity:1; }
+
+    .curadoria-accent-overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(
+        180deg,
+        rgba(0,0,0,0.25) 0%,
+        rgba(0,0,0,0.55) 55%,
+        rgba(0,0,0,0.78) 100%
+      );
+      pointer-events:none;
+    }
+
+    .curadoria-accent-caption{
+      position:absolute;
+      left:18px;
+      bottom:16px;
+      z-index:2;
+      color:rgba(255,255,255,0.80);
+      font-size:12.5px;
+      letter-spacing:0.2px;
     }
 
     .card{
@@ -323,7 +375,7 @@
       border-radius:10px;
       margin-bottom:12px;
 
-      /* Tratamento sutil para tom mais “elite” e consistente */
+      /* Tratamento sutil para tom mais “elite” */
       filter:brightness(0.72) saturate(0.72) contrast(1.05);
     }
 
@@ -584,12 +636,22 @@
       .side-bg.left,.side-bg.right{ background-position:center; }
       .brand{ min-width: auto; }
 
+      #curadoria h2{
+        font-size:32px;
+      }
+
+      .curadoria-accent{
+        height:190px;
+      }
+
       .curadoria-panel{
         padding:16px;
       }
+
       .panel-top{
         align-items:flex-start;
       }
+
       .search-wrap{
         max-width: 100%;
       }
@@ -695,6 +757,16 @@
     Materiais digitais com indicações selecionadas e organização clara para decisões de viagem mais seguras e bem fundamentadas.
   </p>
 
+  <!-- Painel discreto com carrossel (Caminho A) -->
+  <div class="curadoria-accent" aria-hidden="true">
+    <div class="curadoria-accent-inner">
+      <div class="curadoria-accent-bg active" id="cb1"></div>
+      <div class="curadoria-accent-bg" id="cb2"></div>
+      <div class="curadoria-accent-overlay"></div>
+      <div class="curadoria-accent-caption">Curadoria · Clareza · Decisão</div>
+    </div>
+  </div>
+
   <!-- A Essência da Curadoria -->
   <div class="card" style="text-align:center; max-width:900px; margin:0 auto;">
     <h3 style="margin-top:0;">A Essência da Curadoria</h3>
@@ -705,7 +777,7 @@
   <!-- Grid de categorias (fixas) -->
   <div id="curadoria-categories" class="grid" style="margin-top:26px;">
     <div class="card" onclick="openCategory('City Guide')">
-      <img src="https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?auto=format&fit=crop&w=1200&q=80" alt="City Guide">
+      <img src="https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?auto=format&fit=crop&w=1200&q=80" alt="City Guide">
       <h3>City Guide</h3>
       <p>Indicações essenciais por destino, com foco em clareza e praticidade.</p>
     </div>
@@ -723,19 +795,19 @@
     </div>
 
     <div class="card" onclick="openCategory('Vida Noturna')">
-      <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80" alt="Vida Noturna">
+      <img src="https://images.unsplash.com/photo-1525268323446-0505b6fe7778?auto=format&fit=crop&w=1200&q=80" alt="Vida Noturna">
       <h3>Vida Noturna</h3>
       <p>Locais e experiências noturnas com curadoria e referências.</p>
     </div>
 
     <div class="card" onclick="openCategory('Endereços para Compras')">
-      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80" alt="Endereços para Compras">
+      <img src="https://images.unsplash.com/photo-1521337581100-8ca9a73a5b9c?auto=format&fit=crop&w=1200&q=80" alt="Endereços para Compras">
       <h3>Endereços para Compras</h3>
       <p>Lojas, regiões e referências para comprar bem e com intenção.</p>
     </div>
 
     <div class="card" onclick="openCategory('Sugestão de Presentes')">
-      <img src="https://images.unsplash.com/photo-1515548212234-5f32f2b9b82d?auto=format&fit=crop&w=1200&q=80" alt="Sugestão de Presentes">
+      <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80" alt="Sugestão de Presentes">
       <h3>Sugestão de Presentes</h3>
       <p>Ideias e recomendações para presentes com bom senso e estilo.</p>
     </div>
@@ -901,6 +973,34 @@
 
     apShowFirst = !apShowFirst;
   }, 18000);
+
+  /* ========= CURADORIA (painel discreto com carrossel) ========= */
+  const curadoriaAccentImages = [
+    "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80"
+  ];
+
+  const cb1 = document.getElementById("cb1");
+  const cb2 = document.getElementById("cb2");
+  let cIndex = 0;
+  let cShowFirst = true;
+
+  if (cb1 && cb2) {
+    cb1.style.backgroundImage = `url('${curadoriaAccentImages[0]}')`;
+
+    setInterval(() => {
+      cIndex = (cIndex + 1) % curadoriaAccentImages.length;
+      const next = cShowFirst ? cb2 : cb1;
+      const currentBg = cShowFirst ? cb1 : cb2;
+
+      next.style.backgroundImage = `url('${curadoriaAccentImages[cIndex]}')`;
+      next.classList.add("active");
+      currentBg.classList.remove("active");
+
+      cShowFirst = !cShowFirst;
+    }, 17000);
+  }
 
   /* ========= POPUP ========= */
   function openPopup({ title="", text="", showProsseguir=false, showRules=false, iframeSrc="" }){
@@ -1132,7 +1232,7 @@
   function openCityModal(category, city){
     openPopup({
       title: city,
-      text: `Um material digital completo, com indicações selecionadas e organização prática para você decidir melhor — com conteúdo informativo e orientativo para apoiar suas decisões de viagem.`,
+      text: "Um material digital completo, com indicações selecionadas e organização prática para você decidir melhor — com conteúdo informativo e orientativo para apoiar suas decisões de viagem.",
       showProsseguir: true,
       showRules: true,
       iframeSrc: ""
