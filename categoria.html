@@ -920,7 +920,7 @@
         </div>
 
         <div class="card" onclick="openCategory('Atrações Turísticas')">
-          <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80" alt="Atrações Turísticas">
+          <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=80" alt="Atrações Turísticas">
           <h3>Atrações Turísticas</h3>
           <p>Atrações essenciais e descobertas menos óbvias, com seleção criteriosa para você aproveitar melhor o destino.</p>
         </div>
@@ -1258,7 +1258,7 @@
     }, 17000);
   }
 
-  /* CONTATO carrossel painéis laterais (paz/serenidade/mansidao) */
+  /* CONTATO carrossel painéis laterais (paz/serenidade/mansidão) */
   const contactPanelImages = [
     "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2400&q=80",
     "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=80",
@@ -1411,13 +1411,27 @@
     });
   }
 
+  /* ========= MAPA DE MATERIAIS (Supabase) =========
+     Aqui a gente liga: Categoria + Cidade -> Link do PDF
+  */
+  const materialLinks = {
+    "Atrações Turísticas": {
+      "NEW YORK – USA": "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/atracoes-turisticas/internacional/us/new-york/NY-2026.pdf"
+    }
+  };
+
+  function getMaterialLink(category, city){
+    if (!materialLinks[category]) return "";
+    return materialLinks[category][city] || "";
+  }
+
   /* CURADORIA dados (cidades) */
   const curadoriaData = {
     "City Guide": [
       { cidade: "São Paulo — Brasil" },
       { cidade: "Rio de Janeiro — Brasil" },
       { cidade: "Paris — França" },
-      { cidade: "New York — EUA" },
+      { cidade: "NEW YORK – USA" },
       { cidade: "Roma — Itália" },
       { cidade: "Londres — Reino Unido" },
       { cidade: "Tóquio — Japão" },
@@ -1430,7 +1444,7 @@
       { cidade: "Rio de Janeiro — Brasil" },
       { cidade: "Paris — França" },
       { cidade: "Roma — Itália" },
-      { cidade: "New York — EUA" },
+      { cidade: "NEW YORK – USA" },
       { cidade: "Londres — Reino Unido" },
       { cidade: "Barcelona — Espanha" },
       { cidade: "Lisboa — Portugal" }
@@ -1439,7 +1453,7 @@
       { cidade: "Paris — França" },
       { cidade: "Roma — Itália" },
       { cidade: "Londres — Reino Unido" },
-      { cidade: "New York — EUA" },
+      { cidade: "NEW YORK – USA" },
       { cidade: "Pequim — China" },
       { cidade: "Kyoto — Japão" },
       { cidade: "Barcelona — Espanha" },
@@ -1447,7 +1461,7 @@
     ],
     "Vida Noturna": [
       { cidade: "São Paulo — Brasil" },
-      { cidade: "New York — EUA" },
+      { cidade: "NEW YORK – USA" },
       { cidade: "Londres — Reino Unido" },
       { cidade: "Rio de Janeiro — Brasil" },
       { cidade: "Barcelona — Espanha" },
@@ -1456,7 +1470,7 @@
     "Endereços para Compras": [
       { cidade: "São Paulo — Brasil" },
       { cidade: "Paris — França" },
-      { cidade: "New York — EUA" },
+      { cidade: "NEW YORK – USA" },
       { cidade: "Londres — Reino Unido" },
       { cidade: "Milão — Itália" },
       { cidade: "Dubai — Emirados Árabes" }
@@ -1464,7 +1478,7 @@
     "Sugestão de Presentes": [
       { cidade: "Paris — França" },
       { cidade: "Roma — Itália" },
-      { cidade: "New York — EUA" },
+      { cidade: "NEW YORK – USA" },
       { cidade: "Londres — Reino Unido" },
       { cidade: "Lisboa — Portugal" }
     ]
@@ -1577,6 +1591,19 @@
   }
 
   function openCityModal(category, city){
+    const link = getMaterialLink(category, city);
+
+    if (link) {
+      openPopup({
+        title: city,
+        text: "Material disponível para acesso.",
+        showProsseguir: false,
+        showRules: false,
+        iframeSrc: link
+      });
+      return;
+    }
+
     openPopup({
       title: city,
       text: "Um material digital completo, com indicações selecionadas e organização prática para você decidir melhor — com conteúdo informativo e orientativo para apoiar suas decisões de viagem.",
