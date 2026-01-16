@@ -531,8 +531,28 @@
       line-height:1.6;
     }
 
-    /* ========= CONTATO & AVALIACOES ========= */
-    #contato h2{
+    /* ========= CONTATO & AVALIACOES (layout premium com painéis) ========= */
+    #contato{
+      max-width:none;
+      padding-left:0;
+      padding-right:0;
+    }
+
+    .contact-layout{
+      display:grid;
+      grid-template-columns:minmax(260px,1fr) minmax(520px,760px) minmax(260px,1fr);
+      gap:26px;
+      align-items:stretch;
+      padding:0 40px;
+      box-sizing:border-box;
+    }
+
+    .contact-center{
+      display:flex;
+      flex-direction:column;
+    }
+
+    .contact-center h2{
       text-align:center;
       color:#d4af37;
       margin:40px 0 14px;
@@ -540,16 +560,20 @@
       letter-spacing:0.2px;
     }
 
-    .contact-wrap{
-      max-width:980px;
-      margin:0 auto;
+    .contact-stage{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(0,0,0,0.22);
+      backdrop-filter:blur(6px);
+      padding:18px;
+      box-sizing:border-box;
     }
 
     .contact-grid{
       display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-      margin-top:18px;
+      grid-template-columns:1fr;
+      gap:16px;
+      margin-top:12px;
     }
 
     .contact-card{
@@ -593,7 +617,7 @@
       letter-spacing:0.2px;
     }
 
-    .input, .textarea{
+    .input, .textarea, .select{
       width:100%;
       padding:12px 14px;
       border-radius:12px;
@@ -638,7 +662,6 @@
       color:rgba(212,175,55,0.85);
     }
 
-    /* pinta as estrelas selecionadas (1..5) */
     #rate-1:checked ~ label[for="rate-1"],
     #rate-2:checked ~ label[for="rate-1"],
     #rate-2:checked ~ label[for="rate-2"],
@@ -760,9 +783,14 @@
       .panel-top{ align-items:flex-start; }
       .search-wrap{ max-width: 100%; }
 
-      .contact-grid{
+      .contact-layout{
         grid-template-columns:1fr;
+        padding:0 16px;
+        gap:16px;
+        align-items:start;
       }
+
+      .contact-stage{ padding:14px; }
     }
   </style>
 </head>
@@ -970,65 +998,123 @@
 
 <!-- CONTATO & AVALIACOES -->
 <section id="contato">
-  <div class="contact-wrap">
-    <h2>Contato & Avaliações</h2>
-    <p class="subtitle" style="margin-bottom:0;">
-      Canais oficiais da Curadoria Elite Travel e um espaço para você compartilhar sua experiência.
-    </p>
+  <div class="contact-layout">
 
-    <div class="contact-grid">
-      <div class="contact-card">
-        <h3>Contato</h3>
-        <div class="contact-item">
-          <div><strong style="color:#d4af37;">Email:</strong> <a href="mailto:curadoriaelitetravel@gmail.com">curadoriaelitetravel@gmail.com</a></div>
-          <div><strong style="color:#d4af37;">Instagram:</strong> <a href="https://www.instagram.com/curadoriaelitetravel/" target="_blank" rel="noopener noreferrer">instagram.com/curadoriaelitetravel</a></div>
-          <div><strong style="color:#d4af37;">LinkedIn:</strong> <a href="https://www.linkedin.com/company/curadoria-elite-travel" target="_blank" rel="noopener noreferrer">linkedin.com/company/curadoria-elite-travel</a></div>
-        </div>
-
-        <div class="note">
-          Horário de resposta: em geral, retornamos em até 1 dia útil.
-        </div>
+    <div class="side-panel" aria-hidden="true">
+      <div class="side-panel-inner">
+        <div class="side-bg left active" id="cl1"></div>
+        <div class="side-bg left" id="cl2"></div>
+        <div class="side-overlay"></div>
+        <div class="side-caption">Contato · Confiança · Excelência</div>
       </div>
+    </div>
 
-      <div class="contact-card">
-        <h3>Avaliação</h3>
+    <div class="contact-center">
+      <h2>Contato & Avaliações</h2>
+      <p class="subtitle" style="margin-bottom:18px;">
+        Canais oficiais da Curadoria Elite Travel e um espaço para você compartilhar sua experiência.
+      </p>
 
-        <form id="review-form">
-          <div class="form-row">
-            <label class="form-label" for="review-name">Seu nome (opcional)</label>
-            <input id="review-name" class="input" type="text" placeholder="Ex.: Marina S." />
-          </div>
+      <div class="contact-stage">
+        <div class="contact-grid">
 
-          <div class="form-row">
-            <span class="form-label">Sua nota</span>
-            <div class="stars" aria-label="Selecione de 1 a 5 estrelas">
-              <input type="radio" id="rate-1" name="rating" value="1">
-              <input type="radio" id="rate-2" name="rating" value="2">
-              <input type="radio" id="rate-3" name="rating" value="3">
-              <input type="radio" id="rate-4" name="rating" value="4">
-              <input type="radio" id="rate-5" name="rating" value="5">
+          <div class="contact-card">
+            <h3>Contato</h3>
+            <div class="contact-item">
+              <div><strong style="color:#d4af37;">Email:</strong> <a href="mailto:curadoriaelitetravel@gmail.com">curadoriaelitetravel@gmail.com</a></div>
+              <div><strong style="color:#d4af37;">Instagram:</strong> <a href="https://www.instagram.com/curadoriaelitetravel/" target="_blank" rel="noopener noreferrer">instagram.com/curadoriaelitetravel</a></div>
+              <div><strong style="color:#d4af37;">LinkedIn:</strong> <a href="https://www.linkedin.com/company/curadoria-elite-travel" target="_blank" rel="noopener noreferrer">linkedin.com/company/curadoria-elite-travel</a></div>
+            </div>
 
-              <label class="star-label" for="rate-1" title="1 estrela">★</label>
-              <label class="star-label" for="rate-2" title="2 estrelas">★</label>
-              <label class="star-label" for="rate-3" title="3 estrelas">★</label>
-              <label class="star-label" for="rate-4" title="4 estrelas">★</label>
-              <label class="star-label" for="rate-5" title="5 estrelas">★</label>
+            <div class="note">
+              Horário de resposta: em geral, retornamos em até 1 dia útil.
             </div>
           </div>
 
-          <div class="form-row">
-            <label class="form-label" for="review-text">Sua avaliação</label>
-            <textarea id="review-text" class="textarea" placeholder="Conte como foi sua experiência com a Curadoria Elite Travel."></textarea>
+          <div class="contact-card">
+            <h3>Avaliação</h3>
+
+            <form id="review-form">
+              <div class="form-row">
+                <label class="form-label" for="review-name">Seu nome (opcional)</label>
+                <input id="review-name" class="input" type="text" placeholder="Ex.: Marina S." />
+              </div>
+
+              <div class="form-row">
+                <span class="form-label">Sua nota</span>
+                <div class="stars" aria-label="Selecione de 1 a 5 estrelas">
+                  <input type="radio" id="rate-1" name="rating" value="1">
+                  <input type="radio" id="rate-2" name="rating" value="2">
+                  <input type="radio" id="rate-3" name="rating" value="3">
+                  <input type="radio" id="rate-4" name="rating" value="4">
+                  <input type="radio" id="rate-5" name="rating" value="5">
+
+                  <label class="star-label" for="rate-1" title="1 estrela">★</label>
+                  <label class="star-label" for="rate-2" title="2 estrelas">★</label>
+                  <label class="star-label" for="rate-3" title="3 estrelas">★</label>
+                  <label class="star-label" for="rate-4" title="4 estrelas">★</label>
+                  <label class="star-label" for="rate-5" title="5 estrelas">★</label>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="review-text">Sua avaliação</label>
+                <textarea id="review-text" class="textarea" placeholder="Conte como foi sua experiência com a Curadoria Elite Travel."></textarea>
+              </div>
+
+              <button type="submit">Enviar avaliação</button>
+
+              <div class="note">
+                Ao clicar em “Enviar avaliação”, abrimos seu e-mail já preenchido para envio.
+              </div>
+            </form>
           </div>
 
-          <button type="submit">Enviar avaliação</button>
+          <div class="contact-card">
+            <h3>Sugestões & Feedbacks</h3>
 
-          <div class="note">
-            Ao clicar em “Enviar avaliação”, abrimos seu e-mail já preenchido para envio.
+            <form id="feedback-form">
+              <div class="form-row">
+                <label class="form-label" for="fb-name">Seu nome (opcional)</label>
+                <input id="fb-name" class="input" type="text" placeholder="Ex.: Carlos M." />
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="fb-subject">Assunto</label>
+                <select id="fb-subject" class="select">
+                  <option value="Sugestão">Sugestão</option>
+                  <option value="Dúvida">Dúvida</option>
+                  <option value="Correção">Correção</option>
+                  <option value="Parceria">Parceria</option>
+                  <option value="Outro">Outro</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label" for="fb-text">Mensagem</label>
+                <textarea id="fb-text" class="textarea" placeholder="Deixe sua sugestão, feedback ou dúvida."></textarea>
+              </div>
+
+              <button type="submit">Enviar mensagem</button>
+
+              <div class="note">
+                Ao clicar em “Enviar mensagem”, abrimos seu e-mail já preenchido para envio.
+              </div>
+            </form>
           </div>
-        </form>
+
+        </div>
       </div>
     </div>
+
+    <div class="side-panel" aria-hidden="true">
+      <div class="side-panel-inner">
+        <div class="side-bg right active" id="cr1"></div>
+        <div class="side-bg right" id="cr2"></div>
+        <div class="side-overlay"></div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1172,6 +1258,51 @@
     }, 17000);
   }
 
+  /* CONTATO carrossel painéis laterais */
+  const contactPanelImages = [
+    "https://images.unsplash.com/photo-1520975958225-1b8a4e2d23e1?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1518081461904-9c30e80db6d4?auto=format&fit=crop&w=2400&q=80"
+  ];
+
+  const cl1 = document.getElementById("cl1");
+  const cl2 = document.getElementById("cl2");
+  const cr1 = document.getElementById("cr1");
+  const cr2 = document.getElementById("cr2");
+
+  let cpIndex = 0;
+  let cpShowFirst = true;
+
+  if (cl1 && cl2 && cr1 && cr2) {
+    cl1.style.backgroundImage = `url('${contactPanelImages[0]}')`;
+    cr1.style.backgroundImage = `url('${contactPanelImages[0]}')`;
+
+    setInterval(() => {
+      cpIndex = (cpIndex + 1) % contactPanelImages.length;
+      const img = contactPanelImages[cpIndex];
+
+      if (cpShowFirst) {
+        cl2.style.backgroundImage = `url('${img}')`;
+        cr2.style.backgroundImage = `url('${img}')`;
+
+        cl2.classList.add("active");
+        cr2.classList.add("active");
+        cl1.classList.remove("active");
+        cr1.classList.remove("active");
+      } else {
+        cl1.style.backgroundImage = `url('${img}')`;
+        cr1.style.backgroundImage = `url('${img}')`;
+
+        cl1.classList.add("active");
+        cr1.classList.add("active");
+        cl2.classList.remove("active");
+        cr2.classList.remove("active");
+      }
+
+      cpShowFirst = !cpShowFirst;
+    }, 19000);
+  }
+
   function openPopup({ title="", text="", showProsseguir=false, showRules=false, iframeSrc="" }){
     document.getElementById("popup-title").innerText = title;
     document.getElementById("popup-text").innerText = text;
@@ -1247,6 +1378,32 @@
         "Nome: " + (name ? name : "Não informado") + "\n" +
         "Nota: " + rating + "/5  " + stars + "\n\n" +
         "Avaliação:\n" + text + "\n"
+      );
+
+      window.location.href = "mailto:curadoriaelitetravel@gmail.com?subject=" + subject + "&body=" + body;
+    });
+  }
+
+  /* FEEDBACK -> abre e-mail já preenchido */
+  const feedbackForm = document.getElementById("feedback-form");
+  if (feedbackForm) {
+    feedbackForm.addEventListener("submit", function(e){
+      e.preventDefault();
+
+      const name = (document.getElementById("fb-name").value || "").trim();
+      const subjectSel = (document.getElementById("fb-subject").value || "").trim();
+      const text = (document.getElementById("fb-text").value || "").trim();
+
+      if (!text) {
+        alert("Por favor, escreva sua mensagem.");
+        return;
+      }
+
+      const subject = encodeURIComponent("Sugestões & Feedbacks — " + subjectSel + " (Curadoria Elite Travel)");
+      const body = encodeURIComponent(
+        "Nome: " + (name ? name : "Não informado") + "\n" +
+        "Assunto: " + subjectSel + "\n\n" +
+        "Mensagem:\n" + text + "\n"
       );
 
       window.location.href = "mailto:curadoriaelitetravel@gmail.com?subject=" + subject + "&body=" + body;
