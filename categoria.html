@@ -102,7 +102,7 @@
       inset:0;
       background-size:cover;
       background-position:center;
-      filter:brightness(0.66) saturate(0.78);
+      filter:brightness(0.42) saturate(0.6);
       opacity:0;
       transition:opacity 3s ease;
       transform:scale(1.03);
@@ -113,7 +113,7 @@
     .hero-overlay{
       position:absolute;
       inset:0;
-      background:rgba(0,0,0,0.52);
+      background:rgba(0,0,0,0.68);
     }
 
     .hero-content{
@@ -223,7 +223,7 @@
       opacity:0;
       transition:opacity 3.2s ease;
       transform:scale(1.02);
-      filter:brightness(0.80) saturate(0.92) contrast(0.98);
+      filter:brightness(0.72) saturate(0.9) contrast(0.95);
     }
 
     .side-bg.active{ opacity:1; }
@@ -235,9 +235,9 @@
       inset:0;
       background:linear-gradient(
         180deg,
-        rgba(0,0,0,0.36) 0%,
-        rgba(0,0,0,0.52) 55%,
-        rgba(0,0,0,0.68) 100%
+        rgba(0,0,0,0.42) 0%,
+        rgba(0,0,0,0.58) 55%,
+        rgba(0,0,0,0.72) 100%
       );
       pointer-events:none;
     }
@@ -252,85 +252,22 @@
       letter-spacing:0.2px;
     }
 
-    /* ========= CURADORIA ========= */
-    #curadoria{
-      position:relative;
-      max-width:none;
-      margin:0;
-      padding:0;
-      min-height:100vh;
-      overflow:hidden;
-    }
-
-    .curadoria-bg{
-      position:absolute;
-      inset:0;
-      z-index:0;
-    }
-
-    .curadoria-bg-slide{
-      position:absolute;
-      inset:0;
-      background-size:cover;
-      background-position:center;
-      opacity:0;
-      transition:opacity 3s ease;
-      transform:scale(1.03);
-      filter:brightness(0.66) saturate(0.90) contrast(1.05);
-    }
-
-    .curadoria-bg-slide.active{ opacity:1; }
-
-    .curadoria-bg-overlay{
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(900px 520px at 50% -10%, rgba(212,175,55,0.12), rgba(0,0,0,0) 55%),
-        linear-gradient(180deg, rgba(0,0,0,0.40) 0%, rgba(0,0,0,0.56) 55%, rgba(0,0,0,0.74) 100%);
-      pointer-events:none;
-    }
-
-    .curadoria-content{
-      position:relative;
-      z-index:2;
-      max-width:1100px;
-      margin:0 auto;
-      padding:120px 40px 80px;
-      box-sizing:border-box;
-    }
-
+    /* ========= CURADORIA (hub) ========= */
     #curadoria h2{
       text-align:center;
       color:#d4af37;
-      margin:0 0 12px;
-      font-size:36px;
-      letter-spacing:0.25px;
+      margin:40px 0 14px;
+      font-size:28px;
+      letter-spacing:0.2px;
     }
 
     .subtitle{
       text-align:center;
       color:rgba(255,255,255,0.78);
       max-width:860px;
-      margin:0 auto 22px;
+      margin:0 auto 34px;
       line-height:1.6;
       font-size:15px;
-    }
-
-    .curadoria-stage{
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(0,0,0,0.22);
-      backdrop-filter:blur(6px);
-      padding:18px;
-      box-sizing:border-box;
-    }
-
-    .stage-caption{
-      text-align:center;
-      color:rgba(255,255,255,0.70);
-      font-size:12.5px;
-      letter-spacing:0.22px;
-      margin:0 0 14px;
     }
 
     .card{
@@ -361,7 +298,7 @@
       object-fit:cover;
       border-radius:10px;
       margin-bottom:12px;
-      filter:brightness(0.72) saturate(0.72) contrast(1.05);
+      filter:brightness(0.82) saturate(0.9);
     }
 
     .card h3{
@@ -396,6 +333,7 @@
       font-weight:600;
     }
 
+    /* Painel interno: visual mais premium e organizado */
     .curadoria-panel{
       display:none;
       margin-top:26px;
@@ -448,6 +386,16 @@
       line-height:1;
     }
 
+    .pill.ok{
+      border-color: rgba(212,175,55,0.35);
+      color:#d4af37;
+    }
+
+    .pill.muted{
+      border-color: rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.62);
+    }
+
     .search-wrap{
       flex:1;
       min-width: 240px;
@@ -492,6 +440,7 @@
       padding:16px;
       text-align:left;
       transition:all 0.3s ease;
+      position:relative;
     }
 
     .city-card:hover{
@@ -514,6 +463,14 @@
       font-size:12px;
     }
 
+    .city-meta{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+      margin-bottom:8px;
+    }
+
     .panel-footer{
       margin-top:14px;
       display:flex;
@@ -529,162 +486,6 @@
       margin-top:14px;
       font-size:14px;
       line-height:1.6;
-    }
-
-    /* ========= CONTATO & AVALIACOES ========= */
-    #contato{
-      max-width:none;
-      padding-left:0;
-      padding-right:0;
-    }
-
-    .contact-layout{
-      display:grid;
-      grid-template-columns:minmax(260px,1fr) minmax(520px,760px) minmax(260px,1fr);
-      gap:26px;
-      align-items:stretch;
-      padding:0 40px;
-      box-sizing:border-box;
-    }
-
-    .contact-center{
-      display:flex;
-      flex-direction:column;
-    }
-
-    .contact-center h2{
-      text-align:center;
-      color:#d4af37;
-      margin:40px 0 14px;
-      font-size:28px;
-      letter-spacing:0.2px;
-    }
-
-    .contact-stage{
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(0,0,0,0.22);
-      backdrop-filter:blur(6px);
-      padding:18px;
-      box-sizing:border-box;
-    }
-
-    .contact-grid{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:16px;
-      margin-top:12px;
-    }
-
-    .contact-card{
-      background:linear-gradient(145deg,#111,#000);
-      border:1px solid #222;
-      border-radius:14px;
-      padding:22px;
-    }
-
-    .contact-card h3{
-      margin:0 0 10px;
-      color:#d4af37;
-      letter-spacing:0.2px;
-      font-size:18px;
-    }
-
-    .contact-item{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      font-size:14px;
-      line-height:1.55;
-      color:rgba(255,255,255,0.82);
-    }
-
-    .contact-item a{
-      color:#d4af37;
-      text-decoration:none;
-      word-break:break-word;
-    }
-
-    .form-row{
-      margin-top:12px;
-    }
-
-    .form-label{
-      display:block;
-      color:rgba(255,255,255,0.72);
-      font-size:12.5px;
-      margin-bottom:8px;
-      letter-spacing:0.2px;
-    }
-
-    .input, .textarea, .select{
-      width:100%;
-      padding:12px 14px;
-      border-radius:12px;
-      border:1px solid #222;
-      background:#0f0f0f;
-      color:#fff;
-      outline:none;
-      box-sizing:border-box;
-      font-size:14px;
-    }
-
-    .textarea{
-      min-height:120px;
-      resize:vertical;
-    }
-
-    .stars{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:flex-start;
-      flex-wrap:wrap;
-    }
-
-    .stars input{
-      position:absolute;
-      opacity:0;
-      pointer-events:none;
-    }
-
-    .star-label{
-      cursor:pointer;
-      font-size:22px;
-      line-height:1;
-      color:rgba(255,255,255,0.25);
-      transition:transform 0.2s ease, color 0.2s ease;
-      user-select:none;
-    }
-
-    .star-label:hover{
-      transform:translateY(-1px);
-      color:rgba(212,175,55,0.85);
-    }
-
-    #rate-1:checked ~ label[for="rate-1"],
-    #rate-2:checked ~ label[for="rate-1"],
-    #rate-2:checked ~ label[for="rate-2"],
-    #rate-3:checked ~ label[for="rate-1"],
-    #rate-3:checked ~ label[for="rate-2"],
-    #rate-3:checked ~ label[for="rate-3"],
-    #rate-4:checked ~ label[for="rate-1"],
-    #rate-4:checked ~ label[for="rate-2"],
-    #rate-4:checked ~ label[for="rate-3"],
-    #rate-4:checked ~ label[for="rate-4"],
-    #rate-5:checked ~ label[for="rate-1"],
-    #rate-5:checked ~ label[for="rate-2"],
-    #rate-5:checked ~ label[for="rate-3"],
-    #rate-5:checked ~ label[for="rate-4"],
-    #rate-5:checked ~ label[for="rate-5"]{
-      color:#d4af37;
-    }
-
-    .note{
-      margin-top:10px;
-      font-size:12.5px;
-      line-height:1.55;
-      color:rgba(255,255,255,0.65);
     }
 
     /* ========= POPUPS ========= */
@@ -759,6 +560,7 @@
       background:#000;
     }
 
+    /* Responsivo */
     @media (max-width:980px){
       header{ padding:14px 16px; }
       nav a{ margin-left:14px; }
@@ -775,21 +577,15 @@
       .side-bg.left,.side-bg.right{ background-position:center; }
       .brand{ min-width: auto; }
 
-      #curadoria h2{ font-size:32px; }
-      .curadoria-content{ padding:110px 16px 70px; }
-      .curadoria-stage{ padding:14px; }
-
-      .panel-top{ align-items:flex-start; }
-      .search-wrap{ max-width: 100%; }
-
-      .contact-layout{
-        grid-template-columns:1fr;
-        padding:0 16px;
-        gap:16px;
-        align-items:start;
+      .curadoria-panel{
+        padding:16px;
       }
-
-      .contact-stage{ padding:14px; }
+      .panel-top{
+        align-items:flex-start;
+      }
+      .search-wrap{
+        max-width: 100%;
+      }
     }
   </style>
 </head>
@@ -810,7 +606,6 @@
     <a onclick="showSection('quem')">Quem Somos</a>
     <a onclick="showSection('curadoria')">Curadoria</a>
     <a onclick="showSection('buscador')">Buscador</a>
-    <a onclick="showSection('contato')">Contato & Avaliações</a>
   </nav>
 </header>
 
@@ -884,106 +679,96 @@
 
 <!-- CURADORIA -->
 <section id="curadoria">
-  <div class="curadoria-bg" aria-hidden="true">
-    <div class="curadoria-bg-slide active" id="cgb1"></div>
-    <div class="curadoria-bg-slide" id="cgb2"></div>
-    <div class="curadoria-bg-overlay"></div>
+  <h2>Curadoria</h2>
+  <p class="subtitle">
+    Materiais digitais desenvolvidos para apoiar decisões de viagem com critério, clareza e indicações bem organizadas.
+  </p>
+
+  <!-- Overview -->
+  <div class="card" style="text-align:center; max-width:900px; margin:0 auto;">
+    <h3 style="margin-top:0;">Overview</h3>
+    <p>Conheça o formato, a profundidade e o padrão dos materiais que entregamos.</p>
+    <button onclick="openOverview()">Abrir overview</button>
   </div>
 
-  <div class="curadoria-content">
-    <h2>Curadoria</h2>
-    <p class="subtitle">
-      Materiais digitais com indicações selecionadas e organização clara para decisões de viagem mais seguras e bem fundamentadas.
-    </p>
+  <!-- Grid de categorias (fixas) -->
+  <div id="curadoria-categories" class="grid" style="margin-top:26px;">
+    <div class="card" onclick="openCategory('City Guide')">
+      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80" alt="City Guide">
+      <h3>City Guide</h3>
+      <p>Indicações essenciais por destino, com foco em clareza e praticidade.</p>
+    </div>
 
-    <div class="curadoria-stage">
-      <div class="stage-caption">Curadoria · Clareza · Decisão</div>
+    <div class="card" onclick="openCategory('Gastronomia')">
+      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80" alt="Gastronomia">
+      <h3>Gastronomia</h3>
+      <p>Seleções gastronômicas para decisões mais seguras e bem orientadas.</p>
+    </div>
 
-      <div class="card" style="text-align:center; max-width:900px; margin:0 auto;">
-        <h3 style="margin-top:0;">A Essência da Curadoria</h3>
-        <p>Veja um exemplo do material e entenda como a curadoria é apresentada.</p>
-        <button onclick="openOverview()">Abrir</button>
-      </div>
+    <div class="card" onclick="openCategory('Atrações Turísticas')">
+      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80" alt="Atrações Turísticas">
+      <h3>Atrações Turísticas</h3>
+      <p>O que vale seu tempo — com contexto e organização por destino.</p>
+    </div>
 
-      <div id="curadoria-categories" class="grid" style="margin-top:18px;">
-        <div class="card" onclick="openCategory('City Guide')">
-          <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80" alt="City Guide">
-          <h3>City Guide</h3>
-          <p>Visão geral do destino, com pontos essenciais, referências gastronômicas e sugestões ao redor para você se situar com clareza.</p>
-        </div>
+    <div class="card" onclick="openCategory('Vida Noturna')">
+      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80" alt="Vida Noturna">
+      <h3>Vida Noturna</h3>
+      <p>Locais e experiências noturnas com curadoria e referências.</p>
+    </div>
 
-        <div class="card" onclick="openCategory('Gastronomia')">
-          <img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=1200&q=80" alt="Gastronomia">
-          <h3>Gastronomia</h3>
-          <p>Restaurantes, cafeterias e bares, com seleções que incluem rooftops, cervejarias e boas paradas para comer e beber.</p>
-        </div>
+    <div class="card" onclick="openCategory('Endereços para Compras')">
+      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80" alt="Endereços para Compras">
+      <h3>Endereços para Compras</h3>
+      <p>Lojas, regiões e referências para comprar bem e com intenção.</p>
+    </div>
 
-        <div class="card" onclick="openCategory('Atrações Turísticas')">
-          <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=80" alt="Atrações Turísticas">
-          <h3>Atrações Turísticas</h3>
-          <p>Atrações essenciais e descobertas menos óbvias, com seleção criteriosa para você aproveitar melhor o destino.</p>
-        </div>
+    <div class="card" onclick="openCategory('Sugestão de Presentes')">
+      <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80" alt="Sugestão de Presentes">
+      <h3>Sugestão de Presentes</h3>
+      <p>Ideias e recomendações para presentes com bom senso e estilo.</p>
+    </div>
+  </div>
 
-        <div class="card" onclick="openCategory('Vida Noturna')">
-          <img src="https://images.unsplash.com/photo-1525268323446-0505b6fe7778?auto=format&fit=crop&w=1200&q=80" alt="Vida Noturna">
-          <h3>Vida Noturna</h3>
-          <p>Endereços para a noite: rooftops, bares e lugares com boa atmosfera, ideais para encontros e experiências bem escolhidas.</p>
-        </div>
+  <!-- Painel interno de categoria -->
+  <div id="curadoria-panel" class="curadoria-panel">
+    <div class="panel-top">
+      <div>
+        <div class="breadcrumb" id="breadcrumb">Curadoria</div>
+        <h3 class="panel-title" id="panel-title">Categoria</h3>
 
-        <div class="card" onclick="openCategory('Endereços para Compras')">
-          <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80" alt="Endereços para Compras">
-          <h3>Endereços para Compras</h3>
-          <p>Lojas, regiões e referências para comprar bem e com intenção.</p>
-        </div>
-
-        <div class="card" onclick="openCategory('Sugestão de Presentes')">
-          <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80" alt="Sugestão de Presentes">
-          <h3>Sugestão de Presentes</h3>
-          <p>Ideias e recomendações para presentes com bom senso e estilo.</p>
-        </div>
-      </div>
-
-      <div id="curadoria-panel" class="curadoria-panel">
-        <div class="panel-top">
-          <div>
-            <div class="breadcrumb" id="breadcrumb">Curadoria</div>
-            <h3 class="panel-title" id="panel-title">Categoria</h3>
-
-            <div class="panel-meta">
-              <span class="pill" id="cities-count">0 cidades</span>
-              <span class="pill" id="visible-count">Mostrando 0</span>
-              <span class="pill" id="materials-status" title="Carregamento dos materiais">Materiais: carregando…</span>
-            </div>
-          </div>
-
-          <div class="panel-actions">
-            <div class="search-wrap">
-              <input
-                id="city-search"
-                class="search-input"
-                type="text"
-                placeholder="Buscar cidade..."
-                oninput="onSearchCity()"
-              />
-            </div>
-            <button class="btn-ghost" onclick="closeCategory()">← Voltar</button>
-          </div>
-        </div>
-
-        <div id="cities-grid" class="cities-grid"></div>
-
-        <div id="empty-state" class="empty-state" style="display:none;">
-          Nenhum resultado encontrado.<br>
-          Tente buscar por outro nome de cidade.
-        </div>
-
-        <div class="panel-footer">
-          <button id="btn-more" class="btn-ghost" style="display:none;" onclick="loadMoreCities()">
-            Ver mais cidades
-          </button>
+        <div class="panel-meta">
+          <span class="pill" id="cities-count">0 cidades</span>
+          <span class="pill" id="visible-count">Mostrando 0</span>
+          <span class="pill muted" id="admin-status">Admin: carregando...</span>
         </div>
       </div>
 
+      <div class="panel-actions">
+        <div class="search-wrap">
+          <input
+            id="city-search"
+            class="search-input"
+            type="text"
+            placeholder="Buscar cidade..."
+            oninput="onSearchCity()"
+          />
+        </div>
+        <button class="btn-ghost" onclick="closeCategory()">← Voltar</button>
+      </div>
+    </div>
+
+    <div id="cities-grid" class="cities-grid"></div>
+
+    <div id="empty-state" class="empty-state" style="display:none;">
+      Nenhum resultado encontrado.<br>
+      Tente buscar por outro nome de cidade.
+    </div>
+
+    <div class="panel-footer">
+      <button id="btn-more" class="btn-ghost" style="display:none;" onclick="loadMoreCities()">
+        Ver mais cidades
+      </button>
     </div>
   </div>
 </section>
@@ -994,128 +779,6 @@
   <p class="subtitle" style="margin-bottom:0;">
     Em breve: uma área integrada com buscadores e indicações para experiências, hotéis, cruzeiros e outros serviços.
   </p>
-</section>
-
-<!-- CONTATO & AVALIACOES -->
-<section id="contato">
-  <div class="contact-layout">
-
-    <div class="side-panel" aria-hidden="true">
-      <div class="side-panel-inner">
-        <div class="side-bg left active" id="cl1"></div>
-        <div class="side-bg left" id="cl2"></div>
-        <div class="side-overlay"></div>
-        <div class="side-caption">Contato · Confiança · Excelência</div>
-      </div>
-    </div>
-
-    <div class="contact-center">
-      <h2>Contato & Avaliações</h2>
-      <p class="subtitle" style="margin-bottom:18px;">
-        Canais oficiais da Curadoria Elite Travel e um espaço para você compartilhar sua experiência.
-      </p>
-
-      <div class="contact-stage">
-        <div class="contact-grid">
-
-          <div class="contact-card">
-            <h3>Contato</h3>
-            <div class="contact-item">
-              <div><strong style="color:#d4af37;">Email:</strong> <a href="mailto:curadoriaelitetravel@gmail.com">curadoriaelitetravel@gmail.com</a></div>
-              <div><strong style="color:#d4af37;">Instagram:</strong> <a href="https://www.instagram.com/curadoriaelitetravel/" target="_blank" rel="noopener noreferrer">instagram.com/curadoriaelitetravel</a></div>
-              <div><strong style="color:#d4af37;">LinkedIn:</strong> <a href="https://www.linkedin.com/company/curadoria-elite-travel" target="_blank" rel="noopener noreferrer">linkedin.com/company/curadoria-elite-travel</a></div>
-            </div>
-
-            <div class="note">
-              Horário de resposta: em geral, retornamos em até 1 dia útil.
-            </div>
-          </div>
-
-          <div class="contact-card">
-            <h3>Avaliação</h3>
-
-            <form id="review-form">
-              <div class="form-row">
-                <label class="form-label" for="review-name">Seu nome (opcional)</label>
-                <input id="review-name" class="input" type="text" placeholder="Ex.: Marina S." />
-              </div>
-
-              <div class="form-row">
-                <span class="form-label">Sua nota</span>
-                <div class="stars" aria-label="Selecione de 1 a 5 estrelas">
-                  <input type="radio" id="rate-1" name="rating" value="1">
-                  <input type="radio" id="rate-2" name="rating" value="2">
-                  <input type="radio" id="rate-3" name="rating" value="3">
-                  <input type="radio" id="rate-4" name="rating" value="4">
-                  <input type="radio" id="rate-5" name="rating" value="5">
-
-                  <label class="star-label" for="rate-1" title="1 estrela">★</label>
-                  <label class="star-label" for="rate-2" title="2 estrelas">★</label>
-                  <label class="star-label" for="rate-3" title="3 estrelas">★</label>
-                  <label class="star-label" for="rate-4" title="4 estrelas">★</label>
-                  <label class="star-label" for="rate-5" title="5 estrelas">★</label>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <label class="form-label" for="review-text">Sua avaliação</label>
-                <textarea id="review-text" class="textarea" placeholder="Conte como foi sua experiência com a Curadoria Elite Travel."></textarea>
-              </div>
-
-              <button type="submit">Enviar avaliação</button>
-
-              <div class="note">
-                Ao clicar em “Enviar avaliação”, abrimos seu e-mail já preenchido para envio.
-              </div>
-            </form>
-          </div>
-
-          <div class="contact-card">
-            <h3>Sugestões & Feedbacks</h3>
-
-            <form id="feedback-form">
-              <div class="form-row">
-                <label class="form-label" for="fb-name">Seu nome (opcional)</label>
-                <input id="fb-name" class="input" type="text" placeholder="Ex.: Carlos M." />
-              </div>
-
-              <div class="form-row">
-                <label class="form-label" for="fb-subject">Assunto</label>
-                <select id="fb-subject" class="select">
-                  <option value="Sugestão">Sugestão</option>
-                  <option value="Dúvida">Dúvida</option>
-                  <option value="Correção">Correção</option>
-                  <option value="Parceria">Parceria</option>
-                  <option value="Outro">Outro</option>
-                </select>
-              </div>
-
-              <div class="form-row">
-                <label class="form-label" for="fb-text">Mensagem</label>
-                <textarea id="fb-text" class="textarea" placeholder="Deixe sua sugestão, feedback ou dúvida."></textarea>
-              </div>
-
-              <button type="submit">Enviar mensagem</button>
-
-              <div class="note">
-                Ao clicar em “Enviar mensagem”, abrimos seu e-mail já preenchido para envio.
-              </div>
-            </form>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <div class="side-panel" aria-hidden="true">
-      <div class="side-panel-inner">
-        <div class="side-bg right active" id="cr1"></div>
-        <div class="side-bg right" id="cr2"></div>
-        <div class="side-overlay"></div>
-      </div>
-    </div>
-
-  </div>
 </section>
 
 <!-- POPUP -->
@@ -1146,22 +809,12 @@
 
 <footer>
   Curadoria Elite Travel · O seu mundo, bem indicado.<br>
-  São Paulo – SP · curadoriaelitetravel@gmail.com<br><br>
-  <span style="color:#d4af37; cursor:pointer;" onclick="showSection('contato')">Contato & Avaliações</span>
+  São Paulo – SP · curadoriaelitetravel@gmail.com
 </footer>
 
-<!-- Supabase JS (para ler a lista de materiais automaticamente) -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <script>
-  /* ========= CONFIG (você vai colar suas chaves depois) =========
-     IMPORTANTE: essas chaves NÃO aparecem para o cliente como “nome estranho”.
-     Elas só permitem o site LER a lista de materiais.
-  */
-  const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-  const SUPABASE_ANON_KEY = "COLE_AQUI_SUA_ANON_KEY_DO_SUPABASE";
-
-  /* ========= Navegação ========= */
   function showSection(id){
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
     const el = document.getElementById(id);
@@ -1169,7 +822,6 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  /* ========= HOME carrossel ========= */
   const heroImages = [
     "https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80",
     "https://images.unsplash.com/photo-1549921296-3ecf6b4b38b3?auto=format&fit=crop&w=2400&q=80",
@@ -1197,7 +849,6 @@
     showingFirst = !showingFirst;
   }, 16000);
 
-  /* ========= QUEM SOMOS painéis ========= */
   const aboutPanoramaImages = [
     "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=2400&q=80",
     "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2400&q=80",
@@ -1240,82 +891,6 @@
     apShowFirst = !apShowFirst;
   }, 18000);
 
-  /* ========= CURADORIA carrossel ao fundo ========= */
-  const curadoriaHeroImages = [
-    "https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=2400&q=80"
-  ];
-
-  const cgb1 = document.getElementById("cgb1");
-  const cgb2 = document.getElementById("cgb2");
-  let cgIndex = 0;
-  let cgShowFirst = true;
-
-  if (cgb1 && cgb2) {
-    cgb1.style.backgroundImage = `url('${curadoriaHeroImages[0]}')`;
-
-    setInterval(() => {
-      cgIndex = (cgIndex + 1) % curadoriaHeroImages.length;
-      const next = cgShowFirst ? cgb2 : cgb1;
-      const currentBg = cgShowFirst ? cgb1 : cgb2;
-
-      next.style.backgroundImage = `url('${curadoriaHeroImages[cgIndex]}')`;
-      next.classList.add("active");
-      currentBg.classList.remove("active");
-
-      cgShowFirst = !cgShowFirst;
-    }, 17000);
-  }
-
-  /* ========= CONTATO carrossel painéis (paz/serenidade) ========= */
-  const contactPanelImages = [
-    "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=2400&q=80"
-  ];
-
-  const cl1 = document.getElementById("cl1");
-  const cl2 = document.getElementById("cl2");
-  const cr1 = document.getElementById("cr1");
-  const cr2 = document.getElementById("cr2");
-
-  let cpIndex = 0;
-  let cpShowFirst = true;
-
-  if (cl1 && cl2 && cr1 && cr2) {
-    cl1.style.backgroundImage = `url('${contactPanelImages[0]}')`;
-    cr1.style.backgroundImage = `url('${contactPanelImages[0]}')`;
-
-    setInterval(() => {
-      cpIndex = (cpIndex + 1) % contactPanelImages.length;
-      const img = contactPanelImages[cpIndex];
-
-      if (cpShowFirst) {
-        cl2.style.backgroundImage = `url('${img}')`;
-        cr2.style.backgroundImage = `url('${img}')`;
-
-        cl2.classList.add("active");
-        cr2.classList.add("active");
-        cl1.classList.remove("active");
-        cr1.classList.remove("active");
-      } else {
-        cl1.style.backgroundImage = `url('${img}')`;
-        cr1.style.backgroundImage = `url('${img}')`;
-
-        cl1.classList.add("active");
-        cr1.classList.add("active");
-        cl2.classList.remove("active");
-        cr2.classList.remove("active");
-      }
-
-      cpShowFirst = !cpShowFirst;
-    }, 19000);
-  }
-
-  /* ========= POPUP ========= */
   function openPopup({ title="", text="", showProsseguir=false, showRules=false, iframeSrc="" }){
     document.getElementById("popup-title").innerText = title;
     document.getElementById("popup-text").innerText = text;
@@ -1326,7 +901,6 @@
     const rules = document.getElementById("popup-rules");
     rules.style.display = showRules ? "block" : "none";
 
-    // Mantemos iframe para o overview (exemplo). Para materiais, não usamos antes da compra.
     const iframeWrap = document.getElementById("popup-iframe-wrap");
     const iframe = document.getElementById("popup-iframe");
     if (iframeSrc) {
@@ -1347,8 +921,8 @@
 
   function openOverview(){
     openPopup({
-      title: "A Essência da Curadoria",
-      text: "Veja um exemplo do material e entenda como a curadoria é apresentada.",
+      title: "Overview",
+      text: "Conheça o formato, a profundidade e o padrão dos materiais que entregamos.",
       showProsseguir: false,
       showRules: false,
       iframeSrc: "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
@@ -1357,73 +931,14 @@
 
   function openPurchaseSoon(){
     openPopup({
-      title: "Acesso após confirmação",
-      text: "O material é liberado automaticamente após a confirmação da compra. Estamos finalizando esta etapa.",
+      title: "Em breve",
+      text: "Estamos finalizando a etapa de pagamento e liberação automática do material.",
       showProsseguir: false,
       showRules: false,
       iframeSrc: ""
     });
   }
 
-  /* ========= Avaliação / Feedback (mailto) ========= */
-  const reviewForm = document.getElementById("review-form");
-  if (reviewForm) {
-    reviewForm.addEventListener("submit", function(e){
-      e.preventDefault();
-
-      const name = (document.getElementById("review-name").value || "").trim();
-      const text = (document.getElementById("review-text").value || "").trim();
-      const ratingEl = document.querySelector('input[name="rating"]:checked');
-      const rating = ratingEl ? ratingEl.value : "";
-
-      if (!rating) {
-        alert("Por favor, selecione uma nota de 1 a 5 estrelas.");
-        return;
-      }
-
-      if (!text) {
-        alert("Por favor, escreva sua avaliação.");
-        return;
-      }
-
-      const stars = "★".repeat(Number(rating)) + "☆".repeat(5 - Number(rating));
-      const subject = encodeURIComponent("Avaliação — Curadoria Elite Travel (" + rating + "/5)");
-      const body = encodeURIComponent(
-        "Nome: " + (name ? name : "Não informado") + "\n" +
-        "Nota: " + rating + "/5  " + stars + "\n\n" +
-        "Avaliação:\n" + text + "\n"
-      );
-
-      window.location.href = "mailto:curadoriaelitetravel@gmail.com?subject=" + subject + "&body=" + body;
-    });
-  }
-
-  const feedbackForm = document.getElementById("feedback-form");
-  if (feedbackForm) {
-    feedbackForm.addEventListener("submit", function(e){
-      e.preventDefault();
-
-      const name = (document.getElementById("fb-name").value || "").trim();
-      const subjectSel = (document.getElementById("fb-subject").value || "").trim();
-      const text = (document.getElementById("fb-text").value || "").trim();
-
-      if (!text) {
-        alert("Por favor, escreva sua mensagem.");
-        return;
-      }
-
-      const subject = encodeURIComponent("Sugestões & Feedbacks — " + subjectSel + " (Curadoria Elite Travel)");
-      const body = encodeURIComponent(
-        "Nome: " + (name ? name : "Não informado") + "\n" +
-        "Assunto: " + subjectSel + "\n\n" +
-        "Mensagem:\n" + text + "\n"
-      );
-
-      window.location.href = "mailto:curadoriaelitetravel@gmail.com?subject=" + subject + "&body=" + body;
-    });
-  }
-
-  /* ========= CURADORIA dados (cidades) ========= */
   const curadoriaData = {
     "City Guide": [
       { cidade: "São Paulo — Brasil" },
@@ -1482,57 +997,59 @@
     ]
   };
 
-  /* ========= Materiais (puxados do Supabase) =========
-     O site lê a tabela "materials" e monta um mapa:
-     category -> city_label -> { pdf_url, year, active }
-  */
-  let materialsMap = {}; // { [category]: { [city_label]: materialRow } }
+  // ========= Supabase (Admin) =========
+  const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
-  function setMaterialsStatus(text){
-    const el = document.getElementById("materials-status");
-    if (el) el.innerText = text;
+  let supabaseClient = null;
+  const activeMaterialsMap = new Map();
+
+  function setAdminStatus(text, ok){
+    const el = document.getElementById("admin-status");
+    if (!el) return;
+    el.innerText = text;
+    el.classList.remove("ok","muted");
+    el.classList.add(ok ? "ok" : "muted");
   }
 
-  async function loadMaterialsFromSupabase(){
-    try {
-      if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.includes("COLE_AQUI")) {
-        setMaterialsStatus("Materiais: configurar chave");
+  async function loadActiveMaterials(){
+    activeMaterialsMap.clear();
+
+    try{
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      const { data, error } = await supabaseClient
+        .from("curadoria_materials")
+        .select("category, city_label, pdf_url, year, is_active")
+        .eq("is_active", true);
+
+      if (error){
+        setAdminStatus("Admin: erro ao carregar", false);
         return;
       }
 
-      const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-      const { data, error } = await supabase
-        .from("materials")
-        .select("category,city_label,pdf_url,year,is_active");
-
-      if (error) {
-        console.error(error);
-        setMaterialsStatus("Materiais: erro");
-        return;
-      }
-
-      const map = {};
       (data || []).forEach(row => {
-        if (!row.category || !row.city_label) return;
-        if (!map[row.category]) map[row.category] = {};
-        map[row.category][row.city_label] = row;
+        const cat = (row.category || "").trim();
+        const city = (row.city_label || "").trim();
+        const key = cat + "||" + city;
+        activeMaterialsMap.set(key, { pdf_url: row.pdf_url, year: row.year });
       });
 
-      materialsMap = map;
-      setMaterialsStatus("Materiais: ok");
-    } catch (err) {
-      console.error(err);
-      setMaterialsStatus("Materiais: erro");
+      setAdminStatus("Admin: conectado", true);
+
+      if (currentCategory){
+        renderCities(true);
+      }
+    } catch(e){
+      setAdminStatus("Admin: falha na conexão", false);
     }
   }
 
-  function getMaterialRow(category, cityLabel){
-    if (!materialsMap[category]) return null;
-    return materialsMap[category][cityLabel] || null;
+  function hasActiveMaterial(category, cityLabel){
+    const key = (category || "").trim() + "||" + (cityLabel || "").trim();
+    return activeMaterialsMap.has(key);
   }
 
-  /* ========= CURADORIA: Busca + Ver mais ========= */
   const BATCH_SIZE = 8;
   let currentCategory = null;
   let filteredCities = [];
@@ -1622,17 +1139,19 @@
       const div = document.createElement("div");
       div.className = "city-card";
 
-      const safeCity = (item.cidade || "").replace(/'/g, "\\'");
+      const cityLabel = item.cidade || "";
+      const isAvailable = hasActiveMaterial(currentCategory, cityLabel);
+
+      const safeCity = (cityLabel).replace(/'/g, "\\'");
       const safeCat = (currentCategory || "").replace(/'/g, "\\'");
 
-      // Se existe material cadastrado no Admin (e ativo), mostramos “Disponível após compra”
-      const row = getMaterialRow(currentCategory, item.cidade);
-      const badge = (row && row.is_active)
-        ? `<small style="margin-top:8px;color:rgba(212,175,55,0.85);">Disponível após confirmação</small>`
-        : `<small>Material digital com indicações selecionadas</small>`;
+      const badge = isAvailable
+        ? `<span class="pill ok">Disponível</span>`
+        : `<span class="pill muted">Em breve</span>`;
 
       div.innerHTML = `
-        <h4>${item.cidade}${badge}</h4>
+        <h4>${cityLabel}<small>Material digital com indicações selecionadas</small></h4>
+        <div class="city-meta">${badge}</div>
         <button onclick="openCityModal('${safeCat}', '${safeCity}')">Acessar</button>
       `;
       grid.appendChild(div);
@@ -1644,35 +1163,26 @@
       btnMore.style.display = "none";
     }
 
-    if (keepPosition) { }
+    if (keepPosition) {}
   }
 
   function openCityModal(category, city){
-    const row = getMaterialRow(category, city);
+    const isAvailable = hasActiveMaterial(category, city);
 
-    // Importante: mesmo com PDF cadastrado, não exibimos antes da compra
-    if (row && row.is_active) {
-      openPopup({
-        title: city,
-        text: "Este material está disponível e será liberado automaticamente após a confirmação da compra.",
-        showProsseguir: true,
-        showRules: true,
-        iframeSrc: ""
-      });
-      return;
-    }
+    const msg = isAvailable
+      ? `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. Este conteúdo é liberado após a confirmação da compra.`
+      : `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. Este conteúdo estará disponível em breve.`;
 
     openPopup({
       title: city,
-      text: "Um material digital completo, com indicações selecionadas e organização prática para você decidir melhor — com conteúdo informativo e orientativo para apoiar suas decisões de viagem.",
+      text: msg,
       showProsseguir: true,
       showRules: true,
       iframeSrc: ""
     });
   }
 
-  // Carrega materiais ao abrir o site
-  loadMaterialsFromSupabase();
+  loadActiveMaterials();
 </script>
 
 </body>
