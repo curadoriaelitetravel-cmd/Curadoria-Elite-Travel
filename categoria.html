@@ -562,7 +562,7 @@
       margin:12px 0 8px;
     }
 
-    .form-input, .form-textarea{
+    .form-input, .form-textarea, .form-select{
       width:100%;
       border-radius:12px;
       border:1px solid #222;
@@ -578,6 +578,21 @@
       min-height:120px;
       resize:vertical;
       line-height:1.6;
+    }
+
+    .form-select{
+      appearance:none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, rgba(212,175,55,0.65) 50%),
+        linear-gradient(135deg, rgba(212,175,55,0.65) 50%, transparent 50%);
+      background-position:
+        calc(100% - 20px) calc(1em + 2px),
+        calc(100% - 15px) calc(1em + 2px);
+      background-size:
+        6px 6px,
+        6px 6px;
+      background-repeat:no-repeat;
+      padding-right:44px;
     }
 
     .stars{
@@ -955,6 +970,9 @@
             Sua avaliação nos ajuda a manter o padrão e evoluir com consistência.
           </div>
 
+          <span class="form-label">Nome</span>
+          <input class="form-input" id="rating-name" type="text" placeholder="Seu nome" />
+
           <span class="form-label">Nota (1 a 5)</span>
           <div class="stars" id="stars-rating" aria-label="Selecione de 1 a 5 estrelas">
             <span class="star" data-value="1">★</span>
@@ -970,7 +988,7 @@
           <button onclick="sendRating()">Enviar avaliação</button>
 
           <div class="small-note">
-            Ao enviar, abriremos seu email com a mensagem já pronta para você confirmar o envio.
+            Ao clicar em enviar, seu email será aberto com a mensagem pronta. Basta confirmar o envio.
           </div>
         </div>
 
@@ -982,25 +1000,33 @@
             Sugestões bem direcionadas são valiosas para elevar o padrão e manter a experiência coerente.
           </div>
 
+          <span class="form-label">Nome</span>
+          <input class="form-input" id="feedback-name" type="text" placeholder="Seu nome" />
+
+          <span class="form-label">Assunto</span>
+          <select class="form-select" id="feedback-topic" onchange="onFeedbackTopicChange()">
+            <option value="Parceria">Parceria</option>
+            <option value="Sugestão">Sugestão</option>
+            <option value="Correção">Correção</option>
+            <option value="Dúvida">Dúvida</option>
+            <option value="Outro">Outro</option>
+          </select>
+
+          <div id="feedback-topic-other-wrap" style="display:none;">
+            <span class="form-label">Outro (especifique)</span>
+            <input class="form-input" id="feedback-topic-other" type="text" placeholder="Escreva o assunto" />
+          </div>
+
           <span class="form-label">Mensagem</span>
           <textarea class="form-textarea" id="feedback-message" placeholder="Compartilhe sua sugestão com detalhes..."></textarea>
 
-          <button class="btn-ghost" onclick="sendFeedback()">Enviar sugestão</button>
+          <button class="btn-ghost" onclick="sendFeedback()">Enviar</button>
 
           <div class="small-note">
-            Ao enviar, abriremos seu email com a mensagem já pronta para você confirmar o envio.
+            Ao clicar em enviar, seu email será aberto com a mensagem pronta. Basta confirmar o envio.
           </div>
         </div>
 
-      </div>
-
-      <div class="rules-block" style="margin-top:22px;">
-        <strong>Informações Importantes</strong><br><br>
-        A Curadoria Elite Travel oferece exclusivamente materiais digitais de caráter informativo e orientativo, baseados em indicações, referências e conteúdos selecionados.<br><br>
-        Não realizamos reservas, vendas de passagens, hospedagens, experiências ou qualquer tipo de intermediação direta com fornecedores ou prestadores de serviço.<br><br>
-        As decisões de compra, contratação e utilização de serviços indicados nos materiais são de <span class="hl">responsabilidade exclusiva do usuário</span>, assim como qualquer tratativa, solicitação, alteração ou eventual problema relacionado aos serviços contratados.<br><br>
-        Por se tratar de conteúdo digital disponibilizado de forma imediata após a confirmação da compra, <span class="hl">não é possível realizar cancelamentos, trocas ou reembolsos</span>.<br><br>
-        Ao adquirir nossos materiais, o usuário declara estar ciente e de acordo com essas condições.
       </div>
     </div>
 
@@ -1447,8 +1473,27 @@
     });
   })();
 
+  function openMailTo(subjectText, bodyText){
+    const subject = encodeURIComponent(subjectText);
+    const body = encodeURIComponent(bodyText);
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+  }
+
   function sendRating(){
+    const name = (document.getElementById("rating-name").value || "").trim();
     const msg = (document.getElementById("rating-message").value || "").trim();
+
+    if (!name){
+      openPopup({
+        title: "Avaliação",
+        text: "Por favor, informe seu nome antes de enviar.",
+        showProsseguir: false,
+        showRules: false,
+        iframeSrc: ""
+      });
+      return;
+    }
+
     if (!selectedRating){
       openPopup({
         title: "Avaliação",
@@ -1471,24 +1516,48 @@
       return;
     }
 
-    const subject = encodeURIComponent("Avaliação — Curadoria Elite Travel");
-    const body = encodeURIComponent(
-      `Nota: ${selectedRating}/5\n\nMensagem:\n${msg}\n\n— Enviado pelo site Curadoria Elite Travel`
+    openMailTo(
+      "Avaliação — Curadoria Elite Travel",
+      `Nome: ${name}\nNota: ${selectedRating}/5\n\nMensagem:\n${msg}\n\n— Enviado pelo site Curadoria Elite Travel`
     );
 
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-
     openPopup({
-      title: "Obrigado",
-      text: "Abrimos seu email com a mensagem pronta para você confirmar o envio.",
+      title: "Pronto",
+      text: "Seu email foi aberto com a mensagem pronta. Basta confirmar o envio.",
       showProsseguir: false,
       showRules: false,
       iframeSrc: ""
     });
   }
 
+  function onFeedbackTopicChange(){
+    const topic = document.getElementById("feedback-topic").value;
+    const wrap = document.getElementById("feedback-topic-other-wrap");
+    if (topic === "Outro"){
+      wrap.style.display = "block";
+    } else {
+      wrap.style.display = "none";
+      document.getElementById("feedback-topic-other").value = "";
+    }
+  }
+
   function sendFeedback(){
+    const name = (document.getElementById("feedback-name").value || "").trim();
+    const topic = (document.getElementById("feedback-topic").value || "").trim();
+    const other = (document.getElementById("feedback-topic-other").value || "").trim();
     const msg = (document.getElementById("feedback-message").value || "").trim();
+
+    if (!name){
+      openPopup({
+        title: "Sugestões & Feedbacks",
+        text: "Por favor, informe seu nome antes de enviar.",
+        showProsseguir: false,
+        showRules: false,
+        iframeSrc: ""
+      });
+      return;
+    }
+
     if (!msg){
       openPopup({
         title: "Sugestões & Feedbacks",
@@ -1500,16 +1569,29 @@
       return;
     }
 
-    const subject = encodeURIComponent("Sugestão/Feedback — Curadoria Elite Travel");
-    const body = encodeURIComponent(
-      `Mensagem:\n${msg}\n\n— Enviado pelo site Curadoria Elite Travel`
+    let finalTopic = topic;
+    if (topic === "Outro"){
+      if (!other){
+        openPopup({
+          title: "Sugestões & Feedbacks",
+          text: "Por favor, escreva o assunto em “Outro (especifique)”.",
+          showProsseguir: false,
+          showRules: false,
+          iframeSrc: ""
+        });
+        return;
+      }
+      finalTopic = `Outro — ${other}`;
+    }
+
+    openMailTo(
+      `Sugestão/Feedback — ${finalTopic}`,
+      `Nome: ${name}\nAssunto: ${finalTopic}\n\nMensagem:\n${msg}\n\n— Enviado pelo site Curadoria Elite Travel`
     );
 
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-
     openPopup({
-      title: "Obrigado",
-      text: "Abrimos seu email com a mensagem pronta para você confirmar o envio.",
+      title: "Pronto",
+      text: "Seu email foi aberto com a mensagem pronta. Basta confirmar o envio.",
       showProsseguir: false,
       showRules: false,
       iframeSrc: ""
@@ -1518,10 +1600,10 @@
 
   // Carrossel de imagens (paz/serenidade/mansidão) na seção Contato & Avaliações
   const contactMoodImages = [
-    "https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=2400&q=80", // céu estrelado
-    "https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=2400&q=80", // montanhas serenas
-    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=80", // floresta calma
-    "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=2400&q=80"  // caminho suave
+    "https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=2400&q=80"
   ];
 
   const cl1 = document.getElementById("cl1");
