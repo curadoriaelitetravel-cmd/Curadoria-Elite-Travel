@@ -488,6 +488,135 @@
       line-height:1.6;
     }
 
+    /* ========= CONTATO & AVALIAÇÕES ========= */
+    #contato{
+      max-width:none;
+      padding-left:0;
+      padding-right:0;
+    }
+
+    .contact-center{
+      display:flex;
+      flex-direction:column;
+    }
+
+    .contact-center h2{
+      text-align:center;
+      color:#d4af37;
+      margin:40px 0 34px;
+      font-size:28px;
+      letter-spacing:0.2px;
+    }
+
+    .contact-sub{
+      color:rgba(255,255,255,0.78);
+      font-size:15px;
+      line-height:1.7;
+      text-align:center;
+      max-width:760px;
+      margin:0 auto 22px;
+    }
+
+    .contact-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      max-width:760px;
+      margin:0 auto;
+    }
+
+    .contact-card{
+      background:#111;
+      border:1px solid #222;
+      border-radius:14px;
+      padding:22px;
+    }
+
+    .contact-card h3{
+      margin:0 0 10px;
+      color:#d4af37;
+      font-size:18px;
+      letter-spacing:0.2px;
+      text-align:left;
+    }
+
+    .contact-line{
+      color:rgba(255,255,255,0.82);
+      font-size:14px;
+      line-height:1.7;
+      text-align:left;
+    }
+
+    .contact-link{
+      color:#d4af37;
+      text-decoration:none;
+      border-bottom:1px solid rgba(212,175,55,0.28);
+      padding-bottom:1px;
+    }
+
+    .form-label{
+      display:block;
+      text-align:left;
+      color:rgba(255,255,255,0.78);
+      font-size:12.5px;
+      margin:12px 0 8px;
+    }
+
+    .form-input, .form-textarea{
+      width:100%;
+      border-radius:12px;
+      border:1px solid #222;
+      background:#0f0f0f;
+      color:#fff;
+      outline:none;
+      box-sizing:border-box;
+      font-size:14px;
+      padding:12px 14px;
+    }
+
+    .form-textarea{
+      min-height:120px;
+      resize:vertical;
+      line-height:1.6;
+    }
+
+    .stars{
+      display:flex;
+      gap:8px;
+      justify-content:flex-start;
+      margin-top:8px;
+      user-select:none;
+    }
+
+    .star{
+      font-size:20px;
+      cursor:pointer;
+      color:rgba(255,255,255,0.25);
+      transition:transform 0.15s ease, color 0.15s ease;
+    }
+
+    .star:hover{
+      transform:translateY(-1px);
+    }
+
+    .star.on{
+      color:#d4af37;
+    }
+
+    .small-note{
+      margin-top:10px;
+      color:rgba(255,255,255,0.6);
+      font-size:12.5px;
+      line-height:1.5;
+      text-align:left;
+    }
+
+    @media (max-width:980px){
+      .contact-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
     /* ========= POPUPS ========= */
     .popup-bg{
       position:fixed;
@@ -781,6 +910,111 @@
   </p>
 </section>
 
+<!-- CONTATO & AVALIAÇÕES -->
+<section id="contato">
+  <div class="about-layout">
+
+    <div class="side-panel" aria-hidden="true">
+      <div class="side-panel-inner">
+        <div class="side-bg left active" id="cl1"></div>
+        <div class="side-bg left" id="cl2"></div>
+        <div class="side-overlay"></div>
+        <div class="side-caption">Paz · Serenidade · Mansidão</div>
+      </div>
+    </div>
+
+    <div class="contact-center">
+      <h2>Contato & Avaliações</h2>
+
+      <p class="contact-sub">
+        Um canal direto para contato, avaliações e sugestões — com atenção ao que realmente importa.
+      </p>
+
+      <div class="contact-grid">
+
+        <!-- Contato -->
+        <div class="contact-card">
+          <h3>Contato</h3>
+
+          <div class="contact-line">
+            Email: <a class="contact-link" href="mailto:curadoriaelitetravel@gmail.com">curadoriaelitetravel@gmail.com</a><br>
+            Instagram: <a class="contact-link" href="https://www.instagram.com/curadoriaelitetravel/" target="_blank" rel="noopener">curadoriaelitetravel</a><br>
+            LinkedIn: <a class="contact-link" href="https://www.linkedin.com/company/curadoria-elite-travel" target="_blank" rel="noopener">Curadoria Elite Travel</a>
+          </div>
+
+          <div class="small-note">
+            Respondemos com atenção e prioridade em mensagens objetivas e bem contextualizadas.
+          </div>
+        </div>
+
+        <!-- Avaliações -->
+        <div class="contact-card">
+          <h3>Avaliações</h3>
+
+          <div class="contact-line">
+            Sua avaliação nos ajuda a manter o padrão e evoluir com consistência.
+          </div>
+
+          <span class="form-label">Nota (1 a 5)</span>
+          <div class="stars" id="stars-rating" aria-label="Selecione de 1 a 5 estrelas">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+
+          <span class="form-label">Mensagem</span>
+          <textarea class="form-textarea" id="rating-message" placeholder="Escreva sua avaliação com clareza..."></textarea>
+
+          <button onclick="sendRating()">Enviar avaliação</button>
+
+          <div class="small-note">
+            Ao enviar, abriremos seu email com a mensagem já pronta para você confirmar o envio.
+          </div>
+        </div>
+
+        <!-- Sugestões / Feedbacks -->
+        <div class="contact-card" style="grid-column:1 / -1;">
+          <h3>Sugestões & Feedbacks</h3>
+
+          <div class="contact-line">
+            Sugestões bem direcionadas são valiosas para elevar o padrão e manter a experiência coerente.
+          </div>
+
+          <span class="form-label">Mensagem</span>
+          <textarea class="form-textarea" id="feedback-message" placeholder="Compartilhe sua sugestão com detalhes..."></textarea>
+
+          <button class="btn-ghost" onclick="sendFeedback()">Enviar sugestão</button>
+
+          <div class="small-note">
+            Ao enviar, abriremos seu email com a mensagem já pronta para você confirmar o envio.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="rules-block" style="margin-top:22px;">
+        <strong>Informações Importantes</strong><br><br>
+        A Curadoria Elite Travel oferece exclusivamente materiais digitais de caráter informativo e orientativo, baseados em indicações, referências e conteúdos selecionados.<br><br>
+        Não realizamos reservas, vendas de passagens, hospedagens, experiências ou qualquer tipo de intermediação direta com fornecedores ou prestadores de serviço.<br><br>
+        As decisões de compra, contratação e utilização de serviços indicados nos materiais são de <span class="hl">responsabilidade exclusiva do usuário</span>, assim como qualquer tratativa, solicitação, alteração ou eventual problema relacionado aos serviços contratados.<br><br>
+        Por se tratar de conteúdo digital disponibilizado de forma imediata após a confirmação da compra, <span class="hl">não é possível realizar cancelamentos, trocas ou reembolsos</span>.<br><br>
+        Ao adquirir nossos materiais, o usuário declara estar ciente e de acordo com essas condições.
+      </div>
+    </div>
+
+    <div class="side-panel" aria-hidden="true">
+      <div class="side-panel-inner">
+        <div class="side-bg right active" id="cr1"></div>
+        <div class="side-bg right" id="cr2"></div>
+        <div class="side-overlay"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- POPUP -->
 <div class="popup-bg" id="popup">
   <div class="popup-content" id="popup-content">
@@ -810,6 +1044,13 @@
 <footer>
   Curadoria Elite Travel · O seu mundo, bem indicado.<br>
   São Paulo – SP · curadoriaelitetravel@gmail.com
+  <br><br>
+  <a
+    onclick="showSection('contato')"
+    style="color:#d4af37; text-decoration:none; font-weight:600; cursor:pointer;"
+  >
+    Contato & Avaliações
+  </a>
 </footer>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
@@ -1181,6 +1422,143 @@
       iframeSrc: ""
     });
   }
+
+  // ========= CONTATO & AVALIAÇÕES: estrelas + envio =========
+  const CONTACT_EMAIL = "curadoriaelitetravel@gmail.com";
+  let selectedRating = 0;
+
+  function setRating(value){
+    selectedRating = value;
+    const stars = document.querySelectorAll("#stars-rating .star");
+    stars.forEach(s => {
+      const v = parseInt(s.getAttribute("data-value"), 10);
+      if (v <= selectedRating) s.classList.add("on");
+      else s.classList.remove("on");
+    });
+  }
+
+  (function initStars(){
+    const stars = document.querySelectorAll("#stars-rating .star");
+    stars.forEach(s => {
+      s.addEventListener("click", () => {
+        const v = parseInt(s.getAttribute("data-value"), 10);
+        setRating(v);
+      });
+    });
+  })();
+
+  function sendRating(){
+    const msg = (document.getElementById("rating-message").value || "").trim();
+    if (!selectedRating){
+      openPopup({
+        title: "Avaliação",
+        text: "Por favor, selecione a nota (1 a 5 estrelas) antes de enviar.",
+        showProsseguir: false,
+        showRules: false,
+        iframeSrc: ""
+      });
+      return;
+    }
+
+    if (!msg){
+      openPopup({
+        title: "Avaliação",
+        text: "Por favor, escreva sua mensagem antes de enviar.",
+        showProsseguir: false,
+        showRules: false,
+        iframeSrc: ""
+      });
+      return;
+    }
+
+    const subject = encodeURIComponent("Avaliação — Curadoria Elite Travel");
+    const body = encodeURIComponent(
+      `Nota: ${selectedRating}/5\n\nMensagem:\n${msg}\n\n— Enviado pelo site Curadoria Elite Travel`
+    );
+
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+
+    openPopup({
+      title: "Obrigado",
+      text: "Abrimos seu email com a mensagem pronta para você confirmar o envio.",
+      showProsseguir: false,
+      showRules: false,
+      iframeSrc: ""
+    });
+  }
+
+  function sendFeedback(){
+    const msg = (document.getElementById("feedback-message").value || "").trim();
+    if (!msg){
+      openPopup({
+        title: "Sugestões & Feedbacks",
+        text: "Por favor, escreva sua mensagem antes de enviar.",
+        showProsseguir: false,
+        showRules: false,
+        iframeSrc: ""
+      });
+      return;
+    }
+
+    const subject = encodeURIComponent("Sugestão/Feedback — Curadoria Elite Travel");
+    const body = encodeURIComponent(
+      `Mensagem:\n${msg}\n\n— Enviado pelo site Curadoria Elite Travel`
+    );
+
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+
+    openPopup({
+      title: "Obrigado",
+      text: "Abrimos seu email com a mensagem pronta para você confirmar o envio.",
+      showProsseguir: false,
+      showRules: false,
+      iframeSrc: ""
+    });
+  }
+
+  // Carrossel de imagens (paz/serenidade/mansidão) na seção Contato & Avaliações
+  const contactMoodImages = [
+    "https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=2400&q=80", // céu estrelado
+    "https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=2400&q=80", // montanhas serenas
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=80", // floresta calma
+    "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=2400&q=80"  // caminho suave
+  ];
+
+  const cl1 = document.getElementById("cl1");
+  const cl2 = document.getElementById("cl2");
+  const cr1 = document.getElementById("cr1");
+  const cr2 = document.getElementById("cr2");
+
+  let cmIndex = 0;
+  let cmShowFirst = true;
+
+  cl1.style.backgroundImage = `url('${contactMoodImages[0]}')`;
+  cr1.style.backgroundImage = `url('${contactMoodImages[0]}')`;
+
+  setInterval(() => {
+    cmIndex = (cmIndex + 1) % contactMoodImages.length;
+    const img = contactMoodImages[cmIndex];
+
+    if (cmShowFirst) {
+      cl2.style.backgroundImage = `url('${img}')`;
+      cr2.style.backgroundImage = `url('${img}')`;
+
+      cl2.classList.add("active");
+      cr2.classList.add("active");
+      cl1.classList.remove("active");
+      cr1.classList.remove("active");
+    } else {
+      cl1.style.backgroundImage = `url('${img}')`;
+      cr1.style.backgroundImage = `url('${img}')`;
+
+      cl1.classList.add("active");
+      cr1.classList.add("active");
+      cl2.classList.remove("active");
+      cr2.classList.remove("active");
+    }
+
+    cmShowFirst = !cmShowFirst;
+  }, 18000);
 
   loadActiveMaterials();
 </script>
