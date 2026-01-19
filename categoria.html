@@ -326,11 +326,6 @@
       margin-top:14px;
     }
 
-    button:disabled{
-      opacity:0.55;
-      cursor:not-allowed;
-    }
-
     .btn-ghost{
       background:transparent;
       border:1px solid rgba(212,175,55,0.35);
@@ -685,45 +680,6 @@
       margin-top:10px;
     }
 
-    .popup-accept{
-      width:100%;
-      margin-top:10px;
-      margin-bottom:6px;
-      text-align:left;
-      background:#0f0f0f;
-      border:1px solid #222;
-      border-radius:12px;
-      padding:12px 12px;
-      box-sizing:border-box;
-      color:rgba(255,255,255,0.78);
-      font-size:13.5px;
-      line-height:1.45;
-      display:none;
-    }
-
-    .popup-accept label{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      cursor:pointer;
-      user-select:none;
-    }
-
-    .popup-accept input{
-      margin-top:2px;
-      transform:scale(1.05);
-      accent-color:#d4af37;
-    }
-
-    .popup-accept .link{
-      color:#d4af37;
-      text-decoration:none;
-      border-bottom:1px solid rgba(212,175,55,0.28);
-      padding-bottom:1px;
-      cursor:pointer;
-      font-weight:600;
-    }
-
     .popup-rules{
       text-align:left;
       margin-top:14px;
@@ -746,6 +702,27 @@
       overflow:hidden;
       margin-top:12px;
       background:#000;
+    }
+
+    /* NOVO: bloco de aceite antes do Prosseguir */
+    .purchase-accept{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin-top:14px;
+      text-align:left;
+      background:#0f0f0f;
+      border:1px solid #222;
+      border-radius:12px;
+      padding:12px 12px;
+      color:rgba(255,255,255,0.82);
+      font-size:13.5px;
+      line-height:1.5;
+    }
+
+    .purchase-accept input{
+      margin-top:3px;
+      transform:scale(1.05);
     }
 
     /* Responsivo */
@@ -864,7 +841,6 @@
 
   </div>
 </section>
-
 <!-- CURADORIA -->
 <section id="curadoria">
   <h2>Curadoria</h2>
@@ -1084,7 +1060,6 @@
 
   </div>
 </section>
-
 <!-- POPUP -->
 <div class="popup-bg" id="popup">
   <div class="popup-content" id="popup-content">
@@ -1104,19 +1079,18 @@
       Ao adquirir nossos materiais, o usuário declara estar ciente e de acordo com essas condições.
     </div>
 
-    <!-- Checkbox de aceite (só aparece quando for necessário) -->
-    <div class="popup-accept" id="popup-accept-wrap">
-      <label for="popup-accept">
-        <input id="popup-accept" type="checkbox" />
-        <span>
-          Li e aceito as condições e estou ciente de que não é possível cancelamento, troca ou reembolso.
-          <span class="link" onclick="scrollRulesIntoView()">Ver condições</span>
-        </span>
-      </label>
+    <!-- NOVO: ACEITE ANTES DO PROSSEGUIR -->
+    <div id="purchase-accept-wrap" class="purchase-accept" style="display:none;">
+      <input type="checkbox" id="purchase-accept" onchange="onPurchaseAcceptChange()" />
+      <div>
+        Li e concordo que, por ser um produto digital de acesso imediato, não será possível realizar cancelamentos, trocas ou reembolsos após a confirmação da compra.
+      </div>
     </div>
 
     <div class="popup-actions">
-      <button id="popup-prosseguir" style="display:none;" onclick="handleProsseguir()">Prosseguir</button>
+      <button id="popup-prosseguir" style="display:none;" onclick="startCheckout()" disabled>
+        Prosseguir
+      </button>
       <button class="btn-ghost" onclick="closePopup()">Fechar</button>
     </div>
   </div>
@@ -1135,7 +1109,6 @@
 </footer>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
 <script>
   function showSection(id){
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
@@ -1144,6 +1117,7 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  // ========= HERO (carrossel) =========
   const heroImages = [
     "https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80",
     "https://images.unsplash.com/photo-1549921296-3ecf6b4b38b3?auto=format&fit=crop&w=2400&q=80",
@@ -1171,6 +1145,7 @@
     showingFirst = !showingFirst;
   }, 16000);
 
+  // ========= QUEM SOMOS (laterais) =========
   const aboutPanoramaImages = [
     "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=2400&q=80",
     "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2400&q=80",
@@ -1213,54 +1188,33 @@
     apShowFirst = !apShowFirst;
   }, 18000);
 
-  // ========= POPUP helpers + aceite =========
-  const state = {
-    purchase: {
-      category: null,
-      city: null,
-      isAvailable: false
-    }
-  };
+  // ========= POPUP =========
+  // NOVO: guardamos a seleção atual para o checkout
+  let purchaseSelection = { category: "", city: "" };
 
-  function setProsseguirEnabled(enabled){
+  function resetPurchaseAccept(){
+    const wrap = document.getElementById("purchase-accept-wrap");
+    const chk = document.getElementById("purchase-accept");
     const btn = document.getElementById("popup-prosseguir");
-    if (!btn) return;
-    btn.disabled = !enabled;
+
+    if (wrap) wrap.style.display = "none";
+    if (chk) chk.checked = false;
+    if (btn){
+      btn.disabled = true;
+      btn.style.opacity = "0.55";
+      btn.style.cursor = "not-allowed";
+      btn.innerText = "Prosseguir";
+    }
+
+    purchaseSelection = { category: "", city: "" };
   }
 
-  function resetAcceptance(){
-    const wrap = document.getElementById("popup-accept-wrap");
-    const checkbox = document.getElementById("popup-accept");
-    if (!wrap || !checkbox) return;
-
-    checkbox.checked = false;
-    setProsseguirEnabled(false);
-
-    checkbox.onchange = () => {
-      setProsseguirEnabled(checkbox.checked === true);
-    };
-  }
-
-  function showAcceptance(show){
-    const wrap = document.getElementById("popup-accept-wrap");
-    if (!wrap) return;
-    wrap.style.display = show ? "block" : "none";
-  }
-
-  function scrollRulesIntoView(){
-    const rules = document.getElementById("popup-rules");
-    if (!rules) return;
-    rules.style.display = "block";
-    rules.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  function openPopup({ title="", text="", showProsseguir=false, showRules=false, iframeSrc="", requireAcceptance=false }){
+  function openPopup({ title="", text="", showProsseguir=false, showRules=false, iframeSrc="", enablePurchaseAccept=false, category="", city="" }){
     document.getElementById("popup-title").innerText = title;
     document.getElementById("popup-text").innerText = text;
 
     const btn = document.getElementById("popup-prosseguir");
     btn.style.display = showProsseguir ? "inline-block" : "none";
-    btn.disabled = false;
 
     const rules = document.getElementById("popup-rules");
     rules.style.display = showRules ? "block" : "none";
@@ -1275,13 +1229,21 @@
       iframeWrap.style.display = "none";
     }
 
-    // Checkbox de aceite
-    if (requireAcceptance){
-      showAcceptance(true);
-      resetAcceptance();
-    } else {
-      showAcceptance(false);
-      setProsseguirEnabled(true);
+    // NOVO: checkbox de aceite antes do Prosseguir
+    resetPurchaseAccept();
+    const acceptWrap = document.getElementById("purchase-accept-wrap");
+    const acceptChk = document.getElementById("purchase-accept");
+
+    if (enablePurchaseAccept && showProsseguir) {
+      purchaseSelection = { category: category || "", city: city || "" };
+
+      if (acceptWrap) acceptWrap.style.display = "flex";
+      if (acceptChk) acceptChk.checked = false;
+
+      // botão começa travado
+      btn.disabled = true;
+      btn.style.opacity = "0.55";
+      btn.style.cursor = "not-allowed";
     }
 
     document.getElementById("popup").classList.add("active");
@@ -1290,6 +1252,23 @@
   function closePopup(){
     document.getElementById("popup").classList.remove("active");
     document.getElementById("popup-iframe").src = "";
+    resetPurchaseAccept();
+  }
+
+  function onPurchaseAcceptChange(){
+    const chk = document.getElementById("purchase-accept");
+    const btn = document.getElementById("popup-prosseguir");
+    if (!chk || !btn) return;
+
+    if (chk.checked) {
+      btn.disabled = false;
+      btn.style.opacity = "1";
+      btn.style.cursor = "pointer";
+    } else {
+      btn.disabled = true;
+      btn.style.opacity = "0.55";
+      btn.style.cursor = "not-allowed";
+    }
   }
 
   function openOverview(){
@@ -1299,78 +1278,11 @@
       showProsseguir: false,
       showRules: false,
       iframeSrc: "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf",
-      requireAcceptance: false
+      enablePurchaseAccept: false
     });
   }
 
-  function openPurchaseSoon(){
-    openPopup({
-      title: "Em breve",
-      text: "Estamos finalizando a etapa de pagamento e liberação automática do material.",
-      showProsseguir: false,
-      showRules: false,
-      iframeSrc: "",
-      requireAcceptance: false
-    });
-  }
-
-  function handleProsseguir(){
-    if (!state.purchase || !state.purchase.city){
-      openPopup({
-        title: "Atenção",
-        text: "Não foi possível identificar o material. Por favor, feche e tente novamente.",
-        showProsseguir: false,
-        showRules: false,
-        iframeSrc: "",
-        requireAcceptance: false
-      });
-      return;
-    }
-
-    if (!state.purchase.isAvailable){
-      openPurchaseSoon();
-      return;
-    }
-
-    // Se está disponível, aqui inicia o checkout
-    startStripeCheckout(state.purchase.category, state.purchase.city);
-  }
-
-  async function startStripeCheckout(category, city){
-    // Travar o botão enquanto processa
-    setProsseguirEnabled(false);
-
-    try{
-      const res = await fetch("/api/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, city })
-      });
-
-      if (!res.ok){
-        throw new Error("Falha ao iniciar o pagamento.");
-      }
-
-      const data = await res.json();
-
-      if (!data || !data.url){
-        throw new Error("Resposta inválida do pagamento.");
-      }
-
-      // Stripe Checkout na mesma aba
-      window.location.href = data.url;
-    } catch(e){
-      openPopup({
-        title: "Pagamento",
-        text: "Ainda estamos finalizando a etapa de pagamento. Se o problema persistir, tente novamente em instantes.",
-        showProsseguir: false,
-        showRules: false,
-        iframeSrc: "",
-        requireAcceptance: false
-      });
-    }
-  }
-
+  // ========= CURADORIA (dados base) =========
   const curadoriaData = {
     "City Guide": [
       { cidade: "São Paulo — Brasil" },
@@ -1598,13 +1510,9 @@
     if (keepPosition) {}
   }
 
+  // NOVO: abre modal e prepara checkout se estiver disponível
   function openCityModal(category, city){
     const isAvailable = hasActiveMaterial(category, city);
-
-    // Guardar contexto do que o usuário está tentando acessar
-    state.purchase.category = category;
-    state.purchase.city = city;
-    state.purchase.isAvailable = isAvailable;
 
     const msg = isAvailable
       ? `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. Este conteúdo é liberado após a confirmação da compra.`
@@ -1613,11 +1521,84 @@
     openPopup({
       title: city,
       text: msg,
-      showProsseguir: true,
+      showProsseguir: isAvailable,     // só mostra Prosseguir se estiver disponível
       showRules: true,
       iframeSrc: "",
-      requireAcceptance: isAvailable === true
+      enablePurchaseAccept: isAvailable,
+      category: category,
+      city: city
     });
+  }
+  // ========= STRIPE CHECKOUT (NOVO) =========
+  async function startCheckout(){
+    const btn = document.getElementById("popup-prosseguir");
+    const chk = document.getElementById("purchase-accept");
+
+    // Segurança extra: só prossegue se estiver aceito
+    if (!chk || !chk.checked){
+      return;
+    }
+
+    // Segurança extra: precisa ter category/city
+    const category = (purchaseSelection && purchaseSelection.category) ? purchaseSelection.category : "";
+    const city = (purchaseSelection && purchaseSelection.city) ? purchaseSelection.city : "";
+    if (!category || !city){
+      openPopup({
+        title: "Pagamento",
+        text: "Não foi possível identificar a categoria e a cidade selecionadas. Por favor, feche e tente novamente.",
+        showProsseguir: false,
+        showRules: false,
+        iframeSrc: "",
+        enablePurchaseAccept: false
+      });
+      return;
+    }
+
+    try{
+      if (btn){
+        btn.disabled = true;
+        btn.style.opacity = "0.55";
+        btn.style.cursor = "not-allowed";
+        btn.innerText = "Carregando...";
+      }
+
+      const resp = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ category, city })
+      });
+
+      const data = await resp.json().catch(() => ({}));
+
+      if (!resp.ok || !data || !data.url){
+        const msg = (data && (data.error || data.message)) ? (data.error || data.message) : "Não foi possível iniciar o pagamento. Tente novamente.";
+        openPopup({
+          title: "Pagamento",
+          text: msg,
+          showProsseguir: false,
+          showRules: false,
+          iframeSrc: "",
+          enablePurchaseAccept: false
+        });
+        return;
+      }
+
+      // Abre na MESMA aba
+      window.location.href = data.url;
+    } catch(e){
+      openPopup({
+        title: "Pagamento",
+        text: "Ocorreu um erro ao iniciar o pagamento. Por favor, tente novamente.",
+        showProsseguir: false,
+        showRules: false,
+        iframeSrc: "",
+        enablePurchaseAccept: false
+      });
+    } finally{
+      if (btn){
+        btn.innerText = "Prosseguir";
+      }
+    }
   }
 
   // ========= CONTATO & AVALIAÇÕES: estrelas + envio =========
@@ -1661,7 +1642,7 @@
         showProsseguir: false,
         showRules: false,
         iframeSrc: "",
-        requireAcceptance: false
+        enablePurchaseAccept: false
       });
       return;
     }
@@ -1673,7 +1654,7 @@
         showProsseguir: false,
         showRules: false,
         iframeSrc: "",
-        requireAcceptance: false
+        enablePurchaseAccept: false
       });
       return;
     }
@@ -1685,7 +1666,7 @@
         showProsseguir: false,
         showRules: false,
         iframeSrc: "",
-        requireAcceptance: false
+        enablePurchaseAccept: false
       });
       return;
     }
@@ -1701,7 +1682,7 @@
       showProsseguir: false,
       showRules: false,
       iframeSrc: "",
-      requireAcceptance: false
+      enablePurchaseAccept: false
     });
   }
 
@@ -1729,7 +1710,7 @@
         showProsseguir: false,
         showRules: false,
         iframeSrc: "",
-        requireAcceptance: false
+        enablePurchaseAccept: false
       });
       return;
     }
@@ -1741,7 +1722,7 @@
         showProsseguir: false,
         showRules: false,
         iframeSrc: "",
-        requireAcceptance: false
+        enablePurchaseAccept: false
       });
       return;
     }
@@ -1755,7 +1736,7 @@
           showProsseguir: false,
           showRules: false,
           iframeSrc: "",
-          requireAcceptance: false
+          enablePurchaseAccept: false
         });
         return;
       }
@@ -1773,11 +1754,11 @@
       showProsseguir: false,
       showRules: false,
       iframeSrc: "",
-      requireAcceptance: false
+      enablePurchaseAccept: false
     });
   }
 
-  // Carrossel de imagens (paz/serenidade/mansidão) na seção Contato & Avaliações
+  // ========= Carrossel na seção Contato & Avaliações =========
   const contactMoodImages = [
     "https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=2400&q=80",
     "https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=2400&q=80",
@@ -1821,6 +1802,7 @@
     cmShowFirst = !cmShowFirst;
   }, 18000);
 
+  // Inicia o admin (supabase)
   loadActiveMaterials();
 </script>
 
