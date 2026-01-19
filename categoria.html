@@ -326,6 +326,11 @@
       margin-top:14px;
     }
 
+    button:disabled{
+      opacity:0.55;
+      cursor:not-allowed;
+    }
+
     .btn-ghost{
       background:transparent;
       border:1px solid rgba(212,175,55,0.35);
@@ -678,6 +683,45 @@
       justify-content:center;
       flex-wrap:wrap;
       margin-top:10px;
+    }
+
+    .popup-accept{
+      width:100%;
+      margin-top:10px;
+      margin-bottom:6px;
+      text-align:left;
+      background:#0f0f0f;
+      border:1px solid #222;
+      border-radius:12px;
+      padding:12px 12px;
+      box-sizing:border-box;
+      color:rgba(255,255,255,0.78);
+      font-size:13.5px;
+      line-height:1.45;
+      display:none;
+    }
+
+    .popup-accept label{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      cursor:pointer;
+      user-select:none;
+    }
+
+    .popup-accept input{
+      margin-top:2px;
+      transform:scale(1.05);
+      accent-color:#d4af37;
+    }
+
+    .popup-accept .link{
+      color:#d4af37;
+      text-decoration:none;
+      border-bottom:1px solid rgba(212,175,55,0.28);
+      padding-bottom:1px;
+      cursor:pointer;
+      font-weight:600;
     }
 
     .popup-rules{
@@ -1060,8 +1104,19 @@
       Ao adquirir nossos materiais, o usuário declara estar ciente e de acordo com essas condições.
     </div>
 
+    <!-- Checkbox de aceite (só aparece quando for necessário) -->
+    <div class="popup-accept" id="popup-accept-wrap">
+      <label for="popup-accept">
+        <input id="popup-accept" type="checkbox" />
+        <span>
+          Li e aceito as condições e estou ciente de que não é possível cancelamento, troca ou reembolso.
+          <span class="link" onclick="scrollRulesIntoView()">Ver condições</span>
+        </span>
+      </label>
+    </div>
+
     <div class="popup-actions">
-      <button id="popup-prosseguir" style="display:none;" onclick="openPurchaseSoon()">Prosseguir</button>
+      <button id="popup-prosseguir" style="display:none;" onclick="handleProsseguir()">Prosseguir</button>
       <button class="btn-ghost" onclick="closePopup()">Fechar</button>
     </div>
   </div>
@@ -1158,12 +1213,54 @@
     apShowFirst = !apShowFirst;
   }, 18000);
 
-  function openPopup({ title="", text="", showProsseguir=false, showRules=false, iframeSrc="" }){
+  // ========= POPUP helpers + aceite =========
+  const state = {
+    purchase: {
+      category: null,
+      city: null,
+      isAvailable: false
+    }
+  };
+
+  function setProsseguirEnabled(enabled){
+    const btn = document.getElementById("popup-prosseguir");
+    if (!btn) return;
+    btn.disabled = !enabled;
+  }
+
+  function resetAcceptance(){
+    const wrap = document.getElementById("popup-accept-wrap");
+    const checkbox = document.getElementById("popup-accept");
+    if (!wrap || !checkbox) return;
+
+    checkbox.checked = false;
+    setProsseguirEnabled(false);
+
+    checkbox.onchange = () => {
+      setProsseguirEnabled(checkbox.checked === true);
+    };
+  }
+
+  function showAcceptance(show){
+    const wrap = document.getElementById("popup-accept-wrap");
+    if (!wrap) return;
+    wrap.style.display = show ? "block" : "none";
+  }
+
+  function scrollRulesIntoView(){
+    const rules = document.getElementById("popup-rules");
+    if (!rules) return;
+    rules.style.display = "block";
+    rules.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function openPopup({ title="", text="", showProsseguir=false, showRules=false, iframeSrc="", requireAcceptance=false }){
     document.getElementById("popup-title").innerText = title;
     document.getElementById("popup-text").innerText = text;
 
     const btn = document.getElementById("popup-prosseguir");
     btn.style.display = showProsseguir ? "inline-block" : "none";
+    btn.disabled = false;
 
     const rules = document.getElementById("popup-rules");
     rules.style.display = showRules ? "block" : "none";
@@ -1176,6 +1273,15 @@
     } else {
       iframe.src = "";
       iframeWrap.style.display = "none";
+    }
+
+    // Checkbox de aceite
+    if (requireAcceptance){
+      showAcceptance(true);
+      resetAcceptance();
+    } else {
+      showAcceptance(false);
+      setProsseguirEnabled(true);
     }
 
     document.getElementById("popup").classList.add("active");
@@ -1192,7 +1298,8 @@
       text: "Conheça o formato, a profundidade e o padrão dos materiais que entregamos.",
       showProsseguir: false,
       showRules: false,
-      iframeSrc: "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
+      iframeSrc: "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf",
+      requireAcceptance: false
     });
   }
 
@@ -1202,8 +1309,66 @@
       text: "Estamos finalizando a etapa de pagamento e liberação automática do material.",
       showProsseguir: false,
       showRules: false,
-      iframeSrc: ""
+      iframeSrc: "",
+      requireAcceptance: false
     });
+  }
+
+  function handleProsseguir(){
+    if (!state.purchase || !state.purchase.city){
+      openPopup({
+        title: "Atenção",
+        text: "Não foi possível identificar o material. Por favor, feche e tente novamente.",
+        showProsseguir: false,
+        showRules: false,
+        iframeSrc: "",
+        requireAcceptance: false
+      });
+      return;
+    }
+
+    if (!state.purchase.isAvailable){
+      openPurchaseSoon();
+      return;
+    }
+
+    // Se está disponível, aqui inicia o checkout
+    startStripeCheckout(state.purchase.category, state.purchase.city);
+  }
+
+  async function startStripeCheckout(category, city){
+    // Travar o botão enquanto processa
+    setProsseguirEnabled(false);
+
+    try{
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ category, city })
+      });
+
+      if (!res.ok){
+        throw new Error("Falha ao iniciar o pagamento.");
+      }
+
+      const data = await res.json();
+
+      if (!data || !data.url){
+        throw new Error("Resposta inválida do pagamento.");
+      }
+
+      // Stripe Checkout na mesma aba
+      window.location.href = data.url;
+    } catch(e){
+      openPopup({
+        title: "Pagamento",
+        text: "Ainda estamos finalizando a etapa de pagamento. Se o problema persistir, tente novamente em instantes.",
+        showProsseguir: false,
+        showRules: false,
+        iframeSrc: "",
+        requireAcceptance: false
+      });
+    }
   }
 
   const curadoriaData = {
@@ -1436,6 +1601,11 @@
   function openCityModal(category, city){
     const isAvailable = hasActiveMaterial(category, city);
 
+    // Guardar contexto do que o usuário está tentando acessar
+    state.purchase.category = category;
+    state.purchase.city = city;
+    state.purchase.isAvailable = isAvailable;
+
     const msg = isAvailable
       ? `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. Este conteúdo é liberado após a confirmação da compra.`
       : `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. Este conteúdo estará disponível em breve.`;
@@ -1445,7 +1615,8 @@
       text: msg,
       showProsseguir: true,
       showRules: true,
-      iframeSrc: ""
+      iframeSrc: "",
+      requireAcceptance: isAvailable === true
     });
   }
 
@@ -1489,7 +1660,8 @@
         text: "Por favor, informe seu nome antes de enviar.",
         showProsseguir: false,
         showRules: false,
-        iframeSrc: ""
+        iframeSrc: "",
+        requireAcceptance: false
       });
       return;
     }
@@ -1500,7 +1672,8 @@
         text: "Por favor, selecione a nota (1 a 5 estrelas) antes de enviar.",
         showProsseguir: false,
         showRules: false,
-        iframeSrc: ""
+        iframeSrc: "",
+        requireAcceptance: false
       });
       return;
     }
@@ -1511,7 +1684,8 @@
         text: "Por favor, escreva sua mensagem antes de enviar.",
         showProsseguir: false,
         showRules: false,
-        iframeSrc: ""
+        iframeSrc: "",
+        requireAcceptance: false
       });
       return;
     }
@@ -1526,7 +1700,8 @@
       text: "Seu email foi aberto com a mensagem pronta. Basta confirmar o envio.",
       showProsseguir: false,
       showRules: false,
-      iframeSrc: ""
+      iframeSrc: "",
+      requireAcceptance: false
     });
   }
 
@@ -1553,7 +1728,8 @@
         text: "Por favor, informe seu nome antes de enviar.",
         showProsseguir: false,
         showRules: false,
-        iframeSrc: ""
+        iframeSrc: "",
+        requireAcceptance: false
       });
       return;
     }
@@ -1564,7 +1740,8 @@
         text: "Por favor, escreva sua mensagem antes de enviar.",
         showProsseguir: false,
         showRules: false,
-        iframeSrc: ""
+        iframeSrc: "",
+        requireAcceptance: false
       });
       return;
     }
@@ -1577,7 +1754,8 @@
           text: "Por favor, escreva o assunto em “Outro (especifique)”.",
           showProsseguir: false,
           showRules: false,
-          iframeSrc: ""
+          iframeSrc: "",
+          requireAcceptance: false
         });
         return;
       }
@@ -1594,7 +1772,8 @@
       text: "Seu email foi aberto com a mensagem pronta. Basta confirmar o envio.",
       showProsseguir: false,
       showRules: false,
-      iframeSrc: ""
+      iframeSrc: "",
+      requireAcceptance: false
     });
   }
 
