@@ -2,7 +2,7 @@
   "name": "curadoria-elite-travel",
   "version": "1.0.0",
   "private": true,
-  "description": "Curadoria Elite Travel - site com checkout Stripe",
+  "description": "Curadoria Elite Travel - pagamento e liberação de material digital",
   "dependencies": {
     "stripe": "^16.0.0"
   }
