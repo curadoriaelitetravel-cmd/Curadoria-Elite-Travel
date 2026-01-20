@@ -1079,7 +1079,7 @@
       Ao adquirir nossos materiais, o usuário declara estar ciente e de acordo com essas condições.
     </div>
 
-    <!-- NOVO: ACEITE ANTES DO PROSSEGUIR -->
+    <!-- ACEITE ANTES DO PROSSEGUIR -->
     <div id="purchase-accept-wrap" class="purchase-accept" style="display:none;">
       <input type="checkbox" id="purchase-accept" onchange="onPurchaseAcceptChange()" />
       <div>
@@ -1117,7 +1117,6 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  // ========= HERO (carrossel) =========
   const heroImages = [
     "https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80",
     "https://images.unsplash.com/photo-1549921296-3ecf6b4b38b3?auto=format&fit=crop&w=2400&q=80",
@@ -1145,7 +1144,6 @@
     showingFirst = !showingFirst;
   }, 16000);
 
-  // ========= QUEM SOMOS (laterais) =========
   const aboutPanoramaImages = [
     "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=2400&q=80",
     "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2400&q=80",
@@ -1188,8 +1186,7 @@
     apShowFirst = !apShowFirst;
   }, 18000);
 
-  // ========= POPUP =========
-  // NOVO: guardamos a seleção atual para o checkout
+  // ===== POPUP =====
   let purchaseSelection = { category: "", city: "" };
 
   function resetPurchaseAccept(){
@@ -1199,11 +1196,13 @@
 
     if (wrap) wrap.style.display = "none";
     if (chk) chk.checked = false;
+
     if (btn){
       btn.disabled = true;
       btn.style.opacity = "0.55";
       btn.style.cursor = "not-allowed";
       btn.innerText = "Prosseguir";
+      btn.style.display = "none";
     }
 
     purchaseSelection = { category: "", city: "" };
@@ -1229,8 +1228,18 @@
       iframeWrap.style.display = "none";
     }
 
-    // NOVO: checkbox de aceite antes do Prosseguir
     resetPurchaseAccept();
+
+    if (showProsseguir) {
+      // sempre que tiver botão, deixa ele visível
+      btn.style.display = "inline-block";
+      btn.disabled = true;
+      btn.style.opacity = "0.55";
+      btn.style.cursor = "not-allowed";
+      btn.innerText = "Prosseguir";
+    }
+
+    // checkbox só quando for compra (Disponível)
     const acceptWrap = document.getElementById("purchase-accept-wrap");
     const acceptChk = document.getElementById("purchase-accept");
 
@@ -1240,10 +1249,11 @@
       if (acceptWrap) acceptWrap.style.display = "flex";
       if (acceptChk) acceptChk.checked = false;
 
-      // botão começa travado
+      // botão começa travado, vai liberar só quando marcar
       btn.disabled = true;
       btn.style.opacity = "0.55";
       btn.style.cursor = "not-allowed";
+      btn.innerText = "Prosseguir";
     }
 
     document.getElementById("popup").classList.add("active");
@@ -1264,10 +1274,12 @@
       btn.disabled = false;
       btn.style.opacity = "1";
       btn.style.cursor = "pointer";
+      btn.innerText = "Prosseguir";
     } else {
       btn.disabled = true;
       btn.style.opacity = "0.55";
       btn.style.cursor = "not-allowed";
+      btn.innerText = "Prosseguir";
     }
   }
 
@@ -1282,7 +1294,6 @@
     });
   }
 
-  // ========= CURADORIA (dados base) =========
   const curadoriaData = {
     "City Guide": [
       { cidade: "São Paulo — Brasil" },
@@ -1510,7 +1521,7 @@
     if (keepPosition) {}
   }
 
-  // NOVO: abre modal e prepara checkout se estiver disponível
+  // ====== AQUI ESTÁ A CORREÇÃO DO BOTÃO (Prosseguir sempre aparece) ======
   function openCityModal(category, city){
     const isAvailable = hasActiveMaterial(category, city);
 
@@ -1518,30 +1529,42 @@
       ? `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. Este conteúdo é liberado após a confirmação da compra.`
       : `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. Este conteúdo estará disponível em breve.`;
 
+    // Sempre mostra o botão
     openPopup({
       title: city,
       text: msg,
-      showProsseguir: isAvailable,     // só mostra Prosseguir se estiver disponível
+      showProsseguir: true,
       showRules: true,
       iframeSrc: "",
-      enablePurchaseAccept: isAvailable,
+      enablePurchaseAccept: isAvailable, // checkbox só quando estiver disponível
       category: category,
       city: city
     });
+
+    // Se não estiver disponível, mantém botão travado como "Em breve"
+    if (!isAvailable) {
+      const btn = document.getElementById("popup-prosseguir");
+      if (btn){
+        btn.disabled = true;
+        btn.style.opacity = "0.55";
+        btn.style.cursor = "not-allowed";
+        btn.innerText = "Em breve";
+      }
+    }
   }
-  // ========= STRIPE CHECKOUT (NOVO) =========
+  // ========= STRIPE CHECKOUT =========
   async function startCheckout(){
     const btn = document.getElementById("popup-prosseguir");
     const chk = document.getElementById("purchase-accept");
 
-    // Segurança extra: só prossegue se estiver aceito
+    // Só prossegue se estiver aceito
     if (!chk || !chk.checked){
       return;
     }
 
-    // Segurança extra: precisa ter category/city
     const category = (purchaseSelection && purchaseSelection.category) ? purchaseSelection.category : "";
     const city = (purchaseSelection && purchaseSelection.city) ? purchaseSelection.city : "";
+
     if (!category || !city){
       openPopup({
         title: "Pagamento",
@@ -1583,7 +1606,7 @@
         return;
       }
 
-      // Abre na MESMA aba
+      // abre na mesma aba
       window.location.href = data.url;
     } catch(e){
       openPopup({
@@ -1601,7 +1624,7 @@
     }
   }
 
-  // ========= CONTATO & AVALIAÇÕES: estrelas + envio =========
+  // ========= CONTATO & AVALIAÇÕES =========
   const CONTACT_EMAIL = "curadoriaelitetravel@gmail.com";
   let selectedRating = 0;
 
@@ -1636,38 +1659,17 @@
     const msg = (document.getElementById("rating-message").value || "").trim();
 
     if (!name){
-      openPopup({
-        title: "Avaliação",
-        text: "Por favor, informe seu nome antes de enviar.",
-        showProsseguir: false,
-        showRules: false,
-        iframeSrc: "",
-        enablePurchaseAccept: false
-      });
+      openPopup({ title:"Avaliação", text:"Por favor, informe seu nome antes de enviar.", showProsseguir:false, showRules:false, iframeSrc:"", enablePurchaseAccept:false });
       return;
     }
 
     if (!selectedRating){
-      openPopup({
-        title: "Avaliação",
-        text: "Por favor, selecione a nota (1 a 5 estrelas) antes de enviar.",
-        showProsseguir: false,
-        showRules: false,
-        iframeSrc: "",
-        enablePurchaseAccept: false
-      });
+      openPopup({ title:"Avaliação", text:"Por favor, selecione a nota (1 a 5 estrelas) antes de enviar.", showProsseguir:false, showRules:false, iframeSrc:"", enablePurchaseAccept:false });
       return;
     }
 
     if (!msg){
-      openPopup({
-        title: "Avaliação",
-        text: "Por favor, escreva sua mensagem antes de enviar.",
-        showProsseguir: false,
-        showRules: false,
-        iframeSrc: "",
-        enablePurchaseAccept: false
-      });
+      openPopup({ title:"Avaliação", text:"Por favor, escreva sua mensagem antes de enviar.", showProsseguir:false, showRules:false, iframeSrc:"", enablePurchaseAccept:false });
       return;
     }
 
@@ -1676,14 +1678,7 @@
       `Nome: ${name}\nNota: ${selectedRating}/5\n\nMensagem:\n${msg}\n\n— Enviado pelo site Curadoria Elite Travel`
     );
 
-    openPopup({
-      title: "Pronto",
-      text: "Seu email foi aberto com a mensagem pronta. Basta confirmar o envio.",
-      showProsseguir: false,
-      showRules: false,
-      iframeSrc: "",
-      enablePurchaseAccept: false
-    });
+    openPopup({ title:"Pronto", text:"Seu email foi aberto com a mensagem pronta. Basta confirmar o envio.", showProsseguir:false, showRules:false, iframeSrc:"", enablePurchaseAccept:false });
   }
 
   function onFeedbackTopicChange(){
@@ -1704,40 +1699,19 @@
     const msg = (document.getElementById("feedback-message").value || "").trim();
 
     if (!name){
-      openPopup({
-        title: "Sugestões & Feedbacks",
-        text: "Por favor, informe seu nome antes de enviar.",
-        showProsseguir: false,
-        showRules: false,
-        iframeSrc: "",
-        enablePurchaseAccept: false
-      });
+      openPopup({ title:"Sugestões & Feedbacks", text:"Por favor, informe seu nome antes de enviar.", showProsseguir:false, showRules:false, iframeSrc:"", enablePurchaseAccept:false });
       return;
     }
 
     if (!msg){
-      openPopup({
-        title: "Sugestões & Feedbacks",
-        text: "Por favor, escreva sua mensagem antes de enviar.",
-        showProsseguir: false,
-        showRules: false,
-        iframeSrc: "",
-        enablePurchaseAccept: false
-      });
+      openPopup({ title:"Sugestões & Feedbacks", text:"Por favor, escreva sua mensagem antes de enviar.", showProsseguir:false, showRules:false, iframeSrc:"", enablePurchaseAccept:false });
       return;
     }
 
     let finalTopic = topic;
     if (topic === "Outro"){
       if (!other){
-        openPopup({
-          title: "Sugestões & Feedbacks",
-          text: "Por favor, escreva o assunto em “Outro (especifique)”.",
-          showProsseguir: false,
-          showRules: false,
-          iframeSrc: "",
-          enablePurchaseAccept: false
-        });
+        openPopup({ title:"Sugestões & Feedbacks", text:"Por favor, escreva o assunto em “Outro (especifique)”.", showProsseguir:false, showRules:false, iframeSrc:"", enablePurchaseAccept:false });
         return;
       }
       finalTopic = `Outro — ${other}`;
@@ -1748,17 +1722,10 @@
       `Nome: ${name}\nAssunto: ${finalTopic}\n\nMensagem:\n${msg}\n\n— Enviado pelo site Curadoria Elite Travel`
     );
 
-    openPopup({
-      title: "Pronto",
-      text: "Seu email foi aberto com a mensagem pronta. Basta confirmar o envio.",
-      showProsseguir: false,
-      showRules: false,
-      iframeSrc: "",
-      enablePurchaseAccept: false
-    });
+    openPopup({ title:"Pronto", text:"Seu email foi aberto com a mensagem pronta. Basta confirmar o envio.", showProsseguir:false, showRules:false, iframeSrc:"", enablePurchaseAccept:false });
   }
 
-  // ========= Carrossel na seção Contato & Avaliações =========
+  // Carrossel de imagens (Contato)
   const contactMoodImages = [
     "https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=2400&q=80",
     "https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=2400&q=80",
@@ -1802,7 +1769,6 @@
     cmShowFirst = !cmShowFirst;
   }, 18000);
 
-  // Inicia o admin (supabase)
   loadActiveMaterials();
 </script>
 
