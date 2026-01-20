@@ -1,4 +1,3 @@
-// api/create-checkout-session.js
 const Stripe = require("stripe");
 
 module.exports = async function handler(req, res) {
@@ -9,6 +8,10 @@ module.exports = async function handler(req, res) {
 
   try {
     const secretKey = process.env.STRIPE_SECRET_KEY;
+
+    // Dois preços:
+    // - City Guide (preço diferente)
+    // - Default (todas as outras categorias)
     const priceCityGuide = process.env.STRIPE_PRICE_ID_CITY_GUIDE;
     const priceDefault = process.env.STRIPE_PRICE_ID_DEFAULT;
 
@@ -23,27 +26,21 @@ module.exports = async function handler(req, res) {
       return;
     }
     if (!priceDefault) {
-      res
-        .status(500)
-        .json({ error: "Missing STRIPE_PRICE_ID_DEFAULT env var" });
+      res.status(500).json({ error: "Missing STRIPE_PRICE_ID_DEFAULT env var" });
       return;
     }
 
     const stripe = new Stripe(secretKey, { apiVersion: "2024-06-20" });
 
-    const body = req.body || {};
-    const category = body.category;
-    const city = body.city;
-
+    const { category, city } = req.body || {};
     if (!category || !city) {
       res.status(400).json({ error: "Missing category or city" });
       return;
     }
 
-    // City Guide é o único com preço diferente
     const normalizedCategory = String(category).trim().toLowerCase();
-    const isCityGuide = normalizedCategory === "city guide";
-    const priceId = isCityGuide ? priceCityGuide : priceDefault;
+    const selectedPriceId =
+      normalizedCategory === "city guide" ? priceCityGuide : priceDefault;
 
     const origin =
       (req.headers && (req.headers.origin || req.headers.referer)) || "";
@@ -51,17 +48,21 @@ module.exports = async function handler(req, res) {
       ? origin.replace(/\/$/, "")
       : "https://curadoria-elite-travel.vercel.app";
 
-    const successUrl = `${safeOrigin}/?checkout=success&category=${encodeURIComponent(
-      category
-    )}&city=${encodeURIComponent(city)}`;
+    // Usamos {CHECKOUT_SESSION_ID} para confirmar pagamento depois
+    const successUrl = `${safeOrigin}/?checkout=success&session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${safeOrigin}/?checkout=cancel`;
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: [{ price: selectedPriceId, quantity: 1 }],
       success_url: successUrl,
       cancel_url: cancelUrl,
-      metadata: { category, city },
+
+      // Metadados para sabermos o que a pessoa escolheu
+      metadata: {
+        category: String(category),
+        city: String(city),
+      },
     });
 
     res.status(200).json({ url: session.url });
@@ -72,3 +73,4 @@ module.exports = async function handler(req, res) {
     });
   }
 };
+  
