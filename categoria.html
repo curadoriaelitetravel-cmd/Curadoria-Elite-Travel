@@ -954,7 +954,6 @@
         <div class="side-caption">Paz · Serenidade · Mansidão</div>
       </div>
     </div>
-
     <div class="contact-center">
       <h2>Contato & Avaliações</h2>
 
@@ -1363,7 +1362,6 @@
       setAdminStatus("Admin: falha na conexão", false);
     }
   }
-
   function hasActiveMaterial(category, cityLabel){
     const key = (category || "").trim() + "||" + (cityLabel || "").trim();
     return activeMaterialsMap.has(key);
@@ -1394,6 +1392,7 @@
         return;
       }
 
+      // Abre o checkout na mesma aba
       window.location.href = data.url;
     } catch(e){
       openPopup({
@@ -1411,7 +1410,7 @@
     startCheckout(pendingCheckout.category, pendingCheckout.city);
   }
 
-  /* ========= Retorno do checkout (pagou -> abre PDF) ========= */
+  /* ========= Retorno do checkout (pagou -> abre PDF na mesma aba, substituindo o site) ========= */
 
   function handleCheckoutReturn(){
     const params = new URLSearchParams(window.location.search);
@@ -1434,19 +1433,14 @@
         showRules: false,
         iframeSrc: ""
       });
+
+      // limpa a URL
       window.history.replaceState({}, document.title, window.location.pathname);
       return;
     }
 
-    openPopup({
-      title: city,
-      text: "Pagamento confirmado. Seu material foi liberado.",
-      showProsseguir: false,
-      showRules: false,
-      iframeSrc: material.pdf_url
-    });
-
-    window.history.replaceState({}, document.title, window.location.pathname);
+    // ✅ Pedido: abrir o PDF automaticamente na mesma aba, substituindo o site
+    window.location.href = material.pdf_url;
   }
 
   /* ========= Painel de categorias ========= */
