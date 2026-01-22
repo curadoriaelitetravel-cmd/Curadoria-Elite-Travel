@@ -48,18 +48,26 @@ module.exports = async function handler(req, res) {
     const isCityGuide = String(category).trim().toLowerCase() === "city guide";
     const priceId = isCityGuide ? priceCityGuide : priceDefault;
 
-    // Origem segura
+    // Origem segura (mantém seu fallback)
     const origin =
       (req.headers && (req.headers.origin || req.headers.referer)) || "";
-    const safeOrigin = origin && origin.startsWith("http")
-      ? origin.replace(/\/$/, "")
-      : "https://curadoria-elite-travel.vercel.app";
+    const safeOrigin =
+      origin && origin.startsWith("http")
+        ? origin.replace(/\/$/, "")
+        : "https://curadoria-elite-travel.vercel.app";
 
+    /**
+     * ✅ NOVO SUCCESS URL (robusto):
+     * Em vez de voltar para "/?checkout=success...", volta para uma página pequena
+     * que valida o pagamento pelo session_id e abre o PDF NA MESMA ABA.
+     */
     const successUrl =
-      `${safeOrigin}/?checkout=success` +
-      `&category=${encodeURIComponent(category)}` +
-      `&city=${encodeURIComponent(city)}`;
+      `${safeOrigin}/checkout-success.html?session_id={CHECKOUT_SESSION_ID}`;
 
+    /**
+     * Cancelamento pode continuar simples
+     * (se quiser, depois a gente cria um cancel.html também, mas não precisa agora)
+     */
     const cancelUrl = `${safeOrigin}/?checkout=cancel`;
 
     const session = await stripe.checkout.sessions.create({
@@ -72,6 +80,8 @@ module.exports = async function handler(req, res) {
       ],
       success_url: successUrl,
       cancel_url: cancelUrl,
+
+      // ✅ Mantém metadata para o backend achar o PDF certo
       metadata: {
         category,
         city,
