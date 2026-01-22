@@ -332,6 +332,7 @@
       color:#d4af37;
       font-weight:600;
     }
+
     /* Painel interno: visual mais premium e organizado */
     .curadoria-panel{
       display:none;
@@ -486,7 +487,6 @@
       font-size:14px;
       line-height:1.6;
     }
-
     /* ========= CONTATO & AVALIAÇÕES ========= */
     #contato{
       max-width:none;
@@ -853,52 +853,51 @@
     <button onclick="openOverview()">Abrir overview</button>
   </div>
 
-  <!-- Grid de categorias (fixas) -->
+  <!-- Grid de categorias -->
   <div id="curadoria-categories" class="grid" style="margin-top:26px;">
     <div class="card" onclick="openCategory('City Guide')">
-      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80" alt="City Guide">
+      <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
       <h3>City Guide</h3>
       <p>Indicações essenciais por destino, com foco em clareza e praticidade.</p>
     </div>
 
     <div class="card" onclick="openCategory('Gastronomia')">
-      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80" alt="Gastronomia">
+      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=80">
       <h3>Gastronomia</h3>
       <p>Seleções gastronômicas para decisões mais seguras e bem orientadas.</p>
     </div>
 
     <div class="card" onclick="openCategory('Atrações Turísticas')">
-      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80" alt="Atrações Turísticas">
+      <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80">
       <h3>Atrações Turísticas</h3>
       <p>O que vale seu tempo — com contexto e organização por destino.</p>
     </div>
 
     <div class="card" onclick="openCategory('Vida Noturna')">
-      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80" alt="Vida Noturna">
+      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80">
       <h3>Vida Noturna</h3>
       <p>Locais e experiências noturnas com curadoria e referências.</p>
     </div>
 
     <div class="card" onclick="openCategory('Endereços para Compras')">
-      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80" alt="Endereços para Compras">
+      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80">
       <h3>Endereços para Compras</h3>
       <p>Lojas, regiões e referências para comprar bem e com intenção.</p>
     </div>
 
     <div class="card" onclick="openCategory('Sugestão de Presentes')">
-      <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80" alt="Sugestão de Presentes">
+      <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1200&q=80">
       <h3>Sugestão de Presentes</h3>
       <p>Ideias e recomendações para presentes com bom senso e estilo.</p>
     </div>
   </div>
 
-  <!-- Painel interno de categoria -->
+  <!-- Painel interno -->
   <div id="curadoria-panel" class="curadoria-panel">
     <div class="panel-top">
       <div>
         <div class="breadcrumb" id="breadcrumb">Curadoria</div>
         <h3 class="panel-title" id="panel-title">Categoria</h3>
-
         <div class="panel-meta">
           <span class="pill" id="cities-count">0 cidades</span>
           <span class="pill" id="visible-count">Mostrando 0</span>
@@ -923,8 +922,7 @@
     <div id="cities-grid" class="cities-grid"></div>
 
     <div id="empty-state" class="empty-state" style="display:none;">
-      Nenhum resultado encontrado.<br>
-      Tente buscar por outro nome de cidade.
+      Nenhum resultado encontrado.
     </div>
 
     <div class="panel-footer">
@@ -937,323 +935,135 @@
 
 <!-- BUSCADOR -->
 <section id="buscador">
-  <h2 style="text-align:center;color:#d4af37;margin:40px 0 14px; font-size:28px;">Buscador</h2>
-  <p class="subtitle" style="margin-bottom:0;">
-    Em breve: uma área integrada com buscadores e indicações para experiências, hotéis, cruzeiros e outros serviços.
-  </p>
+  <h2 style="text-align:center;color:#d4af37;margin:40px 0 14px;">Buscador</h2>
+  <p class="subtitle">Em breve: área integrada com buscadores e indicações.</p>
 </section>
-<!-- CONTATO & AVALIAÇÕES -->
-<section id="contato">
-  <div class="about-layout">
-
-    <div class="side-panel" aria-hidden="true">
-      <div class="side-panel-inner">
-        <div class="side-bg left active" id="cl1"></div>
-        <div class="side-bg left" id="cl2"></div>
-        <div class="side-overlay"></div>
-        <div class="side-caption">Paz · Serenidade · Mansidão</div>
-      </div>
-    </div>
-    <div class="contact-center">
-      <h2>Contato & Avaliações</h2>
-
-      <p class="contact-sub">
-        Um canal direto para contato, avaliações e sugestões — com atenção ao que realmente importa.
-      </p>
-
-      <div class="contact-grid">
-
-        <!-- Contato -->
-        <div class="contact-card">
-          <h3>Contato</h3>
-
-          <div class="contact-line">
-            Email: <a class="contact-link" href="mailto:curadoriaelitetravel@gmail.com">curadoriaelitetravel@gmail.com</a><br>
-            Instagram: <a class="contact-link" href="https://www.instagram.com/curadoriaelitetravel/" target="_blank" rel="noopener">curadoriaelitetravel</a><br>
-            LinkedIn: <a class="contact-link" href="https://www.linkedin.com/company/curadoria-elite-travel" target="_blank" rel="noopener">Curadoria Elite Travel</a>
-          </div>
-
-          <div class="small-note">
-            Respondemos com atenção e prioridade em mensagens objetivas e bem contextualizadas.
-          </div>
-        </div>
-
-        <!-- Avaliações -->
-        <div class="contact-card">
-          <h3>Avaliações</h3>
-
-          <div class="contact-line">
-            Sua avaliação nos ajuda a manter o padrão e evoluir com consistência.
-          </div>
-
-          <span class="form-label">Nome</span>
-          <input class="form-input" id="rating-name" type="text" placeholder="Seu nome" />
-
-          <span class="form-label">Nota (1 a 5)</span>
-          <div class="stars" id="stars-rating" aria-label="Selecione de 1 a 5 estrelas">
-            <span class="star" data-value="1">★</span>
-            <span class="star" data-value="2">★</span>
-            <span class="star" data-value="3">★</span>
-            <span class="star" data-value="4">★</span>
-            <span class="star" data-value="5">★</span>
-          </div>
-
-          <span class="form-label">Mensagem</span>
-          <textarea class="form-textarea" id="rating-message" placeholder="Escreva sua avaliação com clareza..."></textarea>
-
-          <button onclick="sendRating()">Enviar avaliação</button>
-
-          <div class="small-note">
-            Ao clicar em enviar, seu email será aberto com a mensagem pronta. Basta confirmar o envio.
-          </div>
-        </div>
-
-        <!-- Sugestões / Feedbacks -->
-        <div class="contact-card" style="grid-column:1 / -1;">
-          <h3>Sugestões & Feedbacks</h3>
-
-          <div class="contact-line">
-            Sugestões bem direcionadas são valiosas para elevar o padrão e manter a experiência coerente.
-          </div>
-
-          <span class="form-label">Nome</span>
-          <input class="form-input" id="feedback-name" type="text" placeholder="Seu nome" />
-
-          <span class="form-label">Assunto</span>
-          <select class="form-select" id="feedback-topic" onchange="onFeedbackTopicChange()">
-            <option value="Parceria">Parceria</option>
-            <option value="Sugestão">Sugestão</option>
-            <option value="Correção">Correção</option>
-            <option value="Dúvida">Dúvida</option>
-            <option value="Outro">Outro</option>
-          </select>
-
-          <div id="feedback-topic-other-wrap" style="display:none;">
-            <span class="form-label">Outro (especifique)</span>
-            <input class="form-input" id="feedback-topic-other" type="text" placeholder="Escreva o assunto" />
-          </div>
-
-          <span class="form-label">Mensagem</span>
-          <textarea class="form-textarea" id="feedback-message" placeholder="Compartilhe sua sugestão com detalhes..."></textarea>
-
-          <button class="btn-ghost" onclick="sendFeedback()">Enviar</button>
-
-          <div class="small-note">
-            Ao clicar em enviar, seu email será aberto com a mensagem pronta. Basta confirmar o envio.
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="side-panel" aria-hidden="true">
-      <div class="side-panel-inner">
-        <div class="side-bg right active" id="cr1"></div>
-        <div class="side-bg right" id="cr2"></div>
-        <div class="side-overlay"></div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- POPUP -->
-<div class="popup-bg" id="popup">
-  <div class="popup-content" id="popup-content">
-    <h3 id="popup-title"></h3>
-    <p id="popup-text"></p>
-
-    <div id="popup-iframe-wrap" style="display:none;">
-      <iframe class="popup-iframe" id="popup-iframe" src=""></iframe>
-    </div>
-
-    <div class="popup-rules" id="popup-rules" style="display:none;">
-      <strong>Informações Importantes</strong><br><br>
-      A Curadoria Elite Travel oferece exclusivamente materiais digitais de caráter informativo e orientativo, baseados em indicações, referências e conteúdos selecionados.<br><br>
-      Não realizamos reservas, vendas de passagens, hospedagens, experiências ou qualquer tipo de intermediação direta com fornecedores ou prestadores de serviço.<br><br>
-      As decisões de compra, contratação e utilização de serviços indicados nos materiais são de <strong>responsabilidade exclusiva do usuário</strong>, assim como qualquer tratativa, solicitação, alteração ou eventual problema relacionado aos serviços contratados.<br><br>
-      Por se tratar de conteúdo digital disponibilizado de forma imediata após a confirmação da compra, <strong>não é possível realizar cancelamentos, trocas ou reembolsos</strong>.<br><br>
-      Ao adquirir nossos materiais, o usuário declara estar ciente e de acordo com essas condições.
-    </div>
-
-    <div class="popup-actions">
-      <button id="popup-prosseguir" style="display:none;" onclick="openPurchaseSoon()">Prosseguir</button>
-      <button class="btn-ghost" onclick="closePopup()">Fechar</button>
-    </div>
-  </div>
-</div>
 
 <footer>
   Curadoria Elite Travel · O seu mundo, bem indicado.<br>
   São Paulo – SP · curadoriaelitetravel@gmail.com
-  <br><br>
-  <a
-    onclick="showSection('contato')"
-    style="color:#d4af37; text-decoration:none; font-weight:600; cursor:pointer;"
-  >
-    Contato & Avaliações
-  </a>
 </footer>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
 <script>
+  /* =========================
+     Navegação entre seções
+  ========================= */
   function showSection(id){
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
     const el = document.getElementById(id);
-    if(el) el.classList.add("active");
+    if (el) el.classList.add("active");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  const heroImages = [
-    "https://images.unsplash.com/photo-1488747279002-c8523379faaa?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1549921296-3ecf6b4b38b3?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=80"
-  ];
+  /* =========================
+     Popup (criado via JS para não quebrar layout)
+  ========================= */
+  function ensurePopupExists(){
+    if (document.getElementById("popup")) return;
 
-  const bg1 = document.getElementById("bg1");
-  const bg2 = document.getElementById("bg2");
-  let current = 0;
-  let showingFirst = true;
+    const popupHTML = `
+      <div class="popup-bg" id="popup">
+        <div class="popup-content" id="popup-content">
+          <h3 id="popup-title"></h3>
+          <p id="popup-text"></p>
 
-  bg1.style.backgroundImage = `url('${heroImages[0]}')`;
+          <div class="popup-rules" id="popup-rules" style="display:none;">
+            <strong>Informações Importantes</strong><br><br>
+            A Curadoria Elite Travel oferece exclusivamente materiais digitais de caráter informativo e orientativo, baseados em indicações, referências e conteúdos selecionados.<br><br>
+            Não realizamos reservas, vendas de passagens, hospedagens, experiências ou qualquer tipo de intermediação direta com fornecedores ou prestadores de serviço.<br><br>
+            As decisões de compra, contratação e utilização de serviços indicados nos materiais são de <strong>responsabilidade exclusiva do usuário</strong>, assim como qualquer tratativa, solicitação, alteração ou eventual problema relacionado aos serviços contratados.<br><br>
+            Por se tratar de conteúdo digital disponibilizado de forma imediata após a confirmação da compra, <strong>não é possível realizar cancelamentos, trocas ou reembolsos</strong>.<br><br>
+            Ao adquirir nossos materiais, o usuário declara estar ciente e de acordo com essas condições.
+          </div>
 
-  setInterval(() => {
-    current = (current + 1) % heroImages.length;
-    const next = showingFirst ? bg2 : bg1;
-    const currentBg = showingFirst ? bg1 : bg2;
+          <div class="popup-actions">
+            <button id="popup-prosseguir" style="display:none;">Prosseguir</button>
+            <button class="btn-ghost" id="popup-fechar">Fechar</button>
+          </div>
+        </div>
+      </div>
+    `;
 
-    next.style.backgroundImage = `url('${heroImages[current]}')`;
-    next.classList.add("active");
-    currentBg.classList.remove("active");
+    const wrap = document.createElement("div");
+    wrap.innerHTML = popupHTML;
+    document.body.appendChild(wrap);
 
-    showingFirst = !showingFirst;
-  }, 16000);
+    document.getElementById("popup-fechar").addEventListener("click", closePopup);
+  }
 
-  const aboutPanoramaImages = [
-    "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1500043357865-c6b8827edf2a?auto=format&fit=crop&w=2400&q=80"
-  ];
+  function openPopup({ title="", text="", showProsseguir=false, showRules=false, onProsseguir=null }){
+    ensurePopupExists();
 
-  const sl1 = document.getElementById("sl1");
-  const sl2 = document.getElementById("sl2");
-  const sr1 = document.getElementById("sr1");
-  const sr2 = document.getElementById("sr2");
-
-  let apIndex = 0;
-  let apShowFirst = true;
-
-  sl1.style.backgroundImage = `url('${aboutPanoramaImages[0]}')`;
-  sr1.style.backgroundImage = `url('${aboutPanoramaImages[0]}')`;
-
-  setInterval(() => {
-    apIndex = (apIndex + 1) % aboutPanoramaImages.length;
-    const img = aboutPanoramaImages[apIndex];
-
-    if (apShowFirst) {
-      sl2.style.backgroundImage = `url('${img}')`;
-      sr2.style.backgroundImage = `url('${img}')`;
-
-      sl2.classList.add("active");
-      sr2.classList.add("active");
-      sl1.classList.remove("active");
-      sr1.classList.remove("active");
-    } else {
-      sl1.style.backgroundImage = `url('${img}')`;
-      sr1.style.backgroundImage = `url('${img}')`;
-
-      sl1.classList.add("active");
-      sr1.classList.add("active");
-      sl2.classList.remove("active");
-      sr2.classList.remove("active");
-    }
-
-    apShowFirst = !apShowFirst;
-  }, 18000);
-
-  function openPopup({ title="", text="", showProsseguir=false, showRules=false, iframeSrc="" }){
     document.getElementById("popup-title").innerText = title;
     document.getElementById("popup-text").innerText = text;
-
-    const btn = document.getElementById("popup-prosseguir");
-    btn.style.display = showProsseguir ? "inline-block" : "none";
 
     const rules = document.getElementById("popup-rules");
     rules.style.display = showRules ? "block" : "none";
 
-    const iframeWrap = document.getElementById("popup-iframe-wrap");
-    const iframe = document.getElementById("popup-iframe");
-    if (iframeSrc) {
-      iframe.src = iframeSrc;
-      iframeWrap.style.display = "block";
+    const btn = document.getElementById("popup-prosseguir");
+    btn.style.display = showProsseguir ? "inline-block" : "none";
+
+    // remove checkbox antigo (se tiver)
+    const old = document.getElementById("consent-checkbox-wrap");
+    if (old) old.remove();
+
+    // Se for comprar (Prosseguir aparece), então adiciona o checkbox e trava o botão
+    if (showProsseguir){
+      const actions = document.querySelector("#popup-content .popup-actions");
+
+      const consentWrap = document.createElement("div");
+      consentWrap.id = "consent-checkbox-wrap";
+      consentWrap.className = "consent-wrap";
+      consentWrap.innerHTML = `
+        <input type="checkbox" id="consent-checkbox" />
+        <label for="consent-checkbox">(Li e concordo que, por ser um produto digital de acesso imediato, não será possível realizar cancelamentos, trocas ou reembolsos após a confirmação da compra.)</label>
+      `;
+
+      // Insere o checkbox acima dos botões
+      actions.parentNode.insertBefore(consentWrap, actions);
+
+      btn.disabled = true;
+
+      const cb = document.getElementById("consent-checkbox");
+      cb.addEventListener("change", () => {
+        btn.disabled = !cb.checked;
+      });
     } else {
-      iframe.src = "";
-      iframeWrap.style.display = "none";
+      btn.disabled = false;
+    }
+
+    // comportamento do Prosseguir
+    btn.onclick = null;
+    if (showProsseguir && typeof onProsseguir === "function"){
+      btn.onclick = onProsseguir;
     }
 
     document.getElementById("popup").classList.add("active");
-
-    // ===== Checkbox obrigatório antes do Prosseguir (só quando for comprar) =====
-    try{
-      const actions = document.querySelector("#popup-content .popup-actions");
-      const existing = document.getElementById("consent-checkbox-wrap");
-      if (showProsseguir && actions && !existing){
-        const wrap = document.createElement("div");
-        wrap.id = "consent-checkbox-wrap";
-        wrap.className = "consent-wrap";
-        wrap.innerHTML = `
-          <input type="checkbox" id="consent-checkbox" />
-          <label for="consent-checkbox">Li e concordo que, por ser um produto digital de acesso imediato, não será possível realizar cancelamentos, trocas ou reembolsos após a confirmação da compra.</label>
-        `;
-        actions.insertBefore(wrap, actions.firstChild);
-
-        btn.disabled = true;
-
-        const cb = document.getElementById("consent-checkbox");
-        cb.addEventListener("change", () => {
-          btn.disabled = !cb.checked;
-        });
-      }
-
-      if (!showProsseguir){
-        if (btn) btn.disabled = false;
-      }
-    }catch(e){}
   }
 
   function closePopup(){
-    document.getElementById("popup").classList.remove("active");
-    document.getElementById("popup-iframe").src = "";
+    const p = document.getElementById("popup");
+    if (p) p.classList.remove("active");
 
-    // reset checkbox
-    const wrap = document.getElementById("consent-checkbox-wrap");
-    if (wrap) wrap.remove();
+    const old = document.getElementById("consent-checkbox-wrap");
+    if (old) old.remove();
+
     const btn = document.getElementById("popup-prosseguir");
     if (btn) btn.disabled = false;
   }
 
+  /* =========================
+     Overview (abre PDF de amostra)
+  ========================= */
   function openOverview(){
-    openPopup({
-      title: "Overview",
-      text: "Conheça o formato, a profundidade e o padrão dos materiais que entregamos.",
-      showProsseguir: false,
-      showRules: false,
-      iframeSrc: "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf"
-    });
-  }
-  function openPurchaseSoon(){
-    openPopup({
-      title: "Em breve",
-      text: "Estamos finalizando a etapa de pagamento e liberação automática do material.",
-      showProsseguir: false,
-      showRules: false,
-      iframeSrc: ""
-    });
+    // abre o PDF substituindo o site (mesma aba)
+    window.location.href = "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf";
   }
 
+  /* =========================
+     Dados das cidades (mantidos)
+  ========================= */
   const curadoriaData = {
     "City Guide": [
       { cidade: "São Paulo — Brasil" },
@@ -1312,12 +1122,14 @@
     ]
   };
 
-  /* ========= Supabase (Admin) ========= */
+  /* =========================
+     Supabase: busca materiais ativos
+  ========================= */
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
   let supabaseClient = null;
-  const activeMaterialsMap = new Map();
+  const activeMaterialsMap = new Map(); // key: "category||city" -> {pdf_url}
 
   function setAdminStatus(text, ok){
     const el = document.getElementById("admin-status");
@@ -1327,15 +1139,28 @@
     el.classList.add(ok ? "ok" : "muted");
   }
 
+  function materialKey(category, cityLabel){
+    return (category || "").trim() + "||" + (cityLabel || "").trim();
+  }
+
+  function hasActiveMaterial(category, cityLabel){
+    return activeMaterialsMap.has(materialKey(category, cityLabel));
+  }
+
   async function loadActiveMaterials(){
     activeMaterialsMap.clear();
 
     try{
+      if (!window.supabase){
+        setAdminStatus("Admin: falha na conexão", false);
+        return;
+      }
+
       supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
       const { data, error } = await supabaseClient
         .from("curadoria_materials")
-        .select("category, city_label, pdf_url, year, is_active")
+        .select("category, city_label, pdf_url, is_active")
         .eq("is_active", true);
 
       if (error){
@@ -1346,29 +1171,24 @@
       (data || []).forEach(row => {
         const cat = (row.category || "").trim();
         const city = (row.city_label || "").trim();
-        const key = cat + "||" + city;
-        activeMaterialsMap.set(key, { pdf_url: row.pdf_url, year: row.year });
+        const key = materialKey(cat, city);
+        activeMaterialsMap.set(key, { pdf_url: row.pdf_url });
       });
 
       setAdminStatus("Admin: conectado", true);
 
-      if (currentCategory){
-        renderCities(true);
-      }
-
-      // Depois de carregar os materiais, trata o retorno do pagamento
+      // IMPORTANTÍSSIMO:
+      // Se o usuário acabou de voltar do pagamento (checkout=success),
+      // aqui a gente já tem o PDF e abre na MESMA ABA (substitui o site).
       handleCheckoutReturn();
     } catch(e){
       setAdminStatus("Admin: falha na conexão", false);
     }
   }
-  function hasActiveMaterial(category, cityLabel){
-    const key = (category || "").trim() + "||" + (cityLabel || "").trim();
-    return activeMaterialsMap.has(key);
-  }
 
-  /* ========= Checkout Stripe (iniciar) ========= */
-
+  /* =========================
+     Fluxo Stripe: iniciar pagamento
+  ========================= */
   let pendingCheckout = { category:null, city:null };
 
   async function startCheckout(category, city){
@@ -1379,20 +1199,21 @@
         body: JSON.stringify({ category, city })
       });
 
-      const data = await res.json();
+      let data = null;
+      try{ data = await res.json(); }catch(e){}
 
-      if (!data || !data.url){
+      if (!res.ok || !data || !data.url){
         openPopup({
           title: "Pagamento",
           text: "Não foi possível iniciar o pagamento. Tente novamente.",
           showProsseguir: false,
           showRules: false,
-          iframeSrc: ""
+          onProsseguir: null
         });
         return;
       }
 
-      // Abre o checkout na mesma aba
+      // Vai para o Checkout da Stripe (mesma aba)
       window.location.href = data.url;
     } catch(e){
       openPopup({
@@ -1400,7 +1221,7 @@
         text: "Erro ao conectar com o pagamento. Tente novamente.",
         showProsseguir: false,
         showRules: false,
-        iframeSrc: ""
+        onProsseguir: null
       });
     }
   }
@@ -1410,11 +1231,14 @@
     startCheckout(pendingCheckout.category, pendingCheckout.city);
   }
 
-  /* ========= Retorno do checkout (pagou -> abre PDF na mesma aba, substituindo o site) ========= */
-
+  /* =========================
+     Pós-pagamento: abre PDF na MESMA ABA
+     (substitui o site inteiro)
+  ========================= */
   function handleCheckoutReturn(){
     const params = new URLSearchParams(window.location.search);
     const status = params.get("checkout");
+
     if (status !== "success") return;
 
     const category = params.get("category");
@@ -1422,8 +1246,7 @@
 
     if (!category || !city) return;
 
-    const key = (category || "").trim() + "||" + (city || "").trim();
-    const material = activeMaterialsMap.get(key);
+    const material = activeMaterialsMap.get(materialKey(category, city));
 
     if (!material || !material.pdf_url){
       openPopup({
@@ -1431,20 +1254,18 @@
         text: "Pagamento confirmado, mas não encontramos o material. Por favor, entre em contato.",
         showProsseguir: false,
         showRules: false,
-        iframeSrc: ""
+        onProsseguir: null
       });
-
-      // limpa a URL
-      window.history.replaceState({}, document.title, window.location.pathname);
       return;
     }
 
-    // ✅ Pedido: abrir o PDF automaticamente na mesma aba, substituindo o site
+    // ✅ EXIGÊNCIA: abrir PDF automaticamente na MESMA ABA (substituindo o site)
     window.location.href = material.pdf_url;
   }
 
-  /* ========= Painel de categorias ========= */
-
+  /* =========================
+     Painel de categorias + lista de cidades
+  ========================= */
   const BATCH_SIZE = 8;
   let currentCategory = null;
   let filteredCities = [];
@@ -1461,13 +1282,16 @@
     currentCategory = category;
 
     const panel = document.getElementById("curadoria-panel");
+    if (!panel) return;
     panel.style.display = "block";
 
-    document.getElementById("breadcrumb").innerText = "Curadoria > " + category;
-    document.getElementById("panel-title").innerText = category;
+    const bc = document.getElementById("breadcrumb");
+    const pt = document.getElementById("panel-title");
+    if (bc) bc.innerText = "Curadoria > " + category;
+    if (pt) pt.innerText = category;
 
     const input = document.getElementById("city-search");
-    input.value = "";
+    if (input) input.value = "";
 
     filteredCities = (curadoriaData[category] || []).slice();
     visibleCount = Math.min(BATCH_SIZE, filteredCities.length);
@@ -1476,29 +1300,30 @@
 
     setTimeout(() => {
       panel.scrollIntoView({ behavior: "smooth", block: "start" });
-      input.focus({ preventScroll: true });
+      if (input) input.focus({ preventScroll: true });
     }, 120);
   }
 
   function closeCategory(){
-    document.getElementById("curadoria-panel").style.display = "none";
+    const panel = document.getElementById("curadoria-panel");
+    if (panel) panel.style.display = "none";
     currentCategory = null;
     filteredCities = [];
     visibleCount = 0;
-    document.getElementById("curadoria-categories").scrollIntoView({ behavior: "smooth", block: "start" });
+
+    const cats = document.getElementById("curadoria-categories");
+    if (cats) cats.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   function onSearchCity(){
     if (!currentCategory) return;
 
-    const q = normalizeText(document.getElementById("city-search").value);
+    const input = document.getElementById("city-search");
+    const q = normalizeText(input ? input.value : "");
     const all = (curadoriaData[currentCategory] || []);
 
-    if (!q) {
-      filteredCities = all.slice();
-    } else {
-      filteredCities = all.filter(item => normalizeText(item.cidade).includes(q));
-    }
+    if (!q) filteredCities = all.slice();
+    else filteredCities = all.filter(item => normalizeText(item.cidade).includes(q));
 
     visibleCount = Math.min(BATCH_SIZE, filteredCities.length);
     renderCities();
@@ -1509,23 +1334,28 @@
     renderCities(true);
   }
 
-  function renderCities(keepPosition){
+  function renderCities(){
     const grid = document.getElementById("cities-grid");
     const empty = document.getElementById("empty-state");
     const btnMore = document.getElementById("btn-more");
+    const citiesCount = document.getElementById("cities-count");
+    const visible = document.getElementById("visible-count");
+
+    if (!grid) return;
 
     const total = filteredCities.length;
-    document.getElementById("cities-count").innerText = total + (total === 1 ? " cidade" : " cidades");
-    document.getElementById("visible-count").innerText = "Mostrando " + Math.min(visibleCount, total);
 
-    if (total === 0) {
+    if (citiesCount) citiesCount.innerText = total + (total === 1 ? " cidade" : " cidades");
+    if (visible) visible.innerText = "Mostrando " + Math.min(visibleCount, total);
+
+    if (total === 0){
       grid.innerHTML = "";
-      empty.style.display = "block";
-      btnMore.style.display = "none";
+      if (empty) empty.style.display = "block";
+      if (btnMore) btnMore.style.display = "none";
       return;
     }
 
-    empty.style.display = "none";
+    if (empty) empty.style.display = "none";
 
     const slice = filteredCities.slice(0, visibleCount);
     grid.innerHTML = "";
@@ -1537,9 +1367,6 @@
       const cityLabel = item.cidade || "";
       const isAvailable = hasActiveMaterial(currentCategory, cityLabel);
 
-      const safeCity = (cityLabel).replace(/'/g, "\\'");
-      const safeCat = (currentCategory || "").replace(/'/g, "\\'");
-
       const badge = isAvailable
         ? `<span class="pill ok">Disponível</span>`
         : `<span class="pill muted">Em breve</span>`;
@@ -1547,193 +1374,58 @@
       div.innerHTML = `
         <h4>${cityLabel}<small>Material digital com indicações selecionadas</small></h4>
         <div class="city-meta">${badge}</div>
-        <button onclick="openCityModal('${safeCat}', '${safeCity}')">Acessar</button>
+        <button>Acessar</button>
       `;
+
+      const btn = div.querySelector("button");
+      btn.addEventListener("click", () => openCityModal(currentCategory, cityLabel));
+
       grid.appendChild(div);
     });
 
-    if (visibleCount < total) {
-      btnMore.style.display = "inline-flex";
-    } else {
-      btnMore.style.display = "none";
+    if (btnMore){
+      btnMore.style.display = visibleCount < total ? "inline-flex" : "none";
     }
-
-    if (keepPosition) {}
   }
 
   function openCityModal(category, city){
     const isAvailable = hasActiveMaterial(category, city);
 
-    const msg = isAvailable
-      ? `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. Este conteúdo é liberado após a confirmação da compra.`
-      : `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. Este conteúdo estará disponível em breve.`;
-
     // guarda o que o cliente quer comprar
     pendingCheckout.category = category;
     pendingCheckout.city = city;
 
+    const msg = isAvailable
+      ? `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. Este conteúdo é liberado após a confirmação da compra.`
+      : `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. Este conteúdo estará disponível em breve.`;
+
+    if (!isAvailable){
+      openPopup({
+        title: city,
+        text: msg,
+        showProsseguir: false,
+        showRules: true,
+        onProsseguir: null
+      });
+      return;
+    }
+
     openPopup({
       title: city,
       text: msg,
-      showProsseguir: isAvailable,
+      showProsseguir: true,
       showRules: true,
-      iframeSrc: ""
-    });
-
-    // troca o comportamento do botão Prosseguir apenas quando estiver disponível
-    const btn = document.getElementById("popup-prosseguir");
-    if (btn){
-      btn.onclick = isAvailable ? proceedCheckout : openPurchaseSoon;
-    }
-  }
-
-  /* ========= CONTATO & AVALIAÇÕES: estrelas + envio ========= */
-  const CONTACT_EMAIL = "curadoriaelitetravel@gmail.com";
-  let selectedRating = 0;
-
-  function setRating(value){
-    selectedRating = value;
-    const stars = document.querySelectorAll("#stars-rating .star");
-    stars.forEach(s => {
-      const v = parseInt(s.getAttribute("data-value"), 10);
-      if (v <= selectedRating) s.classList.add("on");
-      else s.classList.remove("on");
+      onProsseguir: proceedCheckout
     });
   }
 
-  (function initStars(){
-    const stars = document.querySelectorAll("#stars-rating .star");
-    stars.forEach(s => {
-      s.addEventListener("click", () => {
-        const v = parseInt(s.getAttribute("data-value"), 10);
-        setRating(v);
-      });
-    });
-  })();
-
-  function openMailTo(subjectText, bodyText){
-    const subject = encodeURIComponent(subjectText);
-    const body = encodeURIComponent(bodyText);
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-  }
-
-  function sendRating(){
-    const name = (document.getElementById("rating-name").value || "").trim();
-    const msg = (document.getElementById("rating-message").value || "").trim();
-
-    if (!name){
-      openPopup({ title:"Avaliação", text:"Por favor, informe seu nome antes de enviar.", showProsseguir:false, showRules:false, iframeSrc:"" });
-      return;
-    }
-
-    if (!selectedRating){
-      openPopup({ title:"Avaliação", text:"Por favor, selecione a nota (1 a 5 estrelas) antes de enviar.", showProsseguir:false, showRules:false, iframeSrc:"" });
-      return;
-    }
-
-    if (!msg){
-      openPopup({ title:"Avaliação", text:"Por favor, escreva sua mensagem antes de enviar.", showProsseguir:false, showRules:false, iframeSrc:"" });
-      return;
-    }
-
-    openMailTo(
-      "Avaliação — Curadoria Elite Travel",
-      `Nome: ${name}\nNota: ${selectedRating}/5\n\nMensagem:\n${msg}\n\n— Enviado pelo site Curadoria Elite Travel`
-    );
-
-    openPopup({ title:"Pronto", text:"Seu email foi aberto com a mensagem pronta. Basta confirmar o envio.", showProsseguir:false, showRules:false, iframeSrc:"" });
-  }
-
-  function onFeedbackTopicChange(){
-    const topic = document.getElementById("feedback-topic").value;
-    const wrap = document.getElementById("feedback-topic-other-wrap");
-    if (topic === "Outro"){
-      wrap.style.display = "block";
-    } else {
-      wrap.style.display = "none";
-      document.getElementById("feedback-topic-other").value = "";
-    }
-  }
-
-  function sendFeedback(){
-    const name = (document.getElementById("feedback-name").value || "").trim();
-    const topic = (document.getElementById("feedback-topic").value || "").trim();
-    const other = (document.getElementById("feedback-topic-other").value || "").trim();
-    const msg = (document.getElementById("feedback-message").value || "").trim();
-
-    if (!name){
-      openPopup({ title:"Sugestões & Feedbacks", text:"Por favor, informe seu nome antes de enviar.", showProsseguir:false, showRules:false, iframeSrc:"" });
-      return;
-    }
-
-    if (!msg){
-      openPopup({ title:"Sugestões & Feedbacks", text:"Por favor, escreva sua mensagem antes de enviar.", showProsseguir:false, showRules:false, iframeSrc:"" });
-      return;
-    }
-
-    let finalTopic = topic;
-    if (topic === "Outro"){
-      if (!other){
-        openPopup({ title:"Sugestões & Feedbacks", text:"Por favor, escreva o assunto em “Outro (especifique)”.", showProsseguir:false, showRules:false, iframeSrc:"" });
-        return;
-      }
-      finalTopic = `Outro — ${other}`;
-    }
-
-    openMailTo(
-      `Sugestão/Feedback — ${finalTopic}`,
-      `Nome: ${name}\nAssunto: ${finalTopic}\n\nMensagem:\n${msg}\n\n— Enviado pelo site Curadoria Elite Travel`
-    );
-
-    openPopup({ title:"Pronto", text:"Seu email foi aberto com a mensagem pronta. Basta confirmar o envio.", showProsseguir:false, showRules:false, iframeSrc:"" });
-  }
-
-  /* ========= Carrossel Contato ========= */
-  const contactMoodImages = [
-    "https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=80",
-    "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=2400&q=80"
-  ];
-
-  const cl1 = document.getElementById("cl1");
-  const cl2 = document.getElementById("cl2");
-  const cr1 = document.getElementById("cr1");
-  const cr2 = document.getElementById("cr2");
-
-  let cmIndex = 0;
-  let cmShowFirst = true;
-
-  cl1.style.backgroundImage = `url('${contactMoodImages[0]}')`;
-  cr1.style.backgroundImage = `url('${contactMoodImages[0]}')`;
-
-  setInterval(() => {
-    cmIndex = (cmIndex + 1) % contactMoodImages.length;
-    const img = contactMoodImages[cmIndex];
-
-    if (cmShowFirst) {
-      cl2.style.backgroundImage = `url('${img}')`;
-      cr2.style.backgroundImage = `url('${img}')`;
-
-      cl2.classList.add("active");
-      cr2.classList.add("active");
-      cl1.classList.remove("active");
-      cr1.classList.remove("active");
-    } else {
-      cl1.style.backgroundImage = `url('${img}')`;
-      cr1.style.backgroundImage = `url('${img}')`;
-
-      cl1.classList.add("active");
-      cr1.classList.add("active");
-      cl2.classList.remove("active");
-      cr2.classList.remove("active");
-    }
-
-    cmShowFirst = !cmShowFirst;
-  }, 18000);
-
-  // carrega os materiais ativos (e depois trata retorno do pagamento)
-  loadActiveMaterials();
+  /* =========================
+     Inicialização (sem quebrar a tela)
+  ========================= */
+  document.addEventListener("DOMContentLoaded", () => {
+    // Carrega materiais ativos e só então trata retorno do pagamento
+    loadActiveMaterials();
+  });
 </script>
 
 </body>
