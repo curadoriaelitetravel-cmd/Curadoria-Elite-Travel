@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Curadoria Elite Travel</title>
+  <title>Confirmando pagamento — Curadoria Elite Travel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -15,116 +15,139 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:20px;
+      padding:24px;
       box-sizing:border-box;
-      text-align:center;
     }
-    .box{
-      max-width:680px;
-      width:100%;
+
+    .card{
+      width:min(720px, 100%);
       background:linear-gradient(145deg,#111,#000);
-      border:1px solid #222;
-      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:18px;
       padding:26px;
       box-sizing:border-box;
+      text-align:center;
+      box-shadow:0 20px 60px rgba(0,0,0,0.55);
     }
+
     h1{
       margin:0 0 10px;
       color:#d4af37;
       font-size:22px;
       letter-spacing:0.2px;
     }
+
     p{
-      margin:8px 0;
-      color:rgba(255,255,255,0.82);
+      margin:6px 0;
+      color:rgba(255,255,255,0.78);
       line-height:1.6;
-      font-size:14.5px;
+      font-size:14px;
     }
+
     .muted{
-      color:rgba(255,255,255,0.62);
+      color:rgba(255,255,255,0.60);
       font-size:13px;
-      margin-top:14px;
+      margin-top:10px;
     }
-    .btn{
-      display:inline-block;
-      margin-top:16px;
+
+    .actions{
+      margin-top:18px;
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    button, a.btn{
       cursor:pointer;
       padding:10px 16px;
-      border-radius:10px;
+      border-radius:12px;
       border:none;
       background:#d4af37;
       color:#000;
       font-weight:700;
       text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:140px;
     }
+
     .btn-ghost{
-      background:transparent;
-      border:1px solid rgba(212,175,55,0.35);
-      color:#d4af37;
-      font-weight:600;
-      margin-left:10px;
+      background:transparent !important;
+      border:1px solid rgba(212,175,55,0.35) !important;
+      color:#d4af37 !important;
+      font-weight:650 !important;
     }
-    .row{
-      margin-top:10px;
+
+    .status-line{
+      margin-top:14px;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:#0f0f0f;
+      color:rgba(255,255,255,0.78);
+      font-size:13px;
+      line-height:1.5;
+      text-align:center;
     }
   </style>
 </head>
-<body>
-  <div class="box">
-    <h1>Confirmando seu pagamento…</h1>
-    <p>Estamos validando a compra e liberando seu material.</p>
-    <p class="muted" id="status">Aguarde alguns instantes.</p>
 
-    <div class="row" id="actions" style="display:none;">
-      <a class="btn" href="/" id="btn-home">Voltar ao site</a>
-      <a class="btn btn-ghost" href="mailto:curadoriaelitetravel@gmail.com" id="btn-contact">Contato</a>
+<body>
+  <div class="card">
+    <h1>Confirmando seu pagamento...</h1>
+    <p>Estamos validando a compra e liberando seu material.</p>
+
+    <div class="status-line" id="statusLine">
+      Aguarde alguns segundos.
     </div>
+
+    <div class="actions" id="actions" style="display:none;">
+      <a class="btn" href="/" id="btnBack">Voltar ao site</a>
+      <a class="btn btn-ghost" href="mailto:curadoriaelitetravel@gmail.com?subject=Pagamento%20confirmado%20-%20Material%20n%C3%A3o%20liberado" id="btnContact">Contato</a>
+    </div>
+
+    <p class="muted" id="muted"></p>
   </div>
 
   <script>
-    function setStatus(text){
-      const el = document.getElementById("status");
-      if (el) el.textContent = text;
-    }
-
-    function showActions(){
-      const el = document.getElementById("actions");
-      if (el) el.style.display = "block";
+    function setFail(message, extra){
+      document.getElementById("statusLine").innerText = message;
+      document.getElementById("actions").style.display = "flex";
+      document.getElementById("muted").innerText = extra || "";
     }
 
     async function run(){
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get("session_id");
+
+      if (!sessionId){
+        setFail("Não encontramos o identificador do pagamento (session_id).", "");
+        return;
+      }
+
       try{
-        const params = new URLSearchParams(window.location.search);
-        const sessionId = params.get("session_id");
-
-        if (!sessionId){
-          setStatus("Não encontramos o identificador da compra (session_id).");
-          showActions();
-          return;
-        }
-
-        setStatus("Pagamento recebido. Liberando seu material…");
-
-        const res = await fetch("/api/get-pdf-url", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ session_id: sessionId })
+        const res = await fetch(`/api/get-pdf-from-session?session_id=${encodeURIComponent(sessionId)}`, {
+          method: "GET",
+          headers: { "Accept": "application/json" }
         });
 
-        let data = null;
-        try{ data = await res.json(); }catch(e){}
+        const data = await res.json().catch(() => null);
 
         if (!res.ok || !data || !data.pdf_url){
-          setStatus("Pagamento confirmado, mas não foi possível liberar o material automaticamente. Por favor, entre em contato.");
-          showActions();
+          const msg = "Pagamento confirmado, mas não foi possível liberar o material automaticamente. Por favor, entre em contato.";
+          const extra = data && (data.category || data.city)
+            ? `Categoria: ${data.category || "-"} · Cidade: ${data.city || "-"}`
+            : "";
+          setFail(msg, extra);
           return;
         }
 
         // ✅ EXIGÊNCIA: abrir o PDF na MESMA ABA, substituindo o site
         window.location.replace(data.pdf_url);
-      }catch(e){
-        setStatus("Ocorreu um erro ao confirmar o pagamento. Por favor, tente novamente ou entre em contato.");
-        showActions();
+      } catch(e){
+        setFail("Pagamento confirmado, mas houve uma falha ao liberar o material automaticamente. Por favor, entre em contato.", "");
       }
     }
 
