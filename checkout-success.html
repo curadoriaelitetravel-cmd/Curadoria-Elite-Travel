@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Curadoria Elite Travel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body{
+      margin:0;
+      font-family:"Segoe UI",sans-serif;
+      background:#0b0b0b;
+      color:#fff;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      box-sizing:border-box;
+      text-align:center;
+    }
+    .box{
+      max-width:680px;
+      width:100%;
+      background:linear-gradient(145deg,#111,#000);
+      border:1px solid #222;
+      border-radius:14px;
+      padding:26px;
+      box-sizing:border-box;
+    }
+    h1{
+      margin:0 0 10px;
+      color:#d4af37;
+      font-size:22px;
+      letter-spacing:0.2px;
+    }
+    p{
+      margin:8px 0;
+      color:rgba(255,255,255,0.82);
+      line-height:1.6;
+      font-size:14.5px;
+    }
+    .muted{
+      color:rgba(255,255,255,0.62);
+      font-size:13px;
+      margin-top:14px;
+    }
+    .btn{
+      display:inline-block;
+      margin-top:16px;
+      cursor:pointer;
+      padding:10px 16px;
+      border-radius:10px;
+      border:none;
+      background:#d4af37;
+      color:#000;
+      font-weight:700;
+      text-decoration:none;
+    }
+    .btn-ghost{
+      background:transparent;
+      border:1px solid rgba(212,175,55,0.35);
+      color:#d4af37;
+      font-weight:600;
+      margin-left:10px;
+    }
+    .row{
+      margin-top:10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Confirmando seu pagamento…</h1>
+    <p>Estamos validando a compra e liberando seu material.</p>
+    <p class="muted" id="status">Aguarde alguns instantes.</p>
+
+    <div class="row" id="actions" style="display:none;">
+      <a class="btn" href="/" id="btn-home">Voltar ao site</a>
+      <a class="btn btn-ghost" href="mailto:curadoriaelitetravel@gmail.com" id="btn-contact">Contato</a>
+    </div>
+  </div>
+
+  <script>
+    function setStatus(text){
+      const el = document.getElementById("status");
+      if (el) el.textContent = text;
+    }
+
+    function showActions(){
+      const el = document.getElementById("actions");
+      if (el) el.style.display = "block";
+    }
+
+    async function run(){
+      try{
+        const params = new URLSearchParams(window.location.search);
+        const sessionId = params.get("session_id");
+
+        if (!sessionId){
+          setStatus("Não encontramos o identificador da compra (session_id).");
+          showActions();
+          return;
+        }
+
+        setStatus("Pagamento recebido. Liberando seu material…");
+
+        const res = await fetch("/api/get-pdf-url", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ session_id: sessionId })
+        });
+
+        let data = null;
+        try{ data = await res.json(); }catch(e){}
+
+        if (!res.ok || !data || !data.pdf_url){
+          setStatus("Pagamento confirmado, mas não foi possível liberar o material automaticamente. Por favor, entre em contato.");
+          showActions();
+          return;
+        }
+
+        // ✅ EXIGÊNCIA: abrir o PDF na MESMA ABA, substituindo o site
+        window.location.replace(data.pdf_url);
+      }catch(e){
+        setStatus("Ocorreu um erro ao confirmar o pagamento. Por favor, tente novamente ou entre em contato.");
+        showActions();
+      }
+    }
+
+    run();
+  </script>
+</body>
+</html>
