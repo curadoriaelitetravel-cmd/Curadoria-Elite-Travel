@@ -4,6 +4,7 @@
   "private": true,
   "description": "Curadoria Elite Travel - pagamento e liberação de material digital",
   "dependencies": {
-    "stripe": "^16.0.0"
+    "stripe": "^16.0.0",
+    "@supabase/supabase-js": "^2.39.0"
   }
 }
