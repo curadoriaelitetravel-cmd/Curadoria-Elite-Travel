@@ -2,156 +2,136 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Confirmando pagamento — Curadoria Elite Travel</title>
+  <title>Confirmando pagamento | Curadoria Elite Travel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    body{
-      margin:0;
-      font-family:"Segoe UI",sans-serif;
-      background:#0b0b0b;
-      color:#fff;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-      box-sizing:border-box;
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #0b0b0b;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
     }
 
-    .card{
-      width:min(720px, 100%);
-      background:linear-gradient(145deg,#111,#000);
-      border:1px solid rgba(255,255,255,0.10);
-      border-radius:18px;
-      padding:26px;
-      box-sizing:border-box;
-      text-align:center;
-      box-shadow:0 20px 60px rgba(0,0,0,0.55);
+    .box {
+      max-width: 520px;
+      padding: 40px 26px;
+      border-radius: 16px;
+      border: 1px solid #222;
+      background: #111;
     }
 
-    h1{
-      margin:0 0 10px;
-      color:#d4af37;
-      font-size:22px;
-      letter-spacing:0.2px;
+    h1 {
+      color: #d4af37;
+      font-size: 22px;
+      margin-bottom: 14px;
     }
 
-    p{
-      margin:6px 0;
-      color:rgba(255,255,255,0.78);
-      line-height:1.6;
-      font-size:14px;
+    p {
+      color: rgba(255,255,255,0.85);
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 8px 0;
     }
 
-    .muted{
-      color:rgba(255,255,255,0.60);
-      font-size:13px;
-      margin-top:10px;
+    .muted {
+      color: rgba(255,255,255,0.6);
+      font-size: 14px;
+      margin-top: 18px;
     }
 
-    .actions{
-      margin-top:18px;
-      display:flex;
-      justify-content:center;
-      gap:12px;
-      flex-wrap:wrap;
+    .actions {
+      margin-top: 26px;
+      display: none;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
-    button, a.btn{
-      cursor:pointer;
-      padding:10px 16px;
-      border-radius:12px;
-      border:none;
-      background:#d4af37;
-      color:#000;
-      font-weight:700;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-width:140px;
+    .actions a {
+      padding: 10px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
     }
 
-    .btn-ghost{
-      background:transparent !important;
-      border:1px solid rgba(212,175,55,0.35) !important;
-      color:#d4af37 !important;
-      font-weight:650 !important;
+    .btn-main {
+      background: #d4af37;
+      color: #000;
     }
 
-    .status-line{
-      margin-top:14px;
-      padding:12px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:#0f0f0f;
-      color:rgba(255,255,255,0.78);
-      font-size:13px;
-      line-height:1.5;
-      text-align:center;
+    .btn-ghost {
+      border: 1px solid rgba(212,175,55,0.4);
+      color: #d4af37;
     }
   </style>
 </head>
-
 <body>
-  <div class="card">
-    <h1>Confirmando seu pagamento...</h1>
-    <p>Estamos validando a compra e liberando seu material.</p>
 
-    <div class="status-line" id="statusLine">
-      Aguarde alguns segundos.
+  <div class="box">
+    <h1>Confirmando seu pagamento…</h1>
+
+    <p>
+      Estamos validando a compra e liberando seu material.
+    </p>
+
+    <p class="muted" id="status">
+      Aguarde alguns instantes.
+    </p>
+
+    <div class="actions" id="actions">
+      <a href="/" class="btn-main">Voltar ao site</a>
+      <a href="mailto:curadoriaelitetravel@gmail.com" class="btn-ghost">Contato</a>
     </div>
-
-    <div class="actions" id="actions" style="display:none;">
-      <a class="btn" href="/" id="btnBack">Voltar ao site</a>
-      <a class="btn btn-ghost" href="mailto:curadoriaelitetravel@gmail.com?subject=Pagamento%20confirmado%20-%20Material%20n%C3%A3o%20liberado" id="btnContact">Contato</a>
-    </div>
-
-    <p class="muted" id="muted"></p>
   </div>
 
   <script>
-    function setFail(message, extra){
-      document.getElementById("statusLine").innerText = message;
-      document.getElementById("actions").style.display = "flex";
-      document.getElementById("muted").innerText = extra || "";
-    }
-
-    async function run(){
+    async function init() {
       const params = new URLSearchParams(window.location.search);
       const sessionId = params.get("session_id");
 
-      if (!sessionId){
-        setFail("Não encontramos o identificador do pagamento (session_id).", "");
+      const statusEl = document.getElementById("status");
+      const actionsEl = document.getElementById("actions");
+
+      if (!sessionId) {
+        statusEl.innerText = "Sessão de pagamento não encontrada.";
+        actionsEl.style.display = "flex";
         return;
       }
 
-      try{
-        const res = await fetch(`/api/get-pdf-from-session?session_id=${encodeURIComponent(sessionId)}`, {
-          method: "GET",
-          headers: { "Accept": "application/json" }
-        });
+      try {
+        const res = await fetch(
+          "/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId),
+          { method: "GET" }
+        );
 
-        const data = await res.json().catch(() => null);
+        const data = await res.json();
 
-        if (!res.ok || !data || !data.pdf_url){
-          const msg = "Pagamento confirmado, mas não foi possível liberar o material automaticamente. Por favor, entre em contato.";
-          const extra = data && (data.category || data.city)
-            ? `Categoria: ${data.category || "-"} · Cidade: ${data.city || "-"}`
-            : "";
-          setFail(msg, extra);
+        if (!res.ok || !data || !data.pdf_url) {
+          statusEl.innerText =
+            "Pagamento confirmado, mas não foi possível liberar o material automaticamente. Por favor, entre em contato.";
+          actionsEl.style.display = "flex";
           return;
         }
 
-        // ✅ EXIGÊNCIA: abrir o PDF na MESMA ABA, substituindo o site
-        window.location.replace(data.pdf_url);
-      } catch(e){
-        setFail("Pagamento confirmado, mas houve uma falha ao liberar o material automaticamente. Por favor, entre em contato.", "");
+        // ✅ EXIGÊNCIA DO PROJETO:
+        // abrir o PDF NA MESMA ABA, substituindo o site
+        window.location.href = data.pdf_url;
+
+      } catch (err) {
+        statusEl.innerText =
+          "Erro ao validar o pagamento. Por favor, entre em contato.";
+        actionsEl.style.display = "flex";
       }
     }
 
-    run();
+    init();
   </script>
+
 </body>
 </html>
