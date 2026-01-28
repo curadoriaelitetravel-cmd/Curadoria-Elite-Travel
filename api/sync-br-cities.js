@@ -24,6 +24,22 @@ function chunkArray(arr, size) {
   return out;
 }
 
+async function fetchJson(url) {
+  const resp = await fetch(url);
+  const text = await resp.text();
+
+  if (!resp.ok) {
+    return { ok: false, status: resp.status, text };
+  }
+
+  try {
+    const json = JSON.parse(text);
+    return { ok: true, json };
+  } catch {
+    return { ok: false, status: resp.status, text: "Invalid JSON: " + text.slice(0, 200) };
+  }
+}
+
 module.exports = async (req, res) => {
   try {
     // Apenas GET (evita uso acidental)
@@ -39,12 +55,16 @@ module.exports = async (req, res) => {
     });
 
     // 1) lista UFs
-    const ufResp = await fetch("https://brasilapi.com.br/api/ibge/uf/v1");
-    if (!ufResp.ok) {
-      const text = await ufResp.text();
-      return res.status(502).json({ error: "BrasilAPI UF error", details: text });
+    const ufResult = await fetchJson("https://brasilapi.com.br/api/ibge/uf/v1");
+    if (!ufResult.ok) {
+      return res.status(502).json({
+        error: "BrasilAPI UF error",
+        status: ufResult.status,
+        details: ufResult.text,
+      });
     }
-    const ufs = await ufResp.json();
+
+    const ufs = ufResult.json;
 
     const ufList = (ufs || [])
       .map((x) => normalizeUF(x.sigla))
@@ -57,20 +77,33 @@ module.exports = async (req, res) => {
     let totalUpserted = 0;
     let totalUfsProcessed = 0;
 
+    const failures = [];
+
     // 2) para cada UF, lista municípios e faz upsert
     for (const uf of ufList) {
-      const cityResp = await fetch(
-        `https://brasilapi.com.br/api/ibge/municipios/v1/${encodeURIComponent(
-          uf
-        )}?providers=dados-abertos-br`
-      );
+      // Tentativa A (sem providers)
+      const urlA = `https://brasilapi.com.br/api/ibge/municipios/v1/${encodeURIComponent(uf)}`;
+      const resultA = await fetchJson(urlA);
 
-      if (!cityResp.ok) {
-        // se uma UF falhar, seguimos com as outras (robustez)
+      // Tentativa B (com providers)
+      const urlB = `https://brasilapi.com.br/api/ibge/municipios/v1/${encodeURIComponent(
+        uf
+      )}?providers=dados-abertos-br`;
+      const resultB = resultA.ok ? null : await fetchJson(urlB);
+
+      const ok = resultA.ok || (resultB && resultB.ok);
+      const cities = resultA.ok ? resultA.json : resultB.ok ? resultB.json : null;
+
+      if (!ok) {
+        failures.push({
+          uf,
+          attemptA: { status: resultA.status, details: String(resultA.text || "").slice(0, 200) },
+          attemptB: resultB
+            ? { status: resultB.status, details: String(resultB.text || "").slice(0, 200) }
+            : null,
+        });
         continue;
       }
-
-      const cities = await cityResp.json();
 
       const rows = (cities || [])
         .map((c) => ({
@@ -79,7 +112,14 @@ module.exports = async (req, res) => {
         }))
         .filter((r) => r.uf && r.city_name);
 
-      if (!rows.length) continue;
+      if (!rows.length) {
+        failures.push({
+          uf,
+          attemptA: { status: 200, details: "Returned 0 cities" },
+          attemptB: null,
+        });
+        continue;
+      }
 
       // Faz em lotes para evitar payload grande
       const batches = chunkArray(rows, 1000);
@@ -103,12 +143,27 @@ module.exports = async (req, res) => {
       totalUfsProcessed += 1;
     }
 
+    // Se não inseriu nada, devolve erro com diagnóstico (para você ver o motivo)
+    if (totalUpserted === 0) {
+      return res.status(500).json({
+        ok: false,
+        error: "No rows inserted",
+        message:
+          "A tabela br_cities continua vazia porque as chamadas de municipios falharam ou retornaram 0 cidades.",
+        ufs_total: ufList.length,
+        ufs_processed: totalUfsProcessed,
+        upserted_rows: totalUpserted,
+        sample_failures: failures.slice(0, 5),
+      });
+    }
+
     return res.status(200).json({
       ok: true,
       message: "br_cities sync completed",
       ufs_total: ufList.length,
       ufs_processed: totalUfsProcessed,
       upserted_rows: totalUpserted,
+      failures: failures.length,
     });
   } catch (err) {
     return res.status(500).json({
