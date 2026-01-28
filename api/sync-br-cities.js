@@ -42,9 +42,7 @@ module.exports = async (req, res) => {
     const ufResp = await fetch("https://brasilapi.com.br/api/ibge/uf/v1");
     if (!ufResp.ok) {
       const text = await ufResp.text();
-      return res
-        .status(502)
-        .json({ error: "BrasilAPI UF error", details: text });
+      return res.status(502).json({ error: "BrasilAPI UF error", details: text });
     }
     const ufs = await ufResp.json();
 
@@ -58,7 +56,6 @@ module.exports = async (req, res) => {
 
     let totalUpserted = 0;
     let totalUfsProcessed = 0;
-    let totalUfsFailed = 0;
 
     // 2) para cada UF, lista municípios e faz upsert
     for (const uf of ufList) {
@@ -69,7 +66,7 @@ module.exports = async (req, res) => {
       );
 
       if (!cityResp.ok) {
-        totalUfsFailed += 1;
+        // se uma UF falhar, seguimos com as outras (robustez)
         continue;
       }
 
@@ -82,10 +79,7 @@ module.exports = async (req, res) => {
         }))
         .filter((r) => r.uf && r.city_name);
 
-      if (!rows.length) {
-        totalUfsProcessed += 1;
-        continue;
-      }
+      if (!rows.length) continue;
 
       // Faz em lotes para evitar payload grande
       const batches = chunkArray(rows, 1000);
@@ -114,7 +108,6 @@ module.exports = async (req, res) => {
       message: "br_cities sync completed",
       ufs_total: ufList.length,
       ufs_processed: totalUfsProcessed,
-      ufs_failed: totalUfsFailed,
       upserted_rows: totalUpserted,
     });
   } catch (err) {
