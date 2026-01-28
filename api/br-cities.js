@@ -39,11 +39,8 @@ module.exports = async (req, res) => {
 
       if (error) return res.status(500).json({ error: error.message });
 
-      const uniqueUFs = Array.from(new Set((data || []).map((x) => x.uf))).filter(
-        Boolean
-      );
+      const uniqueUFs = Array.from(new Set((data || []).map((x) => x.uf))).filter(Boolean);
 
-      // Payload mais claro para o front: "estados"
       return res.status(200).json({
         estados: uniqueUFs,
       });
@@ -60,7 +57,6 @@ module.exports = async (req, res) => {
 
     const cities = (data || []).map((x) => x.city_name).filter(Boolean);
 
-    // Payload mais claro para o front: "estado" + "cidades"
     return res.status(200).json({
       estado: uf,
       cidades: cities,
