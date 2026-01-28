@@ -18,6 +18,12 @@ function normalizeCityName(name) {
   return String(name || "").trim();
 }
 
+function chunkArray(arr, size) {
+  const out = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out;
+}
+
 module.exports = async (req, res) => {
   try {
     // Apenas GET (evita uso acidental)
@@ -48,7 +54,8 @@ module.exports = async (req, res) => {
       return res.status(500).json({ error: "No UFs returned from BrasilAPI" });
     }
 
-    let totalInserted = 0;
+    let totalUpserted = 0;
+    let totalUfsProcessed = 0;
 
     // 2) para cada UF, lista municípios e faz upsert
     for (const uf of ufList) {
@@ -74,20 +81,34 @@ module.exports = async (req, res) => {
 
       if (!rows.length) continue;
 
-      // Upsert baseado em (uf, city_name) — você pode criar unique index depois se quiser
-      // Para evitar erro se já existir, usamos upsert
-      const { error } = await supabase
-        .from("br_cities")
-        .upsert(rows, { onConflict: "uf,city_name" });
+      // Faz em lotes para evitar payload grande
+      const batches = chunkArray(rows, 1000);
 
-      if (!error) totalInserted += rows.length;
+      for (const batch of batches) {
+        const { error } = await supabase
+          .from("br_cities")
+          .upsert(batch, { onConflict: "uf,city_name" });
+
+        if (error) {
+          return res.status(500).json({
+            error: "Supabase upsert failed",
+            details: error.message,
+            uf,
+          });
+        }
+
+        totalUpserted += batch.length;
+      }
+
+      totalUfsProcessed += 1;
     }
 
     return res.status(200).json({
       ok: true,
       message: "br_cities sync completed",
-      ufs: ufList.length,
-      attempted_rows: totalInserted,
+      ufs_total: ufList.length,
+      ufs_processed: totalUfsProcessed,
+      upserted_rows: totalUpserted,
     });
   } catch (err) {
     return res.status(500).json({
@@ -97,6 +118,10 @@ module.exports = async (req, res) => {
   }
 };
 // api/br-cities.js
+// Lista ESTADOS (UFs) e CIDADES a partir da tabela public.br_cities
+// - GET /api/br-cities            -> retorna { estados: ["SP","RJ", ...] }
+// - GET /api/br-cities?uf=SP      -> retorna { estado: "SP", cidades: ["São Paulo", ...] }
+
 const { createClient } = require("@supabase/supabase-js");
 
 function getEnv(name) {
@@ -135,7 +160,6 @@ module.exports = async (req, res) => {
 
       const uniqueUFs = Array.from(new Set((data || []).map((x) => x.uf))).filter(Boolean);
 
-      // Enviamos como "ESTADO" no payload (mais claro)
       return res.status(200).json({
         estados: uniqueUFs,
       });
@@ -152,7 +176,6 @@ module.exports = async (req, res) => {
 
     const cities = (data || []).map((x) => x.city_name).filter(Boolean);
 
-    // Enviamos como "CIDADE" no payload (mais claro)
     return res.status(200).json({
       estado: uf,
       cidades: cities,
