@@ -19,7 +19,7 @@
     }
 
     .box {
-      max-width: 520px;
+      max-width: 560px;
       padding: 40px 26px;
       border-radius: 16px;
       border: 1px solid #222;
@@ -43,6 +43,49 @@
       color: rgba(255,255,255,0.6);
       font-size: 14px;
       margin-top: 18px;
+    }
+
+    form {
+      margin-top: 22px;
+      text-align: left;
+      display: none;
+    }
+
+    label {
+      display: block;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    input, select {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #0b0b0b;
+      color: #fff;
+    }
+
+    .row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .row > div {
+      flex: 1;
+    }
+
+    button {
+      margin-top: 22px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: #d4af37;
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
     }
 
     .actions {
@@ -74,9 +117,9 @@
 <body>
 
   <div class="box">
-    <h1>Confirmando seu pagamento…</h1>
+    <h1 id="title">Confirmando seu pagamento…</h1>
 
-    <p>
+    <p id="subtitle">
       Estamos validando a compra e liberando seu material.
     </p>
 
@@ -84,54 +127,146 @@
       Aguarde alguns instantes.
     </p>
 
+    <!-- FORMULÁRIO NOTA FISCAL -->
+    <form id="invoiceForm">
+      <label>Tipo de documento</label>
+      <select id="person_type">
+        <option value="CPF">Pessoa Física (CPF)</option>
+        <option value="CNPJ">Pessoa Jurídica (CNPJ)</option>
+      </select>
+
+      <label>CPF / CNPJ</label>
+      <input id="doc_number" required />
+
+      <label>Nome / Razão Social</label>
+      <input id="full_name" required />
+
+      <label id="birthLabel">Data de nascimento</label>
+      <input type="date" id="birth_date" />
+
+      <label>
+        <input type="checkbox" id="ie_isento" checked />
+        Isento de Inscrição Estadual
+      </label>
+
+      <label id="ieLabel">Inscrição Estadual</label>
+      <input id="ie" />
+
+      <div class="row">
+        <div>
+          <label>UF</label>
+          <select id="uf"></select>
+        </div>
+        <div>
+          <label>Cidade</label>
+          <select id="city_name"></select>
+        </div>
+      </div>
+
+      <label>CEP</label>
+      <input id="cep" required />
+
+      <label>Bairro</label>
+      <input id="neighborhood" required />
+
+      <label>Rua</label>
+      <input id="street" required />
+
+      <label>Número</label>
+      <input id="street_number" required />
+
+      <button type="submit">Salvar dados e acessar material</button>
+    </form>
+
     <div class="actions" id="actions">
       <a href="/" class="btn-main">Voltar ao site</a>
       <a href="mailto:curadoriaelitetravel@gmail.com" class="btn-ghost">Contato</a>
     </div>
   </div>
 
-  <script>
-    async function init() {
-      const params = new URLSearchParams(window.location.search);
-      const sessionId = params.get("session_id");
+<script>
+async function init() {
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get("session_id");
 
-      const statusEl = document.getElementById("status");
-      const actionsEl = document.getElementById("actions");
+  if (!sessionId) return;
 
-      if (!sessionId) {
-        statusEl.innerText = "Sessão de pagamento não encontrada.";
-        actionsEl.style.display = "flex";
-        return;
-      }
+  // 🔹 verificar se já existe invoice profile
+  const check = await fetch("/api/invoice-profile-exists");
+  const exists = await check.json();
 
-      try {
-        const res = await fetch(
-          "/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId),
-          { method: "GET" }
-        );
+  if (!exists.has_profile) {
+    document.getElementById("title").innerText = "Dados para Nota Fiscal";
+    document.getElementById("subtitle").innerText =
+      "Precisamos dessas informações para emitir sua nota fiscal.";
+    document.getElementById("status").style.display = "none";
+    document.getElementById("invoiceForm").style.display = "block";
+    loadUFs();
+    return;
+  }
 
-        const data = await res.json();
+  liberarPDF(sessionId);
+}
 
-        if (!res.ok || !data || !data.pdf_url) {
-          statusEl.innerText =
-            "Pagamento confirmado, mas não foi possível liberar o material automaticamente. Por favor, entre em contato.";
-          actionsEl.style.display = "flex";
-          return;
-        }
+async function liberarPDF(sessionId) {
+  const res = await fetch("/api/get-pdf-from-session?session_id=" + sessionId);
+  const data = await res.json();
+  if (data?.pdf_url) window.location.href = data.pdf_url;
+}
 
-        // ✅ EXIGÊNCIA DO PROJETO:
-        // abrir o PDF NA MESMA ABA, substituindo o site
-        window.location.href = data.pdf_url;
+async function loadUFs() {
+  const res = await fetch("/api/br-cities");
+  const data = await res.json();
+  const ufSelect = document.getElementById("uf");
+  ufSelect.innerHTML = data.estados.map(u => `<option>${u}</option>`).join("");
+  loadCities();
+}
 
-      } catch (err) {
-        statusEl.innerText =
-          "Erro ao validar o pagamento. Por favor, entre em contato.";
-        actionsEl.style.display = "flex";
-      }
-    }
+async function loadCities() {
+  const uf = document.getElementById("uf").value;
+  const res = await fetch("/api/br-cities?uf=" + uf);
+  const data = await res.json();
+  document.getElementById("city_name").innerHTML =
+    data.cidades.map(c => `<option>${c}</option>`).join("");
+}
 
-    init();
-  </script>
+document.getElementById("uf").addEventListener("change", loadCities);
+
+document.getElementById("person_type").addEventListener("change", e => {
+  const isCPF = e.target.value === "CPF";
+  document.getElementById("birthLabel").style.display = isCPF ? "block" : "none";
+  document.getElementById("birth_date").style.display = isCPF ? "block" : "none";
+});
+
+document.getElementById("invoiceForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const payload = {
+    person_type: person_type.value,
+    doc_number: doc_number.value,
+    full_name: full_name.value,
+    birth_date: birth_date.value || null,
+    ie_isento: ie_isento.checked,
+    ie: ie.value || null,
+    uf: uf.value,
+    city_name: city_name.value,
+    cep: cep.value,
+    neighborhood: neighborhood.value,
+    street: street.value,
+    street_number: street_number.value
+  };
+
+  await fetch("/api/save-invoice-profile", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  liberarPDF(new URLSearchParams(window.location.search).get("session_id"));
+});
+
+init();
+</script>
 
 </body>
 </html>
