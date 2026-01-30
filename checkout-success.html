@@ -127,7 +127,7 @@
       Aguarde alguns instantes.
     </p>
 
-    <!-- FORMULÁRIO NOTA FISCAL -->
+    <!-- FORMULÁRIO NOTA FISCAL (desativado por enquanto - endpoints removidos para caber no limite do plano Hobby) -->
     <form id="invoiceForm">
       <label>Tipo de documento</label>
       <select id="person_type">
@@ -189,89 +189,63 @@ async function init() {
   const params = new URLSearchParams(window.location.search);
   const sessionId = params.get("session_id");
 
-  if (!sessionId) return;
-
-  // verificar se já existe invoice profile
-  const check = await fetch("/api/invoice-profile-exists");
-  const exists = await check.json();
-
-  if (!exists.has_profile) {
-    document.getElementById("title").innerText = "Dados para Nota Fiscal";
-    document.getElementById("subtitle").innerText =
-      "Precisamos dessas informações para emitir sua nota fiscal.";
-    document.getElementById("status").style.display = "none";
-    document.getElementById("invoiceForm").style.display = "block";
-
-    await loadUFs();
+  if (!sessionId) {
+    showError("Sessão não encontrada", "Não foi possível identificar o pagamento. Volte ao site e tente novamente.");
     return;
   }
 
+  // ✅ No plano Hobby (limite de funções), os endpoints de NF foram removidos.
+  // Portanto, seguimos direto para liberação do material.
   liberarPDF(sessionId);
 }
 
 async function liberarPDF(sessionId) {
-  const res = await fetch("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId));
-  const data = await res.json();
-  if (data?.pdf_url) window.location.href = data.pdf_url;
+  try {
+    const statusEl = document.getElementById("status");
+    if (statusEl) statusEl.innerText = "Aguarde alguns instantes.";
+
+    const res = await fetch("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId), {
+      method: "GET",
+      headers: { "Accept": "application/json" }
+    });
+
+    let data = null;
+    try {
+      data = await res.json();
+    } catch (e) {
+      // se por algum motivo não vier JSON
+      data = null;
+    }
+
+    if (data && data.pdf_url) {
+      window.location.href = data.pdf_url;
+      return;
+    }
+
+    // se não veio pdf_url, mostra erro amigável
+    const errTitle = "Não foi possível liberar o material";
+    const errMsg =
+      (data && (data.error || data.message || data.details))
+        ? String(data.error || data.message || data.details)
+        : "Tente novamente em instantes. Se persistir, entre em contato.";
+
+    showError(errTitle, errMsg);
+  } catch (err) {
+    showError("Erro inesperado", (err && err.message) ? err.message : "Tente novamente em instantes.");
+  }
 }
 
-async function loadUFs() {
-  // ✅ NOVO ENDPOINT
-  const res = await fetch("/api/br-cities-v2");
-  const data = await res.json();
+function showError(title, message) {
+  const titleEl = document.getElementById("title");
+  const subtitleEl = document.getElementById("subtitle");
+  const statusEl = document.getElementById("status");
+  const actionsEl = document.getElementById("actions");
 
-  const ufSelect = document.getElementById("uf");
-  ufSelect.innerHTML = (data.estados || []).map(u => `<option>${u}</option>`).join("");
-
-  // já carrega cidades do primeiro UF
-  await loadCities();
+  if (titleEl) titleEl.innerText = title || "Erro";
+  if (subtitleEl) subtitleEl.innerText = message || "Ocorreu um problema.";
+  if (statusEl) statusEl.style.display = "none";
+  if (actionsEl) actionsEl.style.display = "flex";
 }
-
-async function loadCities() {
-  const uf = document.getElementById("uf").value;
-
-  // ✅ NOVO ENDPOINT
-  const res = await fetch("/api/br-cities-v2?uf=" + encodeURIComponent(uf));
-  const data = await res.json();
-
-  document.getElementById("city_name").innerHTML =
-    (data.cidades || []).map(c => `<option>${c}</option>`).join("");
-}
-
-document.getElementById("uf").addEventListener("change", loadCities);
-
-document.getElementById("person_type").addEventListener("change", e => {
-  const isCPF = e.target.value === "CPF";
-  document.getElementById("birthLabel").style.display = isCPF ? "block" : "none";
-  document.getElementById("birth_date").style.display = isCPF ? "block" : "none";
-});
-
-document.getElementById("invoiceForm").addEventListener("submit", async e => {
-  e.preventDefault();
-
-  const payload = {
-    person_type: person_type.value,
-    doc_number: doc_number.value,
-    full_name: full_name.value,
-    birth_date: birth_date.value || null,
-    ie_isento: ie_isento.checked,
-    ie: ie.value || null,
-    uf: uf.value,
-    city_name: city_name.value,
-    cep: cep.value,
-    neighborhood: neighborhood.value,
-    street: street.value,
-    street_number: street_number.value
-  };
-
-  await fetch("/api/save-invoice-profile", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
-
-  liberarPDF(new URLSearchParams(window.location.search).get("session_id"));
-});
 
 init();
 </script>
