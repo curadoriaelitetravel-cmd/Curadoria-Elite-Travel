@@ -1,16 +1,9 @@
 // api/br-cities.js
-// ✅ VERSÃO: 2026-01-29-v2 (debug)
 // Lista ESTADOS (UFs) e CIDADES a partir da tabela public.br_cities
-// - GET /api/br-cities            -> retorna { version, estados: [...] }
-// - GET /api/br-cities?uf=SP      -> retorna { version, estado: "SP", cidades: [...] }
-//
-// Para garantir TODOS os estados sem limite, tenta:
-// 1) view public.br_states (select distinct uf from br_cities)
-// 2) fallback seguro: distinct em br_cities com paginação (range)
+// - GET /api/br-cities            -> retorna { estados: ["SP","RJ", ...] }
+// - GET /api/br-cities?uf=SP      -> retorna { estado: "SP", cidades: ["SÃO PAULO", ...] }
 
 const { createClient } = require("@supabase/supabase-js");
-
-const VERSION = "2026-01-29-v2";
 
 function getEnv(name) {
   const v = process.env[name];
@@ -23,15 +16,9 @@ function normalizeUF(uf) {
 }
 
 module.exports = async (req, res) => {
-  // evita cache no browser/proxy
-  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
-  res.setHeader("Pragma", "no-cache");
-  res.setHeader("Expires", "0");
-  res.setHeader("Surrogate-Control", "no-store");
-
   try {
     if (req.method !== "GET") {
-      return res.status(405).json({ version: VERSION, error: "Method not allowed" });
+      return res.status(405).json({ error: "Method not allowed" });
     }
 
     const SUPABASE_URL = getEnv("SUPABASE_URL");
@@ -43,79 +30,63 @@ module.exports = async (req, res) => {
 
     const uf = req.query?.uf ? normalizeUF(req.query.uf) : "";
 
-    // ✅ Se não vier UF: lista estados (UFs)
-    if (!uf) {
-      // 1) tenta pela VIEW (se existir)
-      const viewTry = await supabase
-        .from("br_states")
-        .select("uf")
-        .order("uf", { ascending: true });
-
-      if (!viewTry.error) {
-        const estados = (viewTry.data || []).map((x) => x.uf).filter(Boolean);
-        return res.status(200).json({ version: VERSION, source: "view:br_states", estados });
-      }
-
-      // 2) fallback: distinct via br_cities com paginação (range)
-      // busca em páginas de 1000 e junta os UFs únicos
-      const estadosSet = new Set();
-      const pageSize = 1000;
+    // ✅ IMPORTANTE:
+    // PostgREST (Supabase) costuma limitar resultados por padrão (ex.: 1000 linhas).
+    // Como br_cities tem 5571 linhas, precisamos buscar em "páginas" ou aumentar o range.
+    async function fetchAllRows(queryBuilder, pageSize = 1000) {
+      let all = [];
       let from = 0;
 
       while (true) {
-        const { data, error } = await supabase
-          .from("br_cities")
-          .select("uf")
-          .order("uf", { ascending: true })
-          .range(from, from + pageSize - 1);
+        const to = from + pageSize - 1;
+        const { data, error } = await queryBuilder.range(from, to);
 
-        if (error) {
-          return res.status(500).json({
-            version: VERSION,
-            error: "Failed to load states",
-            details: error.message,
-            source: "fallback:br_cities",
-          });
-        }
+        if (error) throw error;
+        if (!data || data.length === 0) break;
 
-        (data || []).forEach((row) => {
-          if (row && row.uf) estadosSet.add(row.uf);
-        });
+        all = all.concat(data);
 
-        if (!data || data.length < pageSize) break;
+        // se veio menos que pageSize, acabou
+        if (data.length < pageSize) break;
+
         from += pageSize;
-
-        // segurança extra (não deve passar disso)
-        if (from > 200000) break;
       }
 
-      const estados = Array.from(estadosSet).sort();
+      return all;
+    }
+
+    // Se não vier UF: lista estados (UFs)
+    if (!uf) {
+      const rows = await fetchAllRows(
+        supabase.from("br_cities").select("uf").order("uf", { ascending: true }),
+        1000
+      );
+
+      const uniqueUFs = Array.from(new Set((rows || []).map((x) => x.uf))).filter(Boolean);
+
       return res.status(200).json({
-        version: VERSION,
-        source: "fallback:br_cities_paged",
-        estados,
+        estados: uniqueUFs,
       });
     }
 
-    // ✅ Se veio UF: lista cidades daquela UF
-    const { data, error } = await supabase
-      .from("br_cities")
-      .select("city_name")
-      .eq("uf", uf)
-      .order("city_name", { ascending: true });
+    // Se veio UF: lista cidades daquela UF
+    const rows = await fetchAllRows(
+      supabase
+        .from("br_cities")
+        .select("city_name")
+        .eq("uf", uf)
+        .order("city_name", { ascending: true }),
+      1000
+    );
 
-    if (error) return res.status(500).json({ version: VERSION, error: error.message });
-
-    const cidades = (data || []).map((x) => x.city_name).filter(Boolean);
+    const cities = (rows || []).map((x) => x.city_name).filter(Boolean);
 
     return res.status(200).json({
-      version: VERSION,
       estado: uf,
-      cidades,
+      cidades: cities,
     });
   } catch (err) {
     return res.status(500).json({
-      version: VERSION,
       error: "failed",
       details: err?.message || String(err),
     });
