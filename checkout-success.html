@@ -112,6 +112,23 @@
       border: 1px solid rgba(212,175,55,0.4);
       color: #d4af37;
     }
+
+    .field-hidden {
+      display: none !important;
+    }
+
+    .error-box {
+      margin-top: 16px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 80, 80, 0.35);
+      background: rgba(255, 80, 80, 0.08);
+      border-radius: 10px;
+      color: rgba(255,255,255,0.9);
+      display: none;
+      text-align: left;
+      font-size: 14px;
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
@@ -127,7 +144,9 @@
       Aguarde alguns instantes.
     </p>
 
-    <!-- FORMULÁRIO NOTA FISCAL (desativado por enquanto - endpoints removidos para caber no limite do plano Hobby) -->
+    <div class="error-box" id="errorBox"></div>
+
+    <!-- FORMULÁRIO NOTA FISCAL -->
     <form id="invoiceForm">
       <label>Tipo de documento</label>
       <select id="person_type">
@@ -138,19 +157,38 @@
       <label>CPF / CNPJ</label>
       <input id="doc_number" required />
 
-      <label>Nome / Razão Social</label>
+      <label id="fullNameLabel">Nome completo</label>
       <input id="full_name" required />
 
-      <label id="birthLabel">Data de nascimento</label>
-      <input type="date" id="birth_date" />
+      <!-- CPF: nascimento -->
+      <div id="cpfFields">
+        <label id="birthLabel">Data de nascimento</label>
+        <input type="date" id="birth_date" />
 
-      <label>
-        <input type="checkbox" id="ie_isento" checked />
-        Isento de Inscrição Estadual
-      </label>
+        <label>Sexo</label>
+        <select id="gender">
+          <option value="">Selecione</option>
+          <option value="Mulher">Mulher</option>
+          <option value="Homem">Homem</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
 
-      <label id="ieLabel">Inscrição Estadual</label>
-      <input id="ie" />
+      <!-- CNPJ: IE -->
+      <div id="cnpjFields" class="field-hidden">
+        <label>
+          <input type="checkbox" id="ie_isento" checked />
+          Isento de Inscrição Estadual
+        </label>
+
+        <label id="ieLabel">Inscrição Estadual</label>
+        <input id="ie" />
+      </div>
+
+      <label>País</label>
+      <select id="country">
+        <option value="Brasil" selected>Brasil</option>
+      </select>
 
       <div class="row">
         <div>
@@ -185,67 +223,178 @@
   </div>
 
 <script>
+function showError(msg) {
+  const box = document.getElementById("errorBox");
+  box.style.display = "block";
+  box.innerText = msg;
+}
+
+function clearError() {
+  const box = document.getElementById("errorBox");
+  box.style.display = "none";
+  box.innerText = "";
+}
+
+function applyPersonTypeUI() {
+  const type = document.getElementById("person_type").value;
+  const cpfFields = document.getElementById("cpfFields");
+  const cnpjFields = document.getElementById("cnpjFields");
+  const fullNameLabel = document.getElementById("fullNameLabel");
+
+  if (type === "CPF") {
+    cpfFields.classList.remove("field-hidden");
+    cnpjFields.classList.add("field-hidden");
+    fullNameLabel.innerText = "Nome completo";
+
+    // limpa campos CNPJ
+    document.getElementById("ie_isento").checked = true;
+    document.getElementById("ie").value = "";
+  } else {
+    cpfFields.classList.add("field-hidden");
+    cnpjFields.classList.remove("field-hidden");
+    fullNameLabel.innerText = "Razão Social";
+
+    // limpa campos CPF
+    document.getElementById("birth_date").value = "";
+    document.getElementById("gender").value = "";
+  }
+
+  applyIeUI();
+}
+
+function applyIeUI() {
+  const type = document.getElementById("person_type").value;
+  const ieIsento = document.getElementById("ie_isento").checked;
+  const ieInput = document.getElementById("ie");
+
+  // só faz sentido em CNPJ
+  if (type !== "CNPJ") {
+    ieInput.disabled = true;
+    return;
+  }
+
+  // se isento, IE fica desabilitado e vazio
+  if (ieIsento) {
+    ieInput.value = "";
+    ieInput.disabled = true;
+  } else {
+    ieInput.disabled = false;
+  }
+}
+
 async function init() {
   const params = new URLSearchParams(window.location.search);
   const sessionId = params.get("session_id");
 
-  if (!sessionId) {
-    showError("Sessão não encontrada", "Não foi possível identificar o pagamento. Volte ao site e tente novamente.");
+  if (!sessionId) return;
+
+  // verificar se já existe invoice profile
+  // (OBS: se sua API exigir token, ela pode retornar has_profile=false sem token)
+  const check = await fetch("/api/invoice-profile-exists");
+  const exists = await check.json();
+
+  if (!exists.has_profile) {
+    document.getElementById("title").innerText = "Dados para Nota Fiscal";
+    document.getElementById("subtitle").innerText =
+      "Precisamos dessas informações para emitir sua nota fiscal.";
+    document.getElementById("status").style.display = "none";
+    document.getElementById("invoiceForm").style.display = "block";
+
+    applyPersonTypeUI();
+    await loadUFs();
     return;
   }
 
-  // ✅ No plano Hobby (limite de funções), os endpoints de NF foram removidos.
-  // Portanto, seguimos direto para liberação do material.
   liberarPDF(sessionId);
 }
 
 async function liberarPDF(sessionId) {
-  try {
-    const statusEl = document.getElementById("status");
-    if (statusEl) statusEl.innerText = "Aguarde alguns instantes.";
+  const res = await fetch("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId));
+  const data = await res.json();
+  if (data?.pdf_url) window.location.href = data.pdf_url;
+}
 
-    const res = await fetch("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId), {
-      method: "GET",
-      headers: { "Accept": "application/json" }
-    });
+async function loadUFs() {
+  // ✅ endpoint correto (você confirmou que está com 27 estados)
+  const res = await fetch("/api/br-cities?ts=" + Date.now());
+  const data = await res.json();
 
-    let data = null;
-    try {
-      data = await res.json();
-    } catch (e) {
-      // se por algum motivo não vier JSON
-      data = null;
-    }
+  const ufSelect = document.getElementById("uf");
+  ufSelect.innerHTML = (data.estados || []).map(u => `<option>${u}</option>`).join("");
 
-    if (data && data.pdf_url) {
-      window.location.href = data.pdf_url;
-      return;
-    }
+  // já carrega cidades do primeiro UF
+  await loadCities();
+}
 
-    // se não veio pdf_url, mostra erro amigável
-    const errTitle = "Não foi possível liberar o material";
-    const errMsg =
-      (data && (data.error || data.message || data.details))
-        ? String(data.error || data.message || data.details)
-        : "Tente novamente em instantes. Se persistir, entre em contato.";
+async function loadCities() {
+  const uf = document.getElementById("uf").value;
 
-    showError(errTitle, errMsg);
-  } catch (err) {
-    showError("Erro inesperado", (err && err.message) ? err.message : "Tente novamente em instantes.");
+  const res = await fetch("/api/br-cities?uf=" + encodeURIComponent(uf) + "&ts=" + Date.now());
+  const data = await res.json();
+
+  document.getElementById("city_name").innerHTML =
+    (data.cidades || []).map(c => `<option>${c}</option>`).join("");
+}
+
+document.getElementById("uf").addEventListener("change", loadCities);
+document.getElementById("person_type").addEventListener("change", applyPersonTypeUI);
+document.getElementById("ie_isento").addEventListener("change", applyIeUI);
+
+document.getElementById("invoiceForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  clearError();
+
+  const sessionId = new URLSearchParams(window.location.search).get("session_id");
+  const personType = document.getElementById("person_type").value;
+
+  const payload = {
+    person_type: personType,
+    doc_number: document.getElementById("doc_number").value,
+    full_name: document.getElementById("full_name").value,
+
+    // CPF
+    birth_date: (personType === "CPF") ? (document.getElementById("birth_date").value || null) : null,
+    gender: (personType === "CPF") ? (document.getElementById("gender").value || null) : null,
+
+    // CNPJ
+    ie_isento: (personType === "CNPJ") ? document.getElementById("ie_isento").checked : true,
+    ie: (personType === "CNPJ") ? (document.getElementById("ie").value || null) : null,
+
+    // Endereço
+    uf: document.getElementById("uf").value,
+    city_name: document.getElementById("city_name").value,
+    cep: document.getElementById("cep").value,
+    neighborhood: document.getElementById("neighborhood").value,
+    street: document.getElementById("street").value,
+    street_number: document.getElementById("street_number").value,
+
+    // país (ainda não salva no banco; é só UI por enquanto)
+    country: document.getElementById("country").value
+  };
+
+  const resp = await fetch("/api/save-invoice-profile", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  const result = await resp.json().catch(() => ({}));
+
+  if (!resp.ok) {
+    // ⚠️ Importante: se a API estiver exigindo token, aqui vai aparecer "missing_token"
+    const msg =
+      (result && (result.details || result.error || result.message)) ||
+      "Erro ao salvar os dados de nota fiscal.";
+    showError(
+      "Não foi possível salvar os dados. Mensagem: " + msg +
+      "\n\nSe aparecer 'missing_token', significa que o site ainda não está enviando login/autenticação."
+    );
+    return;
   }
-}
 
-function showError(title, message) {
-  const titleEl = document.getElementById("title");
-  const subtitleEl = document.getElementById("subtitle");
-  const statusEl = document.getElementById("status");
-  const actionsEl = document.getElementById("actions");
-
-  if (titleEl) titleEl.innerText = title || "Erro";
-  if (subtitleEl) subtitleEl.innerText = message || "Ocorreu um problema.";
-  if (statusEl) statusEl.style.display = "none";
-  if (actionsEl) actionsEl.style.display = "flex";
-}
+  // se salvou, libera PDF
+  liberarPDF(sessionId);
+});
 
 init();
 </script>
