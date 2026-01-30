@@ -191,7 +191,7 @@ async function init() {
 
   if (!sessionId) return;
 
-  // 🔹 verificar se já existe invoice profile
+  // verificar se já existe invoice profile
   const check = await fetch("/api/invoice-profile-exists");
   const exists = await check.json();
 
@@ -201,7 +201,8 @@ async function init() {
       "Precisamos dessas informações para emitir sua nota fiscal.";
     document.getElementById("status").style.display = "none";
     document.getElementById("invoiceForm").style.display = "block";
-    loadUFs();
+
+    await loadUFs();
     return;
   }
 
@@ -209,25 +210,32 @@ async function init() {
 }
 
 async function liberarPDF(sessionId) {
-  const res = await fetch("/api/get-pdf-from-session?session_id=" + sessionId);
+  const res = await fetch("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId));
   const data = await res.json();
   if (data?.pdf_url) window.location.href = data.pdf_url;
 }
 
 async function loadUFs() {
-  const res = await fetch("/api/br-cities");
+  // ✅ NOVO ENDPOINT
+  const res = await fetch("/api/br-cities-v2");
   const data = await res.json();
+
   const ufSelect = document.getElementById("uf");
-  ufSelect.innerHTML = data.estados.map(u => `<option>${u}</option>`).join("");
-  loadCities();
+  ufSelect.innerHTML = (data.estados || []).map(u => `<option>${u}</option>`).join("");
+
+  // já carrega cidades do primeiro UF
+  await loadCities();
 }
 
 async function loadCities() {
   const uf = document.getElementById("uf").value;
-  const res = await fetch("/api/br-cities?uf=" + uf);
+
+  // ✅ NOVO ENDPOINT
+  const res = await fetch("/api/br-cities-v2?uf=" + encodeURIComponent(uf));
   const data = await res.json();
+
   document.getElementById("city_name").innerHTML =
-    data.cidades.map(c => `<option>${c}</option>`).join("");
+    (data.cidades || []).map(c => `<option>${c}</option>`).join("");
 }
 
 document.getElementById("uf").addEventListener("change", loadCities);
