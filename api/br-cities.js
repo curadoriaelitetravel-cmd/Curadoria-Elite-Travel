@@ -1,8 +1,4 @@
 // api/br-cities.js
-// Lista ESTADOS (UFs) e CIDADES a partir da tabela public.br_cities
-// - GET /api/br-cities            -> retorna { estados: ["SP","RJ", ...] }
-// - GET /api/br-cities?uf=SP      -> retorna { estado: "SP", cidades: ["SÃO PAULO", ...] }
-
 const { createClient } = require("@supabase/supabase-js");
 
 function getEnv(name) {
@@ -13,6 +9,26 @@ function getEnv(name) {
 
 function normalizeUF(uf) {
   return String(uf || "").trim().toUpperCase();
+}
+
+async function fetchAllRows(queryBuilder, pageSize = 1000) {
+  let all = [];
+  let from = 0;
+
+  while (true) {
+    const to = from + pageSize - 1;
+    const { data, error } = await queryBuilder.range(from, to);
+
+    if (error) throw error;
+    if (!data || data.length === 0) break;
+
+    all = all.concat(data);
+
+    if (data.length < pageSize) break;
+    from += pageSize;
+  }
+
+  return all;
 }
 
 module.exports = async (req, res) => {
@@ -30,46 +46,22 @@ module.exports = async (req, res) => {
 
     const uf = req.query?.uf ? normalizeUF(req.query.uf) : "";
 
-    // ✅ IMPORTANTE:
-    // PostgREST (Supabase) costuma limitar resultados por padrão (ex.: 1000 linhas).
-    // Como br_cities tem 5571 linhas, precisamos buscar em "páginas" ou aumentar o range.
-    async function fetchAllRows(queryBuilder, pageSize = 1000) {
-      let all = [];
-      let from = 0;
-
-      while (true) {
-        const to = from + pageSize - 1;
-        const { data, error } = await queryBuilder.range(from, to);
-
-        if (error) throw error;
-        if (!data || data.length === 0) break;
-
-        all = all.concat(data);
-
-        // se veio menos que pageSize, acabou
-        if (data.length < pageSize) break;
-
-        from += pageSize;
-      }
-
-      return all;
-    }
-
-    // Se não vier UF: lista estados (UFs)
+    // ✅ 1) Lista UFs
     if (!uf) {
       const rows = await fetchAllRows(
-        supabase.from("br_cities").select("uf").order("uf", { ascending: true }),
+        supabase
+          .from("br_cities")
+          .select("uf")
+          .order("uf", { ascending: true }),
         1000
       );
 
-      const uniqueUFs = Array.from(new Set((rows || []).map((x) => x.uf))).filter(Boolean);
+      const estados = Array.from(new Set((rows || []).map((x) => x.uf))).filter(Boolean);
 
-      return res.status(200).json({
-        estados: uniqueUFs,
-      });
+      return res.status(200).json({ estados });
     }
 
-    // Se veio UF: lista cidades daquela UF
+    // ✅ 2) Lista cidades por UF
     const rows = await fetchAllRows(
       supabase
         .from("br_cities")
@@ -79,12 +71,9 @@ module.exports = async (req, res) => {
       1000
     );
 
-    const cities = (rows || []).map((x) => x.city_name).filter(Boolean);
+    const cidades = (rows || []).map((x) => x.city_name).filter(Boolean);
 
-    return res.status(200).json({
-      estado: uf,
-      cidades: cities,
-    });
+    return res.status(200).json({ estado: uf, cidades });
   } catch (err) {
     return res.status(500).json({
       error: "failed",
