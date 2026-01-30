@@ -112,24 +112,6 @@
       border: 1px solid rgba(212,175,55,0.4);
       color: #d4af37;
     }
-
-    .field-hidden {
-      display: none !important;
-    }
-
-    .error-box {
-      margin-top: 16px;
-      padding: 10px 12px;
-      border: 1px solid rgba(255, 80, 80, 0.35);
-      background: rgba(255, 80, 80, 0.08);
-      border-radius: 10px;
-      color: rgba(255,255,255,0.9);
-      display: none;
-      text-align: left;
-      font-size: 14px;
-      line-height: 1.5;
-      white-space: pre-wrap;
-    }
   </style>
 </head>
 <body>
@@ -145,8 +127,6 @@
       Aguarde alguns instantes.
     </p>
 
-    <div class="error-box" id="errorBox"></div>
-
     <!-- FORMULÁRIO NOTA FISCAL -->
     <form id="invoiceForm">
       <label>Tipo de documento</label>
@@ -158,38 +138,19 @@
       <label>CPF / CNPJ</label>
       <input id="doc_number" required />
 
-      <label id="fullNameLabel">Nome completo</label>
+      <label>Nome / Razão Social</label>
       <input id="full_name" required />
 
-      <!-- CPF: nascimento + sexo -->
-      <div id="cpfFields">
-        <label>Data de nascimento</label>
-        <input type="date" id="birth_date" />
+      <label id="birthLabel">Data de nascimento</label>
+      <input type="date" id="birth_date" />
 
-        <label>Sexo</label>
-        <select id="gender">
-          <option value="">Selecione</option>
-          <option value="Mulher">Mulher</option>
-          <option value="Homem">Homem</option>
-          <option value="Outro">Outro</option>
-        </select>
-      </div>
+      <label>
+        <input type="checkbox" id="ie_isento" checked />
+        Isento de Inscrição Estadual
+      </label>
 
-      <!-- CNPJ: IE -->
-      <div id="cnpjFields" class="field-hidden">
-        <label>
-          <input type="checkbox" id="ie_isento" checked />
-          Isento de Inscrição Estadual
-        </label>
-
-        <label>Inscrição Estadual</label>
-        <input id="ie" />
-      </div>
-
-      <label>País</label>
-      <select id="country">
-        <option value="Brasil" selected>Brasil</option>
-      </select>
+      <label id="ieLabel">Inscrição Estadual</label>
+      <input id="ie" />
 
       <div class="row">
         <div>
@@ -224,74 +185,79 @@
   </div>
 
 <script>
-const PAGE_VERSION = "checkout-success-2026-01-30b";
-
-function showError(msg) {
-  const box = document.getElementById("errorBox");
-  box.style.display = "block";
-  box.innerText = msg;
+/* ===============================
+   MÁSCARAS CPF / CNPJ
+================================ */
+function onlyDigits(v) {
+  return v.replace(/\D+/g, "");
 }
 
-function clearError() {
-  const box = document.getElementById("errorBox");
-  box.style.display = "none";
-  box.innerText = "";
+function formatCPF(v) {
+  v = onlyDigits(v).slice(0, 11);
+  v = v.replace(/(\d{3})(\d)/, "$1.$2");
+  v = v.replace(/(\d{3})(\d)/, "$1.$2");
+  v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+  return v;
 }
 
-function showForm() {
-  document.getElementById("title").innerText = "Dados para Nota Fiscal";
-  document.getElementById("subtitle").innerText =
-    "Precisamos dessas informações para emitir sua nota fiscal.";
-  document.getElementById("status").style.display = "none";
-  document.getElementById("invoiceForm").style.display = "block";
+function formatCNPJ(v) {
+  v = onlyDigits(v).slice(0, 14);
+  v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+  v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+  v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+  v = v.replace(/(\d{4})(\d{1,2})$/, "$1-$2");
+  return v;
 }
 
-function applyPersonTypeUI() {
-  const type = document.getElementById("person_type").value;
-  const cpfFields = document.getElementById("cpfFields");
-  const cnpjFields = document.getElementById("cnpjFields");
-  const fullNameLabel = document.getElementById("fullNameLabel");
+const docInput = document.getElementById("doc_number");
+const personTypeSelect = document.getElementById("person_type");
 
-  if (type === "CPF") {
-    cpfFields.classList.remove("field-hidden");
-    cnpjFields.classList.add("field-hidden");
-    fullNameLabel.innerText = "Nome completo";
-
-    document.getElementById("ie_isento").checked = true;
-    document.getElementById("ie").value = "";
+docInput.addEventListener("input", () => {
+  if (personTypeSelect.value === "CPF") {
+    docInput.value = formatCPF(docInput.value);
   } else {
-    cpfFields.classList.add("field-hidden");
-    cnpjFields.classList.remove("field-hidden");
-    fullNameLabel.innerText = "Razão Social";
-
-    document.getElementById("birth_date").value = "";
-    document.getElementById("gender").value = "";
+    docInput.value = formatCNPJ(docInput.value);
   }
+});
 
-  applyIeUI();
-}
+personTypeSelect.addEventListener("change", () => {
+  docInput.value = "";
+});
 
-function applyIeUI() {
-  const type = document.getElementById("person_type").value;
-  const ieIsento = document.getElementById("ie_isento").checked;
-  const ieInput = document.getElementById("ie");
+/* ===============================
+   LÓGICA EXISTENTE
+================================ */
+async function init() {
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get("session_id");
 
-  if (type !== "CNPJ") {
-    ieInput.value = "";
-    ieInput.disabled = true;
+  if (!sessionId) return;
+
+  const check = await fetch("/api/invoice-profile-exists");
+  const exists = await check.json();
+
+  if (!exists.has_profile) {
+    document.getElementById("title").innerText = "Dados para Nota Fiscal";
+    document.getElementById("subtitle").innerText =
+      "Precisamos dessas informações para emitir sua nota fiscal.";
+    document.getElementById("status").style.display = "none";
+    document.getElementById("invoiceForm").style.display = "block";
+
+    await loadUFs();
     return;
   }
 
-  if (ieIsento) {
-    ieInput.value = "";
-    ieInput.disabled = true;
-  } else {
-    ieInput.disabled = false;
-  }
+  liberarPDF(sessionId);
+}
+
+async function liberarPDF(sessionId) {
+  const res = await fetch("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId));
+  const data = await res.json();
+  if (data?.pdf_url) window.location.href = data.pdf_url;
 }
 
 async function loadUFs() {
-  const res = await fetch("/api/br-cities?ts=" + Date.now());
+  const res = await fetch("/api/br-cities");
   const data = await res.json();
 
   const ufSelect = document.getElementById("uf");
@@ -302,117 +268,46 @@ async function loadUFs() {
 
 async function loadCities() {
   const uf = document.getElementById("uf").value;
-  const res = await fetch("/api/br-cities?uf=" + encodeURIComponent(uf) + "&ts=" + Date.now());
+  const res = await fetch("/api/br-cities?uf=" + encodeURIComponent(uf));
   const data = await res.json();
 
   document.getElementById("city_name").innerHTML =
     (data.cidades || []).map(c => `<option>${c}</option>`).join("");
 }
 
-async function liberarPDF(sessionId) {
-  const res = await fetch("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId));
-  const data = await res.json();
-
-  if (data?.pdf_url) {
-    window.location.href = data.pdf_url;
-    return;
-  }
-
-  showError(
-    "Pagamento confirmado, mas não foi possível liberar o material automaticamente.\n" +
-    "Por favor, entre em contato.\n\n" +
-    "Detalhes técnicos: " + JSON.stringify(data || {}, null, 2)
-  );
-  document.getElementById("actions").style.display = "flex";
-}
-
-async function init() {
-  try {
-    const params = new URLSearchParams(window.location.search);
-    const sessionId = params.get("session_id");
-
-    if (!sessionId) {
-      showError("Sessão de pagamento não encontrada (faltou session_id na URL).");
-      document.getElementById("actions").style.display = "flex";
-      return;
-    }
-
-    // ✅ CAMINHO B: sempre pede nota fiscal primeiro
-    showForm();
-    applyPersonTypeUI();
-    await loadUFs();
-
-  } catch (err) {
-    showError(
-      "Erro ao carregar a página.\n\n" +
-      "Detalhes: " + (err?.message || String(err)) +
-      "\n\nVersão: " + PAGE_VERSION
-    );
-    document.getElementById("actions").style.display = "flex";
-  }
-}
-
 document.getElementById("uf").addEventListener("change", loadCities);
-document.getElementById("person_type").addEventListener("change", applyPersonTypeUI);
-document.getElementById("ie_isento").addEventListener("change", applyIeUI);
+
+document.getElementById("person_type").addEventListener("change", e => {
+  const isCPF = e.target.value === "CPF";
+  document.getElementById("birthLabel").style.display = isCPF ? "block" : "none";
+  document.getElementById("birth_date").style.display = isCPF ? "block" : "none";
+});
 
 document.getElementById("invoiceForm").addEventListener("submit", async e => {
   e.preventDefault();
-  clearError();
 
-  try {
-    const sessionId = new URLSearchParams(window.location.search).get("session_id");
-    const personType = document.getElementById("person_type").value;
+  const payload = {
+    person_type: person_type.value,
+    doc_number: doc_number.value,
+    full_name: full_name.value,
+    birth_date: birth_date.value || null,
+    ie_isento: ie_isento.checked,
+    ie: ie.value || null,
+    uf: uf.value,
+    city_name: city_name.value,
+    cep: cep.value,
+    neighborhood: neighborhood.value,
+    street: street.value,
+    street_number: street_number.value
+  };
 
-    const payload = {
-      person_type: personType,
-      doc_number: document.getElementById("doc_number").value,
-      full_name: document.getElementById("full_name").value,
+  await fetch("/api/save-invoice-profile", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
 
-      birth_date: (personType === "CPF") ? (document.getElementById("birth_date").value || null) : null,
-      gender: (personType === "CPF") ? (document.getElementById("gender").value || null) : null,
-
-      ie_isento: (personType === "CNPJ") ? document.getElementById("ie_isento").checked : true,
-      ie: (personType === "CNPJ") ? (document.getElementById("ie").value || null) : null,
-
-      uf: document.getElementById("uf").value,
-      city_name: document.getElementById("city_name").value,
-      cep: document.getElementById("cep").value,
-      neighborhood: document.getElementById("neighborhood").value,
-      street: document.getElementById("street").value,
-      street_number: document.getElementById("street_number").value,
-
-      country: document.getElementById("country").value
-    };
-
-    const resp = await fetch("/api/save-invoice-profile", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    const result = await resp.json().catch(() => ({}));
-
-    if (!resp.ok) {
-      const msg =
-        (result && (result.details || result.error || result.message)) ||
-        "Erro ao salvar os dados de nota fiscal.";
-
-      showError(
-        "Não foi possível salvar os dados.\n\nMensagem: " + msg +
-        "\n\nOBS: se aparecer 'missing_token', significa que ainda falta o LOGIN (email/senha) para gerar o token do usuário."
-      );
-      document.getElementById("actions").style.display = "flex";
-      return;
-    }
-
-    // ✅ só libera o PDF depois de salvar
-    await liberarPDF(sessionId);
-
-  } catch (err) {
-    showError("Erro inesperado ao salvar.\n\nDetalhes: " + (err?.message || String(err)));
-    document.getElementById("actions").style.display = "flex";
-  }
+  liberarPDF(new URLSearchParams(window.location.search).get("session_id"));
 });
 
 init();
