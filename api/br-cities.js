@@ -32,9 +32,15 @@ async function fetchAllRows(queryBuilder, pageSize = 1000) {
 }
 
 module.exports = async (req, res) => {
+  // ✅ evita qualquer cache da Vercel/Browser
+  res.setHeader("Cache-Control", "no-store, max-age=0");
+
+  // ✅ “assinatura” pra confirmar versão no ar
+  const VERSION = "br-cities-v3-2026-01-30";
+
   try {
     if (req.method !== "GET") {
-      return res.status(405).json({ error: "Method not allowed" });
+      return res.status(405).json({ error: "Method not allowed", version: VERSION });
     }
 
     const SUPABASE_URL = getEnv("SUPABASE_URL");
@@ -46,22 +52,19 @@ module.exports = async (req, res) => {
 
     const uf = req.query?.uf ? normalizeUF(req.query.uf) : "";
 
-    // ✅ 1) Lista UFs
+    // ✅ 1) Lista UFs (retorna 27)
     if (!uf) {
       const rows = await fetchAllRows(
-        supabase
-          .from("br_cities")
-          .select("uf")
-          .order("uf", { ascending: true }),
+        supabase.from("br_cities").select("uf").order("uf", { ascending: true }),
         1000
       );
 
       const estados = Array.from(new Set((rows || []).map((x) => x.uf))).filter(Boolean);
 
-      return res.status(200).json({ estados });
+      return res.status(200).json({ estados, version: VERSION });
     }
 
-    // ✅ 2) Lista cidades por UF
+    // ✅ 2) Lista cidades por UF (continua funcionando)
     const rows = await fetchAllRows(
       supabase
         .from("br_cities")
@@ -73,11 +76,12 @@ module.exports = async (req, res) => {
 
     const cidades = (rows || []).map((x) => x.city_name).filter(Boolean);
 
-    return res.status(200).json({ estado: uf, cidades });
+    return res.status(200).json({ estado: uf, cidades, version: VERSION });
   } catch (err) {
     return res.status(500).json({
       error: "failed",
       details: err?.message || String(err),
+      version: VERSION,
     });
   }
 };
