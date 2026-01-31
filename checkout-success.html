@@ -65,6 +65,7 @@
       border: 1px solid #333;
       background: #0b0b0b;
       color: #fff;
+      box-sizing: border-box;
     }
 
     .row {
@@ -74,6 +75,19 @@
 
     .row > div {
       flex: 1;
+    }
+
+    .checkboxRow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .checkboxRow input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+      transform: translateY(1px);
     }
 
     button {
@@ -112,6 +126,10 @@
       border: 1px solid rgba(212,175,55,0.4);
       color: #d4af37;
     }
+
+    .hidden {
+      display: none !important;
+    }
   </style>
 </head>
 <body>
@@ -136,21 +154,47 @@
       </select>
 
       <label>CPF / CNPJ</label>
-      <input id="doc_number" required />
+      <input id="doc_number" required placeholder="Digite seu CPF ou CNPJ" inputmode="numeric" />
 
-      <label>Nome / Razão Social</label>
-      <input id="full_name" required />
+      <!-- CPF: Nome -->
+      <div id="cpfNameWrap">
+        <label>Nome completo</label>
+        <input id="full_name" required />
+      </div>
 
-      <label id="birthLabel">Data de nascimento</label>
-      <input type="date" id="birth_date" />
+      <!-- CNPJ: Razão Social -->
+      <div id="cnpjCorporateWrap" class="hidden">
+        <label>Razão Social</label>
+        <input id="corporate_name" />
+      </div>
 
-      <label>
-        <input type="checkbox" id="ie_isento" checked />
-        Isento de Inscrição Estadual
-      </label>
+      <!-- CPF: Sexo -->
+      <div id="genderWrap">
+        <label>Sexo</label>
+        <select id="gender">
+          <option value="" selected>Selecione</option>
+          <option value="Mulher">Mulher</option>
+          <option value="Homem">Homem</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
 
-      <label id="ieLabel">Inscrição Estadual</label>
-      <input id="ie" />
+      <!-- CPF: Nascimento -->
+      <div id="birthWrap">
+        <label>Data de nascimento</label>
+        <input type="date" id="birth_date" />
+      </div>
+
+      <!-- CNPJ: IE + Isento -->
+      <div id="ieWrap" class="hidden">
+        <div class="checkboxRow">
+          <input type="checkbox" id="ie_isento" checked />
+          <label for="ie_isento" style="margin:0;">Isento de Inscrição Estadual</label>
+        </div>
+
+        <label id="ieLabel">Inscrição Estadual (IE)</label>
+        <input id="ie" disabled />
+      </div>
 
       <div class="row">
         <div>
@@ -164,7 +208,7 @@
       </div>
 
       <label>CEP</label>
-      <input id="cep" required />
+      <input id="cep" required inputmode="numeric" placeholder="00000-000" />
 
       <label>Bairro</label>
       <input id="neighborhood" required />
@@ -185,54 +229,13 @@
   </div>
 
 <script>
-/* ===============================
-   MÁSCARAS CPF / CNPJ
-================================ */
-function onlyDigits(v) {
-  return v.replace(/\D+/g, "");
-}
-
-function formatCPF(v) {
-  v = onlyDigits(v).slice(0, 11);
-  v = v.replace(/(\d{3})(\d)/, "$1.$2");
-  v = v.replace(/(\d{3})(\d)/, "$1.$2");
-  v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-  return v;
-}
-
-function formatCNPJ(v) {
-  v = onlyDigits(v).slice(0, 14);
-  v = v.replace(/^(\d{2})(\d)/, "$1.$2");
-  v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-  v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
-  v = v.replace(/(\d{4})(\d{1,2})$/, "$1-$2");
-  return v;
-}
-
-const docInput = document.getElementById("doc_number");
-const personTypeSelect = document.getElementById("person_type");
-
-docInput.addEventListener("input", () => {
-  if (personTypeSelect.value === "CPF") {
-    docInput.value = formatCPF(docInput.value);
-  } else {
-    docInput.value = formatCNPJ(docInput.value);
-  }
-});
-
-personTypeSelect.addEventListener("change", () => {
-  docInput.value = "";
-});
-
-/* ===============================
-   LÓGICA EXISTENTE
-================================ */
 async function init() {
   const params = new URLSearchParams(window.location.search);
   const sessionId = params.get("session_id");
 
   if (!sessionId) return;
 
+  // verificar se já existe invoice profile
   const check = await fetch("/api/invoice-profile-exists");
   const exists = await check.json();
 
@@ -244,6 +247,8 @@ async function init() {
     document.getElementById("invoiceForm").style.display = "block";
 
     await loadUFs();
+    applyPersonTypeUI();     // aplica a UI inicial (CPF)
+    applyDocMask();          // aplica máscara inicial
     return;
   }
 
@@ -257,17 +262,20 @@ async function liberarPDF(sessionId) {
 }
 
 async function loadUFs() {
+  // ✅ endpoint correto (você testou e está retornando 27 UFs)
   const res = await fetch("/api/br-cities");
   const data = await res.json();
 
   const ufSelect = document.getElementById("uf");
   ufSelect.innerHTML = (data.estados || []).map(u => `<option>${u}</option>`).join("");
 
+  // já carrega cidades do primeiro UF
   await loadCities();
 }
 
 async function loadCities() {
   const uf = document.getElementById("uf").value;
+
   const res = await fetch("/api/br-cities?uf=" + encodeURIComponent(uf));
   const data = await res.json();
 
@@ -277,25 +285,136 @@ async function loadCities() {
 
 document.getElementById("uf").addEventListener("change", loadCities);
 
-document.getElementById("person_type").addEventListener("change", e => {
-  const isCPF = e.target.value === "CPF";
-  document.getElementById("birthLabel").style.display = isCPF ? "block" : "none";
-  document.getElementById("birth_date").style.display = isCPF ? "block" : "none";
+/* =========================
+   CPF / CNPJ: UI CONDICIONAL
+========================= */
+function applyPersonTypeUI() {
+  const personType = document.getElementById("person_type").value;
+  const isCPF = personType === "CPF";
+
+  // CPF: Nome + Sexo + Nascimento
+  document.getElementById("cpfNameWrap").classList.toggle("hidden", !isCPF);
+  document.getElementById("genderWrap").classList.toggle("hidden", !isCPF);
+  document.getElementById("birthWrap").classList.toggle("hidden", !isCPF);
+
+  // CNPJ: Razão Social + IE
+  document.getElementById("cnpjCorporateWrap").classList.toggle("hidden", isCPF);
+  document.getElementById("ieWrap").classList.toggle("hidden", isCPF);
+
+  // Regras de required
+  document.getElementById("full_name").required = isCPF;
+  document.getElementById("corporate_name").required = !isCPF;
+
+  document.getElementById("birth_date").required = isCPF;
+
+  // Se mudar tipo, limpa campos que não fazem sentido
+  if (isCPF) {
+    document.getElementById("corporate_name").value = "";
+    document.getElementById("ie").value = "";
+    document.getElementById("ie_isento").checked = true;
+    document.getElementById("ie").disabled = true;
+  } else {
+    document.getElementById("full_name").value = "";
+    document.getElementById("gender").value = "";
+    document.getElementById("birth_date").value = "";
+    // IE habilita/desabilita conforme isento
+    toggleIE();
+  }
+}
+
+/* =========================
+   IE: habilita só se NÃO for isento
+========================= */
+function toggleIE() {
+  const isento = document.getElementById("ie_isento").checked;
+  const ieInput = document.getElementById("ie");
+
+  if (isento) {
+    ieInput.value = "";
+    ieInput.disabled = true;
+  } else {
+    ieInput.disabled = false;
+    ieInput.focus();
+  }
+}
+
+document.getElementById("person_type").addEventListener("change", () => {
+  applyPersonTypeUI();
+  applyDocMask(); // reaplica máscara quando troca CPF/CNPJ
 });
 
+document.getElementById("ie_isento").addEventListener("change", toggleIE);
+
+/* =========================
+   MÁSCARA CPF / CNPJ
+   CPF  = 000.000.000-00
+   CNPJ = 00.000.000/0001-00
+========================= */
+function onlyDigits(v) {
+  return String(v || "").replace(/\D+/g, "");
+}
+
+function formatCPF(digits) {
+  const d = digits.slice(0, 11);
+  // 000.000.000-00
+  return d
+    .replace(/^(\d{3})(\d)/, "$1.$2")
+    .replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
+    .replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})$/, "$1.$2.$3-$4");
+}
+
+function formatCNPJ(digits) {
+  const d = digits.slice(0, 14);
+  // 00.000.000/0000-00
+  return d
+    .replace(/^(\d{2})(\d)/, "$1.$2")
+    .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+    .replace(/^(\d{2})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3/$4")
+    .replace(/^(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d{1,2})$/, "$1.$2.$3/$4-$5");
+}
+
+function applyDocMask() {
+  const personType = document.getElementById("person_type").value;
+  const input = document.getElementById("doc_number");
+  const digits = onlyDigits(input.value);
+
+  if (personType === "CPF") {
+    input.value = formatCPF(digits);
+    input.placeholder = "000.000.000-00";
+  } else {
+    input.value = formatCNPJ(digits);
+    input.placeholder = "00.000.000/0001-00";
+  }
+}
+
+document.getElementById("doc_number").addEventListener("input", applyDocMask);
+
+/* =========================
+   SUBMIT
+========================= */
 document.getElementById("invoiceForm").addEventListener("submit", async e => {
   e.preventDefault();
 
+  const personType = person_type.value;
+
   const payload = {
-    person_type: person_type.value,
-    doc_number: doc_number.value,
-    full_name: full_name.value,
-    birth_date: birth_date.value || null,
-    ie_isento: ie_isento.checked,
-    ie: ie.value || null,
+    person_type: personType,
+    doc_number: onlyDigits(doc_number.value),
+
+    // CPF:
+    full_name: personType === "CPF" ? full_name.value : "",
+    gender: personType === "CPF" ? (gender.value || null) : null,
+    birth_date: personType === "CPF" ? (birth_date.value || null) : null,
+
+    // CNPJ:
+    corporate_name: personType === "CNPJ" ? corporate_name.value : "",
+    ie_isento: personType === "CNPJ" ? ie_isento.checked : true,
+    ie: personType === "CNPJ" ? (ie.value || null) : null,
+
+    // Endereço:
     uf: uf.value,
     city_name: city_name.value,
-    cep: cep.value,
+    cep: onlyDigits(cep.value),
     neighborhood: neighborhood.value,
     street: street.value,
     street_number: street_number.value
