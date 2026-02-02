@@ -203,11 +203,11 @@ module.exports = async function handler(req, res) {
     }
 
     // =========================================================
-    // SALVAR ACESSO VITALÍCIO NA TABELA purchases
+    // SALVAR ACESSO VITALÍCIO NA TABELA purchase (singular)
     // Evita duplicar: se já existir (user_id + stripe_session_id), não insere de novo.
     // =========================================================
     const { data: existing, error: existingErr } = await supabase
-      .from("purchases")
+      .from("purchase")
       .select("id")
       .eq("user_id", userId)
       .eq("stripe_session_id", sessionId)
@@ -215,14 +215,14 @@ module.exports = async function handler(req, res) {
 
     if (existingErr) {
       return res.status(500).json({
-        error: "Supabase purchases check error",
+        error: "Supabase purchase check error",
         details: existingErr.message || String(existingErr),
       });
     }
 
     if (!existing || existing.length === 0) {
       const { error: insertErr } = await supabase
-        .from("purchases")
+        .from("purchase")
         .insert({
           user_id: userId,
           category,
@@ -233,7 +233,7 @@ module.exports = async function handler(req, res) {
 
       if (insertErr) {
         return res.status(500).json({
-          error: "Supabase purchases insert error",
+          error: "Supabase purchase insert error",
           details: insertErr.message || String(insertErr),
         });
       }
