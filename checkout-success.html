@@ -228,12 +228,45 @@
     </div>
   </div>
 
+  <!-- Supabase JS (oficial) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+/* =========================================================
+   SUPABASE (já configurado)
+========================================================= */
+const sb = supabase.createClient(
+  "https://lnyoqoezezisakghtmim.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA"
+);
+
+function showActions() {
+  document.getElementById("actions").style.display = "flex";
+}
+
+async function requireLoginOrStop() {
+  const { data } = await sb.auth.getSession();
+  if (!data || !data.session || !data.session.access_token) {
+    document.getElementById("title").innerText = "Acesso à sua conta";
+    document.getElementById("subtitle").innerText =
+      "Para liberar seu material na sua conta, faça login primeiro.";
+    document.getElementById("status").innerText =
+      "Clique em “Voltar ao site” e entre na sua conta.";
+    showActions();
+    return null;
+  }
+  return data.session.access_token;
+}
+
 async function init() {
   const params = new URLSearchParams(window.location.search);
   const sessionId = params.get("session_id");
 
   if (!sessionId) return;
+
+  // 1) precisa estar logado para gravar acesso vitalício
+  const accessToken = await requireLoginOrStop();
+  if (!accessToken) return;
 
   // verificar se já existe invoice profile
   const check = await fetch("/api/invoice-profile-exists");
@@ -252,13 +285,34 @@ async function init() {
     return;
   }
 
-  liberarPDF(sessionId);
+  liberarAcesso(sessionId, accessToken);
 }
 
-async function liberarPDF(sessionId) {
-  const res = await fetch("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId));
+async function liberarAcesso(sessionId, accessToken) {
+  const res = await fetch(
+    "/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId),
+    {
+      headers: {
+        "Authorization": "Bearer " + accessToken
+      }
+    }
+  );
+
   const data = await res.json();
-  if (data?.pdf_url) window.location.href = data.pdf_url;
+
+  if (data && data.ok) {
+    // IMPORTANTE: não abrir pdf_url direto (sem download)
+    // Leva o cliente para a conta, onde ele visualiza dentro da account.html
+    window.location.href = "account.html";
+    return;
+  }
+
+  document.getElementById("title").innerText = "Não foi possível liberar o material";
+  document.getElementById("subtitle").innerText =
+    "Se o problema continuar, entre em contato.";
+  document.getElementById("status").innerText =
+    (data && data.error) ? ("Detalhe: " + data.error) : "Tente novamente em instantes.";
+  showActions();
 }
 
 async function loadUFs() {
@@ -395,6 +449,10 @@ document.getElementById("doc_number").addEventListener("input", applyDocMask);
 document.getElementById("invoiceForm").addEventListener("submit", async e => {
   e.preventDefault();
 
+  // precisa estar logado aqui também
+  const accessToken = await requireLoginOrStop();
+  if (!accessToken) return;
+
   const personType = person_type.value;
 
   const payload = {
@@ -426,7 +484,7 @@ document.getElementById("invoiceForm").addEventListener("submit", async e => {
     body: JSON.stringify(payload)
   });
 
-  liberarPDF(new URLSearchParams(window.location.search).get("session_id"));
+  liberarAcesso(new URLSearchParams(window.location.search).get("session_id"), accessToken);
 });
 
 init();
