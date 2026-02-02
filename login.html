@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login | Curadoria Elite Travel</title>
+
+  <meta name="robots" content="noindex,nofollow" />
+
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --card:#111827;
+      --card2:#0f172a;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --line:rgba(255,255,255,.10);
+      --accent:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+    a{color:var(--text); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    .wrap{
+      max-width:520px;
+      margin:auto;
+      padding:24px;
+    }
+    .card{
+      border:1px solid var(--line);
+      background: var(--card);
+      border-radius:16px;
+      padding:24px;
+    }
+    h1{margin-top:0;font-size:20px}
+    p{color:var(--muted);font-size:14px}
+    label{font-size:13px;color:var(--muted)}
+    input{
+      width:100%;
+      padding:12px;
+      margin:6px 0 14px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#000;
+      color:#fff;
+    }
+    button{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      background:#fff;
+      color:#000;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .msg{
+      margin-top:12px;
+      font-size:13px;
+      display:none;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="card">
+      <h1>Entrar</h1>
+      <p>Acesse sua conta para visualizar seus materiais.</p>
+
+      <form id="loginForm">
+        <label>E-mail</label>
+        <input type="email" id="email" required>
+
+        <label>Senha</label>
+        <input type="password" id="password" required>
+
+        <button type="submit">Entrar</button>
+
+        <div id="msg" class="msg"></div>
+
+        <p style="margin-top:14px;font-size:13px;">
+          Não tem conta?
+          <a href="register.html">Criar cadastro</a>
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const supabase = supabase.createClient(
+      "https://lnyoqoezezisakghtmim.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA"
+    );
+
+    const form = document.getElementById("loginForm");
+    const msg = document.getElementById("msg");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.style.display = "none";
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        msg.textContent = "E-mail ou senha inválidos.";
+        msg.style.display = "block";
+        return;
+      }
+
+      window.location.href = "account.html";
+    });
+  </script>
+</body>
+</html>
