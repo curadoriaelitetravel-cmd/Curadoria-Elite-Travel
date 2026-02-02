@@ -32,6 +32,27 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: "Missing session_id" });
     }
 
+    // =========================================================
+    // Identificar usuário logado (para salvar acesso vitalício)
+    // Espera receber token no header Authorization: Bearer <token>
+    // (ou, opcionalmente, via query access_token)
+    // =========================================================
+    const authHeader = (req.headers && req.headers.authorization) ? String(req.headers.authorization) : "";
+    let accessToken = "";
+
+    if (authHeader.toLowerCase().startsWith("bearer ")) {
+      accessToken = authHeader.slice(7).trim();
+    } else if (req.query && req.query.access_token) {
+      accessToken = String(req.query.access_token).trim();
+    }
+
+    if (!accessToken) {
+      return res.status(401).json({
+        error: "Not authenticated",
+        tip: "Faça login antes de confirmar a compra e chame esta API enviando Authorization: Bearer <access_token>.",
+      });
+    }
+
     const stripe = new Stripe(secretKey);
     const session = await stripe.checkout.sessions.retrieve(sessionId);
 
@@ -109,12 +130,24 @@ module.exports = async function handler(req, res) {
     // =========================
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
+    // 1) descobrir o usuário real pelo token recebido
+    const { data: userData, error: userErr } = await supabase.auth.getUser(accessToken);
+
+    if (userErr || !userData || !userData.user || !userData.user.id) {
+      return res.status(401).json({
+        error: "Invalid session",
+        tip: "Faça login novamente e tente de novo.",
+      });
+    }
+
+    const userId = userData.user.id;
+
     // Busca candidatos da categoria (não usa match exato em city_label no banco, porque o problema está no traço)
     const { data: candidates, error: supaErr } = await supabase
       .from("curadoria_materials")
       .select("pdf_url, category, city_label")
       .eq("is_active", true)
-      .ilike("category", category.trim()) // case-insensitive; sem % = "igual", mas ignora caixa
+      .ilike("category", category.trim())
       .limit(200);
 
     if (supaErr) {
@@ -126,7 +159,7 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // Se não vier nada, tenta uma segunda abordagem mais tolerante na categoria (remoção de acentos e espaços)
+    // Se não vier nada, tenta uma segunda abordagem mais tolerante na categoria
     let pool = Array.isArray(candidates) ? candidates : [];
     if (pool.length === 0) {
       const { data: candidates2, error: supaErr2 } = await supabase
@@ -169,6 +202,43 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    // =========================================================
+    // SALVAR ACESSO VITALÍCIO NA TABELA purchases
+    // Evita duplicar: se já existir (user_id + stripe_session_id), não insere de novo.
+    // =========================================================
+    const { data: existing, error: existingErr } = await supabase
+      .from("purchases")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("stripe_session_id", sessionId)
+      .limit(1);
+
+    if (existingErr) {
+      return res.status(500).json({
+        error: "Supabase purchases check error",
+        details: existingErr.message || String(existingErr),
+      });
+    }
+
+    if (!existing || existing.length === 0) {
+      const { error: insertErr } = await supabase
+        .from("purchases")
+        .insert({
+          user_id: userId,
+          category,
+          city,
+          pdf_url: found.pdf_url,
+          stripe_session_id: sessionId,
+        });
+
+      if (insertErr) {
+        return res.status(500).json({
+          error: "Supabase purchases insert error",
+          details: insertErr.message || String(insertErr),
+        });
+      }
+    }
+
     return res.status(200).json({
       ok: true,
       pdf_url: found.pdf_url,
@@ -178,6 +248,7 @@ module.exports = async function handler(req, res) {
         category: found.category,
         city_label: found.city_label,
       },
+      saved_access: true,
     });
   } catch (err) {
     return res.status(500).json({
