@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cadastro | Curadoria Elite Travel</title>
+
+  <meta name="robots" content="noindex,nofollow" />
+
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --card:#111827;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --line:rgba(255,255,255,.10);
+      --accent:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+    a{color:var(--text); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    .wrap{
+      max-width:520px;
+      margin:auto;
+      padding:24px;
+    }
+    .card{
+      border:1px solid var(--line);
+      background: var(--card);
+      border-radius:16px;
+      padding:24px;
+    }
+    h1{margin-top:0;font-size:20px}
+    p{color:var(--muted);font-size:14px;line-height:1.45}
+    label{font-size:13px;color:var(--muted)}
+    input{
+      width:100%;
+      padding:12px;
+      margin:6px 0 14px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#000;
+      color:#fff;
+      outline:none;
+    }
+    input::placeholder{color:rgba(229,231,235,.35)}
+    button{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      background:#fff;
+      color:#000;
+      font-weight:700;
+      cursor:pointer;
+    }
+    button:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+    .msg{
+      margin-top:12px;
+      font-size:13px;
+      display:none;
+      color:var(--muted);
+    }
+    .msg strong{
+      color:var(--text);
+      display:block;
+      margin-bottom:4px;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="card">
+      <h1>Criar cadastro</h1>
+      <p>Crie sua conta com e-mail e senha para acessar seus materiais.</p>
+
+      <form id="registerForm" autocomplete="on">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" placeholder="seuemail@exemplo.com" required>
+
+        <label for="password">Senha</label>
+        <input type="password" id="password" placeholder="Mínimo de 6 caracteres" minlength="6" required>
+
+        <label for="confirmPassword">Confirmar senha</label>
+        <input type="password" id="confirmPassword" placeholder="Repita sua senha" minlength="6" required>
+
+        <button id="btnRegister" type="submit">Criar cadastro</button>
+
+        <div id="msg" class="msg" role="status" aria-live="polite"></div>
+
+        <p style="margin-top:14px;font-size:13px;">
+          Já tem conta?
+          <a href="login.html">Entrar</a>
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const sb = supabase.createClient(
+      "https://lnyoqoezezisakghtmim.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA"
+    );
+
+    const form = document.getElementById("registerForm");
+    const msg = document.getElementById("msg");
+    const btn = document.getElementById("btnRegister");
+
+    function showMessage(title, text){
+      msg.innerHTML = "<strong>" + title + "</strong>" + (text || "");
+      msg.style.display = "block";
+    }
+
+    // Se já estiver logado, manda direto para a conta
+    (async () => {
+      const { data } = await sb.auth.getSession();
+      if (data && data.session) {
+        window.location.href = "account.html";
+      }
+    })();
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.style.display = "none";
+
+      const email = (document.getElementById("email").value || "").trim();
+      const password = document.getElementById("password").value || "";
+      const confirmPassword = document.getElementById("confirmPassword").value || "";
+
+      if (!email || !password || !confirmPassword) {
+        showMessage("Confira os campos", "Preencha e-mail e senha para continuar.");
+        return;
+      }
+
+      if (password.length < 6) {
+        showMessage("Senha muito curta", "Use uma senha com pelo menos 6 caracteres.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showMessage("As senhas não conferem", "Digite a mesma senha nos dois campos.");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Criando...";
+
+      try {
+        const { data, error } = await sb.auth.signUp({ email, password });
+
+        if (error) {
+          // Mensagens amigáveis
+          if ((error.message || "").toLowerCase().includes("already registered")) {
+            showMessage("E-mail já cadastrado", "Esse e-mail já tem uma conta. Clique em “Entrar”.");
+          } else {
+            showMessage("Não foi possível criar", "Tente novamente em instantes.");
+          }
+          return;
+        }
+
+        // Em alguns casos o Supabase pode pedir confirmação por e-mail
+        // Se a sessão já existir, manda para account.html
+        const session = data && data.session;
+
+        if (session) {
+          showMessage("Cadastro criado!", "Tudo certo. Indo para sua conta...");
+          setTimeout(() => window.location.href = "account.html", 700);
+        } else {
+          showMessage(
+            "Cadastro criado!",
+            "Se for necessário, você receberá um e-mail para confirmar. Depois é só entrar pelo login."
+          );
+        }
+
+      } catch (err) {
+        showMessage("Erro inesperado", "Tente novamente em instantes.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Criar cadastro";
+      }
+    });
+  </script>
+</body>
+</html>
