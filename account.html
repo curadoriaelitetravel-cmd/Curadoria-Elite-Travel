@@ -246,7 +246,6 @@
         <div class="viewer-wrap" oncontextmenu="return false;">
           <div class="viewer-top">
             <div class="label" id="viewerLabel">Nenhum material selecionado</div>
-            <!-- Sem botão de download -->
           </div>
           <iframe id="viewer" title="Visualização do material"></iframe>
         </div>
@@ -319,16 +318,14 @@
       emptyStateEl.style.display = "none";
       hideGlobal();
 
-      // Nome da tabela que usaremos no Passo 2:
-      // purchases: user_id, category, city, pdf_url, created_at
+      // ATENÇÃO: tabela correta no seu banco é "purchase" (singular)
       const { data, error } = await sb
-        .from("purchases")
+        .from("purchase")
         .select("id, category, city, pdf_url, created_at")
         .eq("user_id", userId)
         .order("created_at", { ascending: false });
 
       if (error) {
-        // Se a tabela ainda não existir / não estiver pronta, mostramos mensagem amigável
         emptyStateEl.style.display = "block";
         showGlobal("Conta criada com sucesso", "Seu acesso aparecerá aqui assim que a compra for concluída.");
         return;
@@ -348,11 +345,7 @@
         `;
 
         div.addEventListener("click", () => {
-          // Visualiza dentro da account.html (sem botão de download)
           viewerLabel.textContent = (row.city || "Material") + " • " + (row.category || "Curadoria");
-
-          // Nesta etapa: usa pdf_url como origem.
-          // No Passo 2, podemos trocar por URL temporária (expira), para aumentar proteção.
           viewer.src = row.pdf_url || "";
         });
 
