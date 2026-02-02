@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minha conta | Curadoria Elite Travel</title>
+
+  <meta name="robots" content="noindex,nofollow" />
+
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --card:#111827;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --line:rgba(255,255,255,.10);
+      --accent:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+    a{color:var(--text); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    header{
+      border-bottom:1px solid var(--line);
+      padding:16px;
+    }
+    .header-inner{
+      max-width:980px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .brand .name{
+      font-weight:800;
+      letter-spacing:.3px;
+      text-transform:uppercase;
+      font-size:14px;
+    }
+    .brand .sub{
+      color:var(--muted);
+      font-size:12px;
+    }
+    .actions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .btn{
+      border:none;
+      border-radius:12px;
+      padding:10px 12px;
+      font-weight:800;
+      cursor:pointer;
+      font-size:13px;
+    }
+    .btn.primary{
+      background:var(--accent);
+      color:#000;
+    }
+    .btn.ghost{
+      background:transparent;
+      border:1px solid var(--line);
+      color:var(--text);
+    }
+
+    main{
+      max-width:980px;
+      width:100%;
+      margin:0 auto;
+      padding:18px 16px 30px;
+      display:grid;
+      gap:14px;
+      grid-template-columns: 1fr;
+    }
+
+    .card{
+      border:1px solid var(--line);
+      background: var(--card);
+      border-radius:16px;
+      padding:16px;
+    }
+
+    h1{
+      margin:0;
+      font-size:18px;
+    }
+    .muted{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.45;
+      margin-top:6px;
+    }
+
+    .grid{
+      display:grid;
+      gap:14px;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 960px){
+      .grid{
+        grid-template-columns: 360px 1fr;
+        align-items:start;
+      }
+    }
+
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:12px;
+    }
+    .item{
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.25);
+      border-radius:14px;
+      padding:12px;
+      cursor:pointer;
+      transition: transform .06s ease;
+    }
+    .item:hover{ transform: translateY(-1px); }
+    .item .title{
+      font-weight:800;
+      font-size:13px;
+      margin:0 0 4px;
+    }
+    .item .meta{
+      color:var(--muted);
+      font-size:12px;
+      margin:0;
+    }
+
+    .viewer-wrap{
+      margin-top:12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden;
+      background: rgba(0,0,0,.22);
+      min-height:520px;
+      display:flex;
+      flex-direction:column;
+    }
+    .viewer-top{
+      padding:10px 12px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .viewer-top .label{
+      font-size:12px;
+      color:var(--muted);
+    }
+    iframe{
+      width:100%;
+      height:560px;
+      border:0;
+      background:#000;
+    }
+
+    .msg{
+      margin-top:12px;
+      font-size:13px;
+      color:var(--muted);
+      display:none;
+    }
+    .msg strong{
+      display:block;
+      color:var(--text);
+      margin-bottom:4px;
+    }
+
+    footer{
+      border-top:1px solid var(--line);
+      padding:16px;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+      margin-top:auto;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="name">CURADORIA ELITE TRAVEL</div>
+        <div class="sub">Área do cliente</div>
+      </div>
+
+      <div class="actions">
+        <a class="btn ghost" href="index.html">Voltar ao site</a>
+        <button id="btnLogout" class="btn primary" type="button">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h1>Minha conta</h1>
+      <div class="muted" id="userEmail">Carregando...</div>
+      <div id="globalMsg" class="msg" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="card grid">
+      <div>
+        <h1>Meus materiais</h1>
+        <div class="muted">
+          Aqui ficam os materiais disponíveis para visualização na sua conta.
+        </div>
+
+        <div id="list" class="list"></div>
+
+        <div id="emptyState" class="muted" style="margin-top:12px; display:none;">
+          Nenhum material disponível no momento.
+        </div>
+      </div>
+
+      <div>
+        <h1>Visualização</h1>
+        <div class="muted">
+          Selecione um material na lista para visualizar aqui.
+        </div>
+
+        <div class="viewer-wrap" oncontextmenu="return false;">
+          <div class="viewer-top">
+            <div class="label" id="viewerLabel">Nenhum material selecionado</div>
+            <!-- Sem botão de download -->
+          </div>
+          <iframe id="viewer" title="Visualização do material"></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Curadoria Elite Travel. Todos os direitos reservados.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // Supabase (já configurado)
+    const sb = supabase.createClient(
+      "https://lnyoqoezezisakghtmim.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA"
+    );
+
+    // UI
+    document.getElementById("year").textContent = new Date().getFullYear();
+    const userEmailEl = document.getElementById("userEmail");
+    const btnLogout = document.getElementById("btnLogout");
+    const listEl = document.getElementById("list");
+    const emptyStateEl = document.getElementById("emptyState");
+    const viewer = document.getElementById("viewer");
+    const viewerLabel = document.getElementById("viewerLabel");
+    const globalMsg = document.getElementById("globalMsg");
+
+    function showGlobal(title, text){
+      globalMsg.innerHTML = "<strong>" + title + "</strong>" + (text || "");
+      globalMsg.style.display = "block";
+    }
+    function hideGlobal(){
+      globalMsg.style.display = "none";
+      globalMsg.innerHTML = "";
+    }
+
+    // Proteção extra simples (não é 100% impossível, mas evita ações comuns)
+    document.addEventListener("keydown", function(e){
+      // bloqueia Ctrl+S (salvar)
+      if ((e.ctrlKey || e.metaKey) && (e.key || "").toLowerCase() === "s") {
+        e.preventDefault();
+      }
+    });
+
+    async function requireSession(){
+      const { data } = await sb.auth.getSession();
+      if (!data || !data.session) {
+        window.location.href = "login.html";
+        return null;
+      }
+      return data.session;
+    }
+
+    async function loadUser(){
+      const session = await requireSession();
+      if (!session) return;
+
+      const user = session.user;
+      userEmailEl.textContent = "Logado como: " + (user.email || "");
+
+      // carregar materiais (quando a tabela existir / estiver populada)
+      await loadMaterials(user.id);
+    }
+
+    async function loadMaterials(userId){
+      listEl.innerHTML = "";
+      emptyStateEl.style.display = "none";
+      hideGlobal();
+
+      // Nome da tabela que usaremos no Passo 2:
+      // purchases: user_id, category, city, pdf_url, created_at
+      const { data, error } = await sb
+        .from("purchases")
+        .select("id, category, city, pdf_url, created_at")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        // Se a tabela ainda não existir / não estiver pronta, mostramos mensagem amigável
+        emptyStateEl.style.display = "block";
+        showGlobal("Conta criada com sucesso", "Seu acesso aparecerá aqui assim que a compra for concluída.");
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        emptyStateEl.style.display = "block";
+        return;
+      }
+
+      data.forEach((row) => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
+          <p class="title">${(row.city || "Material")} • ${(row.category || "Curadoria")}</p>
+          <p class="meta">Disponível para visualização</p>
+        `;
+
+        div.addEventListener("click", () => {
+          // Visualiza dentro da account.html (sem botão de download)
+          viewerLabel.textContent = (row.city || "Material") + " • " + (row.category || "Curadoria");
+
+          // Nesta etapa: usa pdf_url como origem.
+          // No Passo 2, podemos trocar por URL temporária (expira), para aumentar proteção.
+          viewer.src = row.pdf_url || "";
+        });
+
+        listEl.appendChild(div);
+      });
+
+      // Seleciona o primeiro automaticamente
+      const first = data[0];
+      viewerLabel.textContent = (first.city || "Material") + " • " + (first.category || "Curadoria");
+      viewer.src = first.pdf_url || "";
+    }
+
+    btnLogout.addEventListener("click", async () => {
+      await sb.auth.signOut();
+      window.location.href = "login.html";
+    });
+
+    loadUser();
+  </script>
+</body>
+</html>
