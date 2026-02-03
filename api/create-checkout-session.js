@@ -12,7 +12,6 @@ module.exports = async function handler(req, res) {
 
   try {
     const secretKey = process.env.STRIPE_SECRET_KEY;
-
     const priceCityGuide = process.env.STRIPE_PRICE_ID_CITY_GUIDE;
     const priceDefault = process.env.STRIPE_PRICE_ID_DEFAULT;
 
@@ -40,19 +39,7 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
     }
 
-    // -----------------------------------------------------
-    // Body robusto (às vezes req.body pode vir como string)
-    // -----------------------------------------------------
-    let body = req.body || {};
-    if (typeof body === "string") {
-      try {
-        body = JSON.parse(body);
-      } catch (e) {
-        body = {};
-      }
-    }
-
-    const { category, city } = body || {};
+    const { category, city } = req.body || {};
     if (!category || !city) {
       console.error("[Checkout] Missing category or city", { category, city });
       return res.status(400).json({ error: "Missing category or city" });
@@ -62,11 +49,9 @@ module.exports = async function handler(req, res) {
     // 1) EXIGIR LOGIN (Bearer token)
     // =====================================================
     const authHeader = req.headers && (req.headers.authorization || req.headers.Authorization);
-    const rawAuth = authHeader ? String(authHeader) : "";
-
     const token =
-      rawAuth.toLowerCase().startsWith("bearer ")
-        ? rawAuth.slice(7).trim()
+      authHeader && String(authHeader).toLowerCase().startsWith("bearer ")
+        ? String(authHeader).slice(7).trim()
         : "";
 
     if (!token) {
@@ -75,9 +60,7 @@ module.exports = async function handler(req, res) {
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Valida token e pega usuário
     const { data: userData, error: userErr } = await supabase.auth.getUser(token);
-
     if (userErr || !userData || !userData.user) {
       console.error("[Supabase] Invalid session token", userErr ? userErr.message : "no user");
       return res.status(200).json({ code: "LOGIN_REQUIRED" });
@@ -87,68 +70,30 @@ module.exports = async function handler(req, res) {
 
     // =====================================================
     // 2) EXIGIR DADOS DE NOTA FISCAL ANTES DO STRIPE
-    //    (tentamos nomes de tabela possíveis, porque seu log
-    //     mostrou várias rotas diferentes no PostgREST)
+    // TABELA CORRETA: invoice_profiles (PLURAL)
     // =====================================================
-    const invoiceTablesToTry = [
-      "invoice_profiles",
-      "invoice_profile",
-      "invoice_profiles_v2",
-      "invoice_profile_v2",
-      "customer_invoice_profiles",
-      "customer_invoice_profile",
-    ];
+    const { data: invoiceRow, error: invoiceErr } = await supabase
+      .from("invoice_profiles")
+      .select("id")
+      .eq("user_id", user.id)
+      .limit(1)
+      .maybeSingle();
 
-    let hasInvoiceProfile = false;
-    let lastInvoiceError = null;
-
-    for (const tableName of invoiceTablesToTry) {
-      const { data: invoiceRow, error: invoiceErr } = await supabase
-        .from(tableName)
-        .select("id")
-        .eq("user_id", user.id)
-        .limit(1)
-        .maybeSingle();
-
-      if (invoiceErr) {
-        // Se a tabela não existir, tentamos a próxima
-        const msg = invoiceErr.message || String(invoiceErr);
-        lastInvoiceError = msg;
-
-        // normalmente quando a tabela não existe, vem "relation ... does not exist"
-        // então seguimos tentando as outras
-        if (msg.toLowerCase().includes("does not exist") || msg.toLowerCase().includes("relation")) {
-          continue;
-        }
-
-        // outros erros (permissão, schema etc) -> devolvemos detalhe
-        console.error(`[Supabase] ${tableName} query error:`, msg);
-        return res.status(500).json({
-          error: "Failed to check invoice profile",
-          stage: "invoice_check",
-          table: tableName,
-          details: msg,
-        });
-      }
-
-      if (invoiceRow && invoiceRow.id) {
-        hasInvoiceProfile = true;
-        break;
-      }
-    }
-
-    if (!hasInvoiceProfile) {
-      // Se não achou em nenhuma tabela, NÃO estoura 500.
-      // Apenas pede a etapa de Nota Fiscal antes do Stripe.
-      return res.status(200).json({
-        code: "INVOICE_REQUIRED",
-        stage: "invoice_missing",
-        details: lastInvoiceError || null,
+    if (invoiceErr) {
+      console.error("[Supabase] invoice_profiles query error:", invoiceErr.message);
+      return res.status(500).json({
+        error: "Failed to check invoice profile",
+        details: invoiceErr.message,
+        table: "invoice_profiles",
       });
     }
 
+    if (!invoiceRow) {
+      return res.status(200).json({ code: "INVOICE_REQUIRED" });
+    }
+
     // =====================================================
-    // 3) SOMENTE AGORA CRIAR CHECKOUT NO STRIPE
+    // 3) CRIAR CHECKOUT NO STRIPE
     // =====================================================
     const stripe = new Stripe(secretKey);
 
@@ -178,7 +123,7 @@ module.exports = async function handler(req, res) {
 
     if (!session || !session.url) {
       console.error("[Stripe] Session created but missing URL", session);
-      return res.status(500).json({ error: "Stripe session missing URL", stage: "stripe_create" });
+      return res.status(500).json({ error: "Stripe session missing URL" });
     }
 
     return res.status(200).json({ url: session.url });
@@ -186,7 +131,6 @@ module.exports = async function handler(req, res) {
     console.error("[Checkout] Unexpected error:", err);
     return res.status(500).json({
       error: "Failed to create checkout session",
-      stage: "unexpected",
       message: err && err.message ? err.message : "Unknown error",
     });
   }
