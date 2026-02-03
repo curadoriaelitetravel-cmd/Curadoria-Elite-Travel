@@ -487,6 +487,7 @@
       font-size:14px;
       line-height:1.6;
     }
+
     /* ========= CONTATO & AVALIAÇÕES ========= */
     #contato{
       max-width:none;
@@ -839,6 +840,7 @@
 
   </div>
 </section>
+
 <!-- CURADORIA -->
 <section id="curadoria">
   <h2>Curadoria</h2>
@@ -946,9 +948,6 @@
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
-  /* =========================
-     Navegação entre seções
-  ========================= */
   function showSection(id){
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
     const el = document.getElementById(id);
@@ -956,9 +955,6 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  /* =========================
-     Popup (criado via JS para não quebrar layout)
-  ========================= */
   function ensurePopupExists(){
     if (document.getElementById("popup")) return;
 
@@ -1004,11 +1000,9 @@
     const btn = document.getElementById("popup-prosseguir");
     btn.style.display = showProsseguir ? "inline-block" : "none";
 
-    // remove checkbox antigo (se tiver)
     const old = document.getElementById("consent-checkbox-wrap");
     if (old) old.remove();
 
-    // Se for comprar (Prosseguir aparece), então adiciona o checkbox e trava o botão
     if (showProsseguir){
       const actions = document.querySelector("#popup-content .popup-actions");
 
@@ -1020,7 +1014,6 @@
         <label for="consent-checkbox">(Li e concordo que, por ser um produto digital de acesso imediato, não será possível realizar cancelamentos, trocas ou reembolsos após a confirmação da compra.)</label>
       `;
 
-      // Insere o checkbox acima dos botões
       actions.parentNode.insertBefore(consentWrap, actions);
 
       btn.disabled = true;
@@ -1033,7 +1026,6 @@
       btn.disabled = false;
     }
 
-    // comportamento do Prosseguir
     btn.onclick = null;
     if (showProsseguir && typeof onProsseguir === "function"){
       btn.onclick = onProsseguir;
@@ -1053,78 +1045,68 @@
     if (btn) btn.disabled = false;
   }
 
-  /* =========================
-     Overview (abre PDF de amostra)
-  ========================= */
   function openOverview(){
-    // abre o PDF substituindo o site (mesma aba)
     window.location.href = "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf";
   }
 
-  /* =========================
-     Dados das cidades (mantidos)
-  ========================= */
   const curadoriaData = {
     "City Guide": [
-      { cidade: "São Paulo — Brasil" },
-      { cidade: "Rio de Janeiro — Brasil" },
-      { cidade: "Paris — França" },
-      { cidade: "NEW YORK – USA" },
-      { cidade: "Roma — Itália" },
-      { cidade: "Londres — Reino Unido" },
-      { cidade: "Tóquio — Japão" },
-      { cidade: "Dubai — Emirados Árabes" },
-      { cidade: "Barcelona — Espanha" },
-      { cidade: "Lisboa — Portugal" }
+      { cidade: "São Paulo - Brasil" },
+      { cidade: "Rio de Janeiro - Brasil" },
+      { cidade: "Paris - França" },
+      { cidade: "NEW YORK - USA" },
+      { cidade: "Roma - Itália" },
+      { cidade: "Londres - Reino Unido" },
+      { cidade: "Tóquio - Japão" },
+      { cidade: "Dubai - Emirados Árabes" },
+      { cidade: "Barcelona - Espanha" },
+      { cidade: "Lisboa - Portugal" }
     ],
     "Gastronomia": [
-      { cidade: "São Paulo — Brasil" },
-      { cidade: "Rio de Janeiro — Brasil" },
-      { cidade: "Paris — França" },
-      { cidade: "Roma — Itália" },
-      { cidade: "NEW YORK – USA" },
-      { cidade: "Londres — Reino Unido" },
-      { cidade: "Barcelona — Espanha" },
-      { cidade: "Lisboa — Portugal" }
+      { cidade: "São Paulo - Brasil" },
+      { cidade: "Rio de Janeiro - Brasil" },
+      { cidade: "Paris - França" },
+      { cidade: "Roma - Itália" },
+      { cidade: "NEW YORK - USA" },
+      { cidade: "Londres - Reino Unido" },
+      { cidade: "Barcelona - Espanha" },
+      { cidade: "Lisboa - Portugal" }
     ],
     "Atrações Turísticas": [
-      { cidade: "Paris — França" },
-      { cidade: "Roma — Itália" },
-      { cidade: "Londres — Reino Unido" },
-      { cidade: "NEW YORK – USA" },
-      { cidade: "Pequim — China" },
-      { cidade: "Kyoto — Japão" },
-      { cidade: "Barcelona — Espanha" },
-      { cidade: "Lisboa — Portugal" }
+      { cidade: "Paris - França" },
+      { cidade: "Roma - Itália" },
+      { cidade: "Londres - Reino Unido" },
+      { cidade: "NEW YORK - USA" },
+      { cidade: "Pequim - China" },
+      { cidade: "Kyoto - Japão" },
+      { cidade: "Barcelona - Espanha" },
+      { cidade: "Lisboa - Portugal" }
     ],
     "Vida Noturna": [
-      { cidade: "São Paulo — Brasil" },
-      { cidade: "NEW YORK – USA" },
-      { cidade: "Londres — Reino Unido" },
-      { cidade: "Rio de Janeiro — Brasil" },
-      { cidade: "Barcelona — Espanha" },
-      { cidade: "Berlim — Alemanha" }
+      { cidade: "São Paulo - Brasil" },
+      { cidade: "NEW YORK - USA" },
+      { cidade: "Londres - Reino Unido" },
+      { cidade: "Rio de Janeiro - Brasil" },
+      { cidade: "Barcelona - Espanha" },
+      { cidade: "Berlim - Alemanha" }
     ],
     "Endereços para Compras": [
-      { cidade: "São Paulo — Brasil" },
-      { cidade: "Paris — França" },
-      { cidade: "NEW YORK – USA" },
-      { cidade: "Londres — Reino Unido" },
-      { cidade: "Milão — Itália" },
-      { cidade: "Dubai — Emirados Árabes" }
+      { cidade: "São Paulo - Brasil" },
+      { cidade: "Paris - França" },
+      { cidade: "NEW YORK - USA" },
+      { cidade: "Londres - Reino Unido" },
+      { cidade: "Milão - Itália" },
+      { cidade: "Dubai - Emirados Árabes" }
     ],
     "Sugestão de Presentes": [
-      { cidade: "Paris — França" },
-      { cidade: "Roma — Itália" },
-      { cidade: "NEW YORK – USA" },
-      { cidade: "Londres — Reino Unido" },
-      { cidade: "Lisboa — Portugal" }
+      { cidade: "Paris - França" },
+      { cidade: "Roma - Itália" },
+      { cidade: "NEW YORK - USA" },
+      { cidade: "Londres - Reino Unido" },
+      { cidade: "Lisboa - Portugal" }
     ]
   };
 
-  /* =========================
-     Supabase: sessão do usuário (para exigir login antes do Stripe)
-  ========================= */
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
@@ -1164,10 +1146,7 @@
     try{ localStorage.removeItem("pending_checkout"); }catch(e){}
   }
 
-  /* =========================
-     Supabase: busca materiais ativos
-  ========================= */
-  const activeMaterialsMap = new Map(); // key: "category||city" -> {pdf_url}
+  const activeMaterialsMap = new Map();
 
   function setAdminStatus(text, ok){
     const el = document.getElementById("admin-status");
@@ -1214,8 +1193,6 @@
       });
 
       setAdminStatus("Admin: conectado", true);
-
-      // Se o usuário voltou do login e tinha uma compra pendente, oferecemos continuar
       await maybeResumePendingCheckout();
     } catch(e){
       setAdminStatus("Admin: falha na conexão", false);
@@ -1229,7 +1206,6 @@
     const token = await getAccessToken();
     if (!token) return;
 
-    // só oferece retomar, não força automaticamente
     openPopup({
       title: "Continuar",
       text: "Deseja continuar o acesso do material selecionado?",
@@ -1245,17 +1221,12 @@
     });
   }
 
-  /* =========================
-     Fluxo Stripe: iniciar pagamento
-     AGORA: exige login e envia Authorization Bearer
-  ========================= */
   let pendingCheckout = { category:null, city:null };
 
   async function startCheckout(category, city){
     try{
       const token = await getAccessToken();
 
-      // Se não estiver logado, manda para login antes do Stripe
       if (!token){
         savePendingCheckout(category, city);
 
@@ -1265,7 +1236,6 @@
           showProsseguir: true,
           showRules: false,
           onProsseguir: () => {
-            // volta para index depois do login
             window.location.href = "login.html?return_to=index.html";
           }
         });
@@ -1284,7 +1254,6 @@
       let data = null;
       try{ data = await res.json(); }catch(e){}
 
-      // Se o backend exigir Nota Fiscal ANTES do Stripe, vamos direcionar para a etapa de NF
       if (data && data.code === "INVOICE_REQUIRED"){
         savePendingCheckout(category, city);
 
@@ -1294,7 +1263,6 @@
           showProsseguir: true,
           showRules: false,
           onProsseguir: () => {
-            // próxima etapa será ajustada no checkout-success.html para funcionar como “pré-pagamento”
             window.location.href =
               "checkout-success.html?step=invoice&category=" +
               encodeURIComponent(category) +
@@ -1305,7 +1273,6 @@
         return;
       }
 
-      // Se exigir login
       if (data && data.code === "LOGIN_REQUIRED"){
         savePendingCheckout(category, city);
         openPopup({
@@ -1331,7 +1298,6 @@
         return;
       }
 
-      // Vai para o Checkout da Stripe (mesma aba)
       window.location.href = data.url;
     } catch(e){
       openPopup({
@@ -1349,9 +1315,6 @@
     startCheckout(pendingCheckout.category, pendingCheckout.city);
   }
 
-  /* =========================
-     Painel de categorias + lista de cidades
-  ========================= */
   const BATCH_SIZE = 8;
   let currentCategory = null;
   let filteredCities = [];
@@ -1477,7 +1440,6 @@
   function openCityModal(category, city){
     const isAvailable = hasActiveMaterial(category, city);
 
-    // guarda o que o cliente quer comprar
     pendingCheckout.category = category;
     pendingCheckout.city = city;
 
@@ -1505,9 +1467,6 @@
     });
   }
 
-  /* =========================
-     Inicialização
-  ========================= */
   document.addEventListener("DOMContentLoaded", () => {
     loadActiveMaterials();
   });
