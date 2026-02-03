@@ -1,131 +1,267 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login | Curadoria Elite Travel</title>
-
-  <meta name="robots" content="noindex,nofollow" />
+  <meta charset="UTF-8" />
+  <title>Entrar | Curadoria Elite Travel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    :root{
-      --bg:#0b0f17;
-      --card:#111827;
-      --card2:#0f172a;
-      --text:#e5e7eb;
-      --muted:#9ca3af;
-      --line:rgba(255,255,255,.10);
-      --accent:#ffffff;
-    }
-    *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: var(--bg);
-      color:var(--text);
+      font-family:"Segoe UI",sans-serif;
+      background:#0b0b0b;
+      color:#fff;
       min-height:100vh;
       display:flex;
-      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      box-sizing:border-box;
     }
-    a{color:var(--text); text-decoration:none}
-    a:hover{text-decoration:underline}
 
-    .wrap{
-      max-width:520px;
-      margin:auto;
-      padding:24px;
-    }
     .card{
-      border:1px solid var(--line);
-      background: var(--card);
+      width:100%;
+      max-width:520px;
+      background:linear-gradient(145deg,#101317,#0b0b0b);
+      border:1px solid rgba(255,255,255,0.08);
       border-radius:16px;
-      padding:24px;
+      padding:28px;
+      box-sizing:border-box;
+      box-shadow:0 18px 40px rgba(0,0,0,0.35);
     }
-    h1{margin-top:0;font-size:20px}
-    p{color:var(--muted);font-size:14px}
-    label{font-size:13px;color:var(--muted)}
+
+    h1{
+      margin:0 0 6px;
+      font-size:22px;
+      color:#fff;
+      letter-spacing:0.2px;
+    }
+
+    .sub{
+      margin:0 0 18px;
+      color:rgba(255,255,255,0.72);
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    label{
+      display:block;
+      margin:14px 0 6px;
+      font-size:13px;
+      color:rgba(255,255,255,0.72);
+    }
+
     input{
       width:100%;
-      padding:12px;
-      margin:6px 0 14px;
+      padding:12px 14px;
       border-radius:12px;
-      border:1px solid var(--line);
-      background:#000;
-      color:#fff;
+      border:1px solid rgba(255,255,255,0.10);
+      background:#eaf2ff;
+      color:#000;
+      box-sizing:border-box;
+      outline:none;
+      font-size:14px;
     }
-    button{
+
+    .password-wrap{
+      position:relative;
+    }
+
+    .toggle-eye{
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      border:none;
+      background:transparent;
+      cursor:pointer;
+      padding:8px 10px;
+      border-radius:10px;
+      font-weight:700;
+      color:rgba(0,0,0,0.70);
+      font-size:12.5px;
+    }
+
+    .toggle-eye:hover{
+      background:rgba(0,0,0,0.06);
+    }
+
+    .btn{
+      margin-top:16px;
       width:100%;
       padding:12px;
-      border:none;
       border-radius:12px;
-      background:#fff;
+      border:none;
+      background:#ffffff;
       color:#000;
-      font-weight:700;
+      font-weight:800;
       cursor:pointer;
+      font-size:14px;
     }
-    .msg{
-      margin-top:12px;
+
+    .btn:disabled{
+      opacity:0.65;
+      cursor:not-allowed;
+    }
+
+    .row{
+      margin-top:14px;
+      color:rgba(255,255,255,0.75);
       font-size:13px;
+    }
+
+    a{
+      color:#d4af37;
+      text-decoration:none;
+      font-weight:700;
+    }
+
+    .error{
+      margin-top:12px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(212,175,55,0.10);
+      color:rgba(255,255,255,0.92);
+      font-size:13px;
+      line-height:1.5;
+      display:none;
+    }
+
+    .ok{
+      margin-top:12px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.06);
+      color:rgba(255,255,255,0.88);
+      font-size:13px;
+      line-height:1.5;
       display:none;
     }
   </style>
 </head>
 
 <body>
-  <main class="wrap">
-    <section class="card">
-      <h1>Entrar</h1>
-      <p>Acesse sua conta para visualizar seus materiais.</p>
+  <div class="card">
+    <h1>Entrar</h1>
+    <p class="sub">Acesse sua conta para visualizar seus materiais.</p>
 
-      <form id="loginForm">
-        <label>E-mail</label>
-        <input type="email" id="email" required>
+    <form id="loginForm">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" autocomplete="email" required />
 
-        <label>Senha</label>
-        <input type="password" id="password" required>
+      <label for="password">Senha</label>
+      <div class="password-wrap">
+        <input id="password" type="password" autocomplete="current-password" required />
+        <button type="button" id="toggleEye" class="toggle-eye">Mostrar</button>
+      </div>
 
-        <button type="submit">Entrar</button>
+      <button class="btn" id="btnLogin" type="submit">Entrar</button>
 
-        <div id="msg" class="msg"></div>
+      <div class="error" id="errorBox"></div>
+      <div class="ok" id="okBox"></div>
 
-        <p style="margin-top:14px;font-size:13px;">
-          Não tem conta?
-          <a href="register.html">Criar cadastro</a>
-        </p>
-      </form>
-    </section>
-  </main>
+      <div class="row">
+        Não tem conta? <a href="register.html">Criar cadastro</a>
+      </div>
+    </form>
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script>
-    const supabase = supabase.createClient(
-      "https://lnyoqoezezisakghtmim.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA"
-    );
+    const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const params = new URLSearchParams(window.location.search);
+    const returnTo = params.get("return_to") ? String(params.get("return_to")) : "account.html";
+
+    const emailEl = document.getElementById("email");
+    const passEl = document.getElementById("password");
+    const toggleEye = document.getElementById("toggleEye");
     const form = document.getElementById("loginForm");
-    const msg = document.getElementById("msg");
+    const btn = document.getElementById("btnLogin");
+    const errorBox = document.getElementById("errorBox");
+    const okBox = document.getElementById("okBox");
+
+    function showError(msg){
+      okBox.style.display = "none";
+      errorBox.innerText = msg;
+      errorBox.style.display = "block";
+    }
+
+    function showOk(msg){
+      errorBox.style.display = "none";
+      okBox.innerText = msg;
+      okBox.style.display = "block";
+    }
+
+    // “olhinho”
+    toggleEye.addEventListener("click", () => {
+      const isHidden = passEl.type === "password";
+      passEl.type = isHidden ? "text" : "password";
+      toggleEye.innerText = isHidden ? "Ocultar" : "Mostrar";
+      passEl.focus();
+    });
+
+    // Se já estiver logado, manda direto
+    (async () => {
+      const { data } = await sb.auth.getSession();
+      if (data && data.session){
+        window.location.href = returnTo;
+      }
+    })();
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      msg.style.display = "none";
+      errorBox.style.display = "none";
+      okBox.style.display = "none";
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      const email = (emailEl.value || "").trim();
+      const password = (passEl.value || "");
 
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      if (error) {
-        msg.textContent = "E-mail ou senha inválidos.";
-        msg.style.display = "block";
+      if (!email || !password){
+        showError("Preencha e-mail e senha.");
         return;
       }
 
-      window.location.href = "account.html";
+      btn.disabled = true;
+      btn.innerText = "Entrando...";
+
+      try{
+        const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+        if (error){
+          // Mensagens claras (sem termos técnicos)
+          const raw = (error.message || "").toLowerCase();
+
+          if (raw.includes("invalid login credentials")){
+            showError("E-mail ou senha incorretos. Confira e tente novamente.");
+          } else if (raw.includes("email not confirmed") || raw.includes("confirm")){
+            showError("Seu e-mail ainda não foi confirmado. Verifique sua caixa de entrada e confirme o cadastro.");
+          } else {
+            showError("Não foi possível entrar. " + (error.message || "Tente novamente."));
+          }
+          return;
+        }
+
+        if (!data || !data.session){
+          showError("Não foi possível iniciar sua sessão. Tente novamente.");
+          return;
+        }
+
+        showOk("Acesso confirmado. Redirecionando...");
+        setTimeout(() => {
+          window.location.href = returnTo;
+        }, 350);
+      } catch(err){
+        showError("Erro inesperado ao entrar. Tente novamente.");
+      } finally{
+        btn.disabled = false;
+        btn.innerText = "Entrar";
+      }
     });
   </script>
 </body>
