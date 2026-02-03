@@ -45,6 +45,9 @@ function normalizeGender(v) {
 
 module.exports = async (req, res) => {
   try {
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Cache-Control", "no-store");
+
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Method not allowed" });
     }
@@ -73,7 +76,12 @@ module.exports = async (req, res) => {
 
     const person_type = asText(body.person_type); // "CPF" | "CNPJ"
     const doc_number = onlyDigits(body.doc_number);
-    const full_name = asText(body.full_name);
+
+    // CPF vem como full_name
+    const full_name_in = asText(body.full_name);
+
+    // CNPJ vem como corporate_name (no seu formulário)
+    const corporate_name_in = asText(body.corporate_name);
 
     const ie_isento = body.ie_isento === true; // checkbox
     const ie = asText(body.ie) || null;
@@ -90,22 +98,16 @@ module.exports = async (req, res) => {
 
     const complement = asText(body.complement) || null;
 
-    // ✅ NOVO: gender
-    // CPF: obrigatório (Mulher/Homem/Outro)
-    // CNPJ: deve ser null
+    // ✅ gender: CPF obrigatório / CNPJ null
     let gender = normalizeGender(body.gender);
 
-    // Validações mínimas (as constraints/FK no banco também protegem)
+    // Validações mínimas
     if (person_type !== "CPF" && person_type !== "CNPJ") {
       return res.status(400).json({ error: "invalid_person_type" });
     }
 
     if (!doc_number) {
       return res.status(400).json({ error: "doc_number_required" });
-    }
-
-    if (!full_name) {
-      return res.status(400).json({ error: "full_name_required" });
     }
 
     if (!cep) {
@@ -132,15 +134,35 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: "street_number_required" });
     }
 
-    // CPF exige birth_date
+    // ✅ Nome: CPF usa full_name, CNPJ usa corporate_name
+    let full_name = "";
+    if (person_type === "CPF") {
+      full_name = full_name_in;
+      if (!full_name) {
+        return res.status(400).json({ error: "full_name_required" });
+      }
+    } else {
+      full_name = corporate_name_in || full_name_in; // tolerância extra
+      if (!full_name) {
+        return res.status(400).json({ error: "corporate_name_required" });
+      }
+    }
+
+    // CPF exige birth_date e gender
+    let birth_date_final = null;
     if (person_type === "CPF") {
       if (!birth_date || !isIsoDate(birth_date)) {
         return res.status(400).json({ error: "birth_date_required_for_cpf" });
       }
-      // ✅ CPF exige gender
+      birth_date_final = birth_date;
+
       if (!gender) {
         return res.status(400).json({ error: "gender_required_for_cpf" });
       }
+    } else {
+      // CNPJ: birth_date e gender precisam ser null
+      birth_date_final = null;
+      gender = null;
     }
 
     // CNPJ: se NÃO for isento, IE é obrigatório
@@ -148,21 +170,22 @@ module.exports = async (req, res) => {
       if (!ie) {
         return res.status(400).json({ error: "ie_required_when_not_exempt" });
       }
-      // ✅ CNPJ deve ser null
-      gender = null;
     }
-
-    // ✅ Se for CNPJ, garantimos null de qualquer forma
-    if (person_type === "CNPJ") gender = null;
 
     const payload = {
       user_id: userId,
       person_type,
       doc_number,
+
+      // ✅ sempre salva em full_name (CPF = nome, CNPJ = razão social)
       full_name,
+
       ie_isento,
       ie: ie_isento ? null : ie,
-      birth_date: birth_date ? birth_date : null,
+
+      birth_date: birth_date_final,
+      gender, // CPF: Mulher/Homem/Outro | CNPJ: null
+
       cep,
       uf,
       city_name,
@@ -170,7 +193,7 @@ module.exports = async (req, res) => {
       street,
       street_number,
       complement,
-      gender, // ✅ NOVO
+
       updated_at: new Date().toISOString(),
     };
 
@@ -180,7 +203,6 @@ module.exports = async (req, res) => {
       .upsert(payload, { onConflict: "user_id" });
 
     if (error) {
-      // Aqui pode cair FK (uf, city_name) ou constraints
       return res.status(400).json({
         error: "upsert_failed",
         details: error.message,
