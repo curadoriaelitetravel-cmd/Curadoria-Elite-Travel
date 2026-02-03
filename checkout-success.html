@@ -219,7 +219,7 @@
       <label>Número</label>
       <input id="street_number" required />
 
-      <button type="submit">Salvar dados e acessar material</button>
+      <button id="btnSubmit" type="submit">Salvar dados e prosseguir</button>
     </form>
 
     <div class="actions" id="actions">
@@ -228,115 +228,126 @@
     </div>
   </div>
 
-  <!-- Supabase JS (oficial) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
-/* =========================================================
-   SUPABASE (já configurado)
-========================================================= */
-const sb = supabase.createClient(
-  "https://lnyoqoezezisakghtmim.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA"
-);
+/* =========================
+   SUPABASE (mesmo projeto)
+========================= */
+const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
-function showActions() {
+let sb = null;
+function ensureSupabase(){
+  if (sb) return sb;
+  if (!window.supabase) return null;
+  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  return sb;
+}
+async function getAccessToken(){
+  const s = ensureSupabase();
+  if (!s) return null;
+  const { data } = await s.auth.getSession();
+  return (data && data.session && data.session.access_token) ? data.session.access_token : null;
+}
+
+/* =========================
+   INIT
+========================= */
+async function init() {
+  const params = new URLSearchParams(window.location.search);
+
+  // MODO 1: antes do Stripe (Nota Fiscal)
+  const step = params.get("step");
+  const category = params.get("category");
+  const city = params.get("city");
+
+  if (step === "invoice" && category && city) {
+    // exige login aqui também
+    const token = await getAccessToken();
+    if (!token) {
+      document.getElementById("title").innerText = "Acesso à conta";
+      document.getElementById("subtitle").innerText = "Para prosseguir, é necessário entrar ou criar seu cadastro.";
+      document.getElementById("status").innerText = "Você será direcionado para o login.";
+      document.getElementById("status").style.display = "block";
+
+      // manda para login e volta para esta etapa
+      const returnTo =
+        "checkout-success.html?step=invoice&category=" +
+        encodeURIComponent(category) +
+        "&city=" +
+        encodeURIComponent(city);
+
+      setTimeout(() => {
+        window.location.href = "login.html?return_to=" + encodeURIComponent(returnTo);
+      }, 900);
+
+      return;
+    }
+
+    // mostra formulário NF
+    document.getElementById("title").innerText = "Dados para Nota Fiscal";
+    document.getElementById("subtitle").innerText = "Precisamos dessas informações antes do pagamento.";
+    document.getElementById("status").style.display = "none";
+    document.getElementById("invoiceForm").style.display = "block";
+    document.getElementById("btnSubmit").innerText = "Salvar dados e ir para pagamento";
+
+    await loadUFs();
+    applyPersonTypeUI();
+    applyDocMask();
+    return;
+  }
+
+  // MODO 2: depois do Stripe (confirmação de pagamento)
+  const sessionId = params.get("session_id");
+  if (!sessionId) {
+    document.getElementById("title").innerText = "Acesso";
+    document.getElementById("subtitle").innerText = "Não encontramos a sessão de pagamento.";
+    document.getElementById("status").innerText = "Volte ao site e tente novamente.";
+    document.getElementById("actions").style.display = "flex";
+    return;
+  }
+
+  liberarPDF(sessionId);
+}
+
+/* =========================
+   LIBERA PDF (pós-pagamento)
+========================= */
+async function liberarPDF(sessionId) {
+  const res = await fetch("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId));
+  const data = await res.json();
+  if (data?.pdf_url) {
+    window.location.href = data.pdf_url;
+    return;
+  }
+
+  document.getElementById("title").innerText = "Pagamento";
+  document.getElementById("subtitle").innerText = "Não conseguimos liberar seu material.";
+  document.getElementById("status").innerText = "Se precisar, fale com nosso contato.";
   document.getElementById("actions").style.display = "flex";
 }
 
-async function requireLoginOrStop() {
-  const { data } = await sb.auth.getSession();
-  if (!data || !data.session || !data.session.access_token) {
-    document.getElementById("title").innerText = "Acesso à sua conta";
-    document.getElementById("subtitle").innerText =
-      "Para liberar seu material na sua conta, faça login primeiro.";
-    document.getElementById("status").innerText =
-      "Clique em “Voltar ao site” e entre na sua conta.";
-    showActions();
-    return null;
-  }
-  return data.session.access_token;
-}
-
-async function init() {
-  const params = new URLSearchParams(window.location.search);
-  const sessionId = params.get("session_id");
-
-  if (!sessionId) return;
-
-  // 1) precisa estar logado para gravar acesso vitalício
-  const accessToken = await requireLoginOrStop();
-  if (!accessToken) return;
-
-  // verificar se já existe invoice profile
-  const check = await fetch("/api/invoice-profile-exists");
-  const exists = await check.json();
-
-  if (!exists.has_profile) {
-    document.getElementById("title").innerText = "Dados para Nota Fiscal";
-    document.getElementById("subtitle").innerText =
-      "Precisamos dessas informações para emitir sua nota fiscal.";
-    document.getElementById("status").style.display = "none";
-    document.getElementById("invoiceForm").style.display = "block";
-
-    await loadUFs();
-    applyPersonTypeUI();     // aplica a UI inicial (CPF)
-    applyDocMask();          // aplica máscara inicial
-    return;
-  }
-
-  liberarAcesso(sessionId, accessToken);
-}
-
-async function liberarAcesso(sessionId, accessToken) {
-  const res = await fetch(
-    "/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId),
-    {
-      headers: {
-        "Authorization": "Bearer " + accessToken
-      }
-    }
-  );
-
-  const data = await res.json();
-
-  if (data && data.ok) {
-    // IMPORTANTE: não abrir pdf_url direto (sem download)
-    // Leva o cliente para a conta, onde ele visualiza dentro da account.html
-    window.location.href = "account.html";
-    return;
-  }
-
-  document.getElementById("title").innerText = "Não foi possível liberar o material";
-  document.getElementById("subtitle").innerText =
-    "Se o problema continuar, entre em contato.";
-  document.getElementById("status").innerText =
-    (data && data.error) ? ("Detalhe: " + data.error) : "Tente novamente em instantes.";
-  showActions();
-}
-
+/* =========================
+   UFs / Cidades
+========================= */
 async function loadUFs() {
-  // ✅ endpoint correto (você testou e está retornando 27 UFs)
   const res = await fetch("/api/br-cities");
   const data = await res.json();
 
   const ufSelect = document.getElementById("uf");
   ufSelect.innerHTML = (data.estados || []).map(u => `<option>${u}</option>`).join("");
 
-  // já carrega cidades do primeiro UF
   await loadCities();
 }
 
 async function loadCities() {
   const uf = document.getElementById("uf").value;
-
   const res = await fetch("/api/br-cities?uf=" + encodeURIComponent(uf));
   const data = await res.json();
 
   document.getElementById("city_name").innerHTML =
     (data.cidades || []).map(c => `<option>${c}</option>`).join("");
 }
-
 document.getElementById("uf").addEventListener("change", loadCities);
 
 /* =========================
@@ -346,22 +357,17 @@ function applyPersonTypeUI() {
   const personType = document.getElementById("person_type").value;
   const isCPF = personType === "CPF";
 
-  // CPF: Nome + Sexo + Nascimento
   document.getElementById("cpfNameWrap").classList.toggle("hidden", !isCPF);
   document.getElementById("genderWrap").classList.toggle("hidden", !isCPF);
   document.getElementById("birthWrap").classList.toggle("hidden", !isCPF);
 
-  // CNPJ: Razão Social + IE
   document.getElementById("cnpjCorporateWrap").classList.toggle("hidden", isCPF);
   document.getElementById("ieWrap").classList.toggle("hidden", isCPF);
 
-  // Regras de required
   document.getElementById("full_name").required = isCPF;
   document.getElementById("corporate_name").required = !isCPF;
-
   document.getElementById("birth_date").required = isCPF;
 
-  // Se mudar tipo, limpa campos que não fazem sentido
   if (isCPF) {
     document.getElementById("corporate_name").value = "";
     document.getElementById("ie").value = "";
@@ -371,14 +377,10 @@ function applyPersonTypeUI() {
     document.getElementById("full_name").value = "";
     document.getElementById("gender").value = "";
     document.getElementById("birth_date").value = "";
-    // IE habilita/desabilita conforme isento
     toggleIE();
   }
 }
 
-/* =========================
-   IE: habilita só se NÃO for isento
-========================= */
 function toggleIE() {
   const isento = document.getElementById("ie_isento").checked;
   const ieInput = document.getElementById("ie");
@@ -394,23 +396,17 @@ function toggleIE() {
 
 document.getElementById("person_type").addEventListener("change", () => {
   applyPersonTypeUI();
-  applyDocMask(); // reaplica máscara quando troca CPF/CNPJ
+  applyDocMask();
 });
-
 document.getElementById("ie_isento").addEventListener("change", toggleIE);
 
 /* =========================
    MÁSCARA CPF / CNPJ
-   CPF  = 000.000.000-00
-   CNPJ = 00.000.000/0001-00
 ========================= */
-function onlyDigits(v) {
-  return String(v || "").replace(/\D+/g, "");
-}
+function onlyDigits(v) { return String(v || "").replace(/\D+/g, ""); }
 
 function formatCPF(digits) {
   const d = digits.slice(0, 11);
-  // 000.000.000-00
   return d
     .replace(/^(\d{3})(\d)/, "$1.$2")
     .replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
@@ -419,7 +415,6 @@ function formatCPF(digits) {
 
 function formatCNPJ(digits) {
   const d = digits.slice(0, 14);
-  // 00.000.000/0000-00
   return d
     .replace(/^(\d{2})(\d)/, "$1.$2")
     .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
@@ -440,18 +435,23 @@ function applyDocMask() {
     input.placeholder = "00.000.000/0001-00";
   }
 }
-
 document.getElementById("doc_number").addEventListener("input", applyDocMask);
 
 /* =========================
-   SUBMIT
+   SUBMIT (salva NF e vai pro Stripe)
 ========================= */
 document.getElementById("invoiceForm").addEventListener("submit", async e => {
   e.preventDefault();
 
-  // precisa estar logado aqui também
-  const accessToken = await requireLoginOrStop();
-  if (!accessToken) return;
+  const params = new URLSearchParams(window.location.search);
+  const category = params.get("category");
+  const city = params.get("city");
+
+  const token = await getAccessToken();
+  if (!token) {
+    alert("Para prosseguir, faça login novamente.");
+    return;
+  }
 
   const personType = person_type.value;
 
@@ -478,13 +478,51 @@ document.getElementById("invoiceForm").addEventListener("submit", async e => {
     street_number: street_number.value
   };
 
-  await fetch("/api/save-invoice-profile", {
+  // UI simples de carregando
+  document.getElementById("btnSubmit").disabled = true;
+  document.getElementById("btnSubmit").innerText = "Salvando...";
+
+  // 1) salva NF
+  const saveRes = await fetch("/api/save-invoice-profile", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    },
     body: JSON.stringify(payload)
   });
 
-  liberarAcesso(new URLSearchParams(window.location.search).get("session_id"), accessToken);
+  const saveJson = await saveRes.json().catch(() => null);
+
+  if (!saveRes.ok || !saveJson || saveJson.ok !== true) {
+    document.getElementById("btnSubmit").disabled = false;
+    document.getElementById("btnSubmit").innerText = "Salvar dados e ir para pagamento";
+    alert("Não foi possível salvar seus dados. Por favor, revise e tente novamente.");
+    return;
+  }
+
+  // 2) cria checkout stripe (agora vai passar na validação)
+  document.getElementById("btnSubmit").innerText = "Abrindo pagamento...";
+
+  const payRes = await fetch("/api/create-checkout-session", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify({ category, city })
+  });
+
+  const payJson = await payRes.json().catch(() => null);
+
+  if (!payRes.ok || !payJson || !payJson.url) {
+    document.getElementById("btnSubmit").disabled = false;
+    document.getElementById("btnSubmit").innerText = "Salvar dados e ir para pagamento";
+    alert("Não foi possível iniciar o pagamento. Tente novamente.");
+    return;
+  }
+
+  window.location.href = payJson.url;
 });
 
 init();
