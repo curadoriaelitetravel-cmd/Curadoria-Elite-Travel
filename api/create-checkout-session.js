@@ -3,7 +3,6 @@ const Stripe = require("stripe");
 const { createClient } = require("@supabase/supabase-js");
 
 module.exports = async function handler(req, res) {
-  // Sempre retornar JSON
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
 
@@ -14,11 +13,9 @@ module.exports = async function handler(req, res) {
   try {
     const secretKey = process.env.STRIPE_SECRET_KEY;
 
-    // Seus 2 preços (um para City Guide e outro para as demais categorias)
     const priceCityGuide = process.env.STRIPE_PRICE_ID_CITY_GUIDE;
     const priceDefault = process.env.STRIPE_PRICE_ID_DEFAULT;
 
-    // Supabase (para validar login + checar nota fiscal)
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -43,7 +40,19 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
     }
 
-    const { category, city } = req.body || {};
+    // -----------------------------------------------------
+    // Body robusto (às vezes req.body pode vir como string)
+    // -----------------------------------------------------
+    let body = req.body || {};
+    if (typeof body === "string") {
+      try {
+        body = JSON.parse(body);
+      } catch (e) {
+        body = {};
+      }
+    }
+
+    const { category, city } = body || {};
     if (!category || !city) {
       console.error("[Checkout] Missing category or city", { category, city });
       return res.status(400).json({ error: "Missing category or city" });
@@ -53,19 +62,20 @@ module.exports = async function handler(req, res) {
     // 1) EXIGIR LOGIN (Bearer token)
     // =====================================================
     const authHeader = req.headers && (req.headers.authorization || req.headers.Authorization);
+    const rawAuth = authHeader ? String(authHeader) : "";
+
     const token =
-      authHeader && String(authHeader).toLowerCase().startsWith("bearer ")
-        ? String(authHeader).slice(7).trim()
+      rawAuth.toLowerCase().startsWith("bearer ")
+        ? rawAuth.slice(7).trim()
         : "";
 
     if (!token) {
-      // ⚠️ IMPORTANTE: devolvemos code para o index.html tratar e mandar para login.html
       return res.status(200).json({ code: "LOGIN_REQUIRED" });
     }
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Valida o token e pega o usuário
+    // Valida token e pega usuário
     const { data: userData, error: userErr } = await supabase.auth.getUser(token);
 
     if (userErr || !userData || !userData.user) {
@@ -77,26 +87,64 @@ module.exports = async function handler(req, res) {
 
     // =====================================================
     // 2) EXIGIR DADOS DE NOTA FISCAL ANTES DO STRIPE
-    // (tabela invoice_profiles)
+    //    (tentamos nomes de tabela possíveis, porque seu log
+    //     mostrou várias rotas diferentes no PostgREST)
     // =====================================================
-    const { data: invoiceRow, error: invoiceErr } = await supabase
-      .from("invoice_profiles")
-      .select("id")
-      .eq("user_id", user.id)
-      .limit(1)
-      .maybeSingle();
+    const invoiceTablesToTry = [
+      "invoice_profiles",
+      "invoice_profile",
+      "invoice_profiles_v2",
+      "invoice_profile_v2",
+      "customer_invoice_profiles",
+      "customer_invoice_profile",
+    ];
 
-    if (invoiceErr) {
-      console.error("[Supabase] invoice_profiles query error:", invoiceErr.message);
-      return res.status(500).json({
-        error: "Failed to check invoice profile",
-        details: invoiceErr.message,
-      });
+    let hasInvoiceProfile = false;
+    let lastInvoiceError = null;
+
+    for (const tableName of invoiceTablesToTry) {
+      const { data: invoiceRow, error: invoiceErr } = await supabase
+        .from(tableName)
+        .select("id")
+        .eq("user_id", user.id)
+        .limit(1)
+        .maybeSingle();
+
+      if (invoiceErr) {
+        // Se a tabela não existir, tentamos a próxima
+        const msg = invoiceErr.message || String(invoiceErr);
+        lastInvoiceError = msg;
+
+        // normalmente quando a tabela não existe, vem "relation ... does not exist"
+        // então seguimos tentando as outras
+        if (msg.toLowerCase().includes("does not exist") || msg.toLowerCase().includes("relation")) {
+          continue;
+        }
+
+        // outros erros (permissão, schema etc) -> devolvemos detalhe
+        console.error(`[Supabase] ${tableName} query error:`, msg);
+        return res.status(500).json({
+          error: "Failed to check invoice profile",
+          stage: "invoice_check",
+          table: tableName,
+          details: msg,
+        });
+      }
+
+      if (invoiceRow && invoiceRow.id) {
+        hasInvoiceProfile = true;
+        break;
+      }
     }
 
-    if (!invoiceRow) {
-      // ⚠️ devolvemos code para o index.html tratar e mandar para etapa de NF antes do Stripe
-      return res.status(200).json({ code: "INVOICE_REQUIRED" });
+    if (!hasInvoiceProfile) {
+      // Se não achou em nenhuma tabela, NÃO estoura 500.
+      // Apenas pede a etapa de Nota Fiscal antes do Stripe.
+      return res.status(200).json({
+        code: "INVOICE_REQUIRED",
+        stage: "invoice_missing",
+        details: lastInvoiceError || null,
+      });
     }
 
     // =====================================================
@@ -104,25 +152,18 @@ module.exports = async function handler(req, res) {
     // =====================================================
     const stripe = new Stripe(secretKey);
 
-    // Escolha do priceId dependendo da categoria
     const isCityGuide = String(category).trim().toLowerCase() === "city guide";
     const priceId = isCityGuide ? priceCityGuide : priceDefault;
 
-    // Origem segura (mantém seu fallback)
-    const origin =
-      (req.headers && (req.headers.origin || req.headers.referer)) || "";
+    const origin = (req.headers && (req.headers.origin || req.headers.referer)) || "";
     const safeOrigin =
       origin && origin.startsWith("http")
         ? origin.replace(/\/$/, "")
         : "https://curadoria-elite-travel.vercel.app";
 
-    // Success URL (vai para a sua página de confirmação)
-    const successUrl =
-      `${safeOrigin}/checkout-success.html?session_id={CHECKOUT_SESSION_ID}`;
-
+    const successUrl = `${safeOrigin}/checkout-success.html?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${safeOrigin}/?checkout=cancel`;
 
-    // ⚠️ Mantemos metadata e adicionamos user_id (ajuda no passo 2 / vitalício)
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: [{ price: priceId, quantity: 1 }],
@@ -137,7 +178,7 @@ module.exports = async function handler(req, res) {
 
     if (!session || !session.url) {
       console.error("[Stripe] Session created but missing URL", session);
-      return res.status(500).json({ error: "Stripe session missing URL" });
+      return res.status(500).json({ error: "Stripe session missing URL", stage: "stripe_create" });
     }
 
     return res.status(200).json({ url: session.url });
@@ -145,6 +186,7 @@ module.exports = async function handler(req, res) {
     console.error("[Checkout] Unexpected error:", err);
     return res.status(500).json({
       error: "Failed to create checkout session",
+      stage: "unexpected",
       message: err && err.message ? err.message : "Unknown error",
     });
   }
