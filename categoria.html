@@ -896,7 +896,7 @@
   <div id="curadoria-panel" class="curadoria-panel">
     <div class="panel-top">
       <div>
-        <div class="breadcrumb" id="breadcrumb">Curadoria</div>
+        <div classam="breadcrumb" id="breadcrumb">Curadoria</div>
         <h3 class="panel-title" id="panel-title">Categoria</h3>
         <div class="panel-meta">
           <span class="pill" id="cities-count">0 cidades</span>
@@ -1123,12 +1123,50 @@
   };
 
   /* =========================
-     Supabase: busca materiais ativos
+     Supabase: sessão do usuário (para exigir login antes do Stripe)
   ========================= */
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
   let supabaseClient = null;
+
+  function ensureSupabase(){
+    if (supabaseClient) return supabaseClient;
+    if (!window.supabase) return null;
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    return supabaseClient;
+  }
+
+  async function getAccessToken(){
+    const sb = ensureSupabase();
+    if (!sb) return null;
+    const { data } = await sb.auth.getSession();
+    return (data && data.session && data.session.access_token) ? data.session.access_token : null;
+  }
+
+  function savePendingCheckout(category, city){
+    try{
+      localStorage.setItem("pending_checkout", JSON.stringify({ category, city, at: Date.now() }));
+    }catch(e){}
+  }
+
+  function readPendingCheckout(){
+    try{
+      const raw = localStorage.getItem("pending_checkout");
+      if (!raw) return null;
+      return JSON.parse(raw);
+    }catch(e){
+      return null;
+    }
+  }
+
+  function clearPendingCheckout(){
+    try{ localStorage.removeItem("pending_checkout"); }catch(e){}
+  }
+
+  /* =========================
+     Supabase: busca materiais ativos
+  ========================= */
   const activeMaterialsMap = new Map(); // key: "category||city" -> {pdf_url}
 
   function setAdminStatus(text, ok){
@@ -1156,7 +1194,7 @@
         return;
       }
 
-      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      ensureSupabase();
 
       const { data, error } = await supabaseClient
         .from("curadoria_materials")
@@ -1177,30 +1215,110 @@
 
       setAdminStatus("Admin: conectado", true);
 
-      // IMPORTANTÍSSIMO:
-      // Se o usuário acabou de voltar do pagamento (checkout=success),
-      // aqui a gente já tem o PDF e abre na MESMA ABA (substitui o site).
-      handleCheckoutReturn();
+      // Se o usuário voltou do login e tinha uma compra pendente, oferecemos continuar
+      await maybeResumePendingCheckout();
     } catch(e){
       setAdminStatus("Admin: falha na conexão", false);
     }
   }
 
+  async function maybeResumePendingCheckout(){
+    const pending = readPendingCheckout();
+    if (!pending || !pending.category || !pending.city) return;
+
+    const token = await getAccessToken();
+    if (!token) return;
+
+    // só oferece retomar, não força automaticamente
+    openPopup({
+      title: "Continuar",
+      text: "Deseja continuar o acesso do material selecionado?",
+      showProsseguir: true,
+      showRules: false,
+      onProsseguir: () => {
+        closePopup();
+        pendingCheckout.category = pending.category;
+        pendingCheckout.city = pending.city;
+        clearPendingCheckout();
+        proceedCheckout();
+      }
+    });
+  }
+
   /* =========================
      Fluxo Stripe: iniciar pagamento
+     AGORA: exige login e envia Authorization Bearer
   ========================= */
   let pendingCheckout = { category:null, city:null };
 
   async function startCheckout(category, city){
     try{
+      const token = await getAccessToken();
+
+      // Se não estiver logado, manda para login antes do Stripe
+      if (!token){
+        savePendingCheckout(category, city);
+
+        openPopup({
+          title: "Acesso à conta",
+          text: "Para prosseguir, é necessário entrar ou criar seu cadastro.",
+          showProsseguir: true,
+          showRules: false,
+          onProsseguir: () => {
+            // volta para index depois do login
+            window.location.href = "login.html?return_to=index.html";
+          }
+        });
+        return;
+      }
+
       const res = await fetch("/api/create-checkout-session", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
         body: JSON.stringify({ category, city })
       });
 
       let data = null;
       try{ data = await res.json(); }catch(e){}
+
+      // Se o backend exigir Nota Fiscal ANTES do Stripe, vamos direcionar para a etapa de NF
+      if (data && data.code === "INVOICE_REQUIRED"){
+        savePendingCheckout(category, city);
+
+        openPopup({
+          title: "Dados para Nota Fiscal",
+          text: "Antes do pagamento, precisamos dessas informações.",
+          showProsseguir: true,
+          showRules: false,
+          onProsseguir: () => {
+            // próxima etapa será ajustada no checkout-success.html para funcionar como “pré-pagamento”
+            window.location.href =
+              "checkout-success.html?step=invoice&category=" +
+              encodeURIComponent(category) +
+              "&city=" +
+              encodeURIComponent(city);
+          }
+        });
+        return;
+      }
+
+      // Se exigir login
+      if (data && data.code === "LOGIN_REQUIRED"){
+        savePendingCheckout(category, city);
+        openPopup({
+          title: "Acesso à conta",
+          text: "Para prosseguir, é necessário entrar ou criar seu cadastro.",
+          showProsseguir: true,
+          showRules: false,
+          onProsseguir: () => {
+            window.location.href = "login.html?return_to=index.html";
+          }
+        });
+        return;
+      }
 
       if (!res.ok || !data || !data.url){
         openPopup({
@@ -1229,38 +1347,6 @@
   function proceedCheckout(){
     if (!pendingCheckout.category || !pendingCheckout.city) return;
     startCheckout(pendingCheckout.category, pendingCheckout.city);
-  }
-
-  /* =========================
-     Pós-pagamento: abre PDF na MESMA ABA
-     (substitui o site inteiro)
-  ========================= */
-  function handleCheckoutReturn(){
-    const params = new URLSearchParams(window.location.search);
-    const status = params.get("checkout");
-
-    if (status !== "success") return;
-
-    const category = params.get("category");
-    const city = params.get("city");
-
-    if (!category || !city) return;
-
-    const material = activeMaterialsMap.get(materialKey(category, city));
-
-    if (!material || !material.pdf_url){
-      openPopup({
-        title: "Pagamento",
-        text: "Pagamento confirmado, mas não encontramos o material. Por favor, entre em contato.",
-        showProsseguir: false,
-        showRules: false,
-        onProsseguir: null
-      });
-      return;
-    }
-
-    // ✅ EXIGÊNCIA: abrir PDF automaticamente na MESMA ABA (substituindo o site)
-    window.location.href = material.pdf_url;
   }
 
   /* =========================
@@ -1420,10 +1506,9 @@
   }
 
   /* =========================
-     Inicialização (sem quebrar a tela)
+     Inicialização
   ========================= */
   document.addEventListener("DOMContentLoaded", () => {
-    // Carrega materiais ativos e só então trata retorno do pagamento
     loadActiveMaterials();
   });
 </script>
