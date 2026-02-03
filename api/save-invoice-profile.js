@@ -3,6 +3,11 @@
 // - Usa SUPABASE_SERVICE_ROLE_KEY (server-side)
 // - Identifica o usuário via Bearer token (não aceita user_id vindo do front)
 // - Faz upsert por user_id
+//
+// ✅ Ajuste importante:
+// - CPF: exige full_name + gender + birth_date
+// - CNPJ: exige corporate_name e salva a Razão Social no campo full_name
+//   (para não depender de coluna extra no banco)
 
 const { createClient } = require("@supabase/supabase-js");
 
@@ -32,7 +37,7 @@ function onlyDigits(v) {
 }
 
 function isIsoDate(v) {
-  // Aceita YYYY-MM-DD (o suficiente pro nosso caso)
+  // Aceita YYYY-MM-DD
   return /^\d{4}-\d{2}-\d{2}$/.test(asText(v));
 }
 
@@ -45,9 +50,6 @@ function normalizeGender(v) {
 
 module.exports = async (req, res) => {
   try {
-    res.setHeader("Content-Type", "application/json");
-    res.setHeader("Cache-Control", "no-store");
-
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Method not allowed" });
     }
@@ -71,17 +73,14 @@ module.exports = async (req, res) => {
     }
     const userId = userData.user.id;
 
-    // Body
     const body = req.body || {};
 
     const person_type = asText(body.person_type); // "CPF" | "CNPJ"
     const doc_number = onlyDigits(body.doc_number);
 
-    // CPF vem como full_name
-    const full_name_in = asText(body.full_name);
-
-    // CNPJ vem como corporate_name (no seu formulário)
-    const corporate_name_in = asText(body.corporate_name);
+    // Campos do formulário
+    const full_name_input = asText(body.full_name);          // CPF
+    const corporate_name = asText(body.corporate_name);      // CNPJ
 
     const ie_isento = body.ie_isento === true; // checkbox
     const ie = asText(body.ie) || null;
@@ -98,10 +97,12 @@ module.exports = async (req, res) => {
 
     const complement = asText(body.complement) || null;
 
-    // ✅ gender: CPF obrigatório / CNPJ null
+    // Gender (CPF obrigatório / CNPJ sempre null)
     let gender = normalizeGender(body.gender);
 
+    // =========================
     // Validações mínimas
+    // =========================
     if (person_type !== "CPF" && person_type !== "CNPJ") {
       return res.status(400).json({ error: "invalid_person_type" });
     }
@@ -134,34 +135,36 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: "street_number_required" });
     }
 
-    // ✅ Nome: CPF usa full_name, CNPJ usa corporate_name
+    // =========================
+    // Regras CPF / CNPJ
+    // =========================
     let full_name = "";
-    if (person_type === "CPF") {
-      full_name = full_name_in;
-      if (!full_name) {
-        return res.status(400).json({ error: "full_name_required" });
-      }
-    } else {
-      full_name = corporate_name_in || full_name_in; // tolerância extra
-      if (!full_name) {
-        return res.status(400).json({ error: "corporate_name_required" });
-      }
-    }
 
-    // CPF exige birth_date e gender
-    let birth_date_final = null;
     if (person_type === "CPF") {
+      if (!full_name_input) {
+        return res.status(400).json({ error: "full_name_required_for_cpf" });
+      }
+      full_name = full_name_input;
+
       if (!birth_date || !isIsoDate(birth_date)) {
         return res.status(400).json({ error: "birth_date_required_for_cpf" });
       }
-      birth_date_final = birth_date;
 
       if (!gender) {
         return res.status(400).json({ error: "gender_required_for_cpf" });
       }
-    } else {
-      // CNPJ: birth_date e gender precisam ser null
-      birth_date_final = null;
+    }
+
+    if (person_type === "CNPJ") {
+      // Para CNPJ, a Razão Social vem em corporate_name
+      if (!corporate_name) {
+        return res.status(400).json({ error: "corporate_name_required_for_cnpj" });
+      }
+
+      // Salvamos Razão Social no campo full_name (sem mexer em estrutura do banco)
+      full_name = corporate_name;
+
+      // CNPJ não usa esses campos:
       gender = null;
     }
 
@@ -177,14 +180,13 @@ module.exports = async (req, res) => {
       person_type,
       doc_number,
 
-      // ✅ sempre salva em full_name (CPF = nome, CNPJ = razão social)
-      full_name,
+      full_name, // ✅ CPF = Nome completo | CNPJ = Razão Social
 
-      ie_isento,
-      ie: ie_isento ? null : ie,
+      ie_isento: person_type === "CNPJ" ? ie_isento : true,
+      ie: person_type === "CNPJ" ? (ie_isento ? null : ie) : null,
 
-      birth_date: birth_date_final,
-      gender, // CPF: Mulher/Homem/Outro | CNPJ: null
+      birth_date: person_type === "CPF" ? (birth_date ? birth_date : null) : null,
+      gender: person_type === "CPF" ? gender : null,
 
       cep,
       uf,
