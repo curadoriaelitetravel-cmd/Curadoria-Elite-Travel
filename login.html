@@ -86,6 +86,22 @@
       background:rgba(0,0,0,0.06);
     }
 
+    .remember-row{
+      margin-top:12px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:rgba(255,255,255,0.78);
+      font-size:13px;
+      user-select:none;
+    }
+
+    .remember-row input{
+      width:auto;
+      margin:0;
+      accent-color:#d4af37;
+    }
+
     .btn{
       margin-top:16px;
       width:100%;
@@ -157,6 +173,11 @@
         <button type="button" id="toggleEye" class="toggle-eye">Mostrar</button>
       </div>
 
+      <div class="remember-row">
+        <input type="checkbox" id="rememberEmail" />
+        <label for="rememberEmail" style="margin:0;">Lembrar meu e-mail</label>
+      </div>
+
       <button class="btn" id="btnLogin" type="submit">Entrar</button>
 
       <div class="error" id="errorBox"></div>
@@ -181,6 +202,8 @@
     const emailEl = document.getElementById("email");
     const passEl = document.getElementById("password");
     const toggleEye = document.getElementById("toggleEye");
+    const rememberEmailEl = document.getElementById("rememberEmail");
+
     const form = document.getElementById("loginForm");
     const btn = document.getElementById("btnLogin");
     const errorBox = document.getElementById("errorBox");
@@ -206,6 +229,37 @@
       passEl.focus();
     });
 
+    // Lembrar e-mail (somente e-mail)
+    function loadRememberedEmail(){
+      try{
+        const saved = localStorage.getItem("remember_email_value");
+        const flag = localStorage.getItem("remember_email_enabled");
+        if (flag === "1" && saved){
+          emailEl.value = saved;
+          rememberEmailEl.checked = true;
+        }
+      }catch(e){}
+    }
+
+    function saveRememberedEmail(){
+      try{
+        if (rememberEmailEl.checked){
+          localStorage.setItem("remember_email_enabled","1");
+          localStorage.setItem("remember_email_value", (emailEl.value || "").trim());
+        } else {
+          localStorage.setItem("remember_email_enabled","0");
+          localStorage.removeItem("remember_email_value");
+        }
+      }catch(e){}
+    }
+
+    rememberEmailEl.addEventListener("change", saveRememberedEmail);
+    emailEl.addEventListener("input", () => {
+      if (rememberEmailEl.checked) saveRememberedEmail();
+    });
+
+    loadRememberedEmail();
+
     // Se já estiver logado, manda direto
     (async () => {
       const { data } = await sb.auth.getSession();
@@ -227,6 +281,9 @@
         return;
       }
 
+      // salva e-mail se marcado
+      saveRememberedEmail();
+
       btn.disabled = true;
       btn.innerText = "Entrando...";
 
@@ -234,7 +291,6 @@
         const { data, error } = await sb.auth.signInWithPassword({ email, password });
 
         if (error){
-          // Mensagens claras (sem termos técnicos)
           const raw = (error.message || "").toLowerCase();
 
           if (raw.includes("invalid login credentials")){
