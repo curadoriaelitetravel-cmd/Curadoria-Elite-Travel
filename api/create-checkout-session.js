@@ -25,7 +25,6 @@ function getOrigin(req) {
 }
 
 module.exports = async function handler(req, res) {
-  // Sempre JSON
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
 
@@ -41,7 +40,6 @@ module.exports = async function handler(req, res) {
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-    // ✅ Diagnóstico claro de config (muito comum ser isso)
     const missing = [];
     if (!secretKey) missing.push("STRIPE_SECRET_KEY");
     if (!priceCityGuide) missing.push("STRIPE_PRICE_ID_CITY_GUIDE");
@@ -68,7 +66,7 @@ module.exports = async function handler(req, res) {
     }
 
     // =====================================================
-    // 1) EXIGIR LOGIN (Bearer token)
+    // 1) EXIGIR LOGIN
     // =====================================================
     const token = getBearerToken(req);
     if (!token) {
@@ -90,11 +88,11 @@ module.exports = async function handler(req, res) {
 
     // =====================================================
     // 2) EXIGIR NOTA FISCAL ANTES DO STRIPE
-    //    (tabela correta: invoice_profiles)
+    // ✅ Sua tabela não tem coluna id, então checamos por user_id
     // =====================================================
     const { data: invoiceRow, error: invoiceErr } = await supabase
       .from("invoice_profiles")
-      .select("id")
+      .select("user_id")
       .eq("user_id", userId)
       .limit(1)
       .maybeSingle();
