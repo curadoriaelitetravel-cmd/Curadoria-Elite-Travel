@@ -2,6 +2,19 @@
 const Stripe = require("stripe");
 const { createClient } = require("@supabase/supabase-js");
 
+function getEnv(name) {
+  const v = process.env[name];
+  if (!v) throw new Error(`Missing env var: ${name}`);
+  return v;
+}
+
+function getBearerToken(req) {
+  const h = req.headers?.authorization || req.headers?.Authorization || "";
+  const s = String(h);
+  if (s.toLowerCase().startsWith("bearer ")) return s.slice(7).trim();
+  return "";
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
@@ -11,48 +24,20 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const secretKey = process.env.STRIPE_SECRET_KEY;
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (!secretKey) {
-      return res.status(500).json({ error: "Missing STRIPE_SECRET_KEY env var" });
-    }
-    if (!supabaseUrl) {
-      return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
-    }
-    if (!supabaseServiceKey) {
-      return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
-    }
+    const secretKey = getEnv("STRIPE_SECRET_KEY");
+    const supabaseUrl = getEnv("SUPABASE_URL");
+    const supabaseServiceKey = getEnv("SUPABASE_SERVICE_ROLE_KEY");
 
     const sessionId =
-      (req.query && req.query.session_id) ? String(req.query.session_id).trim() : "";
+      req.query && req.query.session_id ? String(req.query.session_id).trim() : "";
 
     if (!sessionId) {
       return res.status(400).json({ error: "Missing session_id" });
     }
 
     // =========================================================
-    // Identificar usuário logado (para salvar acesso vitalício)
-    // Espera receber token no header Authorization: Bearer <token>
-    // (ou, opcionalmente, via query access_token)
+    // Stripe: busca sessão e confirma pagamento
     // =========================================================
-    const authHeader = (req.headers && req.headers.authorization) ? String(req.headers.authorization) : "";
-    let accessToken = "";
-
-    if (authHeader.toLowerCase().startsWith("bearer ")) {
-      accessToken = authHeader.slice(7).trim();
-    } else if (req.query && req.query.access_token) {
-      accessToken = String(req.query.access_token).trim();
-    }
-
-    if (!accessToken) {
-      return res.status(401).json({
-        error: "Not authenticated",
-        tip: "Faça login antes de confirmar a compra e chame esta API enviando Authorization: Bearer <access_token>.",
-      });
-    }
-
     const stripe = new Stripe(secretKey);
     const session = await stripe.checkout.sessions.retrieve(sessionId);
 
@@ -60,7 +45,6 @@ module.exports = async function handler(req, res) {
       return res.status(404).json({ error: "Session not found" });
     }
 
-    // Confirmação de pagamento (Stripe)
     const paid =
       session.payment_status === "paid" ||
       (session.status === "complete" && session.payment_status);
@@ -77,6 +61,8 @@ module.exports = async function handler(req, res) {
       session.metadata && session.metadata.category ? String(session.metadata.category).trim() : "";
     const city =
       session.metadata && session.metadata.city ? String(session.metadata.city).trim() : "";
+    const metadataUserId =
+      session.metadata && session.metadata.user_id ? String(session.metadata.user_id).trim() : "";
 
     if (!category || !city) {
       return res.status(500).json({
@@ -85,11 +71,45 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    // =========================================================
+    // Supabase (SERVER-SIDE com Service Role)
+    // =========================================================
+    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: { persistSession: false },
+    });
+
+    // =========================================================
+    // Identificar user_id:
+    // 1) tenta pelo token (se vier)
+    // 2) fallback: usa user_id salvo na metadata do Stripe
+    // =========================================================
+    let userId = "";
+
+    const accessToken =
+      getBearerToken(req) ||
+      (req.query && req.query.access_token ? String(req.query.access_token).trim() : "");
+
+    if (accessToken) {
+      const { data: userData, error: userErr } = await supabase.auth.getUser(accessToken);
+      if (!userErr && userData?.user?.id) {
+        userId = userData.user.id;
+      }
+    }
+
+    if (!userId) {
+      // fallback: usa metadata.user_id (já vem do create-checkout-session)
+      userId = metadataUserId;
+    }
+
+    if (!userId) {
+      return res.status(401).json({
+        error: "Not authenticated",
+        tip: "Sem token e sem user_id na metadata. Verifique se create-checkout-session está enviando metadata.user_id.",
+      });
+    }
+
     // =========================
-    // Helpers de normalização
-    // Objetivo: nunca depender de "–" ou "—".
-    // Tudo vira hífen normal "-" e espaços padronizados.
-    // Também remove acentos para tolerância extra.
+    // Helpers de normalização (hífen / travessão / acentos)
     // =========================
     function removeDiacritics(s) {
       return String(s || "")
@@ -102,53 +122,33 @@ module.exports = async function handler(req, res) {
     }
 
     function normalizeDashesToHyphen(s) {
-      // Converte EN DASH (–) e EM DASH (—) para hífen simples (-)
       let out = String(s || "")
         .replace(/\u2013/g, "-")
         .replace(/\u2014/g, "-");
 
-      // Padroniza espaços ao redor do hífen: "A- B" / "A -B" -> "A - B"
       out = out.replace(/\s*-\s*/g, " - ");
-
       return out;
     }
 
     function normalizeKey(s) {
-      // Remove acentos, padroniza traços, padroniza espaços, e deixa minúsculo
       return normalizeSpaces(normalizeDashesToHyphen(removeDiacritics(s))).toLowerCase();
     }
 
     const wantedCategoryKey = normalizeKey(category);
     const wantedCityKey = normalizeKey(city);
 
-    // =========================
-    // Supabase (SERVER-SIDE com Service Role)
+    // =========================================================
+    // Buscar o PDF na curadoria_materials (ativos)
     // Estratégia:
-    // 1) buscar candidatos por categoria (case-insensitive) e ativos
-    // 2) comparar category + city_label por chave normalizada (JS)
-    // Isso resolve o problema do hífen/traço e pequenas diferenças invisíveis.
-    // =========================
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
-    // 1) descobrir o usuário real pelo token recebido
-    const { data: userData, error: userErr } = await supabase.auth.getUser(accessToken);
-
-    if (userErr || !userData || !userData.user || !userData.user.id) {
-      return res.status(401).json({
-        error: "Invalid session",
-        tip: "Faça login novamente e tente de novo.",
-      });
-    }
-
-    const userId = userData.user.id;
-
-    // Busca candidatos da categoria (não usa match exato em city_label no banco, porque o problema está no traço)
+    // 1) pega pool por categoria (tolerante)
+    // 2) compara por chave normalizada (category + city_label)
+    // =========================================================
     const { data: candidates, error: supaErr } = await supabase
       .from("curadoria_materials")
       .select("pdf_url, category, city_label")
       .eq("is_active", true)
       .ilike("category", category.trim())
-      .limit(200);
+      .limit(500);
 
     if (supaErr) {
       return res.status(500).json({
@@ -159,15 +159,15 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // Se não vier nada, tenta uma segunda abordagem mais tolerante na categoria
     let pool = Array.isArray(candidates) ? candidates : [];
+
     if (pool.length === 0) {
       const { data: candidates2, error: supaErr2 } = await supabase
         .from("curadoria_materials")
         .select("pdf_url, category, city_label")
         .eq("is_active", true)
         .ilike("category", `%${category.trim()}%`)
-        .limit(500);
+        .limit(1000);
 
       if (supaErr2) {
         return res.status(500).json({
@@ -181,7 +181,6 @@ module.exports = async function handler(req, res) {
       pool = Array.isArray(candidates2) ? candidates2 : [];
     }
 
-    // Filtra por chaves normalizadas
     const found = pool.find((row) => {
       const rowCategoryKey = normalizeKey(row.category || "");
       const rowCityKey = normalizeKey(row.city_label || "");
@@ -193,22 +192,20 @@ module.exports = async function handler(req, res) {
         error: "Material not found for this purchase",
         category,
         city,
-        normalized: {
-          wantedCategoryKey,
-          wantedCityKey,
-        },
+        normalized: { wantedCategoryKey, wantedCityKey },
         tip:
-          "O código já normaliza traços ( - / – / — ) e acentos automaticamente. Se ainda não achou, verifique se existe uma linha ativa (is_active=true) no Supabase com essa categoria e cidade.",
+          "Verifique se existe uma linha ativa (is_active=true) no Supabase com category e city_label exatamente como no site.",
       });
     }
 
     // =========================================================
     // SALVAR ACESSO VITALÍCIO NA TABELA purchase (singular)
-    // Evita duplicar: se já existir (user_id + stripe_session_id), não insere de novo.
+    // Evita duplicar por (user_id + stripe_session_id)
+    // (não usa coluna 'id' pra não quebrar se não existir)
     // =========================================================
     const { data: existing, error: existingErr } = await supabase
       .from("purchase")
-      .select("id")
+      .select("stripe_session_id")
       .eq("user_id", userId)
       .eq("stripe_session_id", sessionId)
       .limit(1);
@@ -249,6 +246,9 @@ module.exports = async function handler(req, res) {
         city_label: found.city_label,
       },
       saved_access: true,
+      user_id_used: userId,
+      used_token: Boolean(accessToken),
+      used_metadata_user_id: !Boolean(accessToken) && Boolean(metadataUserId),
     });
   } catch (err) {
     return res.status(500).json({
