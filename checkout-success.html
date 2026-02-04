@@ -16,14 +16,18 @@
       justify-content: center;
       min-height: 100vh;
       text-align: center;
+      padding: 18px;
+      box-sizing: border-box;
     }
 
     .box {
+      width: 100%;
       max-width: 560px;
       padding: 40px 26px;
       border-radius: 16px;
       border: 1px solid #222;
       background: #111;
+      box-sizing: border-box;
     }
 
     h1 {
@@ -115,6 +119,9 @@
       border-radius: 10px;
       text-decoration: none;
       font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .btn-main {
@@ -125,10 +132,85 @@
     .btn-ghost {
       border: 1px solid rgba(212,175,55,0.4);
       color: #d4af37;
+      background: transparent;
     }
 
     .hidden {
       display: none !important;
+    }
+
+    /* ===== Modal PDF (visualização dentro do site) ===== */
+    .modal-bg{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.85);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:5000;
+      padding:18px;
+      box-sizing:border-box;
+    }
+    .modal-bg.active{ display:flex; }
+
+    .modal{
+      width:100%;
+      max-width: 980px;
+      border:1px solid #222;
+      background:#111;
+      border-radius:16px;
+      overflow:hidden;
+      text-align:left;
+    }
+    .modal-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 16px;
+      border-bottom:1px solid #222;
+    }
+    .modal-title{
+      color:#d4af37;
+      font-weight:700;
+      font-size:14px;
+      letter-spacing:0.2px;
+    }
+    .modal-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .modal-actions a, .modal-actions button{
+      padding:9px 12px;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      border:none;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:#d4af37;
+      color:#000;
+    }
+    .modal-actions .ghost{
+      background:transparent;
+      border:1px solid rgba(212,175,55,0.4);
+      color:#d4af37;
+    }
+    .pdf-frame{
+      width:100%;
+      height: 76vh;
+      border:none;
+      background:#000;
+      display:block;
+    }
+
+    @media (max-width: 560px){
+      .row{ flex-direction: column; }
+      .pdf-frame{ height: 72vh; }
     }
   </style>
 </head>
@@ -213,18 +295,42 @@
       <label>Bairro</label>
       <input id="neighborhood" required />
 
-      <label>Rua</label>
+      <label>Endereço</label>
       <input id="street" required />
 
-      <label>Número</label>
-      <input id="street_number" required />
+      <div class="row">
+        <div>
+          <label>Número</label>
+          <input id="street_number" required />
+        </div>
+        <div>
+          <label>Complemento</label>
+          <input id="complement" placeholder="Apto, casa, bloco (opcional)" />
+        </div>
+      </div>
 
       <button id="btnSubmit" type="submit">Salvar dados e prosseguir</button>
     </form>
 
     <div class="actions" id="actions">
       <a href="/" class="btn-main">Voltar ao site</a>
+      <a href="account.html" class="btn-ghost">Minha conta</a>
       <a href="mailto:curadoriaelitetravel@gmail.com" class="btn-ghost">Contato</a>
+    </div>
+  </div>
+
+  <!-- MODAL PDF -->
+  <div class="modal-bg" id="pdfModal">
+    <div class="modal">
+      <div class="modal-top">
+        <div class="modal-title" id="pdfModalTitle">Seu material</div>
+        <div class="modal-actions">
+          <a class="ghost" href="account.html">Minha conta</a>
+          <a class="ghost" href="/">Voltar ao site</a>
+          <button class="ghost" id="btnClosePdf" type="button">Fechar</button>
+        </div>
+      </div>
+      <iframe class="pdf-frame" id="pdfFrame" src=""></iframe>
     </div>
   </div>
 
@@ -251,6 +357,30 @@ async function getAccessToken(){
 }
 
 /* =========================
+   Modal PDF
+========================= */
+function openPdfModal(pdfUrl, titleText){
+  const bg = document.getElementById("pdfModal");
+  const frame = document.getElementById("pdfFrame");
+  const title = document.getElementById("pdfModalTitle");
+  if (title) title.innerText = titleText || "Seu material";
+  if (frame) frame.src = pdfUrl;
+  if (bg) bg.classList.add("active");
+}
+
+function closePdfModal(){
+  const bg = document.getElementById("pdfModal");
+  const frame = document.getElementById("pdfFrame");
+  if (bg) bg.classList.remove("active");
+  if (frame) frame.src = "";
+}
+
+document.getElementById("btnClosePdf").addEventListener("click", closePdfModal);
+document.getElementById("pdfModal").addEventListener("click", (e) => {
+  if (e.target && e.target.id === "pdfModal") closePdfModal();
+});
+
+/* =========================
    INIT
 ========================= */
 async function init() {
@@ -270,7 +400,6 @@ async function init() {
       document.getElementById("status").innerText = "Você será direcionado para o login.";
       document.getElementById("status").style.display = "block";
 
-      // manda para login e volta para esta etapa
       const returnTo =
         "checkout-success.html?step=invoice&category=" +
         encodeURIComponent(category) +
@@ -279,7 +408,7 @@ async function init() {
 
       setTimeout(() => {
         window.location.href = "login.html?return_to=" + encodeURIComponent(returnTo);
-      }, 900);
+      }, 700);
 
       return;
     }
@@ -307,24 +436,62 @@ async function init() {
     return;
   }
 
-  liberarPDF(sessionId);
+  // ✅ EXIGIR LOGIN AQUI TAMBÉM (pois get-pdf-from-session exige token)
+  const token = await getAccessToken();
+  if (!token) {
+    document.getElementById("title").innerText = "Acesso à conta";
+    document.getElementById("subtitle").innerText = "Para liberar seu material, é necessário entrar na sua conta.";
+    document.getElementById("status").innerText = "Você será direcionado para o login.";
+    document.getElementById("actions").style.display = "none";
+
+    const returnTo = "checkout-success.html?session_id=" + encodeURIComponent(sessionId);
+    setTimeout(() => {
+      window.location.href = "login.html?return_to=" + encodeURIComponent(returnTo);
+    }, 700);
+
+    return;
+  }
+
+  liberarPDF(sessionId, token);
 }
 
 /* =========================
    LIBERA PDF (pós-pagamento)
+   ✅ AGORA envia Authorization Bearer
+   ✅ e abre dentro do site (modal)
 ========================= */
-async function liberarPDF(sessionId) {
-  const res = await fetch("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId));
-  const data = await res.json();
-  if (data?.pdf_url) {
-    window.location.href = data.pdf_url;
-    return;
-  }
+async function liberarPDF(sessionId, token) {
+  try{
+    const res = await fetch("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId), {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
 
-  document.getElementById("title").innerText = "Pagamento";
-  document.getElementById("subtitle").innerText = "Não conseguimos liberar seu material.";
-  document.getElementById("status").innerText = "Se precisar, fale com nosso contato.";
-  document.getElementById("actions").style.display = "flex";
+    const data = await res.json().catch(() => null);
+
+    if (res.ok && data?.pdf_url) {
+      document.getElementById("title").innerText = "Material liberado";
+      document.getElementById("subtitle").innerText = "Seu material já está disponível para visualização.";
+      document.getElementById("status").innerText = "Você pode fechar esta janela quando desejar.";
+      document.getElementById("actions").style.display = "flex";
+
+      const label = (data?.city ? data.city : "Seu material");
+      openPdfModal(data.pdf_url, label);
+      return;
+    }
+
+    document.getElementById("title").innerText = "Pagamento";
+    document.getElementById("subtitle").innerText = "Não conseguimos liberar seu material.";
+    document.getElementById("status").innerText = "Se precisar, fale com nosso contato.";
+    document.getElementById("actions").style.display = "flex";
+  }catch(e){
+    document.getElementById("title").innerText = "Pagamento";
+    document.getElementById("subtitle").innerText = "Não conseguimos liberar seu material.";
+    document.getElementById("status").innerText = "Se precisar, fale com nosso contato.";
+    document.getElementById("actions").style.display = "flex";
+  }
 }
 
 /* =========================
@@ -475,10 +642,10 @@ document.getElementById("invoiceForm").addEventListener("submit", async e => {
     cep: onlyDigits(cep.value),
     neighborhood: neighborhood.value,
     street: street.value,
-    street_number: street_number.value
+    street_number: street_number.value,
+    complement: (complement.value || "").trim() || null
   };
 
-  // UI simples de carregando
   document.getElementById("btnSubmit").disabled = true;
   document.getElementById("btnSubmit").innerText = "Salvando...";
 
