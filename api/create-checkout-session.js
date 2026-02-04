@@ -9,6 +9,16 @@ function getBearerToken(req) {
   return "";
 }
 
+function parseBody(req) {
+  // Vercel normalmente já entrega req.body pronto, mas às vezes pode vir string
+  const b = req.body;
+  if (!b) return {};
+  if (typeof b === "string") {
+    try { return JSON.parse(b); } catch (e) { return {}; }
+  }
+  return b;
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
@@ -31,14 +41,13 @@ module.exports = async function handler(req, res) {
     if (!supabaseUrl) return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
     if (!supabaseServiceKey) return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
 
-    const { category, city } = req.body || {};
+    const body = parseBody(req);
+    const { category, city } = body || {};
     if (!category || !city) {
       return res.status(400).json({ error: "Missing category or city" });
     }
 
-    // =====================================================
     // 1) EXIGIR LOGIN
-    // =====================================================
     const token = getBearerToken(req);
     if (!token) {
       return res.status(200).json({ code: "LOGIN_REQUIRED" });
@@ -49,70 +58,32 @@ module.exports = async function handler(req, res) {
     });
 
     const { data: userData, error: userErr } = await supabase.auth.getUser(token);
-
     if (userErr || !userData?.user?.id) {
       return res.status(200).json({ code: "LOGIN_REQUIRED" });
     }
-
     const userId = userData.user.id;
 
-    // =====================================================
-    // 2) EXIGIR NOTA FISCAL ANTES DO STRIPE
-    //    tenta primeiro invoice_profiles (plural)
-    //    fallback: invoice_profile (singular) se existir
-    // =====================================================
-    async function tryInvoiceTable(tableName) {
-      const { data, error } = await supabase
-        .from(tableName)
-        .select("id")
-        .eq("user_id", userId)
-        .limit(1)
-        .maybeSingle();
+    // 2) EXIGIR NOTA FISCAL ANTES DO STRIPE (tabela correta: invoice_profiles)
+    const { data: invoiceRow, error: invoiceErr } = await supabase
+      .from("invoice_profiles")
+      .select("id")
+      .eq("user_id", userId)
+      .limit(1)
+      .maybeSingle();
 
-      return { data, error };
-    }
-
-    let invoiceRow = null;
-
-    // tentativa 1: plural
-    let attempt1 = await tryInvoiceTable("invoice_profiles");
-    if (attempt1.error) {
-      const msg = String(attempt1.error.message || "");
-      const notFound =
-        msg.includes("Could not find the table") ||
-        msg.includes("relation") ||
-        msg.toLowerCase().includes("does not exist");
-
-      if (!notFound) {
-        return res.status(500).json({
-          error: "Failed to check invoice profile",
-          details: attempt1.error.message,
-        });
-      }
-
-      // tentativa 2 (fallback): singular
-      let attempt2 = await tryInvoiceTable("invoice_profile");
-      if (attempt2.error) {
-        return res.status(500).json({
-          error: "Failed to check invoice profile",
-          details:
-            "Não encontramos a tabela de Nota Fiscal. Verifique se existe 'invoice_profiles' (recomendado). Erro: " +
-            (attempt2.error.message || "unknown"),
-        });
-      }
-
-      invoiceRow = attempt2.data || null;
-    } else {
-      invoiceRow = attempt1.data || null;
+    if (invoiceErr) {
+      // Se houver qualquer erro real aqui, devolvemos 500 para ver no log
+      return res.status(500).json({
+        error: "Failed to check invoice profile",
+        details: invoiceErr.message || "unknown",
+      });
     }
 
     if (!invoiceRow) {
       return res.status(200).json({ code: "INVOICE_REQUIRED" });
     }
 
-    // =====================================================
     // 3) CRIAR CHECKOUT STRIPE
-    // =====================================================
     const stripe = new Stripe(secretKey);
 
     const isCityGuide = String(category).trim().toLowerCase() === "city guide";
