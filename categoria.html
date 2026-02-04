@@ -141,7 +141,7 @@
       line-height:1.6;
     }
 
-    /* ========= QUEM SOMOS (painéis laterais + regras) ========= */
+    /* ========= QUEM SOMOS ========= */
     #quem{
       max-width:none;
       padding-left:0;
@@ -252,7 +252,7 @@
       letter-spacing:0.2px;
     }
 
-    /* ========= CURADORIA (hub) ========= */
+    /* ========= CURADORIA ========= */
     #curadoria h2{
       text-align:center;
       color:#d4af37;
@@ -333,7 +333,6 @@
       font-weight:600;
     }
 
-    /* Painel interno: visual mais premium e organizado */
     .curadoria-panel{
       display:none;
       margin-top:26px;
@@ -488,150 +487,6 @@
       line-height:1.6;
     }
 
-    /* ========= CONTATO & AVALIAÇÕES ========= */
-    #contato{
-      max-width:none;
-      padding-left:0;
-      padding-right:0;
-    }
-
-    .contact-center{
-      display:flex;
-      flex-direction:column;
-    }
-
-    .contact-center h2{
-      text-align:center;
-      color:#d4af37;
-      margin:40px 0 34px;
-      font-size:28px;
-      letter-spacing:0.2px;
-    }
-
-    .contact-sub{
-      color:rgba(255,255,255,0.78);
-      font-size:15px;
-      line-height:1.7;
-      text-align:center;
-      max-width:760px;
-      margin:0 auto 22px;
-    }
-
-    .contact-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-      max-width:760px;
-      margin:0 auto;
-    }
-
-    .contact-card{
-      background:#111;
-      border:1px solid #222;
-      border-radius:14px;
-      padding:22px;
-    }
-
-    .contact-card h3{
-      margin:0 0 10px;
-      color:#d4af37;
-      font-size:18px;
-      letter-spacing:0.2px;
-      text-align:left;
-    }
-
-    .contact-line{
-      color:rgba(255,255,255,0.82);
-      font-size:14px;
-      line-height:1.7;
-      text-align:left;
-    }
-
-    .contact-link{
-      color:#d4af37;
-      text-decoration:none;
-      border-bottom:1px solid rgba(212,175,55,0.28);
-      padding-bottom:1px;
-    }
-
-    .form-label{
-      display:block;
-      text-align:left;
-      color:rgba(255,255,255,0.78);
-      font-size:12.5px;
-      margin:12px 0 8px;
-    }
-
-    .form-input, .form-textarea, .form-select{
-      width:100%;
-      border-radius:12px;
-      border:1px solid #222;
-      background:#0f0f0f;
-      color:#fff;
-      outline:none;
-      box-sizing:border-box;
-      font-size:14px;
-      padding:12px 14px;
-    }
-
-    .form-textarea{
-      min-height:120px;
-      resize:vertical;
-      line-height:1.6;
-    }
-
-    .form-select{
-      appearance:none;
-      background-image:
-        linear-gradient(45deg, transparent 50%, rgba(212,175,55,0.65) 50%),
-        linear-gradient(135deg, rgba(212,175,55,0.65) 50%, transparent 50%);
-      background-position:
-        calc(100% - 20px) calc(1em + 2px),
-        calc(100% - 15px) calc(1em + 2px);
-      background-size:
-        6px 6px,
-        6px 6px;
-      background-repeat:no-repeat;
-      padding-right:44px;
-    }
-
-    .stars{
-      display:flex;
-      gap:8px;
-      justify-content:flex-start;
-      margin-top:8px;
-      user-select:none;
-    }
-
-    .star{
-      font-size:20px;
-      cursor:pointer;
-      color:rgba(255,255,255,0.25);
-      transition:transform 0.15s ease, color 0.15s ease;
-    }
-
-    .star:hover{
-      transform:translateY(-1px);
-    }
-
-    .star.on{
-      color:#d4af37;
-    }
-
-    .small-note{
-      margin-top:10px;
-      color:rgba(255,255,255,0.6);
-      font-size:12.5px;
-      line-height:1.5;
-      text-align:left;
-    }
-
-    @media (max-width:980px){
-      .contact-grid{
-        grid-template-columns:1fr;
-      }
-    }
-
     /* ========= POPUPS ========= */
     .popup-bg{
       position:fixed;
@@ -694,17 +549,6 @@
 
     .popup-rules strong{ color:#d4af37; }
 
-    .popup-iframe{
-      width:100%;
-      height:72vh;
-      border:none;
-      border-radius:12px;
-      overflow:hidden;
-      margin-top:12px;
-      background:#000;
-    }
-
-    /* Checkbox antes do Prosseguir (apenas para liberar o botão) */
     .consent-wrap{
       display:flex;
       gap:10px;
@@ -725,7 +569,6 @@
       accent-color:#d4af37;
     }
 
-    /* Responsivo */
     @media (max-width:980px){
       header{ padding:14px 16px; }
       nav a{ margin-left:14px; }
@@ -742,15 +585,9 @@
       .side-bg.left,.side-bg.right{ background-position:center; }
       .brand{ min-width: auto; }
 
-      .curadoria-panel{
-        padding:16px;
-      }
-      .panel-top{
-        align-items:flex-start;
-      }
-      .search-wrap{
-        max-width: 100%;
-      }
+      .curadoria-panel{ padding:16px; }
+      .panel-top{ align-items:flex-start; }
+      .search-wrap{ max-width: 100%; }
     }
   </style>
 </head>
@@ -773,7 +610,6 @@
   </nav>
 </header>
 
-<!-- INÍCIO -->
 <section id="inicio" class="active">
   <div class="hero">
     <div class="hero-bg active" id="bg1"></div>
@@ -790,7 +626,6 @@
   </div>
 </section>
 
-<!-- QUEM SOMOS -->
 <section id="quem">
   <div class="about-layout">
 
@@ -841,21 +676,18 @@
   </div>
 </section>
 
-<!-- CURADORIA -->
 <section id="curadoria">
   <h2>Curadoria</h2>
   <p class="subtitle">
     Materiais digitais desenvolvidos para apoiar decisões de viagem com critério, clareza e indicações bem organizadas.
   </p>
 
-  <!-- Overview -->
   <div class="card" style="text-align:center; max-width:900px; margin:0 auto;">
     <h3 style="margin-top:0;">Overview</h3>
     <p>Conheça o formato, a profundidade e o padrão dos materiais que entregamos.</p>
     <button onclick="openOverview()">Abrir overview</button>
   </div>
 
-  <!-- Grid de categorias -->
   <div id="curadoria-categories" class="grid" style="margin-top:26px;">
     <div class="card" onclick="openCategory('City Guide')">
       <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
@@ -894,11 +726,10 @@
     </div>
   </div>
 
-  <!-- Painel interno -->
   <div id="curadoria-panel" class="curadoria-panel">
     <div class="panel-top">
       <div>
-        <div classam="breadcrumb" id="breadcrumb">Curadoria</div>
+        <div class="breadcrumb" id="breadcrumb">Curadoria</div>
         <h3 class="panel-title" id="panel-title">Categoria</h3>
         <div class="panel-meta">
           <span class="pill" id="cities-count">0 cidades</span>
@@ -935,7 +766,6 @@
   </div>
 </section>
 
-<!-- BUSCADOR -->
 <section id="buscador">
   <h2 style="text-align:center;color:#d4af37;margin:40px 0 14px;">Buscador</h2>
   <p class="subtitle">Em breve: área integrada com buscadores e indicações.</p>
@@ -1000,10 +830,14 @@
     const btn = document.getElementById("popup-prosseguir");
     btn.style.display = showProsseguir ? "inline-block" : "none";
 
+    // remove checkbox antigo (se tiver)
     const old = document.getElementById("consent-checkbox-wrap");
     if (old) old.remove();
 
-    if (showProsseguir){
+    // ✅ Checkbox só quando for COMPRA (regra visível)
+    const requireConsent = showProsseguir && showRules;
+
+    if (requireConsent){
       const actions = document.querySelector("#popup-content .popup-actions");
 
       const consentWrap = document.createElement("div");
@@ -1156,21 +990,8 @@
     el.classList.add(ok ? "ok" : "muted");
   }
 
-  // ✅ NOVO: normaliza texto para casar com o Supabase
-  // - remove travessões (–/—) e padroniza para "-"
-  // - remove espaços extras
-  // - ignora diferença de maiúsculas/minúsculas
-  function normalizeKey(v){
-    return String(v || "")
-      .trim()
-      .replace(/[–—]/g, "-")
-      .replace(/\s+/g, " ")
-      .toLowerCase();
-  }
-
   function materialKey(category, cityLabel){
-    // chave padronizada (categoria + cidade)
-    return normalizeKey(category) + "||" + normalizeKey(cityLabel);
+    return (category || "").trim() + "||" + (cityLabel || "").trim();
   }
 
   function hasActiveMaterial(category, cityLabel){
@@ -1211,6 +1032,7 @@
       setAdminStatus("Admin: falha na conexão", false);
     }
   }
+
   async function maybeResumePendingCheckout(){
     const pending = readPendingCheckout();
     if (!pending || !pending.category || !pending.city) return;
@@ -1300,9 +1122,10 @@
       }
 
       if (!res.ok || !data || !data.url){
+        const detail = (data && (data.details || data.message || data.error)) ? (" (" + (data.details || data.message || data.error) + ")") : "";
         openPopup({
           title: "Pagamento",
-          text: "Não foi possível iniciar o pagamento. Tente novamente.",
+          text: "Não foi possível iniciar o pagamento. Tente novamente." + detail,
           showProsseguir: false,
           showRules: false,
           onProsseguir: null
