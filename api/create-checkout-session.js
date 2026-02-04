@@ -9,6 +9,12 @@ function getBearerToken(req) {
   return "";
 }
 
+function getEnv(name) {
+  const v = process.env[name];
+  if (!v) throw new Error(`Missing env var: ${name}`);
+  return v;
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
@@ -18,18 +24,12 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const secretKey = process.env.STRIPE_SECRET_KEY;
-    const priceCityGuide = process.env.STRIPE_PRICE_ID_CITY_GUIDE;
-    const priceDefault = process.env.STRIPE_PRICE_ID_DEFAULT;
+    const secretKey = getEnv("STRIPE_SECRET_KEY");
+    const priceCityGuide = getEnv("STRIPE_PRICE_ID_CITY_GUIDE");
+    const priceDefault = getEnv("STRIPE_PRICE_ID_DEFAULT");
 
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (!secretKey) return res.status(500).json({ error: "Missing STRIPE_SECRET_KEY env var" });
-    if (!priceCityGuide) return res.status(500).json({ error: "Missing STRIPE_PRICE_ID_CITY_GUIDE env var" });
-    if (!priceDefault) return res.status(500).json({ error: "Missing STRIPE_PRICE_ID_DEFAULT env var" });
-    if (!supabaseUrl) return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
-    if (!supabaseServiceKey) return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
+    const supabaseUrl = getEnv("SUPABASE_URL");
+    const supabaseServiceKey = getEnv("SUPABASE_SERVICE_ROLE_KEY");
 
     const { category, city } = req.body || {};
     if (!category || !city) {
@@ -37,7 +37,7 @@ module.exports = async function handler(req, res) {
     }
 
     // =====================================================
-    // 1) EXIGIR LOGIN
+    // 1) EXIGIR LOGIN (Bearer token)
     // =====================================================
     const token = getBearerToken(req);
     if (!token) {
@@ -48,26 +48,27 @@ module.exports = async function handler(req, res) {
       auth: { persistSession: false },
     });
 
+    // Valida token e pega usuário
     const { data: userData, error: userErr } = await supabase.auth.getUser(token);
     if (userErr || !userData?.user?.id) {
+      console.error("[Supabase] Invalid token:", userErr?.message || "no user");
       return res.status(200).json({ code: "LOGIN_REQUIRED" });
     }
-
     const userId = userData.user.id;
 
     // =====================================================
     // 2) EXIGIR NOTA FISCAL ANTES DO STRIPE
-    //    ✅ CORREÇÃO: sua tabela invoice_profiles pode NÃO ter coluna "id"
-    //    então checamos pela coluna "user_id" (que existe, pois você faz upsert por ela)
+    //    (não usar "id" pois sua tabela pode não ter essa coluna)
     // =====================================================
     const { data: invoiceRow, error: invoiceErr } = await supabase
       .from("invoice_profiles")
-      .select("user_id")
+      .select("user_id") // ✅ coluna que existe no seu payload do save-invoice-profile.js
       .eq("user_id", userId)
       .limit(1)
       .maybeSingle();
 
     if (invoiceErr) {
+      console.error("[Supabase] invoice_profiles query error:", invoiceErr.message);
       return res.status(500).json({
         error: "Failed to check invoice profile",
         details: invoiceErr.message,
@@ -108,11 +109,13 @@ module.exports = async function handler(req, res) {
     });
 
     if (!session?.url) {
+      console.error("[Stripe] Session missing URL");
       return res.status(500).json({ error: "Stripe session missing URL" });
     }
 
     return res.status(200).json({ url: session.url });
   } catch (err) {
+    console.error("[Checkout] Unexpected error:", err?.message || err);
     return res.status(500).json({
       error: "Failed to create checkout session",
       message: err?.message ? err.message : "Unknown error",
