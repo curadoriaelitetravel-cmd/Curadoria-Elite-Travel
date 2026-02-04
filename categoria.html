@@ -34,6 +34,7 @@
       align-items:center;
       gap:12px;
       min-width: 240px;
+      cursor:pointer;
     }
 
     .brand img{
@@ -141,7 +142,7 @@
       line-height:1.6;
     }
 
-    /* ========= QUEM SOMOS (painéis laterais + regras) ========= */
+    /* ========= QUEM SOMOS ========= */
     #quem{
       max-width:none;
       padding-left:0;
@@ -252,7 +253,7 @@
       letter-spacing:0.2px;
     }
 
-    /* ========= CURADORIA (hub) ========= */
+    /* ========= CURADORIA ========= */
     #curadoria h2{
       text-align:center;
       color:#d4af37;
@@ -326,6 +327,11 @@
       margin-top:14px;
     }
 
+    button[disabled]{
+      opacity:0.6;
+      cursor:not-allowed;
+    }
+
     .btn-ghost{
       background:transparent;
       border:1px solid rgba(212,175,55,0.35);
@@ -333,7 +339,6 @@
       font-weight:600;
     }
 
-    /* Painel interno: visual mais premium e organizado */
     .curadoria-panel{
       display:none;
       margin-top:26px;
@@ -488,140 +493,6 @@
       line-height:1.6;
     }
 
-    /* ========= CONTATO & AVALIAÇÕES ========= */
-    #contato{
-      max-width:none;
-      padding-left:0;
-      padding-right:0;
-    }
-
-    .contact-center{
-      display:flex;
-      flex-direction:column;
-      padding:0 40px;
-      box-sizing:border-box;
-    }
-
-    .contact-center h2{
-      text-align:center;
-      color:#d4af37;
-      margin:40px 0 34px;
-      font-size:28px;
-      letter-spacing:0.2px;
-    }
-
-    .contact-sub{
-      color:rgba(255,255,255,0.78);
-      font-size:15px;
-      line-height:1.7;
-      text-align:center;
-      max-width:760px;
-      margin:0 auto 22px;
-    }
-
-    .contact-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-      max-width:760px;
-      margin:0 auto;
-    }
-
-    .contact-card{
-      background:#111;
-      border:1px solid #222;
-      border-radius:14px;
-      padding:22px;
-    }
-
-    .contact-card h3{
-      margin:0 0 10px;
-      color:#d4af37;
-      font-size:18px;
-      letter-spacing:0.2px;
-      text-align:left;
-    }
-
-    .contact-line{
-      color:rgba(255,255,255,0.82);
-      font-size:14px;
-      line-height:1.7;
-      text-align:left;
-    }
-
-    .contact-link{
-      color:#d4af37;
-      text-decoration:none;
-      border-bottom:1px solid rgba(212,175,55,0.28);
-      padding-bottom:1px;
-    }
-
-    .form-label{
-      display:block;
-      text-align:left;
-      color:rgba(255,255,255,0.78);
-      font-size:12.5px;
-      margin:12px 0 8px;
-    }
-
-    .form-input, .form-textarea, .form-select{
-      width:100%;
-      border-radius:12px;
-      border:1px solid #222;
-      background:#0f0f0f;
-      color:#fff;
-      outline:none;
-      box-sizing:border-box;
-      font-size:14px;
-      padding:12px 14px;
-    }
-
-    .form-textarea{
-      min-height:120px;
-      resize:vertical;
-      line-height:1.6;
-    }
-
-    .stars{
-      display:flex;
-      gap:8px;
-      justify-content:flex-start;
-      margin-top:8px;
-      user-select:none;
-    }
-
-    .star{
-      font-size:20px;
-      cursor:pointer;
-      color:rgba(255,255,255,0.25);
-      transition:transform 0.15s ease, color 0.15s ease;
-    }
-
-    .star:hover{
-      transform:translateY(-1px);
-    }
-
-    .star.on{
-      color:#d4af37;
-    }
-
-    .small-note{
-      margin-top:10px;
-      color:rgba(255,255,255,0.6);
-      font-size:12.5px;
-      line-height:1.5;
-      text-align:left;
-    }
-
-    @media (max-width:980px){
-      .contact-grid{
-        grid-template-columns:1fr;
-      }
-      .contact-center{
-        padding:0 16px;
-      }
-    }
-
     /* ========= POPUPS ========= */
     .popup-bg{
       position:fixed;
@@ -684,7 +555,6 @@
 
     .popup-rules strong{ color:#d4af37; }
 
-    /* Checkbox antes do Prosseguir */
     .consent-wrap{
       display:flex;
       gap:10px;
@@ -705,7 +575,6 @@
       accent-color:#d4af37;
     }
 
-    /* Responsivo */
     @media (max-width:980px){
       header{ padding:14px 16px; }
       nav a{ margin-left:14px; }
@@ -737,7 +606,7 @@
 <body>
 
 <header>
-  <div class="brand">
+  <div class="brand" onclick="showSection('inicio')">
     <img src="images/rosa-dos-ventos.png" alt="Rosa dos Ventos">
     <div>
       <div class="brand-name">Curadoria Elite Travel</div>
@@ -750,15 +619,9 @@
     <a onclick="showSection('quem')">Quem Somos</a>
     <a onclick="showSection('curadoria')">Curadoria</a>
     <a onclick="showSection('buscador')">Buscador</a>
-    <a onclick="showSection('contato')">Contato</a>
-
-    <a id="nav-entrar" onclick="goLogin()">Entrar</a>
-    <a id="nav-conta" style="display:none;" onclick="goAccount()">Minha conta</a>
-    <a id="nav-sair" style="display:none;" onclick="doLogout()">Sair</a>
   </nav>
 </header>
 
-<!-- INÍCIO -->
 <section id="inicio" class="active">
   <div class="hero">
     <div class="hero-bg active" id="bg1"></div>
@@ -775,7 +638,6 @@
   </div>
 </section>
 
-<!-- QUEM SOMOS -->
 <section id="quem">
   <div class="about-layout">
 
@@ -826,21 +688,18 @@
   </div>
 </section>
 
-<!-- CURADORIA -->
 <section id="curadoria">
   <h2>Curadoria</h2>
   <p class="subtitle">
     Materiais digitais desenvolvidos para apoiar decisões de viagem com critério, clareza e indicações bem organizadas.
   </p>
 
-  <!-- Overview -->
   <div class="card" style="text-align:center; max-width:900px; margin:0 auto;">
     <h3 style="margin-top:0;">Overview</h3>
     <p>Conheça o formato, a profundidade e o padrão dos materiais que entregamos.</p>
     <button onclick="openOverview()">Abrir overview</button>
   </div>
 
-  <!-- Grid de categorias -->
   <div id="curadoria-categories" class="grid" style="margin-top:26px;">
     <div class="card" onclick="openCategory('City Guide')">
       <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80">
@@ -879,7 +738,6 @@
     </div>
   </div>
 
-  <!-- Painel interno -->
   <div id="curadoria-panel" class="curadoria-panel">
     <div class="panel-top">
       <div>
@@ -920,55 +778,9 @@
   </div>
 </section>
 
-<!-- BUSCADOR -->
 <section id="buscador">
   <h2 style="text-align:center;color:#d4af37;margin:40px 0 14px;">Buscador</h2>
   <p class="subtitle">Em breve: área integrada com buscadores e indicações.</p>
-</section>
-
-<!-- CONTATO -->
-<section id="contato">
-  <div class="contact-center">
-    <h2>Contato e Avaliação</h2>
-    <p class="contact-sub">
-      Para dúvidas, sugestões ou feedback, fale conosco. Sua avaliação nos ajuda a manter o padrão e evoluir a plataforma.
-    </p>
-
-    <div class="contact-grid">
-      <div class="contact-card">
-        <h3>Contato</h3>
-        <div class="contact-line">
-          E-mail: <a class="contact-link" href="mailto:curadoriaelitetravel@gmail.com">curadoriaelitetravel@gmail.com</a><br>
-          São Paulo - SP
-        </div>
-      </div>
-
-      <div class="contact-card">
-        <h3>Avaliação</h3>
-
-        <label class="form-label">Seu nome</label>
-        <input class="form-input" id="fb-name" type="text" placeholder="Digite seu nome" />
-
-        <label class="form-label">Sua mensagem</label>
-        <textarea class="form-textarea" id="fb-message" placeholder="Conte como foi sua experiência"></textarea>
-
-        <label class="form-label">Nota</label>
-        <div class="stars" id="stars">
-          <span class="star" data-v="1">★</span>
-          <span class="star" data-v="2">★</span>
-          <span class="star" data-v="3">★</span>
-          <span class="star" data-v="4">★</span>
-          <span class="star" data-v="5">★</span>
-        </div>
-
-        <div class="small-note">
-          (A avaliação é apenas informativa e pode ser coletada por formulário/integração posteriormente.)
-        </div>
-
-        <button class="btn-ghost" onclick="fakeSendFeedback()">Enviar</button>
-      </div>
-    </div>
-  </div>
 </section>
 
 <footer>
@@ -978,9 +790,6 @@
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
-  /* =========================
-     Navegação entre seções
-  ========================= */
   function showSection(id){
     document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
     const el = document.getElementById(id);
@@ -988,52 +797,6 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  /* =========================
-     HERO / BACKGROUNDS ROTATION
-  ========================= */
-  function setBg(elId, url){
-    const el = document.getElementById(elId);
-    if (!el) return;
-    el.style.backgroundImage = "url('" + url + "')";
-  }
-
-  function rotateTwo(aId, bId, intervalMs){
-    let onA = true;
-    setInterval(() => {
-      const a = document.getElementById(aId);
-      const b = document.getElementById(bId);
-      if (!a || !b) return;
-      onA = !onA;
-      if (onA){
-        a.classList.add("active");
-        b.classList.remove("active");
-      } else {
-        b.classList.add("active");
-        a.classList.remove("active");
-      }
-    }, intervalMs);
-  }
-
-  function initBackgrounds(){
-    // HERO
-    setBg("bg1", "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1600&q=80");
-    setBg("bg2", "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1600&q=80");
-    rotateTwo("bg1","bg2", 6500);
-
-    // LEFT PANEL
-    setBg("sl1", "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80");
-    setBg("sl2", "https://images.unsplash.com/photo-1526481280695-3c687fd5432c?auto=format&fit=crop&w=1200&q=80");
-    rotateTwo("sl1","sl2", 7800);
-
-    // RIGHT PANEL
-    setBg("sr1", "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80");
-    setBg("sr2", "https://images.unsplash.com/photo-1522098543979-ffc7f79f3e6f?auto=format&fit=crop&w=1200&q=80");
-    rotateTwo("sr1","sr2", 8200);
-  }
-
-  /* =========================
-     Popup
-  ========================= */
   function ensurePopupExists(){
     if (document.getElementById("popup")) return;
 
@@ -1078,12 +841,12 @@
 
     const btn = document.getElementById("popup-prosseguir");
     btn.style.display = showProsseguir ? "inline-block" : "none";
+    btn.disabled = false;
+    btn.innerText = "Prosseguir";
 
-    // remove checkbox antigo (se tiver)
     const old = document.getElementById("consent-checkbox-wrap");
     if (old) old.remove();
 
-    // Se for comprar (Prosseguir aparece), então adiciona o checkbox e trava o botão
     if (showProsseguir){
       const actions = document.querySelector("#popup-content .popup-actions");
 
@@ -1095,7 +858,6 @@
         <label for="consent-checkbox">(Li e concordo que, por ser um produto digital de acesso imediato, não será possível realizar cancelamentos, trocas ou reembolsos após a confirmação da compra.)</label>
       `;
 
-      // Insere o checkbox acima dos botões
       actions.parentNode.insertBefore(consentWrap, actions);
 
       btn.disabled = true;
@@ -1104,14 +866,37 @@
       cb.addEventListener("change", () => {
         btn.disabled = !cb.checked;
       });
-    } else {
-      btn.disabled = false;
     }
 
-    // comportamento do Prosseguir
+    // ✅ FIX PRINCIPAL: clique sempre dá feedback e sempre executa onProsseguir
     btn.onclick = null;
     if (showProsseguir && typeof onProsseguir === "function"){
-      btn.onclick = onProsseguir;
+      btn.onclick = async () => {
+        try{
+          // estado visual
+          btn.disabled = true;
+          btn.innerText = "Aguarde...";
+
+          // fecha popup para não parecer travado
+          closePopup();
+
+          // roda ação
+          await onProsseguir();
+        }catch(e){
+          openPopup({
+            title: "Pagamento",
+            text: "Não foi possível prosseguir. Tente novamente.",
+            showProsseguir: false,
+            showRules: false
+          });
+        }finally{
+          // se a página não mudou (login/stripe), reabilita
+          try{
+            btn.disabled = false;
+            btn.innerText = "Prosseguir";
+          }catch(e){}
+        }
+      };
     }
 
     document.getElementById("popup").classList.add("active");
@@ -1125,19 +910,17 @@
     if (old) old.remove();
 
     const btn = document.getElementById("popup-prosseguir");
-    if (btn) btn.disabled = false;
+    if (btn){
+      btn.disabled = false;
+      btn.innerText = "Prosseguir";
+    }
   }
 
-  /* =========================
-     Overview
-  ========================= */
   function openOverview(){
+    // (vamos mudar para popup depois que o pagamento estiver 100%)
     window.location.href = "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf";
   }
 
-  /* =========================
-     Dados das cidades
-  ========================= */
   const curadoriaData = {
     "City Guide": [
       { cidade: "São Paulo - Brasil" },
@@ -1196,9 +979,6 @@
     ]
   };
 
-  /* =========================
-     Supabase
-  ========================= */
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
@@ -1218,48 +998,6 @@
     return (data && data.session && data.session.access_token) ? data.session.access_token : null;
   }
 
-  async function isLoggedIn(){
-    const t = await getAccessToken();
-    return !!t;
-  }
-
-  async function updateAuthLinks(){
-    const entrar = document.getElementById("nav-entrar");
-    const conta = document.getElementById("nav-conta");
-    const sair = document.getElementById("nav-sair");
-
-    const logged = await isLoggedIn();
-
-    if (entrar) entrar.style.display = logged ? "none" : "inline";
-    if (conta) conta.style.display = logged ? "inline" : "none";
-    if (sair) sair.style.display = logged ? "inline" : "none";
-  }
-
-  function goLogin(){
-    window.location.href = "login.html?return_to=index.html";
-  }
-
-  function goAccount(){
-    window.location.href = "account.html";
-  }
-
-  async function doLogout(){
-    try{
-      const sb = ensureSupabase();
-      if (sb) await sb.auth.signOut();
-    }catch(e){}
-    await updateAuthLinks();
-    openPopup({
-      title: "Sessão",
-      text: "Você saiu da sua conta.",
-      showProsseguir: false,
-      showRules: false
-    });
-  }
-
-  /* =========================
-     Pending checkout (retomar)
-  ========================= */
   function savePendingCheckout(category, city){
     try{
       localStorage.setItem("pending_checkout", JSON.stringify({ category, city, at: Date.now() }));
@@ -1280,11 +1018,7 @@
     try{ localStorage.removeItem("pending_checkout"); }catch(e){}
   }
 
-  /* =========================
-     Disponibilidade (NORMALIZAÇÃO forte)
-     - resolve sumiço por diferença de hífen/travessão/maiúsculas
-  ========================= */
-  const activeMaterialsMap = new Map(); // key -> {pdf_url}
+  const activeMaterialsMap = new Map();
 
   function setAdminStatus(text, ok){
     const el = document.getElementById("admin-status");
@@ -1299,16 +1033,12 @@
       .trim()
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-
-    // troca qualquer travessão/en-dash/minus por hífen
-    const d = s.replace(/[—–−]/g, "-");
-
-    // normaliza espaços ao redor do hífen
-    const spaced = d.replace(/\s*-\s*/g, " - ");
-
-    // remove excesso de espaços
-    return spaced.replace(/\s+/g, " ").trim();
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[—–−]/g, "-")
+      .replace(/\s*-\s*/g, " - ")
+      .replace(/\s+/g, " ")
+      .trim();
+    return s;
   }
 
   function materialKey(category, cityLabel){
@@ -1346,7 +1076,6 @@
       });
 
       setAdminStatus("Admin: conectado", true);
-
       await maybeResumePendingCheckout();
     } catch(e){
       setAdminStatus("Admin: falha na conexão", false);
@@ -1365,35 +1094,37 @@
       text: "Deseja continuar o acesso do material selecionado?",
       showProsseguir: true,
       showRules: false,
-      onProsseguir: () => {
-        closePopup();
+      onProsseguir: async () => {
         pendingCheckout.category = pending.category;
         pendingCheckout.city = pending.city;
         clearPendingCheckout();
-        proceedCheckout();
+        await proceedCheckout();
       }
     });
   }
 
-  /* =========================
-     Stripe: iniciar checkout
-  ========================= */
   let pendingCheckout = { category:null, city:null };
 
   async function startCheckout(category, city){
+    // ✅ sempre mostra um feedback claro na tela
+    openPopup({
+      title: "Pagamento",
+      text: "Conectando com o pagamento...",
+      showProsseguir: false,
+      showRules: false
+    });
+
     try{
       const token = await getAccessToken();
 
-      // se não estiver logado: manda para login
       if (!token){
         savePendingCheckout(category, city);
-
         openPopup({
           title: "Acesso à conta",
           text: "Para prosseguir, é necessário entrar ou criar seu cadastro.",
           showProsseguir: true,
           showRules: false,
-          onProsseguir: () => {
+          onProsseguir: async () => {
             window.location.href = "login.html?return_to=index.html";
           }
         });
@@ -1412,16 +1143,14 @@
       let data = null;
       try{ data = await res.json(); }catch(e){}
 
-      // invoice antes do Stripe
       if (data && data.code === "INVOICE_REQUIRED"){
         savePendingCheckout(category, city);
-
         openPopup({
           title: "Dados para Nota Fiscal",
           text: "Antes do pagamento, precisamos dessas informações.",
           showProsseguir: true,
           showRules: false,
-          onProsseguir: () => {
+          onProsseguir: async () => {
             window.location.href =
               "checkout-success.html?step=invoice&category=" +
               encodeURIComponent(category) +
@@ -1432,7 +1161,6 @@
         return;
       }
 
-      // login obrigatório
       if (data && data.code === "LOGIN_REQUIRED"){
         savePendingCheckout(category, city);
         openPopup({
@@ -1440,46 +1168,41 @@
           text: "Para prosseguir, é necessário entrar ou criar seu cadastro.",
           showProsseguir: true,
           showRules: false,
-          onProsseguir: () => {
+          onProsseguir: async () => {
             window.location.href = "login.html?return_to=index.html";
           }
         });
         return;
       }
 
-      // falha genérica
       if (!res.ok || !data || !data.url){
         openPopup({
           title: "Pagamento",
           text: "Não foi possível iniciar o pagamento. Tente novamente.",
           showProsseguir: false,
-          showRules: false,
-          onProsseguir: null
+          showRules: false
         });
         return;
       }
 
-      // vai para o checkout da Stripe
+      // ✅ aqui ele vai para Stripe
       window.location.href = data.url;
+
     } catch(e){
       openPopup({
         title: "Pagamento",
         text: "Erro ao conectar com o pagamento. Tente novamente.",
         showProsseguir: false,
-        showRules: false,
-        onProsseguir: null
+        showRules: false
       });
     }
   }
 
-  function proceedCheckout(){
+  async function proceedCheckout(){
     if (!pendingCheckout.category || !pendingCheckout.city) return;
-    startCheckout(pendingCheckout.category, pendingCheckout.city);
+    await startCheckout(pendingCheckout.category, pendingCheckout.city);
   }
 
-  /* =========================
-     Painel de categorias + lista de cidades
-  ========================= */
   const BATCH_SIZE = 8;
   let currentCategory = null;
   let filteredCities = [];
@@ -1633,63 +1356,9 @@
     });
   }
 
-  /* =========================
-     Avaliação (placeholder)
-  ========================= */
-  let rating = 0;
-
-  function initStars(){
-    const wrap = document.getElementById("stars");
-    if (!wrap) return;
-
-    wrap.querySelectorAll(".star").forEach(st => {
-      st.addEventListener("click", () => {
-        rating = Number(st.getAttribute("data-v")) || 0;
-        wrap.querySelectorAll(".star").forEach(s2 => {
-          const v = Number(s2.getAttribute("data-v")) || 0;
-          s2.classList.toggle("on", v <= rating);
-        });
-      });
-    });
-  }
-
-  function fakeSendFeedback(){
-    const name = (document.getElementById("fb-name")?.value || "").trim();
-    const msg = (document.getElementById("fb-message")?.value || "").trim();
-
-    openPopup({
-      title: "Obrigado",
-      text: "Recebemos sua mensagem. (Envio será integrado em breve.)",
-      showProsseguir: false,
-      showRules: false
-    });
-
-    // limpa campos
-    try{
-      document.getElementById("fb-name").value = "";
-      document.getElementById("fb-message").value = "";
-      const wrap = document.getElementById("stars");
-      wrap.querySelectorAll(".star").forEach(s2 => s2.classList.remove("on"));
-      rating = 0;
-    }catch(e){}
-  }
-
-  /* =========================
-     Inicialização
-  ========================= */
-  document.addEventListener("DOMContentLoaded", async () => {
-    initBackgrounds();
-    initStars();
+  document.addEventListener("DOMContentLoaded", () => {
     ensureSupabase();
-    await updateAuthLinks();
     loadActiveMaterials();
-
-    // Atualiza links de sessão se usuário fizer login em outra aba
-    try{
-      supabaseClient.auth.onAuthStateChange(async () => {
-        await updateAuthLinks();
-      });
-    }catch(e){}
   });
 </script>
 
