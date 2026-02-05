@@ -31,7 +31,7 @@ module.exports = async function handler(req, res) {
     if (!supabaseUrl) return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
     if (!supabaseServiceKey) return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
 
-    const { category, city, force_repurchase } = req.body || {};
+    const { category, city } = req.body || {};
     if (!category || !city) {
       return res.status(400).json({ error: "Missing category or city" });
     }
@@ -49,54 +49,27 @@ module.exports = async function handler(req, res) {
     });
 
     const { data: userData, error: userErr } = await supabase.auth.getUser(token);
+
     if (userErr || !userData?.user?.id) {
       return res.status(200).json({ code: "LOGIN_REQUIRED" });
     }
+
     const userId = userData.user.id;
 
     // =====================================================
-    // 1.5) CHECAR SE JÁ COMPROU (EVITAR RECOMPRA ACIDENTAL)
-    // - Se já comprou e NÃO for "force_repurchase", devolve aviso + pdf_url
-    // - Se for "force_repurchase", segue o fluxo normal
-    // =====================================================
-    const { data: existingPurchases, error: purchaseErr } = await supabase
-      .from("purchase")
-      .select("pdf_url, category, city")
-      .eq("user_id", userId)
-      .eq("category", String(category))
-      .eq("city", String(city))
-      .limit(1);
-
-    if (purchaseErr) {
-      return res.status(500).json({
-        error: "Failed to check existing purchase",
-        details: purchaseErr.message || String(purchaseErr),
-      });
-    }
-
-    const alreadyBought = Array.isArray(existingPurchases) && existingPurchases.length > 0;
-    if (alreadyBought && !force_repurchase) {
-      const row = existingPurchases[0] || {};
-      return res.status(200).json({
-        code: "ALREADY_PURCHASED",
-        pdf_url: row.pdf_url || null,
-        category: row.category || String(category),
-        city: row.city || String(city),
-      });
-    }
-
-    // =====================================================
     // 2) EXIGIR NOTA FISCAL ANTES DO STRIPE
-    // (checa por user_id)
+    // ✅ FIX: NÃO usar invoice_profiles.id (sua tabela não tem)
+    // Basta checar se existe linha por user_id.
     // =====================================================
     const { data: invoiceRow, error: invoiceErr } = await supabase
       .from("invoice_profiles")
-      .select("user_id")
+      .select("user_id") // ✅ existe
       .eq("user_id", userId)
       .limit(1)
       .maybeSingle();
 
     if (invoiceErr) {
+      console.error("[Supabase] invoice_profiles query error:", invoiceErr.message || invoiceErr);
       return res.status(500).json({
         error: "Failed to check invoice profile",
         details: invoiceErr.message || String(invoiceErr),
@@ -133,7 +106,6 @@ module.exports = async function handler(req, res) {
         category: String(category),
         city: String(city),
         user_id: String(userId),
-        repurchase: force_repurchase ? "true" : "false",
       },
     });
 
@@ -143,6 +115,7 @@ module.exports = async function handler(req, res) {
 
     return res.status(200).json({ url: session.url });
   } catch (err) {
+    console.error("[Checkout] Unexpected error:", err);
     return res.status(500).json({
       error: "Failed to create checkout session",
       message: err?.message ? err.message : "Unknown error",
