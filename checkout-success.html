@@ -22,7 +22,7 @@
 
     .box {
       width: 100%;
-      max-width: 560px;
+      max-width: 760px;
       padding: 40px 26px;
       border-radius: 16px;
       border: 1px solid #222;
@@ -59,13 +59,14 @@
       display: block;
       margin-top: 14px;
       font-size: 14px;
+      color: rgba(255,255,255,0.85);
     }
 
     input, select {
       width: 100%;
       margin-top: 6px;
       padding: 10px;
-      border-radius: 8px;
+      border-radius: 10px;
       border: 1px solid #333;
       background: #0b0b0b;
       color: #fff;
@@ -102,8 +103,13 @@
       border: none;
       background: #d4af37;
       color: #000;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
+    }
+
+    button[disabled]{
+      opacity: 0.65;
+      cursor: not-allowed;
     }
 
     .actions {
@@ -118,10 +124,7 @@
       padding: 10px 16px;
       border-radius: 10px;
       text-decoration: none;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      font-weight: 700;
     }
 
     .btn-main {
@@ -139,78 +142,43 @@
       display: none !important;
     }
 
-    /* ===== Modal PDF (visualização dentro do site) ===== */
-    .modal-bg{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,0.85);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:5000;
-      padding:18px;
-      box-sizing:border-box;
-    }
-    .modal-bg.active{ display:flex; }
-
-    .modal{
-      width:100%;
-      max-width: 980px;
-      border:1px solid #222;
-      background:#111;
-      border-radius:16px;
-      overflow:hidden;
-      text-align:left;
-    }
-    .modal-top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:14px 16px;
-      border-bottom:1px solid #222;
-    }
-    .modal-title{
-      color:#d4af37;
-      font-weight:700;
-      font-size:14px;
-      letter-spacing:0.2px;
-    }
-    .modal-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-    .modal-actions a, .modal-actions button{
-      padding:9px 12px;
-      border-radius:10px;
-      font-weight:700;
-      cursor:pointer;
-      border:none;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      background:#d4af37;
-      color:#000;
-    }
-    .modal-actions .ghost{
-      background:transparent;
-      border:1px solid rgba(212,175,55,0.4);
-      color:#d4af37;
-    }
-    .pdf-frame{
-      width:100%;
-      height: 76vh;
-      border:none;
-      background:#000;
-      display:block;
+    /* Viewer */
+    .viewer {
+      display: none;
+      margin-top: 18px;
+      text-align: left;
     }
 
-    @media (max-width: 560px){
-      .row{ flex-direction: column; }
-      .pdf-frame{ height: 72vh; }
+    .viewer-top {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .viewer-btn {
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      border: 1px solid rgba(212,175,55,0.35);
+      color: #d4af37;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .viewer-btn.main{
+      background: #d4af37;
+      color: #000;
+      border: none;
+    }
+
+    iframe {
+      width: 100%;
+      height: 75vh;
+      border: 1px solid #222;
+      border-radius: 12px;
+      background: #000;
     }
   </style>
 </head>
@@ -226,6 +194,16 @@
     <p class="muted" id="status">
       Aguarde alguns instantes.
     </p>
+
+    <!-- VIEWER (abre PDF dentro do site) -->
+    <div class="viewer" id="viewer">
+      <div class="viewer-top">
+        <button class="viewer-btn main" id="btnBack">Voltar ao site</button>
+        <button class="viewer-btn" id="btnOpenNew">Abrir em nova aba</button>
+        <a class="viewer-btn" href="mailto:curadoriaelitetravel@gmail.com">Contato</a>
+      </div>
+      <iframe id="pdfFrame" src=""></iframe>
+    </div>
 
     <!-- FORMULÁRIO NOTA FISCAL -->
     <form id="invoiceForm">
@@ -305,7 +283,7 @@
         </div>
         <div>
           <label>Complemento</label>
-          <input id="complement" placeholder="Apto, casa, bloco (opcional)" />
+          <input id="complement" placeholder="Apartamento, bloco, etc. (opcional)" />
         </div>
       </div>
 
@@ -314,31 +292,12 @@
 
     <div class="actions" id="actions">
       <a href="/" class="btn-main">Voltar ao site</a>
-      <a href="account.html" class="btn-ghost">Minha conta</a>
       <a href="mailto:curadoriaelitetravel@gmail.com" class="btn-ghost">Contato</a>
-    </div>
-  </div>
-
-  <!-- MODAL PDF -->
-  <div class="modal-bg" id="pdfModal">
-    <div class="modal">
-      <div class="modal-top">
-        <div class="modal-title" id="pdfModalTitle">Seu material</div>
-        <div class="modal-actions">
-          <a class="ghost" href="account.html">Minha conta</a>
-          <a class="ghost" href="/">Voltar ao site</a>
-          <button class="ghost" id="btnClosePdf" type="button">Fechar</button>
-        </div>
-      </div>
-      <iframe class="pdf-frame" id="pdfFrame" src=""></iframe>
     </div>
   </div>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
-/* =========================
-   SUPABASE (mesmo projeto)
-========================= */
 const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
@@ -356,33 +315,24 @@ async function getAccessToken(){
   return (data && data.session && data.session.access_token) ? data.session.access_token : null;
 }
 
-/* =========================
-   Modal PDF
-========================= */
-function openPdfModal(pdfUrl, titleText){
-  const bg = document.getElementById("pdfModal");
-  const frame = document.getElementById("pdfFrame");
-  const title = document.getElementById("pdfModalTitle");
-  if (title) title.innerText = titleText || "Seu material";
-  if (frame) frame.src = pdfUrl;
-  if (bg) bg.classList.add("active");
+function showActionsError(){
+  document.getElementById("actions").style.display = "flex";
 }
 
-function closePdfModal(){
-  const bg = document.getElementById("pdfModal");
+function showViewer(pdfUrl){
+  document.getElementById("title").innerText = "Seu material foi liberado";
+  document.getElementById("subtitle").innerText = "Você pode visualizar abaixo.";
+  document.getElementById("status").style.display = "none";
+
+  const viewer = document.getElementById("viewer");
   const frame = document.getElementById("pdfFrame");
-  if (bg) bg.classList.remove("active");
-  if (frame) frame.src = "";
+  viewer.style.display = "block";
+  frame.src = pdfUrl;
+
+  document.getElementById("btnBack").onclick = () => window.location.href = "index.html";
+  document.getElementById("btnOpenNew").onclick = () => window.open(pdfUrl, "_blank", "noopener,noreferrer");
 }
 
-document.getElementById("btnClosePdf").addEventListener("click", closePdfModal);
-document.getElementById("pdfModal").addEventListener("click", (e) => {
-  if (e.target && e.target.id === "pdfModal") closePdfModal();
-});
-
-/* =========================
-   INIT
-========================= */
 async function init() {
   const params = new URLSearchParams(window.location.search);
 
@@ -392,7 +342,6 @@ async function init() {
   const city = params.get("city");
 
   if (step === "invoice" && category && city) {
-    // exige login aqui também
     const token = await getAccessToken();
     if (!token) {
       document.getElementById("title").innerText = "Acesso à conta";
@@ -413,7 +362,6 @@ async function init() {
       return;
     }
 
-    // mostra formulário NF
     document.getElementById("title").innerText = "Dados para Nota Fiscal";
     document.getElementById("subtitle").innerText = "Precisamos dessas informações antes do pagamento.";
     document.getElementById("status").style.display = "none";
@@ -432,71 +380,54 @@ async function init() {
     document.getElementById("title").innerText = "Acesso";
     document.getElementById("subtitle").innerText = "Não encontramos a sessão de pagamento.";
     document.getElementById("status").innerText = "Volte ao site e tente novamente.";
-    document.getElementById("actions").style.display = "flex";
+    showActionsError();
     return;
   }
 
-  // ✅ EXIGIR LOGIN AQUI TAMBÉM (pois get-pdf-from-session exige token)
+  // ✅ EXIGE LOGIN para liberar material (segurança e para salvar acesso vitalício)
   const token = await getAccessToken();
   if (!token) {
     document.getElementById("title").innerText = "Acesso à conta";
-    document.getElementById("subtitle").innerText = "Para liberar seu material, é necessário entrar na sua conta.";
+    document.getElementById("subtitle").innerText = "Para liberar seu material, faça login.";
     document.getElementById("status").innerText = "Você será direcionado para o login.";
-    document.getElementById("actions").style.display = "none";
+    document.getElementById("status").style.display = "block";
 
     const returnTo = "checkout-success.html?session_id=" + encodeURIComponent(sessionId);
     setTimeout(() => {
       window.location.href = "login.html?return_to=" + encodeURIComponent(returnTo);
     }, 700);
-
     return;
   }
 
-  liberarPDF(sessionId, token);
+  await liberarPDF(sessionId, token);
 }
 
-/* =========================
-   LIBERA PDF (pós-pagamento)
-   ✅ AGORA envia Authorization Bearer
-   ✅ e abre dentro do site (modal)
-========================= */
 async function liberarPDF(sessionId, token) {
   try{
     const res = await fetch("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId), {
-      method: "GET",
-      headers: {
-        "Authorization": "Bearer " + token
-      }
+      headers: { "Authorization": "Bearer " + token }
     });
 
     const data = await res.json().catch(() => null);
 
     if (res.ok && data?.pdf_url) {
-      document.getElementById("title").innerText = "Material liberado";
-      document.getElementById("subtitle").innerText = "Seu material já está disponível para visualização.";
-      document.getElementById("status").innerText = "Você pode fechar esta janela quando desejar.";
-      document.getElementById("actions").style.display = "flex";
-
-      const label = (data?.city ? data.city : "Seu material");
-      openPdfModal(data.pdf_url, label);
+      showViewer(data.pdf_url);
       return;
     }
 
     document.getElementById("title").innerText = "Pagamento";
     document.getElementById("subtitle").innerText = "Não conseguimos liberar seu material.";
     document.getElementById("status").innerText = "Se precisar, fale com nosso contato.";
-    document.getElementById("actions").style.display = "flex";
+    showActionsError();
   }catch(e){
     document.getElementById("title").innerText = "Pagamento";
     document.getElementById("subtitle").innerText = "Não conseguimos liberar seu material.";
     document.getElementById("status").innerText = "Se precisar, fale com nosso contato.";
-    document.getElementById("actions").style.display = "flex";
+    showActionsError();
   }
 }
 
-/* =========================
-   UFs / Cidades
-========================= */
+// UFs / Cidades
 async function loadUFs() {
   const res = await fetch("/api/br-cities");
   const data = await res.json();
@@ -517,9 +448,7 @@ async function loadCities() {
 }
 document.getElementById("uf").addEventListener("change", loadCities);
 
-/* =========================
-   CPF / CNPJ: UI CONDICIONAL
-========================= */
+// CPF / CNPJ: UI
 function applyPersonTypeUI() {
   const personType = document.getElementById("person_type").value;
   const isCPF = personType === "CPF";
@@ -551,7 +480,6 @@ function applyPersonTypeUI() {
 function toggleIE() {
   const isento = document.getElementById("ie_isento").checked;
   const ieInput = document.getElementById("ie");
-
   if (isento) {
     ieInput.value = "";
     ieInput.disabled = true;
@@ -560,16 +488,13 @@ function toggleIE() {
     ieInput.focus();
   }
 }
-
 document.getElementById("person_type").addEventListener("change", () => {
   applyPersonTypeUI();
   applyDocMask();
 });
 document.getElementById("ie_isento").addEventListener("change", toggleIE);
 
-/* =========================
-   MÁSCARA CPF / CNPJ
-========================= */
+// Máscara CPF/CNPJ
 function onlyDigits(v) { return String(v || "").replace(/\D+/g, ""); }
 
 function formatCPF(digits) {
@@ -579,7 +504,6 @@ function formatCPF(digits) {
     .replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
     .replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})$/, "$1.$2.$3-$4");
 }
-
 function formatCNPJ(digits) {
   const d = digits.slice(0, 14);
   return d
@@ -588,7 +512,6 @@ function formatCNPJ(digits) {
     .replace(/^(\d{2})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3/$4")
     .replace(/^(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d{1,2})$/, "$1.$2.$3/$4-$5");
 }
-
 function applyDocMask() {
   const personType = document.getElementById("person_type").value;
   const input = document.getElementById("doc_number");
@@ -604,9 +527,7 @@ function applyDocMask() {
 }
 document.getElementById("doc_number").addEventListener("input", applyDocMask);
 
-/* =========================
-   SUBMIT (salva NF e vai pro Stripe)
-========================= */
+// Submit NF -> Stripe
 document.getElementById("invoiceForm").addEventListener("submit", async e => {
   e.preventDefault();
 
@@ -626,17 +547,14 @@ document.getElementById("invoiceForm").addEventListener("submit", async e => {
     person_type: personType,
     doc_number: onlyDigits(doc_number.value),
 
-    // CPF:
     full_name: personType === "CPF" ? full_name.value : "",
     gender: personType === "CPF" ? (gender.value || null) : null,
     birth_date: personType === "CPF" ? (birth_date.value || null) : null,
 
-    // CNPJ:
     corporate_name: personType === "CNPJ" ? corporate_name.value : "",
     ie_isento: personType === "CNPJ" ? ie_isento.checked : true,
     ie: personType === "CNPJ" ? (ie.value || null) : null,
 
-    // Endereço:
     uf: uf.value,
     city_name: city_name.value,
     cep: onlyDigits(cep.value),
@@ -649,7 +567,6 @@ document.getElementById("invoiceForm").addEventListener("submit", async e => {
   document.getElementById("btnSubmit").disabled = true;
   document.getElementById("btnSubmit").innerText = "Salvando...";
 
-  // 1) salva NF
   const saveRes = await fetch("/api/save-invoice-profile", {
     method: "POST",
     headers: {
@@ -668,7 +585,6 @@ document.getElementById("invoiceForm").addEventListener("submit", async e => {
     return;
   }
 
-  // 2) cria checkout stripe (agora vai passar na validação)
   document.getElementById("btnSubmit").innerText = "Abrindo pagamento...";
 
   const payRes = await fetch("/api/create-checkout-session", {
