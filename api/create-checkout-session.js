@@ -52,13 +52,40 @@ module.exports = async function handler(req, res) {
     if (userErr || !userData?.user?.id) {
       return res.status(200).json({ code: "LOGIN_REQUIRED" });
     }
-
     const userId = userData.user.id;
 
     // =====================================================
+    // 1.5) BLOQUEAR RECOMPRA (se já comprou, não vai pro Stripe)
+    // tabela: purchase (singular)
+    // =====================================================
+    const { data: existingPurchases, error: purchaseErr } = await supabase
+      .from("purchase")
+      .select("pdf_url, category, city")
+      .eq("user_id", userId)
+      .eq("category", String(category))
+      .eq("city", String(city))
+      .limit(1);
+
+    if (purchaseErr) {
+      return res.status(500).json({
+        error: "Failed to check existing purchase",
+        details: purchaseErr.message || String(purchaseErr),
+      });
+    }
+
+    if (Array.isArray(existingPurchases) && existingPurchases.length > 0) {
+      const row = existingPurchases[0];
+      return res.status(200).json({
+        code: "ALREADY_PURCHASED",
+        pdf_url: row.pdf_url || null,
+        category: row.category || String(category),
+        city: row.city || String(city),
+      });
+    }
+
+    // =====================================================
     // 2) EXIGIR NOTA FISCAL ANTES DO STRIPE
-    //    CORREÇÃO: sua tabela NÃO tem coluna "id"
-    //    então checamos existência pelo "user_id"
+    // CORREÇÃO: checa existência pelo "user_id"
     // =====================================================
     const { data: invoiceRow, error: invoiceErr } = await supabase
       .from("invoice_profiles")
