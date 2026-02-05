@@ -31,7 +31,7 @@ module.exports = async function handler(req, res) {
     if (!supabaseUrl) return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
     if (!supabaseServiceKey) return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
 
-    const { category, city } = req.body || {};
+    const { category, city, force_repurchase } = req.body || {};
     if (!category || !city) {
       return res.status(400).json({ error: "Missing category or city" });
     }
@@ -55,8 +55,9 @@ module.exports = async function handler(req, res) {
     const userId = userData.user.id;
 
     // =====================================================
-    // 1.5) BLOQUEAR RECOMPRA (se já comprou, não vai pro Stripe)
-    // tabela: purchase (singular)
+    // 1.5) CHECAR SE JÁ COMPROU (EVITAR RECOMPRA ACIDENTAL)
+    // - Se já comprou e NÃO for "force_repurchase", devolve aviso + pdf_url
+    // - Se for "force_repurchase", segue o fluxo normal
     // =====================================================
     const { data: existingPurchases, error: purchaseErr } = await supabase
       .from("purchase")
@@ -73,8 +74,9 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    if (Array.isArray(existingPurchases) && existingPurchases.length > 0) {
-      const row = existingPurchases[0];
+    const alreadyBought = Array.isArray(existingPurchases) && existingPurchases.length > 0;
+    if (alreadyBought && !force_repurchase) {
+      const row = existingPurchases[0] || {};
       return res.status(200).json({
         code: "ALREADY_PURCHASED",
         pdf_url: row.pdf_url || null,
@@ -85,7 +87,7 @@ module.exports = async function handler(req, res) {
 
     // =====================================================
     // 2) EXIGIR NOTA FISCAL ANTES DO STRIPE
-    // CORREÇÃO: checa existência pelo "user_id"
+    // (checa por user_id)
     // =====================================================
     const { data: invoiceRow, error: invoiceErr } = await supabase
       .from("invoice_profiles")
@@ -131,6 +133,7 @@ module.exports = async function handler(req, res) {
         category: String(category),
         city: String(city),
         user_id: String(userId),
+        repurchase: force_repurchase ? "true" : "false",
       },
     });
 
