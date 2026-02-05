@@ -817,6 +817,7 @@
 
           <div class="popup-actions">
             <button id="popup-prosseguir" style="display:none;">Prosseguir</button>
+            <button id="popup-secondary" class="btn-ghost" style="display:none;">Comprar novamente</button>
             <button class="btn-ghost" id="popup-fechar">Fechar</button>
           </div>
         </div>
@@ -830,7 +831,16 @@
     document.getElementById("popup-fechar").addEventListener("click", closePopup);
   }
 
-  function openPopup({ title="", text="", showProsseguir=false, showRules=false, onProsseguir=null }){
+  function openPopup({
+    title="",
+    text="",
+    showProsseguir=false,
+    showRules=false,
+    onProsseguir=null,
+    prosseguirLabel="Prosseguir",
+    secondaryLabel="",
+    onSecondary=null
+  }){
     ensurePopupExists();
 
     document.getElementById("popup-title").innerText = title;
@@ -842,7 +852,37 @@
     const btn = document.getElementById("popup-prosseguir");
     btn.style.display = showProsseguir ? "inline-block" : "none";
     btn.disabled = false;
-    btn.innerText = "Prosseguir";
+    btn.innerText = prosseguirLabel || "Prosseguir";
+
+    const btn2 = document.getElementById("popup-secondary");
+    if (secondaryLabel && typeof onSecondary === "function"){
+      btn2.style.display = "inline-block";
+      btn2.disabled = false;
+      btn2.innerText = secondaryLabel;
+      btn2.onclick = async () => {
+        try{
+          btn2.disabled = true;
+          btn2.innerText = "Aguarde...";
+          closePopup();
+          await onSecondary();
+        }catch(e){
+          openPopup({
+            title: "Pagamento",
+            text: "Não foi possível prosseguir. Tente novamente.",
+            showProsseguir: false,
+            showRules: false
+          });
+        }finally{
+          try{
+            btn2.disabled = false;
+            btn2.innerText = secondaryLabel;
+          }catch(e){}
+        }
+      };
+    } else {
+      btn2.style.display = "none";
+      btn2.onclick = null;
+    }
 
     const old = document.getElementById("consent-checkbox-wrap");
     if (old) old.remove();
@@ -868,19 +908,13 @@
       });
     }
 
-    // ✅ FIX PRINCIPAL: clique sempre dá feedback e sempre executa onProsseguir
     btn.onclick = null;
     if (showProsseguir && typeof onProsseguir === "function"){
       btn.onclick = async () => {
         try{
-          // estado visual
           btn.disabled = true;
           btn.innerText = "Aguarde...";
-
-          // fecha popup para não parecer travado
           closePopup();
-
-          // roda ação
           await onProsseguir();
         }catch(e){
           openPopup({
@@ -890,10 +924,9 @@
             showRules: false
           });
         }finally{
-          // se a página não mudou (login/stripe), reabilita
           try{
             btn.disabled = false;
-            btn.innerText = "Prosseguir";
+            btn.innerText = prosseguirLabel || "Prosseguir";
           }catch(e){}
         }
       };
@@ -913,6 +946,12 @@
     if (btn){
       btn.disabled = false;
       btn.innerText = "Prosseguir";
+    }
+
+    const btn2 = document.getElementById("popup-secondary");
+    if (btn2){
+      btn2.style.display = "none";
+      btn2.onclick = null;
     }
   }
 
@@ -1105,8 +1144,7 @@
 
   let pendingCheckout = { category:null, city:null };
 
-  async function startCheckout(category, city){
-    // ✅ sempre mostra um feedback claro na tela
+  async function startCheckout(category, city, forceRepurchase){
     openPopup({
       title: "Pagamento",
       text: "Conectando com o pagamento...",
@@ -1137,11 +1175,38 @@
           "Content-Type": "application/json",
           "Authorization": "Bearer " + token
         },
-        body: JSON.stringify({ category, city })
+        body: JSON.stringify({ category, city, force_repurchase: !!forceRepurchase })
       });
 
       let data = null;
       try{ data = await res.json(); }catch(e){}
+
+      // ✅ NOVO: já comprou -> avisa e dá opção
+      if (data && data.code === "ALREADY_PURCHASED"){
+        const pdfUrl = data.pdf_url || null;
+
+        openPopup({
+          title: "Você já tem este material",
+          text: "Este arquivo já consta na sua conta. Para evitar compras duplicadas, você pode abrir agora. Se quiser comprar novamente, confirme abaixo.",
+          showProsseguir: true,
+          prosseguirLabel: "Abrir meu material",
+          showRules: false,
+          onProsseguir: async () => {
+            if (pdfUrl){
+              window.location.href = pdfUrl;
+              return;
+            }
+            // se não tiver pdf_url por algum motivo, tenta seguir fluxo padrão sem forçar
+            await startCheckout(category, city, false);
+          },
+          secondaryLabel: "Comprar novamente",
+          onSecondary: async () => {
+            await startCheckout(category, city, true);
+          }
+        });
+
+        return;
+      }
 
       if (data && data.code === "INVOICE_REQUIRED"){
         savePendingCheckout(category, city);
@@ -1185,7 +1250,6 @@
         return;
       }
 
-      // ✅ aqui ele vai para Stripe
       window.location.href = data.url;
 
     } catch(e){
@@ -1200,7 +1264,7 @@
 
   async function proceedCheckout(){
     if (!pendingCheckout.category || !pendingCheckout.city) return;
-    await startCheckout(pendingCheckout.category, pendingCheckout.city);
+    await startCheckout(pendingCheckout.category, pendingCheckout.city, false);
   }
 
   const BATCH_SIZE = 8;
