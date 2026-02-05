@@ -619,6 +619,10 @@
     <a onclick="showSection('quem')">Quem Somos</a>
     <a onclick="showSection('curadoria')">Curadoria</a>
     <a onclick="showSection('buscador')">Buscador</a>
+
+    <!-- ✅ NOVO -->
+    <a id="nav-account" onclick="goAccount()">Minha Conta</a>
+    <a id="nav-logout" onclick="doLogout()" style="display:none;">Sair</a>
   </nav>
 </header>
 
@@ -817,7 +821,6 @@
 
           <div class="popup-actions">
             <button id="popup-prosseguir" style="display:none;">Prosseguir</button>
-            <button id="popup-secondary" class="btn-ghost" style="display:none;">Comprar novamente</button>
             <button class="btn-ghost" id="popup-fechar">Fechar</button>
           </div>
         </div>
@@ -831,16 +834,7 @@
     document.getElementById("popup-fechar").addEventListener("click", closePopup);
   }
 
-  function openPopup({
-    title="",
-    text="",
-    showProsseguir=false,
-    showRules=false,
-    onProsseguir=null,
-    prosseguirLabel="Prosseguir",
-    secondaryLabel="",
-    onSecondary=null
-  }){
+  function openPopup({ title="", text="", showProsseguir=false, showRules=false, onProsseguir=null }){
     ensurePopupExists();
 
     document.getElementById("popup-title").innerText = title;
@@ -852,37 +846,7 @@
     const btn = document.getElementById("popup-prosseguir");
     btn.style.display = showProsseguir ? "inline-block" : "none";
     btn.disabled = false;
-    btn.innerText = prosseguirLabel || "Prosseguir";
-
-    const btn2 = document.getElementById("popup-secondary");
-    if (secondaryLabel && typeof onSecondary === "function"){
-      btn2.style.display = "inline-block";
-      btn2.disabled = false;
-      btn2.innerText = secondaryLabel;
-      btn2.onclick = async () => {
-        try{
-          btn2.disabled = true;
-          btn2.innerText = "Aguarde...";
-          closePopup();
-          await onSecondary();
-        }catch(e){
-          openPopup({
-            title: "Pagamento",
-            text: "Não foi possível prosseguir. Tente novamente.",
-            showProsseguir: false,
-            showRules: false
-          });
-        }finally{
-          try{
-            btn2.disabled = false;
-            btn2.innerText = secondaryLabel;
-          }catch(e){}
-        }
-      };
-    } else {
-      btn2.style.display = "none";
-      btn2.onclick = null;
-    }
+    btn.innerText = "Prosseguir";
 
     const old = document.getElementById("consent-checkbox-wrap");
     if (old) old.remove();
@@ -926,7 +890,7 @@
         }finally{
           try{
             btn.disabled = false;
-            btn.innerText = prosseguirLabel || "Prosseguir";
+            btn.innerText = "Prosseguir";
           }catch(e){}
         }
       };
@@ -947,16 +911,9 @@
       btn.disabled = false;
       btn.innerText = "Prosseguir";
     }
-
-    const btn2 = document.getElementById("popup-secondary");
-    if (btn2){
-      btn2.style.display = "none";
-      btn2.onclick = null;
-    }
   }
 
   function openOverview(){
-    // (vamos mudar para popup depois que o pagamento estiver 100%)
     window.location.href = "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf";
   }
 
@@ -1035,6 +992,43 @@
     if (!sb) return null;
     const { data } = await sb.auth.getSession();
     return (data && data.session && data.session.access_token) ? data.session.access_token : null;
+  }
+
+  // ✅ NOVO: Minha Conta + Sair
+  async function updateAuthNav(){
+    try{
+      const sb = ensureSupabase();
+      if (!sb) return;
+
+      const { data } = await sb.auth.getSession();
+      const logged = !!(data && data.session);
+
+      const logoutEl = document.getElementById("nav-logout");
+      if (logoutEl) logoutEl.style.display = logged ? "inline" : "none";
+    }catch(e){}
+  }
+
+  async function goAccount(){
+    try{
+      const token = await getAccessToken();
+      if (!token){
+        window.location.href = "login.html?return_to=" + encodeURIComponent("account.html");
+        return;
+      }
+      window.location.href = "account.html";
+    }catch(e){
+      window.location.href = "login.html?return_to=" + encodeURIComponent("account.html");
+    }
+  }
+
+  async function doLogout(){
+    try{
+      const sb = ensureSupabase();
+      if (!sb) return;
+      await sb.auth.signOut();
+    }catch(e){}
+    showSection("inicio");
+    updateAuthNav();
   }
 
   function savePendingCheckout(category, city){
@@ -1144,7 +1138,7 @@
 
   let pendingCheckout = { category:null, city:null };
 
-  async function startCheckout(category, city, forceRepurchase){
+  async function startCheckout(category, city){
     openPopup({
       title: "Pagamento",
       text: "Conectando com o pagamento...",
@@ -1175,38 +1169,11 @@
           "Content-Type": "application/json",
           "Authorization": "Bearer " + token
         },
-        body: JSON.stringify({ category, city, force_repurchase: !!forceRepurchase })
+        body: JSON.stringify({ category, city })
       });
 
       let data = null;
       try{ data = await res.json(); }catch(e){}
-
-      // ✅ NOVO: já comprou -> avisa e dá opção
-      if (data && data.code === "ALREADY_PURCHASED"){
-        const pdfUrl = data.pdf_url || null;
-
-        openPopup({
-          title: "Você já tem este material",
-          text: "Este arquivo já consta na sua conta. Para evitar compras duplicadas, você pode abrir agora. Se quiser comprar novamente, confirme abaixo.",
-          showProsseguir: true,
-          prosseguirLabel: "Abrir meu material",
-          showRules: false,
-          onProsseguir: async () => {
-            if (pdfUrl){
-              window.location.href = pdfUrl;
-              return;
-            }
-            // se não tiver pdf_url por algum motivo, tenta seguir fluxo padrão sem forçar
-            await startCheckout(category, city, false);
-          },
-          secondaryLabel: "Comprar novamente",
-          onSecondary: async () => {
-            await startCheckout(category, city, true);
-          }
-        });
-
-        return;
-      }
 
       if (data && data.code === "INVOICE_REQUIRED"){
         savePendingCheckout(category, city);
@@ -1264,7 +1231,7 @@
 
   async function proceedCheckout(){
     if (!pendingCheckout.category || !pendingCheckout.city) return;
-    await startCheckout(pendingCheckout.category, pendingCheckout.city, false);
+    await startCheckout(pendingCheckout.category, pendingCheckout.city);
   }
 
   const BATCH_SIZE = 8;
@@ -1420,8 +1387,16 @@
     });
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", async () => {
     ensureSupabase();
+    await updateAuthNav();
+
+    try{
+      supabaseClient.auth.onAuthStateChange(() => {
+        updateAuthNav();
+      });
+    }catch(e){}
+
     loadActiveMaterials();
   });
 </script>
