@@ -620,7 +620,6 @@
     <a onclick="showSection('curadoria')">Curadoria</a>
     <a onclick="showSection('buscador')">Buscador</a>
 
-    <!-- ✅ NOVO -->
     <a id="nav-account" onclick="goAccount()">Minha Conta</a>
     <a id="nav-logout" onclick="doLogout()" style="display:none;">Sair</a>
   </nav>
@@ -801,6 +800,9 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  /* =========================
+     POPUP
+  ========================= */
   function ensurePopupExists(){
     if (document.getElementById("popup")) return;
 
@@ -819,7 +821,7 @@
             Ao adquirir nossos materiais, o usuário declara estar ciente e de acordo com essas condições.
           </div>
 
-          <div class="popup-actions">
+          <div class="popup-actions" id="popup-actions">
             <button id="popup-prosseguir" style="display:none;">Prosseguir</button>
             <button class="btn-ghost" id="popup-fechar">Fechar</button>
           </div>
@@ -834,8 +836,15 @@
     document.getElementById("popup-fechar").addEventListener("click", closePopup);
   }
 
+  function clearPopupExtraButtons(){
+    const actions = document.getElementById("popup-actions");
+    if (!actions) return;
+    actions.querySelectorAll("[data-extra='1']").forEach(el => el.remove());
+  }
+
   function openPopup({ title="", text="", showProsseguir=false, showRules=false, onProsseguir=null }){
     ensurePopupExists();
+    clearPopupExtraButtons();
 
     document.getElementById("popup-title").innerText = title;
     document.getElementById("popup-text").innerText = text;
@@ -913,10 +922,94 @@
     }
   }
 
+  /* =========================
+     SUPABASE
+  ========================= */
+  const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
+
+  let supabaseClient = null;
+
+  function ensureSupabase(){
+    if (supabaseClient) return supabaseClient;
+    if (!window.supabase) return null;
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    return supabaseClient;
+  }
+
+  async function getAccessToken(){
+    const sb = ensureSupabase();
+    if (!sb) return null;
+    const { data } = await sb.auth.getSession();
+    return (data && data.session && data.session.access_token) ? data.session.access_token : null;
+  }
+
+  function normalizeKeyPart(str){
+    return String(str || "")
+      .trim()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[—–−]/g, "-")
+      .replace(/\s*-\s*/g, " - ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function materialKey(category, cityLabel){
+    return normalizeKeyPart(category) + "||" + normalizeKeyPart(cityLabel);
+  }
+
+  /* =========================
+     NAV: Minha Conta + Sair
+  ========================= */
+  async function updateAuthNav(){
+    try{
+      const sb = ensureSupabase();
+      if (!sb) return;
+
+      const { data } = await sb.auth.getSession();
+      const logged = !!(data && data.session);
+
+      const logoutEl = document.getElementById("nav-logout");
+      if (logoutEl) logoutEl.style.display = logged ? "inline" : "none";
+    }catch(e){}
+  }
+
+  async function goAccount(){
+    try{
+      const token = await getAccessToken();
+      if (!token){
+        window.location.href = "login.html?return_to=" + encodeURIComponent("account.html");
+        return;
+      }
+      window.location.href = "account.html";
+    }catch(e){
+      window.location.href = "login.html?return_to=" + encodeURIComponent("account.html");
+    }
+  }
+
+  async function doLogout(){
+    try{
+      const sb = ensureSupabase();
+      if (!sb) return;
+      await sb.auth.signOut();
+    }catch(e){}
+    showSection("inicio");
+    await updateAuthNav();
+    await loadPurchasesForLoggedUser(); // limpa compras
+  }
+
+  /* =========================
+     Overview
+  ========================= */
   function openOverview(){
     window.location.href = "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf";
   }
 
+  /* =========================
+     DATA CIDADES
+  ========================= */
   const curadoriaData = {
     "City Guide": [
       { cidade: "São Paulo - Brasil" },
@@ -975,82 +1068,9 @@
     ]
   };
 
-  const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
-
-  let supabaseClient = null;
-
-  function ensureSupabase(){
-    if (supabaseClient) return supabaseClient;
-    if (!window.supabase) return null;
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    return supabaseClient;
-  }
-
-  async function getAccessToken(){
-    const sb = ensureSupabase();
-    if (!sb) return null;
-    const { data } = await sb.auth.getSession();
-    return (data && data.session && data.session.access_token) ? data.session.access_token : null;
-  }
-
-  // ✅ NOVO: Minha Conta + Sair
-  async function updateAuthNav(){
-    try{
-      const sb = ensureSupabase();
-      if (!sb) return;
-
-      const { data } = await sb.auth.getSession();
-      const logged = !!(data && data.session);
-
-      const logoutEl = document.getElementById("nav-logout");
-      if (logoutEl) logoutEl.style.display = logged ? "inline" : "none";
-    }catch(e){}
-  }
-
-  async function goAccount(){
-    try{
-      const token = await getAccessToken();
-      if (!token){
-        window.location.href = "login.html?return_to=" + encodeURIComponent("account.html");
-        return;
-      }
-      window.location.href = "account.html";
-    }catch(e){
-      window.location.href = "login.html?return_to=" + encodeURIComponent("account.html");
-    }
-  }
-
-  async function doLogout(){
-    try{
-      const sb = ensureSupabase();
-      if (!sb) return;
-      await sb.auth.signOut();
-    }catch(e){}
-    showSection("inicio");
-    updateAuthNav();
-  }
-
-  function savePendingCheckout(category, city){
-    try{
-      localStorage.setItem("pending_checkout", JSON.stringify({ category, city, at: Date.now() }));
-    }catch(e){}
-  }
-
-  function readPendingCheckout(){
-    try{
-      const raw = localStorage.getItem("pending_checkout");
-      if (!raw) return null;
-      return JSON.parse(raw);
-    }catch(e){
-      return null;
-    }
-  }
-
-  function clearPendingCheckout(){
-    try{ localStorage.removeItem("pending_checkout"); }catch(e){}
-  }
-
+  /* =========================
+     MAPA DE MATERIAIS ATIVOS
+  ========================= */
   const activeMaterialsMap = new Map();
 
   function setAdminStatus(text, ok){
@@ -1061,25 +1081,13 @@
     el.classList.add(ok ? "ok" : "muted");
   }
 
-  function normalizeKeyPart(str){
-    const s = String(str || "")
-      .trim()
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[—–−]/g, "-")
-      .replace(/\s*-\s*/g, " - ")
-      .replace(/\s+/g, " ")
-      .trim();
-    return s;
-  }
-
-  function materialKey(category, cityLabel){
-    return normalizeKeyPart(category) + "||" + normalizeKeyPart(cityLabel);
-  }
-
   function hasActiveMaterial(category, cityLabel){
     return activeMaterialsMap.has(materialKey(category, cityLabel));
+  }
+
+  function getActivePdfUrl(category, cityLabel){
+    const x = activeMaterialsMap.get(materialKey(category, cityLabel));
+    return x && x.pdf_url ? x.pdf_url : null;
   }
 
   async function loadActiveMaterials(){
@@ -1105,14 +1113,80 @@
 
       (data || []).forEach(row => {
         const key = materialKey(row.category || "", row.city_label || "");
-        activeMaterialsMap.set(key, { pdf_url: row.pdf_url });
+        activeMaterialsMap.set(key, { pdf_url: row.pdf_url || null });
       });
 
       setAdminStatus("Admin: conectado", true);
-      await maybeResumePendingCheckout();
-    } catch(e){
+    }catch(e){
       setAdminStatus("Admin: falha na conexão", false);
     }
+  }
+
+  /* =========================
+     MAPA DE COMPRAS DO USUÁRIO
+     (para o aviso "já tem este material")
+  ========================= */
+  const purchasedMap = new Map();
+
+  function hasPurchase(category, cityLabel){
+    return purchasedMap.has(materialKey(category, cityLabel));
+  }
+
+  function getPurchasedPdfUrl(category, cityLabel){
+    const x = purchasedMap.get(materialKey(category, cityLabel));
+    return x && x.pdf_url ? x.pdf_url : null;
+  }
+
+  async function loadPurchasesForLoggedUser(){
+    purchasedMap.clear();
+
+    try{
+      ensureSupabase();
+      const token = await getAccessToken();
+      if (!token) return; // deslogado -> não dá para saber compras
+
+      // pega user id pela própria sessão do cliente
+      const { data: sessionData } = await supabaseClient.auth.getSession();
+      const userId = sessionData && sessionData.session && sessionData.session.user ? sessionData.session.user.id : null;
+      if (!userId) return;
+
+      // consulta compras desse usuário
+      const { data, error } = await supabaseClient
+        .from("purchase")
+        .select("category, city, pdf_url, stripe_session_id")
+        .eq("user_id", userId)
+        .limit(2000);
+
+      if (error) return;
+
+      (data || []).forEach(row => {
+        const key = materialKey(row.category || "", row.city || "");
+        purchasedMap.set(key, { pdf_url: row.pdf_url || null });
+      });
+    }catch(e){}
+  }
+
+  /* =========================
+     CHECKOUT
+  ========================= */
+  function savePendingCheckout(category, city){
+    try{
+      localStorage.setItem("pending_checkout", JSON.stringify({ category, city, at: Date.now() }));
+    }catch(e){}
+  }
+
+  function readPendingCheckout(){
+    try{
+      const raw = localStorage.getItem("pending_checkout");
+      if (!raw) return null;
+      return JSON.parse(raw);
+    }catch(e){
+      return null;
+    }
+  }
+
+  function clearPendingCheckout(){
+    try{ localStorage.removeItem("pending_checkout"); }catch(e){}
   }
 
   async function maybeResumePendingCheckout(){
@@ -1234,6 +1308,9 @@
     await startCheckout(pendingCheckout.category, pendingCheckout.city);
   }
 
+  /* =========================
+     CURADORIA UI
+  ========================= */
   const BATCH_SIZE = 8;
   let currentCategory = null;
   let filteredCities = [];
@@ -1357,6 +1434,9 @@
     }
   }
 
+  /* =========================
+     MODAL DE CIDADE (com aviso de compra duplicada)
+  ========================= */
   function openCityModal(category, city){
     const isAvailable = hasActiveMaterial(category, city);
 
@@ -1378,6 +1458,48 @@
       return;
     }
 
+    // ✅ se estiver logado e já tiver comprado → mostra aviso
+    const alreadyHas = hasPurchase(category, city);
+    if (alreadyHas){
+      ensurePopupExists();
+      clearPopupExtraButtons();
+
+      openPopup({
+        title: "Você já tem este material",
+        text: "Este arquivo já consta na sua conta. Para evitar compras duplicadas, você pode abrir agora. Se quiser comprar novamente, confirme abaixo.",
+        showProsseguir: true,     // vamos usar como "Comprar novamente"
+        showRules: false,
+        onProsseguir: proceedCheckout
+      });
+
+      // Ajusta texto do botão principal (Prosseguir) para "Comprar novamente"
+      const btnMain = document.getElementById("popup-prosseguir");
+      if (btnMain){
+        btnMain.innerText = "Comprar novamente";
+      }
+
+      // Adiciona botão extra "Abrir agora"
+      const actions = document.getElementById("popup-actions");
+      const btnOpen = document.createElement("button");
+      btnOpen.setAttribute("data-extra","1");
+      btnOpen.className = "btn-ghost";
+      btnOpen.innerText = "Abrir agora";
+      btnOpen.onclick = () => {
+        closePopup();
+        const pdf = getPurchasedPdfUrl(category, city) || getActivePdfUrl(category, city);
+        if (pdf) window.location.href = pdf;
+      };
+
+      // Coloca o "Abrir agora" antes do Fechar
+      const fechar = document.getElementById("popup-fechar");
+      if (actions && fechar){
+        actions.insertBefore(btnOpen, fechar);
+      }
+
+      return;
+    }
+
+    // fluxo normal (ainda não comprou)
     openPopup({
       title: city,
       text: msg,
@@ -1387,17 +1509,23 @@
     });
   }
 
+  /* =========================
+     INIT
+  ========================= */
   document.addEventListener("DOMContentLoaded", async () => {
     ensureSupabase();
+
     await updateAuthNav();
+    await loadActiveMaterials();
+    await loadPurchasesForLoggedUser();
+    await maybeResumePendingCheckout();
 
     try{
-      supabaseClient.auth.onAuthStateChange(() => {
-        updateAuthNav();
+      supabaseClient.auth.onAuthStateChange(async () => {
+        await updateAuthNav();
+        await loadPurchasesForLoggedUser();
       });
     }catch(e){}
-
-    loadActiveMaterials();
   });
 </script>
 
