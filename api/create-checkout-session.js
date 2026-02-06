@@ -9,6 +9,14 @@ function getBearerToken(req) {
   return "";
 }
 
+function normalizeCategory(cat) {
+  return String(cat || "").trim().toLowerCase();
+}
+
+function safeString(v) {
+  return String(v || "").trim();
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
@@ -31,12 +39,42 @@ module.exports = async function handler(req, res) {
     if (!supabaseUrl) return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
     if (!supabaseServiceKey) return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
 
-    const { category, city } = req.body || {};
-    if (!category || !city) {
-      return res.status(400).json({ error: "Missing category or city" });
+    // =====================================================
+    // 0) Ler body (compatível com antigo e novo)
+    // Novo: { items: [{ category, city }, ...] }
+    // Antigo: { category, city }
+    // =====================================================
+    const body = req.body || {};
+    let items = [];
+
+    if (Array.isArray(body.items) && body.items.length > 0) {
+      items = body.items;
+    } else {
+      const category = body.category;
+      const city = body.city;
+      if (category && city) items = [{ category, city }];
     }
 
+    // validação
+    items = items
+      .map((it) => ({
+        category: safeString(it?.category),
+        city: safeString(it?.city),
+      }))
+      .filter((it) => it.category && it.city);
+
+    if (items.length === 0) {
+      return res.status(400).json({ error: "Missing items (category/city)" });
+    }
+
+    // limite de segurança
+    if (items.length > 12) {
+      return res.status(400).json({ error: "Too many items in cart (max 12)" });
+    }
+
+    // =====================================================
     // 1) EXIGIR LOGIN
+    // =====================================================
     const token = getBearerToken(req);
     if (!token) {
       return res.status(200).json({ code: "LOGIN_REQUIRED" });
@@ -47,17 +85,22 @@ module.exports = async function handler(req, res) {
     });
 
     const { data: userData, error: userErr } = await supabase.auth.getUser(token);
+
     if (userErr || !userData?.user?.id) {
       return res.status(200).json({ code: "LOGIN_REQUIRED" });
     }
+
     const userId = userData.user.id;
 
+    // =====================================================
     // 2) EXIGIR NOTA FISCAL ANTES DO STRIPE
-    //    NÃO depende de coluna "id". Só verifica se existe algum registro do user_id.
+    // OBS: NÃO usa column "id" pois no seu banco pode não existir.
+    // =====================================================
     async function tryInvoiceTable(tableName) {
+      // usa coluna user_id (que com certeza existe, porque filtramos por ela)
       const { data, error } = await supabase
         .from(tableName)
-        .select("user_id") // <- aqui é o FIX (não usa id)
+        .select("user_id")
         .eq("user_id", userId)
         .limit(1)
         .maybeSingle();
@@ -103,11 +146,16 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ code: "INVOICE_REQUIRED" });
     }
 
-    // 3) CRIAR CHECKOUT STRIPE
+    // =====================================================
+    // 3) CRIAR CHECKOUT STRIPE (multi-itens)
+    // =====================================================
     const stripe = new Stripe(secretKey);
 
-    const isCityGuide = String(category).trim().toLowerCase() === "city guide";
-    const priceId = isCityGuide ? priceCityGuide : priceDefault;
+    const line_items = items.map((it) => {
+      const isCityGuide = normalizeCategory(it.category) === "city guide";
+      const priceId = isCityGuide ? priceCityGuide : priceDefault;
+      return { price: priceId, quantity: 1 };
+    });
 
     const origin = (req.headers && (req.headers.origin || req.headers.referer)) || "";
     const safeOrigin =
@@ -116,17 +164,26 @@ module.exports = async function handler(req, res) {
         : "https://curadoria-elite-travel.vercel.app";
 
     const successUrl = `${safeOrigin}/checkout-success.html?session_id={CHECKOUT_SESSION_ID}`;
-    const cancelUrl = `${safeOrigin}/index.html?checkout=cancel`;
+    const cancelUrl = `${safeOrigin}/?checkout=cancel`;
+
+    // metadata tem limite — guardamos um “resumo” + json compacto
+    // (para carrinhos pequenos isso funciona bem)
+    const compactItems = items.map((it) => ({
+      c: it.category,
+      t: it.city,
+    }));
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items,
       success_url: successUrl,
       cancel_url: cancelUrl,
       metadata: {
-        category: String(category),
-        city: String(city),
         user_id: String(userId),
+        items_json: JSON.stringify(compactItems).slice(0, 450), // segurança com limite
+        // compatibilidade: caso você ainda use em algum lugar
+        category: String(items[0].category),
+        city: String(items[0].city),
       },
     });
 
