@@ -2,9 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Confirmando pagamento | Curadoria Elite Travel</title>
+  <title>Minha conta | Curadoria Elite Travel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <meta name="robots" content="noindex,nofollow" />
 
   <style>
@@ -13,17 +12,17 @@
       font-family:"Segoe UI",sans-serif;
       background:#0b0b0b;
       color:#fff;
+      min-height:100vh;
       display:flex;
       align-items:center;
       justify-content:center;
-      min-height:100vh;
-      text-align:center;
       padding:18px;
       box-sizing:border-box;
+      text-align:center;
     }
 
     .box{
-      width: min(980px, 100%);
+      width:min(980px,100%);
       padding:26px 18px;
       border-radius:16px;
       border:1px solid #222;
@@ -83,6 +82,71 @@
       color:#d4af37;
     }
 
+    /* ====== NF FORM ====== */
+    form{
+      margin-top:18px;
+      text-align:left;
+      display:none;
+      max-width:720px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    label{
+      display:block;
+      margin-top:14px;
+      font-size:14px;
+      color:rgba(255,255,255,0.9);
+    }
+
+    input, select{
+      width:100%;
+      margin-top:6px;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid #333;
+      background:#0b0b0b;
+      color:#fff;
+      box-sizing:border-box;
+      outline:none;
+    }
+
+    .row{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .row > div{ flex:1; min-width: 160px; }
+
+    .checkboxRow{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-top:14px;
+    }
+    .checkboxRow input[type="checkbox"]{
+      width:auto;
+      margin:0;
+      transform: translateY(1px);
+    }
+
+    button{
+      margin-top:18px;
+      width:100%;
+      padding:12px;
+      border-radius:12px;
+      border:none;
+      background:#d4af37;
+      color:#000;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    button[disabled]{ opacity:.65; cursor:not-allowed; }
+
+    .hidden{ display:none !important; }
+
+    /* ====== VIEWER ====== */
     .viewer-wrap{
       margin-top:18px;
       border:1px solid rgba(255,255,255,0.10);
@@ -114,21 +178,14 @@
       border:0;
       background:#000;
     }
-
-    .error-box{
-      display:none;
-    }
   </style>
 </head>
 
 <body>
-
   <div class="box">
-    <h1 id="title">Confirmando seu pagamento...</h1>
-
-    <p id="subtitle">Estamos validando a compra e liberando seu material.</p>
-
-    <p class="muted" id="status">Aguarde alguns instantes.</p>
+    <h1 id="title">Confirmando…</h1>
+    <p id="subtitle">Aguarde alguns instantes.</p>
+    <p class="muted" id="status">Carregando…</p>
 
     <div class="actions" id="actions" style="display:none;">
       <a href="index.html" class="btn btn-main">Voltar ao site</a>
@@ -136,24 +193,104 @@
       <a id="btnNewTab" href="#" target="_blank" rel="noopener" class="btn btn-ghost" style="display:none;">Abrir em nova aba</a>
     </div>
 
+    <!-- FORMULÁRIO NOTA FISCAL (pré-stripe) -->
+    <form id="invoiceForm">
+      <label>Tipo de documento</label>
+      <select id="person_type">
+        <option value="CPF">Pessoa Física (CPF)</option>
+        <option value="CNPJ">Pessoa Jurídica (CNPJ)</option>
+      </select>
+
+      <label>CPF / CNPJ</label>
+      <input id="doc_number" required placeholder="Digite seu CPF ou CNPJ" inputmode="numeric" />
+
+      <!-- CPF: Nome -->
+      <div id="cpfNameWrap">
+        <label>Nome completo</label>
+        <input id="full_name" required />
+      </div>
+
+      <!-- CNPJ: Razão Social (opcional no back atual; mantemos para UI) -->
+      <div id="cnpjCorporateWrap" class="hidden">
+        <label>Razão Social</label>
+        <input id="corporate_name" />
+      </div>
+
+      <!-- CPF: Sexo -->
+      <div id="genderWrap">
+        <label>Sexo</label>
+        <select id="gender">
+          <option value="" selected>Selecione</option>
+          <option value="Mulher">Mulher</option>
+          <option value="Homem">Homem</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+
+      <!-- CPF: Nascimento -->
+      <div id="birthWrap">
+        <label>Data de nascimento</label>
+        <input type="date" id="birth_date" />
+      </div>
+
+      <!-- CNPJ: IE + Isento -->
+      <div id="ieWrap" class="hidden">
+        <div class="checkboxRow">
+          <input type="checkbox" id="ie_isento" checked />
+          <label for="ie_isento" style="margin:0;">Isento de Inscrição Estadual</label>
+        </div>
+
+        <label id="ieLabel">Inscrição Estadual (IE)</label>
+        <input id="ie" disabled />
+      </div>
+
+      <div class="row">
+        <div>
+          <label>UF</label>
+          <select id="uf"></select>
+        </div>
+        <div>
+          <label>Cidade</label>
+          <select id="city_name"></select>
+        </div>
+      </div>
+
+      <label>CEP</label>
+      <input id="cep" required inputmode="numeric" placeholder="00000-000" />
+
+      <label>Bairro</label>
+      <input id="neighborhood" required />
+
+      <label>Endereço</label>
+      <input id="street" required />
+
+      <div class="row">
+        <div>
+          <label>Número</label>
+          <input id="street_number" required />
+        </div>
+        <div>
+          <label>Complemento</label>
+          <input id="complement" placeholder="Apartamento, bloco, etc. (opcional)" />
+        </div>
+      </div>
+
+      <button id="btnSubmit" type="submit">Salvar dados e ir para pagamento</button>
+    </form>
+
+    <!-- VIEWER (pós-pagamento) -->
     <div class="viewer-wrap" id="viewerWrap" oncontextmenu="return false;">
       <div class="viewer-top">
         <div class="label" id="viewerLabel">Visualização do material</div>
       </div>
       <iframe id="viewer" title="Visualização do material"></iframe>
     </div>
-
-    <div class="error-box" id="errorBox">
-      <h1 style="margin-top:10px;">Pagamento</h1>
-      <p id="errorText">Não conseguimos liberar seu material.</p>
-      <p class="muted">Se precisar, volte ao site ou acesse sua conta.</p>
-    </div>
   </div>
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script>
     /* =========================
-       SUPABASE (mesmo projeto)
+       SUPABASE
     ========================= */
     const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
@@ -166,55 +303,116 @@
       return sb;
     }
 
-    async function getAccessToken(){
+    async function getSession(){
       const s = ensureSupabase();
       if (!s) return null;
       const { data } = await s.auth.getSession();
-      return (data && data.session && data.session.access_token) ? data.session.access_token : null;
+      return data && data.session ? data.session : null;
+    }
+
+    async function getAccessToken(){
+      const sess = await getSession();
+      return sess && sess.access_token ? sess.access_token : null;
+    }
+
+    function setText(id, v){
+      const el = document.getElementById(id);
+      if (el) el.innerText = v;
+    }
+
+    function showActions(pdfUrl){
+      const actions = document.getElementById("actions");
+      actions.style.display = "flex";
+
+      const btnNewTab = document.getElementById("btnNewTab");
+      if (pdfUrl){
+        btnNewTab.href = pdfUrl;
+        btnNewTab.style.display = "inline-flex";
+      }else{
+        btnNewTab.style.display = "none";
+      }
+    }
+
+    function showInvoiceUI(){
+      document.getElementById("invoiceForm").style.display = "block";
+      document.getElementById("status").style.display = "none";
+      showActions(null);
+    }
+
+    function showViewer(pdfUrl){
+      setText("title", "Seu material foi liberado");
+      setText("subtitle", "Você pode visualizar abaixo.");
+      document.getElementById("status").style.display = "none";
+
+      showActions(pdfUrl);
+
+      document.getElementById("viewerWrap").style.display = "block";
+      document.getElementById("viewer").src = pdfUrl;
     }
 
     function showError(msg){
-      document.getElementById("title").innerText = "Pagamento";
-      document.getElementById("subtitle").innerText = "Não conseguimos liberar seu material.";
-      document.getElementById("status").innerText = msg || "Se precisar, volte ao site ou acesse sua conta.";
-
-      document.getElementById("actions").style.display = "flex";
-      document.getElementById("errorBox").style.display = "block";
-    }
-
-    function showSuccess(pdfUrl){
-      document.getElementById("title").innerText = "Seu material foi liberado";
-      document.getElementById("subtitle").innerText = "Você pode visualizar abaixo.";
-      document.getElementById("status").style.display = "none";
-
-      const btnNewTab = document.getElementById("btnNewTab");
-      btnNewTab.href = pdfUrl;
-      btnNewTab.style.display = "inline-flex";
-
-      document.getElementById("actions").style.display = "flex";
-      document.getElementById("viewerWrap").style.display = "block";
-
-      const viewer = document.getElementById("viewer");
-      viewer.src = pdfUrl;
+      setText("title", "Pagamento");
+      setText("subtitle", "Não conseguimos concluir esta etapa.");
+      setText("status", msg || "Tente novamente.");
+      document.getElementById("status").style.display = "block";
+      showActions(null);
     }
 
     /* =========================
-       INIT (pós-stripe)
+       INIT
     ========================= */
-    async function init() {
-      const params = new URLSearchParams(window.location.search);
-      const sessionId = params.get("session_id");
+    async function init(){
+      ensureSupabase();
 
-      if (!sessionId) {
+      const params = new URLSearchParams(window.location.search);
+
+      // MODO 1: NF antes do Stripe
+      const step = params.get("step");
+      const category = params.get("category");
+      const city = params.get("city");
+
+      if (step === "invoice" && category && city){
+        setText("title", "Dados para Nota Fiscal");
+        setText("subtitle", "Confirme ou atualize seus dados antes do pagamento.");
+        setText("status", "Carregando…");
+
+        const session = await getSession();
+        if (!session){
+          const returnTo =
+            "checkout-success.html?step=invoice&category=" +
+            encodeURIComponent(category) +
+            "&city=" +
+            encodeURIComponent(city);
+
+          window.location.href = "login.html?return_to=" + encodeURIComponent(returnTo);
+          return;
+        }
+
+        // carrega UFs/cidades e preenche se já existir perfil
+        await loadUFs();
+        applyPersonTypeUI();
+        applyDocMask();
+
+        await prefillInvoiceProfile(session.user.id);
+
+        document.getElementById("status").style.display = "none";
+        showInvoiceUI();
+        return;
+      }
+
+      // MODO 2: pós pagamento
+      const sessionId = params.get("session_id");
+      if (!sessionId){
         showError("Não encontramos a sessão de pagamento. Volte ao site e tente novamente.");
         return;
       }
 
-      // precisa estar logado para liberar e salvar acesso vitalício
-      const token = await getAccessToken();
+      setText("title", "Confirmando seu pagamento…");
+      setText("subtitle", "Estamos validando a compra e liberando seu material.");
+      setText("status", "Aguarde alguns instantes.");
 
-      if (!token) {
-        // manda para login e volta para esta página
+      const token = await getAccessToken();
+      if (!token){
         const returnTo = "checkout-success.html?session_id=" + encodeURIComponent(sessionId);
         window.location.href = "login.html?return_to=" + encodeURIComponent(returnTo);
         return;
@@ -224,37 +422,268 @@
     }
 
     /* =========================
-       LIBERA PDF (pós-pagamento)
+       PREFILL INVOICE PROFILE
+    ========================= */
+    async function prefillInvoiceProfile(userId){
+      try{
+        const s = ensureSupabase();
+        if (!s) return;
+
+        const { data, error } = await s
+          .from("invoice_profiles")
+          .select("*")
+          .eq("user_id", userId)
+          .limit(1)
+          .maybeSingle();
+
+        if (error || !data) return;
+
+        // preenche campos comuns
+        if (data.person_type) document.getElementById("person_type").value = data.person_type;
+
+        applyPersonTypeUI();
+        applyDocMask();
+
+        if (data.doc_number) document.getElementById("doc_number").value = data.doc_number;
+        if (data.full_name) document.getElementById("full_name").value = data.full_name;
+
+        if (data.gender) document.getElementById("gender").value = data.gender;
+        if (data.birth_date) document.getElementById("birth_date").value = data.birth_date;
+
+        if (typeof data.ie_isento === "boolean") document.getElementById("ie_isento").checked = data.ie_isento;
+        if (data.ie) document.getElementById("ie").value = data.ie;
+
+        if (data.cep) document.getElementById("cep").value = data.cep;
+        if (data.uf) document.getElementById("uf").value = data.uf;
+
+        await loadCities();
+        if (data.city_name) document.getElementById("city_name").value = data.city_name;
+
+        if (data.neighborhood) document.getElementById("neighborhood").value = data.neighborhood;
+        if (data.street) document.getElementById("street").value = data.street;
+        if (data.street_number) document.getElementById("street_number").value = data.street_number;
+        if (data.complement) document.getElementById("complement").value = data.complement;
+
+        toggleIE();
+        applyDocMask();
+      }catch(e){}
+    }
+
+    /* =========================
+       PÓS-PAGAMENTO: LIBERA PDF
        >>> COM AUTH HEADER <<<
     ========================= */
-    async function liberarPDF(sessionId, token) {
+    async function liberarPDF(sessionId, token){
       try{
         const res = await fetch("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId), {
           method: "GET",
-          headers: {
-            "Authorization": "Bearer " + token
-          }
+          headers: { "Authorization": "Bearer " + token }
         });
 
         const data = await res.json().catch(() => null);
 
-        if (data && data.pdf_url) {
-          showSuccess(data.pdf_url);
+        if (data && data.pdf_url){
+          showViewer(data.pdf_url);
           return;
         }
 
-        // fallback de erro
         showError("Não conseguimos liberar seu material. Verifique sua conta.");
       }catch(e){
         showError("Falha ao confirmar pagamento. Tente novamente.");
       }
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      ensureSupabase();
-      init();
-    });
-  </script>
+    /* =========================
+       UFs / Cidades
+    ========================= */
+    async function loadUFs(){
+      const res = await fetch("/api/br-cities");
+      const data = await res.json();
 
+      const ufSelect = document.getElementById("uf");
+      ufSelect.innerHTML = (data.estados || []).map(u => `<option>${u}</option>`).join("");
+
+      await loadCities();
+    }
+
+    async function loadCities(){
+      const uf = document.getElementById("uf").value;
+      const res = await fetch("/api/br-cities?uf=" + encodeURIComponent(uf));
+      const data = await res.json();
+
+      document.getElementById("city_name").innerHTML =
+        (data.cidades || []).map(c => `<option>${c}</option>`).join("");
+    }
+    document.getElementById("uf").addEventListener("change", loadCities);
+
+    /* =========================
+       CPF / CNPJ UI
+    ========================= */
+    function applyPersonTypeUI(){
+      const personType = document.getElementById("person_type").value;
+      const isCPF = personType === "CPF";
+
+      document.getElementById("cpfNameWrap").classList.toggle("hidden", !isCPF);
+      document.getElementById("genderWrap").classList.toggle("hidden", !isCPF);
+      document.getElementById("birthWrap").classList.toggle("hidden", !isCPF);
+
+      document.getElementById("cnpjCorporateWrap").classList.toggle("hidden", isCPF);
+      document.getElementById("ieWrap").classList.toggle("hidden", isCPF);
+
+      document.getElementById("full_name").required = isCPF;
+      document.getElementById("birth_date").required = isCPF;
+
+      if (isCPF){
+        document.getElementById("ie_isento").checked = true;
+        document.getElementById("ie").value = "";
+        document.getElementById("ie").disabled = true;
+      }else{
+        toggleIE();
+        document.getElementById("gender").value = "";
+        document.getElementById("birth_date").value = "";
+      }
+    }
+
+    function toggleIE(){
+      const isento = document.getElementById("ie_isento").checked;
+      const ieInput = document.getElementById("ie");
+
+      if (isento){
+        ieInput.value = "";
+        ieInput.disabled = true;
+      }else{
+        ieInput.disabled = false;
+      }
+    }
+
+    document.getElementById("person_type").addEventListener("change", () => {
+      applyPersonTypeUI();
+      applyDocMask();
+    });
+    document.getElementById("ie_isento").addEventListener("change", toggleIE);
+
+    /* =========================
+       MÁSCARA CPF / CNPJ
+    ========================= */
+    function onlyDigits(v){ return String(v || "").replace(/\D+/g, ""); }
+
+    function formatCPF(d){
+      const x = d.slice(0,11);
+      return x
+        .replace(/^(\d{3})(\d)/, "$1.$2")
+        .replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
+        .replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})$/, "$1.$2.$3-$4");
+    }
+
+    function formatCNPJ(d){
+      const x = d.slice(0,14);
+      return x
+        .replace(/^(\d{2})(\d)/, "$1.$2")
+        .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+        .replace(/^(\d{2})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3/$4")
+        .replace(/^(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d{1,2})$/, "$1.$2.$3/$4-$5");
+    }
+
+    function applyDocMask(){
+      const personType = document.getElementById("person_type").value;
+      const input = document.getElementById("doc_number");
+      const digits = onlyDigits(input.value);
+
+      if (personType === "CPF"){
+        input.value = formatCPF(digits);
+        input.placeholder = "000.000.000-00";
+      }else{
+        input.value = formatCNPJ(digits);
+        input.placeholder = "00.000.000/0001-00";
+      }
+    }
+    document.getElementById("doc_number").addEventListener("input", applyDocMask);
+
+    /* =========================
+       SUBMIT NF -> SALVA -> STRIPE
+    ========================= */
+    document.getElementById("invoiceForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const params = new URLSearchParams(window.location.search);
+      const category = params.get("category");
+      const city = params.get("city");
+
+      const token = await getAccessToken();
+      if (!token){
+        alert("Para prosseguir, faça login novamente.");
+        return;
+      }
+
+      const personType = document.getElementById("person_type").value;
+
+      const payload = {
+        person_type: personType,
+        doc_number: onlyDigits(document.getElementById("doc_number").value),
+        full_name: personType === "CPF" ? document.getElementById("full_name").value : "",
+        gender: personType === "CPF" ? (document.getElementById("gender").value || null) : null,
+        birth_date: personType === "CPF" ? (document.getElementById("birth_date").value || null) : null,
+
+        ie_isento: personType === "CNPJ" ? document.getElementById("ie_isento").checked : true,
+        ie: personType === "CNPJ" ? (document.getElementById("ie").value || null) : null,
+
+        uf: document.getElementById("uf").value,
+        city_name: document.getElementById("city_name").value,
+        cep: onlyDigits(document.getElementById("cep").value),
+        neighborhood: document.getElementById("neighborhood").value,
+        street: document.getElementById("street").value,
+        street_number: document.getElementById("street_number").value,
+        complement: document.getElementById("complement").value || null
+      };
+
+      const btn = document.getElementById("btnSubmit");
+      btn.disabled = true;
+      btn.innerText = "Salvando…";
+
+      // 1) salva NF
+      const saveRes = await fetch("/api/save-invoice-profile", {
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const saveJson = await saveRes.json().catch(() => null);
+
+      if (!saveRes.ok || !saveJson || saveJson.ok !== true){
+        btn.disabled = false;
+        btn.innerText = "Salvar dados e ir para pagamento";
+        alert("Não foi possível salvar seus dados. Por favor, revise e tente novamente.");
+        return;
+      }
+
+      // 2) cria checkout stripe
+      btn.innerText = "Abrindo pagamento…";
+
+      const payRes = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({ category, city })
+      });
+
+      const payJson = await payRes.json().catch(() => null);
+
+      if (!payRes.ok || !payJson || !payJson.url){
+        btn.disabled = false;
+        btn.innerText = "Salvar dados e ir para pagamento";
+        alert("Não foi possível iniciar o pagamento. Tente novamente.");
+        return;
+      }
+
+      window.location.href = payJson.url;
+    });
+
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
 </body>
 </html>
