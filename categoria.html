@@ -443,9 +443,11 @@
       border:1px solid #222;
       border-radius:14px;
       padding:16px;
+      padding-right:92px; /* espaço para o preço (área marcada no seu print) */
       text-align:left;
       transition:all 0.3s ease;
       position:relative;
+      min-height:150px;
     }
 
     .city-card:hover{
@@ -474,6 +476,37 @@
       flex-wrap:wrap;
       margin-top:10px;
       margin-bottom:8px;
+    }
+
+    /* visor de preço (área marcada no seu print) */
+    .city-price{
+      position:absolute;
+      right:14px;
+      top:58px;
+      width:64px;
+      height:64px;
+      border-radius:14px;
+      border:1px solid rgba(212,175,55,0.28);
+      background:rgba(0,0,0,0.25);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      gap:2px;
+      padding:6px;
+      pointer-events:none;
+    }
+    .city-price .label{
+      font-size:10.5px;
+      color:rgba(255,255,255,0.55);
+      line-height:1;
+    }
+    .city-price .value{
+      font-size:12.5px;
+      color:#d4af37;
+      font-weight:800;
+      line-height:1.1;
     }
 
     .panel-footer{
@@ -619,9 +652,6 @@
     <a onclick="showSection('quem')">Quem Somos</a>
     <a onclick="showSection('curadoria')">Curadoria</a>
     <a onclick="showSection('buscador')">Buscador</a>
-
-    <a id="nav-account" onclick="goAccount()">Minha Conta</a>
-    <a id="nav-logout" onclick="doLogout()" style="display:none;">Sair</a>
   </nav>
 </header>
 
@@ -770,7 +800,7 @@
     <div id="cities-grid" class="cities-grid"></div>
 
     <div id="empty-state" class="empty-state" style="display:none;">
-      Nenhum resultado encontrado.
+      Nenhum material disponível nesta categoria no momento.
     </div>
 
     <div class="panel-footer">
@@ -800,9 +830,6 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  /* =========================
-     POPUP
-  ========================= */
   function ensurePopupExists(){
     if (document.getElementById("popup")) return;
 
@@ -836,15 +863,8 @@
     document.getElementById("popup-fechar").addEventListener("click", closePopup);
   }
 
-  function clearPopupExtraButtons(){
-    const actions = document.getElementById("popup-actions");
-    if (!actions) return;
-    actions.querySelectorAll("[data-extra='1']").forEach(el => el.remove());
-  }
-
-  function openPopup({ title="", text="", showProsseguir=false, showRules=false, onProsseguir=null }){
+  function openPopup({ title="", text="", showProsseguir=false, showRules=false, onProsseguir=null, extraButtonsHTML="" }){
     ensurePopupExists();
-    clearPopupExtraButtons();
 
     document.getElementById("popup-title").innerText = title;
     document.getElementById("popup-text").innerText = text;
@@ -852,17 +872,31 @@
     const rules = document.getElementById("popup-rules");
     rules.style.display = showRules ? "block" : "none";
 
+    const actions = document.getElementById("popup-actions");
     const btn = document.getElementById("popup-prosseguir");
+
+    // reset
     btn.style.display = showProsseguir ? "inline-block" : "none";
     btn.disabled = false;
     btn.innerText = "Prosseguir";
 
+    // remove checkbox antigo
     const old = document.getElementById("consent-checkbox-wrap");
     if (old) old.remove();
 
-    if (showProsseguir){
-      const actions = document.querySelector("#popup-content .popup-actions");
+    // extra buttons (ex.: "Comprar novamente")
+    // mantém o botão Fechar sempre existente
+    const closeBtn = document.getElementById("popup-fechar");
+    actions.innerHTML = "";
+    if (showProsseguir) actions.appendChild(btn);
+    if (extraButtonsHTML){
+      const tmp = document.createElement("div");
+      tmp.innerHTML = extraButtonsHTML;
+      Array.from(tmp.children).forEach(ch => actions.appendChild(ch));
+    }
+    actions.appendChild(closeBtn);
 
+    if (showProsseguir){
       const consentWrap = document.createElement("div");
       consentWrap.id = "consent-checkbox-wrap";
       consentWrap.className = "consent-wrap";
@@ -874,7 +908,6 @@
       actions.parentNode.insertBefore(consentWrap, actions);
 
       btn.disabled = true;
-
       const cb = document.getElementById("consent-checkbox");
       cb.addEventListener("change", () => {
         btn.disabled = !cb.checked;
@@ -896,11 +929,6 @@
             showProsseguir: false,
             showRules: false
           });
-        }finally{
-          try{
-            btn.disabled = false;
-            btn.innerText = "Prosseguir";
-          }catch(e){}
         }
       };
     }
@@ -922,9 +950,10 @@
     }
   }
 
-  /* =========================
-     SUPABASE
-  ========================= */
+  function openOverview(){
+    window.location.href = "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf";
+  }
+
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
@@ -944,134 +973,12 @@
     return (data && data.session && data.session.access_token) ? data.session.access_token : null;
   }
 
-  function normalizeKeyPart(str){
-    return String(str || "")
-      .trim()
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[—–−]/g, "-")
-      .replace(/\s*-\s*/g, " - ")
-      .replace(/\s+/g, " ")
-      .trim();
+  async function getUser(){
+    const sb = ensureSupabase();
+    if (!sb) return null;
+    const { data } = await sb.auth.getUser();
+    return data && data.user ? data.user : null;
   }
-
-  function materialKey(category, cityLabel){
-    return normalizeKeyPart(category) + "||" + normalizeKeyPart(cityLabel);
-  }
-
-  /* =========================
-     NAV: Minha Conta + Sair
-  ========================= */
-  async function updateAuthNav(){
-    try{
-      const sb = ensureSupabase();
-      if (!sb) return;
-
-      const { data } = await sb.auth.getSession();
-      const logged = !!(data && data.session);
-
-      const logoutEl = document.getElementById("nav-logout");
-      if (logoutEl) logoutEl.style.display = logged ? "inline" : "none";
-    }catch(e){}
-  }
-
-  async function goAccount(){
-    try{
-      const token = await getAccessToken();
-      if (!token){
-        window.location.href = "login.html?return_to=" + encodeURIComponent("account.html");
-        return;
-      }
-      window.location.href = "account.html";
-    }catch(e){
-      window.location.href = "login.html?return_to=" + encodeURIComponent("account.html");
-    }
-  }
-
-  async function doLogout(){
-    try{
-      const sb = ensureSupabase();
-      if (!sb) return;
-      await sb.auth.signOut();
-    }catch(e){}
-    showSection("inicio");
-    await updateAuthNav();
-    await loadPurchasesForLoggedUser(); // limpa compras
-  }
-
-  /* =========================
-     Overview
-  ========================= */
-  function openOverview(){
-    window.location.href = "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf";
-  }
-
-  /* =========================
-     DATA CIDADES
-  ========================= */
-  const curadoriaData = {
-    "City Guide": [
-      { cidade: "São Paulo - Brasil" },
-      { cidade: "Rio de Janeiro - Brasil" },
-      { cidade: "Paris - França" },
-      { cidade: "NEW YORK - USA" },
-      { cidade: "Roma - Itália" },
-      { cidade: "Londres - Reino Unido" },
-      { cidade: "Tóquio - Japão" },
-      { cidade: "Dubai - Emirados Árabes" },
-      { cidade: "Barcelona - Espanha" },
-      { cidade: "Lisboa - Portugal" }
-    ],
-    "Gastronomia": [
-      { cidade: "São Paulo - Brasil" },
-      { cidade: "Rio de Janeiro - Brasil" },
-      { cidade: "Paris - França" },
-      { cidade: "Roma - Itália" },
-      { cidade: "NEW YORK - USA" },
-      { cidade: "Londres - Reino Unido" },
-      { cidade: "Barcelona - Espanha" },
-      { cidade: "Lisboa - Portugal" }
-    ],
-    "Atrações Turísticas": [
-      { cidade: "Paris - França" },
-      { cidade: "Roma - Itália" },
-      { cidade: "Londres - Reino Unido" },
-      { cidade: "NEW YORK - USA" },
-      { cidade: "Pequim - China" },
-      { cidade: "Kyoto - Japão" },
-      { cidade: "Barcelona - Espanha" },
-      { cidade: "Lisboa - Portugal" }
-    ],
-    "Vida Noturna": [
-      { cidade: "São Paulo - Brasil" },
-      { cidade: "NEW YORK - USA" },
-      { cidade: "Londres - Reino Unido" },
-      { cidade: "Rio de Janeiro - Brasil" },
-      { cidade: "Barcelona - Espanha" },
-      { cidade: "Berlim - Alemanha" }
-    ],
-    "Endereços para Compras": [
-      { cidade: "São Paulo - Brasil" },
-      { cidade: "Paris - França" },
-      { cidade: "NEW YORK - USA" },
-      { cidade: "Londres - Reino Unido" },
-      { cidade: "Milão - Itália" },
-      { cidade: "Dubai - Emirados Árabes" }
-    ],
-    "Sugestão de Presentes": [
-      { cidade: "Paris - França" },
-      { cidade: "Roma - Itália" },
-      { cidade: "NEW YORK - USA" },
-      { cidade: "Londres - Reino Unido" },
-      { cidade: "Lisboa - Portugal" }
-    ]
-  };
-
-  /* =========================
-     MAPA DE MATERIAIS ATIVOS
-  ========================= */
-  const activeMaterialsMap = new Map();
 
   function setAdminStatus(text, ok){
     const el = document.getElementById("admin-status");
@@ -1081,133 +988,190 @@
     el.classList.add(ok ? "ok" : "muted");
   }
 
-  function hasActiveMaterial(category, cityLabel){
-    return activeMaterialsMap.has(materialKey(category, cityLabel));
+  function normalizeKeyPart(str){
+    const s = String(str || "")
+      .trim()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[—–−]/g, "-")
+      .replace(/\s*-\s*/g, " - ")
+      .replace(/\s+/g, " ")
+      .trim();
+    return s;
   }
 
-  function getActivePdfUrl(category, cityLabel){
-    const x = activeMaterialsMap.get(materialKey(category, cityLabel));
-    return x && x.pdf_url ? x.pdf_url : null;
+  function purchaseKey(category, cityLabel){
+    return normalizeKeyPart(category) + "||" + normalizeKeyPart(cityLabel);
   }
 
-  async function loadActiveMaterials(){
-    activeMaterialsMap.clear();
+  // -----------------------------
+  // PREÇOS (Stripe via API server)
+  // -----------------------------
+  let priceCityGuide = null;
+  let priceDefault = null;
 
+  async function loadPrices(){
     try{
-      if (!window.supabase){
-        setAdminStatus("Admin: falha na conexão", false);
-        return;
+      const res = await fetch("/api/get-prices", { method:"GET" });
+      const j = await res.json().catch(() => null);
+      if (j && j.ok){
+        priceCityGuide = j.prices && j.prices.city_guide ? j.prices.city_guide : null;
+        priceDefault = j.prices && j.prices.default ? j.prices.default : null;
       }
-
-      ensureSupabase();
-
-      const { data, error } = await supabaseClient
-        .from("curadoria_materials")
-        .select("category, city_label, pdf_url, is_active")
-        .eq("is_active", true);
-
-      if (error){
-        setAdminStatus("Admin: erro ao carregar", false);
-        return;
-      }
-
-      (data || []).forEach(row => {
-        const key = materialKey(row.category || "", row.city_label || "");
-        activeMaterialsMap.set(key, { pdf_url: row.pdf_url || null });
-      });
-
-      setAdminStatus("Admin: conectado", true);
-    }catch(e){
-      setAdminStatus("Admin: falha na conexão", false);
-    }
+    }catch(e){}
   }
 
-  /* =========================
-     MAPA DE COMPRAS DO USUÁRIO
-     (para o aviso "já tem este material")
-  ========================= */
-  const purchasedMap = new Map();
-
-  function hasPurchase(category, cityLabel){
-    return purchasedMap.has(materialKey(category, cityLabel));
+  function getPriceLabelForCategory(category){
+    const isCityGuide = String(category || "").trim().toLowerCase() === "city guide";
+    const val = isCityGuide ? priceCityGuide : priceDefault;
+    return val || "—";
   }
 
-  function getPurchasedPdfUrl(category, cityLabel){
-    const x = purchasedMap.get(materialKey(category, cityLabel));
-    return x && x.pdf_url ? x.pdf_url : null;
-  }
+  // -----------------------------
+  // LISTAGEM AUTOMÁTICA (Opção 1)
+  // -----------------------------
+  let currentCategory = null;
+  let allCitiesForCategory = []; // [{ cidade, pdf_url, year }]
+  let filteredCities = [];
+  let visibleCount = 0;
+  const BATCH_SIZE = 8;
 
-  async function loadPurchasesForLoggedUser(){
+  // compras do usuário (para evitar duplicidade)
+  const purchasedMap = new Map(); // key -> { pdf_url, created_at }
+
+  async function loadPurchasedMap(){
     purchasedMap.clear();
-
     try{
-      ensureSupabase();
-      const token = await getAccessToken();
-      if (!token) return; // deslogado -> não dá para saber compras
+      const user = await getUser();
+      if (!user || !user.id) return;
 
-      // pega user id pela própria sessão do cliente
-      const { data: sessionData } = await supabaseClient.auth.getSession();
-      const userId = sessionData && sessionData.session && sessionData.session.user ? sessionData.session.user.id : null;
-      if (!userId) return;
-
-      // consulta compras desse usuário
-      const { data, error } = await supabaseClient
+      const sb = ensureSupabase();
+      const { data, error } = await sb
         .from("purchase")
-        .select("category, city, pdf_url, stripe_session_id")
-        .eq("user_id", userId)
-        .limit(2000);
+        .select("category, city, pdf_url, created_at")
+        .eq("user_id", user.id)
+        .limit(500);
 
       if (error) return;
 
       (data || []).forEach(row => {
-        const key = materialKey(row.category || "", row.city || "");
-        purchasedMap.set(key, { pdf_url: row.pdf_url || null });
+        const key = purchaseKey(row.category || "", row.city || "");
+        if (!purchasedMap.has(key)){
+          purchasedMap.set(key, { pdf_url: row.pdf_url, created_at: row.created_at });
+        }
       });
     }catch(e){}
   }
 
-  /* =========================
-     CHECKOUT
-  ========================= */
-  function savePendingCheckout(category, city){
-    try{
-      localStorage.setItem("pending_checkout", JSON.stringify({ category, city, at: Date.now() }));
-    }catch(e){}
+  function alreadyPurchased(category, cityLabel){
+    return purchasedMap.has(purchaseKey(category, cityLabel));
   }
 
-  function readPendingCheckout(){
-    try{
-      const raw = localStorage.getItem("pending_checkout");
-      if (!raw) return null;
-      return JSON.parse(raw);
-    }catch(e){
-      return null;
-    }
-  }
+  async function loadCitiesFromSupabase(category){
+    const sb = ensureSupabase();
+    if (!sb) return [];
 
-  function clearPendingCheckout(){
-    try{ localStorage.removeItem("pending_checkout"); }catch(e){}
-  }
+    const { data, error } = await sb
+      .from("curadoria_materials")
+      .select("city_label, pdf_url, year")
+      .eq("is_active", true)
+      .eq("category", category)
+      .limit(500);
 
-  async function maybeResumePendingCheckout(){
-    const pending = readPendingCheckout();
-    if (!pending || !pending.category || !pending.city) return;
+    if (error) return [];
 
-    const token = await getAccessToken();
-    if (!token) return;
-
-    openPopup({
-      title: "Continuar",
-      text: "Deseja continuar o acesso do material selecionado?",
-      showProsseguir: true,
-      showRules: false,
-      onProsseguir: async () => {
-        pendingCheckout.category = pending.category;
-        pendingCheckout.city = pending.city;
-        clearPendingCheckout();
-        await proceedCheckout();
+    // dedupe por city_label
+    const map = new Map();
+    (data || []).forEach(r => {
+      const city = (r.city_label || "").trim();
+      if (!city) return;
+      if (!map.has(city)){
+        map.set(city, { cidade: city, pdf_url: r.pdf_url || "", year: r.year || "" });
       }
     });
+
+    // ordena alfabeticamente
+    return Array.from(map.values()).sort((a,b) => String(a.cidade).localeCompare(String(b.cidade), "pt-BR"));
+  }
+
+  function normalizeText(str){
+    return (str || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[—–−]/g, "-");
+  }
+
+  function openCategory(category){
+    currentCategory = category;
+
+    const panel = document.getElementById("curadoria-panel");
+    if (!panel) return;
+    panel.style.display = "block";
+
+    const bc = document.getElementById("breadcrumb");
+    const pt = document.getElementById("panel-title");
+    if (bc) bc.innerText = "Curadoria > " + category;
+    if (pt) pt.innerText = category;
+
+    const input = document.getElementById("city-search");
+    if (input) input.value = "";
+
+    // estado visual
+    const grid = document.getElementById("cities-grid");
+    const empty = document.getElementById("empty-state");
+    if (grid) grid.innerHTML = "";
+    if (empty) empty.style.display = "none";
+
+    // carrega e renderiza
+    loadCategoryAndRender(category);
+
+    setTimeout(() => {
+      panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (input) input.focus({ preventScroll: true });
+    }, 120);
+  }
+
+  async function loadCategoryAndRender(category){
+    // carrega cidades prontas
+    allCitiesForCategory = await loadCitiesFromSupabase(category);
+
+    // filtro inicial
+    filteredCities = allCitiesForCategory.slice();
+    visibleCount = Math.min(BATCH_SIZE, filteredCities.length);
+
+    renderCities();
+  }
+
+  function closeCategory(){
+    const panel = document.getElementById("curadoria-panel");
+    if (panel) panel.style.display = "none";
+    currentCategory = null;
+    allCitiesForCategory = [];
+    filteredCities = [];
+    visibleCount = 0;
+
+    const cats = document.getElementById("curadoria-categories");
+    if (cats) cats.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function onSearchCity(){
+    if (!currentCategory) return;
+
+    const input = document.getElementById("city-search");
+    const q = normalizeText(input ? input.value : "");
+
+    if (!q) filteredCities = allCitiesForCategory.slice();
+    else filteredCities = allCitiesForCategory.filter(item => normalizeText(item.cidade).includes(q));
+
+    visibleCount = Math.min(BATCH_SIZE, filteredCities.length);
+    renderCities();
+  }
+
+  function loadMoreCities(){
+    visibleCount = Math.min(visibleCount + BATCH_SIZE, filteredCities.length);
+    renderCities(true);
   }
 
   let pendingCheckout = { category:null, city:null };
@@ -1224,7 +1188,6 @@
       const token = await getAccessToken();
 
       if (!token){
-        savePendingCheckout(category, city);
         openPopup({
           title: "Acesso à conta",
           text: "Para prosseguir, é necessário entrar ou criar seu cadastro.",
@@ -1250,7 +1213,6 @@
       try{ data = await res.json(); }catch(e){}
 
       if (data && data.code === "INVOICE_REQUIRED"){
-        savePendingCheckout(category, city);
         openPopup({
           title: "Dados para Nota Fiscal",
           text: "Antes do pagamento, precisamos dessas informações.",
@@ -1268,7 +1230,6 @@
       }
 
       if (data && data.code === "LOGIN_REQUIRED"){
-        savePendingCheckout(category, city);
         openPopup({
           title: "Acesso à conta",
           text: "Para prosseguir, é necessário entrar ou criar seu cadastro.",
@@ -1308,78 +1269,6 @@
     await startCheckout(pendingCheckout.category, pendingCheckout.city);
   }
 
-  /* =========================
-     CURADORIA UI
-  ========================= */
-  const BATCH_SIZE = 8;
-  let currentCategory = null;
-  let filteredCities = [];
-  let visibleCount = 0;
-
-  function normalizeText(str){
-    return (str || "")
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[—–−]/g, "-");
-  }
-
-  function openCategory(category){
-    currentCategory = category;
-
-    const panel = document.getElementById("curadoria-panel");
-    if (!panel) return;
-    panel.style.display = "block";
-
-    const bc = document.getElementById("breadcrumb");
-    const pt = document.getElementById("panel-title");
-    if (bc) bc.innerText = "Curadoria > " + category;
-    if (pt) pt.innerText = category;
-
-    const input = document.getElementById("city-search");
-    if (input) input.value = "";
-
-    filteredCities = (curadoriaData[category] || []).slice();
-    visibleCount = Math.min(BATCH_SIZE, filteredCities.length);
-
-    renderCities();
-
-    setTimeout(() => {
-      panel.scrollIntoView({ behavior: "smooth", block: "start" });
-      if (input) input.focus({ preventScroll: true });
-    }, 120);
-  }
-
-  function closeCategory(){
-    const panel = document.getElementById("curadoria-panel");
-    if (panel) panel.style.display = "none";
-    currentCategory = null;
-    filteredCities = [];
-    visibleCount = 0;
-
-    const cats = document.getElementById("curadoria-categories");
-    if (cats) cats.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  function onSearchCity(){
-    if (!currentCategory) return;
-
-    const input = document.getElementById("city-search");
-    const q = normalizeText(input ? input.value : "");
-    const all = (curadoriaData[currentCategory] || []);
-
-    if (!q) filteredCities = all.slice();
-    else filteredCities = all.filter(item => normalizeText(item.cidade).includes(q));
-
-    visibleCount = Math.min(BATCH_SIZE, filteredCities.length);
-    renderCities();
-  }
-
-  function loadMoreCities(){
-    visibleCount = Math.min(visibleCount + BATCH_SIZE, filteredCities.length);
-    renderCities(true);
-  }
-
   function renderCities(){
     const grid = document.getElementById("cities-grid");
     const empty = document.getElementById("empty-state");
@@ -1411,15 +1300,19 @@
       div.className = "city-card";
 
       const cityLabel = item.cidade || "";
-      const isAvailable = hasActiveMaterial(currentCategory, cityLabel);
 
-      const badge = isAvailable
-        ? `<span class="pill ok">Disponível</span>`
-        : `<span class="pill muted">Em breve</span>`;
+      const badge = `<span class="pill ok">Disponível</span>`;
+      const priceLabel = getPriceLabelForCategory(currentCategory);
 
       div.innerHTML = `
         <h4>${cityLabel}<small>Material digital com indicações selecionadas</small></h4>
         <div class="city-meta">${badge}</div>
+
+        <div class="city-price" aria-hidden="true">
+          <div class="label">Preço</div>
+          <div class="value">${priceLabel}</div>
+        </div>
+
         <button>Acessar</button>
       `;
 
@@ -1434,72 +1327,39 @@
     }
   }
 
-  /* =========================
-     MODAL DE CIDADE (com aviso de compra duplicada)
-  ========================= */
   function openCityModal(category, city){
-    const isAvailable = hasActiveMaterial(category, city);
-
     pendingCheckout.category = category;
     pendingCheckout.city = city;
 
-    const msg = isAvailable
-      ? `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. Este conteúdo é liberado após a confirmação da compra.`
-      : `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. Este conteúdo estará disponível em breve.`;
+    const msg = `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. Este conteúdo é liberado após a confirmação da compra.`;
 
-    if (!isAvailable){
-      openPopup({
-        title: city,
-        text: msg,
-        showProsseguir: false,
-        showRules: true,
-        onProsseguir: null
-      });
-      return;
-    }
-
-    // ✅ se estiver logado e já tiver comprado → mostra aviso
-    const alreadyHas = hasPurchase(category, city);
-    if (alreadyHas){
-      ensurePopupExists();
-      clearPopupExtraButtons();
-
+    // se já comprou: oferece abrir ou comprar novamente
+    if (alreadyPurchased(category, city)){
       openPopup({
         title: "Você já tem este material",
         text: "Este arquivo já consta na sua conta. Para evitar compras duplicadas, você pode abrir agora. Se quiser comprar novamente, confirme abaixo.",
-        showProsseguir: true,     // vamos usar como "Comprar novamente"
+        showProsseguir: true,          // "Prosseguir" = abrir agora
         showRules: false,
-        onProsseguir: proceedCheckout
+        extraButtonsHTML: `<button class="btn-ghost" id="btn-buy-again" type="button">Comprar novamente</button>`,
+        onProsseguir: async () => {
+          // abre a conta (visualização interna)
+          window.location.href = "account.html";
+        }
       });
 
-      // Ajusta texto do botão principal (Prosseguir) para "Comprar novamente"
-      const btnMain = document.getElementById("popup-prosseguir");
-      if (btnMain){
-        btnMain.innerText = "Comprar novamente";
-      }
-
-      // Adiciona botão extra "Abrir agora"
-      const actions = document.getElementById("popup-actions");
-      const btnOpen = document.createElement("button");
-      btnOpen.setAttribute("data-extra","1");
-      btnOpen.className = "btn-ghost";
-      btnOpen.innerText = "Abrir agora";
-      btnOpen.onclick = () => {
-        closePopup();
-        const pdf = getPurchasedPdfUrl(category, city) || getActivePdfUrl(category, city);
-        if (pdf) window.location.href = pdf;
-      };
-
-      // Coloca o "Abrir agora" antes do Fechar
-      const fechar = document.getElementById("popup-fechar");
-      if (actions && fechar){
-        actions.insertBefore(btnOpen, fechar);
-      }
+      setTimeout(() => {
+        const buyAgain = document.getElementById("btn-buy-again");
+        if (buyAgain){
+          buyAgain.addEventListener("click", async () => {
+            closePopup();
+            await proceedCheckout();
+          });
+        }
+      }, 0);
 
       return;
     }
 
-    // fluxo normal (ainda não comprou)
     openPopup({
       title: city,
       text: msg,
@@ -1509,23 +1369,21 @@
     });
   }
 
-  /* =========================
-     INIT
-  ========================= */
   document.addEventListener("DOMContentLoaded", async () => {
     ensureSupabase();
 
-    await updateAuthNav();
-    await loadActiveMaterials();
-    await loadPurchasesForLoggedUser();
-    await maybeResumePendingCheckout();
-
+    // status do Supabase (só para feedback visual, como antes)
     try{
-      supabaseClient.auth.onAuthStateChange(async () => {
-        await updateAuthNav();
-        await loadPurchasesForLoggedUser();
-      });
-    }catch(e){}
+      setAdminStatus("Admin: conectado", true);
+    }catch(e){
+      setAdminStatus("Admin: falha na conexão", false);
+    }
+
+    // carrega preços do Stripe (server-side)
+    await loadPrices();
+
+    // carrega mapa de compras (para aviso de duplicidade)
+    await loadPurchasedMap();
   });
 </script>
 
