@@ -128,6 +128,42 @@
       gap:10px;
       margin-top:12px;
     }
+
+    /* ===== “pastinhas” ===== */
+    .folder{
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      border-radius:14px;
+      overflow:hidden;
+    }
+    .folder-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:12px 12px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .folder-title{
+      font-weight:900;
+      font-size:13px;
+      margin:0;
+      letter-spacing:.2px;
+      text-transform:none;
+    }
+    .folder-meta{
+      color:var(--muted);
+      font-size:12px;
+      margin:0;
+      white-space:nowrap;
+    }
+    .folder-body{
+      padding:0 10px 10px;
+      display:none;
+    }
+    .folder.open .folder-body{ display:block; }
+
     .item{
       border:1px solid var(--line);
       background: rgba(0,0,0,.25);
@@ -135,6 +171,7 @@
       padding:12px;
       cursor:pointer;
       transition: transform .06s ease;
+      margin-top:10px;
     }
     .item:hover{ transform: translateY(-1px); }
     .item .title{
@@ -260,7 +297,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-    // Supabase (já configurado)
+    // Supabase
     const sb = supabase.createClient(
       "https://lnyoqoezezisakghtmim.supabase.co",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA"
@@ -285,13 +322,29 @@
       globalMsg.innerHTML = "";
     }
 
-    // Proteção extra simples (não é 100% impossível, mas evita ações comuns)
+    // Proteção simples
     document.addEventListener("keydown", function(e){
-      // bloqueia Ctrl+S (salvar)
       if ((e.ctrlKey || e.metaKey) && (e.key || "").toLowerCase() === "s") {
         e.preventDefault();
       }
     });
+
+    // Normalização para detectar duplicados por (category + city)
+    function normalizeKeyPart(str){
+      return String(str || "")
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[—–−]/g, "-")
+        .replace(/\s*-\s*/g, " - ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function uniqueKey(category, city){
+      return normalizeKeyPart(category) + "||" + normalizeKeyPart(city);
+    }
 
     async function requireSession(){
       const { data } = await sb.auth.getSession();
@@ -309,8 +362,27 @@
       const user = session.user;
       userEmailEl.textContent = "Logado como: " + (user.email || "");
 
-      // carregar materiais (quando a tabela existir / estiver populada)
       await loadMaterials(user.id);
+    }
+
+    function groupByCategory(rows){
+      const map = new Map();
+      rows.forEach(r => {
+        const cat = (r.category || "Curadoria").trim();
+        if (!map.has(cat)) map.set(cat, []);
+        map.get(cat).push(r);
+      });
+      // ordena categorias (City Guide primeiro se existir)
+      const cats = Array.from(map.keys());
+      cats.sort((a,b) => {
+        const aa = a.toLowerCase();
+        const bb = b.toLowerCase();
+        if (aa === "city guide" && bb !== "city guide") return -1;
+        if (bb === "city guide" && aa !== "city guide") return 1;
+        return a.localeCompare(b, "pt-BR");
+      });
+
+      return cats.map(cat => ({ category: cat, items: map.get(cat) || [] }));
     }
 
     async function loadMaterials(userId){
@@ -318,7 +390,6 @@
       emptyStateEl.style.display = "none";
       hideGlobal();
 
-      // ATENÇÃO: tabela correta no seu banco é "purchase" (singular)
       const { data, error } = await sb
         .from("purchase")
         .select("id, category, city, pdf_url, created_at")
@@ -336,26 +407,72 @@
         return;
       }
 
-      data.forEach((row) => {
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML = `
-          <p class="title">${(row.city || "Material")} • ${(row.category || "Curadoria")}</p>
-          <p class="meta">Disponível para visualização</p>
-        `;
+      // ✅ DEDUPE: mantém só 1 por (category+city) pegando o mais recente (já vem order desc)
+      const seen = new Set();
+      const uniqueRows = [];
+      for (const row of data){
+        const k = uniqueKey(row.category, row.city);
+        if (seen.has(k)) continue;
+        seen.add(k);
+        uniqueRows.push(row);
+      }
 
-        div.addEventListener("click", () => {
-          viewerLabel.textContent = (row.city || "Material") + " • " + (row.category || "Curadoria");
-          viewer.src = row.pdf_url || "";
+      // Agrupa em “pastinhas” por categoria
+      const grouped = groupByCategory(uniqueRows);
+
+      // Render
+      grouped.forEach((group, idx) => {
+        const folder = document.createElement("div");
+        folder.className = "folder" + (idx === 0 ? " open" : "");
+
+        const head = document.createElement("div");
+        head.className = "folder-head";
+
+        const title = document.createElement("p");
+        title.className = "folder-title";
+        title.textContent = group.category;
+
+        const meta = document.createElement("p");
+        meta.className = "folder-meta";
+        meta.textContent = (group.items.length === 1 ? "1 material" : (group.items.length + " materiais"));
+
+        head.appendChild(title);
+        head.appendChild(meta);
+
+        const body = document.createElement("div");
+        body.className = "folder-body";
+
+        head.addEventListener("click", () => {
+          folder.classList.toggle("open");
         });
 
-        listEl.appendChild(div);
+        group.items.forEach((row) => {
+          const div = document.createElement("div");
+          div.className = "item";
+          div.innerHTML = `
+            <p class="title">${(row.city || "Material")}</p>
+            <p class="meta">Disponível para visualização</p>
+          `;
+
+          div.addEventListener("click", () => {
+            viewerLabel.textContent = (row.city || "Material") + " • " + (row.category || "Curadoria");
+            viewer.src = row.pdf_url || "";
+          });
+
+          body.appendChild(div);
+        });
+
+        folder.appendChild(head);
+        folder.appendChild(body);
+        listEl.appendChild(folder);
       });
 
-      // Seleciona o primeiro automaticamente
-      const first = data[0];
-      viewerLabel.textContent = (first.city || "Material") + " • " + (first.category || "Curadoria");
-      viewer.src = first.pdf_url || "";
+      // Seleciona o primeiro automaticamente (do primeiro grupo)
+      const first = grouped[0] && grouped[0].items && grouped[0].items[0] ? grouped[0].items[0] : null;
+      if (first){
+        viewerLabel.textContent = (first.city || "Material") + " • " + (first.category || "Curadoria");
+        viewer.src = first.pdf_url || "";
+      }
     }
 
     btnLogout.addEventListener("click", async () => {
