@@ -2,17 +2,67 @@
 const Stripe = require("stripe");
 const { createClient } = require("@supabase/supabase-js");
 
-function getEnv(name) {
-  const v = process.env[name];
-  if (!v) throw new Error(`Missing env var: ${name}`);
-  return v;
+function removeDiacritics(s) {
+  return String(s || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+function normalizeSpaces(s) {
+  return String(s || "").replace(/\s+/g, " ").trim();
+}
+function normalizeDashesToHyphen(s) {
+  let out = String(s || "")
+    .replace(/\u2013/g, "-")
+    .replace(/\u2014/g, "-")
+    .replace(/[—–−]/g, "-");
+  out = out.replace(/\s*-\s*/g, " - ");
+  return out;
+}
+function normalizeKey(s) {
+  return normalizeSpaces(normalizeDashesToHyphen(removeDiacritics(s))).toLowerCase();
 }
 
-function getBearerToken(req) {
-  const h = req.headers?.authorization || req.headers?.Authorization || "";
-  const s = String(h);
-  if (s.toLowerCase().startsWith("bearer ")) return s.slice(7).trim();
-  return "";
+async function findMaterial(supabase, category, city) {
+  const wantedCategoryKey = normalizeKey(category);
+  const wantedCityKey = normalizeKey(city);
+
+  // Busca candidatos por categoria e ativos
+  const { data: candidates, error } = await supabase
+    .from("curadoria_materials")
+    .select("pdf_url, category, city_label")
+    .eq("is_active", true)
+    .ilike("category", category.trim())
+    .limit(300);
+
+  if (error) {
+    return { error };
+  }
+
+  let pool = Array.isArray(candidates) ? candidates : [];
+
+  if (pool.length === 0) {
+    const { data: candidates2, error: error2 } = await supabase
+      .from("curadoria_materials")
+      .select("pdf_url, category, city_label")
+      .eq("is_active", true)
+      .ilike("category", `%${category.trim()}%`)
+      .limit(600);
+
+    if (error2) return { error: error2 };
+    pool = Array.isArray(candidates2) ? candidates2 : [];
+  }
+
+  const found = pool.find((row) => {
+    const rowCategoryKey = normalizeKey(row.category || "");
+    const rowCityKey = normalizeKey(row.city_label || "");
+    return rowCategoryKey === wantedCategoryKey && rowCityKey === wantedCityKey && row.pdf_url;
+  });
+
+  if (!found?.pdf_url) {
+    return { notFound: true, wantedCategoryKey, wantedCityKey };
+  }
+
+  return { found, wantedCategoryKey, wantedCityKey };
 }
 
 module.exports = async function handler(req, res) {
@@ -24,26 +74,37 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const secretKey = getEnv("STRIPE_SECRET_KEY");
-    const supabaseUrl = getEnv("SUPABASE_URL");
-    const supabaseServiceKey = getEnv("SUPABASE_SERVICE_ROLE_KEY");
+    const secretKey = process.env.STRIPE_SECRET_KEY;
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-    const sessionId =
-      req.query && req.query.session_id ? String(req.query.session_id).trim() : "";
+    if (!secretKey) return res.status(500).json({ error: "Missing STRIPE_SECRET_KEY env var" });
+    if (!supabaseUrl) return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
+    if (!supabaseServiceKey) return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
 
-    if (!sessionId) {
-      return res.status(400).json({ error: "Missing session_id" });
+    const sessionId = (req.query && req.query.session_id) ? String(req.query.session_id).trim() : "";
+    if (!sessionId) return res.status(400).json({ error: "Missing session_id" });
+
+    // =========================================================
+    // exige token (pra salvar acesso e evitar liberação pública)
+    // =========================================================
+    const authHeader = (req.headers && (req.headers.authorization || req.headers.Authorization)) ? String(req.headers.authorization || req.headers.Authorization) : "";
+    let accessToken = "";
+
+    if (authHeader.toLowerCase().startsWith("bearer ")) {
+      accessToken = authHeader.slice(7).trim();
+    } else if (req.query && req.query.access_token) {
+      accessToken = String(req.query.access_token).trim();
     }
 
-    // =========================================================
-    // Stripe: busca sessão e confirma pagamento
-    // =========================================================
+    if (!accessToken) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+
     const stripe = new Stripe(secretKey);
     const session = await stripe.checkout.sessions.retrieve(sessionId);
 
-    if (!session) {
-      return res.status(404).json({ error: "Session not found" });
-    }
+    if (!session) return res.status(404).json({ error: "Session not found" });
 
     const paid =
       session.payment_status === "paid" ||
@@ -57,198 +118,120 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const category =
-      session.metadata && session.metadata.category ? String(session.metadata.category).trim() : "";
-    const city =
-      session.metadata && session.metadata.city ? String(session.metadata.city).trim() : "";
-    const metadataUserId =
-      session.metadata && session.metadata.user_id ? String(session.metadata.user_id).trim() : "";
+    // Itens do carrinho vêm em metadata.items (JSON)
+    let items = [];
+    const rawItems = session.metadata?.items ? String(session.metadata.items) : "";
 
-    if (!category || !city) {
-      return res.status(500).json({
-        error: "Missing metadata in Stripe session",
-        metadata: session.metadata || null,
-      });
+    if (rawItems) {
+      try {
+        const parsed = JSON.parse(rawItems);
+        if (Array.isArray(parsed)) items = parsed;
+      } catch(e) {}
     }
 
-    // =========================================================
-    // Supabase (SERVER-SIDE com Service Role)
-    // =========================================================
-    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
-      auth: { persistSession: false },
-    });
-
-    // =========================================================
-    // Identificar user_id:
-    // 1) tenta pelo token (se vier)
-    // 2) fallback: usa user_id salvo na metadata do Stripe
-    // =========================================================
-    let userId = "";
-
-    const accessToken =
-      getBearerToken(req) ||
-      (req.query && req.query.access_token ? String(req.query.access_token).trim() : "");
-
-    if (accessToken) {
-      const { data: userData, error: userErr } = await supabase.auth.getUser(accessToken);
-      if (!userErr && userData?.user?.id) {
-        userId = userData.user.id;
-      }
+    // fallback (se for sessão antiga)
+    if (!items.length) {
+      const category = session.metadata?.category ? String(session.metadata.category).trim() : "";
+      const city = session.metadata?.city ? String(session.metadata.city).trim() : "";
+      if (category && city) items = [{ category, city }];
     }
 
-    if (!userId) {
-      // fallback: usa metadata.user_id (já vem do create-checkout-session)
-      userId = metadataUserId;
+    if (!items.length) {
+      return res.status(500).json({ error: "Missing items in Stripe session metadata" });
     }
 
-    if (!userId) {
-      return res.status(401).json({
-        error: "Not authenticated",
-        tip: "Sem token e sem user_id na metadata. Verifique se create-checkout-session está enviando metadata.user_id.",
-      });
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // valida usuário do token
+    const { data: userData, error: userErr } = await supabase.auth.getUser(accessToken);
+    if (userErr || !userData?.user?.id) {
+      return res.status(401).json({ error: "Invalid session" });
     }
+    const userId = userData.user.id;
 
-    // =========================
-    // Helpers de normalização (hífen / travessão / acentos)
-    // =========================
-    function removeDiacritics(s) {
-      return String(s || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-    }
+    const results = [];
 
-    function normalizeSpaces(s) {
-      return String(s || "").replace(/\s+/g, " ").trim();
-    }
+    for (const it of items) {
+      const category = String(it?.category || "").trim();
+      const city = String(it?.city || "").trim();
+      if (!category || !city) continue;
 
-    function normalizeDashesToHyphen(s) {
-      let out = String(s || "")
-        .replace(/\u2013/g, "-")
-        .replace(/\u2014/g, "-");
-
-      out = out.replace(/\s*-\s*/g, " - ");
-      return out;
-    }
-
-    function normalizeKey(s) {
-      return normalizeSpaces(normalizeDashesToHyphen(removeDiacritics(s))).toLowerCase();
-    }
-
-    const wantedCategoryKey = normalizeKey(category);
-    const wantedCityKey = normalizeKey(city);
-
-    // =========================================================
-    // Buscar o PDF na curadoria_materials (ativos)
-    // Estratégia:
-    // 1) pega pool por categoria (tolerante)
-    // 2) compara por chave normalizada (category + city_label)
-    // =========================================================
-    const { data: candidates, error: supaErr } = await supabase
-      .from("curadoria_materials")
-      .select("pdf_url, category, city_label")
-      .eq("is_active", true)
-      .ilike("category", category.trim())
-      .limit(500);
-
-    if (supaErr) {
-      return res.status(500).json({
-        error: "Supabase query error",
-        details: supaErr.message || String(supaErr),
-        category,
-        city,
-      });
-    }
-
-    let pool = Array.isArray(candidates) ? candidates : [];
-
-    if (pool.length === 0) {
-      const { data: candidates2, error: supaErr2 } = await supabase
-        .from("curadoria_materials")
-        .select("pdf_url, category, city_label")
-        .eq("is_active", true)
-        .ilike("category", `%${category.trim()}%`)
-        .limit(1000);
-
-      if (supaErr2) {
+      const foundRes = await findMaterial(supabase, category, city);
+      if (foundRes?.error) {
         return res.status(500).json({
           error: "Supabase query error",
-          details: supaErr2.message || String(supaErr2),
+          details: foundRes.error.message || String(foundRes.error),
           category,
           city,
         });
       }
 
-      pool = Array.isArray(candidates2) ? candidates2 : [];
-    }
+      if (foundRes?.notFound) {
+        results.push({
+          category,
+          city,
+          ok: false,
+          error: "Material not found",
+          normalized: {
+            wantedCategoryKey: foundRes.wantedCategoryKey,
+            wantedCityKey: foundRes.wantedCityKey,
+          }
+        });
+        continue;
+      }
 
-    const found = pool.find((row) => {
-      const rowCategoryKey = normalizeKey(row.category || "");
-      const rowCityKey = normalizeKey(row.city_label || "");
-      return rowCategoryKey === wantedCategoryKey && rowCityKey === wantedCityKey && row.pdf_url;
-    });
+      const pdf_url = foundRes.found.pdf_url;
 
-    if (!found || !found.pdf_url) {
-      return res.status(404).json({
-        error: "Material not found for this purchase",
+      // ✅ não duplicar: se já existe (user_id + category + city), não insere de novo
+      const { data: existing, error: existingErr } = await supabase
+        .from("purchase")
+        .select("id")
+        .eq("user_id", userId)
+        .eq("category", category)
+        .eq("city", city)
+        .limit(1);
+
+      if (existingErr) {
+        return res.status(500).json({
+          error: "Supabase purchase check error",
+          details: existingErr.message || String(existingErr),
+        });
+      }
+
+      const alreadyOwned = Array.isArray(existing) && existing.length > 0;
+
+      if (!alreadyOwned) {
+        const { error: insertErr } = await supabase
+          .from("purchase")
+          .insert({
+            user_id: userId,
+            category,
+            city,
+            pdf_url,
+            stripe_session_id: sessionId,
+          });
+
+        if (insertErr) {
+          return res.status(500).json({
+            error: "Supabase purchase insert error",
+            details: insertErr.message || String(insertErr),
+          });
+        }
+      }
+
+      results.push({
         category,
         city,
-        normalized: { wantedCategoryKey, wantedCityKey },
-        tip:
-          "Verifique se existe uma linha ativa (is_active=true) no Supabase com category e city_label exatamente como no site.",
+        ok: true,
+        pdf_url,
+        already_owned: alreadyOwned,
       });
-    }
-
-    // =========================================================
-    // SALVAR ACESSO VITALÍCIO NA TABELA purchase (singular)
-    // Evita duplicar por (user_id + stripe_session_id)
-    // (não usa coluna 'id' pra não quebrar se não existir)
-    // =========================================================
-    const { data: existing, error: existingErr } = await supabase
-      .from("purchase")
-      .select("stripe_session_id")
-      .eq("user_id", userId)
-      .eq("stripe_session_id", sessionId)
-      .limit(1);
-
-    if (existingErr) {
-      return res.status(500).json({
-        error: "Supabase purchase check error",
-        details: existingErr.message || String(existingErr),
-      });
-    }
-
-    if (!existing || existing.length === 0) {
-      const { error: insertErr } = await supabase
-        .from("purchase")
-        .insert({
-          user_id: userId,
-          category,
-          city,
-          pdf_url: found.pdf_url,
-          stripe_session_id: sessionId,
-        });
-
-      if (insertErr) {
-        return res.status(500).json({
-          error: "Supabase purchase insert error",
-          details: insertErr.message || String(insertErr),
-        });
-      }
     }
 
     return res.status(200).json({
       ok: true,
-      pdf_url: found.pdf_url,
-      category,
-      city,
-      matched: {
-        category: found.category,
-        city_label: found.city_label,
-      },
-      saved_access: true,
-      user_id_used: userId,
-      used_token: Boolean(accessToken),
-      used_metadata_user_id: !Boolean(accessToken) && Boolean(metadataUserId),
+      items: results,
+      redirect: "account.html",
     });
   } catch (err) {
     return res.status(500).json({
