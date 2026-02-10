@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Minha conta | Curadoria Elite Travel</title>
-
   <meta name="robots" content="noindex,nofollow" />
 
   <style>
@@ -15,6 +14,7 @@
       --muted:#9ca3af;
       --line:rgba(255,255,255,.10);
       --accent:#ffffff;
+      --gold:#d4af37;
     }
     *{box-sizing:border-box}
     body{
@@ -26,8 +26,6 @@
       display:flex;
       flex-direction:column;
     }
-    a{color:var(--text); text-decoration:none}
-    a:hover{text-decoration:underline}
 
     header{
       border-bottom:1px solid var(--line);
@@ -42,27 +40,15 @@
       gap:12px;
       flex-wrap:wrap;
     }
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-    }
+    .brand{display:flex; flex-direction:column; gap:4px;}
     .brand .name{
       font-weight:800;
       letter-spacing:.3px;
       text-transform:uppercase;
       font-size:14px;
     }
-    .brand .sub{
-      color:var(--muted);
-      font-size:12px;
-    }
-    .actions{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
+    .brand .sub{color:var(--muted); font-size:12px;}
+    .actions{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
     .btn{
       border:none;
       border-radius:12px;
@@ -71,15 +57,8 @@
       cursor:pointer;
       font-size:13px;
     }
-    .btn.primary{
-      background:var(--accent);
-      color:#000;
-    }
-    .btn.ghost{
-      background:transparent;
-      border:1px solid var(--line);
-      color:var(--text);
-    }
+    .btn.primary{background:var(--accent); color:#000;}
+    .btn.ghost{background:transparent; border:1px solid var(--line); color:var(--text);}
 
     main{
       max-width:980px;
@@ -98,92 +77,60 @@
       padding:16px;
     }
 
-    h1{
-      margin:0;
-      font-size:18px;
-    }
-    .muted{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.45;
-      margin-top:6px;
-    }
-
+    h1{margin:0; font-size:18px;}
+    .muted{color:var(--muted); font-size:13px; line-height:1.45; margin-top:6px;}
     .grid{
       display:grid;
       gap:14px;
       grid-template-columns: 1fr;
     }
-
     @media (min-width: 960px){
-      .grid{
-        grid-template-columns: 360px 1fr;
-        align-items:start;
-      }
+      .grid{grid-template-columns: 360px 1fr; align-items:start;}
     }
 
-    .list{
+    .section-title{
       display:flex;
-      flex-direction:column;
+      justify-content:space-between;
+      align-items:flex-end;
       gap:10px;
-      margin-top:12px;
+      flex-wrap:wrap;
+      margin-bottom:8px;
     }
 
-    /* ===== “pastinhas” ===== */
-    .folder{
+    .list{display:flex; flex-direction:column; gap:10px; margin-top:12px;}
+    .group{
       border:1px solid var(--line);
-      background: rgba(0,0,0,.18);
       border-radius:14px;
       overflow:hidden;
+      background: rgba(0,0,0,.18);
     }
-    .folder-head{
+    .group-head{
+      padding:10px 12px;
+      border-bottom:1px solid var(--line);
       display:flex;
-      align-items:center;
       justify-content:space-between;
-      gap:10px;
-      padding:12px 12px;
-      cursor:pointer;
-      user-select:none;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
     }
-    .folder-title{
+    .group-head .gname{
       font-weight:900;
-      font-size:13px;
-      margin:0;
+      font-size:12.5px;
+      color: var(--gold);
       letter-spacing:.2px;
-      text-transform:none;
+      text-transform:uppercase;
     }
-    .folder-meta{
-      color:var(--muted);
-      font-size:12px;
-      margin:0;
-      white-space:nowrap;
-    }
-    .folder-body{
-      padding:0 10px 10px;
-      display:none;
-    }
-    .folder.open .folder-body{ display:block; }
-
+    .group-head .gmeta{color:var(--muted); font-size:12px;}
     .item{
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.25);
-      border-radius:14px;
       padding:12px;
       cursor:pointer;
       transition: transform .06s ease;
-      margin-top:10px;
+      border-top:1px solid var(--line);
+      background: rgba(0,0,0,.10);
     }
     .item:hover{ transform: translateY(-1px); }
-    .item .title{
-      font-weight:800;
-      font-size:13px;
-      margin:0 0 4px;
-    }
-    .item .meta{
-      color:var(--muted);
-      font-size:12px;
-      margin:0;
-    }
+    .item .title{font-weight:800; font-size:13px; margin:0 0 4px;}
+    .item .meta{color:var(--muted); font-size:12px; margin:0;}
 
     .viewer-wrap{
       margin-top:12px;
@@ -204,16 +151,8 @@
       gap:10px;
       flex-wrap:wrap;
     }
-    .viewer-top .label{
-      font-size:12px;
-      color:var(--muted);
-    }
-    iframe{
-      width:100%;
-      height:560px;
-      border:0;
-      background:#000;
-    }
+    .viewer-top .label{font-size:12px; color:var(--muted);}
+    iframe{width:100%; height:560px; border:0; background:#000;}
 
     .msg{
       margin-top:12px;
@@ -226,6 +165,42 @@
       color:var(--text);
       margin-bottom:4px;
     }
+
+    .profile-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+    @media (min-width: 960px){
+      .profile-grid{grid-template-columns: 1fr 1fr;}
+    }
+    .kv{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px;
+      background: rgba(0,0,0,.14);
+    }
+    .kv .k{color:var(--muted); font-size:12px; margin:0 0 6px;}
+    .kv .v{font-weight:800; font-size:13px; margin:0;}
+
+    form{margin-top:12px; display:none;}
+    label{display:block; margin-top:12px; font-size:12.5px; color:var(--muted);}
+    input, select{
+      width:100%;
+      margin-top:6px;
+      padding:10px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      color:#fff;
+      box-sizing:border-box;
+      outline:none;
+    }
+    .row{display:flex; gap:10px;}
+    .row > div{flex:1;}
+    .checkboxRow{display:flex; align-items:center; gap:10px; margin-top:10px;}
+    .checkboxRow input{width:auto; margin:0;}
 
     footer{
       border-top:1px solid var(--line);
@@ -260,11 +235,104 @@
       <div id="globalMsg" class="msg" role="status" aria-live="polite"></div>
     </section>
 
+    <section class="card">
+      <div class="section-title">
+        <div>
+          <h1>Meu perfil (Nota Fiscal)</h1>
+          <div class="muted">Revise ou atualize seus dados de emissão.</div>
+        </div>
+        <button class="btn ghost" id="btnEditProfile" type="button">Editar</button>
+      </div>
+
+      <div id="profileView" class="profile-grid"></div>
+
+      <form id="profileForm">
+        <div class="row">
+          <div>
+            <label>Tipo de documento</label>
+            <select id="person_type">
+              <option value="CPF">Pessoa Física (CPF)</option>
+              <option value="CNPJ">Pessoa Jurídica (CNPJ)</option>
+            </select>
+          </div>
+          <div>
+            <label>CPF / CNPJ</label>
+            <input id="doc_number" placeholder="Digite seu CPF ou CNPJ" inputmode="numeric" />
+          </div>
+        </div>
+
+        <label>Nome completo / Razão social</label>
+        <input id="full_name" />
+
+        <div class="row">
+          <div>
+            <label>Sexo (apenas CPF)</label>
+            <select id="gender">
+              <option value="" selected>Selecione</option>
+              <option value="Mulher">Mulher</option>
+              <option value="Homem">Homem</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+          <div>
+            <label>Data de nascimento (apenas CPF)</label>
+            <input type="date" id="birth_date" />
+          </div>
+        </div>
+
+        <div class="checkboxRow">
+          <input type="checkbox" id="ie_isento" checked />
+          <label for="ie_isento" style="margin:0;">Isento de Inscrição Estadual (apenas CNPJ)</label>
+        </div>
+
+        <label>Inscrição Estadual (IE) (apenas CNPJ e não isento)</label>
+        <input id="ie" />
+
+        <div class="row">
+          <div>
+            <label>UF</label>
+            <input id="uf" placeholder="SP" />
+          </div>
+          <div>
+            <label>Cidade</label>
+            <input id="city_name" placeholder="São Paulo" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>CEP</label>
+            <input id="cep" inputmode="numeric" placeholder="00000-000" />
+          </div>
+          <div>
+            <label>Bairro</label>
+            <input id="neighborhood" />
+          </div>
+        </div>
+
+        <label>Endereço</label>
+        <input id="street" placeholder="Ex: Av. Paulista" />
+
+        <div class="row">
+          <div>
+            <label>Número</label>
+            <input id="street_number" />
+          </div>
+          <div>
+            <label>Complemento</label>
+            <input id="complement" placeholder="Apto, bloco, etc." />
+          </div>
+        </div>
+
+        <button class="btn primary" id="btnSaveProfile" type="submit" style="margin-top:14px;">Salvar</button>
+      </form>
+    </section>
+
     <section class="card grid">
       <div>
         <h1>Meus materiais</h1>
         <div class="muted">
-          Aqui ficam os materiais disponíveis para visualização na sua conta.
+          Seus materiais ficam organizados por categoria. Selecione para visualizar.
         </div>
 
         <div id="list" class="list"></div>
@@ -297,14 +365,13 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-    // Supabase
     const sb = supabase.createClient(
       "https://lnyoqoezezisakghtmim.supabase.co",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA"
     );
 
-    // UI
     document.getElementById("year").textContent = new Date().getFullYear();
+
     const userEmailEl = document.getElementById("userEmail");
     const btnLogout = document.getElementById("btnLogout");
     const listEl = document.getElementById("list");
@@ -312,6 +379,11 @@
     const viewer = document.getElementById("viewer");
     const viewerLabel = document.getElementById("viewerLabel");
     const globalMsg = document.getElementById("globalMsg");
+
+    const profileView = document.getElementById("profileView");
+    const profileForm = document.getElementById("profileForm");
+    const btnEditProfile = document.getElementById("btnEditProfile");
+    const btnSaveProfile = document.getElementById("btnSaveProfile");
 
     function showGlobal(title, text){
       globalMsg.innerHTML = "<strong>" + title + "</strong>" + (text || "");
@@ -322,73 +394,99 @@
       globalMsg.innerHTML = "";
     }
 
-    // Proteção simples
-    document.addEventListener("keydown", function(e){
-      if ((e.ctrlKey || e.metaKey) && (e.key || "").toLowerCase() === "s") {
-        e.preventDefault();
-      }
-    });
-
-    // Normalização para detectar duplicados por (category + city)
-    function normalizeKeyPart(str){
-      return String(str || "")
-        .trim()
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[—–−]/g, "-")
-        .replace(/\s*-\s*/g, " - ")
-        .replace(/\s+/g, " ")
-        .trim();
-    }
-
-    function uniqueKey(category, city){
-      return normalizeKeyPart(category) + "||" + normalizeKeyPart(city);
-    }
+    function onlyDigits(v){ return String(v || "").replace(/\D+/g, ""); }
 
     async function requireSession(){
       const { data } = await sb.auth.getSession();
       if (!data || !data.session) {
-        window.location.href = "login.html";
+        window.location.href = "login.html?return_to=" + encodeURIComponent("account.html");
         return null;
       }
       return data.session;
     }
 
-    async function loadUser(){
-      const session = await requireSession();
-      if (!session) return;
+    async function getAccessToken(){
+      const { data } = await sb.auth.getSession();
+      return data?.session?.access_token || null;
+    }
 
-      const user = session.user;
-      userEmailEl.textContent = "Logado como: " + (user.email || "");
+    function renderProfile(row){
+      const safe = (v) => (v === null || v === undefined || v === "" ? "-" : String(v));
+      const fields = [
+        ["Tipo", safe(row?.person_type)],
+        ["Documento", safe(row?.doc_number)],
+        ["Nome / Razão social", safe(row?.full_name)],
+        ["Sexo", safe(row?.gender)],
+        ["Nascimento", safe(row?.birth_date)],
+        ["IE isento", row?.ie_isento === true ? "Sim" : (row?.ie_isento === false ? "Não" : "-")],
+        ["IE", safe(row?.ie)],
+        ["UF", safe(row?.uf)],
+        ["Cidade", safe(row?.city_name)],
+        ["CEP", safe(row?.cep)],
+        ["Bairro", safe(row?.neighborhood)],
+        ["Endereço", safe(row?.street)],
+        ["Número", safe(row?.street_number)],
+        ["Complemento", safe(row?.complement)],
+      ];
 
-      await loadMaterials(user.id);
+      profileView.innerHTML = fields.map(([k,v]) => `
+        <div class="kv">
+          <p class="k">${k}</p>
+          <p class="v">${v}</p>
+        </div>
+      `).join("");
+    }
+
+    function fillForm(row){
+      document.getElementById("person_type").value = row?.person_type || "CPF";
+      document.getElementById("doc_number").value = row?.doc_number || "";
+      document.getElementById("full_name").value = row?.full_name || "";
+      document.getElementById("gender").value = row?.gender || "";
+      document.getElementById("birth_date").value = row?.birth_date || "";
+      document.getElementById("ie_isento").checked = row?.ie_isento === true;
+      document.getElementById("ie").value = row?.ie || "";
+      document.getElementById("uf").value = row?.uf || "";
+      document.getElementById("city_name").value = row?.city_name || "";
+      document.getElementById("cep").value = row?.cep || "";
+      document.getElementById("neighborhood").value = row?.neighborhood || "";
+      document.getElementById("street").value = row?.street || "";
+      document.getElementById("street_number").value = row?.street_number || "";
+      document.getElementById("complement").value = row?.complement || "";
+    }
+
+    async function loadInvoiceProfile(userId){
+      // ⚠️ Aqui depende da RLS permitir o próprio usuário ler invoice_profiles.
+      // Se você já configurou isso (normal), funciona.
+      const { data, error } = await sb
+        .from("invoice_profiles")
+        .select("*")
+        .eq("user_id", userId)
+        .limit(1)
+        .maybeSingle();
+
+      if (error || !data){
+        renderProfile({});
+        showGlobal("Atenção", "Você ainda não cadastrou seus dados de Nota Fiscal, ou não foi possível carregar. Clique em Editar para preencher.");
+        return null;
+      }
+
+      renderProfile(data);
+      return data;
     }
 
     function groupByCategory(rows){
       const map = new Map();
-      rows.forEach(r => {
-        const cat = (r.category || "Curadoria").trim();
+      (rows || []).forEach(r => {
+        const cat = (r.category || "Outros").trim();
         if (!map.has(cat)) map.set(cat, []);
         map.get(cat).push(r);
       });
-      // ordena categorias (City Guide primeiro se existir)
-      const cats = Array.from(map.keys());
-      cats.sort((a,b) => {
-        const aa = a.toLowerCase();
-        const bb = b.toLowerCase();
-        if (aa === "city guide" && bb !== "city guide") return -1;
-        if (bb === "city guide" && aa !== "city guide") return 1;
-        return a.localeCompare(b, "pt-BR");
-      });
-
-      return cats.map(cat => ({ category: cat, items: map.get(cat) || [] }));
+      return map;
     }
 
     async function loadMaterials(userId){
       listEl.innerHTML = "";
       emptyStateEl.style.display = "none";
-      hideGlobal();
 
       const { data, error } = await sb
         .from("purchase")
@@ -398,7 +496,7 @@
 
       if (error) {
         emptyStateEl.style.display = "block";
-        showGlobal("Conta criada com sucesso", "Seu acesso aparecerá aqui assim que a compra for concluída.");
+        showGlobal("Conta", "Seu acesso aparecerá aqui assim que a compra for concluída.");
         return;
       }
 
@@ -407,46 +505,19 @@
         return;
       }
 
-      // ✅ DEDUPE: mantém só 1 por (category+city) pegando o mais recente (já vem order desc)
-      const seen = new Set();
-      const uniqueRows = [];
-      for (const row of data){
-        const k = uniqueKey(row.category, row.city);
-        if (seen.has(k)) continue;
-        seen.add(k);
-        uniqueRows.push(row);
-      }
+      const grouped = groupByCategory(data);
 
-      // Agrupa em “pastinhas” por categoria
-      const grouped = groupByCategory(uniqueRows);
+      grouped.forEach((rows, category) => {
+        const wrap = document.createElement("div");
+        wrap.className = "group";
+        wrap.innerHTML = `
+          <div class="group-head">
+            <div class="gname">${category}</div>
+            <div class="gmeta">${rows.length} item(ns)</div>
+          </div>
+        `;
 
-      // Render
-      grouped.forEach((group, idx) => {
-        const folder = document.createElement("div");
-        folder.className = "folder" + (idx === 0 ? " open" : "");
-
-        const head = document.createElement("div");
-        head.className = "folder-head";
-
-        const title = document.createElement("p");
-        title.className = "folder-title";
-        title.textContent = group.category;
-
-        const meta = document.createElement("p");
-        meta.className = "folder-meta";
-        meta.textContent = (group.items.length === 1 ? "1 material" : (group.items.length + " materiais"));
-
-        head.appendChild(title);
-        head.appendChild(meta);
-
-        const body = document.createElement("div");
-        body.className = "folder-body";
-
-        head.addEventListener("click", () => {
-          folder.classList.toggle("open");
-        });
-
-        group.items.forEach((row) => {
+        rows.forEach((row) => {
           const div = document.createElement("div");
           div.className = "item";
           div.innerHTML = `
@@ -459,26 +530,107 @@
             viewer.src = row.pdf_url || "";
           });
 
-          body.appendChild(div);
+          wrap.appendChild(div);
         });
 
-        folder.appendChild(head);
-        folder.appendChild(body);
-        listEl.appendChild(folder);
+        listEl.appendChild(wrap);
       });
 
-      // Seleciona o primeiro automaticamente (do primeiro grupo)
-      const first = grouped[0] && grouped[0].items && grouped[0].items[0] ? grouped[0].items[0] : null;
-      if (first){
-        viewerLabel.textContent = (first.city || "Material") + " • " + (first.category || "Curadoria");
-        viewer.src = first.pdf_url || "";
-      }
+      // Seleciona o primeiro automaticamente
+      const first = data[0];
+      viewerLabel.textContent = (first.city || "Material") + " • " + (first.category || "Curadoria");
+      viewer.src = first.pdf_url || "";
     }
+
+    btnEditProfile.addEventListener("click", async () => {
+      profileForm.style.display = (profileForm.style.display === "block") ? "none" : "block";
+      if (profileForm.style.display === "block"){
+        btnEditProfile.textContent = "Fechar";
+      } else {
+        btnEditProfile.textContent = "Editar";
+      }
+    });
+
+    profileForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      hideGlobal();
+
+      const token = await getAccessToken();
+      if (!token){
+        showGlobal("Acesso", "Faça login novamente para salvar seus dados.");
+        return;
+      }
+
+      btnSaveProfile.disabled = true;
+      btnSaveProfile.textContent = "Salvando...";
+
+      const payload = {
+        person_type: document.getElementById("person_type").value,
+        doc_number: onlyDigits(document.getElementById("doc_number").value),
+        full_name: document.getElementById("full_name").value,
+        gender: document.getElementById("gender").value || null,
+        birth_date: document.getElementById("birth_date").value || null,
+        ie_isento: document.getElementById("ie_isento").checked,
+        ie: document.getElementById("ie").value || null,
+        uf: document.getElementById("uf").value,
+        city_name: document.getElementById("city_name").value,
+        cep: onlyDigits(document.getElementById("cep").value),
+        neighborhood: document.getElementById("neighborhood").value,
+        street: document.getElementById("street").value,
+        street_number: document.getElementById("street_number").value,
+        complement: document.getElementById("complement").value || null
+      };
+
+      try{
+        const res = await fetch("/api/save-invoice-profile", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const json = await res.json().catch(() => null);
+
+        if (!res.ok || !json?.ok){
+          showGlobal("Erro", "Não foi possível salvar. Revise os campos e tente novamente.");
+          btnSaveProfile.disabled = false;
+          btnSaveProfile.textContent = "Salvar";
+          return;
+        }
+
+        showGlobal("Sucesso", "Dados atualizados com sucesso.");
+        profileForm.style.display = "none";
+        btnEditProfile.textContent = "Editar";
+        renderProfile(payload);
+
+      }catch(err){
+        showGlobal("Erro", "Falha ao salvar. Tente novamente.");
+      } finally {
+        btnSaveProfile.disabled = false;
+        btnSaveProfile.textContent = "Salvar";
+      }
+    });
 
     btnLogout.addEventListener("click", async () => {
       await sb.auth.signOut();
-      window.location.href = "login.html";
+      window.location.href = "index.html";
     });
+
+    async function loadUser(){
+      hideGlobal();
+      const session = await requireSession();
+      if (!session) return;
+
+      const user = session.user;
+      userEmailEl.textContent = "Logado como: " + (user.email || "");
+
+      const inv = await loadInvoiceProfile(user.id);
+      if (inv) fillForm(inv);
+
+      await loadMaterials(user.id);
+    }
 
     loadUser();
   </script>
