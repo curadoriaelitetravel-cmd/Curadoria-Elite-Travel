@@ -9,12 +9,14 @@ function getBearerToken(req) {
   return "";
 }
 
-function normalizeCategory(cat) {
-  return String(cat || "").trim().toLowerCase();
+function isCityGuideCategory(category) {
+  return String(category || "").trim().toLowerCase() === "city guide";
 }
 
-function safeString(v) {
-  return String(v || "").trim();
+function normalizeItem(it) {
+  const category = String(it?.category || "").trim();
+  const city = String(it?.city || "").trim();
+  return { category, city };
 }
 
 module.exports = async function handler(req, res) {
@@ -39,37 +41,21 @@ module.exports = async function handler(req, res) {
     if (!supabaseUrl) return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
     if (!supabaseServiceKey) return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
 
-    // =====================================================
-    // 0) Ler body (compatível com antigo e novo)
-    // Novo: { items: [{ category, city }, ...] }
-    // Antigo: { category, city }
-    // =====================================================
     const body = req.body || {};
+
+    // ✅ suporte a:
+    // A) { category, city }  (1 item)
+    // B) { items: [{category, city}, ...] } (carrinho)
     let items = [];
 
     if (Array.isArray(body.items) && body.items.length > 0) {
-      items = body.items;
-    } else {
-      const category = body.category;
-      const city = body.city;
-      if (category && city) items = [{ category, city }];
+      items = body.items.map(normalizeItem).filter(x => x.category && x.city);
+    } else if (body.category && body.city) {
+      items = [ normalizeItem({ category: body.category, city: body.city }) ];
     }
 
-    // validação
-    items = items
-      .map((it) => ({
-        category: safeString(it?.category),
-        city: safeString(it?.city),
-      }))
-      .filter((it) => it.category && it.city);
-
-    if (items.length === 0) {
-      return res.status(400).json({ error: "Missing items (category/city)" });
-    }
-
-    // limite de segurança
-    if (items.length > 12) {
-      return res.status(400).json({ error: "Too many items in cart (max 12)" });
+    if (!items.length) {
+      return res.status(400).json({ error: "Missing category/city or items[]" });
     }
 
     // =====================================================
@@ -85,7 +71,6 @@ module.exports = async function handler(req, res) {
     });
 
     const { data: userData, error: userErr } = await supabase.auth.getUser(token);
-
     if (userErr || !userData?.user?.id) {
       return res.status(200).json({ code: "LOGIN_REQUIRED" });
     }
@@ -94,52 +79,20 @@ module.exports = async function handler(req, res) {
 
     // =====================================================
     // 2) EXIGIR NOTA FISCAL ANTES DO STRIPE
-    // OBS: NÃO usa column "id" pois no seu banco pode não existir.
+    // ✅ CORREÇÃO: não depende de invoice_profiles.id
     // =====================================================
-    async function tryInvoiceTable(tableName) {
-      // usa coluna user_id (que com certeza existe, porque filtramos por ela)
-      const { data, error } = await supabase
-        .from(tableName)
-        .select("user_id")
-        .eq("user_id", userId)
-        .limit(1)
-        .maybeSingle();
+    const { data: invoiceRow, error: invoiceErr } = await supabase
+      .from("invoice_profiles")
+      .select("user_id")
+      .eq("user_id", userId)
+      .limit(1)
+      .maybeSingle();
 
-      return { data, error };
-    }
-
-    let invoiceRow = null;
-
-    // tentativa 1: plural
-    let attempt1 = await tryInvoiceTable("invoice_profiles");
-    if (attempt1.error) {
-      const msg = String(attempt1.error.message || "");
-      const notFound =
-        msg.includes("Could not find the table") ||
-        msg.includes("relation") ||
-        msg.toLowerCase().includes("does not exist");
-
-      if (!notFound) {
-        return res.status(500).json({
-          error: "Failed to check invoice profile",
-          details: attempt1.error.message,
-        });
-      }
-
-      // fallback: singular
-      let attempt2 = await tryInvoiceTable("invoice_profile");
-      if (attempt2.error) {
-        return res.status(500).json({
-          error: "Failed to check invoice profile",
-          details:
-            "Não encontramos a tabela de Nota Fiscal. Verifique se existe 'invoice_profiles' (recomendado). Erro: " +
-            (attempt2.error.message || "unknown"),
-        });
-      }
-
-      invoiceRow = attempt2.data || null;
-    } else {
-      invoiceRow = attempt1.data || null;
+    if (invoiceErr) {
+      return res.status(500).json({
+        error: "Failed to check invoice profile",
+        details: invoiceErr.message,
+      });
     }
 
     if (!invoiceRow) {
@@ -147,13 +100,12 @@ module.exports = async function handler(req, res) {
     }
 
     // =====================================================
-    // 3) CRIAR CHECKOUT STRIPE (multi-itens)
+    // 3) CRIAR CHECKOUT STRIPE (1 sessão com N itens)
     // =====================================================
     const stripe = new Stripe(secretKey);
 
     const line_items = items.map((it) => {
-      const isCityGuide = normalizeCategory(it.category) === "city guide";
-      const priceId = isCityGuide ? priceCityGuide : priceDefault;
+      const priceId = isCityGuideCategory(it.category) ? priceCityGuide : priceDefault;
       return { price: priceId, quantity: 1 };
     });
 
@@ -166,12 +118,9 @@ module.exports = async function handler(req, res) {
     const successUrl = `${safeOrigin}/checkout-success.html?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${safeOrigin}/?checkout=cancel`;
 
-    // metadata tem limite — guardamos um “resumo” + json compacto
-    // (para carrinhos pequenos isso funciona bem)
-    const compactItems = items.map((it) => ({
-      c: it.category,
-      t: it.city,
-    }));
+    // ⚠️ metadata: guarda o carrinho inteiro
+    // Stripe metadata é texto — vamos compactar:
+    const itemsJson = JSON.stringify(items);
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -180,10 +129,7 @@ module.exports = async function handler(req, res) {
       cancel_url: cancelUrl,
       metadata: {
         user_id: String(userId),
-        items_json: JSON.stringify(compactItems).slice(0, 450), // segurança com limite
-        // compatibilidade: caso você ainda use em algum lugar
-        category: String(items[0].category),
-        city: String(items[0].city),
+        items: itemsJson,
       },
     });
 
