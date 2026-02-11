@@ -202,6 +202,44 @@
     .checkboxRow{display:flex; align-items:center; gap:10px; margin-top:10px;}
     .checkboxRow input{width:auto; margin:0;}
 
+    /* Indicador de IE (CNPJ) */
+    .ieBox{
+      margin-top:12px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:12px;
+      padding:10px;
+      background: rgba(0,0,0,.18);
+    }
+    .ieTitle{
+      margin:0 0 10px;
+      color:var(--gold);
+      font-weight:900;
+      font-size:12px;
+      letter-spacing:.2px;
+      text-transform:uppercase;
+    }
+    .ieOptions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .ieOpt{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.12);
+      cursor:pointer;
+      user-select:none;
+      font-size:13px;
+      color:var(--text);
+    }
+    .ieOpt input{width:auto; margin:0; accent-color: var(--gold);}
+
+    .hidden{ display:none !important; }
+
     footer{
       border-top:1px solid var(--line);
       padding:16px;
@@ -261,10 +299,10 @@
           </div>
         </div>
 
-        <label>Nome completo / Razão social</label>
+        <label id="nameLabel">Nome completo / Razão social</label>
         <input id="full_name" />
 
-        <div class="row">
+        <div class="row" id="cpfRow">
           <div>
             <label>Sexo (apenas CPF)</label>
             <select id="gender">
@@ -280,13 +318,29 @@
           </div>
         </div>
 
-        <div class="checkboxRow">
-          <input type="checkbox" id="ie_isento" checked />
-          <label for="ie_isento" style="margin:0;">Isento de Inscrição Estadual (apenas CNPJ)</label>
+        <!-- CNPJ: Indicador de IE -->
+        <div id="cnpjIeBox" class="ieBox hidden">
+          <p class="ieTitle">Indicador de IE</p>
+          <div class="ieOptions">
+            <label class="ieOpt">
+              <input type="radio" name="ie_indicator" value="CONTRIBUINTE">
+              Contribuinte
+            </label>
+            <label class="ieOpt">
+              <input type="radio" name="ie_indicator" value="ISENTO">
+              Isento
+            </label>
+            <label class="ieOpt">
+              <input type="radio" name="ie_indicator" value="NAO_CONTRIBUINTE">
+              Não Contribuinte
+            </label>
+          </div>
         </div>
 
-        <label>Inscrição Estadual (IE) (apenas CNPJ e não isento)</label>
-        <input id="ie" />
+        <div id="cnpjIeNumberWrap" class="hidden">
+          <label>Inscrição Estadual (IE) (apenas CNPJ e Contribuinte)</label>
+          <input id="ie" inputmode="numeric" />
+        </div>
 
         <div class="row">
           <div>
@@ -385,6 +439,13 @@
     const btnEditProfile = document.getElementById("btnEditProfile");
     const btnSaveProfile = document.getElementById("btnSaveProfile");
 
+    const personTypeEl = document.getElementById("person_type");
+    const cpfRow = document.getElementById("cpfRow");
+    const cnpjIeBox = document.getElementById("cnpjIeBox");
+    const cnpjIeNumberWrap = document.getElementById("cnpjIeNumberWrap");
+    const nameLabel = document.getElementById("nameLabel");
+    const ieInput = document.getElementById("ie");
+
     function showGlobal(title, text){
       globalMsg.innerHTML = "<strong>" + title + "</strong>" + (text || "");
       globalMsg.style.display = "block";
@@ -395,7 +456,58 @@
     }
 
     function onlyDigits(v){ return String(v || "").replace(/\D+/g, ""); }
+    function maskCEP(v){
+      const d = onlyDigits(v).slice(0, 8);
+      if (d.length <= 5) return d;
+      return d.slice(0,5) + "-" + d.slice(5);
+    }
+    function maskIE(v){
+      return onlyDigits(v).slice(0, 14);
+    }
 
+    function getSelectedIeIndicator(){
+      const radios = document.querySelectorAll('input[name="ie_indicator"]');
+      for (const r of radios){
+        if (r.checked) return r.value;
+      }
+      return "";
+    }
+    function setSelectedIeIndicator(val){
+      const radios = document.querySelectorAll('input[name="ie_indicator"]');
+      radios.forEach(r => r.checked = (r.value === val));
+    }
+
+    function syncFormByType(){
+      const t = String(personTypeEl.value || "CPF").toUpperCase();
+      const isCnpj = t === "CNPJ";
+
+      if (cpfRow) cpfRow.classList.toggle("hidden", isCnpj);
+      if (cnpjIeBox) cnpjIeBox.classList.toggle("hidden", !isCnpj);
+
+      if (nameLabel) nameLabel.textContent = isCnpj ? "Razão social" : "Nome completo";
+
+      if (!isCnpj){
+        // CPF: limpa IE
+        setSelectedIeIndicator("");
+        if (cnpjIeNumberWrap) cnpjIeNumberWrap.classList.add("hidden");
+        if (ieInput) ieInput.value = "";
+      }else{
+        // CNPJ: mostra/oculta IE conforme indicador
+        toggleIeNumberByIndicator();
+      }
+    }
+
+    function toggleIeNumberByIndicator(){
+      const ind = getSelectedIeIndicator();
+      if (!cnpjIeNumberWrap) return;
+      cnpjIeNumberWrap.classList.toggle("hidden", ind !== "CONTRIBUINTE");
+      if (ind !== "CONTRIBUINTE" && ieInput) ieInput.value = "";
+    }
+
+    /* (continua na Parte 2/2) */
+  </script>
+</body>
+</html>
     async function requireSession(){
       const { data } = await sb.auth.getSession();
       if (!data || !data.session) {
@@ -410,24 +522,44 @@
       return data?.session?.access_token || null;
     }
 
+    function ieIndicatorLabel(v){
+      const x = String(v || "").toUpperCase();
+      if (x === "CONTRIBUINTE") return "Contribuinte";
+      if (x === "ISENTO") return "Isento";
+      if (x === "NAO_CONTRIBUINTE") return "Não Contribuinte";
+      return "-";
+    }
+
     function renderProfile(row){
       const safe = (v) => (v === null || v === undefined || v === "" ? "-" : String(v));
+
+      const isCnpj = String(row?.person_type || "").toUpperCase() === "CNPJ";
+
       const fields = [
         ["Tipo", safe(row?.person_type)],
         ["Documento", safe(row?.doc_number)],
         ["Nome / Razão social", safe(row?.full_name)],
-        ["Sexo", safe(row?.gender)],
-        ["Nascimento", safe(row?.birth_date)],
-        ["IE isento", row?.ie_isento === true ? "Sim" : (row?.ie_isento === false ? "Não" : "-")],
-        ["IE", safe(row?.ie)],
-        ["UF", safe(row?.uf)],
-        ["Cidade", safe(row?.city_name)],
-        ["CEP", safe(row?.cep)],
-        ["Bairro", safe(row?.neighborhood)],
-        ["Endereço", safe(row?.street)],
-        ["Número", safe(row?.street_number)],
-        ["Complemento", safe(row?.complement)],
       ];
+
+      // CPF: mostra campos cpf
+      if (!isCnpj){
+        fields.push(["Sexo", safe(row?.gender)]);
+        fields.push(["Nascimento", safe(row?.birth_date)]);
+      }
+
+      // CNPJ: mostra indicador IE e IE
+      if (isCnpj){
+        fields.push(["Indicador de IE", ieIndicatorLabel(row?.ie_indicator)]);
+        fields.push(["IE", safe(row?.ie)]);
+      }
+
+      fields.push(["UF", safe(row?.uf)]);
+      fields.push(["Cidade", safe(row?.city_name)]);
+      fields.push(["CEP", safe(row?.cep)]);
+      fields.push(["Bairro", safe(row?.neighborhood)]);
+      fields.push(["Endereço", safe(row?.street)]);
+      fields.push(["Número", safe(row?.street_number)]);
+      fields.push(["Complemento", safe(row?.complement)]);
 
       profileView.innerHTML = fields.map(([k,v]) => `
         <div class="kv">
@@ -438,13 +570,22 @@
     }
 
     function fillForm(row){
-      document.getElementById("person_type").value = row?.person_type || "CPF";
+      const pt = String(row?.person_type || "CPF").toUpperCase();
+      personTypeEl.value = (pt === "CNPJ") ? "CNPJ" : "CPF";
+
       document.getElementById("doc_number").value = row?.doc_number || "";
       document.getElementById("full_name").value = row?.full_name || "";
+
       document.getElementById("gender").value = row?.gender || "";
       document.getElementById("birth_date").value = row?.birth_date || "";
-      document.getElementById("ie_isento").checked = row?.ie_isento === true;
+
+      // indicador de IE (novo)
+      const ind = String(row?.ie_indicator || "").toUpperCase();
+      setSelectedIeIndicator(ind);
+
+      // IE
       document.getElementById("ie").value = row?.ie || "";
+
       document.getElementById("uf").value = row?.uf || "";
       document.getElementById("city_name").value = row?.city_name || "";
       document.getElementById("cep").value = row?.cep || "";
@@ -452,11 +593,12 @@
       document.getElementById("street").value = row?.street || "";
       document.getElementById("street_number").value = row?.street_number || "";
       document.getElementById("complement").value = row?.complement || "";
+
+      syncFormByType();
+      toggleIeNumberByIndicator();
     }
 
     async function loadInvoiceProfile(userId){
-      // ⚠️ Aqui depende da RLS permitir o próprio usuário ler invoice_profiles.
-      // Se você já configurou isso (normal), funciona.
       const { data, error } = await sb
         .from("invoice_profiles")
         .select("*")
@@ -536,7 +678,6 @@
         listEl.appendChild(wrap);
       });
 
-      // Seleciona o primeiro automaticamente
       const first = data[0];
       viewerLabel.textContent = (first.city || "Material") + " • " + (first.category || "Curadoria");
       viewer.src = first.pdf_url || "";
@@ -551,6 +692,59 @@
       }
     });
 
+    // reações do formulário
+    personTypeEl.addEventListener("change", () => {
+      hideGlobal();
+      syncFormByType();
+    });
+
+    // IE indicator change
+    const ieRadios = document.querySelectorAll('input[name="ie_indicator"]');
+    ieRadios.forEach(r => {
+      r.addEventListener("change", () => {
+        hideGlobal();
+        toggleIeNumberByIndicator();
+      });
+    });
+
+    // máscaras leves
+    const cepEl = document.getElementById("cep");
+    if (cepEl){
+      cepEl.addEventListener("input", () => {
+        cepEl.value = maskCEP(cepEl.value);
+      });
+    }
+    if (ieInput){
+      ieInput.addEventListener("input", () => {
+        ieInput.value = maskIE(ieInput.value);
+      });
+    }
+
+    function validateProfilePayload(payload){
+      const pt = String(payload.person_type || "").toUpperCase();
+      const isCnpj = pt === "CNPJ";
+
+      if (!payload.doc_number) return "Preencha CPF/CNPJ.";
+      if (isCnpj){
+        if (!payload.corporate_name) return "Preencha a Razão social.";
+        if (!payload.ie_indicator) return "Selecione o Indicador de IE (Contribuinte, Isento ou Não Contribuinte).";
+        if (payload.ie_indicator === "CONTRIBUINTE" && !payload.ie) return "Preencha a IE (se Contribuinte).";
+      }else{
+        if (!payload.full_name) return "Preencha o Nome completo.";
+        if (!payload.birth_date) return "Preencha a Data de nascimento.";
+        if (!payload.gender) return "Selecione o Sexo.";
+      }
+
+      if (!payload.cep) return "Preencha o CEP.";
+      if (!payload.uf) return "Preencha o UF.";
+      if (!payload.city_name) return "Preencha a Cidade.";
+      if (!payload.neighborhood) return "Preencha o Bairro.";
+      if (!payload.street) return "Preencha o Endereço.";
+      if (!payload.street_number) return "Preencha o Número.";
+
+      return null;
+    }
+
     profileForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       hideGlobal();
@@ -564,22 +758,42 @@
       btnSaveProfile.disabled = true;
       btnSaveProfile.textContent = "Salvando...";
 
+      const pt = String(personTypeEl.value || "CPF").toUpperCase();
+      const isCnpj = pt === "CNPJ";
+
+      const doc = onlyDigits(document.getElementById("doc_number").value);
+      const name = String(document.getElementById("full_name").value || "").trim();
+
       const payload = {
-        person_type: document.getElementById("person_type").value,
-        doc_number: onlyDigits(document.getElementById("doc_number").value),
-        full_name: document.getElementById("full_name").value,
-        gender: document.getElementById("gender").value || null,
-        birth_date: document.getElementById("birth_date").value || null,
-        ie_isento: document.getElementById("ie_isento").checked,
-        ie: document.getElementById("ie").value || null,
-        uf: document.getElementById("uf").value,
-        city_name: document.getElementById("city_name").value,
+        person_type: pt,
+        doc_number: doc,
+
+        // CPF vs CNPJ (a API atual usa full_name + corporate_name)
+        full_name: isCnpj ? "" : name,
+        corporate_name: isCnpj ? name : "",
+
+        gender: isCnpj ? null : (document.getElementById("gender").value || null),
+        birth_date: isCnpj ? null : (document.getElementById("birth_date").value || null),
+
+        ie_indicator: isCnpj ? getSelectedIeIndicator() : null,
+        ie: isCnpj ? (getSelectedIeIndicator() === "CONTRIBUINTE" ? (maskIE(document.getElementById("ie").value) || null) : null) : null,
+
+        uf: String(document.getElementById("uf").value || "").trim(),
+        city_name: String(document.getElementById("city_name").value || "").trim(),
         cep: onlyDigits(document.getElementById("cep").value),
-        neighborhood: document.getElementById("neighborhood").value,
-        street: document.getElementById("street").value,
-        street_number: document.getElementById("street_number").value,
-        complement: document.getElementById("complement").value || null
+        neighborhood: String(document.getElementById("neighborhood").value || "").trim(),
+        street: String(document.getElementById("street").value || "").trim(),
+        street_number: String(document.getElementById("street_number").value || "").trim(),
+        complement: String(document.getElementById("complement").value || "").trim() || null
       };
+
+      const err = validateProfilePayload(payload);
+      if (err){
+        showGlobal("Atenção", err);
+        btnSaveProfile.disabled = false;
+        btnSaveProfile.textContent = "Salvar";
+        return;
+      }
 
       try{
         const res = await fetch("/api/save-invoice-profile", {
@@ -603,7 +817,26 @@
         showGlobal("Sucesso", "Dados atualizados com sucesso.");
         profileForm.style.display = "none";
         btnEditProfile.textContent = "Editar";
-        renderProfile(payload);
+
+        // Atualiza o view com o formato salvo (full_name para CNPJ fica no banco)
+        const viewRow = {
+          person_type: pt,
+          doc_number: doc,
+          full_name: name,
+          gender: payload.gender,
+          birth_date: payload.birth_date,
+          ie_indicator: payload.ie_indicator,
+          ie: payload.ie,
+          uf: payload.uf,
+          city_name: payload.city_name,
+          cep: payload.cep,
+          neighborhood: payload.neighborhood,
+          street: payload.street,
+          street_number: payload.street_number,
+          complement: payload.complement
+        };
+
+        renderProfile(viewRow);
 
       }catch(err){
         showGlobal("Erro", "Falha ao salvar. Tente novamente.");
@@ -628,6 +861,8 @@
 
       const inv = await loadInvoiceProfile(user.id);
       if (inv) fillForm(inv);
+
+      syncFormByType();
 
       await loadMaterials(user.id);
     }
