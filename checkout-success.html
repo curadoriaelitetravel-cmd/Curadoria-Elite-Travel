@@ -202,6 +202,51 @@
     }
 
     .notice strong{ color:#d4af37; }
+
+    /* IE indicator */
+    .ie-block{
+      grid-column:1 / -1;
+      border:1px solid #222;
+      border-radius:14px;
+      padding:14px;
+      background:#0f0f0f;
+    }
+
+    .ie-title{
+      color:#d4af37;
+      font-weight:700;
+      font-size:13px;
+      margin:0 0 10px;
+      letter-spacing:0.2px;
+    }
+
+    .ie-options{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .ie-opt{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(212,175,55,0.25);
+      background:rgba(0,0,0,0.20);
+      cursor:pointer;
+      user-select:none;
+      color:rgba(255,255,255,0.86);
+      font-size:13px;
+    }
+
+    .ie-opt input{
+      width:auto;
+      margin:0;
+      accent-color:#d4af37;
+    }
+
+    .hidden{ display:none !important; }
   </style>
 </head>
 <body>
@@ -260,6 +305,22 @@
           <input id="email" placeholder="Seu e-mail" />
         </div>
 
+        <!-- CPF ONLY -->
+        <div id="cpfBirthWrap">
+          <label for="birthDate">Data de nascimento</label>
+          <input id="birthDate" type="date" />
+        </div>
+
+        <div id="cpfGenderWrap">
+          <label for="gender">Gênero</label>
+          <select id="gender">
+            <option value="">Selecione</option>
+            <option value="Mulher">Mulher</option>
+            <option value="Homem">Homem</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+
         <div>
           <label for="phone">Telefone</label>
           <input id="phone" placeholder="(00) 00000-0000" />
@@ -298,6 +359,33 @@
         <div>
           <label for="complement">Complemento (opcional)</label>
           <input id="complement" placeholder="Apto, bloco, etc." />
+        </div>
+
+        <!-- CNPJ ONLY: IE INDICATOR -->
+        <div id="ieBlock" class="ie-block hidden">
+          <div class="ie-title">Indicador de IE</div>
+
+          <div class="ie-options">
+            <label class="ie-opt">
+              <input type="radio" name="ie_indicator" value="CONTRIBUINTE">
+              Contribuinte
+            </label>
+
+            <label class="ie-opt">
+              <input type="radio" name="ie_indicator" value="ISENTO">
+              Isento
+            </label>
+
+            <label class="ie-opt">
+              <input type="radio" name="ie_indicator" value="NAO_CONTRIBUINTE">
+              Não Contribuinte
+            </label>
+          </div>
+
+          <div id="ieNumberWrap" class="hidden" style="margin-top:12px;">
+            <label for="ieNumber">IE (se Contribuinte)</label>
+            <input id="ieNumber" placeholder="Digite a IE" />
+          </div>
         </div>
       </div>
 
@@ -453,91 +541,193 @@
     if (el) el.innerText = text || "";
   }
 
+  function onlyDigits(s){
+    return String(s || "").replace(/\D+/g, "");
+  }
+
+  function maskCEP(v){
+    const d = onlyDigits(v).slice(0, 8);
+    if (d.length <= 5) return d;
+    return d.slice(0,5) + "-" + d.slice(5);
+  }
+
+  function maskPhone(v){
+    const d = onlyDigits(v).slice(0, 11);
+    if (d.length <= 2) return d;
+    if (d.length <= 6) return "(" + d.slice(0,2) + ") " + d.slice(2);
+    if (d.length <= 10) return "(" + d.slice(0,2) + ") " + d.slice(2,6) + "-" + d.slice(6);
+    return "(" + d.slice(0,2) + ") " + d.slice(2,7) + "-" + d.slice(7);
+  }
+
+  function maskIE(v){
+    // IE varia por estado, então aqui usamos apenas uma "máscara leve":
+    // mantém só números e limita tamanho (14 costuma ser suficiente)
+    return onlyDigits(v).slice(0, 14);
+  }
+
+  function getSelectedIeIndicator(){
+    const radios = document.querySelectorAll('input[name="ie_indicator"]');
+    for (const r of radios){
+      if (r.checked) return r.value;
+    }
+    return "";
+  }
+
+  function setSelectedIeIndicator(val){
+    const radios = document.querySelectorAll('input[name="ie_indicator"]');
+    radios.forEach(r => {
+      r.checked = (r.value === val);
+    });
+  }
+
+  function showCnpjBlocks(show){
+    const ieBlock = document.getElementById("ieBlock");
+    if (ieBlock) ieBlock.classList.toggle("hidden", !show);
+  }
+
+  function showCpfBlocks(show){
+    const bw = document.getElementById("cpfBirthWrap");
+    const gw = document.getElementById("cpfGenderWrap");
+    if (bw) bw.classList.toggle("hidden", !show);
+    if (gw) gw.classList.toggle("hidden", !show);
+  }
+
+  function toggleIeNumber(){
+    const ind = getSelectedIeIndicator();
+    const wrap = document.getElementById("ieNumberWrap");
+    if (!wrap) return;
+    wrap.classList.toggle("hidden", ind !== "CONTRIBUINTE");
+  }
+
   function setDocLabels(){
     const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
     const docLabel = document.getElementById("docLabel");
     const nameLabel = document.getElementById("nameLabel");
     const doc = document.getElementById("docNumber");
+    const name = document.getElementById("fullName");
 
-    if (!docLabel || !nameLabel || !doc) return;
+    if (!docLabel || !nameLabel || !doc || !name) return;
 
     if (personType === "cnpj"){
       docLabel.innerText = "CNPJ";
       nameLabel.innerText = "Razão social";
       doc.placeholder = "Digite o CNPJ";
+      name.placeholder = "Digite a Razão Social";
+
+      showCnpjBlocks(true);
+      showCpfBlocks(false);
+      toggleIeNumber();
     }else{
       docLabel.innerText = "CPF";
       nameLabel.innerText = "Nome completo";
       doc.placeholder = "Digite o CPF";
+      name.placeholder = "Digite seu nome";
+
+      showCnpjBlocks(false);
+      showCpfBlocks(true);
     }
   }
 
-  function getFormValues(){
+  function getFormValuesForApi(){
     const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
-    return {
-      person_type: personType, // base (cpf/cnpj)
-      document: (document.getElementById("docNumber")?.value || "").trim(),
-      name: (document.getElementById("fullName")?.value || "").trim(),
-      email: (document.getElementById("email")?.value || "").trim(),
-      phone: (document.getElementById("phone")?.value || "").trim(),
-      zip: (document.getElementById("zip")?.value || "").trim(),
-      address: (document.getElementById("address")?.value || "").trim(),
-      number: (document.getElementById("number")?.value || "").trim(),
-      district: (document.getElementById("district")?.value || "").trim(),
-      city: (document.getElementById("city")?.value || "").trim(),
-      state: (document.getElementById("state")?.value || "").trim(),
-      complement: (document.getElementById("complement")?.value || "").trim()
+    const isCnpj = personType === "cnpj";
+
+    const doc = onlyDigits(document.getElementById("docNumber")?.value || "");
+    const name = String(document.getElementById("fullName")?.value || "").trim();
+
+    const zip = onlyDigits(document.getElementById("zip")?.value || "");
+    const state = String(document.getElementById("state")?.value || "").trim();
+    const city = String(document.getElementById("city")?.value || "").trim();
+    const district = String(document.getElementById("district")?.value || "").trim();
+    const address = String(document.getElementById("address")?.value || "").trim();
+    const number = String(document.getElementById("number")?.value || "").trim();
+    const complement = String(document.getElementById("complement")?.value || "").trim() || null;
+
+    const email = String(document.getElementById("email")?.value || "").trim();
+    const phone = String(document.getElementById("phone")?.value || "").trim();
+
+    // CPF only
+    const birthDate = String(document.getElementById("birthDate")?.value || "").trim();
+    const gender = String(document.getElementById("gender")?.value || "").trim();
+
+    // CNPJ only
+    const ie_indicator = getSelectedIeIndicator();
+    const ieNumber = maskIE(document.getElementById("ieNumber")?.value || "");
+
+    // ✅ payload nos nomes que sua API espera
+    const payload = {
+      person_type: isCnpj ? "CNPJ" : "CPF",
+      doc_number: doc,
+
+      // sua API usa full_name (CPF) e corporate_name (CNPJ)
+      full_name: isCnpj ? "" : name,
+      corporate_name: isCnpj ? name : "",
+
+      // IE indicator (novo campo)
+      ie_indicator: isCnpj ? ie_indicator : null,
+      ie: isCnpj ? (ie_indicator === "CONTRIBUINTE" ? ieNumber : null) : null,
+
+      // CPF obrigatório
+      birth_date: isCnpj ? null : (birthDate || null),
+      gender: isCnpj ? null : (gender || null),
+
+      // endereço (nomes que a API espera)
+      cep: zip,
+      uf: state,
+      city_name: city,
+      neighborhood: district,
+      street: address,
+      street_number: number,
+      complement: complement,
+
+      // extras (não bloqueiam, mas ajudam)
+      email,
+      phone,
     };
+
+    return payload;
   }
 
-  function fillForm(profile){
-    if (!profile) return;
+  function validateFront(){
+    const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
+    const isCnpj = personType === "cnpj";
 
-    const ptRaw = (profile.person_type || profile.personType || profile.tipo || "cpf");
-    const pt = String(ptRaw).toLowerCase();
+    const doc = onlyDigits(document.getElementById("docNumber")?.value || "");
+    const name = String(document.getElementById("fullName")?.value || "").trim();
 
-    const personType = document.getElementById("personType");
-    if (personType){
-      if (pt.includes("cnpj") || pt === "pj" || pt.includes("jurid")) personType.value = "cnpj";
-      else personType.value = "cpf";
+    const zip = onlyDigits(document.getElementById("zip")?.value || "");
+    const state = String(document.getElementById("state")?.value || "").trim();
+    const city = String(document.getElementById("city")?.value || "").trim();
+    const district = String(document.getElementById("district")?.value || "").trim();
+    const address = String(document.getElementById("address")?.value || "").trim();
+    const number = String(document.getElementById("number")?.value || "").trim();
+
+    if (!doc) return "Preencha CPF/CNPJ.";
+    if (!name) return isCnpj ? "Preencha a Razão Social." : "Preencha o Nome completo.";
+    if (!zip) return "Preencha o CEP.";
+    if (!address) return "Preencha o Endereço.";
+    if (!number) return "Preencha o Número.";
+    if (!district) return "Preencha o Bairro.";
+    if (!city) return "Preencha a Cidade.";
+    if (!state) return "Preencha o Estado (UF).";
+
+    if (!isCnpj){
+      const birthDate = String(document.getElementById("birthDate")?.value || "").trim();
+      const gender = String(document.getElementById("gender")?.value || "").trim();
+      if (!birthDate) return "Preencha a Data de nascimento.";
+      if (!gender) return "Selecione o Gênero.";
+    }else{
+      const ind = getSelectedIeIndicator();
+      if (!ind) return "Selecione o Indicador de IE (Contribuinte, Isento ou Não Contribuinte).";
+      if (ind === "CONTRIBUINTE"){
+        const ieNumber = maskIE(document.getElementById("ieNumber")?.value || "");
+        if (!ieNumber) return "Preencha a IE (se Contribuinte).";
+      }
     }
 
-    setDocLabels();
-
-    const set = (id, v) => {
-      const el = document.getElementById(id);
-      if (el) el.value = (v || "");
-    };
-
-    set("docNumber", profile.document || profile.docNumber || profile.cpf || profile.cnpj || "");
-    set("fullName", profile.name || profile.fullName || profile.razao_social || profile.razaoSocial || "");
-    set("email", profile.email || "");
-    set("phone", profile.phone || "");
-    set("zip", profile.zip || profile.cep || "");
-    set("address", profile.address || profile.endereco || "");
-    set("number", profile.number || profile.numero || "");
-    set("district", profile.district || profile.bairro || "");
-    set("city", profile.city || profile.cidade || "");
-    set("state", profile.state || profile.uf || "");
-    set("complement", profile.complement || profile.complemento || "");
-  }
-
-  function validateProfile(p){
-    if (!p.document) return "Preencha CPF/CNPJ.";
-    if (!p.name) return "Preencha o nome.";
-    if (!p.email) return "Preencha o e-mail.";
-    if (!p.zip) return "Preencha o CEP.";
-    if (!p.address) return "Preencha o endereço.";
-    if (!p.number) return "Preencha o número.";
-    if (!p.district) return "Preencha o bairro.";
-    if (!p.city) return "Preencha a cidade.";
-    if (!p.state) return "Preencha o estado (UF).";
     return null;
   }
 
-  /* =========================
-     PERFIL (Nota Fiscal)
-  ========================= */
   async function loadInvoiceProfile(){
     const res = await apiGET("/api/get-invoice-profile");
     if (!res.ok) return null;
@@ -545,60 +735,68 @@
     return j.profile || j.data || j;
   }
 
-  function makePersonTypeCandidates(base){
-    const b = String(base || "cpf").toLowerCase();
-    if (b === "cnpj"){
-      return ["cnpj","CNPJ","pj","PJ","juridica","jurídica","pessoa_juridica","PESSOA_JURIDICA","2"];
-    }
-    return ["cpf","CPF","pf","PF","fisica","física","pessoa_fisica","PESSOA_FISICA","1"];
-  }
+  function fillForm(profile){
+    if (!profile) return;
 
-  function buildPayloadWithManyKeys(profile, personTypeValue){
-    // manda o tipo em vários nomes de campo para compatibilidade com sua API
-    return {
-      ...profile,
-      person_type: personTypeValue,
-      personType: personTypeValue,
-      tipo: personTypeValue
-    };
-  }
-
-  // ✅ NOVO: tenta salvar de várias formas; se falhar SOMENTE por person_type, NÃO trava a venda
-  async function saveInvoiceProfileBestEffort(profile){
-    const candidates = makePersonTypeCandidates(profile.person_type);
-
-    let lastMsg = null;
-
-    for (const c of candidates){
-      const payload = buildPayloadWithManyKeys(profile, c);
-      const res = await apiPOST("/api/save-invoice-profile", payload);
-
-      if (res.ok) return { ok:true, skipped:false };
-
-      const msg = (res.json && (res.json.error || res.json.message)) ? (res.json.error || res.json.message) : ("HTTP " + res.status);
-      lastMsg = msg || null;
-
-      // se for erro de person_type, tenta o próximo formato
-      const low = String(msg || "").toLowerCase();
-      if (low.includes("invalid_person_type") || low.includes("person_type")){
-        continue;
-      }
-
-      // se for outro erro (ex: banco, validação), aí sim bloqueia
-      throw new Error(msg || "Não foi possível salvar seus dados.");
+    // personType
+    const pt = String(profile.person_type || profile.personType || "").toUpperCase();
+    const personTypeEl = document.getElementById("personType");
+    if (personTypeEl){
+      personTypeEl.value = (pt === "CNPJ") ? "cnpj" : "cpf";
     }
 
-    // aqui: falhou em todos os formatos de person_type
-    // NÃO trava o pagamento: só avisa e segue
-    return { ok:false, skipped:true, message: lastMsg || "Não foi possível salvar o tipo do documento agora." };
+    setDocLabels();
+
+    // doc
+    const docEl = document.getElementById("docNumber");
+    if (docEl) docEl.value = String(profile.doc_number || profile.document || "").trim();
+
+    // name: full_name guarda Razão Social no CNPJ
+    const nameEl = document.getElementById("fullName");
+    if (nameEl) nameEl.value = String(profile.full_name || profile.name || "").trim();
+
+    // cpf fields
+    const bd = document.getElementById("birthDate");
+    if (bd) bd.value = String(profile.birth_date || "").trim();
+
+    const g = document.getElementById("gender");
+    if (g) g.value = String(profile.gender || "").trim();
+
+    // address
+    const zipEl = document.getElementById("zip");
+    if (zipEl) zipEl.value = String(profile.cep || profile.zip || "").trim();
+
+    const stEl = document.getElementById("state");
+    if (stEl) stEl.value = String(profile.uf || profile.state || "").trim();
+
+    const cityEl = document.getElementById("city");
+    if (cityEl) cityEl.value = String(profile.city_name || profile.city || "").trim();
+
+    const distEl = document.getElementById("district");
+    if (distEl) distEl.value = String(profile.neighborhood || profile.district || "").trim();
+
+    const addrEl = document.getElementById("address");
+    if (addrEl) addrEl.value = String(profile.street || profile.address || "").trim();
+
+    const numEl = document.getElementById("number");
+    if (numEl) numEl.value = String(profile.street_number || profile.number || "").trim();
+
+    const compEl = document.getElementById("complement");
+    if (compEl) compEl.value = String(profile.complement || "").trim();
+
+    // IE indicator / IE
+    const ind = String(profile.ie_indicator || "").toUpperCase();
+    if (ind) setSelectedIeIndicator(ind);
+    const ieNumEl = document.getElementById("ieNumber");
+    if (ieNumEl) ieNumEl.value = String(profile.ie || "").trim();
+    toggleIeNumber();
   }
 
   /* =========================
-     STRIPE — criar sessão (API existente)
+     STRIPE — criar sessão
   ========================= */
   async function createCheckoutSessionForSingle(category, city){
-    const payload = { category, city };
-    const res = await apiPOST("/api/create-checkout-session", payload);
+    const res = await apiPOST("/api/create-checkout-session", { category, city });
     if (!res.ok){
       const msg = (res.json && (res.json.error || res.json.message)) ? (res.json.error || res.json.message) : null;
       throw new Error(msg || "Não foi possível iniciar o pagamento.");
@@ -607,8 +805,7 @@
   }
 
   async function createCheckoutSessionForCart(items){
-    const payload = { items };
-    const res = await apiPOST("/api/create-checkout-session", payload);
+    const res = await apiPOST("/api/create-checkout-session", { items });
     if (!res.ok){
       const msg = (res.json && (res.json.error || res.json.message)) ? (res.json.error || res.json.message) : null;
       throw new Error(msg || "Não foi possível iniciar o pagamento.");
@@ -622,11 +819,11 @@
       window.location.href = url;
       return;
     }
-    throw new Error("Não foi possível abrir o pagamento. (URL ausente)");
+    throw new Error("Não foi possível abrir o pagamento.");
   }
 
   /* =========================
-     FLUXO DA PÁGINA
+     FLOW
   ========================= */
   async function ensureLoggedInForInvoice(){
     const sess = await getSession();
@@ -644,17 +841,59 @@
     show("screenInvoice");
     setHint("");
 
-    setDocLabels();
-    const personType = document.getElementById("personType");
-    if (personType){
-      personType.addEventListener("change", setDocLabels);
+    // masks
+    const zipEl = document.getElementById("zip");
+    if (zipEl){
+      zipEl.addEventListener("input", () => {
+        zipEl.value = maskCEP(zipEl.value);
+      });
     }
 
+    const phoneEl = document.getElementById("phone");
+    if (phoneEl){
+      phoneEl.addEventListener("input", () => {
+        phoneEl.value = maskPhone(phoneEl.value);
+      });
+    }
+
+    const ieEl = document.getElementById("ieNumber");
+    if (ieEl){
+      ieEl.addEventListener("input", () => {
+        ieEl.value = maskIE(ieEl.value);
+      });
+    }
+
+    // person type change
+    const personType = document.getElementById("personType");
+    if (personType){
+      personType.addEventListener("change", () => {
+        setHint("");
+        // limpa IE quando troca
+        setSelectedIeIndicator("");
+        const ieNum = document.getElementById("ieNumber");
+        if (ieNum) ieNum.value = "";
+        setDocLabels();
+      });
+    }
+
+    // IE indicator change
+    const radios = document.querySelectorAll('input[name="ie_indicator"]');
+    radios.forEach(r => {
+      r.addEventListener("change", () => {
+        setHint("");
+        toggleIeNumber();
+      });
+    });
+
+    setDocLabels();
+
+    // prefill
     try{
       const existing = await loadInvoiceProfile();
       if (existing) fillForm(existing);
     }catch(e){}
 
+    // prefill email from session
     try{
       const sess = await getSession();
       const emailEl = document.getElementById("email");
@@ -682,8 +921,7 @@
           return;
         }
 
-        const profile = getFormValues();
-        const err = validateProfile(profile);
+        const err = validateFront();
         if (err){
           btn.disabled = false;
           btn.innerText = "Prosseguir";
@@ -691,12 +929,21 @@
           return;
         }
 
-        // ✅ tenta salvar; se falhar só no tipo, não bloqueia a venda
-        const saveRes = await saveInvoiceProfileBestEffort(profile);
-        if (saveRes && saveRes.skipped){
-          setHint("Não foi possível salvar o tipo do documento agora, mas você pode continuar com o pagamento.");
+        const payload = getFormValuesForApi();
+
+        // salva perfil (bloqueia se falhar)
+        const saveRes = await apiPOST("/api/save-invoice-profile", payload);
+        if (!saveRes.ok){
+          const msg = (saveRes.json && (saveRes.json.error || saveRes.json.message))
+            ? (saveRes.json.error || saveRes.json.message)
+            : "Não foi possível salvar seus dados.";
+          btn.disabled = false;
+          btn.innerText = "Prosseguir";
+          setHint(msg);
+          return;
         }
 
+        // criar sessão stripe
         const isCart = qs("cart") === "1";
         const category = qs("category");
         const city = qs("city");
