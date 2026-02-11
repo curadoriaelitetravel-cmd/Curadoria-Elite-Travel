@@ -2,140 +2,739 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Confirmando pagamento | Curadoria Elite Travel</title>
+  <title>Curadoria Elite Travel - Pagamento</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex,nofollow" />
 
   <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: #0b0b0b;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-      padding: 16px;
-      box-sizing: border-box;
+    body{
+      margin:0;
+      font-family:"Segoe UI",sans-serif;
+      background:#0b0b0b;
+      color:#fff;
+      overflow-x:hidden;
     }
-    .box {
-      max-width: 620px;
-      width: 100%;
-      padding: 40px 26px;
-      border-radius: 16px;
-      border: 1px solid #222;
-      background: #111;
+
+    header{
+      padding:16px 40px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:fixed;
+      width:100%;
+      top:0;
+      z-index:1000;
+      background:rgba(0,0,0,0.25);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid rgba(255,255,255,0.06);
+      box-sizing:border-box;
+      gap:16px;
     }
-    h1 { color: #d4af37; font-size: 22px; margin-bottom: 12px; }
-    p { color: rgba(255,255,255,0.85); font-size: 15px; line-height: 1.6; margin: 8px 0; }
-    .muted { color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 14px; }
-    .actions {
-      margin-top: 22px;
-      display: none;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width: 240px;
+      cursor:pointer;
     }
-    .actions a {
-      padding: 10px 16px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 700;
-      display: inline-block;
+
+    .brand img{
+      height:34px;
+      width:34px;
     }
-    .btn-main { background: #d4af37; color: #000; }
-    .btn-ghost { border: 1px solid rgba(212,175,55,0.4); color: #d4af37; }
+
+    .brand-name{
+      font-family:"Cinzel","Georgia",serif;
+      font-size:18px;
+      color:#d4af37;
+      letter-spacing:0.8px;
+      text-transform:uppercase;
+      line-height:1.1;
+    }
+
+    .brand-tagline{
+      font-size:12px;
+      color:rgba(255,255,255,0.7);
+      line-height:1.2;
+      margin-top:2px;
+    }
+
+    nav{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    nav a{
+      color:#d4af37;
+      text-decoration:none;
+      font-weight:500;
+      cursor:pointer;
+      white-space: nowrap;
+    }
+
+    .nav-sep{
+      width:1px;
+      height:16px;
+      background:rgba(255,255,255,0.12);
+      display:inline-block;
+      margin:0 2px;
+    }
+
+    main{
+      padding:120px 16px 60px;
+      max-width:980px;
+      margin:0 auto;
+      box-sizing:border-box;
+    }
+
+    .card{
+      background:linear-gradient(145deg,#111,#000);
+      border:1px solid #222;
+      border-radius:16px;
+      padding:26px;
+      box-sizing:border-box;
+    }
+
+    h1{
+      margin:0 0 8px;
+      color:#d4af37;
+      font-size:22px;
+      letter-spacing:0.2px;
+      text-align:center;
+    }
+
+    .subtitle{
+      margin:0 auto 16px;
+      max-width:760px;
+      color:rgba(255,255,255,0.78);
+      text-align:center;
+      line-height:1.6;
+      font-size:14px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:18px;
+    }
+
+    @media (max-width:860px){
+      .grid{ grid-template-columns:1fr; }
+      header{ padding:14px 16px; }
+    }
+
+    label{
+      display:block;
+      color:rgba(255,255,255,0.80);
+      font-size:13px;
+      margin:0 0 6px;
+    }
+
+    input, select{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid #222;
+      background:#0f0f0f;
+      color:#fff;
+      outline:none;
+      box-sizing:border-box;
+      font-size:14px;
+    }
+
+    input::placeholder{
+      color:rgba(255,255,255,0.45);
+    }
+
+    .hint{
+      margin-top:8px;
+      color:rgba(255,255,255,0.65);
+      font-size:13px;
+      line-height:1.55;
+      text-align:center;
+    }
+
+    .actions{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
+
+    button{
+      cursor:pointer;
+      padding:11px 16px;
+      border-radius:10px;
+      border:none;
+      background:#d4af37;
+      color:#000;
+      font-weight:800;
+      min-width:160px;
+    }
+
+    button[disabled]{
+      opacity:0.6;
+      cursor:not-allowed;
+    }
+
+    .btn-ghost{
+      background:transparent;
+      border:1px solid rgba(212,175,55,0.35);
+      color:#d4af37;
+      font-weight:650;
+    }
+
+    .notice{
+      margin-top:18px;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:#0f0f0f;
+      color:rgba(255,255,255,0.78);
+      font-size:13.5px;
+      line-height:1.6;
+    }
+
+    .notice strong{ color:#d4af37; }
+
+    .center{
+      text-align:center;
+    }
   </style>
 </head>
 <body>
 
-  <div class="box">
-    <h1 id="title">Confirmando seu pagamento…</h1>
-    <p id="subtitle">Estamos validando a compra e liberando seu acesso.</p>
-    <p class="muted" id="status">Aguarde alguns instantes.</p>
-
-    <div class="actions" id="actions">
-      <a href="account.html" class="btn-main">Ir para minha conta</a>
-      <a href="index.html" class="btn-ghost">Voltar ao site</a>
+<header>
+  <div class="brand" onclick="window.location.href='index.html'">
+    <img src="images/rosa-dos-ventos.png" alt="Rosa dos Ventos">
+    <div>
+      <div class="brand-name">Curadoria Elite Travel</div>
+      <div class="brand-tagline">O seu mundo, bem indicado.</div>
     </div>
   </div>
 
+  <nav>
+    <a onclick="window.location.href='index.html'">Início</a>
+    <span class="nav-sep"></span>
+    <a id="navAccount" onclick="window.location.href='account.html'" style="display:none;">Minha conta</a>
+    <a id="navLogin" onclick="window.location.href='login.html?return_to=checkout-success.html'" style="display:none;">Entrar</a>
+    <a id="navLogout" onclick="doLogout()" style="display:none;">Sair</a>
+  </nav>
+</header>
+
+<main>
+  <div class="card" id="screenInvoice" style="display:none;">
+    <h1>Nota Fiscal</h1>
+    <p class="subtitle">
+      Antes de prosseguir para o pagamento, confirme seus dados. Se já estiverem preenchidos, basta revisar e continuar.
+    </p>
+
+    <div class="notice">
+      <strong>Importante:</strong> Produto digital de acesso imediato. Não é possível realizar cancelamentos, trocas ou reembolsos após a confirmação da compra.
+    </div>
+
+    <form id="invoiceForm" autocomplete="on">
+      <div class="grid">
+        <div>
+          <label for="personType">Tipo</label>
+          <select id="personType">
+            <option value="cpf">Pessoa Física (CPF)</option>
+            <option value="cnpj">Pessoa Jurídica (CNPJ)</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="docNumber" id="docLabel">CPF</label>
+          <input id="docNumber" placeholder="Digite o CPF" />
+        </div>
+
+        <div>
+          <label for="fullName" id="nameLabel">Nome completo</label>
+          <input id="fullName" placeholder="Digite seu nome" />
+        </div>
+
+        <div>
+          <label for="email">E-mail</label>
+          <input id="email" placeholder="Seu e-mail" />
+        </div>
+
+        <div>
+          <label for="phone">Telefone</label>
+          <input id="phone" placeholder="(00) 00000-0000" />
+        </div>
+
+        <div>
+          <label for="zip">CEP</label>
+          <input id="zip" placeholder="00000-000" />
+        </div>
+
+        <div>
+          <label for="address">Endereço</label>
+          <input id="address" placeholder="Rua / Avenida" />
+        </div>
+
+        <div>
+          <label for="number">Número</label>
+          <input id="number" placeholder="Número" />
+        </div>
+
+        <div>
+          <label for="district">Bairro</label>
+          <input id="district" placeholder="Bairro" />
+        </div>
+
+        <div>
+          <label for="city">Cidade</label>
+          <input id="city" placeholder="Cidade" />
+        </div>
+
+        <div>
+          <label for="state">Estado</label>
+          <input id="state" placeholder="UF" />
+        </div>
+
+        <div>
+          <label for="complement">Complemento (opcional)</label>
+          <input id="complement" placeholder="Apto, bloco, etc." />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-ghost" onclick="window.location.href='index.html'">Voltar ao site</button>
+        <button type="button" id="btnInvoiceProceed">Prosseguir</button>
+      </div>
+
+      <p class="hint" id="invoiceHint"></p>
+    </form>
+  </div>
+
+  <div class="card" id="screenPaymentError" style="display:none;">
+    <h1>Pagamento</h1>
+    <p class="subtitle" id="paymentErrorText">Não encontramos a sessão de pagamento. Volte ao site e tente novamente.</p>
+    <div class="actions">
+      <button type="button" onclick="window.location.href='account.html'">Ir para minha conta</button>
+      <button type="button" class="btn-ghost" onclick="window.location.href='index.html'">Voltar ao site</button>
+    </div>
+  </div>
+
+  <div class="card" id="screenLoading" style="display:block;">
+    <h1>Aguarde...</h1>
+    <p class="subtitle">Estamos preparando seu acesso.</p>
+  </div>
+</main>
+
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
+  /* (continua na Parte 2/2) */
+</script>
+
+</body>
+</html>
+<script>
+  /* =========================
+     SUPABASE
+  ========================= */
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
-  let sb = null;
+  let supabaseClient = null;
+
   function ensureSupabase(){
-    if (sb) return sb;
+    if (supabaseClient) return supabaseClient;
     if (!window.supabase) return null;
-    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    return sb;
-  }
-  async function getAccessToken(){
-    const s = ensureSupabase();
-    if (!s) return null;
-    const { data } = await s.auth.getSession();
-    return data?.session?.access_token || null;
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    return supabaseClient;
   }
 
-  async function init(){
-    const params = new URLSearchParams(window.location.search);
-    const sessionId = params.get("session_id");
+  async function getSession(){
+    const sb = ensureSupabase();
+    if (!sb) return null;
+    const { data } = await sb.auth.getSession();
+    return (data && data.session) ? data.session : null;
+  }
 
+  async function doLogout(){
+    try{
+      const sb = ensureSupabase();
+      if (sb) await sb.auth.signOut();
+    }catch(e){}
+    window.location.href = "index.html";
+  }
+
+  function qs(name){
+    try{
+      return new URL(window.location.href).searchParams.get(name);
+    }catch(e){ return null; }
+  }
+
+  function show(elId){
+    const ids = ["screenLoading","screenInvoice","screenPaymentError"];
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = (id === elId) ? "block" : "none";
+    });
+  }
+
+  async function refreshNav(){
+    const sess = await getSession();
+    const navAccount = document.getElementById("navAccount");
+    const navLogin = document.getElementById("navLogin");
+    const navLogout = document.getElementById("navLogout");
+
+    if (!navAccount || !navLogin || !navLogout) return;
+
+    if (sess && sess.user){
+      navAccount.style.display = "inline";
+      navLogout.style.display = "inline";
+      navLogin.style.display = "none";
+    }else{
+      navAccount.style.display = "none";
+      navLogout.style.display = "none";
+      navLogin.style.display = "inline";
+    }
+  }
+
+  /* =========================
+     STORAGE do carrinho (mesma chave do index)
+  ========================= */
+  const CART_CHECKOUT_ITEMS_KEY = "cet_cart_checkout_items_v2";
+
+  function getCartCheckoutItems(){
+    try{
+      const raw = localStorage.getItem(CART_CHECKOUT_ITEMS_KEY);
+      const parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  /* =========================
+     APIs existentes (sem criar novas)
+  ========================= */
+  async function apiGET(url){
+    const r = await fetch(url, { method:"GET" });
+    let json = null;
+    try{ json = await r.json(); }catch(e){}
+    return { ok: r.ok, status: r.status, json };
+  }
+
+  async function apiPOST(url, body){
+    const r = await fetch(url, {
+      method:"POST",
+      headers: { "Content-Type":"application/json" },
+      body: JSON.stringify(body || {})
+    });
+    let json = null;
+    try{ json = await r.json(); }catch(e){}
+    return { ok: r.ok, status: r.status, json };
+  }
+
+  /* =========================
+     FORM — helpers
+  ========================= */
+  function setHint(text){
+    const el = document.getElementById("invoiceHint");
+    if (el) el.innerText = text || "";
+  }
+
+  function setDocLabels(){
+    const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
+    const docLabel = document.getElementById("docLabel");
+    const nameLabel = document.getElementById("nameLabel");
+    const doc = document.getElementById("docNumber");
+
+    if (!docLabel || !nameLabel || !doc) return;
+
+    if (personType === "cnpj"){
+      docLabel.innerText = "CNPJ";
+      nameLabel.innerText = "Razão social";
+      doc.placeholder = "Digite o CNPJ";
+    }else{
+      docLabel.innerText = "CPF";
+      nameLabel.innerText = "Nome completo";
+      doc.placeholder = "Digite o CPF";
+    }
+  }
+
+  function getFormValues(){
+    const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
+    return {
+      person_type: personType,
+      document: (document.getElementById("docNumber")?.value || "").trim(),
+      name: (document.getElementById("fullName")?.value || "").trim(),
+      email: (document.getElementById("email")?.value || "").trim(),
+      phone: (document.getElementById("phone")?.value || "").trim(),
+      zip: (document.getElementById("zip")?.value || "").trim(),
+      address: (document.getElementById("address")?.value || "").trim(),
+      number: (document.getElementById("number")?.value || "").trim(),
+      district: (document.getElementById("district")?.value || "").trim(),
+      city: (document.getElementById("city")?.value || "").trim(),
+      state: (document.getElementById("state")?.value || "").trim(),
+      complement: (document.getElementById("complement")?.value || "").trim()
+    };
+  }
+
+  function fillForm(profile){
+    if (!profile) return;
+
+    const pt = (profile.person_type || profile.personType || "cpf").toLowerCase();
+    const personType = document.getElementById("personType");
+    if (personType) personType.value = (pt === "cnpj") ? "cnpj" : "cpf";
+
+    setDocLabels();
+
+    const set = (id, v) => {
+      const el = document.getElementById(id);
+      if (el) el.value = (v || "");
+    };
+
+    set("docNumber", profile.document || profile.docNumber || "");
+    set("fullName", profile.name || profile.fullName || "");
+    set("email", profile.email || "");
+    set("phone", profile.phone || "");
+    set("zip", profile.zip || "");
+    set("address", profile.address || "");
+    set("number", profile.number || "");
+    set("district", profile.district || "");
+    set("city", profile.city || "");
+    set("state", profile.state || "");
+    set("complement", profile.complement || "");
+  }
+
+  function validateProfile(p){
+    // validações simples (sem “complicar”)
+    if (!p.document) return "Preencha CPF/CNPJ.";
+    if (!p.name) return "Preencha o nome.";
+    if (!p.email) return "Preencha o e-mail.";
+    if (!p.zip) return "Preencha o CEP.";
+    if (!p.address) return "Preencha o endereço.";
+    if (!p.number) return "Preencha o número.";
+    if (!p.district) return "Preencha o bairro.";
+    if (!p.city) return "Preencha a cidade.";
+    if (!p.state) return "Preencha o estado (UF).";
+    return null;
+  }
+
+  /* =========================
+     PERFIL (Nota Fiscal)
+     - Lê e salva via APIs que já existem
+  ========================= */
+  async function loadInvoiceProfile(){
+    // API existente: /api/get-invoice-profile
+    const res = await apiGET("/api/get-invoice-profile");
+    if (!res.ok) return null;
+
+    // compatível com formatos diferentes
+    const j = res.json || {};
+    return j.profile || j.data || j;
+  }
+
+  async function saveInvoiceProfile(profile){
+    // API existente: /api/save-invoice-profile
+    const res = await apiPOST("/api/save-invoice-profile", profile);
+
+    if (!res.ok){
+      // tenta mostrar uma mensagem amigável
+      const msg = (res.json && (res.json.error || res.json.message)) ? (res.json.error || res.json.message) : null;
+      throw new Error(msg || "Não foi possível salvar seus dados. Tente novamente.");
+    }
+    return res.json || {};
+  }
+
+  /* =========================
+     STRIPE — criar sessão (API existente)
+     Obs: sua pasta tem create-checkout-session.js
+  ========================= */
+  async function createCheckoutSessionForSingle(category, city){
+    // API existente: /api/create-checkout-session
+    // (mantém compatível com payload antigo e novo)
+    const payload = {
+      category,
+      city
+    };
+    const res = await apiPOST("/api/create-checkout-session", payload);
+    if (!res.ok) throw new Error("Não foi possível iniciar o pagamento.");
+    return res.json || {};
+  }
+
+  async function createCheckoutSessionForCart(items){
+    // items: [{category, city, qty}]
+    const payload = { items };
+    const res = await apiPOST("/api/create-checkout-session", payload);
+    if (!res.ok) throw new Error("Não foi possível iniciar o pagamento.");
+    return res.json || {};
+  }
+
+  function redirectToStripe(sessionResponse){
+    // compatível com respostas diferentes
+    const url = sessionResponse.url || (sessionResponse.data && sessionResponse.data.url) || null;
+    const sessionId = sessionResponse.sessionId || sessionResponse.session_id || sessionResponse.id || null;
+
+    if (url){
+      window.location.href = url;
+      return;
+    }
+
+    // se sua API retornar só o session id, a forma padrão é:
+    // https://checkout.stripe.com/c/pay/ ... (mas isso muda)
+    // então, sem URL, não dá para abrir o Stripe com segurança.
+    // Mostra erro amigável:
+    throw new Error("Não foi possível abrir o pagamento. (URL ausente)");
+  }
+
+  /* =========================
+     FLUXO DA PÁGINA
+  ========================= */
+  async function ensureLoggedInForInvoice(){
+    const sess = await getSession();
+    if (sess && sess.user) return true;
+
+    // volta para cá depois do login
+    const ret = encodeURIComponent(window.location.pathname + window.location.search);
+    window.location.href = "login.html?return_to=" + ret;
+    return false;
+  }
+
+  async function handleInvoiceStep(){
+    const ok = await ensureLoggedInForInvoice();
+    if (!ok) return;
+
+    show("screenInvoice");
+    setHint("");
+
+    // labels do CPF/CNPJ
+    setDocLabels();
+    const personType = document.getElementById("personType");
+    if (personType){
+      personType.addEventListener("change", setDocLabels);
+    }
+
+    // carregar perfil salvo (se já existir)
+    try{
+      const existing = await loadInvoiceProfile();
+      if (existing) fillForm(existing);
+    }catch(e){}
+
+    // preenche e-mail se estiver vazio e tiver no usuário
+    try{
+      const sess = await getSession();
+      const emailEl = document.getElementById("email");
+      if (emailEl && !emailEl.value && sess && sess.user && sess.user.email){
+        emailEl.value = sess.user.email;
+      }
+    }catch(e){}
+
+    const btn = document.getElementById("btnInvoiceProceed");
+    if (!btn) return;
+
+    btn.onclick = async () => {
+      try{
+        btn.disabled = true;
+        btn.innerText = "Aguarde...";
+        setHint("");
+
+        const profile = getFormValues();
+        const err = validateProfile(profile);
+        if (err){
+          btn.disabled = false;
+          btn.innerText = "Prosseguir";
+          setHint(err);
+          return;
+        }
+
+        // salva/atualiza sempre (para na próxima compra só revisar)
+        await saveInvoiceProfile(profile);
+
+        // agora cria sessão Stripe (single ou cart)
+        const isCart = qs("cart") === "1";
+        const category = qs("category");
+        const city = qs("city");
+
+        let sessionResp = null;
+
+        if (isCart){
+          const items = getCartCheckoutItems();
+          if (!items.length){
+            btn.disabled = false;
+            btn.innerText = "Prosseguir";
+            setHint("Seu carrinho está vazio. Volte ao site e selecione seus materiais.");
+            return;
+          }
+          sessionResp = await createCheckoutSessionForCart(items);
+        }else{
+          if (!category || !city){
+            btn.disabled = false;
+            btn.innerText = "Prosseguir";
+            setHint("Não encontramos os dados do produto. Volte ao site e tente novamente.");
+            return;
+          }
+          sessionResp = await createCheckoutSessionForSingle(category, city);
+        }
+
+        // abre Stripe
+        redirectToStripe(sessionResp);
+
+      }catch(e){
+        btn.disabled = false;
+        btn.innerText = "Prosseguir";
+        setHint(e && e.message ? e.message : "Não foi possível prosseguir. Tente novamente.");
+      }
+    };
+  }
+
+  async function handleSessionReturn(){
+    // Se chegou aqui com session_id, quem conclui o processo é o fluxo já existente do seu projeto.
+    // Normalmente ele usa /api/get-pdf-from-session para registrar compra e liberar acesso.
+    const sessionId = qs("session_id");
     if (!sessionId){
-      document.getElementById("title").innerText = "Pagamento";
-      document.getElementById("subtitle").innerText = "Não encontramos a sessão de pagamento.";
-      document.getElementById("status").innerText = "Volte ao site e tente novamente.";
-      document.getElementById("actions").style.display = "flex";
+      show("screenPaymentError");
       return;
     }
 
-    const token = await getAccessToken();
-    if (!token){
-      document.getElementById("title").innerText = "Acesso à conta";
-      document.getElementById("subtitle").innerText = "Para liberar o material, é necessário estar logado.";
-      document.getElementById("status").innerText = "Você será direcionado para o login.";
-      setTimeout(() => {
-        window.location.href = "login.html?return_to=" + encodeURIComponent("checkout-success.html?session_id=" + encodeURIComponent(sessionId));
-      }, 900);
-      return;
-    }
+    show("screenLoading");
 
     try{
-      const res = await fetch("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId), {
-        headers: { "Authorization": "Bearer " + token }
-      });
-      const data = await res.json().catch(() => null);
-
-      if (!res.ok || !data?.ok){
-        document.getElementById("title").innerText = "Pagamento";
-        document.getElementById("subtitle").innerText = "Não conseguimos liberar seu acesso automaticamente.";
-        document.getElementById("status").innerText = "Vá para sua conta ou volte ao site.";
-        document.getElementById("actions").style.display = "flex";
+      const res = await apiGET("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId));
+      if (!res.ok){
+        show("screenPaymentError");
         return;
       }
 
-      document.getElementById("title").innerText = "Acesso liberado";
-      document.getElementById("subtitle").innerText = "Seu material já está disponível em Minha Conta.";
-      document.getElementById("status").innerText = "Estamos te redirecionando…";
-      document.getElementById("actions").style.display = "flex";
-
-      setTimeout(() => {
-        window.location.href = "account.html";
-      }, 900);
-
+      // após registrar/liberar, leva para Minha conta
+      window.location.href = "account.html";
     }catch(e){
-      document.getElementById("title").innerText = "Pagamento";
-      document.getElementById("subtitle").innerText = "Não conseguimos finalizar agora.";
-      document.getElementById("status").innerText = "Tente novamente em instantes.";
-      document.getElementById("actions").style.display = "flex";
+      show("screenPaymentError");
     }
   }
 
-  init();
+  async function init(){
+    ensureSupabase();
+    await refreshNav();
+
+    const step = qs("step");
+    const sessionId = qs("session_id");
+
+    // 1) Se for Nota Fiscal, mostra a tela e segue o fluxo
+    if (step === "invoice"){
+      await handleInvoiceStep();
+      return;
+    }
+
+    // 2) Se voltou do Stripe com session_id, finaliza liberação e manda para conta
+    if (sessionId){
+      await handleSessionReturn();
+      return;
+    }
+
+    // 3) Caso contrário, erro amigável
+    show("screenPaymentError");
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
 </script>
-</body>
-</html>
