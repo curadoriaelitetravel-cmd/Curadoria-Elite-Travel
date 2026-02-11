@@ -156,6 +156,7 @@
       font-size:13px;
       line-height:1.55;
       text-align:center;
+      min-height:20px;
     }
 
     .actions{
@@ -201,10 +202,6 @@
     }
 
     .notice strong{ color:#d4af37; }
-
-    .center{
-      text-align:center;
-    }
   </style>
 </head>
 <body>
@@ -358,6 +355,11 @@
     return (data && data.session) ? data.session : null;
   }
 
+  async function getAccessToken(){
+    const sess = await getSession();
+    return (sess && sess.access_token) ? sess.access_token : null;
+  }
+
   async function doLogout(){
     try{
       const sb = ensureSupabase();
@@ -415,19 +417,27 @@
   }
 
   /* =========================
-     APIs existentes (sem criar novas)
+     APIs existentes (com token)
   ========================= */
   async function apiGET(url){
-    const r = await fetch(url, { method:"GET" });
+    const token = await getAccessToken();
+    const r = await fetch(url, {
+      method:"GET",
+      headers: token ? { "Authorization": "Bearer " + token } : {}
+    });
     let json = null;
     try{ json = await r.json(); }catch(e){}
     return { ok: r.ok, status: r.status, json };
   }
 
   async function apiPOST(url, body){
+    const token = await getAccessToken();
+    const headers = { "Content-Type":"application/json" };
+    if (token) headers["Authorization"] = "Bearer " + token;
+
     const r = await fetch(url, {
       method:"POST",
-      headers: { "Content-Type":"application/json" },
+      headers,
       body: JSON.stringify(body || {})
     });
     let json = null;
@@ -508,7 +518,6 @@
   }
 
   function validateProfile(p){
-    // validações simples (sem “complicar”)
     if (!p.document) return "Preencha CPF/CNPJ.";
     if (!p.name) return "Preencha o nome.";
     if (!p.email) return "Preencha o e-mail.";
@@ -523,24 +532,17 @@
 
   /* =========================
      PERFIL (Nota Fiscal)
-     - Lê e salva via APIs que já existem
   ========================= */
   async function loadInvoiceProfile(){
-    // API existente: /api/get-invoice-profile
     const res = await apiGET("/api/get-invoice-profile");
     if (!res.ok) return null;
-
-    // compatível com formatos diferentes
     const j = res.json || {};
     return j.profile || j.data || j;
   }
 
   async function saveInvoiceProfile(profile){
-    // API existente: /api/save-invoice-profile
     const res = await apiPOST("/api/save-invoice-profile", profile);
-
     if (!res.ok){
-      // tenta mostrar uma mensagem amigável
       const msg = (res.json && (res.json.error || res.json.message)) ? (res.json.error || res.json.message) : null;
       throw new Error(msg || "Não foi possível salvar seus dados. Tente novamente.");
     }
@@ -549,22 +551,15 @@
 
   /* =========================
      STRIPE — criar sessão (API existente)
-     Obs: sua pasta tem create-checkout-session.js
   ========================= */
   async function createCheckoutSessionForSingle(category, city){
-    // API existente: /api/create-checkout-session
-    // (mantém compatível com payload antigo e novo)
-    const payload = {
-      category,
-      city
-    };
+    const payload = { category, city };
     const res = await apiPOST("/api/create-checkout-session", payload);
     if (!res.ok) throw new Error("Não foi possível iniciar o pagamento.");
     return res.json || {};
   }
 
   async function createCheckoutSessionForCart(items){
-    // items: [{category, city, qty}]
     const payload = { items };
     const res = await apiPOST("/api/create-checkout-session", payload);
     if (!res.ok) throw new Error("Não foi possível iniciar o pagamento.");
@@ -572,19 +567,11 @@
   }
 
   function redirectToStripe(sessionResponse){
-    // compatível com respostas diferentes
     const url = sessionResponse.url || (sessionResponse.data && sessionResponse.data.url) || null;
-    const sessionId = sessionResponse.sessionId || sessionResponse.session_id || sessionResponse.id || null;
-
     if (url){
       window.location.href = url;
       return;
     }
-
-    // se sua API retornar só o session id, a forma padrão é:
-    // https://checkout.stripe.com/c/pay/ ... (mas isso muda)
-    // então, sem URL, não dá para abrir o Stripe com segurança.
-    // Mostra erro amigável:
     throw new Error("Não foi possível abrir o pagamento. (URL ausente)");
   }
 
@@ -595,7 +582,6 @@
     const sess = await getSession();
     if (sess && sess.user) return true;
 
-    // volta para cá depois do login
     const ret = encodeURIComponent(window.location.pathname + window.location.search);
     window.location.href = "login.html?return_to=" + ret;
     return false;
@@ -608,20 +594,17 @@
     show("screenInvoice");
     setHint("");
 
-    // labels do CPF/CNPJ
     setDocLabels();
     const personType = document.getElementById("personType");
     if (personType){
       personType.addEventListener("change", setDocLabels);
     }
 
-    // carregar perfil salvo (se já existir)
     try{
       const existing = await loadInvoiceProfile();
       if (existing) fillForm(existing);
     }catch(e){}
 
-    // preenche e-mail se estiver vazio e tiver no usuário
     try{
       const sess = await getSession();
       const emailEl = document.getElementById("email");
@@ -639,6 +622,16 @@
         btn.innerText = "Aguarde...";
         setHint("");
 
+        const token = await getAccessToken();
+        if (!token){
+          btn.disabled = false;
+          btn.innerText = "Prosseguir";
+          setHint("Sessão expirada. Faça login novamente.");
+          const ret = encodeURIComponent(window.location.pathname + window.location.search);
+          window.location.href = "login.html?return_to=" + ret;
+          return;
+        }
+
         const profile = getFormValues();
         const err = validateProfile(profile);
         if (err){
@@ -648,10 +641,8 @@
           return;
         }
 
-        // salva/atualiza sempre (para na próxima compra só revisar)
         await saveInvoiceProfile(profile);
 
-        // agora cria sessão Stripe (single ou cart)
         const isCart = qs("cart") === "1";
         const category = qs("category");
         const city = qs("city");
@@ -677,7 +668,6 @@
           sessionResp = await createCheckoutSessionForSingle(category, city);
         }
 
-        // abre Stripe
         redirectToStripe(sessionResp);
 
       }catch(e){
@@ -689,13 +679,14 @@
   }
 
   async function handleSessionReturn(){
-    // Se chegou aqui com session_id, quem conclui o processo é o fluxo já existente do seu projeto.
-    // Normalmente ele usa /api/get-pdf-from-session para registrar compra e liberar acesso.
     const sessionId = qs("session_id");
     if (!sessionId){
       show("screenPaymentError");
       return;
     }
+
+    const ok = await ensureLoggedInForInvoice();
+    if (!ok) return;
 
     show("screenLoading");
 
@@ -705,8 +696,6 @@
         show("screenPaymentError");
         return;
       }
-
-      // após registrar/liberar, leva para Minha conta
       window.location.href = "account.html";
     }catch(e){
       show("screenPaymentError");
@@ -720,19 +709,16 @@
     const step = qs("step");
     const sessionId = qs("session_id");
 
-    // 1) Se for Nota Fiscal, mostra a tela e segue o fluxo
     if (step === "invoice"){
       await handleInvoiceStep();
       return;
     }
 
-    // 2) Se voltou do Stripe com session_id, finaliza liberação e manda para conta
     if (sessionId){
       await handleSessionReturn();
       return;
     }
 
-    // 3) Caso contrário, erro amigável
     show("screenPaymentError");
   }
 
