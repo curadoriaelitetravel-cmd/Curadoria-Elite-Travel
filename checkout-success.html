@@ -475,7 +475,7 @@
   function getFormValues(){
     const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
     return {
-      person_type: personType,
+      person_type: personType, // valor base (cpf/cnpj)
       document: (document.getElementById("docNumber")?.value || "").trim(),
       name: (document.getElementById("fullName")?.value || "").trim(),
       email: (document.getElementById("email")?.value || "").trim(),
@@ -493,9 +493,15 @@
   function fillForm(profile){
     if (!profile) return;
 
-    const pt = (profile.person_type || profile.personType || "cpf").toLowerCase();
+    const ptRaw = (profile.person_type || profile.personType || profile.tipo || "cpf");
+    const pt = String(ptRaw).toLowerCase();
+
     const personType = document.getElementById("personType");
-    if (personType) personType.value = (pt === "cnpj") ? "cnpj" : "cpf";
+    if (personType){
+      // aceita vários formatos vindo do backend
+      if (pt.includes("cnpj") || pt === "pj" || pt === "juridica" || pt === "jurídica") personType.value = "cnpj";
+      else personType.value = "cpf";
+    }
 
     setDocLabels();
 
@@ -504,17 +510,17 @@
       if (el) el.value = (v || "");
     };
 
-    set("docNumber", profile.document || profile.docNumber || "");
-    set("fullName", profile.name || profile.fullName || "");
+    set("docNumber", profile.document || profile.docNumber || profile.cpf || profile.cnpj || "");
+    set("fullName", profile.name || profile.fullName || profile.razao_social || profile.razaoSocial || "");
     set("email", profile.email || "");
     set("phone", profile.phone || "");
-    set("zip", profile.zip || "");
-    set("address", profile.address || "");
-    set("number", profile.number || "");
-    set("district", profile.district || "");
-    set("city", profile.city || "");
-    set("state", profile.state || "");
-    set("complement", profile.complement || "");
+    set("zip", profile.zip || profile.cep || "");
+    set("address", profile.address || profile.endereco || "");
+    set("number", profile.number || profile.numero || "");
+    set("district", profile.district || profile.bairro || "");
+    set("city", profile.city || profile.cidade || "");
+    set("state", profile.state || profile.uf || "");
+    set("complement", profile.complement || profile.complemento || "");
   }
 
   function validateProfile(p){
@@ -540,13 +546,38 @@
     return j.profile || j.data || j;
   }
 
-  async function saveInvoiceProfile(profile){
-    const res = await apiPOST("/api/save-invoice-profile", profile);
-    if (!res.ok){
-      const msg = (res.json && (res.json.error || res.json.message)) ? (res.json.error || res.json.message) : null;
-      throw new Error(msg || "Não foi possível salvar seus dados. Tente novamente.");
+  // ✅ aqui é a correção: tenta salvar com person_type em formatos diferentes
+  async function saveInvoiceProfileSmart(profile){
+    const base = (profile.person_type || "cpf").toLowerCase();
+
+    // lista de tentativas (sem mudar seu layout/fluxo)
+    const candidates = (base === "cnpj")
+      ? ["cnpj", "CNPJ", "pj", "PJ", "juridica", "jurídica", "pessoa_juridica", "PESSOA_JURIDICA", "2"]
+      : ["cpf", "CPF", "pf", "PF", "fisica", "física", "pessoa_fisica", "PESSOA_FISICA", "1"];
+
+    let lastErr = null;
+
+    for (const c of candidates){
+      try{
+        const payload = { ...profile, person_type: c };
+
+        const res = await apiPOST("/api/save-invoice-profile", payload);
+        if (res.ok) return res.json || {};
+
+        const msg = (res.json && (res.json.error || res.json.message)) ? (res.json.error || res.json.message) : null;
+
+        // se não for problema de tipo, não faz sentido tentar outros formatos
+        if (msg && !String(msg).toLowerCase().includes("person_type")){
+          throw new Error(msg);
+        }
+
+        lastErr = new Error(msg || "Erro ao salvar.");
+      }catch(e){
+        lastErr = e;
+      }
     }
-    return res.json || {};
+
+    throw lastErr || new Error("Não foi possível salvar seus dados.");
   }
 
   /* =========================
@@ -641,7 +672,8 @@
           return;
         }
 
-        await saveInvoiceProfile(profile);
+        // ✅ salva com tentativas de person_type aceitos
+        await saveInvoiceProfileSmart(profile);
 
         const isCart = qs("cart") === "1";
         const category = qs("category");
