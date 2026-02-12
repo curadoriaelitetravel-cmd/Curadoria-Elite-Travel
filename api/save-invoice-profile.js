@@ -4,15 +4,15 @@
 // - Identifica o usuário via Bearer token (não aceita user_id vindo do front)
 // - Faz upsert por user_id
 //
-// Regras principais:
+// ✅ Regras:
 // - CPF: exige full_name + gender + birth_date
-// - CNPJ: exige corporate_name (Razão Social) e exige ie_indicator
-//   ie_indicator: "CONTRIBUINTE" | "ISENTO" | "NAO_CONTRIBUINTE"
-//   Se "CONTRIBUINTE" => IE obrigatório
+// - CNPJ: exige corporate_name e salva a Razão Social no campo full_name
 //
-// Observação:
-// - Mantemos ie_isento por compatibilidade com a coluna já existente.
-// - Salvamos Razão Social no campo full_name para não depender de coluna extra.
+// ✅ IMPORTANTE (FK uf_city):
+// - A tabela invoice_profiles tem FK (uf, city_name). Então aqui normalizamos:
+//   - uf: UPPER
+//   - city_name: remove acentos + trim + colapsa espaços + UPPER
+//   Isso evita falha quando o usuário digita "São Paulo" e o cadastro base está "SAO PAULO".
 
 const { createClient } = require("@supabase/supabase-js");
 
@@ -33,10 +33,6 @@ function asText(v) {
   return String(v ?? "").trim();
 }
 
-function normalizeUF(uf) {
-  return asText(uf).toUpperCase();
-}
-
 function onlyDigits(v) {
   return asText(v).replace(/\D+/g, "");
 }
@@ -53,17 +49,26 @@ function normalizeGender(v) {
   return null;
 }
 
-function normalizeIEIndicator(v) {
-  const s = asText(v).toUpperCase();
+function normalizeUF(uf) {
+  return asText(uf).toUpperCase();
+}
 
-  // Aceita valores já "certos"
-  if (s === "CONTRIBUINTE" || s === "ISENTO" || s === "NAO_CONTRIBUINTE") return s;
+function stripAccents(s) {
+  // remove acentos/diacríticos (São -> Sao)
+  return asText(s)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
 
-  // Aceita variações comuns (por segurança)
-  if (s === "NÃO CONTRIBUINTE" || s === "NAO CONTRIBUINTE") return "NAO_CONTRIBUINTE";
-  if (s === "NÃO-CONTRIBUINTE" || s === "NAO-CONTRIBUINTE") return "NAO_CONTRIBUINTE";
-
-  return null;
+function normalizeCityName(city) {
+  // padroniza para casar com tabela de cidades (FK):
+  // - remove acento
+  // - remove espaços extras
+  // - UPPER
+  const t = stripAccents(city)
+    .replace(/\s+/g, " ")
+    .trim();
+  return t.toUpperCase();
 }
 
 module.exports = async (req, res) => {
@@ -97,20 +102,21 @@ module.exports = async (req, res) => {
     const doc_number = onlyDigits(body.doc_number);
 
     // Campos do formulário
-    const full_name_input = asText(body.full_name);     // CPF
-    const corporate_name = asText(body.corporate_name); // CNPJ (Razão Social)
+    const full_name_input = asText(body.full_name);          // CPF
+    const corporate_name = asText(body.corporate_name);      // CNPJ
 
-    // IE Indicator (CNPJ)
-    const ie_indicator = normalizeIEIndicator(body.ie_indicator);
+    // IE indicator (novo)
+    const ie_indicator_raw = asText(body.ie_indicator); // "CONTRIBUINTE" | "ISENTO" | "NAO_CONTRIBUINTE" | ""
 
-    // Mantido por compatibilidade (vamos setar com base no indicador)
+    // IE number (somente se contribuinte)
     const ie = asText(body.ie) || null;
 
     const birth_date = asText(body.birth_date) || null; // YYYY-MM-DD (CPF obrigatório)
     const cep = onlyDigits(body.cep);
 
+    // ✅ Normalização para FK
     const uf = normalizeUF(body.uf);
-    const city_name = asText(body.city_name);
+    const city_name = normalizeCityName(body.city_name);
 
     const neighborhood = asText(body.neighborhood);
     const street = asText(body.street);
@@ -177,35 +183,33 @@ module.exports = async (req, res) => {
     }
 
     if (person_type === "CNPJ") {
-      // Para CNPJ, a Razão Social vem em corporate_name
       if (!corporate_name) {
         return res.status(400).json({ error: "corporate_name_required_for_cnpj" });
       }
 
-      // Indicador de IE obrigatório para CNPJ
-      if (!ie_indicator) {
-        return res.status(400).json({ error: "ie_indicator_required_for_cnpj" });
-      }
-
-      // Salvamos Razão Social no campo full_name (sem mexer em estrutura do banco)
+      // Salvamos Razão Social no full_name (sem mexer na estrutura do banco)
       full_name = corporate_name;
 
       // CNPJ não usa esses campos:
       gender = null;
-
-      // Se Contribuinte => IE obrigatório
-      if (ie_indicator === "CONTRIBUINTE") {
-        if (!ie) {
-          return res.status(400).json({ error: "ie_required_when_contribuinte" });
-        }
-      }
     }
 
-    // Derivamos ie_isento a partir do indicador
-    const ie_isento =
-      person_type === "CNPJ"
-        ? (ie_indicator === "ISENTO" || ie_indicator === "NAO_CONTRIBUINTE")
-        : true;
+    // =========================
+    // IE indicator (CNPJ)
+    // =========================
+    let ie_indicator = null;
+
+    if (person_type === "CNPJ") {
+      const allowed = ["CONTRIBUINTE", "ISENTO", "NAO_CONTRIBUINTE"];
+      if (!allowed.includes(ie_indicator_raw)) {
+        return res.status(400).json({ error: "ie_indicator_required_for_cnpj" });
+      }
+      ie_indicator = ie_indicator_raw;
+
+      if (ie_indicator === "CONTRIBUINTE" && !ie) {
+        return res.status(400).json({ error: "ie_required_when_contribuinte" });
+      }
+    }
 
     const payload = {
       user_id: userId,
@@ -214,16 +218,11 @@ module.exports = async (req, res) => {
 
       full_name, // ✅ CPF = Nome completo | CNPJ = Razão Social
 
-      // Novidade: indicador (se a coluna existir, salva; se não existir, a API retornará erro e veremos no log)
+      // IE indicator + IE (somente CNPJ)
       ie_indicator: person_type === "CNPJ" ? ie_indicator : null,
+      ie: person_type === "CNPJ" ? (ie_indicator === "CONTRIBUINTE" ? ie : null) : null,
 
-      ie_isento: ie_isento,
-      ie:
-        person_type === "CNPJ"
-          ? (ie_indicator === "CONTRIBUINTE" ? ie : null)
-          : null,
-
-      birth_date: person_type === "CPF" ? (birth_date ? birth_date : null) : null,
+      birth_date: person_type === "CPF" ? birth_date : null,
       gender: person_type === "CPF" ? gender : null,
 
       cep,
