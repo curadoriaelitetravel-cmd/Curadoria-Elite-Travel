@@ -414,12 +414,7 @@
 </main>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script>
-  /* (continua na Parte 2/2) */
-</script>
 
-</body>
-</html>
 <script>
   /* =========================
      SUPABASE
@@ -560,8 +555,6 @@
   }
 
   function maskIE(v){
-    // IE varia por estado, então aqui usamos apenas uma "máscara leve":
-    // mantém só números e limita tamanho (14 costuma ser suficiente)
     return onlyDigits(v).slice(0, 14);
   }
 
@@ -651,27 +644,31 @@
     const gender = String(document.getElementById("gender")?.value || "").trim();
 
     // CNPJ only
-    const ie_indicator = getSelectedIeIndicator();
+    const ie_indicator = getSelectedIeIndicator(); // CONTRIBUINTE | ISENTO | NAO_CONTRIBUINTE
     const ieNumber = maskIE(document.getElementById("ieNumber")?.value || "");
 
-    // ✅ payload nos nomes que sua API espera
+    // ✅ compatibilidade com a validação atual da sua API:
+    // - se CONTRIBUINTE -> ie_isento = false (obriga IE)
+    // - se ISENTO ou NAO_CONTRIBUINTE -> ie_isento = true (não obriga IE)
+    const ie_isento = isCnpj ? (ie_indicator !== "CONTRIBUINTE") : true;
+
     const payload = {
       person_type: isCnpj ? "CNPJ" : "CPF",
       doc_number: doc,
 
-      // sua API usa full_name (CPF) e corporate_name (CNPJ)
       full_name: isCnpj ? "" : name,
       corporate_name: isCnpj ? name : "",
 
-      // IE indicator (novo campo)
+      // salva o indicador (pra você diferenciar depois)
       ie_indicator: isCnpj ? ie_indicator : null,
-      ie: isCnpj ? (ie_indicator === "CONTRIBUINTE" ? ieNumber : null) : null,
 
-      // CPF obrigatório
+      // campos esperados pela API atual
+      ie_isento: ie_isento,
+      ie: (isCnpj && ie_indicator === "CONTRIBUINTE") ? ieNumber : null,
+
       birth_date: isCnpj ? null : (birthDate || null),
       gender: isCnpj ? null : (gender || null),
 
-      // endereço (nomes que a API espera)
       cep: zip,
       uf: state,
       city_name: city,
@@ -680,14 +677,12 @@
       street_number: number,
       complement: complement,
 
-      // extras (não bloqueiam, mas ajudam)
       email,
       phone,
     };
 
     return payload;
   }
-
   function validateFront(){
     const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
     const isCnpj = personType === "cnpj";
@@ -738,7 +733,6 @@
   function fillForm(profile){
     if (!profile) return;
 
-    // personType
     const pt = String(profile.person_type || profile.personType || "").toUpperCase();
     const personTypeEl = document.getElementById("personType");
     if (personTypeEl){
@@ -747,22 +741,20 @@
 
     setDocLabels();
 
-    // doc
     const docEl = document.getElementById("docNumber");
     if (docEl) docEl.value = String(profile.doc_number || profile.document || "").trim();
 
-    // name: full_name guarda Razão Social no CNPJ
+    // Nome/Razão social:
+    // (Seu backend pode salvar Razão Social em full_name)
     const nameEl = document.getElementById("fullName");
-    if (nameEl) nameEl.value = String(profile.full_name || profile.name || "").trim();
+    if (nameEl) nameEl.value = String(profile.full_name || profile.corporate_name || profile.name || "").trim();
 
-    // cpf fields
     const bd = document.getElementById("birthDate");
     if (bd) bd.value = String(profile.birth_date || "").trim();
 
     const g = document.getElementById("gender");
     if (g) g.value = String(profile.gender || "").trim();
 
-    // address
     const zipEl = document.getElementById("zip");
     if (zipEl) zipEl.value = String(profile.cep || profile.zip || "").trim();
 
@@ -787,8 +779,10 @@
     // IE indicator / IE
     const ind = String(profile.ie_indicator || "").toUpperCase();
     if (ind) setSelectedIeIndicator(ind);
+
     const ieNumEl = document.getElementById("ieNumber");
     if (ieNumEl) ieNumEl.value = String(profile.ie || "").trim();
+
     toggleIeNumber();
   }
 
@@ -841,7 +835,6 @@
     show("screenInvoice");
     setHint("");
 
-    // masks
     const zipEl = document.getElementById("zip");
     if (zipEl){
       zipEl.addEventListener("input", () => {
@@ -863,12 +856,10 @@
       });
     }
 
-    // person type change
     const personType = document.getElementById("personType");
     if (personType){
       personType.addEventListener("change", () => {
         setHint("");
-        // limpa IE quando troca
         setSelectedIeIndicator("");
         const ieNum = document.getElementById("ieNumber");
         if (ieNum) ieNum.value = "";
@@ -876,7 +867,6 @@
       });
     }
 
-    // IE indicator change
     const radios = document.querySelectorAll('input[name="ie_indicator"]');
     radios.forEach(r => {
       r.addEventListener("change", () => {
@@ -887,13 +877,11 @@
 
     setDocLabels();
 
-    // prefill
     try{
       const existing = await loadInvoiceProfile();
       if (existing) fillForm(existing);
     }catch(e){}
 
-    // prefill email from session
     try{
       const sess = await getSession();
       const emailEl = document.getElementById("email");
@@ -931,7 +919,6 @@
 
         const payload = getFormValuesForApi();
 
-        // salva perfil (bloqueia se falhar)
         const saveRes = await apiPOST("/api/save-invoice-profile", payload);
         if (!saveRes.ok){
           const msg = (saveRes.json && (saveRes.json.error || saveRes.json.message))
@@ -943,7 +930,6 @@
           return;
         }
 
-        // criar sessão stripe
         const isCart = qs("cart") === "1";
         const category = qs("category");
         const city = qs("city");
@@ -1025,3 +1011,6 @@
 
   document.addEventListener("DOMContentLoaded", init);
 </script>
+
+</body>
+</html>
