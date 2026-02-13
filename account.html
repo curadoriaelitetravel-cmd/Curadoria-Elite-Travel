@@ -199,6 +199,8 @@
     }
     .row{display:flex; gap:10px;}
     .row > div{flex:1;}
+    .checkboxRow{display:flex; align-items:center; gap:10px; margin-top:10px;}
+    .checkboxRow input{width:auto; margin:0;}
 
     /* Indicador de IE (CNPJ) */
     .ieBox{
@@ -316,6 +318,7 @@
           </div>
         </div>
 
+        <!-- CNPJ: Indicador de IE -->
         <div id="cnpjIeBox" class="ieBox hidden">
           <p class="ieTitle">Indicador de IE</p>
           <div class="ieOptions">
@@ -346,7 +349,7 @@
           </div>
           <div>
             <label>Cidade</label>
-            <input id="city_name" placeholder="SÃO PAULO" />
+            <input id="city_name" placeholder="São Paulo" />
           </div>
         </div>
 
@@ -453,21 +456,113 @@
     }
 
     function onlyDigits(v){ return String(v || "").replace(/\D+/g, ""); }
+
     function maskCEP(v){
       const d = onlyDigits(v).slice(0, 8);
       if (d.length <= 5) return d;
       return d.slice(0,5) + "-" + d.slice(5);
     }
+
+    // IE varia por UF; aqui aplicamos uma máscara genérica só para padronizar visual:
+    // 14 dígitos -> 123.456.789.012-34 (3-3-3-3-2)
+    function formatIE(v){
+      const d = onlyDigits(v).slice(0, 14);
+      if (!d) return "";
+      if (d.length <= 3) return d;
+      if (d.length <= 6) return d.slice(0,3) + "." + d.slice(3);
+      if (d.length <= 9) return d.slice(0,3) + "." + d.slice(3,6) + "." + d.slice(6);
+      if (d.length <= 12) return d.slice(0,3) + "." + d.slice(3,6) + "." + d.slice(6,9) + "." + d.slice(9);
+      // 13-14
+      if (d.length === 13) return d.slice(0,3) + "." + d.slice(3,6) + "." + d.slice(6,9) + "." + d.slice(9,12) + "-" + d.slice(12);
+      return d.slice(0,3) + "." + d.slice(3,6) + "." + d.slice(6,9) + "." + d.slice(9,12) + "-" + d.slice(12,14);
+    }
     function maskIE(v){
+      // para salvar/validar, seguimos com dígitos somente (limite 14)
       return onlyDigits(v).slice(0, 14);
     }
 
-    function normalizeUF(v){
-      return String(v || "").trim().toUpperCase();
+    // CPF: 000.000.000-00
+    function formatCPF(v){
+      const d = onlyDigits(v).slice(0, 11);
+      if (!d) return "";
+      if (d.length <= 3) return d;
+      if (d.length <= 6) return d.slice(0,3) + "." + d.slice(3);
+      if (d.length <= 9) return d.slice(0,3) + "." + d.slice(3,6) + "." + d.slice(6);
+      return d.slice(0,3) + "." + d.slice(3,6) + "." + d.slice(6,9) + "-" + d.slice(9,11);
     }
-    function normalizeCity(v){
-      // Mantém acentos (ex: SÃO PAULO) e só coloca em maiúsculo
-      return String(v || "").trim().toUpperCase().replace(/\s+/g, " ");
+
+    // CNPJ: 00.000.000/0000-00
+    function formatCNPJ(v){
+      const d = onlyDigits(v).slice(0, 14);
+      if (!d) return "";
+      if (d.length <= 2) return d;
+      if (d.length <= 5) return d.slice(0,2) + "." + d.slice(2);
+      if (d.length <= 8) return d.slice(0,2) + "." + d.slice(2,5) + "." + d.slice(5);
+      if (d.length <= 12) return d.slice(0,2) + "." + d.slice(2,5) + "." + d.slice(5,8) + "/" + d.slice(8);
+      return d.slice(0,2) + "." + d.slice(2,5) + "." + d.slice(5,8) + "/" + d.slice(8,12) + "-" + d.slice(12,14);
+    }
+
+    function getDocType(){
+      return String(personTypeEl?.value || "CPF").toUpperCase();
+    }
+
+    function formatDocByType(personType, doc){
+      const pt = String(personType || "CPF").toUpperCase();
+      if (pt === "CNPJ") return formatCNPJ(doc);
+      return formatCPF(doc);
+    }
+
+    function applyDocMaskToInput(){
+      const docEl = document.getElementById("doc_number");
+      if (!docEl) return;
+      const pt = getDocType();
+      docEl.value = formatDocByType(pt, docEl.value);
+    }
+
+    function getSelectedIeIndicator(){
+      const radios = document.querySelectorAll('input[name="ie_indicator"]');
+      for (const r of radios){
+        if (r.checked) return r.value;
+      }
+      return "";
+    }
+    function setSelectedIeIndicator(val){
+      const radios = document.querySelectorAll('input[name="ie_indicator"]');
+      radios.forEach(r => r.checked = (r.value === val));
+    }
+
+    function syncFormByType(){
+      const t = getDocType();
+      const isCnpj = t === "CNPJ";
+
+      if (cpfRow) cpfRow.classList.toggle("hidden", isCnpj);
+      if (cnpjIeBox) cnpjIeBox.classList.toggle("hidden", !isCnpj);
+
+      if (nameLabel) nameLabel.textContent = isCnpj ? "Razão social" : "Nome completo";
+
+      // Ajusta placeholder do doc conforme tipo + aplica máscara atual
+      const docEl = document.getElementById("doc_number");
+      if (docEl){
+        docEl.placeholder = isCnpj ? "00.000.000/0000-00" : "000.000.000-00";
+      }
+      applyDocMaskToInput();
+
+      if (!isCnpj){
+        // CPF: limpa IE
+        setSelectedIeIndicator("");
+        if (cnpjIeNumberWrap) cnpjIeNumberWrap.classList.add("hidden");
+        if (ieInput) ieInput.value = "";
+      }else{
+        // CNPJ: mostra/oculta IE conforme indicador
+        toggleIeNumberByIndicator();
+      }
+    }
+
+    function toggleIeNumberByIndicator(){
+      const ind = getSelectedIeIndicator();
+      if (!cnpjIeNumberWrap) return;
+      cnpjIeNumberWrap.classList.toggle("hidden", ind !== "CONTRIBUINTE");
+      if (ind !== "CONTRIBUINTE" && ieInput) ieInput.value = "";
     }
 
     async function requireSession(){
@@ -492,66 +587,31 @@
       return "-";
     }
 
-    function getSelectedIeIndicator(){
-      const radios = document.querySelectorAll('input[name="ie_indicator"]');
-      for (const r of radios){
-        if (r.checked) return r.value;
-      }
-      return "";
-    }
-    function setSelectedIeIndicator(val){
-      const radios = document.querySelectorAll('input[name="ie_indicator"]');
-      radios.forEach(r => r.checked = (r.value === val));
-    }
-
-    function toggleIeNumberByIndicator(){
-      const ind = getSelectedIeIndicator();
-      if (!cnpjIeNumberWrap) return;
-      cnpjIeNumberWrap.classList.toggle("hidden", ind !== "CONTRIBUINTE");
-      if (ind !== "CONTRIBUINTE" && ieInput) ieInput.value = "";
-    }
-
-    function syncFormByType(){
-      const t = String(personTypeEl.value || "CPF").toUpperCase();
-      const isCnpj = t === "CNPJ";
-
-      if (cpfRow) cpfRow.classList.toggle("hidden", isCnpj);
-      if (cnpjIeBox) cnpjIeBox.classList.toggle("hidden", !isCnpj);
-
-      if (nameLabel) nameLabel.textContent = isCnpj ? "Razão social" : "Nome completo";
-
-      if (!isCnpj){
-        setSelectedIeIndicator("");
-        if (cnpjIeNumberWrap) cnpjIeNumberWrap.classList.add("hidden");
-        if (ieInput) ieInput.value = "";
-      }else{
-        toggleIeNumberByIndicator();
-      }
-    }
-
     function renderProfile(row){
       const safe = (v) => (v === null || v === undefined || v === "" ? "-" : String(v));
-      const isCnpj = String(row?.person_type || "").toUpperCase() === "CNPJ";
+      const pt = String(row?.person_type || "").toUpperCase();
+      const isCnpj = pt === "CNPJ";
 
-      const nameValue =
-        isCnpj
-          ? (row?.corporate_name || row?.full_name || "-")
-          : (row?.full_name || "-");
+      // Documento mascarado
+      const docMasked = formatDocByType(pt || "CPF", row?.doc_number || "");
 
       const fields = [
         ["Tipo", safe(row?.person_type)],
-        ["Documento", safe(row?.doc_number)],
-        ["Nome / Razão social", safe(nameValue)],
+        ["Documento", docMasked || safe(row?.doc_number)],
+        ["Nome / Razão social", safe(row?.full_name)],
       ];
 
+      // CPF: mostra campos
       if (!isCnpj){
         fields.push(["Sexo", safe(row?.gender)]);
         fields.push(["Nascimento", safe(row?.birth_date)]);
       }
 
+      // CNPJ: mostra indicador IE e IE (mascarada)
       if (isCnpj){
         fields.push(["Indicador de IE", ieIndicatorLabel(row?.ie_indicator)]);
-        fields.push(["IE", safe(row?.ie)]);
+        const ieMasked = row?.ie ? formatIE(row.ie) : "";
+        fields.push(["IE", ieMasked || safe(row?.ie)]);
       }
 
       fields.push(["UF", safe(row?.uf)]);
@@ -574,19 +634,22 @@
       const pt = String(row?.person_type || "CPF").toUpperCase();
       personTypeEl.value = (pt === "CNPJ") ? "CNPJ" : "CPF";
 
-      document.getElementById("doc_number").value = row?.doc_number || "";
+      // doc_number mascarado no input
+      const docEl = document.getElementById("doc_number");
+      if (docEl) docEl.value = formatDocByType(pt, row?.doc_number || "");
 
-      const isCnpj = pt === "CNPJ";
-      document.getElementById("full_name").value = isCnpj
-        ? (row?.corporate_name || row?.full_name || "")
-        : (row?.full_name || "");
+      document.getElementById("full_name").value = row?.full_name || "";
 
       document.getElementById("gender").value = row?.gender || "";
       document.getElementById("birth_date").value = row?.birth_date || "";
 
+      // indicador de IE
       const ind = String(row?.ie_indicator || "").toUpperCase();
       setSelectedIeIndicator(ind);
-      document.getElementById("ie").value = row?.ie || "";
+
+      // IE mascarada no input (visual)
+      const ieEl = document.getElementById("ie");
+      if (ieEl) ieEl.value = row?.ie ? formatIE(row.ie) : "";
 
       document.getElementById("uf").value = row?.uf || "";
       document.getElementById("city_name").value = row?.city_name || "";
@@ -687,31 +750,58 @@
 
     btnEditProfile.addEventListener("click", async () => {
       profileForm.style.display = (profileForm.style.display === "block") ? "none" : "block";
-      btnEditProfile.textContent = (profileForm.style.display === "block") ? "Fechar" : "Editar";
+      if (profileForm.style.display === "block"){
+        btnEditProfile.textContent = "Fechar";
+      } else {
+        btnEditProfile.textContent = "Editar";
+      }
     });
 
+    // reações do formulário
     personTypeEl.addEventListener("change", () => {
       hideGlobal();
       syncFormByType();
     });
 
+    // Doc mask: aplica máscara enquanto digita
+    const docNumberEl = document.getElementById("doc_number");
+    if (docNumberEl){
+      docNumberEl.addEventListener("input", () => {
+        applyDocMaskToInput();
+      });
+      docNumberEl.addEventListener("blur", () => {
+        applyDocMaskToInput();
+      });
+    }
+
+    // IE indicator change
     const ieRadios = document.querySelectorAll('input[name="ie_indicator"]');
     ieRadios.forEach(r => {
       r.addEventListener("change", () => {
         hideGlobal();
         toggleIeNumberByIndicator();
+        // quando escolher CONTRIBUINTE, deixa IE pronta
+        if (ieInput && getSelectedIeIndicator() === "CONTRIBUINTE"){
+          ieInput.value = formatIE(ieInput.value);
+        }
       });
     });
 
+    // máscaras leves
     const cepEl = document.getElementById("cep");
     if (cepEl){
       cepEl.addEventListener("input", () => {
         cepEl.value = maskCEP(cepEl.value);
       });
     }
+
     if (ieInput){
       ieInput.addEventListener("input", () => {
-        ieInput.value = maskIE(ieInput.value);
+        // visual mascarado
+        ieInput.value = formatIE(ieInput.value);
+      });
+      ieInput.addEventListener("blur", () => {
+        ieInput.value = formatIE(ieInput.value);
       });
     }
 
@@ -753,23 +843,18 @@
       btnSaveProfile.disabled = true;
       btnSaveProfile.textContent = "Salvando...";
 
-      const pt = String(personTypeEl.value || "CPF").toUpperCase();
+      const pt = getDocType();
       const isCnpj = pt === "CNPJ";
 
+      // SALVA SEMPRE SÓ NÚMEROS
       const doc = onlyDigits(document.getElementById("doc_number").value);
       const name = String(document.getElementById("full_name").value || "").trim();
-
-      const uf = normalizeUF(document.getElementById("uf").value);
-      const city = normalizeCity(document.getElementById("city_name").value);
-
-      // aplica no input também (visual)
-      document.getElementById("uf").value = uf;
-      document.getElementById("city_name").value = city;
 
       const payload = {
         person_type: pt,
         doc_number: doc,
 
+        // CPF vs CNPJ (a API atual usa full_name + corporate_name)
         full_name: isCnpj ? "" : name,
         corporate_name: isCnpj ? name : "",
 
@@ -777,10 +862,15 @@
         birth_date: isCnpj ? null : (document.getElementById("birth_date").value || null),
 
         ie_indicator: isCnpj ? getSelectedIeIndicator() : null,
-        ie: isCnpj ? (getSelectedIeIndicator() === "CONTRIBUINTE" ? (maskIE(document.getElementById("ie").value) || null) : null) : null,
+        // IE também salva só dígitos
+        ie: isCnpj
+          ? (getSelectedIeIndicator() === "CONTRIBUINTE"
+              ? (maskIE(document.getElementById("ie").value) || null)
+              : null)
+          : null,
 
-        uf,
-        city_name: city,
+        uf: String(document.getElementById("uf").value || "").trim(),
+        city_name: String(document.getElementById("city_name").value || "").trim(),
         cep: onlyDigits(document.getElementById("cep").value),
         neighborhood: String(document.getElementById("neighborhood").value || "").trim(),
         street: String(document.getElementById("street").value || "").trim(),
@@ -819,11 +909,11 @@
         profileForm.style.display = "none";
         btnEditProfile.textContent = "Editar";
 
+        // Atualiza view com valores já "no padrão do banco" (doc/ie só dígitos)
         const viewRow = {
           person_type: pt,
           doc_number: doc,
           full_name: name,
-          corporate_name: isCnpj ? name : "",
           gender: payload.gender,
           birth_date: payload.birth_date,
           ie_indicator: payload.ie_indicator,
@@ -838,6 +928,10 @@
         };
 
         renderProfile(viewRow);
+
+        // Reaplica máscaras nos inputs após salvar (visual)
+        applyDocMaskToInput();
+        if (ieInput) ieInput.value = formatIE(ieInput.value);
 
       }catch(err){
         showGlobal("Erro", "Falha ao salvar. Tente novamente.");
@@ -868,7 +962,7 @@
       await loadMaterials(user.id);
     }
 
-    document.addEventListener("DOMContentLoaded", loadUser);
+    loadUser();
   </script>
 </body>
 </html>
