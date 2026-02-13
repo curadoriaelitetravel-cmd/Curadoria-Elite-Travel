@@ -199,8 +199,6 @@
     }
     .row{display:flex; gap:10px;}
     .row > div{flex:1;}
-    .checkboxRow{display:flex; align-items:center; gap:10px; margin-top:10px;}
-    .checkboxRow input{width:auto; margin:0;}
 
     /* Indicador de IE (CNPJ) */
     .ieBox{
@@ -318,7 +316,6 @@
           </div>
         </div>
 
-        <!-- CNPJ: Indicador de IE -->
         <div id="cnpjIeBox" class="ieBox hidden">
           <p class="ieTitle">Indicador de IE</p>
           <div class="ieOptions">
@@ -349,7 +346,7 @@
           </div>
           <div>
             <label>Cidade</label>
-            <input id="city_name" placeholder="São Paulo" />
+            <input id="city_name" placeholder="SÃO PAULO" />
           </div>
         </div>
 
@@ -465,49 +462,14 @@
       return onlyDigits(v).slice(0, 14);
     }
 
-    function getSelectedIeIndicator(){
-      const radios = document.querySelectorAll('input[name="ie_indicator"]');
-      for (const r of radios){
-        if (r.checked) return r.value;
-      }
-      return "";
+    function normalizeUF(v){
+      return String(v || "").trim().toUpperCase();
     }
-    function setSelectedIeIndicator(val){
-      const radios = document.querySelectorAll('input[name="ie_indicator"]');
-      radios.forEach(r => r.checked = (r.value === val));
+    function normalizeCity(v){
+      // Mantém acentos (ex: SÃO PAULO) e só coloca em maiúsculo
+      return String(v || "").trim().toUpperCase().replace(/\s+/g, " ");
     }
 
-    function syncFormByType(){
-      const t = String(personTypeEl.value || "CPF").toUpperCase();
-      const isCnpj = t === "CNPJ";
-
-      if (cpfRow) cpfRow.classList.toggle("hidden", isCnpj);
-      if (cnpjIeBox) cnpjIeBox.classList.toggle("hidden", !isCnpj);
-
-      if (nameLabel) nameLabel.textContent = isCnpj ? "Razão social" : "Nome completo";
-
-      if (!isCnpj){
-        // CPF: limpa IE
-        setSelectedIeIndicator("");
-        if (cnpjIeNumberWrap) cnpjIeNumberWrap.classList.add("hidden");
-        if (ieInput) ieInput.value = "";
-      }else{
-        // CNPJ: mostra/oculta IE conforme indicador
-        toggleIeNumberByIndicator();
-      }
-    }
-
-    function toggleIeNumberByIndicator(){
-      const ind = getSelectedIeIndicator();
-      if (!cnpjIeNumberWrap) return;
-      cnpjIeNumberWrap.classList.toggle("hidden", ind !== "CONTRIBUINTE");
-      if (ind !== "CONTRIBUINTE" && ieInput) ieInput.value = "";
-    }
-
-    /* (continua na Parte 2/2) */
-  </script>
-</body>
-</html>
     async function requireSession(){
       const { data } = await sb.auth.getSession();
       if (!data || !data.session) {
@@ -530,24 +492,63 @@
       return "-";
     }
 
+    function getSelectedIeIndicator(){
+      const radios = document.querySelectorAll('input[name="ie_indicator"]');
+      for (const r of radios){
+        if (r.checked) return r.value;
+      }
+      return "";
+    }
+    function setSelectedIeIndicator(val){
+      const radios = document.querySelectorAll('input[name="ie_indicator"]');
+      radios.forEach(r => r.checked = (r.value === val));
+    }
+
+    function toggleIeNumberByIndicator(){
+      const ind = getSelectedIeIndicator();
+      if (!cnpjIeNumberWrap) return;
+      cnpjIeNumberWrap.classList.toggle("hidden", ind !== "CONTRIBUINTE");
+      if (ind !== "CONTRIBUINTE" && ieInput) ieInput.value = "";
+    }
+
+    function syncFormByType(){
+      const t = String(personTypeEl.value || "CPF").toUpperCase();
+      const isCnpj = t === "CNPJ";
+
+      if (cpfRow) cpfRow.classList.toggle("hidden", isCnpj);
+      if (cnpjIeBox) cnpjIeBox.classList.toggle("hidden", !isCnpj);
+
+      if (nameLabel) nameLabel.textContent = isCnpj ? "Razão social" : "Nome completo";
+
+      if (!isCnpj){
+        setSelectedIeIndicator("");
+        if (cnpjIeNumberWrap) cnpjIeNumberWrap.classList.add("hidden");
+        if (ieInput) ieInput.value = "";
+      }else{
+        toggleIeNumberByIndicator();
+      }
+    }
+
     function renderProfile(row){
       const safe = (v) => (v === null || v === undefined || v === "" ? "-" : String(v));
-
       const isCnpj = String(row?.person_type || "").toUpperCase() === "CNPJ";
+
+      const nameValue =
+        isCnpj
+          ? (row?.corporate_name || row?.full_name || "-")
+          : (row?.full_name || "-");
 
       const fields = [
         ["Tipo", safe(row?.person_type)],
         ["Documento", safe(row?.doc_number)],
-        ["Nome / Razão social", safe(row?.full_name)],
+        ["Nome / Razão social", safe(nameValue)],
       ];
 
-      // CPF: mostra campos cpf
       if (!isCnpj){
         fields.push(["Sexo", safe(row?.gender)]);
         fields.push(["Nascimento", safe(row?.birth_date)]);
       }
 
-      // CNPJ: mostra indicador IE e IE
       if (isCnpj){
         fields.push(["Indicador de IE", ieIndicatorLabel(row?.ie_indicator)]);
         fields.push(["IE", safe(row?.ie)]);
@@ -574,16 +575,17 @@
       personTypeEl.value = (pt === "CNPJ") ? "CNPJ" : "CPF";
 
       document.getElementById("doc_number").value = row?.doc_number || "";
-      document.getElementById("full_name").value = row?.full_name || "";
+
+      const isCnpj = pt === "CNPJ";
+      document.getElementById("full_name").value = isCnpj
+        ? (row?.corporate_name || row?.full_name || "")
+        : (row?.full_name || "");
 
       document.getElementById("gender").value = row?.gender || "";
       document.getElementById("birth_date").value = row?.birth_date || "";
 
-      // indicador de IE (novo)
       const ind = String(row?.ie_indicator || "").toUpperCase();
       setSelectedIeIndicator(ind);
-
-      // IE
       document.getElementById("ie").value = row?.ie || "";
 
       document.getElementById("uf").value = row?.uf || "";
@@ -685,20 +687,14 @@
 
     btnEditProfile.addEventListener("click", async () => {
       profileForm.style.display = (profileForm.style.display === "block") ? "none" : "block";
-      if (profileForm.style.display === "block"){
-        btnEditProfile.textContent = "Fechar";
-      } else {
-        btnEditProfile.textContent = "Editar";
-      }
+      btnEditProfile.textContent = (profileForm.style.display === "block") ? "Fechar" : "Editar";
     });
 
-    // reações do formulário
     personTypeEl.addEventListener("change", () => {
       hideGlobal();
       syncFormByType();
     });
 
-    // IE indicator change
     const ieRadios = document.querySelectorAll('input[name="ie_indicator"]');
     ieRadios.forEach(r => {
       r.addEventListener("change", () => {
@@ -707,7 +703,6 @@
       });
     });
 
-    // máscaras leves
     const cepEl = document.getElementById("cep");
     if (cepEl){
       cepEl.addEventListener("input", () => {
@@ -764,11 +759,17 @@
       const doc = onlyDigits(document.getElementById("doc_number").value);
       const name = String(document.getElementById("full_name").value || "").trim();
 
+      const uf = normalizeUF(document.getElementById("uf").value);
+      const city = normalizeCity(document.getElementById("city_name").value);
+
+      // aplica no input também (visual)
+      document.getElementById("uf").value = uf;
+      document.getElementById("city_name").value = city;
+
       const payload = {
         person_type: pt,
         doc_number: doc,
 
-        // CPF vs CNPJ (a API atual usa full_name + corporate_name)
         full_name: isCnpj ? "" : name,
         corporate_name: isCnpj ? name : "",
 
@@ -778,8 +779,8 @@
         ie_indicator: isCnpj ? getSelectedIeIndicator() : null,
         ie: isCnpj ? (getSelectedIeIndicator() === "CONTRIBUINTE" ? (maskIE(document.getElementById("ie").value) || null) : null) : null,
 
-        uf: String(document.getElementById("uf").value || "").trim(),
-        city_name: String(document.getElementById("city_name").value || "").trim(),
+        uf,
+        city_name: city,
         cep: onlyDigits(document.getElementById("cep").value),
         neighborhood: String(document.getElementById("neighborhood").value || "").trim(),
         street: String(document.getElementById("street").value || "").trim(),
@@ -818,11 +819,11 @@
         profileForm.style.display = "none";
         btnEditProfile.textContent = "Editar";
 
-        // Atualiza o view com o formato salvo (full_name para CNPJ fica no banco)
         const viewRow = {
           person_type: pt,
           doc_number: doc,
           full_name: name,
+          corporate_name: isCnpj ? name : "",
           gender: payload.gender,
           birth_date: payload.birth_date,
           ie_indicator: payload.ie_indicator,
@@ -867,7 +868,7 @@
       await loadMaterials(user.id);
     }
 
-    loadUser();
+    document.addEventListener("DOMContentLoaded", loadUser);
   </script>
 </body>
 </html>
