@@ -1,4 +1,14 @@
 // api/save-invoice-profile.js
+// Salva/atualiza o registro do usuário em public.invoice_profiles (1 por usuário)
+// - Usa SUPABASE_SERVICE_ROLE_KEY (server-side)
+// - Identifica o usuário via Bearer token (não aceita user_id vindo do front)
+// - Faz upsert por user_id
+//
+// ✅ Ajustes:
+// 1) Normaliza city_name para MAIÚSCULO e valida contra br_cities (FK uf+city_name)
+// 2) IE Indicator para CNPJ (CONTRIBUINTE / ISENTO / NAO_CONTRIBUINTE)
+// 3) Mantém compatibilidade com ie_isento (boolean) e ie (texto)
+
 const { createClient } = require("@supabase/supabase-js");
 
 function getEnv(name) {
@@ -22,7 +32,21 @@ function onlyDigits(v) {
   return asText(v).replace(/\D+/g, "");
 }
 
+function normalizeUF(uf) {
+  return asText(uf).toUpperCase();
+}
+
+function normalizeCityName(v) {
+  // FK exige city_name exatamente como está em br_cities.
+  // Sua br_cities está em MAIÚSCULO (ex: "SÃO PAULO").
+  return asText(v)
+    .toUpperCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function isIsoDate(v) {
+  // Aceita YYYY-MM-DD
   return /^\d{4}-\d{2}-\d{2}$/.test(asText(v));
 }
 
@@ -33,21 +57,11 @@ function normalizeGender(v) {
   return null;
 }
 
-function normalizeUF(uf) {
-  return asText(uf).toUpperCase();
-}
-
-function stripAccents(s) {
-  return asText(s)
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
-
-function normalizeCityName(city) {
-  const t = stripAccents(city)
-    .replace(/\s+/g, " ")
-    .trim();
-  return t.toUpperCase();
+function normalizeIeIndicator(v) {
+  const x = asText(v).toUpperCase();
+  if (!x) return "";
+  if (x === "CONTRIBUINTE" || x === "ISENTO" || x === "NAO_CONTRIBUINTE") return x;
+  return "";
 }
 
 module.exports = async (req, res) => {
@@ -68,6 +82,7 @@ module.exports = async (req, res) => {
       auth: { persistSession: false },
     });
 
+    // Descobre user_id pelo token
     const { data: userData, error: userErr } = await supabase.auth.getUser(token);
     if (userErr || !userData?.user?.id) {
       return res.status(401).json({ error: "invalid_token" });
@@ -79,24 +94,26 @@ module.exports = async (req, res) => {
     const person_type = asText(body.person_type); // "CPF" | "CNPJ"
     const doc_number = onlyDigits(body.doc_number);
 
+    // Campos do formulário
     const full_name_input = asText(body.full_name);     // CPF
     const corporate_name = asText(body.corporate_name); // CNPJ
 
-    // IE indicator (novo no front)
-    const ie_indicator_raw = asText(body.ie_indicator); // "CONTRIBUINTE" | "ISENTO" | "NAO_CONTRIBUINTE"
-    const ie = asText(body.ie) || null;
+    // IE Indicator (novo)
+    const ie_indicator = normalizeIeIndicator(body.ie_indicator); // CONTRIBUINTE/ISENTO/NAO_CONTRIBUINTE
+    const ie = onlyDigits(body.ie) || null;
 
-    const birth_date = asText(body.birth_date) || null;
+    const birth_date = asText(body.birth_date) || null; // YYYY-MM-DD (CPF obrigatório)
     const cep = onlyDigits(body.cep);
 
     const uf = normalizeUF(body.uf);
-    const city_name = normalizeCityName(body.city_name);
+    let city_name = normalizeCityName(body.city_name);
 
     const neighborhood = asText(body.neighborhood);
     const street = asText(body.street);
     const street_number = asText(body.street_number);
     const complement = asText(body.complement) || null;
 
+    // Gender (CPF obrigatório / CNPJ sempre null)
     let gender = normalizeGender(body.gender);
 
     // =========================
@@ -105,13 +122,85 @@ module.exports = async (req, res) => {
     if (person_type !== "CPF" && person_type !== "CNPJ") {
       return res.status(400).json({ error: "invalid_person_type" });
     }
-    if (!doc_number) return res.status(400).json({ error: "doc_number_required" });
-    if (!cep) return res.status(400).json({ error: "cep_required" });
-    if (!uf) return res.status(400).json({ error: "uf_required" });
-    if (!city_name) return res.status(400).json({ error: "city_name_required" });
-    if (!neighborhood) return res.status(400).json({ error: "neighborhood_required" });
-    if (!street) return res.status(400).json({ error: "street_required" });
-    if (!street_number) return res.status(400).json({ error: "street_number_required" });
+
+    if (!doc_number) {
+      return res.status(400).json({ error: "doc_number_required" });
+    }
+
+    if (!cep) {
+      return res.status(400).json({ error: "cep_required" });
+    }
+
+    if (!uf || uf.length !== 2) {
+      return res.status(400).json({ error: "uf_required" });
+    }
+
+    if (!city_name) {
+      return res.status(400).json({ error: "city_name_required" });
+    }
+
+    if (!neighborhood) {
+      return res.status(400).json({ error: "neighborhood_required" });
+    }
+
+    if (!street) {
+      return res.status(400).json({ error: "street_required" });
+    }
+
+    if (!street_number) {
+      return res.status(400).json({ error: "street_number_required" });
+    }
+
+    // =========================
+    // 🔒 FK uf+city_name → br_cities(uf, city_name)
+    // Precisamos garantir que (uf, city_name) exista exatamente.
+    // =========================
+    const { data: cityExact, error: cityErr } = await supabase
+      .from("br_cities")
+      .select("city_name")
+      .eq("uf", uf)
+      .eq("city_name", city_name)
+      .limit(1)
+      .maybeSingle();
+
+    if (cityErr) {
+      return res.status(400).json({
+        error: "city_lookup_failed",
+        details: cityErr.message,
+      });
+    }
+
+    // Se não achou exato, tenta ILIKE (case-insensitive) e pega o nome oficial
+    let canonicalCity = cityExact?.city_name || null;
+
+    if (!canonicalCity) {
+      const { data: cityLike, error: cityLikeErr } = await supabase
+        .from("br_cities")
+        .select("city_name")
+        .eq("uf", uf)
+        .ilike("city_name", city_name)
+        .limit(1)
+        .maybeSingle();
+
+      if (cityLikeErr) {
+        return res.status(400).json({
+          error: "city_lookup_failed",
+          details: cityLikeErr.message,
+        });
+      }
+
+      canonicalCity = cityLike?.city_name || null;
+    }
+
+    if (!canonicalCity) {
+      return res.status(400).json({
+        error: "city_not_found_for_uf",
+        details: `Cidade não encontrada na base br_cities para UF=${uf}. Use o nome exatamente como está no banco (ex.: "SÃO PAULO").`,
+      });
+    }
+
+    // usa SEMPRE o valor oficial do banco → FK nunca quebra
+    city_name = canonicalCity;
 
     // =========================
     // Regras CPF / CNPJ
@@ -137,60 +226,53 @@ module.exports = async (req, res) => {
       if (!corporate_name) {
         return res.status(400).json({ error: "corporate_name_required_for_cnpj" });
       }
+
+      // Salvamos Razão Social no campo full_name (sem mexer em estrutura do banco)
       full_name = corporate_name;
+
+      // CNPJ não usa esses campos:
       gender = null;
-    }
 
-    // =========================
-    // IE indicator + compatibilidade com constraint antiga (ie_isento/ie)
-    // =========================
-    let ie_indicator = null;
-    let ie_isento = true; // ✅ padrão seguro (não exige IE)
-    let ie_final = null;
-
-    if (person_type === "CPF") {
-      // CPF: sempre isento e IE nulo
-      ie_isento = true;
-      ie_final = null;
-      ie_indicator = null;
-    } else {
-      // CNPJ
-      const allowed = ["CONTRIBUINTE", "ISENTO", "NAO_CONTRIBUINTE"];
-      if (!allowed.includes(ie_indicator_raw)) {
+      // IE Indicator obrigatório no CNPJ
+      if (!ie_indicator) {
         return res.status(400).json({ error: "ie_indicator_required_for_cnpj" });
       }
-      ie_indicator = ie_indicator_raw;
 
-      if (ie_indicator === "CONTRIBUINTE") {
-        ie_isento = false; // ✅ aqui o banco exige IE
-        if (!ie) {
-          return res.status(400).json({ error: "ie_required_when_contribuinte" });
-        }
-        ie_final = ie;
-      } else {
-        // ISENTO ou NAO_CONTRIBUINTE: não exige IE
-        ie_isento = true;
-        ie_final = null;
+      // Se CONTRIBUINTE → IE obrigatório
+      if (ie_indicator === "CONTRIBUINTE" && !ie) {
+        return res.status(400).json({ error: "ie_required_when_contribuinte" });
       }
     }
+
+    // Compatibilidade com coluna antiga ie_isento (boolean)
+    const ie_isento =
+      person_type === "CNPJ" ? (ie_indicator === "ISENTO") : true;
 
     const payload = {
       user_id: userId,
       person_type,
       doc_number,
-      full_name,
 
-      // ✅ mantém o novo campo (se existir) e também alimenta o campo antigo
+      full_name, // ✅ CPF = Nome completo | CNPJ = Razão Social
+
+      // novo campo (se existir no banco)
       ie_indicator: person_type === "CNPJ" ? ie_indicator : null,
-      ie_isento: ie_isento,
-      ie: ie_final,
 
-      birth_date: person_type === "CPF" ? birth_date : null,
+      // legado
+      ie_isento: person_type === "CNPJ" ? ie_isento : true,
+
+      // IE só existe quando CONTRIBUINTE
+      ie:
+        person_type === "CNPJ"
+          ? (ie_indicator === "CONTRIBUINTE" ? ie : null)
+          : null,
+
+      birth_date: person_type === "CPF" ? (birth_date ? birth_date : null) : null,
       gender: person_type === "CPF" ? gender : null,
 
       cep,
       uf,
-      city_name,
+      city_name, // ✅ agora sempre bate FK com br_cities
       neighborhood,
       street,
       street_number,
