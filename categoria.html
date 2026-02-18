@@ -777,7 +777,6 @@
 
       <span class="nav-sep"></span>
 
-      <!-- ✅ Entrar sempre aparece deslogado -->
       <a id="navLogin" onclick="goLogin()">Entrar</a>
       <a id="navAccount" onclick="goAccount()" style="display:none;">Minha conta</a>
       <a id="navLogout" onclick="doLogout()" style="display:none;">Sair</a>
@@ -1531,7 +1530,6 @@
       return;
     }
 
-    /* impedir recomprar pelo carrinho (remove itens que já possui) */
     await loadOwnedPurchases();
     const freshItems = getCart();
     const ownedInCart = (freshItems || []).filter(it => it && userOwns(it.category, it.city));
@@ -1585,9 +1583,11 @@
     if (userOwns(category, city)){
       openPopup({
         title: city,
-        text: "Você já possui este produto. Ele já está disponível em Minha conta.",
+        text: "Você já adquiriu esse produto. Ele já está disponível em Minha conta.",
         showProsseguir: false,
-        showRules: false
+        showRules: false,
+        secondaryText: "Ir para Minha conta",
+        onSecondary: () => goAccount()
       });
       return;
     }
@@ -1793,13 +1793,14 @@
   }
 
   function addToCart(category, cityLabel){
-    /* impedir recomprar / impedir adicionar se já possui */
     if (userOwns(category, cityLabel)){
       openPopup({
-        title: "Carrinho",
-        text: "Você já possui este produto. Ele já está disponível em Minha conta.",
+        title: cityLabel,
+        text: "Você já adquiriu esse produto. Ele já está disponível em Minha conta.",
         showProsseguir: false,
-        showRules: false
+        showRules: false,
+        secondaryText: "Ir para Minha conta",
+        onSecondary: () => goAccount()
       });
       updateCartBadge();
       return;
@@ -1869,13 +1870,14 @@
       const pricePill = `<span class="pill muted">${price}</span>`;
 
       const owns = userOwns(currentCategory, cityLabel);
+      const tip = owns ? "Você já adquiriu esse produto." : "";
 
       div.innerHTML = `
         <h4>${cityLabel}<small>Material digital com indicações selecionadas</small></h4>
         <div class="city-meta">${badge} ${pricePill}</div>
         <div class="city-actions">
-          <button class="btn-ghost" data-add ${owns ? "disabled" : ""}>Adicionar ao carrinho</button>
-          <button data-buy ${owns ? "disabled" : ""}>Comprar</button>
+          <button class="btn-ghost" data-add title="${tip}">Adicionar ao carrinho</button>
+          <button data-buy title="${tip}">Comprar</button>
         </div>
       `;
 
@@ -1914,10 +1916,10 @@
     if (owns){
       openPopup({
         title: city,
-        text: "Você já possui este produto. Ele já está disponível em Minha conta.",
+        text: "Você já adquiriu esse produto. Ele já está disponível em Minha conta.",
         showProsseguir: false,
         showRules: false,
-        secondaryText: "Minha conta",
+        secondaryText: "Ir para Minha conta",
         onSecondary: () => {
           goAccount();
         }
@@ -1976,9 +1978,11 @@
       if (userOwns(ctx.category, ctx.city)){
         openPopup({
           title: ctx.city,
-          text: "Você já possui este produto. Ele já está disponível em Minha conta.",
+          text: "Você já adquiriu esse produto. Ele já está disponível em Minha conta.",
           showProsseguir: false,
-          showRules: false
+          showRules: false,
+          secondaryText: "Ir para Minha conta",
+          onSecondary: () => goAccount()
         });
         return;
       }
