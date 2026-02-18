@@ -414,7 +414,6 @@
 </main>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
 <script>
   /* =========================
      SUPABASE
@@ -540,6 +539,43 @@
     return String(s || "").replace(/\D+/g, "");
   }
 
+  // ✅ CPF: 000.000.000-00
+  function maskCPF(v){
+    const d = onlyDigits(v).slice(0, 11);
+    let out = d;
+    if (d.length > 3) out = d.slice(0,3) + "." + d.slice(3);
+    if (d.length > 6) out = out.slice(0,7) + "." + out.slice(7);
+    if (d.length > 9) out = out.slice(0,11) + "-" + out.slice(11);
+    return out;
+  }
+
+  // ✅ CNPJ: 00.000.000/0000-00
+  function maskCNPJ(v){
+    const d = onlyDigits(v).slice(0, 14);
+    let out = d;
+    if (d.length > 2) out = d.slice(0,2) + "." + d.slice(2);
+    if (d.length > 5) out = out.slice(0,6) + "." + out.slice(6);
+    if (d.length > 8) out = out.slice(0,10) + "/" + out.slice(10);
+    if (d.length > 12) out = out.slice(0,15) + "-" + out.slice(15);
+    return out;
+  }
+
+  // ✅ Decide CPF/CNPJ pelo tipo selecionado
+  function maskDocByType(v){
+    const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
+    return (personType === "cnpj") ? maskCNPJ(v) : maskCPF(v);
+  }
+
+  // ✅ IE padronizado (genérico): 12345678901234 -> 123.456.789.012.34
+  function maskIE(v){
+    const d = onlyDigits(v).slice(0, 14);
+    const parts = [];
+    for (let i = 0; i < d.length; i += 3){
+      parts.push(d.slice(i, i+3));
+    }
+    return parts.join(".");
+  }
+
   function maskCEP(v){
     const d = onlyDigits(v).slice(0, 8);
     if (d.length <= 5) return d;
@@ -552,10 +588,6 @@
     if (d.length <= 6) return "(" + d.slice(0,2) + ") " + d.slice(2);
     if (d.length <= 10) return "(" + d.slice(0,2) + ") " + d.slice(2,6) + "-" + d.slice(6);
     return "(" + d.slice(0,2) + ") " + d.slice(2,7) + "-" + d.slice(7);
-  }
-
-  function maskIE(v){
-    return onlyDigits(v).slice(0, 14);
   }
 
   function getSelectedIeIndicator(){
@@ -590,6 +622,10 @@
     const wrap = document.getElementById("ieNumberWrap");
     if (!wrap) return;
     wrap.classList.toggle("hidden", ind !== "CONTRIBUINTE");
+    if (ind !== "CONTRIBUINTE"){
+      const ie = document.getElementById("ieNumber");
+      if (ie) ie.value = "";
+    }
   }
 
   function setDocLabels(){
@@ -619,12 +655,16 @@
       showCnpjBlocks(false);
       showCpfBlocks(true);
     }
+
+    // re-mascara doc ao trocar o tipo
+    doc.value = maskDocByType(doc.value);
   }
 
   function getFormValuesForApi(){
     const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
     const isCnpj = personType === "cnpj";
 
+    // ✅ envia somente números
     const doc = onlyDigits(document.getElementById("docNumber")?.value || "");
     const name = String(document.getElementById("fullName")?.value || "").trim();
 
@@ -644,13 +684,8 @@
     const gender = String(document.getElementById("gender")?.value || "").trim();
 
     // CNPJ only
-    const ie_indicator = getSelectedIeIndicator(); // CONTRIBUINTE | ISENTO | NAO_CONTRIBUINTE
-    const ieNumber = maskIE(document.getElementById("ieNumber")?.value || "");
-
-    // ✅ compatibilidade com a validação atual da sua API:
-    // - se CONTRIBUINTE -> ie_isento = false (obriga IE)
-    // - se ISENTO ou NAO_CONTRIBUINTE -> ie_isento = true (não obriga IE)
-    const ie_isento = isCnpj ? (ie_indicator !== "CONTRIBUINTE") : true;
+    const ie_indicator = getSelectedIeIndicator();
+    const ieNumberDigits = onlyDigits(document.getElementById("ieNumber")?.value || "");
 
     const payload = {
       person_type: isCnpj ? "CNPJ" : "CPF",
@@ -659,12 +694,8 @@
       full_name: isCnpj ? "" : name,
       corporate_name: isCnpj ? name : "",
 
-      // salva o indicador (pra você diferenciar depois)
       ie_indicator: isCnpj ? ie_indicator : null,
-
-      // campos esperados pela API atual
-      ie_isento: ie_isento,
-      ie: (isCnpj && ie_indicator === "CONTRIBUINTE") ? ieNumber : null,
+      ie: isCnpj ? (ie_indicator === "CONTRIBUINTE" ? (ieNumberDigits || null) : null) : null,
 
       birth_date: isCnpj ? null : (birthDate || null),
       gender: isCnpj ? null : (gender || null),
@@ -683,6 +714,7 @@
 
     return payload;
   }
+
   function validateFront(){
     const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
     const isCnpj = personType === "cnpj";
@@ -715,7 +747,7 @@
       const ind = getSelectedIeIndicator();
       if (!ind) return "Selecione o Indicador de IE (Contribuinte, Isento ou Não Contribuinte).";
       if (ind === "CONTRIBUINTE"){
-        const ieNumber = maskIE(document.getElementById("ieNumber")?.value || "");
+        const ieNumber = onlyDigits(document.getElementById("ieNumber")?.value || "");
         if (!ieNumber) return "Preencha a IE (se Contribuinte).";
       }
     }
@@ -741,13 +773,12 @@
 
     setDocLabels();
 
+    // doc (preenche mascarado)
     const docEl = document.getElementById("docNumber");
-    if (docEl) docEl.value = String(profile.doc_number || profile.document || "").trim();
+    if (docEl) docEl.value = maskDocByType(String(profile.doc_number || profile.document || "").trim());
 
-    // Nome/Razão social:
-    // (Seu backend pode salvar Razão Social em full_name)
     const nameEl = document.getElementById("fullName");
-    if (nameEl) nameEl.value = String(profile.full_name || profile.corporate_name || profile.name || "").trim();
+    if (nameEl) nameEl.value = String(profile.full_name || profile.name || "").trim();
 
     const bd = document.getElementById("birthDate");
     if (bd) bd.value = String(profile.birth_date || "").trim();
@@ -756,7 +787,7 @@
     if (g) g.value = String(profile.gender || "").trim();
 
     const zipEl = document.getElementById("zip");
-    if (zipEl) zipEl.value = String(profile.cep || profile.zip || "").trim();
+    if (zipEl) zipEl.value = maskCEP(String(profile.cep || profile.zip || "").trim());
 
     const stEl = document.getElementById("state");
     if (stEl) stEl.value = String(profile.uf || profile.state || "").trim();
@@ -779,10 +810,8 @@
     // IE indicator / IE
     const ind = String(profile.ie_indicator || "").toUpperCase();
     if (ind) setSelectedIeIndicator(ind);
-
     const ieNumEl = document.getElementById("ieNumber");
-    if (ieNumEl) ieNumEl.value = String(profile.ie || "").trim();
-
+    if (ieNumEl) ieNumEl.value = profile.ie ? maskIE(String(profile.ie).trim()) : "";
     toggleIeNumber();
   }
 
@@ -835,6 +864,7 @@
     show("screenInvoice");
     setHint("");
 
+    // masks
     const zipEl = document.getElementById("zip");
     if (zipEl){
       zipEl.addEventListener("input", () => {
@@ -849,6 +879,16 @@
       });
     }
 
+    // ✅ doc (CPF/CNPJ)
+    const docEl = document.getElementById("docNumber");
+    if (docEl){
+      docEl.addEventListener("input", () => {
+        docEl.value = maskDocByType(docEl.value);
+      });
+      docEl.value = maskDocByType(docEl.value);
+    }
+
+    // ✅ IE
     const ieEl = document.getElementById("ieNumber");
     if (ieEl){
       ieEl.addEventListener("input", () => {
@@ -856,6 +896,7 @@
       });
     }
 
+    // person type change
     const personType = document.getElementById("personType");
     if (personType){
       personType.addEventListener("change", () => {
@@ -867,6 +908,7 @@
       });
     }
 
+    // IE indicator change
     const radios = document.querySelectorAll('input[name="ie_indicator"]');
     radios.forEach(r => {
       r.addEventListener("change", () => {
@@ -877,11 +919,13 @@
 
     setDocLabels();
 
+    // prefill
     try{
       const existing = await loadInvoiceProfile();
       if (existing) fillForm(existing);
     }catch(e){}
 
+    // prefill email from session
     try{
       const sess = await getSession();
       const emailEl = document.getElementById("email");
@@ -919,6 +963,7 @@
 
         const payload = getFormValuesForApi();
 
+        // salva perfil (bloqueia se falhar)
         const saveRes = await apiPOST("/api/save-invoice-profile", payload);
         if (!saveRes.ok){
           const msg = (saveRes.json && (saveRes.json.error || saveRes.json.message))
@@ -930,6 +975,7 @@
           return;
         }
 
+        // criar sessão stripe
         const isCart = qs("cart") === "1";
         const category = qs("category");
         const city = qs("city");
