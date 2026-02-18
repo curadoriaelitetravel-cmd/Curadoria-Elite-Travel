@@ -19,6 +19,23 @@ function normalizeItem(it) {
   return { category, city };
 }
 
+// ✅ Parcelamento somente acima de R$ 250,00
+const INSTALLMENTS_MIN_TOTAL_CENTS = 25000;
+
+// ✅ Cache simples para evitar buscar o mesmo preço toda hora
+const priceUnitAmountCache = new Map();
+
+async function getUnitAmountCents(stripe, priceId) {
+  if (!priceId) return null;
+  if (priceUnitAmountCache.has(priceId)) return priceUnitAmountCache.get(priceId);
+
+  const p = await stripe.prices.retrieve(priceId);
+  const amt = (p && typeof p.unit_amount === "number") ? p.unit_amount : null;
+
+  priceUnitAmountCache.set(priceId, amt);
+  return amt;
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
@@ -101,6 +118,7 @@ module.exports = async function handler(req, res) {
 
     // =====================================================
     // 3) CRIAR CHECKOUT STRIPE (1 sessão com N itens)
+    // + Parcelamento somente acima de R$ 250
     // =====================================================
     const stripe = new Stripe(secretKey);
 
@@ -108,6 +126,16 @@ module.exports = async function handler(req, res) {
       const priceId = isCityGuideCategory(it.category) ? priceCityGuide : priceDefault;
       return { price: priceId, quantity: 1 };
     });
+
+    // ✅ Calcula o total em centavos usando os Prices do Stripe
+    let totalCents = 0;
+    for (const it of items) {
+      const priceId = isCityGuideCategory(it.category) ? priceCityGuide : priceDefault;
+      const unitAmount = await getUnitAmountCents(stripe, priceId);
+      if (typeof unitAmount === "number") totalCents += unitAmount;
+    }
+
+    const enableInstallments = totalCents >= INSTALLMENTS_MIN_TOTAL_CENTS;
 
     const origin = (req.headers && (req.headers.origin || req.headers.referer)) || "";
     const safeOrigin =
@@ -122,7 +150,7 @@ module.exports = async function handler(req, res) {
     // Stripe metadata é texto — vamos compactar:
     const itemsJson = JSON.stringify(items);
 
-    const session = await stripe.checkout.sessions.create({
+    const sessionParams = {
       mode: "payment",
       line_items,
       success_url: successUrl,
@@ -131,13 +159,29 @@ module.exports = async function handler(req, res) {
         user_id: String(userId),
         items: itemsJson,
       },
-    });
+    };
+
+    // ✅ Parcelamento somente acima de R$ 250
+    // (o Stripe só exibirá parcelas se o método/cartão for elegível e se estiver habilitado no Dashboard)
+    if (enableInstallments) {
+      sessionParams.payment_method_options = {
+        card: {
+          installments: { enabled: true },
+        },
+      };
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
 
     if (!session?.url) {
       return res.status(500).json({ error: "Stripe session missing URL" });
     }
 
-    return res.status(200).json({ url: session.url });
+    return res.status(200).json({
+      url: session.url,
+      installments_enabled: enableInstallments,
+      total_cents: totalCents,
+    });
   } catch (err) {
     return res.status(500).json({
       error: "Failed to create checkout session",
