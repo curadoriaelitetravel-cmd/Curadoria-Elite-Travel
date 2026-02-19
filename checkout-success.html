@@ -276,9 +276,10 @@
       Antes de prosseguir para o pagamento, confirme seus dados. Se já estiverem preenchidos, basta revisar e continuar.
     </p>
 
-    <div class="notice" id="invoiceNotice">
-      <strong>Importante:</strong> Produto digital de acesso imediato. Não é possível realizar cancelamentos, trocas ou reembolsos após a confirmação da compra.
-      <div id="installmentsInfo" style="margin-top:10px;"></div>
+    <div class="notice" id="noticeText">
+      <strong>Importante:</strong> Produto digital de acesso imediato. Não é possível realizar cancelamentos, trocas ou reembolsos após a confirmação da compra.<br><br>
+      Para sua comodidade, compras a partir de <strong>R$ 250</strong> poderão ser parceladas no cartão, conforme as condições exibidas no momento do pagamento.
+      Para valores inferiores a <strong>R$ 250</strong>, o pagamento segue à vista.
     </div>
 
     <form id="invoiceForm" autocomplete="on">
@@ -409,8 +410,8 @@
   </div>
 
   <div class="card" id="screenLoading" style="display:block;">
-    <h1 id="loadingTitle">Aguarde...</h1>
-    <p class="subtitle" id="loadingSubtitle">Estamos preparando seu acesso.</p>
+    <h1>Aguarde...</h1>
+    <p class="subtitle">Estamos preparando seu acesso.</p>
   </div>
 </main>
 
@@ -465,13 +466,6 @@
     });
   }
 
-  function setLoading(title, subtitle){
-    const t = document.getElementById("loadingTitle");
-    const s = document.getElementById("loadingSubtitle");
-    if (t) t.innerText = title || "Aguarde...";
-    if (s) s.innerText = subtitle || "Estamos preparando seu acesso.";
-  }
-
   async function refreshNav(){
     const sess = await getSession();
     const navAccount = document.getElementById("navAccount");
@@ -492,9 +486,15 @@
   }
 
   /* =========================
-     STORAGE do carrinho (mesma chave do index)
+     STORAGE do carrinho (mesma chave do index/categoria)
   ========================= */
+  const CART_STORAGE_KEY = "cet_cart_v2";
   const CART_CHECKOUT_ITEMS_KEY = "cet_cart_checkout_items_v2";
+
+  function clearCartStorage(){
+    try{ localStorage.removeItem(CART_STORAGE_KEY); }catch(e){}
+    try{ localStorage.removeItem(CART_CHECKOUT_ITEMS_KEY); }catch(e){}
+  }
 
   function getCartCheckoutItems(){
     try{
@@ -504,10 +504,6 @@
     }catch(e){
       return [];
     }
-  }
-
-  function clearCartCheckoutItems(){
-    try{ localStorage.removeItem(CART_CHECKOUT_ITEMS_KEY); }catch(e){}
   }
 
   /* =========================
@@ -540,60 +536,6 @@
   }
 
   /* =========================
-     PREÇO / PARCELAMENTO (texto elegante)
-  ========================= */
-  function isCityGuideCategory(category){
-    return String(category || "").trim().toLowerCase() === "city guide";
-  }
-
-  function getPriceForCategory(category){
-    const c = String(category || "").trim().toLowerCase();
-    if (c === "city guide") return 88.92;
-    return 57.83;
-  }
-
-  function formatBRL(v){
-    try{
-      return new Intl.NumberFormat("pt-BR", { style:"currency", currency:"BRL" }).format(Number(v || 0));
-    }catch(e){
-      return "R$ " + String(v);
-    }
-  }
-
-  function computeCurrentTotal(){
-    const isCart = qs("cart") === "1";
-    if (isCart){
-      const items = getCartCheckoutItems();
-      let total = 0;
-      (items || []).forEach(it => {
-        const p = getPriceForCategory(it.category);
-        const q = Number(it.qty || 1) || 1;
-        total += (p * q);
-      });
-      return total;
-    }else{
-      const category = qs("category");
-      if (!category) return 0;
-      return getPriceForCategory(category);
-    }
-  }
-
-  function renderInstallmentsInfo(){
-    const el = document.getElementById("installmentsInfo");
-    if (!el) return;
-
-    const total = computeCurrentTotal();
-
-    if (total >= 250){
-      el.innerHTML =
-        `Para maior comodidade na organização da sua viagem, compras a partir de <strong>R$ 250</strong> poderão ser parceladas no momento do pagamento, conforme as condições da operadora do cartão.`;
-    }else{
-      el.innerHTML =
-        `Para valores inferiores a <strong>R$ 250</strong>, o pagamento segue à vista.`;
-    }
-  }
-
-  /* =========================
      FORM — helpers
   ========================= */
   function setHint(text){
@@ -605,7 +547,6 @@
     return String(s || "").replace(/\D+/g, "");
   }
 
-  // ✅ CPF: 000.000.000-00
   function maskCPF(v){
     const d = onlyDigits(v).slice(0, 11);
     let out = d;
@@ -615,7 +556,6 @@
     return out;
   }
 
-  // ✅ CNPJ: 00.000.000/0000-00
   function maskCNPJ(v){
     const d = onlyDigits(v).slice(0, 14);
     let out = d;
@@ -626,13 +566,11 @@
     return out;
   }
 
-  // ✅ Decide CPF/CNPJ pelo tipo selecionado
   function maskDocByType(v){
     const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
     return (personType === "cnpj") ? maskCNPJ(v) : maskCPF(v);
   }
 
-  // ✅ IE padronizado (genérico): 12345678901234 -> 123.456.789.012.34
   function maskIE(v){
     const d = onlyDigits(v).slice(0, 14);
     const parts = [];
@@ -722,7 +660,6 @@
       showCpfBlocks(true);
     }
 
-    // re-mascara doc ao trocar o tipo
     doc.value = maskDocByType(doc.value);
   }
 
@@ -730,7 +667,6 @@
     const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
     const isCnpj = personType === "cnpj";
 
-    // ✅ envia somente números
     const doc = onlyDigits(document.getElementById("docNumber")?.value || "");
     const name = String(document.getElementById("fullName")?.value || "").trim();
 
@@ -745,11 +681,9 @@
     const email = String(document.getElementById("email")?.value || "").trim();
     const phone = String(document.getElementById("phone")?.value || "").trim();
 
-    // CPF only
     const birthDate = String(document.getElementById("birthDate")?.value || "").trim();
     const gender = String(document.getElementById("gender")?.value || "").trim();
 
-    // CNPJ only
     const ie_indicator = getSelectedIeIndicator();
     const ieNumberDigits = onlyDigits(document.getElementById("ieNumber")?.value || "");
 
@@ -839,7 +773,6 @@
 
     setDocLabels();
 
-    // doc (preenche mascarado)
     const docEl = document.getElementById("docNumber");
     if (docEl) docEl.value = maskDocByType(String(profile.doc_number || profile.document || "").trim());
 
@@ -873,7 +806,6 @@
     const compEl = document.getElementById("complement");
     if (compEl) compEl.value = String(profile.complement || "").trim();
 
-    // IE indicator / IE
     const ind = String(profile.ie_indicator || "").toUpperCase();
     if (ind) setSelectedIeIndicator(ind);
     const ieNumEl = document.getElementById("ieNumber");
@@ -882,9 +814,10 @@
   }
 
   /* =========================
-     MERCADO PAGO — criar checkout
+     MERCADO PAGO — criar checkout (preference)
+     (sem criar API nova: usa /api/create-checkout-mercadopago)
   ========================= */
-  async function createMercadoPagoCheckoutForSingle(category, city){
+  async function createCheckoutMercadoPagoForSingle(category, city){
     const res = await apiPOST("/api/create-checkout-mercadopago", { category, city });
     if (!res.ok){
       const msg = (res.json && (res.json.error || res.json.message)) ? (res.json.error || res.json.message) : null;
@@ -893,7 +826,7 @@
     return res.json || {};
   }
 
-  async function createMercadoPagoCheckoutForCart(items){
+  async function createCheckoutMercadoPagoForCart(items){
     const res = await apiPOST("/api/create-checkout-mercadopago", { items });
     if (!res.ok){
       const msg = (res.json && (res.json.error || res.json.message)) ? (res.json.error || res.json.message) : null;
@@ -903,7 +836,13 @@
   }
 
   function redirectToMercadoPago(resp){
-    const url = resp.url || (resp.data && resp.data.url) || null;
+    const url =
+      resp.init_point ||
+      resp.sandbox_init_point ||
+      resp.url ||
+      (resp.data && (resp.data.init_point || resp.data.sandbox_init_point || resp.data.url)) ||
+      null;
+
     if (url){
       window.location.href = url;
       return;
@@ -930,10 +869,6 @@
     show("screenInvoice");
     setHint("");
 
-    // Texto de parcelamento (elegante) conforme total
-    renderInstallmentsInfo();
-
-    // masks
     const zipEl = document.getElementById("zip");
     if (zipEl){
       zipEl.addEventListener("input", () => {
@@ -948,7 +883,6 @@
       });
     }
 
-    // ✅ doc (CPF/CNPJ)
     const docEl = document.getElementById("docNumber");
     if (docEl){
       docEl.addEventListener("input", () => {
@@ -957,7 +891,6 @@
       docEl.value = maskDocByType(docEl.value);
     }
 
-    // ✅ IE
     const ieEl = document.getElementById("ieNumber");
     if (ieEl){
       ieEl.addEventListener("input", () => {
@@ -965,7 +898,6 @@
       });
     }
 
-    // person type change
     const personType = document.getElementById("personType");
     if (personType){
       personType.addEventListener("change", () => {
@@ -977,7 +909,6 @@
       });
     }
 
-    // IE indicator change
     const radios = document.querySelectorAll('input[name="ie_indicator"]');
     radios.forEach(r => {
       r.addEventListener("change", () => {
@@ -988,13 +919,11 @@
 
     setDocLabels();
 
-    // prefill
     try{
       const existing = await loadInvoiceProfile();
       if (existing) fillForm(existing);
     }catch(e){}
 
-    // prefill email from session
     try{
       const sess = await getSession();
       const emailEl = document.getElementById("email");
@@ -1032,7 +961,6 @@
 
         const payload = getFormValuesForApi();
 
-        // salva perfil (bloqueia se falhar)
         const saveRes = await apiPOST("/api/save-invoice-profile", payload);
         if (!saveRes.ok){
           const msg = (saveRes.json && (saveRes.json.error || saveRes.json.message))
@@ -1044,7 +972,6 @@
           return;
         }
 
-        // criar checkout Mercado Pago
         const isCart = qs("cart") === "1";
         const category = qs("category");
         const city = qs("city");
@@ -1059,7 +986,7 @@
             setHint("Seu carrinho está vazio. Volte ao site e selecione seus materiais.");
             return;
           }
-          resp = await createMercadoPagoCheckoutForCart(items);
+          resp = await createCheckoutMercadoPagoForCart(items);
         }else{
           if (!category || !city){
             btn.disabled = false;
@@ -1067,7 +994,7 @@
             setHint("Não encontramos os dados do produto. Volte ao site e tente novamente.");
             return;
           }
-          resp = await createMercadoPagoCheckoutForSingle(category, city);
+          resp = await createCheckoutMercadoPagoForSingle(category, city);
         }
 
         redirectToMercadoPago(resp);
@@ -1080,99 +1007,15 @@
     };
   }
 
-  /* =========================
-     MERCADO PAGO — retorno e confirmação
-  ========================= */
-  async function confirmMercadoPagoPayment(paymentId){
-    const res = await apiGET("/api/mercadopago-confirm?payment_id=" + encodeURIComponent(paymentId));
-    if (!res.ok){
-      return { ok:false, status:"error", message:"Não foi possível confirmar o pagamento." };
-    }
-
-    const j = res.json || {};
-    if (j && j.code === "LOGIN_REQUIRED"){
-      return { ok:false, status:"login_required", message:"Login necessário." };
-    }
-
-    if (j && j.ok === true){
-      return { ok:true, status:"approved" };
-    }
-
-    const st = (j && (j.payment_status || j.status)) ? String(j.payment_status || j.status) : "pending";
-    return { ok:false, status: st, message: (j && j.message) ? j.message : "Pagamento em processamento." };
-  }
-
   async function handleMercadoPagoReturn(){
-    // MP normalmente volta com payment_id, status, merchant_order_id...
-    const paymentId = qs("payment_id") || qs("paymentId");
-    const mpFlag = qs("mp"); // success | pending | failure
+    // Mercado Pago geralmente retorna parâmetros como:
+    // status / collection_status / payment_id / collection_id / preference_id
+    const status = (qs("status") || qs("collection_status") || "").toLowerCase();
+    const paymentId = qs("payment_id") || qs("collection_id") || "";
+    const preferenceId = qs("preference_id") || "";
 
-    if (!paymentId){
-      // se veio apenas com mp=... e não trouxe payment_id, mostra erro
-      show("screenPaymentError");
-      const el = document.getElementById("paymentErrorText");
-      if (el) el.innerText = "Não encontramos o identificador do pagamento. Volte ao site e tente novamente.";
-      return;
-    }
-
-    const okLogin = await ensureLoggedInForInvoice();
-    if (!okLogin) return;
-
-    show("screenLoading");
-
-    // Mensagens mais claras conforme retorno
-    if (String(mpFlag || "").toLowerCase() === "pending"){
-      setLoading("Pagamento em processamento", "Se você pagou via Pix, aguarde alguns instantes. Estamos verificando seu pagamento.");
-    }else if (String(mpFlag || "").toLowerCase() === "failure"){
-      setLoading("Pagamento não confirmado", "Vamos verificar o status e orientar o próximo passo.");
-    }else{
-      setLoading("Confirmando pagamento", "Estamos validando seu pagamento e liberando seu acesso.");
-    }
-
-    // Tenta confirmar algumas vezes (Pix pode demorar)
-    const MAX_TRIES = 10;
-    for (let i = 0; i < MAX_TRIES; i++){
-      const r = await confirmMercadoPagoPayment(paymentId);
-
-      if (r.status === "login_required"){
-        const ret = encodeURIComponent(window.location.pathname + window.location.search);
-        window.location.href = "login.html?return_to=" + ret;
-        return;
-      }
-
-      if (r.ok){
-        // limpa contexto do carrinho usado no checkout
-        clearCartCheckoutItems();
-        window.location.href = "account.html";
-        return;
-      }
-
-      // Se rejeitado/failed, para e mostra mensagem
-      const st = String(r.status || "").toLowerCase();
-      if (st === "rejected" || st === "cancelled" || st === "refunded" || st === "charged_back" || st === "failure"){
-        show("screenPaymentError");
-        const el = document.getElementById("paymentErrorText");
-        if (el) el.innerText = "Não foi possível confirmar seu pagamento. Se desejar, volte ao site e tente novamente.";
-        return;
-      }
-
-      // pending / in_process / authorized etc -> espera e tenta de novo
-      await new Promise(resolve => setTimeout(resolve, 4000));
-    }
-
-    // Após tentativas, ainda pendente
-    show("screenPaymentError");
-    const el = document.getElementById("paymentErrorText");
-    if (el) el.innerText = "Seu pagamento ainda está em processamento. Se você pagou via Pix, aguarde alguns instantes e tente novamente acessando sua conta.";
-  }
-
-  /* =========================
-     (Compatibilidade) STRIPE — retorno antigo
-     Mantido para não quebrar histórico, mas o fluxo principal agora é Mercado Pago.
-  ========================= */
-  async function handleStripeSessionReturn(){
-    const sessionId = qs("session_id");
-    if (!sessionId){
+    // se não tem nada, mostra erro
+    if (!status && !paymentId && !preferenceId){
       show("screenPaymentError");
       return;
     }
@@ -1181,15 +1024,24 @@
     if (!ok) return;
 
     show("screenLoading");
-    setLoading("Confirmando pagamento", "Estamos validando seu pagamento e liberando seu acesso.");
 
     try{
-      const res = await apiGET("/api/get-pdf-from-session?session_id=" + encodeURIComponent(sessionId));
+      // chama sua API existente para confirmar e liberar (purchase)
+      const url =
+        "/api/mercadopago-confirm" +
+        "?status=" + encodeURIComponent(status || "") +
+        "&payment_id=" + encodeURIComponent(paymentId || "") +
+        "&preference_id=" + encodeURIComponent(preferenceId || "");
+
+      const res = await apiGET(url);
       if (!res.ok){
         show("screenPaymentError");
         return;
       }
-      clearCartCheckoutItems();
+
+      // ✅ zera carrinho após compra concluída
+      clearCartStorage();
+
       window.location.href = "account.html";
     }catch(e){
       show("screenPaymentError");
@@ -1201,28 +1053,15 @@
     await refreshNav();
 
     const step = qs("step");
-    const sessionId = qs("session_id");
-    const paymentId = qs("payment_id") || qs("paymentId");
-    const mpFlag = qs("mp");
 
+    // ✅ etapa da Nota Fiscal
     if (step === "invoice"){
       await handleInvoiceStep();
       return;
     }
 
-    // Mercado Pago retorno
-    if (paymentId || mpFlag){
-      await handleMercadoPagoReturn();
-      return;
-    }
-
-    // Stripe retorno antigo
-    if (sessionId){
-      await handleStripeSessionReturn();
-      return;
-    }
-
-    show("screenPaymentError");
+    // ✅ retorno do Mercado Pago (com parâmetros)
+    await handleMercadoPagoReturn();
   }
 
   document.addEventListener("DOMContentLoaded", init);
