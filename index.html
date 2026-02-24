@@ -14,6 +14,12 @@
       overflow-x:hidden;
     }
 
+    /* ✅ trava o scroll da página quando qualquer pop-up estiver aberto */
+    body.modal-open{
+      overflow:hidden;
+      height:100%;
+    }
+
     header{
       padding:16px 40px;
       display:flex;
@@ -572,6 +578,10 @@
       box-sizing:border-box;
       position:relative;
       text-align:center;
+
+      /* ✅ garante que o pop-up nunca “vaze” da tela */
+      max-height:calc(100vh - 36px);
+      overflow:auto;
     }
 
     .popup-content h3{
@@ -690,6 +700,24 @@
 
     .cart-total strong{ color:#d4af37; }
 
+    /* ✅ carrinho: rolagem por dentro + botões sempre visíveis */
+    #cartPopupContent{
+      display:flex;
+      flex-direction:column;
+      text-align:center;
+
+      /* a rolagem do carrinho ficará no "miolo" */
+      overflow:hidden;
+    }
+    #cartPopupContent .cart-list{
+      /* o miolo rola */
+      flex:1;
+      overflow:auto;
+
+      /* ajuda no mobile/desktop quando tiver muitos itens */
+      max-height:55vh;
+    }
+
     /* ========= OVERVIEW (popup PDF) ========= */
     .overview-frame{
       width:100%;
@@ -746,6 +774,11 @@
       }
       header.nav-open .nav-menu{ display:flex; }
       .nav-sep{ display:none; }
+
+      /* ✅ em telas menores, dá um pouco mais de altura pro scroll do carrinho */
+      #cartPopupContent .cart-list{
+        max-height:60vh;
+      }
     }
   </style>
 </head>
@@ -952,6 +985,14 @@
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
+  /* =========================
+     ✅ trava/destrava scroll do body quando abre/fecha pop-up
+  ========================= */
+  function setModalOpen(isOpen){
+    if (isOpen) document.body.classList.add("modal-open");
+    else document.body.classList.remove("modal-open");
+  }
+
   /* ===== Mobile nav ===== */
   function toggleMobileNav(){
     const header = document.getElementById("siteHeader");
@@ -1022,6 +1063,7 @@
     const frame = document.getElementById("overviewFrame");
     if (frame) frame.src = OVERVIEW_PDF_URL;
     document.getElementById("overviewPopup").classList.add("active");
+    setModalOpen(true);
   }
 
   function closeOverview(){
@@ -1029,6 +1071,7 @@
     if (p) p.classList.remove("active");
     const frame = document.getElementById("overviewFrame");
     if (frame) frame.src = "about:blank";
+    setModalOpen(false);
   }
 
   /* =========================
@@ -1149,6 +1192,7 @@
     }
 
     document.getElementById("popup").classList.add("active");
+    setModalOpen(true);
   }
 
   function closePopup(){
@@ -1169,8 +1213,11 @@
       btn2.style.display = "none";
       btn2.onclick = null;
     }
+
+    setModalOpen(false);
   }
 </script>
+
 <script>
   /* =========================
      CARRINHO (popup)
@@ -1323,11 +1370,13 @@
     renderCart();
     updateCartBadge();
     document.getElementById("cartPopup").classList.add("active");
+    setModalOpen(true);
   }
 
   function closeCart(){
     const p = document.getElementById("cartPopup");
     if (p) p.classList.remove("active");
+    setModalOpen(false);
   }
 
   function updateCartBadge(){
