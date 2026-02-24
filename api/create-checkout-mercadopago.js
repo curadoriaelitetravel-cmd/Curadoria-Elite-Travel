@@ -30,31 +30,40 @@ function toCentsBRL(v) {
   return Math.round(n * 100) / 100;
 }
 
+function getVercelEnv() {
+  return String(process.env.VERCEL_ENV || "").toLowerCase(); // "production" | "preview" | "development"
+}
+
 /**
- * Decide automaticamente qual token do Mercado Pago usar, respeitando seus nomes:
- * - VERCEL_ENV=production  -> usa MP_ACCESS_TOKEN_PROD
- * - VERCEL_ENV=preview/dev -> usa MERCADOPAGO_ACCESS_TOKEN_TEST
- * Fallback: MERCADOPAGO_ACCESS_TOKEN (caso algum não esteja setado)
+ * ✅ Mantendo os nomes EXATOS que você usa:
+ * - Produção: MP_ACCESS_TOKEN_PROD
+ * - Teste: MERCADOPAGO_ACCESS_TOKEN_TEST
+ * - Legado/fallback: MERCADOPAGO_ACCESS_TOKEN
  */
-function getMercadoPagoAccessToken() {
-  const vercelEnv = String(process.env.VERCEL_ENV || "").toLowerCase(); // "production" | "preview" | "development"
+function getMercadoPagoAccessTokenInfo() {
+  const vercelEnv = getVercelEnv();
   const isProd = vercelEnv === "production";
 
-  // ✅ Nomes que você quer manter:
-  const tokenProd = process.env.MP_ACCESS_TOKEN_PROD;
-  const tokenTest = process.env.MERCADOPAGO_ACCESS_TOKEN_TEST;
+  const tokenProd = process.env.MP_ACCESS_TOKEN_PROD || "";
+  const tokenTest = process.env.MERCADOPAGO_ACCESS_TOKEN_TEST || "";
 
-  // fallback
-  const tokenLegacy = process.env.MERCADOPAGO_ACCESS_TOKEN;
+  // fallback/legado (você quer manter esse nome)
+  const tokenLegacy = process.env.MERCADOPAGO_ACCESS_TOKEN || "";
 
-  if (isProd) return tokenProd || tokenLegacy || "";
+  if (isProd) {
+    if (tokenProd) return { token: tokenProd, source: "MP_ACCESS_TOKEN_PROD", vercelEnv };
+    if (tokenLegacy) return { token: tokenLegacy, source: "MERCADOPAGO_ACCESS_TOKEN(fallback)", vercelEnv };
+    return { token: "", source: "none", vercelEnv };
+  }
+
   // preview/development
-  return tokenTest || tokenLegacy || "";
+  if (tokenTest) return { token: tokenTest, source: "MERCADOPAGO_ACCESS_TOKEN_TEST", vercelEnv };
+  if (tokenLegacy) return { token: tokenLegacy, source: "MERCADOPAGO_ACCESS_TOKEN(fallback)", vercelEnv };
+  return { token: "", source: "none", vercelEnv };
 }
 
 function isProductionEnv() {
-  const vercelEnv = String(process.env.VERCEL_ENV || "").toLowerCase();
-  return vercelEnv === "production";
+  return getVercelEnv() === "production";
 }
 
 module.exports = async function handler(req, res) {
@@ -66,15 +75,18 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const mpAccessToken = getMercadoPagoAccessToken();
+    const { token: mpAccessToken, source: mpTokenSource, vercelEnv } = getMercadoPagoAccessTokenInfo();
 
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!mpAccessToken) {
       return res.status(500).json({
-        error:
-          "Missing Mercado Pago token. Configure MERCADOPAGO_ACCESS_TOKEN_TEST (preview/dev) and MP_ACCESS_TOKEN_PROD (production), or set MERCADOPAGO_ACCESS_TOKEN as fallback.",
+        error: "Missing Mercado Pago token.",
+        hint:
+          "Configure MERCADOPAGO_ACCESS_TOKEN_TEST (preview/dev) e MP_ACCESS_TOKEN_PROD (production). " +
+          "MERCADOPAGO_ACCESS_TOKEN é apenas fallback.",
+        env: vercelEnv,
       });
     }
     if (!supabaseUrl) return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
@@ -205,6 +217,8 @@ module.exports = async function handler(req, res) {
         error: "Failed to create Mercado Pago preference",
         status: r.status,
         details: data || null,
+        env: vercelEnv,
+        token_source: mpTokenSource,
       });
     }
 
@@ -219,6 +233,8 @@ module.exports = async function handler(req, res) {
         error: "Mercado Pago preference missing checkout URL",
         hint: isProd ? "Expected init_point" : "Expected sandbox_init_point",
         returned_keys: data ? Object.keys(data) : [],
+        env: vercelEnv,
+        token_source: mpTokenSource,
       });
     }
 
