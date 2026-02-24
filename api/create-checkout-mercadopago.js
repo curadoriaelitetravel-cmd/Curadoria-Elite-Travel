@@ -30,6 +30,32 @@ function toCentsBRL(v) {
   return Math.round(n * 100) / 100;
 }
 
+/**
+ * Decide automaticamente qual token do Mercado Pago usar:
+ * - VERCEL_ENV=production  -> usa MERCADOPAGO_ACCESS_TOKEN_PROD
+ * - VERCEL_ENV=preview/dev -> usa MERCADOPAGO_ACCESS_TOKEN_TEST
+ * Fallback: MERCADOPAGO_ACCESS_TOKEN (antiga) para não quebrar nada.
+ */
+function getMercadoPagoAccessToken() {
+  const vercelEnv = String(process.env.VERCEL_ENV || "").toLowerCase(); // "production" | "preview" | "development"
+  const isProd = vercelEnv === "production";
+
+  const tokenProd = process.env.MERCADOPAGO_ACCESS_TOKEN_PROD;
+  const tokenTest = process.env.MERCADOPAGO_ACCESS_TOKEN_TEST;
+
+  // fallback (antiga)
+  const tokenLegacy = process.env.MERCADOPAGO_ACCESS_TOKEN;
+
+  if (isProd) return tokenProd || tokenLegacy || "";
+  // preview/development
+  return tokenTest || tokenLegacy || "";
+}
+
+function isProductionEnv() {
+  const vercelEnv = String(process.env.VERCEL_ENV || "").toLowerCase();
+  return vercelEnv === "production";
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
@@ -39,12 +65,17 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const mpAccessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
+    const mpAccessToken = getMercadoPagoAccessToken();
 
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-    if (!mpAccessToken) return res.status(500).json({ error: "Missing MERCADOPAGO_ACCESS_TOKEN env var" });
+    if (!mpAccessToken) {
+      return res.status(500).json({
+        error:
+          "Missing Mercado Pago token. Configure MERCADOPAGO_ACCESS_TOKEN_TEST / MERCADOPAGO_ACCESS_TOKEN_PROD (or MERCADOPAGO_ACCESS_TOKEN fallback).",
+      });
+    }
     if (!supabaseUrl) return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
     if (!supabaseServiceKey) return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
 
@@ -56,9 +87,9 @@ module.exports = async function handler(req, res) {
     let items = [];
 
     if (Array.isArray(body.items) && body.items.length > 0) {
-      items = body.items.map(normalizeItem).filter(x => x.category && x.city);
+      items = body.items.map(normalizeItem).filter((x) => x.category && x.city);
     } else if (body.category && body.city) {
-      items = [ normalizeItem({ category: body.category, city: body.city }) ];
+      items = [normalizeItem({ category: body.category, city: body.city })];
     }
 
     if (!items.length) {
@@ -115,7 +146,7 @@ module.exports = async function handler(req, res) {
         ? String(origin).replace(/\/$/, "")
         : "https://curadoria-elite-travel.vercel.app";
 
-    // URLs de retorno (vamos ajustar a tela depois, por enquanto já deixamos pronto)
+    // URLs de retorno
     const successUrl = `${safeOrigin}/checkout-success.html?mp=success`;
     const pendingUrl = `${safeOrigin}/checkout-success.html?mp=pending`;
     const failureUrl = `${safeOrigin}/checkout-success.html?mp=failure`;
@@ -143,7 +174,7 @@ module.exports = async function handler(req, res) {
         failure: failureUrl,
       },
 
-      // Retorna automaticamente quando aprovado (cartão pode aprovar na hora; Pix pode ficar pendente)
+      // Retorna automaticamente quando aprovado
       auto_return: "approved",
 
       // Referência externa para conciliação / webhooks
@@ -176,10 +207,18 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const url = data?.init_point || data?.sandbox_init_point || null;
+    // ✅ Link correto por ambiente:
+    // - Produção: init_point
+    // - Teste: sandbox_init_point
+    const isProd = isProductionEnv();
+    const url = isProd ? (data?.init_point || null) : (data?.sandbox_init_point || null);
 
     if (!url) {
-      return res.status(500).json({ error: "Mercado Pago preference missing init_point" });
+      return res.status(500).json({
+        error: "Mercado Pago preference missing checkout URL",
+        hint: isProd ? "Expected init_point" : "Expected sandbox_init_point",
+        returned_keys: data ? Object.keys(data) : [],
+      });
     }
 
     return res.status(200).json({ url });
