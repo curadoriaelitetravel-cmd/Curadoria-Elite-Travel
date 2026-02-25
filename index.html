@@ -572,12 +572,20 @@
       box-sizing:border-box;
       position:relative;
       text-align:center;
+
+      /* ✅ FIX: garantir que o popup nunca estoure a tela
+         e que os blocos internos possam rolar corretamente */
+      max-height: calc(100vh - 36px);
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
     }
 
     .popup-content h3{
       margin:0 0 10px;
       color:#d4af37;
       letter-spacing:0.2px;
+      flex:0 0 auto;
     }
 
     .popup-content p{
@@ -585,6 +593,7 @@
       color:rgba(255,255,255,0.8);
       line-height:1.6;
       font-size:14px;
+      flex:0 0 auto;
     }
 
     .popup-actions{
@@ -593,6 +602,7 @@
       justify-content:center;
       flex-wrap:wrap;
       margin-top:10px;
+      flex:0 0 auto; /* ✅ FIX */
     }
 
     .popup-rules{
@@ -605,6 +615,9 @@
       color:rgba(255,255,255,0.78);
       font-size:13.5px;
       line-height:1.6;
+      overflow:auto;
+      flex:1 1 auto; /* ✅ permite rolar quando necessário */
+      min-height:0;  /* ✅ fix de flex/scroll */
     }
 
     .popup-rules strong{ color:#d4af37; }
@@ -622,6 +635,7 @@
       color:rgba(255,255,255,0.82);
       font-size:13.2px;
       line-height:1.55;
+      flex:0 0 auto;
     }
 
     .consent-wrap input{
@@ -637,6 +651,11 @@
       border-radius:12px;
       background:#0f0f0f;
       padding:12px;
+
+      /* ✅ FIX: a lista rola dentro do popup */
+      overflow:auto;
+      flex:1 1 auto;
+      min-height:0;
     }
 
     .cart-item{
@@ -686,6 +705,7 @@
       border-radius:12px;
       background:#0f0f0f;
       text-align:left;
+      flex:0 0 auto; /* ✅ FIX */
     }
 
     .cart-total strong{ color:#d4af37; }
@@ -698,6 +718,8 @@
       border-radius:12px;
       overflow:hidden;
       background:#0f0f0f;
+      flex:1 1 auto;
+      min-height:0;
     }
     .overview-frame iframe{
       width:100%;
@@ -1171,6 +1193,7 @@
     }
   }
 </script>
+
 <script>
   /* =========================
      CARRINHO (popup)
