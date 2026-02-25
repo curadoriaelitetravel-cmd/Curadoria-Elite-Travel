@@ -34,11 +34,14 @@ function getVercelEnv() {
   return String(process.env.VERCEL_ENV || "").toLowerCase(); // "production" | "preview" | "development"
 }
 
+function isProductionEnv() {
+  return getVercelEnv() === "production";
+}
+
 /**
- * ✅ Mantendo os nomes EXATOS que você usa:
+ * ✅ Nomes finais (como você pediu):
  * - Produção: MP_ACCESS_TOKEN_PROD
- * - Teste: MERCADOPAGO_ACCESS_TOKEN_TEST
- * - Legado/fallback: MERCADOPAGO_ACCESS_TOKEN
+ * - Teste (preview/dev): MERCADOPAGO_ACCESS_TOKEN_TEST
  */
 function getMercadoPagoAccessTokenInfo() {
   const vercelEnv = getVercelEnv();
@@ -47,23 +50,10 @@ function getMercadoPagoAccessTokenInfo() {
   const tokenProd = process.env.MP_ACCESS_TOKEN_PROD || "";
   const tokenTest = process.env.MERCADOPAGO_ACCESS_TOKEN_TEST || "";
 
-  // fallback/legado (você quer manter esse nome)
-  const tokenLegacy = process.env.MERCADOPAGO_ACCESS_TOKEN || "";
-
   if (isProd) {
-    if (tokenProd) return { token: tokenProd, source: "MP_ACCESS_TOKEN_PROD", vercelEnv };
-    if (tokenLegacy) return { token: tokenLegacy, source: "MERCADOPAGO_ACCESS_TOKEN(fallback)", vercelEnv };
-    return { token: "", source: "none", vercelEnv };
+    return { token: tokenProd, source: "MP_ACCESS_TOKEN_PROD", vercelEnv };
   }
-
-  // preview/development
-  if (tokenTest) return { token: tokenTest, source: "MERCADOPAGO_ACCESS_TOKEN_TEST", vercelEnv };
-  if (tokenLegacy) return { token: tokenLegacy, source: "MERCADOPAGO_ACCESS_TOKEN(fallback)", vercelEnv };
-  return { token: "", source: "none", vercelEnv };
-}
-
-function isProductionEnv() {
-  return getVercelEnv() === "production";
+  return { token: tokenTest, source: "MERCADOPAGO_ACCESS_TOKEN_TEST", vercelEnv };
 }
 
 module.exports = async function handler(req, res) {
@@ -75,7 +65,8 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { token: mpAccessToken, source: mpTokenSource, vercelEnv } = getMercadoPagoAccessTokenInfo();
+    const { token: mpAccessToken, source: mpTokenSource, vercelEnv } =
+      getMercadoPagoAccessTokenInfo();
 
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -84,13 +75,19 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({
         error: "Missing Mercado Pago token.",
         hint:
-          "Configure MERCADOPAGO_ACCESS_TOKEN_TEST (preview/dev) e MP_ACCESS_TOKEN_PROD (production). " +
-          "MERCADOPAGO_ACCESS_TOKEN é apenas fallback.",
+          "Configure MERCADOPAGO_ACCESS_TOKEN_TEST (preview/dev) e MP_ACCESS_TOKEN_PROD (production).",
         env: vercelEnv,
+        token_source: mpTokenSource,
       });
     }
-    if (!supabaseUrl) return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
-    if (!supabaseServiceKey) return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
+    if (!supabaseUrl) {
+      return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
+    }
+    if (!supabaseServiceKey) {
+      return res
+        .status(500)
+        .json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
+    }
 
     const body = req.body || {};
 
@@ -152,19 +149,16 @@ module.exports = async function handler(req, res) {
     // =====================================================
     // 3) Criar PREFERENCE (Checkout Pro) no Mercado Pago
     // =====================================================
-    // Origem segura (igual ao Stripe)
     const origin = (req.headers && (req.headers.origin || req.headers.referer)) || "";
     const safeOrigin =
       origin && String(origin).startsWith("http")
         ? String(origin).replace(/\/$/, "")
         : "https://curadoria-elite-travel.vercel.app";
 
-    // URLs de retorno
     const successUrl = `${safeOrigin}/checkout-success.html?mp=success`;
     const pendingUrl = `${safeOrigin}/checkout-success.html?mp=pending`;
     const failureUrl = `${safeOrigin}/checkout-success.html?mp=failure`;
 
-    // Itens para o Mercado Pago (um por material)
     const mpItems = items.map((it) => {
       const price = toCentsBRL(getPriceForCategory(it.category));
       return {
@@ -175,7 +169,6 @@ module.exports = async function handler(req, res) {
       };
     });
 
-    // Guardar contexto (user + itens) de forma segura
     const itemsJson = JSON.stringify(items);
 
     const preferenceBody = {
@@ -187,10 +180,8 @@ module.exports = async function handler(req, res) {
         failure: failureUrl,
       },
 
-      // Retorna automaticamente quando aprovado
       auto_return: "approved",
 
-      // Referência externa para conciliação / webhooks
       external_reference: `cet_${userId}_${Date.now()}`,
 
       metadata: {
@@ -200,7 +191,6 @@ module.exports = async function handler(req, res) {
       },
     };
 
-    // Cria a preferência via API do Mercado Pago
     const r = await fetch("https://api.mercadopago.com/checkout/preferences", {
       method: "POST",
       headers: {
@@ -222,9 +212,6 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // ✅ Link correto por ambiente:
-    // - Produção: init_point
-    // - Teste: sandbox_init_point
     const isProd = isProductionEnv();
     const url = isProd ? (data?.init_point || null) : (data?.sandbox_init_point || null);
 
