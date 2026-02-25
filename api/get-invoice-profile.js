@@ -26,38 +26,49 @@ module.exports = async function handler(req, res) {
     const token = getBearerToken(req);
     if (!token) return res.status(401).json({ error: "Not authenticated" });
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey, { auth: { persistSession: false } });
+    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: { persistSession: false },
+    });
 
     const { data: userData, error: userErr } = await supabase.auth.getUser(token);
     if (userErr || !userData?.user?.id) return res.status(401).json({ error: "Invalid session" });
 
     const userId = userData.user.id;
 
-    // tenta invoice_profiles (plural) primeiro
-    const { data, error } = await supabase
+    // =========================
+    // 1) tenta invoice_profiles (plural)
+    // =========================
+    const { data: row, error } = await supabase
       .from("invoice_profiles")
       .select("*")
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
-      .limit(1);
+      .limit(1)
+      .maybeSingle();
 
-    if (error) {
-      // fallback singular
-      const { data: data2, error: error2 } = await supabase
-        .from("invoice_profile")
-        .select("*")
-        .eq("user_id", userId)
-        .order("created_at", { ascending: false })
-        .limit(1);
-
-      if (error2) return res.status(500).json({ error: "Invoice fetch failed", details: error2.message || String(error2) });
-
-      const row2 = Array.isArray(data2) && data2.length ? data2[0] : null;
-      return res.status(200).json({ ok: true, exists: !!row2, profile: row2 || null });
+    if (!error) {
+      return res.status(200).json({ ok: true, exists: !!row, profile: row || null });
     }
 
-    const row = Array.isArray(data) && data.length ? data[0] : null;
-    return res.status(200).json({ ok: true, exists: !!row, profile: row || null });
+    // =========================
+    // 2) fallback: invoice_profile (singular)
+    // =========================
+    const { data: row2, error: error2 } = await supabase
+      .from("invoice_profile")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error2) {
+      return res.status(500).json({
+        error: "Invoice fetch failed",
+        details: error2.message || String(error2),
+      });
+    }
+
+    return res.status(200).json({ ok: true, exists: !!row2, profile: row2 || null });
   } catch (err) {
     return res.status(500).json({ error: "Unexpected error", message: err?.message || "Unknown error" });
   }
