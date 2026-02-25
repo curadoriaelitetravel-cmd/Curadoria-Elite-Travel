@@ -24,7 +24,7 @@ function getPriceForCategory(category) {
   return isCityGuideCategory(category) ? 88.92 : 57.83;
 }
 
-function to2Decimals(v) {
+function toCentsBRL(v) {
   const n = Number(v || 0);
   return Math.round(n * 100) / 100;
 }
@@ -33,26 +33,41 @@ function getVercelEnv() {
   return String(process.env.VERCEL_ENV || "").toLowerCase(); // "production" | "preview" | "development"
 }
 
-/**
- * ✅ Mantendo SOMENTE os 2 nomes que você quer:
- * - Produção: MP_ACCESS_TOKEN_PROD
- * - Teste: MERCADOPAGO_ACCESS_TOKEN_TEST
- */
-function getMercadoPagoToken() {
-  const env = getVercelEnv();
-  const isProd = env === "production";
-
-  const tokenProd = String(process.env.MP_ACCESS_TOKEN_PROD || "").trim();
-  const tokenTest = String(process.env.MERCADOPAGO_ACCESS_TOKEN_TEST || "").trim();
-
-  if (isProd) {
-    return { token: tokenProd, source: "MP_ACCESS_TOKEN_PROD", env };
-  }
-  return { token: tokenTest, source: "MERCADOPAGO_ACCESS_TOKEN_TEST", env };
-}
-
 function isProductionEnv() {
   return getVercelEnv() === "production";
+}
+
+/**
+ * ✅ Mantendo os nomes EXATOS que você quer:
+ * - Produção: MP_ACCESS_TOKEN_PROD
+ * - Teste (Preview/Dev): MERCADOPAGO_ACCESS_TOKEN_TEST
+ *
+ * Compatibilidade (só para evitar quebra se existir código antigo no deploy):
+ * - MERCADOPAGO_ACCESS_TOKEN_PROD (antigo)
+ * - MERCADOPAGO_ACCESS_TOKEN (legado)
+ */
+function getMercadoPagoAccessTokenInfo() {
+  const vercelEnv = getVercelEnv();
+  const isProd = vercelEnv === "production";
+
+  const tokenProd = process.env.MP_ACCESS_TOKEN_PROD || "";
+  const tokenTest = process.env.MERCADOPAGO_ACCESS_TOKEN_TEST || "";
+
+  // compat antigos
+  const tokenProdOld = process.env.MERCADOPAGO_ACCESS_TOKEN_PROD || "";
+  const tokenLegacy = process.env.MERCADOPAGO_ACCESS_TOKEN || "";
+
+  if (isProd) {
+    if (tokenProd) return { token: tokenProd, source: "MP_ACCESS_TOKEN_PROD", vercelEnv };
+    if (tokenProdOld) return { token: tokenProdOld, source: "MERCADOPAGO_ACCESS_TOKEN_PROD(compat)", vercelEnv };
+    if (tokenLegacy) return { token: tokenLegacy, source: "MERCADOPAGO_ACCESS_TOKEN(compat)", vercelEnv };
+    return { token: "", source: "none", vercelEnv };
+  }
+
+  // preview/development
+  if (tokenTest) return { token: tokenTest, source: "MERCADOPAGO_ACCESS_TOKEN_TEST", vercelEnv };
+  if (tokenLegacy) return { token: tokenLegacy, source: "MERCADOPAGO_ACCESS_TOKEN(compat)", vercelEnv };
+  return { token: "", source: "none", vercelEnv };
 }
 
 module.exports = async function handler(req, res) {
@@ -64,7 +79,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { token: mpAccessToken, source: mpTokenSource, env: vercelEnv } = getMercadoPagoToken();
+    const { token: mpAccessToken, source: mpTokenSource, vercelEnv } = getMercadoPagoAccessTokenInfo();
 
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -73,13 +88,12 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({
         error: "Missing Mercado Pago token.",
         hint:
-          vercelEnv === "production"
-            ? "No Vercel (Production), configure MP_ACCESS_TOKEN_PROD."
-            : "No Vercel (Preview/Development), configure MERCADOPAGO_ACCESS_TOKEN_TEST.",
+          "Configure MERCADOPAGO_ACCESS_TOKEN_TEST (Preview/Development) e MP_ACCESS_TOKEN_PROD (Production).",
         env: vercelEnv,
         token_source: mpTokenSource,
       });
     }
+
     if (!supabaseUrl) return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
     if (!supabaseServiceKey) return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
 
@@ -149,13 +163,12 @@ module.exports = async function handler(req, res) {
         ? String(origin).replace(/\/$/, "")
         : "https://curadoria-elite-travel.vercel.app";
 
-    // URLs de retorno
     const successUrl = `${safeOrigin}/checkout-success.html?mp=success`;
     const pendingUrl = `${safeOrigin}/checkout-success.html?mp=pending`;
     const failureUrl = `${safeOrigin}/checkout-success.html?mp=failure`;
 
     const mpItems = items.map((it) => {
-      const price = to2Decimals(getPriceForCategory(it.category));
+      const price = toCentsBRL(getPriceForCategory(it.category));
       return {
         title: `${it.city} — ${it.category}`,
         quantity: 1,
@@ -168,22 +181,17 @@ module.exports = async function handler(req, res) {
 
     const preferenceBody = {
       items: mpItems,
-
       back_urls: {
         success: successUrl,
         pending: pendingUrl,
         failure: failureUrl,
       },
-
       auto_return: "approved",
-
       external_reference: `cet_${userId}_${Date.now()}`,
-
       metadata: {
         user_id: String(userId),
         items: itemsJson,
         source: "curadoria-elite-travel",
-        env: vercelEnv,
       },
     };
 
@@ -208,9 +216,6 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // ✅ Link correto por ambiente:
-    // - Produção: init_point
-    // - Teste: sandbox_init_point
     const isProd = isProductionEnv();
     const url = isProd ? (data?.init_point || null) : (data?.sandbox_init_point || null);
 
