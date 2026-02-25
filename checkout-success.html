@@ -466,6 +466,11 @@
     });
   }
 
+  function setPaymentError(text){
+    const el = document.getElementById("paymentErrorText");
+    if (el) el.innerText = text || "Não encontramos a sessão de pagamento. Volte ao site e tente novamente.";
+  }
+
   async function refreshNav(){
     const sess = await getSession();
     const navAccount = document.getElementById("navAccount");
@@ -815,27 +820,53 @@
 
   /* =========================
      MERCADO PAGO — criar checkout (preference)
-     (sem criar API nova: usa /api/create-checkout-mercadopago)
   ========================= */
   async function createCheckoutMercadoPagoForSingle(category, city){
     const res = await apiPOST("/api/create-checkout-mercadopago", { category, city });
+    const j = res.json || {};
+
+    // ✅ Trata respostas "200 com code"
+    if (j && j.code === "LOGIN_REQUIRED"){
+      const ret = encodeURIComponent(window.location.pathname + window.location.search);
+      window.location.href = "login.html?return_to=" + ret;
+      return null;
+    }
+    if (j && j.code === "INVOICE_REQUIRED"){
+      // já estamos na tela da nota fiscal, então só devolve um aviso amigável
+      throw new Error("Antes de prosseguir, revise seus dados e clique em Prosseguir novamente.");
+    }
+
     if (!res.ok){
-      const msg = (res.json && (res.json.error || res.json.message)) ? (res.json.error || res.json.message) : null;
+      const msg = (j && (j.error || j.message)) ? (j.error || j.message) : null;
       throw new Error(msg || "Não foi possível iniciar o pagamento.");
     }
-    return res.json || {};
+    return j;
   }
 
   async function createCheckoutMercadoPagoForCart(items){
     const res = await apiPOST("/api/create-checkout-mercadopago", { items });
+    const j = res.json || {};
+
+    // ✅ Trata respostas "200 com code"
+    if (j && j.code === "LOGIN_REQUIRED"){
+      const ret = encodeURIComponent(window.location.pathname + window.location.search);
+      window.location.href = "login.html?return_to=" + ret;
+      return null;
+    }
+    if (j && j.code === "INVOICE_REQUIRED"){
+      throw new Error("Antes de prosseguir, revise seus dados e clique em Prosseguir novamente.");
+    }
+
     if (!res.ok){
-      const msg = (res.json && (res.json.error || res.json.message)) ? (res.json.error || res.json.message) : null;
+      const msg = (j && (j.error || j.message)) ? (j.error || j.message) : null;
       throw new Error(msg || "Não foi possível iniciar o pagamento.");
     }
-    return res.json || {};
+    return j;
   }
 
   function redirectToMercadoPago(resp){
+    if (!resp) return;
+
     const url =
       resp.init_point ||
       resp.sandbox_init_point ||
@@ -1008,9 +1039,12 @@
   }
 
   async function handleMercadoPagoReturn(){
-    // Mercado Pago geralmente retorna parâmetros como:
-    // status / collection_status / payment_id / collection_id / preference_id
-    const status = (qs("status") || qs("collection_status") || "").toLowerCase();
+    // ✅ Agora aceita também o padrão do nosso back_urls (?mp=success/pending/failure)
+    const mp = (qs("mp") || "").toLowerCase(); // success | pending | failure
+    const statusParam = (qs("status") || qs("collection_status") || "").toLowerCase();
+
+    const status = (statusParam || mp || "").toLowerCase();
+
     const paymentId = qs("payment_id") || qs("collection_id") || "";
     const preferenceId = qs("preference_id") || "";
 
@@ -1026,7 +1060,6 @@
     show("screenLoading");
 
     try{
-      // chama sua API existente para confirmar e liberar (purchase)
       const url =
         "/api/mercadopago-confirm" +
         "?status=" + encodeURIComponent(status || "") +
@@ -1035,15 +1068,15 @@
 
       const res = await apiGET(url);
       if (!res.ok){
+        setPaymentError("Não foi possível confirmar o pagamento. Volte ao site e tente novamente.");
         show("screenPaymentError");
         return;
       }
 
-      // ✅ zera carrinho após compra concluída
       clearCartStorage();
-
       window.location.href = "account.html";
     }catch(e){
+      setPaymentError("Não foi possível confirmar o pagamento. Volte ao site e tente novamente.");
       show("screenPaymentError");
     }
   }
@@ -1054,13 +1087,11 @@
 
     const step = qs("step");
 
-    // ✅ etapa da Nota Fiscal
     if (step === "invoice"){
       await handleInvoiceStep();
       return;
     }
 
-    // ✅ retorno do Mercado Pago (com parâmetros)
     await handleMercadoPagoReturn();
   }
 
