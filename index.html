@@ -1211,6 +1211,9 @@
         <div class="popup-content" id="cartPopupContent">
           <h3>Carrinho</h3>
           <p id="cartSubtitle">Revise seus materiais antes de prosseguir.</p>
+          <p id="cartReleaseNote" style="margin:-6px 0 10px;color:rgba(255,255,255,0.74);font-size:13.5px;line-height:1.55;">
+            <strong style="color:#d4af37;">Liberação automática:</strong> o acesso aparece em <strong style="color:#d4af37;">“Meus materiais”</strong> após a aprovação do pagamento. <strong style="color:#d4af37;">Boleto:</strong> pode levar até <strong style="color:#d4af37;">2 horas</strong>.
+          </p>
 
           <div class="cart-list" id="cartList"></div>
 
@@ -1932,7 +1935,8 @@
   function openDestinationPopup(category, city){
     const msg =
       `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. ` +
-      `Este conteúdo é liberado após a confirmação da compra.`;
+      `O acesso é liberado automaticamente em “Meus materiais” após a aprovação do pagamento. ` +
+      `Boleto pode levar até 2 horas para confirmação.`;
 
     const owns = userOwns(category, city);
 
