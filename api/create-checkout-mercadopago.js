@@ -1,5 +1,6 @@
 // api/create-checkout-mercadopago.js
 const { createClient } = require("@supabase/supabase-js");
+const crypto = require("crypto");
 
 function getBearerToken(req) {
   const h = req.headers?.authorization || req.headers?.Authorization || "";
@@ -56,10 +57,241 @@ function isProductionEnv() {
   return vercelEnv === "production";
 }
 
+// =====================================================
+// WEBHOOK HELPERS (ADICIONADO - não altera checkout)
+// =====================================================
+
+function parseXSignature(headerValue) {
+  // Ex: "ts=1700000000000,v1=abcdef..."
+  const out = { ts: "", v1: "" };
+  const s = String(headerValue || "").trim();
+  if (!s) return out;
+
+  const parts = s.split(",").map((p) => p.trim());
+  for (const p of parts) {
+    const [k, ...rest] = p.split("=");
+    const key = String(k || "").trim().toLowerCase();
+    const val = rest.join("=").trim();
+    if (key === "ts") out.ts = val;
+    if (key === "v1") out.v1 = val;
+  }
+  return out;
+}
+
+function safeEqualHex(a, b) {
+  try {
+    const ba = Buffer.from(String(a || ""), "hex");
+    const bb = Buffer.from(String(b || ""), "hex");
+    if (ba.length !== bb.length) return false;
+    return crypto.timingSafeEqual(ba, bb);
+  } catch {
+    return false;
+  }
+}
+
+// Valida assinatura do Mercado Pago se você tiver MERCADOPAGO_WEBHOOK_SECRET.
+// Se não tiver, não bloqueia (mas no seu caso você JÁ criou, então valida).
+function validateWebhookSignature(req, paymentId) {
+  const secret = process.env.MERCADOPAGO_WEBHOOK_SECRET;
+  if (!secret) {
+    return { ok: true, bypassed: true, reason: "Missing MERCADOPAGO_WEBHOOK_SECRET" };
+  }
+
+  const xSignature = req.headers?.["x-signature"] || req.headers?.["X-Signature"] || "";
+  const xRequestId = req.headers?.["x-request-id"] || req.headers?.["X-Request-Id"] || "";
+  const { ts, v1 } = parseXSignature(xSignature);
+
+  if (!ts || !v1 || !xRequestId) {
+    return { ok: false, bypassed: false, reason: "Missing x-signature/ts/v1 or x-request-id" };
+  }
+
+  // Manifest usado pelo MP (formato amplamente adotado na doc/implementações)
+  const manifest = `id:${paymentId};request-id:${xRequestId};ts:${ts};`;
+  const computed = crypto.createHmac("sha256", secret).update(manifest).digest("hex");
+  const ok = safeEqualHex(computed, v1);
+
+  return { ok, bypassed: false, reason: ok ? "" : "Invalid signature" };
+}
+
+function getPaymentIdFromWebhook(req) {
+  // Suporta formatos comuns:
+  // body.data.id | body.id | query.id | query["data.id"] | query.payment_id
+  const b = req.body || {};
+  const q = req.query || {};
+  const candidates = [b?.data?.id, b?.id, q?.id, q?.["data.id"], q?.payment_id];
+
+  for (const c of candidates) {
+    const v = String(c || "").trim();
+    if (v) return v;
+  }
+  return "";
+}
+
+async function mpGetPayment(mpAccessToken, paymentId) {
+  const r = await fetch(
+    `https://api.mercadopago.com/v1/payments/${encodeURIComponent(paymentId)}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${mpAccessToken}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const data = await r.json().catch(() => null);
+  return { ok: r.ok, status: r.status, data };
+}
+
+async function grantPurchasesFromPayment({ supabase, userId, items }) {
+  // Evitar duplicação: pega compras existentes do usuário
+  const { data: existing, error: exErr } = await supabase
+    .from("purchase")
+    .select("category, city")
+    .eq("user_id", userId)
+    .limit(1000);
+
+  const existingSet = new Set();
+  if (!exErr && Array.isArray(existing)) {
+    existing.forEach((r) => {
+      existingSet.add(`${String(r.category || "").trim()}||${String(r.city || "").trim()}`);
+    });
+  }
+
+  const rowsToInsert = [];
+
+  for (const it of items) {
+    // Busca pdf_url no curadoria_materials usando city_label
+    const { data: mat, error: matErr } = await supabase
+      .from("curadoria_materials")
+      .select("pdf_url")
+      .eq("is_active", true)
+      .eq("category", it.category)
+      .eq("city_label", it.city)
+      .limit(1)
+      .maybeSingle();
+
+    if (matErr || !mat?.pdf_url) continue;
+
+    const key = `${it.category}||${it.city}`;
+    if (existingSet.has(key)) continue;
+
+    rowsToInsert.push({
+      user_id: userId,
+      category: it.category,
+      city: it.city,
+      pdf_url: mat.pdf_url,
+      // stripe_session_id fica null (ok)
+    });
+  }
+
+  if (!rowsToInsert.length) {
+    return { ok: true, inserted: 0, reason: "Nothing new to insert (already granted or no materials found)" };
+  }
+
+  const { error: insErr } = await supabase.from("purchase").insert(rowsToInsert);
+  if (insErr) {
+    return { ok: false, error: "Failed to insert into purchase", details: insErr.message };
+  }
+
+  return { ok: true, inserted: rowsToInsert.length };
+}
+
+async function handleWebhook(req, res) {
+  const mpAccessToken = getMercadoPagoAccessToken();
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!mpAccessToken) {
+    // Webhook: melhor responder 200 com "ignored" do que quebrar e ficar em retry eterno
+    return res.status(200).json({ ok: true, ignored: true, reason: "Missing Mercado Pago token" });
+  }
+  if (!supabaseUrl || !supabaseServiceKey) {
+    return res.status(200).json({ ok: true, ignored: true, reason: "Missing Supabase env vars" });
+  }
+
+  const paymentId = getPaymentIdFromWebhook(req);
+  if (!paymentId) {
+    return res.status(200).json({ ok: true, ignored: true, reason: "Missing payment id" });
+  }
+
+  const sig = validateWebhookSignature(req, paymentId);
+  if (!sig.ok) {
+    // Assinatura inválida => não processa
+    return res.status(401).json({ ok: false, error: "Invalid webhook signature", details: sig.reason });
+  }
+
+  const pay = await mpGetPayment(mpAccessToken, paymentId);
+  if (!pay.ok || !pay.data) {
+    return res.status(200).json({ ok: true, ignored: true, reason: "Failed to fetch payment" });
+  }
+
+  const status = String(pay.data.status || "").toLowerCase();
+  if (status !== "approved") {
+    return res.status(200).json({ ok: true, ignored: true, payment_status: status });
+  }
+
+  const metadata = pay.data.metadata || {};
+  const userId = String(metadata.user_id || "").trim();
+  if (!userId) {
+    return res.status(200).json({ ok: true, ignored: true, reason: "Missing metadata.user_id" });
+  }
+
+  let items = [];
+  try {
+    const raw = metadata.items;
+    const parsed = raw ? JSON.parse(raw) : [];
+    if (Array.isArray(parsed)) {
+      items = parsed.map(normalizeItem).filter((x) => x.category && x.city);
+    }
+  } catch {
+    items = [];
+  }
+
+  if (!items.length) {
+    return res.status(200).json({ ok: true, ignored: true, reason: "Missing/invalid metadata.items" });
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+    auth: { persistSession: false },
+  });
+
+  const granted = await grantPurchasesFromPayment({ supabase, userId, items });
+  if (!granted.ok) {
+    return res.status(200).json({ ok: true, ignored: true, reason: granted.error, details: granted.details || "" });
+  }
+
+  return res.status(200).json({
+    ok: true,
+    webhook: true,
+    payment_id: paymentId,
+    payment_status: status,
+    inserted: granted.inserted,
+    signature_bypassed: !!sig.bypassed,
+  });
+}
+
+// =====================================================
+// HANDLER (mantido, só adicionamos o webhook em cima)
+// =====================================================
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
 
+  // =====================================================
+  // 0) WEBHOOK: POST sem Bearer token
+  // =====================================================
+  // Checkout (site) sempre manda Bearer token.
+  // Webhook (Mercado Pago) NÃO manda Bearer token.
+  if (req.method === "POST") {
+    const tokenMaybe = getBearerToken(req);
+    if (!tokenMaybe) {
+      return handleWebhook(req, res);
+    }
+  }
+
+  // =====================================================
+  // Checkout (código original)
+  // =====================================================
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
