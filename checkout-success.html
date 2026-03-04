@@ -277,7 +277,8 @@
     </p>
 
     <div class="notice" id="noticeText">
-      <strong>Importante:</strong> Produto digital de acesso imediato. Não é possível realizar cancelamentos, trocas ou reembolsos após a confirmação da compra.<br><br>
+      <strong>Importante:</strong> Produto digital. O acesso é liberado automaticamente em <strong>“Meus materiais”</strong> assim que o pagamento for <strong>aprovado</strong> pelo meio escolhido. <strong>Boleto:</strong> a confirmação pode levar até <strong>2 horas</strong>.<br><br>
+      Produto digital de acesso imediato. Não é possível realizar cancelamentos, trocas ou reembolsos após a confirmação da compra.<br><br>
       Para sua comodidade, compras a partir de <strong>R$ 250</strong> poderão ser parceladas no cartão, conforme as condições exibidas no momento do pagamento.
       Para valores inferiores a <strong>R$ 250</strong>, o pagamento segue à vista.
     </div>
@@ -409,9 +410,21 @@
     </div>
   </div>
 
+  <!-- NOVO: TELA DE STATUS (pendente/recusado) -->
+  <div class="card" id="screenStatus" style="display:none;">
+    <h1 id="statusTitle">Pagamento</h1>
+    <p class="subtitle" id="statusSubtitle"></p>
+    <div class="notice" id="statusNotice"></div>
+    <div class="actions">
+      <button type="button" onclick="window.location.href='account.html'">Ir para minha conta</button>
+      <button type="button" class="btn-ghost" onclick="window.location.href='index.html'">Voltar ao site</button>
+    </div>
+  </div>
+
   <div class="card" id="screenLoading" style="display:block;">
-    <h1>Aguarde...</h1>
-    <p class="subtitle">Estamos preparando seu acesso.</p>
+    <h1 id="loadingTitle">Aguarde...</h1>
+    <p class="subtitle" id="loadingSubtitle">Estamos preparando seu acesso.</p>
+    <div class="notice" id="loadingNotice" style="display:none;"></div>
   </div>
 </main>
 
@@ -459,11 +472,33 @@
   }
 
   function show(elId){
-    const ids = ["screenLoading","screenInvoice","screenPaymentError"];
+    const ids = ["screenLoading","screenInvoice","screenPaymentError","screenStatus"];
     ids.forEach(id => {
       const el = document.getElementById(id);
       if (el) el.style.display = (id === elId) ? "block" : "none";
     });
+  }
+
+  function setLoadingNotice(html){
+    const box = document.getElementById("loadingNotice");
+    if (!box) return;
+    if (!html){
+      box.style.display = "none";
+      box.innerHTML = "";
+      return;
+    }
+    box.style.display = "block";
+    box.innerHTML = html;
+  }
+
+  function setStatusScreen(title, subtitle, noticeHtml){
+    const t = document.getElementById("statusTitle");
+    const s = document.getElementById("statusSubtitle");
+    const n = document.getElementById("statusNotice");
+    if (t) t.innerText = title || "Pagamento";
+    if (s) s.innerText = subtitle || "";
+    if (n) n.innerHTML = noticeHtml || "";
+    show("screenStatus");
   }
 
   async function refreshNav(){
@@ -1008,14 +1043,34 @@
   }
 
   async function handleMercadoPagoReturn(){
-    // Mercado Pago geralmente retorna parâmetros como:
-    // status / collection_status / payment_id / collection_id / preference_id
+    const mpFlag = (qs("mp") || "").toLowerCase(); // success | pending | failure
+
+    // Mercado Pago também pode retornar:
     const status = (qs("status") || qs("collection_status") || "").toLowerCase();
     const paymentId = qs("payment_id") || qs("collection_id") || "";
     const preferenceId = qs("preference_id") || "";
 
-    // se não tem nada, mostra erro
-    if (!status && !paymentId && !preferenceId){
+    // Se veio mp=pending/failure, mostramos tela posicionando o cliente.
+    if (mpFlag === "pending"){
+      setStatusScreen(
+        "Pagamento em processamento",
+        "Assim que for aprovado, seu acesso será liberado automaticamente.",
+        `<strong>Liberação automática:</strong> seu material aparece em <strong>“Meus materiais”</strong> após a confirmação do pagamento.<br><strong>Boleto:</strong> a confirmação pode levar até <strong>2 horas</strong>.`
+      );
+      return;
+    }
+
+    if (mpFlag === "failure"){
+      setStatusScreen(
+        "Pagamento não aprovado",
+        "Você pode tentar novamente com outro método de pagamento.",
+        `<strong>Dica:</strong> se preferir, escolha outro meio de pagamento e conclua a compra para liberar o acesso.`
+      );
+      return;
+    }
+
+    // Se não tem nenhum parâmetro, mostra erro
+    if (!mpFlag && !status && !paymentId && !preferenceId){
       show("screenPaymentError");
       return;
     }
@@ -1025,11 +1080,16 @@
 
     show("screenLoading");
 
+    // Mensagem elegante durante o “aguarde”
+    setLoadingNotice(
+      `<strong>Liberação automática:</strong> seu acesso aparece em <strong>“Meus materiais”</strong> assim que o pagamento for <strong>aprovado</strong>.<br><strong>Boleto:</strong> a confirmação pode levar até <strong>2 horas</strong>.`
+    );
+
+    // Se for success, seguimos o fluxo atual (confirmar e redirecionar).
     try{
-      // chama sua API existente para confirmar e liberar (purchase)
       const url =
         "/api/mercadopago-confirm" +
-        "?status=" + encodeURIComponent(status || "") +
+        "?status=" + encodeURIComponent((status || mpFlag || "")) +
         "&payment_id=" + encodeURIComponent(paymentId || "") +
         "&preference_id=" + encodeURIComponent(preferenceId || "");
 
