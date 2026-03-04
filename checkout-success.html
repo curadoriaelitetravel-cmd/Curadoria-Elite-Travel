@@ -526,9 +526,31 @@
   const CART_STORAGE_KEY = "cet_cart_v2";
   const CART_CHECKOUT_ITEMS_KEY = "cet_cart_checkout_items_v2";
 
+  // ✅ Cupom do carrinho
+  const CART_COUPON_CODE_KEY = "cet_cart_coupon_code_v1";
+
+  function normalizeCouponCode(code){
+    return String(code || "").trim().toUpperCase();
+  }
+
+  function getCartCouponCode(){
+    try{
+      const v = localStorage.getItem(CART_COUPON_CODE_KEY);
+      return normalizeCouponCode(v || "");
+    }catch(e){
+      return "";
+    }
+  }
+
+  function clearCartCouponCode(){
+    try{ localStorage.removeItem(CART_COUPON_CODE_KEY); }catch(e){}
+  }
+
   function clearCartStorage(){
     try{ localStorage.removeItem(CART_STORAGE_KEY); }catch(e){}
     try{ localStorage.removeItem(CART_CHECKOUT_ITEMS_KEY); }catch(e){}
+    // ✅ limpa cupom após compra concluída
+    clearCartCouponCode();
   }
 
   function getCartCheckoutItems(){
@@ -861,8 +883,13 @@
     return res.json || {};
   }
 
+  // ✅ agora envia coupon_code junto (opção 1: só carrinho)
   async function createCheckoutMercadoPagoForCart(items){
-    const res = await apiPOST("/api/create-checkout-mercadopago", { items });
+    const couponCode = getCartCouponCode();
+    const body = { items };
+    if (couponCode) body.coupon_code = couponCode;
+
+    const res = await apiPOST("/api/create-checkout-mercadopago", body);
     if (!res.ok){
       const msg = (res.json && (res.json.error || res.json.message)) ? (res.json.error || res.json.message) : null;
       throw new Error(msg || "Não foi possível iniciar o pagamento.");
@@ -1099,7 +1126,7 @@
         return;
       }
 
-      // ✅ zera carrinho após compra concluída
+      // ✅ zera carrinho e cupom após compra concluída
       clearCartStorage();
 
       window.location.href = "account.html";
