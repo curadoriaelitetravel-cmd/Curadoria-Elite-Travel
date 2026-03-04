@@ -25,10 +25,73 @@ function getPriceForCategory(category) {
   return isCityGuideCategory(category) ? 88.92 : 57.83;
 }
 
-function toCentsBRL(v) {
+function toMoneyBRL(v) {
   // Mercado Pago aceita decimal, mas vamos manter 2 casas com segurança
   const n = Number(v || 0);
+  if (!Number.isFinite(n)) return 0;
   return Math.round(n * 100) / 100;
+}
+
+function clampMinMoney(v, min = 0.01) {
+  const n = toMoneyBRL(v);
+  return n < min ? min : n;
+}
+
+function normalizeCouponCode(code) {
+  return String(code || "").trim().toUpperCase();
+}
+
+function nowISO() {
+  return new Date().toISOString();
+}
+
+function isWithinWindow(row, nowDate) {
+  // starts_at / ends_at podem ser null (caso você queira)
+  const s = row?.starts_at ? new Date(row.starts_at) : null;
+  const e = row?.ends_at ? new Date(row.ends_at) : null;
+
+  if (s && nowDate < s) return false;
+  if (e && nowDate > e) return false;
+  return true;
+}
+
+/**
+ * Busca cupom válido no Supabase
+ * Regras:
+ * - code match
+ * - active = true
+ * - dentro do período (starts_at/ends_at)
+ * - city_label: se vier preenchido, só aplica se bater com o destino do item
+ *   (a gente valida isso na hora de aplicar; aqui só busca o cupom)
+ */
+async function fetchCouponByCode(supabase, code) {
+  const couponCode = normalizeCouponCode(code);
+  if (!couponCode) return null;
+
+  const { data, error } = await supabase
+    .from("coupons")
+    .select("id, code, city_label, discount_amount, active, starts_at, ends_at")
+    .eq("code", couponCode)
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data) return null;
+  if (!data.active) return null;
+
+  const nowDate = new Date();
+  if (!isWithinWindow(data, nowDate)) return null;
+
+  const discount = Number(data.discount_amount || 0);
+  if (!Number.isFinite(discount) || discount <= 0) return null;
+
+  return {
+    id: data.id,
+    code: normalizeCouponCode(data.code),
+    city_label: String(data.city_label || "").trim(), // pode vir vazio => aplica global
+    discount_amount: toMoneyBRL(discount),
+    starts_at: data.starts_at || null,
+    ends_at: data.ends_at || null,
+  };
 }
 
 /**
@@ -271,7 +334,7 @@ async function handleWebhook(req, res) {
 }
 
 // =====================================================
-// HANDLER (mantido, só adicionamos o webhook em cima)
+// HANDLER (mantido, só adicionamos cupom no checkout)
 // =====================================================
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json");
@@ -290,7 +353,7 @@ module.exports = async function handler(req, res) {
   }
 
   // =====================================================
-  // Checkout (código original)
+  // Checkout
   // =====================================================
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
@@ -327,6 +390,10 @@ module.exports = async function handler(req, res) {
     if (!items.length) {
       return res.status(400).json({ error: "Missing category/city or items[]" });
     }
+
+    // ✅ Cupom opcional (não quebra fluxo atual)
+    const couponCode =
+      body.coupon_code || body.couponCode || body.coupon || body.coupon_code?.code || "";
 
     // =====================================================
     // 1) EXIGIR LOGIN
@@ -369,6 +436,16 @@ module.exports = async function handler(req, res) {
     }
 
     // =====================================================
+    // 2.5) CUPOM (se veio)
+    // =====================================================
+    let coupon = null;
+    if (couponCode) {
+      coupon = await fetchCouponByCode(supabase, couponCode);
+      // se cupom inválido, simplesmente ignora (pra não travar compra)
+      // depois, no front, você pode decidir se quer mostrar msg de inválido.
+    }
+
+    // =====================================================
     // 3) Criar PREFERENCE (Checkout Pro) no Mercado Pago
     // =====================================================
     // Origem segura (igual ao Stripe)
@@ -384,12 +461,33 @@ module.exports = async function handler(req, res) {
     const failureUrl = `${safeOrigin}/checkout-success.html?mp=failure`;
 
     // Itens para o Mercado Pago (um por material)
+    // ✅ Aplica desconto por item se:
+    // - existe cupom válido
+    // - cupom.city_label vazio => aplica em tudo
+    // - ou cupom.city_label == item.city => aplica só naquele destino
     const mpItems = items.map((it) => {
-      const price = toCentsBRL(getPriceForCategory(it.category));
+      const basePrice = toMoneyBRL(getPriceForCategory(it.category));
+
+      let finalPrice = basePrice;
+      let applied = false;
+
+      if (coupon) {
+        const cupCity = String(coupon.city_label || "").trim();
+        const matchesCity = !cupCity || cupCity === String(it.city || "").trim();
+        if (matchesCity) {
+          finalPrice = clampMinMoney(basePrice - coupon.discount_amount, 0.01);
+          applied = true;
+        }
+      }
+
+      const title = applied
+        ? `${it.city} — ${it.category} (Cupom ${coupon.code})`
+        : `${it.city} — ${it.category}`;
+
       return {
-        title: `${it.city} — ${it.category}`,
+        title,
         quantity: 1,
-        unit_price: price,
+        unit_price: finalPrice,
         currency_id: "BRL",
       };
     });
@@ -416,6 +514,9 @@ module.exports = async function handler(req, res) {
         user_id: String(userId),
         items: itemsJson,
         source: "curadoria-elite-travel",
+        coupon_code: coupon ? coupon.code : null,
+        coupon_discount_amount: coupon ? coupon.discount_amount : null,
+        coupon_city_label: coupon ? (coupon.city_label || null) : null,
       },
     };
 
@@ -453,7 +554,19 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    return res.status(200).json({ url });
+    return res.status(200).json({
+      url,
+      coupon_applied: !!coupon,
+      coupon: coupon
+        ? {
+            code: coupon.code,
+            city_label: coupon.city_label || null,
+            discount_amount: coupon.discount_amount,
+            starts_at: coupon.starts_at,
+            ends_at: coupon.ends_at,
+          }
+        : null,
+    });
   } catch (err) {
     return res.status(500).json({
       error: "Failed to create Mercado Pago checkout",
