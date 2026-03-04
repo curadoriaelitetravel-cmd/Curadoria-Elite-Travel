@@ -573,8 +573,6 @@
       position:relative;
       text-align:center;
 
-      /* ✅ FIX: garantir que o popup nunca estoure a tela
-         e que os blocos internos possam rolar corretamente */
       max-height: calc(100vh - 36px);
       display:flex;
       flex-direction:column;
@@ -602,7 +600,7 @@
       justify-content:center;
       flex-wrap:wrap;
       margin-top:10px;
-      flex:0 0 auto; /* ✅ FIX */
+      flex:0 0 auto;
     }
 
     .popup-rules{
@@ -616,8 +614,8 @@
       font-size:13.5px;
       line-height:1.6;
       overflow:auto;
-      flex:1 1 auto; /* ✅ permite rolar quando necessário */
-      min-height:0;  /* ✅ fix de flex/scroll */
+      flex:1 1 auto;
+      min-height:0;
     }
 
     .popup-rules strong{ color:#d4af37; }
@@ -651,8 +649,6 @@
       border-radius:12px;
       background:#0f0f0f;
       padding:12px;
-
-      /* ✅ FIX: a lista rola dentro do popup */
       overflow:auto;
       flex:1 1 auto;
       min-height:0;
@@ -705,10 +701,33 @@
       border-radius:12px;
       background:#0f0f0f;
       text-align:left;
-      flex:0 0 auto; /* ✅ FIX */
+      flex:0 0 auto;
     }
 
     .cart-total strong{ color:#d4af37; }
+
+    /* ✅ Cupom (no carrinho) */
+    .coupon-wrap{
+      margin-top:10px;
+      text-align:left;
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:12px;
+      background:#0f0f0f;
+      padding:12px;
+      flex:0 0 auto;
+    }
+    .coupon-label{
+      display:block;
+      font-size:12.5px;
+      color:rgba(255,255,255,0.75);
+      margin-bottom:8px;
+    }
+    .coupon-help{
+      margin-top:8px;
+      font-size:12.5px;
+      color:rgba(255,255,255,0.62);
+      line-height:1.45;
+    }
 
     /* ========= OVERVIEW (popup PDF) ========= */
     .overview-frame{
@@ -1203,6 +1222,31 @@
   const CART_CHECKOUT_ITEMS_KEY = "cet_cart_checkout_items_v2";
   const CART_LAST_CHECKOUT_STARTED_KEY = "cet_cart_last_checkout_started_v2";
 
+  // ✅ Cupom (somente carrinho)
+  const CART_COUPON_CODE_KEY = "cet_cart_coupon_code_v1";
+
+  function normalizeCouponCode(code){
+    return String(code || "").trim().toUpperCase();
+  }
+  function setCartCouponCode(code){
+    try{
+      const v = normalizeCouponCode(code);
+      if (!v) localStorage.removeItem(CART_COUPON_CODE_KEY);
+      else localStorage.setItem(CART_COUPON_CODE_KEY, v);
+    }catch(e){}
+  }
+  function getCartCouponCode(){
+    try{
+      const v = localStorage.getItem(CART_COUPON_CODE_KEY);
+      return normalizeCouponCode(v || "");
+    }catch(e){
+      return "";
+    }
+  }
+  function clearCartCouponCode(){
+    try{ localStorage.removeItem(CART_COUPON_CODE_KEY); }catch(e){}
+  }
+
   function ensureCartPopupExists(){
     if (document.getElementById("cartPopup")) return;
 
@@ -1211,9 +1255,22 @@
         <div class="popup-content" id="cartPopupContent">
           <h3>Carrinho</h3>
           <p id="cartSubtitle">Revise seus materiais antes de prosseguir.</p>
-          <p id="cartReleaseNote" style="margin:-6px 0 10px;color:rgba(255,255,255,0.74);font-size:13.5px;line-height:1.55;">
-            <strong style="color:#d4af37;">Liberação automática:</strong> o acesso aparece em <strong style="color:#d4af37;">“Meus materiais”</strong> após a aprovação do pagamento. <strong style="color:#d4af37;">Boleto:</strong> pode levar até <strong style="color:#d4af37;">2 horas</strong>.
-          </p>
+
+          <!-- ✅ CUPOM (somente carrinho) -->
+          <div class="coupon-wrap">
+            <label class="coupon-label" for="couponInput">Cupom</label>
+            <input
+              id="couponInput"
+              class="search-input"
+              type="text"
+              placeholder="Ex: LANCAMENTONY10"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <div class="coupon-help">
+              Se o cupom estiver ativo e dentro do período, ele será aplicado no pagamento.
+            </div>
+          </div>
 
           <div class="cart-list" id="cartList"></div>
 
@@ -1237,7 +1294,21 @@
 
     document.getElementById("cartCloseBtn").addEventListener("click", closeCart);
     document.getElementById("cartContinueBtn").addEventListener("click", closeCart);
+
+    // ✅ salvar cupom quando digita (e padronizar em maiúsculo)
+    const couponInput = document.getElementById("couponInput");
+    if (couponInput){
+      couponInput.addEventListener("input", () => {
+        const v = normalizeCouponCode(couponInput.value);
+        couponInput.value = v;
+        setCartCouponCode(v);
+      });
+    }
+
     document.getElementById("cartProceedBtn").addEventListener("click", async () => {
+      // ✅ garante que o cupom esteja salvo ao prosseguir
+      const input = document.getElementById("couponInput");
+      if (input) setCartCouponCode(input.value);
       await startCartCheckoutFlow();
     });
 
@@ -1285,6 +1356,12 @@
 
   function renderCart(){
     ensureCartPopupExists();
+
+    // ✅ carregar cupom salvo para o input
+    try{
+      const input = document.getElementById("couponInput");
+      if (input) input.value = getCartCouponCode();
+    }catch(e){}
 
     const listEl = document.getElementById("cartList");
     const totalWrap = document.getElementById("cartTotalWrap");
@@ -1503,7 +1580,8 @@
       encodeURIComponent(city);
   }
 
-  function goInvoiceCart(items){
+  // ✅ agora recebe cupom e salva junto
+  function goInvoiceCart(items, couponCode){
     try{
       const payload = (items || []).map(it => ({
         category: it.category,
@@ -1512,6 +1590,9 @@
       }));
       localStorage.setItem(CART_CHECKOUT_ITEMS_KEY, JSON.stringify(payload));
       localStorage.setItem(CART_LAST_CHECKOUT_STARTED_KEY, String(Date.now()));
+
+      // ✅ salva cupom do carrinho
+      setCartCouponCode(couponCode || getCartCouponCode());
     }catch(e){}
     window.location.href = "checkout-success.html?step=invoice&cart=1";
   }
@@ -1579,6 +1660,10 @@
     }
 
     closeCart();
+
+    // ✅ pega cupom atual do input/localStorage
+    const couponNow = getCartCouponCode();
+
     await showPolicyThenProceed(async () => {
       const finalItems = getCart();
       if (!finalItems.length){
@@ -1590,12 +1675,13 @@
         });
         return;
       }
-      goInvoiceCart(finalItems);
+      goInvoiceCart(finalItems, couponNow);
     });
   }
 
   /* =========================
      Item único -> Login -> Nota Fiscal
+     (não mexi: cupom é só no carrinho)
   ========================= */
   async function startSingleCheckoutAfterPolicy(category, city){
     const sess = await getSession();
@@ -1739,6 +1825,8 @@
     if (cartCheckoutAllOwned()){
       clearCart();
       clearCartCheckoutMarker();
+      // ✅ após compra finalizada, limpamos o cupom do carrinho
+      clearCartCouponCode();
       updateCartBadge();
     }else{
       updateCartBadge();
@@ -1935,8 +2023,7 @@
   function openDestinationPopup(category, city){
     const msg =
       `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. ` +
-      `O acesso é liberado automaticamente em “Meus materiais” após a aprovação do pagamento. ` +
-      `Boleto pode levar até 2 horas para confirmação.`;
+      `Este conteúdo é liberado após a confirmação da compra.`;
 
     const owns = userOwns(category, city);
 
