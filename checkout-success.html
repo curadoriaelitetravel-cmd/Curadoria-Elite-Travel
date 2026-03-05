@@ -872,7 +872,6 @@
 
   /* =========================
      MERCADO PAGO — criar checkout (preference)
-     (sem criar API nova: usa /api/create-checkout-mercadopago)
   ========================= */
   async function createCheckoutMercadoPagoForSingle(category, city){
     const res = await apiPOST("/api/create-checkout-mercadopago", { category, city });
@@ -883,7 +882,6 @@
     return res.json || {};
   }
 
-  // ✅ agora envia coupon_code junto (opção 1: só carrinho)
   async function createCheckoutMercadoPagoForCart(items){
     const couponCode = getCartCouponCode();
     const body = { items };
@@ -1072,12 +1070,10 @@
   async function handleMercadoPagoReturn(){
     const mpFlag = (qs("mp") || "").toLowerCase(); // success | pending | failure
 
-    // Mercado Pago também pode retornar:
     const status = (qs("status") || qs("collection_status") || "").toLowerCase();
     const paymentId = qs("payment_id") || qs("collection_id") || "";
     const preferenceId = qs("preference_id") || "";
 
-    // Se veio mp=pending/failure, mostramos tela posicionando o cliente.
     if (mpFlag === "pending"){
       setStatusScreen(
         "Pagamento em processamento",
@@ -1096,7 +1092,6 @@
       return;
     }
 
-    // Se não tem nenhum parâmetro, mostra erro
     if (!mpFlag && !status && !paymentId && !preferenceId){
       show("screenPaymentError");
       return;
@@ -1107,12 +1102,10 @@
 
     show("screenLoading");
 
-    // Mensagem elegante durante o “aguarde”
     setLoadingNotice(
       `<strong>Liberação automática:</strong> seu acesso aparece em <strong>“Meus materiais”</strong> assim que o pagamento for <strong>aprovado</strong>.<br><strong>Boleto:</strong> a confirmação pode levar até <strong>2 horas</strong>.`
     );
 
-    // Se for success, seguimos o fluxo atual (confirmar e redirecionar).
     try{
       const url =
         "/api/mercadopago-confirm" +
@@ -1126,7 +1119,6 @@
         return;
       }
 
-      // ✅ zera carrinho e cupom após compra concluída
       clearCartStorage();
 
       window.location.href = "account.html";
@@ -1141,13 +1133,11 @@
 
     const step = qs("step");
 
-    // ✅ etapa da Nota Fiscal
     if (step === "invoice"){
       await handleInvoiceStep();
       return;
     }
 
-    // ✅ retorno do Mercado Pago (com parâmetros)
     await handleMercadoPagoReturn();
   }
 
