@@ -722,11 +722,38 @@
       color:rgba(255,255,255,0.75);
       margin-bottom:8px;
     }
-    .coupon-help{
+    .coupon-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .coupon-row input{
+      flex:1 1 240px;
+      min-width:220px;
+    }
+    .coupon-apply-btn{
+      margin-top:0;
+      min-width:140px;
+    }
+    .coupon-msg{
       margin-top:8px;
       font-size:12.5px;
-      color:rgba(255,255,255,0.62);
       line-height:1.45;
+      color:rgba(255,255,255,0.62);
+      min-height:18px;
+    }
+    .coupon-msg.ok{ color:rgba(212,175,55,0.95); }
+    .coupon-msg.err{ color:rgba(255,255,255,0.78); }
+
+    .price-old{
+      text-decoration:line-through;
+      color:rgba(255,255,255,0.55);
+      margin-right:8px;
+    }
+    .price-new{
+      color:#d4af37;
+      font-weight:800;
     }
 
     /* ========= OVERVIEW (popup PDF) ========= */
@@ -1225,6 +1252,9 @@
   // ✅ Cupom (somente carrinho)
   const CART_COUPON_CODE_KEY = "cet_cart_coupon_code_v1";
 
+  // ✅ estado: preview do carrinho (retorno do backend)
+  let cartPricingPreview = null; // { applied, items, totals, coupon_code }
+
   function normalizeCouponCode(code){
     return String(code || "").trim().toUpperCase();
   }
@@ -1247,6 +1277,23 @@
     try{ localStorage.removeItem(CART_COUPON_CODE_KEY); }catch(e){}
   }
 
+  function setCouponMessage(text, kind){
+    const el = document.getElementById("couponMsg");
+    if (!el) return;
+    el.classList.remove("ok","err");
+    if (kind === "ok") el.classList.add("ok");
+    if (kind === "err") el.classList.add("err");
+    el.innerText = text || "";
+  }
+
+  function setApplyButtonState(){
+    const input = document.getElementById("couponInput");
+    const btn = document.getElementById("couponApplyBtn");
+    if (!input || !btn) return;
+    const v = normalizeCouponCode(input.value);
+    btn.disabled = !v;
+  }
+
   function ensureCartPopupExists(){
     if (document.getElementById("cartPopup")) return;
 
@@ -1259,17 +1306,20 @@
           <!-- ✅ CUPOM (somente carrinho) -->
           <div class="coupon-wrap">
             <label class="coupon-label" for="couponInput">Cupom</label>
-            <input
-              id="couponInput"
-              class="search-input"
-              type="text"
-              placeholder="Ex: LANCAMENTONY10"
-              autocomplete="off"
-              spellcheck="false"
-            />
-            <div class="coupon-help">
-              Se o cupom estiver ativo e dentro do período, ele será aplicado no pagamento.
+
+            <div class="coupon-row">
+              <input
+                id="couponInput"
+                class="search-input"
+                type="text"
+                placeholder="Ex: LANCAMENTONY10"
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <button id="couponApplyBtn" class="btn-ghost coupon-apply-btn" disabled style="margin-top:0;">Aplicar</button>
             </div>
+
+            <div id="couponMsg" class="coupon-msg"></div>
           </div>
 
           <div class="cart-list" id="cartList"></div>
@@ -1295,13 +1345,36 @@
     document.getElementById("cartCloseBtn").addEventListener("click", closeCart);
     document.getElementById("cartContinueBtn").addEventListener("click", closeCart);
 
-    // ✅ salvar cupom quando digita (e padronizar em maiúsculo)
+    // ✅ salvar cupom quando digita (e padronizar em maiúsculo) + habilitar botão aplicar
     const couponInput = document.getElementById("couponInput");
+    const applyBtn = document.getElementById("couponApplyBtn");
+
     if (couponInput){
       couponInput.addEventListener("input", () => {
         const v = normalizeCouponCode(couponInput.value);
         couponInput.value = v;
         setCartCouponCode(v);
+
+        // quando digita algo novo, limpamos preview e msg (até aplicar)
+        cartPricingPreview = null;
+        setCouponMessage("", null);
+
+        setApplyButtonState();
+      });
+
+      couponInput.addEventListener("keydown", (e) => {
+        if (e && e.key === "Enter"){
+          e.preventDefault();
+          if (applyBtn && !applyBtn.disabled){
+            applyBtn.click();
+          }
+        }
+      });
+    }
+
+    if (applyBtn){
+      applyBtn.addEventListener("click", async () => {
+        await applyCouponPreviewFromCart();
       });
     }
 
@@ -1340,6 +1413,9 @@
   function removeFromCart(key){
     const items = getCart().filter(it => it && it.key !== key);
     saveCart(items);
+    // ao remover item, preview pode não bater mais
+    cartPricingPreview = null;
+    setCouponMessage("", null);
     renderCart();
     updateCartBadge();
   }
@@ -1354,6 +1430,16 @@
     return total;
   }
 
+  function findPreviewItem(category, city){
+    if (!cartPricingPreview || !Array.isArray(cartPricingPreview.items)) return null;
+    const c = String(category || "").trim();
+    const s = String(city || "").trim();
+    return cartPricingPreview.items.find(x =>
+      String(x.category || "").trim() === c &&
+      String(x.city || "").trim() === s
+    ) || null;
+  }
+
   function renderCart(){
     ensureCartPopupExists();
 
@@ -1361,6 +1447,7 @@
     try{
       const input = document.getElementById("couponInput");
       if (input) input.value = getCartCouponCode();
+      setApplyButtonState();
     }catch(e){}
 
     const listEl = document.getElementById("cartList");
@@ -1378,6 +1465,10 @@
       `;
       if (totalWrap) totalWrap.style.display = "none";
       if (btnProceed) btnProceed.disabled = true;
+
+      cartPricingPreview = null;
+      setCouponMessage("", null);
+
       updateCartBadge();
       return;
     }
@@ -1390,9 +1481,27 @@
       const div = document.createElement("div");
       div.className = "cart-item";
 
-      const price = formatBRL(Number(it.price || 0));
       const qty = Number(it.qty || 1) || 1;
       const owned = userOwns(it.category, it.city);
+
+      const basePrice = Number(it.price || 0);
+      const baseText = formatBRL(basePrice);
+
+      // ✅ se tiver preview aplicado, tenta pegar final_price para esse item
+      const pv = findPreviewItem(it.category, it.city);
+      let priceLineHtml = baseText;
+
+      if (pv && typeof pv.final_price === "number" && typeof pv.base_price === "number"){
+        const b = Number(pv.base_price || basePrice);
+        const f = Number(pv.final_price || basePrice);
+
+        // só mostra riscado se realmente mudou
+        if (Math.abs(f - b) >= 0.01){
+          priceLineHtml = `<span class="price-old">${formatBRL(b)}</span><span class="price-new">${formatBRL(f)}</span>`;
+        }else{
+          priceLineHtml = formatBRL(b);
+        }
+      }
 
       div.innerHTML = `
         <div class="cart-item-left">
@@ -1401,7 +1510,7 @@
             Quantidade: ${qty} · ${it.category}
           </div>
           <div class="cart-item-meta">
-            ${price}
+            ${priceLineHtml}
           </div>
           ${owned ? `<div class="cart-item-meta" style="color:rgba(212,175,55,0.85);margin-top:6px;">Você já possui este produto.</div>` : ``}
         </div>
@@ -1414,7 +1523,13 @@
       listEl.appendChild(div);
     });
 
-    const total = calcCartTotal(items);
+    // total: se tiver preview, usa preview.totals.total; senão calcula normal
+    let total = calcCartTotal(items);
+
+    if (cartPricingPreview && cartPricingPreview.totals && typeof cartPricingPreview.totals.total === "number"){
+      total = Number(cartPricingPreview.totals.total || total);
+    }
+
     if (totalWrap) totalWrap.style.display = "flex";
     if (totalVal) totalVal.innerHTML = `<strong>${formatBRL(total)}</strong>`;
 
@@ -1462,6 +1577,118 @@
     return (data && data.session) ? data.session : null;
   }
 
+  async function getAccessToken(){
+    const sess = await getSession();
+    return (sess && sess.access_token) ? sess.access_token : null;
+  }
+
+  async function apiPOST(url, body){
+    const token = await getAccessToken();
+    const headers = { "Content-Type":"application/json" };
+    if (token) headers["Authorization"] = "Bearer " + token;
+
+    const r = await fetch(url, {
+      method:"POST",
+      headers,
+      body: JSON.stringify(body || {})
+    });
+
+    let json = null;
+    try{ json = await r.json(); }catch(e){}
+    return { ok: r.ok, status: r.status, json };
+  }
+
+  async function applyCouponPreviewFromCart(){
+    ensureCartPopupExists();
+
+    const input = document.getElementById("couponInput");
+    const btn = document.getElementById("couponApplyBtn");
+    const code = normalizeCouponCode(input ? input.value : "");
+
+    setCartCouponCode(code);
+
+    if (!code){
+      cartPricingPreview = null;
+      setCouponMessage("", null);
+      renderCart();
+      return;
+    }
+
+    if (btn){
+      btn.disabled = true;
+      btn.innerText = "Aplicando...";
+    }
+
+    // precisa de login para validar cupom via API (pois a API exige Bearer token)
+    const token = await getAccessToken();
+    if (!token){
+      cartPricingPreview = null;
+      setCouponMessage("Para validar o cupom, faça login.", "err");
+      if (btn){
+        btn.disabled = false;
+        btn.innerText = "Aplicar";
+        setApplyButtonState();
+      }
+      renderCart();
+      return;
+    }
+
+    const items = getCart().map(it => ({
+      category: it.category,
+      city: it.city
+    }));
+
+    try{
+      const res = await apiPOST("/api/create-checkout-mercadopago", {
+        items,
+        coupon_code: code,
+        preview_only: true
+      });
+
+      if (!res.ok){
+        cartPricingPreview = null;
+        setCouponMessage("Não foi possível validar o cupom. Tente novamente.", "err");
+        renderCart();
+        return;
+      }
+
+      const j = res.json || {};
+      const applied = j.applied || null;
+
+      // válido = quando existe applied e match_count >= 1 (ou regra equivalente)
+      const matchCount = applied && typeof applied.match_count === "number" ? applied.match_count : 0;
+
+      if (!applied || matchCount <= 0){
+        cartPricingPreview = null;
+        setCouponMessage("Cupom inválido. Insira um cupom válido.", "err");
+        renderCart();
+        return;
+      }
+
+      cartPricingPreview = {
+        coupon_code: j.coupon_code || code,
+        applied: j.applied || null,
+        items: Array.isArray(j.items) ? j.items : [],
+        totals: j.totals || null
+      };
+
+      // mensagem curta e clara
+      setCouponMessage("Cupom aplicado com sucesso.", "ok");
+      renderCart();
+
+    }catch(e){
+      cartPricingPreview = null;
+      setCouponMessage("Não foi possível validar o cupom. Tente novamente.", "err");
+      renderCart();
+    }finally{
+      if (btn){
+        btn.innerText = "Aplicar";
+        btn.disabled = false;
+        setApplyButtonState();
+      }
+    }
+  }
+
   /* =========================
      Cabeçalho (auth)
   ========================= */
@@ -1502,6 +1729,11 @@
       if (sb) await sb.auth.signOut();
     }catch(e){}
     try{ await refreshNavAuth(); }catch(e){}
+
+    // ao sair, preview não faz mais sentido
+    cartPricingPreview = null;
+    setCouponMessage("", null);
+
     openPopup({
       title: "Acesso à conta",
       text: "Você saiu da sua conta.",
@@ -1644,6 +1876,10 @@
     if (ownedInCart.length){
       const filtered = (freshItems || []).filter(it => it && !userOwns(it.category, it.city));
       saveCart(filtered);
+
+      cartPricingPreview = null;
+      setCouponMessage("", null);
+
       renderCart();
 
       openPopup({
@@ -1827,6 +2063,10 @@
       clearCartCheckoutMarker();
       // ✅ após compra finalizada, limpamos o cupom do carrinho
       clearCartCouponCode();
+
+      cartPricingPreview = null;
+      setCouponMessage("", null);
+
       updateCartBadge();
     }else{
       updateCartBadge();
@@ -1945,6 +2185,11 @@
     });
 
     saveCart(items);
+
+    // preview não bate mais
+    cartPricingPreview = null;
+    setCouponMessage("", null);
+
     updateCartBadge();
   }
 
