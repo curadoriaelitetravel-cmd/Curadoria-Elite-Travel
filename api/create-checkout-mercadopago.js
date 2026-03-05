@@ -19,14 +19,6 @@ function normalizeItem(it) {
   return { category, city };
 }
 
-function normalizeCouponCode(code) {
-  return String(code || "").trim().toUpperCase();
-}
-
-function safeTrim(s) {
-  return String(s || "").trim();
-}
-
 // Valores atuais do seu site (mantendo exatamente como está no front):
 function getPriceForCategory(category) {
   // City Guide = 88.92 | Demais = 57.83
@@ -37,13 +29,6 @@ function toCentsBRL(v) {
   // Mercado Pago aceita decimal, mas vamos manter 2 casas com segurança
   const n = Number(v || 0);
   return Math.round(n * 100) / 100;
-}
-
-function clampMinPrice(v) {
-  // Nunca deixa 0 ou negativo
-  const n = Number(v || 0);
-  if (!Number.isFinite(n)) return 0.01;
-  return n < 0.01 ? 0.01 : n;
 }
 
 /**
@@ -70,6 +55,152 @@ function getMercadoPagoAccessToken() {
 function isProductionEnv() {
   const vercelEnv = String(process.env.VERCEL_ENV || "").toLowerCase();
   return vercelEnv === "production";
+}
+
+/* =====================================================
+   CUPONS (por destino)
+   - coupon_code (body) -> tabela coupons
+   - aplica somente nos itens do city_label do cupom
+   - se >= min_items_for_percent -> % desconto
+   - se == 1 -> discount_amount fixo
+===================================================== */
+
+function normalizeKeyPart(str) {
+  return String(str || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[—–−]/g, "-")
+    .replace(/\s*-\s*/g, " - ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function sameCity(a, b) {
+  return normalizeKeyPart(a) === normalizeKeyPart(b);
+}
+
+function clampMinZero(n) {
+  const x = Number(n || 0);
+  return x < 0 ? 0 : x;
+}
+
+function applyFixedDiscount(unitPrice, discountAmount) {
+  const p = Number(unitPrice || 0);
+  const d = Number(discountAmount || 0);
+  return toCentsBRL(clampMinZero(p - d));
+}
+
+function applyPercentDiscount(unitPrice, discountPercent) {
+  const p = Number(unitPrice || 0);
+  const pct = Number(discountPercent || 0);
+  const factor = 1 - (pct / 100);
+  return toCentsBRL(clampMinZero(p * factor));
+}
+
+function parseDateOnly(d) {
+  // Aceita "YYYY-MM-DD" (date) e Date
+  if (!d) return null;
+  if (d instanceof Date) return d;
+  const s = String(d).trim();
+  if (!s) return null;
+  // Se vier "2026-03-31" (date), cria Date em UTC pra comparar “somente data”
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (m) return new Date(Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3])));
+  const dt = new Date(s);
+  return isNaN(dt.getTime()) ? null : dt;
+}
+
+function isWithinDateRange(todayUtc, start, end) {
+  // Comparação por data (UTC)
+  const t = new Date(Date.UTC(todayUtc.getUTCFullYear(), todayUtc.getUTCMonth(), todayUtc.getUTCDate()));
+  const s = parseDateOnly(start);
+  const e = parseDateOnly(end);
+  if (s && t < new Date(Date.UTC(s.getUTCFullYear(), s.getUTCMonth(), s.getUTCDate()))) return false;
+  if (e && t > new Date(Date.UTC(e.getUTCFullYear(), e.getUTCMonth(), e.getUTCDate()))) return false;
+  return true;
+}
+
+async function loadCouponByCode(supabase, code) {
+  const couponCode = String(code || "").trim();
+  if (!couponCode) return null;
+
+  // Campos esperados (mas tolerante)
+  const { data, error } = await supabase
+    .from("coupons")
+    .select("code,is_active,start_date,end_date,city_label,discount_amount,discount_percent,min_items_for_percent")
+    .eq("code", couponCode)
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data) return null;
+
+  if (data.is_active === false) return null;
+
+  const now = new Date();
+  if (!isWithinDateRange(now, data.start_date, data.end_date)) return null;
+
+  const cityLabel = String(data.city_label || "").trim();
+  if (!cityLabel) return null;
+
+  return {
+    code: String(data.code || couponCode).trim(),
+    city_label: cityLabel,
+    discount_amount: Number(data.discount_amount || 0) || 0,
+    discount_percent: Number(data.discount_percent || 0) || 0,
+    min_items_for_percent: Number(data.min_items_for_percent || 2) || 2,
+  };
+}
+
+function applyCouponToItems(items, coupon) {
+  // items: [{category, city}]  (city = city_label do site)
+  if (!coupon || !coupon.city_label) {
+    return { itemsWithPrice: null, applied: null };
+  }
+
+  const targetCity = coupon.city_label;
+
+  const matchIdxs = [];
+  items.forEach((it, idx) => {
+    if (sameCity(it.city, targetCity)) matchIdxs.push(idx);
+  });
+
+  if (!matchIdxs.length) {
+    return { itemsWithPrice: null, applied: null };
+  }
+
+  const matchCount = matchIdxs.length;
+  const usePercent = matchCount >= (coupon.min_items_for_percent || 2) && (coupon.discount_percent || 0) > 0;
+
+  const applied = {
+    code: coupon.code,
+    city_label: coupon.city_label,
+    rule: usePercent ? "PERCENT" : "AMOUNT",
+    percent: usePercent ? coupon.discount_percent : 0,
+    amount: !usePercent ? coupon.discount_amount : 0,
+    matched_items: matchCount,
+  };
+
+  // retorna um mapa de preços por índice
+  const priceByIndex = new Map();
+
+  matchIdxs.forEach((idx) => {
+    const base = getPriceForCategory(items[idx].category);
+    const base2 = toCentsBRL(base);
+
+    let finalPrice = base2;
+
+    if (usePercent) {
+      finalPrice = applyPercentDiscount(base2, coupon.discount_percent);
+    } else {
+      finalPrice = applyFixedDiscount(base2, coupon.discount_amount);
+    }
+
+    priceByIndex.set(idx, finalPrice);
+  });
+
+  return { itemsWithPrice: priceByIndex, applied };
 }
 
 // =====================================================
@@ -286,71 +417,7 @@ async function handleWebhook(req, res) {
 }
 
 // =====================================================
-// NOVO: CUPONS (Opção 1) - APENAS PARA CARRINHO
-// =====================================================
-async function fetchValidCouponForCart({ supabase, couponCode }) {
-  const code = normalizeCouponCode(couponCode);
-  if (!code) return { ok: true, coupon: null };
-
-  const { data: coupon, error } = await supabase
-    .from("coupons")
-    .select("code, city_label, discount_amount, active, starts_at, ends_at")
-    .eq("code", code)
-    .limit(1)
-    .maybeSingle();
-
-  if (error) {
-    return { ok: false, error: "Failed to fetch coupon", details: error.message };
-  }
-  if (!coupon) {
-    return { ok: false, error: "INVALID_COUPON", message: "Cupom inválido." };
-  }
-
-  if (!coupon.active) {
-    return { ok: false, error: "INVALID_COUPON", message: "Cupom inativo." };
-  }
-
-  const disc = Number(coupon.discount_amount || 0);
-  if (!Number.isFinite(disc) || disc <= 0) {
-    return { ok: false, error: "INVALID_COUPON", message: "Cupom inválido." };
-  }
-
-  const now = new Date();
-
-  if (coupon.starts_at) {
-    const s = new Date(coupon.starts_at);
-    if (Number.isFinite(s.getTime()) && now < s) {
-      return { ok: false, error: "INVALID_COUPON", message: "Cupom ainda não iniciou." };
-    }
-  }
-
-  if (coupon.ends_at) {
-    const e = new Date(coupon.ends_at);
-    if (Number.isFinite(e.getTime()) && now > e) {
-      return { ok: false, error: "INVALID_COUPON", message: "Cupom expirado." };
-    }
-  }
-
-  const cityLabel = safeTrim(coupon.city_label);
-  if (!cityLabel) {
-    return { ok: false, error: "INVALID_COUPON", message: "Cupom inválido." };
-  }
-
-  return {
-    ok: true,
-    coupon: {
-      code: normalizeCouponCode(coupon.code),
-      city_label: cityLabel,
-      discount_amount: disc,
-      active: !!coupon.active,
-      starts_at: coupon.starts_at || null,
-      ends_at: coupon.ends_at || null,
-    },
-  };
-}
-
-// =====================================================
-// HANDLER (mantido, só adicionamos o webhook em cima)
+// HANDLER (mantido, só adicionamos o webhook + cupom)
 // =====================================================
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json");
@@ -394,11 +461,10 @@ module.exports = async function handler(req, res) {
 
     // ✅ suporte a:
     // A) { category, city }  (1 item)
-    // B) { items: [{category, city}, ...], coupon_code? } (carrinho)
+    // B) { items: [{category, city}, ...] } (carrinho)
     let items = [];
-    const isCartRequest = Array.isArray(body.items) && body.items.length > 0;
 
-    if (isCartRequest) {
+    if (Array.isArray(body.items) && body.items.length > 0) {
       items = body.items.map(normalizeItem).filter((x) => x.category && x.city);
     } else if (body.category && body.city) {
       items = [normalizeItem({ category: body.category, city: body.city })];
@@ -449,32 +515,24 @@ module.exports = async function handler(req, res) {
     }
 
     // =====================================================
-    // 2.5) CUPOM (Opção 1) — SOMENTE NO CARRINHO
+    // 2.5) CUPOM (opcional)
     // =====================================================
-    let coupon = null;
-    let couponCodeUsed = "";
-    let couponDiscountAmount = 0;
-    let couponCityLabel = "";
+    const couponCodeRaw =
+      String(body.coupon_code || body.couponCode || body.coupon || "").trim();
 
-    if (isCartRequest) {
-      const couponCode = normalizeCouponCode(body.coupon_code || "");
-      if (couponCode) {
-        const c = await fetchValidCouponForCart({ supabase, couponCode });
-        if (!c.ok) {
-          // Mostra erro amigável no front
-          return res.status(400).json({
-            error: "Coupon not valid",
-            code: c.error || "INVALID_COUPON",
-            message: c.message || c.details || "Cupom inválido.",
-          });
-        }
-        coupon = c.coupon;
-        if (coupon) {
-          couponCodeUsed = coupon.code;
-          couponDiscountAmount = Number(coupon.discount_amount || 0);
-          couponCityLabel = safeTrim(coupon.city_label);
-        }
-      }
+    let couponApplied = null;
+    let priceByIndex = null;
+
+    if (couponCodeRaw) {
+      const coupon = await loadCouponByCode(supabase, couponCodeRaw);
+
+      // aplica regras por destino
+      const applied = applyCouponToItems(items, coupon);
+      priceByIndex = applied.itemsWithPrice; // Map(idx -> unit_price final)
+      couponApplied = applied.applied; // objeto com regra aplicada
+
+      // Se cupom inválido, não bloqueia compra (apenas ignora)
+      // (Se você quiser bloquear cupom inválido, eu altero depois.)
     }
 
     // =====================================================
@@ -493,20 +551,17 @@ module.exports = async function handler(req, res) {
     const failureUrl = `${safeOrigin}/checkout-success.html?mp=failure`;
 
     // Itens para o Mercado Pago (um por material)
-    const mpItems = items.map((it) => {
-      const base = Number(getPriceForCategory(it.category));
-      let finalPrice = base;
+    const mpItems = items.map((it, idx) => {
+      const basePrice = toCentsBRL(getPriceForCategory(it.category));
+      const finalPrice =
+        priceByIndex && priceByIndex.has(idx)
+          ? toCentsBRL(priceByIndex.get(idx))
+          : basePrice;
 
-      // ✅ aplica desconto em TODOS os itens da cidade do cupom
-      if (coupon && couponCityLabel && safeTrim(it.city) === couponCityLabel) {
-        finalPrice = clampMinPrice(base - couponDiscountAmount);
-      }
-
-      const price = toCentsBRL(finalPrice);
       return {
         title: `${it.city} — ${it.category}`,
         quantity: 1,
-        unit_price: price,
+        unit_price: finalPrice,
         currency_id: "BRL",
       };
     });
@@ -534,10 +589,13 @@ module.exports = async function handler(req, res) {
         items: itemsJson,
         source: "curadoria-elite-travel",
 
-        // ✅ cupom (auditoria)
-        coupon_code: couponCodeUsed || null,
-        coupon_city_label: couponCityLabel || null,
-        coupon_discount_amount: coupon ? couponDiscountAmount : null,
+        // cupom (opcional, útil para auditoria)
+        coupon_code: couponApplied ? String(couponApplied.code || "") : "",
+        coupon_city_label: couponApplied ? String(couponApplied.city_label || "") : "",
+        coupon_rule: couponApplied ? String(couponApplied.rule || "") : "",
+        coupon_amount: couponApplied ? Number(couponApplied.amount || 0) : 0,
+        coupon_percent: couponApplied ? Number(couponApplied.percent || 0) : 0,
+        coupon_matched_items: couponApplied ? Number(couponApplied.matched_items || 0) : 0,
       },
     };
 
@@ -575,7 +633,19 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    return res.status(200).json({ url });
+    return res.status(200).json({
+      url,
+      coupon: couponApplied
+        ? {
+            code: couponApplied.code,
+            city_label: couponApplied.city_label,
+            rule: couponApplied.rule,
+            amount: couponApplied.amount,
+            percent: couponApplied.percent,
+            matched_items: couponApplied.matched_items,
+          }
+        : null,
+    });
   } catch (err) {
     return res.status(500).json({
       error: "Failed to create Mercado Pago checkout",
