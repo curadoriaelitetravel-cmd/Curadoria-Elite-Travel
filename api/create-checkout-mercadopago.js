@@ -57,150 +57,152 @@ function isProductionEnv() {
   return vercelEnv === "production";
 }
 
-/* =====================================================
-   CUPONS (por destino)
-   - coupon_code (body) -> tabela coupons
-   - aplica somente nos itens do city_label do cupom
-   - se >= min_items_for_percent -> % desconto
-   - se == 1 -> discount_amount fixo
-===================================================== */
+// =====================================================
+// CUPOM (SUPABASE) — SEM API NOVA
+// =====================================================
 
-function normalizeKeyPart(str) {
-  return String(str || "")
-    .trim()
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[—–−]/g, "-")
-    .replace(/\s*-\s*/g, " - ")
-    .replace(/\s+/g, " ")
-    .trim();
+// ⚠️ Se sua tabela tiver outro nome, troque aqui.
+// (eu estou assumindo "coupons" como nome da tabela, porque você criou "tabela de cupons")
+const COUPONS_TABLE = "coupons";
+
+// Ajuste aqui se quiser mudar a regra no futuro
+const MULTI_ITEM_PERCENT = 0.20; // 20%
+
+function nowISO() {
+  return new Date().toISOString();
 }
 
-function sameCity(a, b) {
-  return normalizeKeyPart(a) === normalizeKeyPart(b);
+function parseDateSafe(v) {
+  if (!v) return null;
+  const d = new Date(v);
+  if (Number.isNaN(d.getTime())) return null;
+  return d;
 }
 
-function clampMinZero(n) {
-  const x = Number(n || 0);
-  return x < 0 ? 0 : x;
-}
+function isWithinWindow(row) {
+  // start_date / end_date podem ser date ou timestamp
+  const start = parseDateSafe(row.start_date || row.starts_at || row.start_at);
+  const end = parseDateSafe(row.end_date || row.ends_at || row.end_at);
 
-function applyFixedDiscount(unitPrice, discountAmount) {
-  const p = Number(unitPrice || 0);
-  const d = Number(discountAmount || 0);
-  return toCentsBRL(clampMinZero(p - d));
-}
+  const now = new Date();
 
-function applyPercentDiscount(unitPrice, discountPercent) {
-  const p = Number(unitPrice || 0);
-  const pct = Number(discountPercent || 0);
-  const factor = 1 - (pct / 100);
-  return toCentsBRL(clampMinZero(p * factor));
-}
-
-function parseDateOnly(d) {
-  // Aceita "YYYY-MM-DD" (date) e Date
-  if (!d) return null;
-  if (d instanceof Date) return d;
-  const s = String(d).trim();
-  if (!s) return null;
-  // Se vier "2026-03-31" (date), cria Date em UTC pra comparar “somente data”
-  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if (m) return new Date(Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3])));
-  const dt = new Date(s);
-  return isNaN(dt.getTime()) ? null : dt;
-}
-
-function isWithinDateRange(todayUtc, start, end) {
-  // Comparação por data (UTC)
-  const t = new Date(Date.UTC(todayUtc.getUTCFullYear(), todayUtc.getUTCMonth(), todayUtc.getUTCDate()));
-  const s = parseDateOnly(start);
-  const e = parseDateOnly(end);
-  if (s && t < new Date(Date.UTC(s.getUTCFullYear(), s.getUTCMonth(), s.getUTCDate()))) return false;
-  if (e && t > new Date(Date.UTC(e.getUTCFullYear(), e.getUTCMonth(), e.getUTCDate()))) return false;
+  if (start && now < start) return false;
+  if (end && now > end) return false;
   return true;
 }
 
-async function loadCouponByCode(supabase, code) {
-  const couponCode = String(code || "").trim();
-  if (!couponCode) return null;
+async function loadCouponByCode({ supabase, code }) {
+  const c = String(code || "").trim();
+  if (!c) return null;
 
-  // Campos esperados (mas tolerante)
+  // tenta buscar por code (case-insensitive)
+  // OBS: se sua coluna for sempre uppercase, também funciona.
   const { data, error } = await supabase
-    .from("coupons")
-    .select("code,is_active,start_date,end_date,city_label,discount_amount,discount_percent,min_items_for_percent")
-    .eq("code", couponCode)
+    .from(COUPONS_TABLE)
+    .select("*")
+    .ilike("code", c)
     .limit(1)
     .maybeSingle();
 
   if (error || !data) return null;
 
-  if (data.is_active === false) return null;
+  // se tiver campo is_active e estiver false, ignora
+  if (typeof data.is_active === "boolean" && data.is_active === false) return null;
 
-  const now = new Date();
-  if (!isWithinDateRange(now, data.start_date, data.end_date)) return null;
+  if (!isWithinWindow(data)) return null;
 
-  const cityLabel = String(data.city_label || "").trim();
-  if (!cityLabel) return null;
-
-  return {
-    code: String(data.code || couponCode).trim(),
-    city_label: cityLabel,
-    discount_amount: Number(data.discount_amount || 0) || 0,
-    discount_percent: Number(data.discount_percent || 0) || 0,
-    min_items_for_percent: Number(data.min_items_for_percent || 2) || 2,
-  };
+  return data;
 }
 
-function applyCouponToItems(items, coupon) {
-  // items: [{category, city}]  (city = city_label do site)
-  if (!coupon || !coupon.city_label) {
-    return { itemsWithPrice: null, applied: null };
-  }
+function getCouponCityLabel(row) {
+  // Vamos aceitar variações para não quebrar se o campo tiver nome diferente
+  return String(row.city_label || row.city || row.destination || "").trim();
+}
 
-  const targetCity = coupon.city_label;
+function getCouponDiscountAmount(row) {
+  const v = Number(row.discount_amount || row.discount || 0);
+  return Number.isFinite(v) ? v : 0;
+}
 
-  const matchIdxs = [];
-  items.forEach((it, idx) => {
-    if (sameCity(it.city, targetCity)) matchIdxs.push(idx);
+function computePricesWithCoupon({ items, couponRow }) {
+  // base
+  const baseItems = (items || []).map((it) => {
+    const base = toCentsBRL(getPriceForCategory(it.category));
+    return { ...it, base_price: base, final_price: base, discount_applied: null };
   });
 
-  if (!matchIdxs.length) {
-    return { itemsWithPrice: null, applied: null };
+  if (!couponRow) {
+    const total = baseItems.reduce((sum, x) => sum + Number(x.final_price || 0), 0);
+    return {
+      applied: null,
+      items: baseItems,
+      totals: {
+        subtotal: toCentsBRL(total),
+        discount_total: 0,
+        total: toCentsBRL(total),
+      },
+    };
   }
 
-  const matchCount = matchIdxs.length;
-  const usePercent = matchCount >= (coupon.min_items_for_percent || 2) && (coupon.discount_percent || 0) > 0;
+  const cityLabel = getCouponCityLabel(couponRow);
+  const discountAmount = getCouponDiscountAmount(couponRow);
 
-  const applied = {
-    code: coupon.code,
-    city_label: coupon.city_label,
-    rule: usePercent ? "PERCENT" : "AMOUNT",
-    percent: usePercent ? coupon.discount_percent : 0,
-    amount: !usePercent ? coupon.discount_amount : 0,
-    matched_items: matchCount,
-  };
+  if (!cityLabel) {
+    // cupom sem destino configurado -> não aplica
+    const total = baseItems.reduce((sum, x) => sum + Number(x.final_price || 0), 0);
+    return {
+      applied: { code: couponRow.code, valid: false, reason: "Missing city_label on coupon" },
+      items: baseItems,
+      totals: {
+        subtotal: toCentsBRL(total),
+        discount_total: 0,
+        total: toCentsBRL(total),
+      },
+    };
+  }
 
-  // retorna um mapa de preços por índice
-  const priceByIndex = new Map();
+  const matching = baseItems.filter((x) => String(x.city).trim() === cityLabel);
+  const matchCount = matching.length;
 
-  matchIdxs.forEach((idx) => {
-    const base = getPriceForCategory(items[idx].category);
-    const base2 = toCentsBRL(base);
+  // regra: 2+ itens do mesmo destino => 20% nesses itens
+  // 1 item do destino => desconto fixo (discount_amount) nesse item
+  let discountTotal = 0;
 
-    let finalPrice = base2;
+  for (const x of baseItems) {
+    const isMatch = String(x.city).trim() === cityLabel;
 
-    if (usePercent) {
-      finalPrice = applyPercentDiscount(base2, coupon.discount_percent);
+    if (!isMatch) continue;
+
+    if (matchCount >= 2) {
+      const d = toCentsBRL(Number(x.base_price || 0) * MULTI_ITEM_PERCENT);
+      x.final_price = toCentsBRL(Math.max(0.01, Number(x.base_price || 0) - d));
+      x.discount_applied = { type: "PERCENT", percent: MULTI_ITEM_PERCENT, amount: d };
+      discountTotal += d;
     } else {
-      finalPrice = applyFixedDiscount(base2, coupon.discount_amount);
+      const d = toCentsBRL(discountAmount);
+      x.final_price = toCentsBRL(Math.max(0.01, Number(x.base_price || 0) - d));
+      x.discount_applied = { type: "FIXED", amount: d };
+      discountTotal += d;
     }
+  }
 
-    priceByIndex.set(idx, finalPrice);
-  });
+  const subtotal = baseItems.reduce((sum, x) => sum + Number(x.base_price || 0), 0);
+  const total = baseItems.reduce((sum, x) => sum + Number(x.final_price || 0), 0);
 
-  return { itemsWithPrice: priceByIndex, applied };
+  return {
+    applied: {
+      code: String(couponRow.code || "").trim(),
+      city_label: cityLabel,
+      rule: matchCount >= 2 ? "20% on matching destination items" : "fixed amount per matching destination item",
+      match_count: matchCount,
+    },
+    items: baseItems,
+    totals: {
+      subtotal: toCentsBRL(subtotal),
+      discount_total: toCentsBRL(discountTotal),
+      total: toCentsBRL(total),
+    },
+  };
 }
 
 // =====================================================
@@ -417,7 +419,7 @@ async function handleWebhook(req, res) {
 }
 
 // =====================================================
-// HANDLER (mantido, só adicionamos o webhook + cupom)
+// HANDLER (mantido, só adicionamos cupom + preview + webhook em cima)
 // =====================================================
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json");
@@ -435,9 +437,6 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  // =====================================================
-  // Checkout (código original)
-  // =====================================================
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
@@ -474,6 +473,12 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: "Missing category/city or items[]" });
     }
 
+    // cupom (opcional)
+    const couponCode = String(body.coupon_code || "").trim();
+
+    // modo prévia (para o carrinho mostrar preço riscado + novo preço)
+    const previewOnly = body.preview_only === true;
+
     // =====================================================
     // 1) EXIGIR LOGIN
     // =====================================================
@@ -494,49 +499,55 @@ module.exports = async function handler(req, res) {
     const userId = userData.user.id;
 
     // =====================================================
-    // 2) EXIGIR NOTA FISCAL ANTES DO PAGAMENTO
+    // 2) (Checkout) EXIGIR NOTA FISCAL ANTES DO PAGAMENTO
     // =====================================================
-    const { data: invoiceRow, error: invoiceErr } = await supabase
-      .from("invoice_profiles")
-      .select("user_id")
-      .eq("user_id", userId)
-      .limit(1)
-      .maybeSingle();
+    // No modo prévia (carrinho), NÃO bloqueamos por nota fiscal.
+    // A nota fiscal continua sendo exigida no fluxo normal de compra.
+    if (!previewOnly) {
+      const { data: invoiceRow, error: invoiceErr } = await supabase
+        .from("invoice_profiles")
+        .select("user_id")
+        .eq("user_id", userId)
+        .limit(1)
+        .maybeSingle();
 
-    if (invoiceErr) {
-      return res.status(500).json({
-        error: "Failed to check invoice profile",
-        details: invoiceErr.message,
+      if (invoiceErr) {
+        return res.status(500).json({
+          error: "Failed to check invoice profile",
+          details: invoiceErr.message,
+        });
+      }
+
+      if (!invoiceRow) {
+        return res.status(200).json({ code: "INVOICE_REQUIRED" });
+      }
+    }
+
+    // =====================================================
+    // 3) CUPOM: carregar e calcular preços finais
+    // =====================================================
+    let couponRow = null;
+    if (couponCode) {
+      couponRow = await loadCouponByCode({ supabase, code: couponCode });
+    }
+
+    const pricing = computePricesWithCoupon({ items, couponRow });
+
+    // Se for prévia, devolve o breakdown pro carrinho e para por aqui.
+    if (previewOnly) {
+      return res.status(200).json({
+        ok: true,
+        preview: true,
+        requested_at: nowISO(),
+        coupon_code: couponCode || null,
+        applied: pricing.applied,
+        items: pricing.items,
+        totals: pricing.totals,
       });
     }
 
-    if (!invoiceRow) {
-      return res.status(200).json({ code: "INVOICE_REQUIRED" });
-    }
-
     // =====================================================
-    // 2.5) CUPOM (opcional)
-    // =====================================================
-    const couponCodeRaw =
-      String(body.coupon_code || body.couponCode || body.coupon || "").trim();
-
-    let couponApplied = null;
-    let priceByIndex = null;
-
-    if (couponCodeRaw) {
-      const coupon = await loadCouponByCode(supabase, couponCodeRaw);
-
-      // aplica regras por destino
-      const applied = applyCouponToItems(items, coupon);
-      priceByIndex = applied.itemsWithPrice; // Map(idx -> unit_price final)
-      couponApplied = applied.applied; // objeto com regra aplicada
-
-      // Se cupom inválido, não bloqueia compra (apenas ignora)
-      // (Se você quiser bloquear cupom inválido, eu altero depois.)
-    }
-
-    // =====================================================
-    // 3) Criar PREFERENCE (Checkout Pro) no Mercado Pago
+    // 4) Criar PREFERENCE (Checkout Pro) no Mercado Pago
     // =====================================================
     // Origem segura (igual ao Stripe)
     const origin = (req.headers && (req.headers.origin || req.headers.referer)) || "";
@@ -551,17 +562,13 @@ module.exports = async function handler(req, res) {
     const failureUrl = `${safeOrigin}/checkout-success.html?mp=failure`;
 
     // Itens para o Mercado Pago (um por material)
-    const mpItems = items.map((it, idx) => {
-      const basePrice = toCentsBRL(getPriceForCategory(it.category));
-      const finalPrice =
-        priceByIndex && priceByIndex.has(idx)
-          ? toCentsBRL(priceByIndex.get(idx))
-          : basePrice;
-
+    // ⚠️ agora usando final_price (com cupom, se aplicável)
+    const mpItems = (pricing.items || []).map((it) => {
+      const price = toCentsBRL(it.final_price);
       return {
         title: `${it.city} — ${it.category}`,
         quantity: 1,
-        unit_price: finalPrice,
+        unit_price: price,
         currency_id: "BRL",
       };
     });
@@ -588,14 +595,12 @@ module.exports = async function handler(req, res) {
         user_id: String(userId),
         items: itemsJson,
         source: "curadoria-elite-travel",
-
-        // cupom (opcional, útil para auditoria)
-        coupon_code: couponApplied ? String(couponApplied.code || "") : "",
-        coupon_city_label: couponApplied ? String(couponApplied.city_label || "") : "",
-        coupon_rule: couponApplied ? String(couponApplied.rule || "") : "",
-        coupon_amount: couponApplied ? Number(couponApplied.amount || 0) : 0,
-        coupon_percent: couponApplied ? Number(couponApplied.percent || 0) : 0,
-        coupon_matched_items: couponApplied ? Number(couponApplied.matched_items || 0) : 0,
+        coupon_code: couponCode || null,
+        pricing: {
+          subtotal: pricing.totals?.subtotal || null,
+          discount_total: pricing.totals?.discount_total || null,
+          total: pricing.totals?.total || null,
+        },
       },
     };
 
@@ -635,16 +640,8 @@ module.exports = async function handler(req, res) {
 
     return res.status(200).json({
       url,
-      coupon: couponApplied
-        ? {
-            code: couponApplied.code,
-            city_label: couponApplied.city_label,
-            rule: couponApplied.rule,
-            amount: couponApplied.amount,
-            percent: couponApplied.percent,
-            matched_items: couponApplied.matched_items,
-          }
-        : null,
+      coupon_code: couponCode || null,
+      pricing: pricing.totals || null,
     });
   } catch (err) {
     return res.status(500).json({
