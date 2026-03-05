@@ -722,38 +722,61 @@
       color:rgba(255,255,255,0.75);
       margin-bottom:8px;
     }
+    .coupon-help{
+      margin-top:8px;
+      font-size:12.5px;
+      color:rgba(255,255,255,0.62);
+      line-height:1.45;
+    }
+
+    /* ✅ NOVO: linha input + botão aplicar */
     .coupon-row{
       display:flex;
       gap:10px;
       align-items:center;
-      flex-wrap:wrap;
     }
-    .coupon-row input{
-      flex:1 1 240px;
-      min-width:220px;
+    .coupon-row .search-input{
+      flex:1;
+      margin:0;
     }
     .coupon-apply-btn{
       margin-top:0;
-      min-width:140px;
+      padding:11px 14px;
+      border-radius:10px;
+      border:1px solid rgba(212,175,55,0.35);
+      background:transparent;
+      color:#d4af37;
+      font-weight:700;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .coupon-apply-btn[disabled]{
+      opacity:0.6;
+      cursor:not-allowed;
     }
     .coupon-msg{
       margin-top:8px;
       font-size:12.5px;
       line-height:1.45;
-      color:rgba(255,255,255,0.62);
+      color:rgba(255,255,255,0.70);
       min-height:18px;
     }
-    .coupon-msg.ok{ color:rgba(212,175,55,0.95); }
-    .coupon-msg.err{ color:rgba(255,255,255,0.78); }
+    .coupon-msg.ok{
+      color:rgba(212,175,55,0.92);
+    }
+    .coupon-msg.bad{
+      color:rgba(255,255,255,0.72);
+    }
 
+    /* ✅ NOVO: preço riscado */
     .price-old{
       text-decoration:line-through;
-      color:rgba(255,255,255,0.55);
+      opacity:0.62;
       margin-right:8px;
     }
     .price-new{
       color:#d4af37;
-      font-weight:800;
+      font-weight:700;
     }
 
     /* ========= OVERVIEW (popup PDF) ========= */
@@ -814,6 +837,14 @@
       }
       header.nav-open .nav-menu{ display:flex; }
       .nav-sep{ display:none; }
+
+      .coupon-row{
+        flex-direction:column;
+        align-items:stretch;
+      }
+      .coupon-apply-btn{
+        width:100%;
+      }
     }
   </style>
 </head>
@@ -1252,8 +1283,8 @@
   // ✅ Cupom (somente carrinho)
   const CART_COUPON_CODE_KEY = "cet_cart_coupon_code_v1";
 
-  // ✅ estado: preview do carrinho (retorno do backend)
-  let cartPricingPreview = null; // { applied, items, totals, coupon_code }
+  // ✅ estado de prévia (preços com cupom)
+  let cartPricingPreview = null; // { items: [...], totals: {...}, applied: {...} } | null
 
   function normalizeCouponCode(code){
     return String(code || "").trim().toUpperCase();
@@ -1275,23 +1306,6 @@
   }
   function clearCartCouponCode(){
     try{ localStorage.removeItem(CART_COUPON_CODE_KEY); }catch(e){}
-  }
-
-  function setCouponMessage(text, kind){
-    const el = document.getElementById("couponMsg");
-    if (!el) return;
-    el.classList.remove("ok","err");
-    if (kind === "ok") el.classList.add("ok");
-    if (kind === "err") el.classList.add("err");
-    el.innerText = text || "";
-  }
-
-  function setApplyButtonState(){
-    const input = document.getElementById("couponInput");
-    const btn = document.getElementById("couponApplyBtn");
-    if (!input || !btn) return;
-    const v = normalizeCouponCode(input.value);
-    btn.disabled = !v;
   }
 
   function ensureCartPopupExists(){
@@ -1316,16 +1330,20 @@
                 autocomplete="off"
                 spellcheck="false"
               />
-              <button id="couponApplyBtn" class="btn-ghost coupon-apply-btn" disabled style="margin-top:0;">Aplicar</button>
+              <button class="coupon-apply-btn" id="couponApplyBtn" disabled>Aplicar</button>
             </div>
 
-            <div id="couponMsg" class="coupon-msg"></div>
+            <div class="coupon-msg" id="couponMsg"></div>
+
+            <div class="coupon-help">
+              Se o cupom estiver ativo e dentro do período, ele será aplicado no pagamento.
+            </div>
           </div>
 
           <div class="cart-list" id="cartList"></div>
 
           <div class="cart-total" id="cartTotalWrap" style="display:none;">
-            <div><strong>Total</strong></div>
+            <div id="cartTotalsLeft"><strong>Total</strong></div>
             <div id="cartTotalValue"><strong>R$ 0,00</strong></div>
           </div>
 
@@ -1345,36 +1363,30 @@
     document.getElementById("cartCloseBtn").addEventListener("click", closeCart);
     document.getElementById("cartContinueBtn").addEventListener("click", closeCart);
 
-    // ✅ salvar cupom quando digita (e padronizar em maiúsculo) + habilitar botão aplicar
+    // ✅ salvar cupom quando digita (padronizar em maiúsculo) + habilitar botão Aplicar
     const couponInput = document.getElementById("couponInput");
-    const applyBtn = document.getElementById("couponApplyBtn");
+    const couponApplyBtn = document.getElementById("couponApplyBtn");
+
+    function updateApplyBtnState(){
+      const v = normalizeCouponCode(couponInput ? couponInput.value : "");
+      if (couponApplyBtn) couponApplyBtn.disabled = !v;
+    }
 
     if (couponInput){
       couponInput.addEventListener("input", () => {
         const v = normalizeCouponCode(couponInput.value);
         couponInput.value = v;
         setCartCouponCode(v);
-
-        // quando digita algo novo, limpamos preview e msg (até aplicar)
-        cartPricingPreview = null;
-        setCouponMessage("", null);
-
-        setApplyButtonState();
-      });
-
-      couponInput.addEventListener("keydown", (e) => {
-        if (e && e.key === "Enter"){
-          e.preventDefault();
-          if (applyBtn && !applyBtn.disabled){
-            applyBtn.click();
-          }
-        }
+        cartPricingPreview = null; // altera cupom => limpa prévia anterior
+        setCouponMsg("");
+        updateApplyBtnState();
       });
     }
 
-    if (applyBtn){
-      applyBtn.addEventListener("click", async () => {
-        await applyCouponPreviewFromCart();
+    if (couponApplyBtn){
+      couponApplyBtn.addEventListener("click", async () => {
+        const v = normalizeCouponCode((document.getElementById("couponInput") || {}).value || "");
+        await applyCouponPreview(v);
       });
     }
 
@@ -1388,6 +1400,18 @@
     document.getElementById("cartPopup").addEventListener("click", (e) => {
       if (e && e.target && e.target.id === "cartPopup") closeCart();
     });
+
+    // inicial
+    setCouponMsg("");
+    updateApplyBtnState();
+  }
+
+  function setCouponMsg(text, type){
+    const el = document.getElementById("couponMsg");
+    if (!el) return;
+    el.classList.remove("ok","bad");
+    if (type) el.classList.add(type);
+    el.textContent = text || "";
   }
 
   function getCart(){
@@ -1413,9 +1437,7 @@
   function removeFromCart(key){
     const items = getCart().filter(it => it && it.key !== key);
     saveCart(items);
-    // ao remover item, preview pode não bater mais
-    cartPricingPreview = null;
-    setCouponMessage("", null);
+    cartPricingPreview = null; // remove item => invalida preview
     renderCart();
     updateCartBadge();
   }
@@ -1430,29 +1452,47 @@
     return total;
   }
 
-  function findPreviewItem(category, city){
+  function makeCartLookupKey(category, city){
+    return String(category || "").trim() + "||" + String(city || "").trim();
+  }
+
+  function getPreviewPriceForItem(category, city){
+    const key = makeCartLookupKey(category, city);
     if (!cartPricingPreview || !Array.isArray(cartPricingPreview.items)) return null;
-    const c = String(category || "").trim();
-    const s = String(city || "").trim();
-    return cartPricingPreview.items.find(x =>
-      String(x.category || "").trim() === c &&
-      String(x.city || "").trim() === s
-    ) || null;
+    const found = cartPricingPreview.items.find(x => makeCartLookupKey(x.category, x.city) === key);
+    return found || null; // {base_price, final_price, discount_applied...}
+  }
+
+  function formatPriceLine(base, final){
+    const b = Number(base || 0);
+    const f = Number(final || 0);
+    if (!b || !f || Math.abs(b - f) < 0.001){
+      return `<span>${formatBRL(b || f || 0)}</span>`;
+    }
+    return `<span class="price-old">${formatBRL(b)}</span><span class="price-new">${formatBRL(f)}</span>`;
   }
 
   function renderCart(){
     ensureCartPopupExists();
 
-    // ✅ carregar cupom salvo para o input
+    // ✅ carregar cupom salvo para o input + estado do botão
     try{
       const input = document.getElementById("couponInput");
-      if (input) input.value = getCartCouponCode();
-      setApplyButtonState();
+      const btn = document.getElementById("couponApplyBtn");
+      const v = getCartCouponCode();
+      if (input) input.value = v;
+
+      if (btn) btn.disabled = !v;
+      if (!v){
+        cartPricingPreview = null;
+        setCouponMsg("");
+      }
     }catch(e){}
 
     const listEl = document.getElementById("cartList");
     const totalWrap = document.getElementById("cartTotalWrap");
     const totalVal = document.getElementById("cartTotalValue");
+    const totalsLeft = document.getElementById("cartTotalsLeft");
     const btnProceed = document.getElementById("cartProceedBtn");
 
     const items = getCart();
@@ -1465,10 +1505,6 @@
       `;
       if (totalWrap) totalWrap.style.display = "none";
       if (btnProceed) btnProceed.disabled = true;
-
-      cartPricingPreview = null;
-      setCouponMessage("", null);
-
       updateCartBadge();
       return;
     }
@@ -1484,24 +1520,12 @@
       const qty = Number(it.qty || 1) || 1;
       const owned = userOwns(it.category, it.city);
 
-      const basePrice = Number(it.price || 0);
-      const baseText = formatBRL(basePrice);
+      // ✅ preços com prévia (se existir)
+      const preview = getPreviewPriceForItem(it.category, it.city);
+      const basePrice = preview ? Number(preview.base_price || it.price || 0) : Number(it.price || 0);
+      const finalPrice = preview ? Number(preview.final_price || it.price || 0) : Number(it.price || 0);
 
-      // ✅ se tiver preview aplicado, tenta pegar final_price para esse item
-      const pv = findPreviewItem(it.category, it.city);
-      let priceLineHtml = baseText;
-
-      if (pv && typeof pv.final_price === "number" && typeof pv.base_price === "number"){
-        const b = Number(pv.base_price || basePrice);
-        const f = Number(pv.final_price || basePrice);
-
-        // só mostra riscado se realmente mudou
-        if (Math.abs(f - b) >= 0.01){
-          priceLineHtml = `<span class="price-old">${formatBRL(b)}</span><span class="price-new">${formatBRL(f)}</span>`;
-        }else{
-          priceLineHtml = formatBRL(b);
-        }
-      }
+      const priceHtml = formatPriceLine(basePrice, finalPrice);
 
       div.innerHTML = `
         <div class="cart-item-left">
@@ -1510,7 +1534,7 @@
             Quantidade: ${qty} · ${it.category}
           </div>
           <div class="cart-item-meta">
-            ${priceLineHtml}
+            ${priceHtml}
           </div>
           ${owned ? `<div class="cart-item-meta" style="color:rgba(212,175,55,0.85);margin-top:6px;">Você já possui este produto.</div>` : ``}
         </div>
@@ -1523,24 +1547,53 @@
       listEl.appendChild(div);
     });
 
-    // total: se tiver preview, usa preview.totals.total; senão calcula normal
-    let total = calcCartTotal(items);
+    // ✅ Totais A+B (subtotal / desconto / total)
+    let subtotal = calcCartTotal(items);
+    let discountTotal = 0;
+    let total = subtotal;
 
-    if (cartPricingPreview && cartPricingPreview.totals && typeof cartPricingPreview.totals.total === "number"){
+    if (cartPricingPreview && cartPricingPreview.totals){
+      subtotal = Number(cartPricingPreview.totals.subtotal || subtotal);
+      discountTotal = Number(cartPricingPreview.totals.discount_total || 0);
       total = Number(cartPricingPreview.totals.total || total);
     }
 
     if (totalWrap) totalWrap.style.display = "flex";
-    if (totalVal) totalVal.innerHTML = `<strong>${formatBRL(total)}</strong>`;
+
+    if (totalsLeft && discountTotal > 0.0001){
+      totalsLeft.innerHTML = `
+        <div style="line-height:1.55;">
+          <div><strong>Subtotal</strong></div>
+          <div style="color:rgba(255,255,255,0.72);font-size:12.5px;">Desconto</div>
+          <div style="margin-top:6px;"><strong>Total</strong></div>
+        </div>
+      `;
+      if (totalVal) totalVal.innerHTML = `
+        <div style="text-align:right;line-height:1.55;">
+          <div><strong>${formatBRL(subtotal)}</strong></div>
+          <div style="color:rgba(255,255,255,0.72);font-size:12.5px;">-${formatBRL(discountTotal)}</div>
+          <div style="margin-top:6px;"><strong>${formatBRL(total)}</strong></div>
+        </div>
+      `;
+    }else{
+      if (totalsLeft) totalsLeft.innerHTML = `<strong>Total</strong>`;
+      if (totalVal) totalVal.innerHTML = `<strong>${formatBRL(total)}</strong>`;
+    }
 
     updateCartBadge();
   }
 
-  function openCart(){
+  async function openCart(){
     ensureCartPopupExists();
     renderCart();
     updateCartBadge();
     document.getElementById("cartPopup").classList.add("active");
+
+    // ✅ se já tem cupom preenchido, tenta prévia automaticamente (não bloqueia se não der)
+    const code = getCartCouponCode();
+    if (code){
+      await applyCouponPreview(code, { silent: true });
+    }
   }
 
   function closeCart(){
@@ -1578,8 +1631,8 @@
   }
 
   async function getAccessToken(){
-    const sess = await getSession();
-    return (sess && sess.access_token) ? sess.access_token : null;
+    const s = await getSession();
+    return (s && s.access_token) ? s.access_token : null;
   }
 
   async function apiPOST(url, body){
@@ -1598,93 +1651,87 @@
     return { ok: r.ok, status: r.status, json };
   }
 
-  async function applyCouponPreviewFromCart(){
-    ensureCartPopupExists();
+  async function applyCouponPreview(code, opts){
+    const options = opts || {};
+    const items = getCart();
+    const v = normalizeCouponCode(code);
 
-    const input = document.getElementById("couponInput");
+    if (!v){
+      cartPricingPreview = null;
+      setCouponMsg("");
+      renderCart();
+      return;
+    }
+
+    // precisa estar logado para chamar a API (porque a API exige Bearer token)
+    const sess = await getSession();
+    if (!sess || !sess.user){
+      cartPricingPreview = null;
+      setCouponMsg("Faça login para aplicar cupom.", "bad");
+      renderCart();
+      return;
+    }
+
+    // UI: feedback no botão
     const btn = document.getElementById("couponApplyBtn");
-    const code = normalizeCouponCode(input ? input.value : "");
-
-    setCartCouponCode(code);
-
-    if (!code){
-      cartPricingPreview = null;
-      setCouponMessage("", null);
-      renderCart();
-      return;
-    }
-
-    if (btn){
-      btn.disabled = true;
-      btn.innerText = "Aplicando...";
-    }
-
-    // precisa de login para validar cupom via API (pois a API exige Bearer token)
-    const token = await getAccessToken();
-    if (!token){
-      cartPricingPreview = null;
-      setCouponMessage("Para validar o cupom, faça login.", "err");
-      if (btn){
-        btn.disabled = false;
-        btn.innerText = "Aplicar";
-        setApplyButtonState();
-      }
-      renderCart();
-      return;
-    }
-
-    const items = getCart().map(it => ({
-      category: it.category,
-      city: it.city
-    }));
-
+    const oldText = btn ? btn.textContent : "";
     try{
-      const res = await apiPOST("/api/create-checkout-mercadopago", {
-        items,
-        coupon_code: code,
-        preview_only: true
-      });
+      if (btn){
+        btn.disabled = true;
+        btn.textContent = "Aguarde...";
+      }
 
-      if (!res.ok){
+      const payload = {
+        preview_only: true,
+        coupon_code: v,
+        items: (items || []).map(it => ({
+          category: it.category,
+          city: it.city
+        }))
+      };
+
+      const res = await apiPOST("/api/create-checkout-mercadopago", payload);
+
+      if (!res.ok || !res.json){
         cartPricingPreview = null;
-        setCouponMessage("Não foi possível validar o cupom. Tente novamente.", "err");
+        if (!options.silent){
+          setCouponMsg("Não foi possível validar o cupom agora. Tente novamente.", "bad");
+        }
         renderCart();
         return;
       }
 
       const j = res.json || {};
+
+      // se não achou cupom (applied null) OU match_count 0 => inválido p/ este carrinho
       const applied = j.applied || null;
+      const totals = j.totals || null;
 
-      // válido = quando existe applied e match_count >= 1 (ou regra equivalente)
-      const matchCount = applied && typeof applied.match_count === "number" ? applied.match_count : 0;
-
-      if (!applied || matchCount <= 0){
+      if (!applied || !applied.match_count || applied.match_count <= 0){
         cartPricingPreview = null;
-        setCouponMessage("Cupom inválido. Insira um cupom válido.", "err");
+        setCouponMsg("Cupom inválido. Insira um cupom válido.", "bad");
         renderCart();
         return;
       }
 
       cartPricingPreview = {
-        coupon_code: j.coupon_code || code,
-        applied: j.applied || null,
-        items: Array.isArray(j.items) ? j.items : [],
-        totals: j.totals || null
+        applied,
+        totals,
+        items: Array.isArray(j.items) ? j.items : []
       };
 
-      // mensagem curta e clara
-      setCouponMessage("Cupom aplicado com sucesso.", "ok");
+      setCouponMsg("Cupom aplicado.", "ok");
       renderCart();
-
     }catch(e){
       cartPricingPreview = null;
-      setCouponMessage("Não foi possível validar o cupom. Tente novamente.", "err");
+      if (!options.silent){
+        setCouponMsg("Não foi possível validar o cupom agora. Tente novamente.", "bad");
+      }
       renderCart();
     }finally{
       if (btn){
-        btn.innerText = "Aplicar";
-        btn.disabled = false;
-        setApplyButtonState();
+        btn.textContent = oldText || "Aplicar";
+        btn.disabled = !normalizeCouponCode((document.getElementById("couponInput") || {}).value || "");
       }
     }
   }
@@ -1729,11 +1776,6 @@
       if (sb) await sb.auth.signOut();
     }catch(e){}
     try{ await refreshNavAuth(); }catch(e){}
-
-    // ao sair, preview não faz mais sentido
-    cartPricingPreview = null;
-    setCouponMessage("", null);
-
     openPopup({
       title: "Acesso à conta",
       text: "Você saiu da sua conta.",
@@ -1876,10 +1918,7 @@
     if (ownedInCart.length){
       const filtered = (freshItems || []).filter(it => it && !userOwns(it.category, it.city));
       saveCart(filtered);
-
       cartPricingPreview = null;
-      setCouponMessage("", null);
-
       renderCart();
 
       openPopup({
@@ -2063,10 +2102,7 @@
       clearCartCheckoutMarker();
       // ✅ após compra finalizada, limpamos o cupom do carrinho
       clearCartCouponCode();
-
       cartPricingPreview = null;
-      setCouponMessage("", null);
-
       updateCartBadge();
     }else{
       updateCartBadge();
@@ -2185,11 +2221,7 @@
     });
 
     saveCart(items);
-
-    // preview não bate mais
     cartPricingPreview = null;
-    setCouponMessage("", null);
-
     updateCartBadge();
   }
 
