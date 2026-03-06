@@ -19,14 +19,15 @@ function normalizeItem(it) {
   return { category, city };
 }
 
-// Valores atuais do seu site (mantendo exatamente como está no front):
+// =====================================================
+// PREÇOS TEMPORÁRIOS DE TESTE
+// =====================================================
+// Todas as categorias = R$ 1,00
 function getPriceForCategory(category) {
-  // City Guide = 88.92 | Demais = 57.83
-  return isCityGuideCategory(category) ? 88.92 : 57.83;
+  return 1.0;
 }
 
 function toCentsBRL(v) {
-  // Mercado Pago aceita decimal, mas vamos manter 2 casas com segurança
   const n = Number(v || 0);
   return Math.round(n * 100) / 100;
 }
@@ -38,17 +39,15 @@ function toCentsBRL(v) {
  * Fallback: MERCADOPAGO_ACCESS_TOKEN (antiga) para não quebrar nada.
  */
 function getMercadoPagoAccessToken() {
-  const vercelEnv = String(process.env.VERCEL_ENV || "").toLowerCase(); // "production" | "preview" | "development"
+  const vercelEnv = String(process.env.VERCEL_ENV || "").toLowerCase();
   const isProd = vercelEnv === "production";
 
   const tokenProd = process.env.MERCADOPAGO_ACCESS_TOKEN_PROD;
   const tokenTest = process.env.MERCADOPAGO_ACCESS_TOKEN_TEST;
 
-  // fallback (antiga)
   const tokenLegacy = process.env.MERCADOPAGO_ACCESS_TOKEN;
 
   if (isProd) return tokenProd || tokenLegacy || "";
-  // preview/development
   return tokenTest || tokenLegacy || "";
 }
 
@@ -61,12 +60,10 @@ function isProductionEnv() {
 // CUPOM (SUPABASE) — SEM API NOVA
 // =====================================================
 
-// ⚠️ Se sua tabela tiver outro nome, troque aqui.
-// (eu estou assumindo "coupons" como nome da tabela, porque você criou "tabela de cupons")
 const COUPONS_TABLE = "coupons";
 
-// Ajuste aqui se quiser mudar a regra no futuro
-const MULTI_ITEM_PERCENT = 0.20; // 20%
+// 2+ itens do mesmo destino => 20%
+const MULTI_ITEM_PERCENT = 0.20;
 
 function nowISO() {
   return new Date().toISOString();
@@ -80,7 +77,6 @@ function parseDateSafe(v) {
 }
 
 function isWithinWindow(row) {
-  // start_date / end_date podem ser date ou timestamp
   const start = parseDateSafe(row.start_date || row.starts_at || row.start_at);
   const end = parseDateSafe(row.end_date || row.ends_at || row.end_at);
 
@@ -95,8 +91,6 @@ async function loadCouponByCode({ supabase, code }) {
   const c = String(code || "").trim();
   if (!c) return null;
 
-  // tenta buscar por code (case-insensitive)
-  // OBS: se sua coluna for sempre uppercase, também funciona.
   const { data, error } = await supabase
     .from(COUPONS_TABLE)
     .select("*")
@@ -106,7 +100,6 @@ async function loadCouponByCode({ supabase, code }) {
 
   if (error || !data) return null;
 
-  // se tiver campo is_active e estiver false, ignora
   if (typeof data.is_active === "boolean" && data.is_active === false) return null;
 
   if (!isWithinWindow(data)) return null;
@@ -115,17 +108,18 @@ async function loadCouponByCode({ supabase, code }) {
 }
 
 function getCouponCityLabel(row) {
-  // Vamos aceitar variações para não quebrar se o campo tiver nome diferente
   return String(row.city_label || row.city || row.destination || "").trim();
 }
 
+// =====================================================
+// DESCONTO FIXO TEMPORÁRIO DE TESTE
+// =====================================================
+// 1 item do destino com cupom => R$ 0,10 de desconto
 function getCouponDiscountAmount(row) {
-  const v = Number(row.discount_amount || row.discount || 0);
-  return Number.isFinite(v) ? v : 0;
+  return 0.1;
 }
 
 function computePricesWithCoupon({ items, couponRow }) {
-  // base
   const baseItems = (items || []).map((it) => {
     const base = toCentsBRL(getPriceForCategory(it.category));
     return { ...it, base_price: base, final_price: base, discount_applied: null };
@@ -148,7 +142,6 @@ function computePricesWithCoupon({ items, couponRow }) {
   const discountAmount = getCouponDiscountAmount(couponRow);
 
   if (!cityLabel) {
-    // cupom sem destino configurado -> não aplica
     const total = baseItems.reduce((sum, x) => sum + Number(x.final_price || 0), 0);
     return {
       applied: { code: couponRow.code, valid: false, reason: "Missing city_label on coupon" },
@@ -164,8 +157,6 @@ function computePricesWithCoupon({ items, couponRow }) {
   const matching = baseItems.filter((x) => String(x.city).trim() === cityLabel);
   const matchCount = matching.length;
 
-  // regra: 2+ itens do mesmo destino => 20% nesses itens
-  // 1 item do destino => desconto fixo (discount_amount) nesse item
   let discountTotal = 0;
 
   for (const x of baseItems) {
@@ -206,11 +197,10 @@ function computePricesWithCoupon({ items, couponRow }) {
 }
 
 // =====================================================
-// WEBHOOK HELPERS (ADICIONADO - não altera checkout)
+// WEBHOOK HELPERS
 // =====================================================
 
 function parseXSignature(headerValue) {
-  // Ex: "ts=1700000000000,v1=abcdef..."
   const out = { ts: "", v1: "" };
   const s = String(headerValue || "").trim();
   if (!s) return out;
@@ -237,8 +227,6 @@ function safeEqualHex(a, b) {
   }
 }
 
-// Valida assinatura do Mercado Pago se você tiver MERCADOPAGO_WEBHOOK_SECRET.
-// Se não tiver, não bloqueia (mas no seu caso você JÁ criou, então valida).
 function validateWebhookSignature(req, paymentId) {
   const secret = process.env.MERCADOPAGO_WEBHOOK_SECRET;
   if (!secret) {
@@ -253,7 +241,6 @@ function validateWebhookSignature(req, paymentId) {
     return { ok: false, bypassed: false, reason: "Missing x-signature/ts/v1 or x-request-id" };
   }
 
-  // Manifest usado pelo MP (formato amplamente adotado na doc/implementações)
   const manifest = `id:${paymentId};request-id:${xRequestId};ts:${ts};`;
   const computed = crypto.createHmac("sha256", secret).update(manifest).digest("hex");
   const ok = safeEqualHex(computed, v1);
@@ -262,8 +249,6 @@ function validateWebhookSignature(req, paymentId) {
 }
 
 function getPaymentIdFromWebhook(req) {
-  // Suporta formatos comuns:
-  // body.data.id | body.id | query.id | query["data.id"] | query.payment_id
   const b = req.body || {};
   const q = req.query || {};
   const candidates = [b?.data?.id, b?.id, q?.id, q?.["data.id"], q?.payment_id];
@@ -291,7 +276,6 @@ async function mpGetPayment(mpAccessToken, paymentId) {
 }
 
 async function grantPurchasesFromPayment({ supabase, userId, items }) {
-  // Evitar duplicação: pega compras existentes do usuário
   const { data: existing, error: exErr } = await supabase
     .from("purchase")
     .select("category, city")
@@ -308,7 +292,6 @@ async function grantPurchasesFromPayment({ supabase, userId, items }) {
   const rowsToInsert = [];
 
   for (const it of items) {
-    // Busca pdf_url no curadoria_materials usando city_label
     const { data: mat, error: matErr } = await supabase
       .from("curadoria_materials")
       .select("pdf_url")
@@ -328,7 +311,6 @@ async function grantPurchasesFromPayment({ supabase, userId, items }) {
       category: it.category,
       city: it.city,
       pdf_url: mat.pdf_url,
-      // stripe_session_id fica null (ok)
     });
   }
 
@@ -350,7 +332,6 @@ async function handleWebhook(req, res) {
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!mpAccessToken) {
-    // Webhook: melhor responder 200 com "ignored" do que quebrar e ficar em retry eterno
     return res.status(200).json({ ok: true, ignored: true, reason: "Missing Mercado Pago token" });
   }
   if (!supabaseUrl || !supabaseServiceKey) {
@@ -364,7 +345,6 @@ async function handleWebhook(req, res) {
 
   const sig = validateWebhookSignature(req, paymentId);
   if (!sig.ok) {
-    // Assinatura inválida => não processa
     return res.status(401).json({ ok: false, error: "Invalid webhook signature", details: sig.reason });
   }
 
@@ -419,17 +399,12 @@ async function handleWebhook(req, res) {
 }
 
 // =====================================================
-// HANDLER (mantido, só adicionamos cupom + preview + webhook em cima)
+// HANDLER
 // =====================================================
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
 
-  // =====================================================
-  // 0) WEBHOOK: POST sem Bearer token
-  // =====================================================
-  // Checkout (site) sempre manda Bearer token.
-  // Webhook (Mercado Pago) NÃO manda Bearer token.
   if (req.method === "POST") {
     const tokenMaybe = getBearerToken(req);
     if (!tokenMaybe) {
@@ -458,9 +433,6 @@ module.exports = async function handler(req, res) {
 
     const body = req.body || {};
 
-    // ✅ suporte a:
-    // A) { category, city }  (1 item)
-    // B) { items: [{category, city}, ...] } (carrinho)
     let items = [];
 
     if (Array.isArray(body.items) && body.items.length > 0) {
@@ -473,15 +445,9 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: "Missing category/city or items[]" });
     }
 
-    // cupom (opcional)
     const couponCode = String(body.coupon_code || "").trim();
-
-    // modo prévia (para o carrinho mostrar preço riscado + novo preço)
     const previewOnly = body.preview_only === true;
 
-    // =====================================================
-    // 1) EXIGIR LOGIN
-    // =====================================================
     const token = getBearerToken(req);
     if (!token) {
       return res.status(200).json({ code: "LOGIN_REQUIRED" });
@@ -498,11 +464,6 @@ module.exports = async function handler(req, res) {
 
     const userId = userData.user.id;
 
-    // =====================================================
-    // 2) (Checkout) EXIGIR NOTA FISCAL ANTES DO PAGAMENTO
-    // =====================================================
-    // No modo prévia (carrinho), NÃO bloqueamos por nota fiscal.
-    // A nota fiscal continua sendo exigida no fluxo normal de compra.
     if (!previewOnly) {
       const { data: invoiceRow, error: invoiceErr } = await supabase
         .from("invoice_profiles")
@@ -523,9 +484,6 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // =====================================================
-    // 3) CUPOM: carregar e calcular preços finais
-    // =====================================================
     let couponRow = null;
     if (couponCode) {
       couponRow = await loadCouponByCode({ supabase, code: couponCode });
@@ -533,7 +491,6 @@ module.exports = async function handler(req, res) {
 
     const pricing = computePricesWithCoupon({ items, couponRow });
 
-    // Se for prévia, devolve o breakdown pro carrinho e para por aqui.
     if (previewOnly) {
       return res.status(200).json({
         ok: true,
@@ -546,23 +503,16 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // =====================================================
-    // 4) Criar PREFERENCE (Checkout Pro) no Mercado Pago
-    // =====================================================
-    // Origem segura (igual ao Stripe)
     const origin = (req.headers && (req.headers.origin || req.headers.referer)) || "";
     const safeOrigin =
       origin && String(origin).startsWith("http")
         ? String(origin).replace(/\/$/, "")
         : "https://curadoria-elite-travel.vercel.app";
 
-    // URLs de retorno
     const successUrl = `${safeOrigin}/checkout-success.html?mp=success`;
     const pendingUrl = `${safeOrigin}/checkout-success.html?mp=pending`;
     const failureUrl = `${safeOrigin}/checkout-success.html?mp=failure`;
 
-    // Itens para o Mercado Pago (um por material)
-    // ⚠️ agora usando final_price (com cupom, se aplicável)
     const mpItems = (pricing.items || []).map((it) => {
       const price = toCentsBRL(it.final_price);
       return {
@@ -573,7 +523,6 @@ module.exports = async function handler(req, res) {
       };
     });
 
-    // Guardar contexto (user + itens) de forma segura
     const itemsJson = JSON.stringify(items);
 
     const preferenceBody = {
@@ -585,10 +534,8 @@ module.exports = async function handler(req, res) {
         failure: failureUrl,
       },
 
-      // Retorna automaticamente quando aprovado
       auto_return: "approved",
 
-      // Referência externa para conciliação / webhooks
       external_reference: `cet_${userId}_${Date.now()}`,
 
       metadata: {
@@ -604,7 +551,6 @@ module.exports = async function handler(req, res) {
       },
     };
 
-    // Cria a preferência via API do Mercado Pago
     const r = await fetch("https://api.mercadopago.com/checkout/preferences", {
       method: "POST",
       headers: {
@@ -624,9 +570,6 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // ✅ Link correto por ambiente:
-    // - Produção: init_point
-    // - Teste: sandbox_init_point
     const isProd = isProductionEnv();
     const url = isProd ? (data?.init_point || null) : (data?.sandbox_init_point || null);
 
