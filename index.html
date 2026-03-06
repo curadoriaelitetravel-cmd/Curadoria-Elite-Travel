@@ -706,6 +706,24 @@
 
     .cart-total strong{ color:#d4af37; }
 
+    .total-strike{
+      color: rgba(255,255,255,0.55);
+      text-decoration: line-through;
+      margin-right: 10px;
+      font-weight: 650;
+    }
+    .total-final{
+      color:#d4af37;
+      font-weight: 800;
+    }
+    .discount-line{
+      margin-top:8px;
+      text-align:left;
+      color: rgba(255,255,255,0.72);
+      font-size: 12.8px;
+    }
+    .discount-line strong{ color:#d4af37; }
+
     /* ✅ Cupom (no carrinho) */
     .coupon-wrap{
       margin-top:10px;
@@ -726,63 +744,30 @@
       display:flex;
       gap:10px;
       align-items:center;
-      flex-wrap:wrap;
     }
-    .coupon-row input{
-      flex:1 1 220px;
-      min-width: 200px;
+    .coupon-row .search-input{
+      flex:1;
+      margin:0;
     }
-    .coupon-apply-btn{
+    .coupon-apply{
       margin-top:0;
-      min-width:140px;
-      padding:11px 14px;
-      border-radius:10px;
-      border:none;
-      background:#d4af37;
-      color:#000;
-      font-weight:800;
-      cursor:pointer;
-    }
-    .coupon-apply-btn[disabled]{
-      opacity:0.6;
-      cursor:not-allowed;
+      min-width:120px;
     }
     .coupon-msg{
       margin-top:8px;
-      font-size:12.8px;
+      font-size:12.5px;
       line-height:1.45;
-      min-height:18px;
-      color:rgba(255,255,255,0.65);
+      min-height: 18px;
     }
-    .coupon-msg.ok{ color:rgba(212,175,55,0.95); }
-    .coupon-msg.err{ color:rgba(255,255,255,0.70); }
+    .coupon-msg.ok{ color:#d4af37; }
+    .coupon-msg.err{ color:rgba(255,255,255,0.72); }
 
     .coupon-help{
-      margin-top:6px;
+      margin-top:8px;
       font-size:12.5px;
-      color:rgba(255,255,255,0.55);
+      color:rgba(255,255,255,0.62);
       line-height:1.45;
     }
-
-    /* Total riscado */
-    .price-old{
-      text-decoration:line-through;
-      color:rgba(255,255,255,0.55);
-      font-weight:600;
-      margin-right:10px;
-    }
-    .price-new{
-      color:#d4af37;
-      font-weight:800;
-    }
-    .discount-line{
-      margin-top:8px;
-      font-size:12.8px;
-      color:rgba(255,255,255,0.70);
-      text-align:left;
-      padding:0 2px;
-    }
-    .discount-line strong{ color:#d4af37; }
 
     /* ========= OVERVIEW (popup PDF) ========= */
     .overview-frame{
@@ -842,6 +827,14 @@
       }
       header.nav-open .nav-menu{ display:flex; }
       .nav-sep{ display:none; }
+
+      .coupon-row{
+        flex-direction:column;
+        align-items:stretch;
+      }
+      .coupon-apply{
+        width:100%;
+      }
     }
   </style>
 </head>
@@ -1047,6 +1040,7 @@
 </footer>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
 <script>
   /* ===== Mobile nav ===== */
   function toggleMobileNav(){
@@ -1280,6 +1274,9 @@
   // ✅ Cupom (somente carrinho)
   const CART_COUPON_CODE_KEY = "cet_cart_coupon_code_v1";
 
+  // Preview do cupom (apenas visual no carrinho)
+  let cartPricingPreview = null; // { ok, applied, totals, items, coupon_code }
+
   function normalizeCouponCode(code){
     return String(code || "").trim().toUpperCase();
   }
@@ -1301,10 +1298,6 @@
   function clearCartCouponCode(){
     try{ localStorage.removeItem(CART_COUPON_CODE_KEY); }catch(e){}
   }
-
-  // ✅ estado do preview do cupom (no carrinho)
-  let cartPricingPreview = null; // { applied, totals } vindo do backend
-  let cartPricingBusy = false;
 
   function ensureCartPopupExists(){
     if (document.getElementById("cartPopup")) return;
@@ -1328,7 +1321,7 @@
                 autocomplete="off"
                 spellcheck="false"
               />
-              <button id="couponApplyBtn" class="coupon-apply-btn" disabled>Aplicar</button>
+              <button id="couponApplyBtn" class="coupon-apply" type="button" disabled>Aplicar</button>
             </div>
 
             <div id="couponMsg" class="coupon-msg"></div>
@@ -1345,7 +1338,9 @@
             <div id="cartTotalValue"><strong>R$ 0,00</strong></div>
           </div>
 
-          <div id="cartDiscountLine" class="discount-line" style="display:none;"></div>
+          <div id="cartDiscountLine" class="discount-line" style="display:none;">
+            Desconto aplicado: <strong id="cartDiscountValue">R$ 0,00</strong>
+          </div>
 
           <div class="popup-actions">
             <button class="btn-ghost" id="cartContinueBtn">Continuar comprando</button>
@@ -1364,35 +1359,42 @@
     document.getElementById("cartContinueBtn").addEventListener("click", closeCart);
 
     const couponInput = document.getElementById("couponInput");
-    const couponApplyBtn = document.getElementById("couponApplyBtn");
+    const applyBtn = document.getElementById("couponApplyBtn");
 
-    function refreshCouponApplyState(){
+    function updateApplyState(){
       const v = normalizeCouponCode(couponInput ? couponInput.value : "");
-      if (couponApplyBtn) couponApplyBtn.disabled = !v || cartPricingBusy;
+      if (applyBtn) applyBtn.disabled = !v;
     }
 
-    // ✅ salvar cupom quando digita (maiúsculo) e habilitar botão
+    // salvar cupom ao digitar (maiúsculo) + habilitar aplicar
     if (couponInput){
       couponInput.addEventListener("input", () => {
         const v = normalizeCouponCode(couponInput.value);
         couponInput.value = v;
         setCartCouponCode(v);
-        // se mudou, zera preview e mensagens (não trava compra)
+        updateApplyState();
+
+        // Quando digita, limpamos preview antigo (pra não mostrar desconto “velho”)
         cartPricingPreview = null;
-        setCouponMsg("");
-        refreshCouponApplyState();
+        renderCartTotalsOnly();
+        setCouponMessage("", "");
+      });
+      couponInput.addEventListener("keydown", async (e) => {
+        if (e && e.key === "Enter"){
+          e.preventDefault();
+          if (applyBtn && !applyBtn.disabled) await applyCouponInCart();
+        }
       });
     }
 
-    // ✅ Aplicar = validar/prever desconto (sem bloquear prosseguir)
-    if (couponApplyBtn){
-      couponApplyBtn.addEventListener("click", async () => {
-        await applyCouponPreviewFromCart();
+    if (applyBtn){
+      applyBtn.addEventListener("click", async () => {
+        await applyCouponInCart();
       });
     }
 
     document.getElementById("cartProceedBtn").addEventListener("click", async () => {
-      // ✅ garante que o cupom esteja salvo ao prosseguir
+      // garante que o cupom esteja salvo ao prosseguir
       const input = document.getElementById("couponInput");
       if (input) setCartCouponCode(input.value);
       await startCartCheckoutFlow();
@@ -1402,20 +1404,17 @@
       if (e && e.target && e.target.id === "cartPopup") closeCart();
     });
 
-    refreshCouponApplyState();
+    // Estado inicial do botão aplicar
+    try{ updateApplyState(); }catch(e){}
   }
 
-  function setCouponMsg(text, type){
+  function setCouponMessage(text, kind){
     const el = document.getElementById("couponMsg");
     if (!el) return;
     el.classList.remove("ok","err");
-    if (!text){
-      el.innerText = "";
-      return;
-    }
-    el.innerText = text;
-    if (type === "ok") el.classList.add("ok");
-    if (type === "err") el.classList.add("err");
+    el.innerText = text || "";
+    if (kind === "ok") el.classList.add("ok");
+    if (kind === "err") el.classList.add("err");
   }
 
   function getCart(){
@@ -1441,9 +1440,10 @@
   function removeFromCart(key){
     const items = getCart().filter(it => it && it.key !== key);
     saveCart(items);
-    // mudou carrinho => zera preview (para não mostrar total errado)
+
+    // removendo item: invalida preview (pode mudar 1 item -> 2+ itens etc)
     cartPricingPreview = null;
-    setCouponMsg("");
+
     renderCart();
     updateCartBadge();
   }
@@ -1466,9 +1466,9 @@
     }
   }
 
-  /* =========================
-     SUPABASE
-  ========================= */
+  // ============================
+  // SUPABASE + AUTH (para preview via API)
+  // ============================
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
@@ -1508,126 +1508,156 @@
     return { ok: r.ok, status: r.status, json };
   }
 
-  /* =========================
-     CUPOM PREVIEW (B)
-  ========================= */
-  async function applyCouponPreviewFromCart(){
+  async function applyCouponInCart(){
     ensureCartPopupExists();
 
     const items = getCart();
-    const code = getCartCouponCode();
-
-    const btn = document.getElementById("couponApplyBtn");
-    const input = document.getElementById("couponInput");
-
     if (!items.length){
-      setCouponMsg("Seu carrinho está vazio.", "err");
-      return;
-    }
-
-    if (!code){
+      setCouponMessage("Seu carrinho está vazio.", "err");
       cartPricingPreview = null;
-      setCouponMsg("Digite um cupom para aplicar.", "err");
-      renderCart();
+      renderCartTotalsOnly();
       return;
     }
 
-    // Se não estiver logado, não dá para validar agora (porque API exige Bearer).
+    const code = getCartCouponCode();
+    if (!code){
+      setCouponMessage("", "");
+      cartPricingPreview = null;
+      renderCartTotalsOnly();
+      return;
+    }
+
+    // Se não estiver logado, não dá pra chamar preview (porque a API exige Bearer token).
     const sess = await getSession();
     if (!sess || !sess.user){
+      setCouponMessage("Faça login para validar o cupom no carrinho.", "err");
       cartPricingPreview = null;
-      setCouponMsg("Para validar o cupom, faça login (o cupom ficará salvo).", "err");
-      renderCart();
+      renderCartTotalsOnly();
       return;
+    }
+
+    const payload = {
+      items: (items || []).map(it => ({
+        category: it.category,
+        city: it.city,
+        qty: Number(it.qty || 1) || 1
+      })),
+      coupon_code: code,
+      preview_only: true
+    };
+
+    // Feedback botão
+    const btn = document.getElementById("couponApplyBtn");
+    const oldText = btn ? btn.innerText : "";
+    if (btn){
+      btn.disabled = true;
+      btn.innerText = "Aguarde...";
     }
 
     try{
-      cartPricingBusy = true;
-      if (btn){ btn.disabled = true; btn.innerText = "Aguarde..."; }
-      setCouponMsg("");
-
-      // payload para preview_only
-      const payload = {
-        preview_only: true,
-        coupon_code: code,
-        items: (items || []).map(it => ({
-          category: it.category,
-          city: it.city
-        }))
-      };
-
       const res = await apiPOST("/api/create-checkout-mercadopago", payload);
 
-      if (!res.ok || !res.json){
+      // Se por algum motivo devolver algo inesperado, tratamos como inválido visualmente
+      if (!res.ok || !res.json || res.json.ok !== true){
         cartPricingPreview = null;
-        setCouponMsg("Não foi possível validar o cupom. Tente novamente.", "err");
-        renderCart();
+        setCouponMessage("Este cupom não está válido. Insira um cupom válido.", "err");
+        renderCartTotalsOnly();
         return;
       }
 
-      // login requerido / invoice required não deve acontecer aqui, mas tratamos:
-      if (res.json.code === "LOGIN_REQUIRED"){
+      const preview = res.json;
+
+      // Regras do backend:
+      // - applied pode existir mesmo com match_count = 0 (cupom válido mas não aplicável aos itens)
+      const matchCount = Number(preview.applied && preview.applied.match_count ? preview.applied.match_count : 0);
+
+      cartPricingPreview = preview;
+
+      if (matchCount > 0 && preview.totals && Number(preview.totals.discount_total || 0) > 0){
+        setCouponMessage("Cupom aplicado.", "ok");
+      }else{
+        // Aqui é o comportamento que você pediu: qualquer coisa que não aplique vira “não válido” (sem bloquear compra)
+        setCouponMessage("Este cupom não está válido. Insira um cupom válido.", "err");
+        // Mantém preview guardado? Não.
         cartPricingPreview = null;
-        setCouponMsg("Para validar o cupom, faça login (o cupom ficará salvo).", "err");
-        renderCart();
-        return;
       }
 
-      // Cupom inválido: backend retorna applied=null quando não encontrou cupom.
-      // Ou applied.valid=false quando existe mas está incompleto.
-      const applied = res.json.applied || null;
-      const totals = res.json.totals || null;
-
-      const validApplied =
-        applied &&
-        (applied.valid === undefined || applied.valid !== false) &&
-        applied.match_count !== undefined; // indica que houve avaliação da regra
-
-      const discountTotal = totals ? Number(totals.discount_total || 0) : 0;
-
-      if (!validApplied || discountTotal <= 0){
-        cartPricingPreview = null;
-        setCouponMsg("Este cupom não está válido. Insira um cupom válido.", "err");
-        renderCart();
-        return;
-      }
-
-      cartPricingPreview = { applied, totals };
-      setCouponMsg("Cupom aplicado.", "ok");
-      renderCart();
+      renderCartTotalsOnly();
     }catch(e){
       cartPricingPreview = null;
-      setCouponMsg("Este cupom não está válido. Insira um cupom válido.", "err");
-      renderCart();
+      setCouponMessage("Este cupom não está válido. Insira um cupom válido.", "err");
+      renderCartTotalsOnly();
     }finally{
-      cartPricingBusy = false;
       if (btn){
-        btn.innerText = "Aplicar";
+        btn.innerText = oldText || "Aplicar";
+        // re-habilita baseado no input
+        const input = document.getElementById("couponInput");
         const v = normalizeCouponCode(input ? input.value : "");
         btn.disabled = !v;
       }
     }
   }
 
-  /* =========================
-     CARRINHO RENDER
-  ========================= */
+  function renderCartTotalsOnly(){
+    const items = getCart();
+    const totalWrap = document.getElementById("cartTotalWrap");
+    const totalVal = document.getElementById("cartTotalValue");
+
+    const discountLine = document.getElementById("cartDiscountLine");
+    const discountVal = document.getElementById("cartDiscountValue");
+
+    if (!items.length){
+      if (totalWrap) totalWrap.style.display = "none";
+      if (discountLine) discountLine.style.display = "none";
+      return;
+    }
+
+    const baseTotal = calcCartTotal(items);
+
+    // Se temos preview válido (com desconto real), mostramos riscado + novo total
+    if (cartPricingPreview && cartPricingPreview.totals){
+      const newTotal = Number(cartPricingPreview.totals.total || 0);
+      const discountTotal = Number(cartPricingPreview.totals.discount_total || 0);
+
+      if (discountTotal > 0 && newTotal > 0){
+        if (totalWrap) totalWrap.style.display = "flex";
+        if (totalVal){
+          totalVal.innerHTML =
+            `<span class="total-strike">${formatBRL(baseTotal)}</span>` +
+            `<span class="total-final">${formatBRL(newTotal)}</span>`;
+        }
+
+        if (discountLine) discountLine.style.display = "block";
+        if (discountVal) discountVal.innerText = formatBRL(discountTotal);
+        return;
+      }
+    }
+
+    // Sem preview / sem desconto aplicado: mostra total normal
+    if (totalWrap) totalWrap.style.display = "flex";
+    if (totalVal) totalVal.innerHTML = `<strong>${formatBRL(baseTotal)}</strong>`;
+    if (discountLine) discountLine.style.display = "none";
+  }
+
   function renderCart(){
     ensureCartPopupExists();
 
-    // carregar cupom salvo
+    // carregar cupom salvo para o input
     try{
       const input = document.getElementById("couponInput");
       if (input) input.value = getCartCouponCode();
+
       const btn = document.getElementById("couponApplyBtn");
-      if (btn) btn.disabled = !getCartCouponCode() || cartPricingBusy;
+      const v = normalizeCouponCode(input ? input.value : "");
+      if (btn) btn.disabled = !v;
     }catch(e){}
 
+    // mantém mensagem e preview apenas se fizer sentido (se carrinho mudou, preview pode estar inválido)
+    // Por segurança: sempre recalcula total (e preview só muda ao clicar Aplicar)
+    renderCartTotalsOnly();
+
     const listEl = document.getElementById("cartList");
-    const totalWrap = document.getElementById("cartTotalWrap");
-    const totalVal = document.getElementById("cartTotalValue");
     const btnProceed = document.getElementById("cartProceedBtn");
-    const discountLine = document.getElementById("cartDiscountLine");
 
     const items = getCart();
 
@@ -1637,8 +1667,6 @@
           Seu carrinho está vazio.
         </div>
       `;
-      if (totalWrap) totalWrap.style.display = "none";
-      if (discountLine) discountLine.style.display = "none";
       if (btnProceed) btnProceed.disabled = true;
       updateCartBadge();
       return;
@@ -1676,41 +1704,7 @@
       listEl.appendChild(div);
     });
 
-    const baseTotal = calcCartTotal(items);
-
-    // Total com desconto (se tiver preview válido)
-    let showDiscount = false;
-    let discountedTotal = baseTotal;
-    let discountTotal = 0;
-
-    if (cartPricingPreview && cartPricingPreview.totals){
-      discountedTotal = Number(cartPricingPreview.totals.total || baseTotal);
-      discountTotal = Number(cartPricingPreview.totals.discount_total || 0);
-      if (discountTotal > 0 && discountedTotal < baseTotal) showDiscount = true;
-    }
-
-    if (totalWrap) totalWrap.style.display = "flex";
-
-    if (totalVal){
-      if (showDiscount){
-        totalVal.innerHTML =
-          `<span class="price-old">${formatBRL(baseTotal)}</span>` +
-          `<span class="price-new">${formatBRL(discountedTotal)}</span>`;
-      }else{
-        totalVal.innerHTML = `<strong>${formatBRL(baseTotal)}</strong>`;
-      }
-    }
-
-    if (discountLine){
-      if (showDiscount){
-        discountLine.style.display = "block";
-        discountLine.innerHTML = `Desconto aplicado: <strong>${formatBRL(discountTotal)}</strong>`;
-      }else{
-        discountLine.style.display = "none";
-        discountLine.innerHTML = "";
-      }
-    }
-
+    renderCartTotalsOnly();
     updateCartBadge();
   }
 
@@ -1719,18 +1713,6 @@
     renderCart();
     updateCartBadge();
     document.getElementById("cartPopup").classList.add("active");
-
-    // Se já tiver cupom salvo e usuário logado, tenta prévia automaticamente (elegante)
-    setTimeout(async () => {
-      try{
-        const code = getCartCouponCode();
-        if (!code) return;
-        if (cartPricingPreview) return;
-        const sess = await getSession();
-        if (!sess || !sess.user) return;
-        await applyCouponPreviewFromCart();
-      }catch(e){}
-    }, 120);
   }
 
   function closeCart(){
@@ -1918,9 +1900,11 @@
     if (ownedInCart.length){
       const filtered = (freshItems || []).filter(it => it && !userOwns(it.category, it.city));
       saveCart(filtered);
-      // mudou carrinho => zera preview
+
+      // Carrinho mudou: invalida preview
       cartPricingPreview = null;
-      setCouponMsg("");
+      setCouponMessage("", "");
+
       renderCart();
 
       openPopup({
@@ -2219,6 +2203,11 @@
     });
 
     saveCart(items);
+
+    // carrinho mudou => preview não é mais confiável
+    cartPricingPreview = null;
+    setCouponMessage("", "");
+
     updateCartBadge();
   }
 
