@@ -759,7 +759,7 @@
       margin-top:8px;
       font-size:12.5px;
       line-height:1.45;
-      min-height: 18px;
+      min-height:18px;
     }
 
     .coupon-msg.ok{ color:#d4af37; }
@@ -804,13 +804,18 @@
 
       .side-panel{ height:240px; margin-top:0; }
       .side-bg.left,.side-bg.right{ background-position:center; }
-      .brand{ min-width: auto; }
+      .brand{ min-width:auto; }
 
       .curadoria-panel{ padding:16px; }
       .panel-top{ align-items:flex-start; }
-      .search-wrap{ max-width: 100%; }
+      .search-wrap{ max-width:100%; }
 
-      .nav-toggle{ display:inline-flex; align-items:center; justify-content:center; }
+      .nav-toggle{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+      }
+
       .nav-menu{
         display:none;
         position:absolute;
@@ -1369,6 +1374,7 @@
         couponInput.value = v;
         setCartCouponCode(v);
         updateApplyState();
+
         cartPricingPreview = null;
         renderCartTotalsOnly();
         setCouponMessage("", "");
@@ -1581,6 +1587,7 @@
     const items = getCart();
     const totalWrap = document.getElementById("cartTotalWrap");
     const totalVal = document.getElementById("cartTotalValue");
+
     const discountLine = document.getElementById("cartDiscountLine");
     const discountVal = document.getElementById("cartDiscountValue");
 
@@ -1631,6 +1638,7 @@
 
     const listEl = document.getElementById("cartList");
     const btnProceed = document.getElementById("cartProceedBtn");
+
     const items = getCart();
 
     if (!items.length){
@@ -1745,7 +1753,7 @@
   }
 
   function normalizeKeyPart(str){
-    const s = String(str || "")
+    return String(str || "")
       .trim()
       .toLowerCase()
       .normalize("NFD")
@@ -1754,17 +1762,55 @@
       .replace(/\s*-\s*/g, " - ")
       .replace(/\s+/g, " ")
       .trim();
-    return s;
   }
 
   function purchaseKey(category, cityLabel){
     return normalizeKeyPart(category) + "||" + normalizeKeyPart(cityLabel);
   }
 
-  function getPriceForCategory(category){
-    const c = String(category || "").trim().toLowerCase();
+  const categoryPricesMap = new Map();
+
+  function normalizeCategoryName(category){
+    return normalizeKeyPart(category || "");
+  }
+
+  function getFallbackPriceForCategory(category){
+    const c = normalizeCategoryName(category);
     if (c === "city guide") return 88.92;
     return 57.83;
+  }
+
+  function getPriceForCategory(category){
+    const key = normalizeCategoryName(category);
+    if (categoryPricesMap.has(key)){
+      return Number(categoryPricesMap.get(key) || 0);
+    }
+    return getFallbackPriceForCategory(category);
+  }
+
+  async function loadCategoryPrices(){
+    categoryPricesMap.clear();
+
+    try{
+      ensureSupabase();
+
+      const { data, error } = await supabaseClient
+        .from("category_prices")
+        .select("category, price, is_active")
+        .eq("is_active", true);
+
+      if (error) return;
+
+      (data || []).forEach(row => {
+        const category = String(row.category || "").trim();
+        const price = Number(row.price || 0);
+
+        if (!category) return;
+        if (!Number.isFinite(price) || price <= 0) return;
+
+        categoryPricesMap.set(normalizeCategoryName(category), price);
+      });
+    }catch(e){}
   }
 
   function setCheckoutContext(obj){
@@ -1775,7 +1821,9 @@
     try{
       const raw = localStorage.getItem(CHECKOUT_CONTEXT_KEY);
       return raw ? JSON.parse(raw) : null;
-    }catch(e){ return null; }
+    }catch(e){
+      return null;
+    }
   }
 
   function clearCheckoutContext(){
@@ -1806,10 +1854,12 @@
         city: it.city,
         qty: Number(it.qty || 1) || 1
       }));
+
       localStorage.setItem(CART_CHECKOUT_ITEMS_KEY, JSON.stringify(payload));
       localStorage.setItem(CART_LAST_CHECKOUT_STARTED_KEY, String(Date.now()));
       setCartCouponCode(couponCode || getCartCouponCode());
     }catch(e){}
+
     window.location.href = "checkout-success.html?step=invoice&cart=1";
   }
 
@@ -1854,8 +1904,10 @@
     if (ownedInCart.length){
       const filtered = (freshItems || []).filter(it => it && !userOwns(it.category, it.city));
       saveCart(filtered);
+
       cartPricingPreview = null;
       setCouponMessage("", "");
+
       renderCart();
 
       openPopup({
@@ -1929,36 +1981,15 @@
     materiaisAtivosPorCategoria.clear();
 
     try{
-      const client = ensureSupabase();
-      if (!client){
-        setAdminStatus("Admin: falha na conexão", false);
-        return;
-      }
+      ensureSupabase();
 
-      let data = null;
-      let error = null;
-
-      let res = await client
+      const { data, error } = await supabaseClient
         .from("curadoria_materials")
         .select("category, city_label, pdf_url")
         .eq("is_active", true)
         .order("city_label", { ascending: true });
 
-      data = res.data;
-      error = res.error;
-
       if (error){
-        res = await client
-          .from("curadoria_materials")
-          .select("category, city_label, pdf_url")
-          .order("city_label", { ascending: true });
-
-        data = res.data;
-        error = res.error;
-      }
-
-      if (error){
-        console.error("Erro ao carregar curadoria_materials:", error);
         setAdminStatus("Admin: erro ao carregar", false);
         return;
       }
@@ -1966,23 +1997,16 @@
       (data || []).forEach(row => {
         const cat = String(row.category || "").trim();
         const city = String(row.city_label || "").trim();
-        const url = String(row.pdf_url || "").trim();
+        const url = row.pdf_url || null;
 
         if (!cat || !city || !url) return;
 
-        if (!materiaisAtivosPorCategoria.has(cat)){
-          materiaisAtivosPorCategoria.set(cat, []);
-        }
-
-        materiaisAtivosPorCategoria.get(cat).push({
-          cidade: city,
-          pdf_url: url
-        });
+        if (!materiaisAtivosPorCategoria.has(cat)) materiaisAtivosPorCategoria.set(cat, []);
+        materiaisAtivosPorCategoria.get(cat).push({ cidade: city, pdf_url: url });
       });
 
       setAdminStatus("Admin: conectado", true);
     }catch(e){
-      console.error("Falha geral ao carregar materiais:", e);
       setAdminStatus("Admin: falha na conexão", false);
     }
   }
@@ -2172,8 +2196,10 @@
     });
 
     saveCart(items);
+
     cartPricingPreview = null;
     setCouponMessage("", "");
+
     updateCartBadge();
   }
 
@@ -2338,6 +2364,7 @@
     updateCartBadge();
     updateFooterVisibility();
     await refreshNavAuth();
+    await loadCategoryPrices();
     await loadActiveMaterials();
     await loadOwnedPurchases();
     await handleCartAfterPurchaseIfNeeded();
