@@ -203,7 +203,6 @@
 
     .notice strong{ color:#d4af37; }
 
-    /* IE indicator */
     .ie-block{
       grid-column:1 / -1;
       border:1px solid #222;
@@ -308,7 +307,6 @@
           <input id="email" placeholder="Seu e-mail" />
         </div>
 
-        <!-- CPF ONLY -->
         <div id="cpfBirthWrap">
           <label for="birthDate">Data de nascimento</label>
           <input id="birthDate" type="date" />
@@ -364,7 +362,6 @@
           <input id="complement" placeholder="Apto, bloco, etc." />
         </div>
 
-        <!-- CNPJ ONLY: IE INDICATOR -->
         <div id="ieBlock" class="ie-block hidden">
           <div class="ie-title">Indicador de IE</div>
 
@@ -410,12 +407,11 @@
     </div>
   </div>
 
-  <!-- NOVO: TELA DE STATUS (pendente/recusado) -->
   <div class="card" id="screenStatus" style="display:none;">
     <h1 id="statusTitle">Pagamento</h1>
     <p class="subtitle" id="statusSubtitle"></p>
     <div class="notice" id="statusNotice"></div>
-    <div class="actions">
+    <div class="actions" id="statusActions">
       <button type="button" onclick="window.location.href='account.html'">Ir para minha conta</button>
       <button type="button" class="btn-ghost" onclick="window.location.href='index.html'">Voltar ao site</button>
     </div>
@@ -430,11 +426,8 @@
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
-  /* =========================
-     SUPABASE
-  ========================= */
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm9zZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
   let supabaseClient = null;
 
@@ -520,13 +513,8 @@
     }
   }
 
-  /* =========================
-     STORAGE do carrinho (mesma chave do index/categoria)
-  ========================= */
   const CART_STORAGE_KEY = "cet_cart_v2";
   const CART_CHECKOUT_ITEMS_KEY = "cet_cart_checkout_items_v2";
-
-  // ✅ Cupom do carrinho
   const CART_COUPON_CODE_KEY = "cet_cart_coupon_code_v1";
 
   function normalizeCouponCode(code){
@@ -549,7 +537,6 @@
   function clearCartStorage(){
     try{ localStorage.removeItem(CART_STORAGE_KEY); }catch(e){}
     try{ localStorage.removeItem(CART_CHECKOUT_ITEMS_KEY); }catch(e){}
-    // ✅ limpa cupom após compra concluída
     clearCartCouponCode();
   }
 
@@ -563,9 +550,6 @@
     }
   }
 
-  /* =========================
-     APIs existentes (com token)
-  ========================= */
   async function apiGET(url){
     const token = await getAccessToken();
     const r = await fetch(url, {
@@ -592,9 +576,6 @@
     return { ok: r.ok, status: r.status, json };
   }
 
-  /* =========================
-     FORM — helpers
-  ========================= */
   function setHint(text){
     const el = document.getElementById("invoiceHint");
     if (el) el.innerText = text || "";
@@ -823,56 +804,95 @@
     if (!profile) return;
 
     const pt = String(profile.person_type || profile.personType || "").toUpperCase();
+    const isCnpj = pt === "CNPJ";
+
     const personTypeEl = document.getElementById("personType");
     if (personTypeEl){
-      personTypeEl.value = (pt === "CNPJ") ? "cnpj" : "cpf";
+      personTypeEl.value = isCnpj ? "cnpj" : "cpf";
     }
 
     setDocLabels();
 
     const docEl = document.getElementById("docNumber");
-    if (docEl) docEl.value = maskDocByType(String(profile.doc_number || profile.document || "").trim());
+    if (docEl) {
+      docEl.value = maskDocByType(String(profile.doc_number || profile.document || "").trim());
+    }
 
     const nameEl = document.getElementById("fullName");
-    if (nameEl) nameEl.value = String(profile.full_name || profile.name || "").trim();
+    if (nameEl) {
+      const nameValue = isCnpj
+        ? String(profile.corporate_name || profile.company_name || profile.full_name || profile.name || "").trim()
+        : String(profile.full_name || profile.name || "").trim();
+      nameEl.value = nameValue;
+    }
+
+    const emailEl = document.getElementById("email");
+    if (emailEl) {
+      emailEl.value = String(profile.email || "").trim();
+    }
+
+    const phoneEl = document.getElementById("phone");
+    if (phoneEl) {
+      phoneEl.value = maskPhone(String(profile.phone || "").trim());
+    }
 
     const bd = document.getElementById("birthDate");
-    if (bd) bd.value = String(profile.birth_date || "").trim();
+    if (bd) {
+      bd.value = String(profile.birth_date || "").trim();
+    }
 
     const g = document.getElementById("gender");
-    if (g) g.value = String(profile.gender || "").trim();
+    if (g) {
+      g.value = String(profile.gender || "").trim();
+    }
 
     const zipEl = document.getElementById("zip");
-    if (zipEl) zipEl.value = maskCEP(String(profile.cep || profile.zip || "").trim());
+    if (zipEl) {
+      zipEl.value = maskCEP(String(profile.cep || profile.zip || "").trim());
+    }
 
     const stEl = document.getElementById("state");
-    if (stEl) stEl.value = String(profile.uf || profile.state || "").trim();
+    if (stEl) {
+      stEl.value = String(profile.uf || profile.state || "").trim();
+    }
 
     const cityEl = document.getElementById("city");
-    if (cityEl) cityEl.value = String(profile.city_name || profile.city || "").trim();
+    if (cityEl) {
+      cityEl.value = String(profile.city_name || profile.city || "").trim();
+    }
 
     const distEl = document.getElementById("district");
-    if (distEl) distEl.value = String(profile.neighborhood || profile.district || "").trim();
+    if (distEl) {
+      distEl.value = String(profile.neighborhood || profile.district || "").trim();
+    }
 
     const addrEl = document.getElementById("address");
-    if (addrEl) addrEl.value = String(profile.street || profile.address || "").trim();
+    if (addrEl) {
+      addrEl.value = String(profile.street || profile.address || "").trim();
+    }
 
     const numEl = document.getElementById("number");
-    if (numEl) numEl.value = String(profile.street_number || profile.number || "").trim();
+    if (numEl) {
+      numEl.value = String(profile.street_number || profile.number || "").trim();
+    }
 
     const compEl = document.getElementById("complement");
-    if (compEl) compEl.value = String(profile.complement || "").trim();
+    if (compEl) {
+      compEl.value = String(profile.complement || "").trim();
+    }
 
     const ind = String(profile.ie_indicator || "").toUpperCase();
-    if (ind) setSelectedIeIndicator(ind);
+    setSelectedIeIndicator(ind || "");
+
     const ieNumEl = document.getElementById("ieNumber");
-    if (ieNumEl) ieNumEl.value = profile.ie ? maskIE(String(profile.ie).trim()) : "";
+    if (ieNumEl) {
+      ieNumEl.value = profile.ie ? maskIE(String(profile.ie).trim()) : "";
+    }
+
     toggleIeNumber();
+    setDocLabels();
   }
 
-  /* =========================
-     MERCADO PAGO — criar checkout (preference)
-  ========================= */
   async function createCheckoutMercadoPagoForSingle(category, city){
     const res = await apiPOST("/api/create-checkout-mercadopago", { category, city });
     if (!res.ok){
@@ -910,9 +930,6 @@
     throw new Error("Não foi possível abrir o pagamento.");
   }
 
-  /* =========================
-     FLOW
-  ========================= */
   async function ensureLoggedInForInvoice(){
     const sess = await getSession();
     if (sess && sess.user) return true;
@@ -1068,8 +1085,7 @@
   }
 
   async function handleMercadoPagoReturn(){
-    const mpFlag = (qs("mp") || "").toLowerCase(); // success | pending | failure
-
+    const mpFlag = (qs("mp") || "").toLowerCase();
     const status = (qs("status") || qs("collection_status") || "").toLowerCase();
     const paymentId = qs("payment_id") || qs("collection_id") || "";
     const preferenceId = qs("preference_id") || "";
@@ -1119,9 +1135,34 @@
         return;
       }
 
-      clearCartStorage();
+      const j = res.json || {};
+      const paymentStatus = String(j.payment_status || status || mpFlag || "").toLowerCase();
 
-      window.location.href = "account.html";
+      if (paymentStatus === "approved" && j.ok) {
+        clearCartStorage();
+
+        setStatusScreen(
+          "Pagamento aprovado",
+          "Sua compra foi confirmada com sucesso.",
+          `<strong>Pronto:</strong> seu material já está disponível em <strong>“Meus materiais”</strong> dentro da sua conta.<br><br>Você já pode acessar o conteúdo agora.`
+        );
+        return;
+      }
+
+      if (paymentStatus === "pending"){
+        setStatusScreen(
+          "Pagamento em processamento",
+          "Assim que for aprovado, seu acesso será liberado automaticamente.",
+          `<strong>Liberação automática:</strong> seu material aparece em <strong>“Meus materiais”</strong> após a confirmação do pagamento.<br><strong>Boleto:</strong> a confirmação pode levar até <strong>2 horas</strong>.`
+        );
+        return;
+      }
+
+      setStatusScreen(
+        "Pagamento não aprovado",
+        "Você pode tentar novamente com outro método de pagamento.",
+        `<strong>Dica:</strong> se preferir, escolha outro meio de pagamento e conclua a compra para liberar o acesso.`
+      );
     }catch(e){
       show("screenPaymentError");
     }
