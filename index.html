@@ -84,7 +84,6 @@
       margin:0 2px;
     }
 
-    /* ===== Mobile: botão sanduíche + menu dropdown ===== */
     .nav-toggle{
       display:none;
       background:transparent;
@@ -130,7 +129,6 @@
       font-size:14px;
     }
 
-    /* ========= HOME (Hero) ========= */
     #inicio{
       padding:0;
       max-width:none;
@@ -187,7 +185,6 @@
       line-height:1.6;
     }
 
-    /* ========= QUEM SOMOS ========= */
     #quem{
       max-width:none;
       padding-left:0;
@@ -298,7 +295,6 @@
       letter-spacing:0.2px;
     }
 
-    /* ========= CURADORIA ========= */
     #curadoria h2{
       text-align:center;
       color:#d4af37;
@@ -547,7 +543,6 @@
       line-height:1.6;
     }
 
-    /* ========= POPUPS ========= */
     .popup-bg{
       position:fixed;
       inset:0;
@@ -572,7 +567,6 @@
       box-sizing:border-box;
       position:relative;
       text-align:center;
-
       max-height: calc(100vh - 36px);
       display:flex;
       flex-direction:column;
@@ -641,7 +635,6 @@
       accent-color:#d4af37;
     }
 
-    /* ========= CARRINHO (popup) ========= */
     .cart-list{
       text-align:left;
       margin-top:14px;
@@ -724,7 +717,6 @@
     }
     .discount-line strong{ color:#d4af37; }
 
-    /* ✅ Cupom (no carrinho) */
     .coupon-wrap{
       margin-top:10px;
       text-align:left;
@@ -769,7 +761,6 @@
       line-height:1.45;
     }
 
-    /* ========= OVERVIEW (popup PDF) ========= */
     .overview-frame{
       width:100%;
       height:min(72vh, 720px);
@@ -807,7 +798,6 @@
       .panel-top{ align-items:flex-start; }
       .search-wrap{ max-width: 100%; }
 
-      /* Mobile: menu sanduíche */
       .nav-toggle{ display:inline-flex; align-items:center; justify-content:center; }
       .nav-menu{
         display:none;
@@ -1042,7 +1032,6 @@
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <script>
-  /* ===== Mobile nav ===== */
   function toggleMobileNav(){
     const header = document.getElementById("siteHeader");
     if (!header) return;
@@ -1074,7 +1063,6 @@
     footer.style.display = isInicioActive ? "none" : "block";
   }
 
-  /* ===== Overview em pop-up (sem nova aba) ===== */
   const OVERVIEW_PDF_URL = "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf";
 
   function ensureOverviewPopupExists(){
@@ -1121,9 +1109,6 @@
     if (frame) frame.src = "about:blank";
   }
 
-  /* =========================
-     POPUP PADRÃO (Informações Importantes + checkbox)
-  ========================= */
   function ensurePopupExists(){
     if (document.getElementById("popup")) return;
 
@@ -1263,19 +1248,13 @@
 </script>
 
 <script>
-  /* =========================
-     CARRINHO (popup)
-  ========================= */
   const CART_STORAGE_KEY = "cet_cart_v2";
   const CHECKOUT_CONTEXT_KEY = "cet_checkout_context_v2";
   const CART_CHECKOUT_ITEMS_KEY = "cet_cart_checkout_items_v2";
   const CART_LAST_CHECKOUT_STARTED_KEY = "cet_cart_last_checkout_started_v2";
-
-  // ✅ Cupom (somente carrinho)
   const CART_COUPON_CODE_KEY = "cet_cart_coupon_code_v1";
 
-  // Preview do cupom (apenas visual no carrinho)
-  let cartPricingPreview = null; // { ok, applied, totals, items, coupon_code }
+  let cartPricingPreview = null;
 
   function normalizeCouponCode(code){
     return String(code || "").trim().toUpperCase();
@@ -1308,7 +1287,6 @@
           <h3>Carrinho</h3>
           <p id="cartSubtitle">Revise seus materiais antes de prosseguir.</p>
 
-          <!-- ✅ CUPOM (somente carrinho) -->
           <div class="coupon-wrap">
             <label class="coupon-label" for="couponInput">Cupom</label>
 
@@ -1366,7 +1344,6 @@
       if (applyBtn) applyBtn.disabled = !v;
     }
 
-    // salvar cupom ao digitar (maiúsculo) + habilitar aplicar
     if (couponInput){
       couponInput.addEventListener("input", () => {
         const v = normalizeCouponCode(couponInput.value);
@@ -1374,7 +1351,6 @@
         setCartCouponCode(v);
         updateApplyState();
 
-        // Quando digita, limpamos preview antigo (pra não mostrar desconto “velho”)
         cartPricingPreview = null;
         renderCartTotalsOnly();
         setCouponMessage("", "");
@@ -1394,7 +1370,6 @@
     }
 
     document.getElementById("cartProceedBtn").addEventListener("click", async () => {
-      // garante que o cupom esteja salvo ao prosseguir
       const input = document.getElementById("couponInput");
       if (input) setCartCouponCode(input.value);
       await startCartCheckoutFlow();
@@ -1404,7 +1379,6 @@
       if (e && e.target && e.target.id === "cartPopup") closeCart();
     });
 
-    // Estado inicial do botão aplicar
     try{ updateApplyState(); }catch(e){}
   }
 
@@ -1440,10 +1414,7 @@
   function removeFromCart(key){
     const items = getCart().filter(it => it && it.key !== key);
     saveCart(items);
-
-    // removendo item: invalida preview (pode mudar 1 item -> 2+ itens etc)
     cartPricingPreview = null;
-
     renderCart();
     updateCartBadge();
   }
@@ -1466,9 +1437,6 @@
     }
   }
 
-  // ============================
-  // SUPABASE + AUTH (para preview via API)
-  // ============================
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm9zZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
@@ -1527,7 +1495,6 @@
       return;
     }
 
-    // Se não estiver logado, não dá pra chamar preview (porque a API exige Bearer token).
     const sess = await getSession();
     if (!sess || !sess.user){
       setCouponMessage("Faça login para validar o cupom no carrinho.", "err");
@@ -1546,7 +1513,6 @@
       preview_only: true
     };
 
-    // Feedback botão
     const btn = document.getElementById("couponApplyBtn");
     const oldText = btn ? btn.innerText : "";
     if (btn){
@@ -1557,7 +1523,6 @@
     try{
       const res = await apiPOST("/api/create-checkout-mercadopago", payload);
 
-      // Se por algum motivo devolver algo inesperado, tratamos como inválido visualmente
       if (!res.ok || !res.json || res.json.ok !== true){
         cartPricingPreview = null;
         setCouponMessage("Este cupom não está válido. Insira um cupom válido.", "err");
@@ -1566,9 +1531,6 @@
       }
 
       const preview = res.json;
-
-      // Regras do backend:
-      // - applied pode existir mesmo com match_count = 0 (cupom válido mas não aplicável aos itens)
       const matchCount = Number(preview.applied && preview.applied.match_count ? preview.applied.match_count : 0);
 
       cartPricingPreview = preview;
@@ -1576,9 +1538,7 @@
       if (matchCount > 0 && preview.totals && Number(preview.totals.discount_total || 0) > 0){
         setCouponMessage("Cupom aplicado.", "ok");
       }else{
-        // Aqui é o comportamento que você pediu: qualquer coisa que não aplique vira “não válido” (sem bloquear compra)
         setCouponMessage("Este cupom não está válido. Insira um cupom válido.", "err");
-        // Mantém preview guardado? Não.
         cartPricingPreview = null;
       }
 
@@ -1590,7 +1550,6 @@
     }finally{
       if (btn){
         btn.innerText = oldText || "Aplicar";
-        // re-habilita baseado no input
         const input = document.getElementById("couponInput");
         const v = normalizeCouponCode(input ? input.value : "");
         btn.disabled = !v;
@@ -1614,7 +1573,6 @@
 
     const baseTotal = calcCartTotal(items);
 
-    // Se temos preview válido (com desconto real), mostramos riscado + novo total
     if (cartPricingPreview && cartPricingPreview.totals){
       const newTotal = Number(cartPricingPreview.totals.total || 0);
       const discountTotal = Number(cartPricingPreview.totals.discount_total || 0);
@@ -1633,7 +1591,6 @@
       }
     }
 
-    // Sem preview / sem desconto aplicado: mostra total normal
     if (totalWrap) totalWrap.style.display = "flex";
     if (totalVal) totalVal.innerHTML = `<strong>${formatBRL(baseTotal)}</strong>`;
     if (discountLine) discountLine.style.display = "none";
@@ -1642,7 +1599,6 @@
   function renderCart(){
     ensureCartPopupExists();
 
-    // carregar cupom salvo para o input
     try{
       const input = document.getElementById("couponInput");
       if (input) input.value = getCartCouponCode();
@@ -1652,8 +1608,6 @@
       if (btn) btn.disabled = !v;
     }catch(e){}
 
-    // mantém mensagem e preview apenas se fizer sentido (se carrinho mudou, preview pode estar inválido)
-    // Por segurança: sempre recalcula total (e preview só muda ao clicar Aplicar)
     renderCartTotalsOnly();
 
     const listEl = document.getElementById("cartList");
@@ -1727,9 +1681,6 @@
     el.innerText = "Carrinho (" + count + ")";
   }
 
-  /* =========================
-     Cabeçalho (auth)
-  ========================= */
   async function refreshNavAuth(){
     const s = await getSession();
     const navLogin = document.getElementById("navLogin");
@@ -1775,9 +1726,6 @@
     });
   }
 
-  /* =========================
-     NORMALIZAÇÃO + PREÇO
-  ========================= */
   function normalizeKeyPart(str){
     const s = String(str || "")
       .trim()
@@ -1799,9 +1747,6 @@
     return 1.00;
   }
 
-  /* =========================
-     Checkout context (para voltar do login)
-  ========================= */
   function setCheckoutContext(obj){
     try{ localStorage.setItem(CHECKOUT_CONTEXT_KEY, JSON.stringify(obj || {})); }catch(e){}
   }
@@ -1824,9 +1769,6 @@
     }
   }
 
-  /* =========================
-     Nota Fiscal (vai para checkout-success.html)
-  ========================= */
   function goInvoiceSingle(category, city){
     window.location.href =
       "checkout-success.html?step=invoice&category=" +
@@ -1844,16 +1786,11 @@
       }));
       localStorage.setItem(CART_CHECKOUT_ITEMS_KEY, JSON.stringify(payload));
       localStorage.setItem(CART_LAST_CHECKOUT_STARTED_KEY, String(Date.now()));
-
-      // salva cupom do carrinho
       setCartCouponCode(couponCode || getCartCouponCode());
     }catch(e){}
     window.location.href = "checkout-success.html?step=invoice&cart=1";
   }
 
-  /* =========================
-     Política (checkbox obrigatório) — usado no CARRINHO
-  ========================= */
   async function showPolicyThenProceed(nextFn){
     openPopup({
       title: "Informações Importantes",
@@ -1868,9 +1805,6 @@
     });
   }
 
-  /* =========================
-     Carrinho -> Login -> Política -> Nota Fiscal
-  ========================= */
   async function startCartCheckoutFlow(){
     const items = getCart();
     if (!items.length){
@@ -1898,11 +1832,8 @@
     if (ownedInCart.length){
       const filtered = (freshItems || []).filter(it => it && !userOwns(it.category, it.city));
       saveCart(filtered);
-
-      // Carrinho mudou: invalida preview
       cartPricingPreview = null;
       setCouponMessage("", "");
-
       renderCart();
 
       openPopup({
@@ -1937,9 +1868,6 @@
     });
   }
 
-  /* =========================
-     Item único -> Login -> Nota Fiscal
-  ========================= */
   async function startSingleCheckoutAfterPolicy(category, city){
     const sess = await getSession();
     if (!sess || !sess.user){
@@ -1964,9 +1892,6 @@
     goInvoiceSingle(category, city);
   }
 
-  /* =========================
-     DADOS DO SUPABASE (materiais ativos + compras do usuário)
-  ========================= */
   const materiaisAtivosPorCategoria = new Map();
   const ownedMap = new Map();
 
@@ -1987,7 +1912,6 @@
       const { data, error } = await supabaseClient
         .from("curadoria_materials")
         .select("category, city_label, pdf_url")
-        .eq("is_active", true)
         .order("city_label", { ascending: true });
 
       if (error){
@@ -2040,7 +1964,6 @@
     return ownedMap.has(purchaseKey(category, cityLabel));
   }
 
-  /* ===== Carrinho zerar após compra concluída ===== */
   function readCartCheckoutItems(){
     try{
       const raw = localStorage.getItem(CART_CHECKOUT_ITEMS_KEY);
@@ -2089,9 +2012,6 @@
     }
   }
 
-  /* =========================
-     CURADORIA PANEL + cards
-  ========================= */
   const BATCH_SIZE = 12;
   let currentCategory = null;
   let filteredCities = [];
@@ -2201,11 +2121,8 @@
     });
 
     saveCart(items);
-
-    // carrinho mudou => preview não é mais confiável
     cartPricingPreview = null;
     setCouponMessage("", "");
-
     updateCartBadge();
   }
 
@@ -2278,9 +2195,6 @@
     }
   }
 
-  /* =========================
-     Popup do DESTINO (impedir recomprar)
-  ========================= */
   function openDestinationPopup(category, city){
     const msg =
       `${category} é um material digital com indicações e referências selecionadas para apoiar suas decisões de viagem. ` +
@@ -2327,9 +2241,6 @@
     });
   }
 
-  /* =========================
-     Retomar após login
-  ========================= */
   async function resumeAfterLoginIfNeeded(){
     const flag = getQueryParam("after_login");
     if (flag !== "1") return;
@@ -2371,9 +2282,6 @@
     }
   }
 
-  /* =========================
-     INIT
-  ========================= */
   document.addEventListener("DOMContentLoaded", async () => {
     ensureSupabase();
     updateCartBadge();
