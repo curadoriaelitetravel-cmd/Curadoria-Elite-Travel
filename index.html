@@ -34,7 +34,7 @@
       display:flex;
       align-items:center;
       gap:12px;
-      min-width:240px;
+      min-width: 240px;
       cursor:pointer;
     }
 
@@ -73,7 +73,7 @@
       text-decoration:none;
       font-weight:500;
       cursor:pointer;
-      white-space:nowrap;
+      white-space: nowrap;
     }
 
     .nav-sep{
@@ -121,9 +121,7 @@
       box-sizing:border-box;
     }
 
-    section.active{
-      display:block;
-    }
+    section.active{ display:block; }
 
     footer{
       border-top:1px solid #222;
@@ -156,9 +154,7 @@
       transform:scale(1.03);
     }
 
-    .hero-bg.active{
-      opacity:1;
-    }
+    .hero-bg.active{ opacity:1; }
 
     .hero-overlay{
       position:absolute;
@@ -275,17 +271,9 @@
       filter:brightness(0.72) saturate(0.9) contrast(0.95);
     }
 
-    .side-bg.active{
-      opacity:1;
-    }
-
-    .side-bg.left{
-      background-position:left center;
-    }
-
-    .side-bg.right{
-      background-position:right center;
-    }
+    .side-bg.active{ opacity:1; }
+    .side-bg.left{ background-position:left center; }
+    .side-bg.right{ background-position:right center; }
 
     .side-overlay{
       position:absolute;
@@ -448,19 +436,19 @@
     }
 
     .pill.ok{
-      border-color:rgba(212,175,55,0.35);
+      border-color: rgba(212,175,55,0.35);
       color:#d4af37;
     }
 
     .pill.muted{
-      border-color:rgba(255,255,255,0.10);
-      color:rgba(255,255,255,0.62);
+      border-color: rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.62);
     }
 
     .search-wrap{
       flex:1;
-      min-width:240px;
-      max-width:520px;
+      min-width: 240px;
+      max-width: 520px;
       position:relative;
     }
 
@@ -569,9 +557,7 @@
       box-sizing:border-box;
     }
 
-    .popup-bg.active{
-      display:flex;
-    }
+    .popup-bg.active{ display:flex; }
 
     .popup-content{
       background:#111;
@@ -583,7 +569,7 @@
       box-sizing:border-box;
       position:relative;
       text-align:center;
-      max-height:calc(100vh - 36px);
+      max-height: calc(100vh - 36px);
       display:flex;
       flex-direction:column;
       overflow:hidden;
@@ -628,9 +614,7 @@
       min-height:0;
     }
 
-    .popup-rules strong{
-      color:#d4af37;
-    }
+    .popup-rules strong{ color:#d4af37; }
 
     .consent-wrap{
       display:flex;
@@ -673,9 +657,7 @@
       border-bottom:1px solid rgba(255,255,255,0.08);
     }
 
-    .cart-item:last-child{
-      border-bottom:none;
-    }
+    .cart-item:last-child{ border-bottom:none; }
 
     .cart-item-left{
       min-width:0;
@@ -717,32 +699,28 @@
       flex:0 0 auto;
     }
 
-    .cart-total strong{
-      color:#d4af37;
-    }
+    .cart-total strong{ color:#d4af37; }
 
     .total-strike{
-      color:rgba(255,255,255,0.55);
-      text-decoration:line-through;
-      margin-right:10px;
-      font-weight:650;
+      color: rgba(255,255,255,0.55);
+      text-decoration: line-through;
+      margin-right: 10px;
+      font-weight: 650;
     }
 
     .total-final{
       color:#d4af37;
-      font-weight:800;
+      font-weight: 800;
     }
 
     .discount-line{
       margin-top:8px;
       text-align:left;
-      color:rgba(255,255,255,0.72);
-      font-size:12.8px;
+      color: rgba(255,255,255,0.72);
+      font-size: 12.8px;
     }
 
-    .discount-line strong{
-      color:#d4af37;
-    }
+    .discount-line strong{ color:#d4af37; }
 
     .coupon-wrap{
       margin-top:10px;
@@ -781,16 +759,11 @@
       margin-top:8px;
       font-size:12.5px;
       line-height:1.45;
-      min-height:18px;
+      min-height: 18px;
     }
 
-    .coupon-msg.ok{
-      color:#d4af37;
-    }
-
-    .coupon-msg.err{
-      color:rgba(255,255,255,0.72);
-    }
+    .coupon-msg.ok{ color:#d4af37; }
+    .coupon-msg.err{ color:rgba(255,255,255,0.72); }
 
     .coupon-help{
       margin-top:8px;
@@ -819,13 +792,8 @@
     }
 
     @media (max-width:980px){
-      header{
-        padding:14px 16px;
-      }
-
-      section{
-        padding:110px 16px 70px;
-      }
+      header{ padding:14px 16px; }
+      section{ padding:110px 16px 70px; }
 
       .about-layout{
         grid-template-columns:1fr;
@@ -834,38 +802,15 @@
         align-items:start;
       }
 
-      .side-panel{
-        height:240px;
-        margin-top:0;
-      }
+      .side-panel{ height:240px; margin-top:0; }
+      .side-bg.left,.side-bg.right{ background-position:center; }
+      .brand{ min-width: auto; }
 
-      .side-bg.left,
-      .side-bg.right{
-        background-position:center;
-      }
+      .curadoria-panel{ padding:16px; }
+      .panel-top{ align-items:flex-start; }
+      .search-wrap{ max-width: 100%; }
 
-      .brand{
-        min-width:auto;
-      }
-
-      .curadoria-panel{
-        padding:16px;
-      }
-
-      .panel-top{
-        align-items:flex-start;
-      }
-
-      .search-wrap{
-        max-width:100%;
-      }
-
-      .nav-toggle{
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-      }
-
+      .nav-toggle{ display:inline-flex; align-items:center; justify-content:center; }
       .nav-menu{
         display:none;
         position:absolute;
@@ -883,13 +828,8 @@
         z-index:2000;
       }
 
-      header.nav-open .nav-menu{
-        display:flex;
-      }
-
-      .nav-sep{
-        display:none;
-      }
+      header.nav-open .nav-menu{ display:flex; }
+      .nav-sep{ display:none; }
 
       .coupon-row{
         flex-direction:column;
@@ -979,10 +919,15 @@
 
       <div class="rules-block">
         <strong>Informações Importantes</strong><br><br>
+
         A Curadoria Elite Travel oferece exclusivamente materiais digitais de caráter informativo e orientativo, baseados em indicações, referências e conteúdos selecionados.<br><br>
+
         Não realizamos reservas, vendas de passagens, hospedagens, experiências ou qualquer tipo de intermediação direta com fornecedores ou prestadores de serviço.<br><br>
+
         As decisões de compra, contratação e utilização de serviços indicados nos materiais são de <span class="hl">responsabilidade exclusiva do usuário</span>, assim como qualquer tratativa, solicitação, alteração ou eventual problema relacionado aos serviços contratados.<br><br>
+
         Por se tratar de conteúdo digital disponibilado de forma imediata após a confirmação da compra, <span class="hl">não é possível realizar cancelamentos, trocas ou reembolsos</span>.<br><br>
+
         Ao adquirir nossos materiais, o usuário declara estar ciente e de acordo com essas condições.
       </div>
     </div>
@@ -1349,9 +1294,7 @@
   }
 
   function clearCartCouponCode(){
-    try{
-      localStorage.removeItem(CART_COUPON_CODE_KEY);
-    }catch(e){}
+    try{ localStorage.removeItem(CART_COUPON_CODE_KEY); }catch(e){}
   }
 
   function ensureCartPopupExists(){
@@ -1426,7 +1369,6 @@
         couponInput.value = v;
         setCartCouponCode(v);
         updateApplyState();
-
         cartPricingPreview = null;
         renderCartTotalsOnly();
         setCouponMessage("", "");
@@ -1456,9 +1398,7 @@
       if (e && e.target && e.target.id === "cartPopup") closeCart();
     });
 
-    try{
-      updateApplyState();
-    }catch(e){}
+    try{ updateApplyState(); }catch(e){}
   }
 
   function setCouponMessage(text, kind){
@@ -1481,16 +1421,12 @@
   }
 
   function saveCart(items){
-    try{
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items || []));
-    }catch(e){}
+    try{ localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items || [])); }catch(e){}
     updateCartBadge();
   }
 
   function clearCart(){
-    try{
-      localStorage.removeItem(CART_STORAGE_KEY);
-    }catch(e){}
+    try{ localStorage.removeItem(CART_STORAGE_KEY); }catch(e){}
     updateCartBadge();
   }
 
@@ -1556,10 +1492,7 @@
     });
 
     let json = null;
-    try{
-      json = await r.json();
-    }catch(e){}
-
+    try{ json = await r.json(); }catch(e){}
     return { ok: r.ok, status: r.status, json };
   }
 
@@ -1602,7 +1535,6 @@
 
     const btn = document.getElementById("couponApplyBtn");
     const oldText = btn ? btn.innerText : "";
-
     if (btn){
       btn.disabled = true;
       btn.innerText = "Aguarde...";
@@ -1803,11 +1735,7 @@
       const sb = ensureSupabase();
       if (sb) await sb.auth.signOut();
     }catch(e){}
-
-    try{
-      await refreshNavAuth();
-    }catch(e){}
-
+    try{ await refreshNavAuth(); }catch(e){}
     openPopup({
       title: "Acesso à conta",
       text: "Você saiu da sua conta.",
@@ -1840,24 +1768,18 @@
   }
 
   function setCheckoutContext(obj){
-    try{
-      localStorage.setItem(CHECKOUT_CONTEXT_KEY, JSON.stringify(obj || {}));
-    }catch(e){}
+    try{ localStorage.setItem(CHECKOUT_CONTEXT_KEY, JSON.stringify(obj || {})); }catch(e){}
   }
 
   function getCheckoutContext(){
     try{
       const raw = localStorage.getItem(CHECKOUT_CONTEXT_KEY);
       return raw ? JSON.parse(raw) : null;
-    }catch(e){
-      return null;
-    }
+    }catch(e){ return null; }
   }
 
   function clearCheckoutContext(){
-    try{
-      localStorage.removeItem(CHECKOUT_CONTEXT_KEY);
-    }catch(e){}
+    try{ localStorage.removeItem(CHECKOUT_CONTEXT_KEY); }catch(e){}
   }
 
   function getQueryParam(name){
@@ -1884,12 +1806,10 @@
         city: it.city,
         qty: Number(it.qty || 1) || 1
       }));
-
       localStorage.setItem(CART_CHECKOUT_ITEMS_KEY, JSON.stringify(payload));
       localStorage.setItem(CART_LAST_CHECKOUT_STARTED_KEY, String(Date.now()));
       setCartCouponCode(couponCode || getCartCouponCode());
     }catch(e){}
-
     window.location.href = "checkout-success.html?step=invoice&cart=1";
   }
 
@@ -2009,15 +1929,36 @@
     materiaisAtivosPorCategoria.clear();
 
     try{
-      ensureSupabase();
+      const client = ensureSupabase();
+      if (!client){
+        setAdminStatus("Admin: falha na conexão", false);
+        return;
+      }
 
-      const { data, error } = await supabaseClient
+      let data = null;
+      let error = null;
+
+      let res = await client
         .from("curadoria_materials")
         .select("category, city_label, pdf_url")
         .eq("is_active", true)
         .order("city_label", { ascending: true });
 
+      data = res.data;
+      error = res.error;
+
       if (error){
+        res = await client
+          .from("curadoria_materials")
+          .select("category, city_label, pdf_url")
+          .order("city_label", { ascending: true });
+
+        data = res.data;
+        error = res.error;
+      }
+
+      if (error){
+        console.error("Erro ao carregar curadoria_materials:", error);
         setAdminStatus("Admin: erro ao carregar", false);
         return;
       }
@@ -2025,16 +1966,23 @@
       (data || []).forEach(row => {
         const cat = String(row.category || "").trim();
         const city = String(row.city_label || "").trim();
-        const url = row.pdf_url || null;
+        const url = String(row.pdf_url || "").trim();
 
         if (!cat || !city || !url) return;
 
-        if (!materiaisAtivosPorCategoria.has(cat)) materiaisAtivosPorCategoria.set(cat, []);
-        materiaisAtivosPorCategoria.get(cat).push({ cidade: city, pdf_url: url });
+        if (!materiaisAtivosPorCategoria.has(cat)){
+          materiaisAtivosPorCategoria.set(cat, []);
+        }
+
+        materiaisAtivosPorCategoria.get(cat).push({
+          cidade: city,
+          pdf_url: url
+        });
       });
 
       setAdminStatus("Admin: conectado", true);
     }catch(e){
+      console.error("Falha geral ao carregar materiais:", e);
       setAdminStatus("Admin: falha na conexão", false);
     }
   }
@@ -2078,12 +2026,8 @@
   }
 
   function clearCartCheckoutMarker(){
-    try{
-      localStorage.removeItem(CART_CHECKOUT_ITEMS_KEY);
-    }catch(e){}
-    try{
-      localStorage.removeItem(CART_LAST_CHECKOUT_STARTED_KEY);
-    }catch(e){}
+    try{ localStorage.removeItem(CART_CHECKOUT_ITEMS_KEY); }catch(e){}
+    try{ localStorage.removeItem(CART_LAST_CHECKOUT_STARTED_KEY); }catch(e){}
   }
 
   function cartCheckoutAllOwned(){
