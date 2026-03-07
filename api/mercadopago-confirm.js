@@ -22,7 +22,7 @@ function normalizeItem(it) {
  * Fallback: MERCADOPAGO_ACCESS_TOKEN (antiga)
  */
 function getMercadoPagoAccessToken() {
-  const vercelEnv = String(process.env.VERCEL_ENV || "").toLowerCase(); // "production" | "preview" | "development"
+  const vercelEnv = String(process.env.VERCEL_ENV || "").toLowerCase();
   const isProd = vercelEnv === "production";
 
   const tokenProd = process.env.MERCADOPAGO_ACCESS_TOKEN_PROD;
@@ -51,6 +51,10 @@ function getWebhookSecret() {
 
   if (isProd) return secProd || secLegacy || "";
   return secTest || secLegacy || "";
+}
+
+function getResendApiKey() {
+  return String(process.env.RESEND_API_KEY || "").trim();
 }
 
 async function mpGetPayment(mpAccessToken, paymentId) {
@@ -85,7 +89,6 @@ function verifyWebhookSignature(req, eventId) {
 
   if (!sig || !reqId) return { ok: false, error: "Missing x-signature or x-request-id" };
 
-  // x-signature vem tipo: "ts=1234567890, v1=abcdef..."
   let ts = "";
   let v1 = "";
 
@@ -100,7 +103,6 @@ function verifyWebhookSignature(req, eventId) {
   if (!ts || !v1) return { ok: false, error: "Invalid x-signature format" };
   if (!eventId) return { ok: false, error: "Missing event id for signature" };
 
-  // Manifest oficial (docs / exemplos)
   const manifest = `id:${eventId};request-id:${reqId};ts:${ts};`;
 
   const computed = crypto
@@ -117,8 +119,8 @@ function verifyWebhookSignature(req, eventId) {
 }
 
 async function grantPurchasesFromPayment(supabase, userId, items) {
-  // 1) Monta lista com PDFs ativos
   const purchaseRows = [];
+
   for (const it of items) {
     const { data: mat, error: matErr } = await supabase
       .from("curadoria_materials")
@@ -143,7 +145,6 @@ async function grantPurchasesFromPayment(supabase, userId, items) {
     return { ok: false, error: "No valid materials found to grant access" };
   }
 
-  // 2) Evitar duplicar
   const { data: existing, error: exErr } = await supabase
     .from("purchase")
     .select("category, city")
@@ -171,6 +172,139 @@ async function grantPurchasesFromPayment(supabase, userId, items) {
   return { ok: true, granted: toInsert.length, total_items: items.length };
 }
 
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+async function getCustomerEmailAndName(supabase, userId) {
+  let email = "";
+  let name = "";
+
+  try {
+    const { data, error } = await supabase.auth.admin.getUserById(userId);
+    if (!error && data?.user) {
+      email = String(data.user.email || "").trim();
+
+      const md = data.user.user_metadata || {};
+      name =
+        String(md.full_name || "").trim() ||
+        String(md.name || "").trim() ||
+        String(md.nome || "").trim();
+    }
+  } catch (e) {}
+
+  return { email, name };
+}
+
+function buildAccessEmailHtml(customerName) {
+  const safeName = escapeHtml(customerName || "");
+  const greeting = safeName ? `Olá ${safeName},` : "Olá,";
+
+  return `
+    <div style="margin:0;padding:0;background:#0b0b0b;font-family:'Segoe UI',Arial,sans-serif;color:#ffffff;">
+      <div style="max-width:640px;margin:0 auto;padding:32px 20px;">
+        <div style="background:linear-gradient(145deg,#111111,#000000);border:1px solid #222222;border-radius:16px;padding:32px;">
+          <div style="font-family:Georgia,serif;font-size:24px;line-height:1.2;color:#d4af37;text-transform:uppercase;letter-spacing:0.6px;text-align:center;margin-bottom:6px;">
+            Curadoria Elite Travel
+          </div>
+
+          <div style="text-align:center;color:rgba(255,255,255,0.72);font-size:13px;line-height:1.5;margin-bottom:28px;">
+            O seu mundo, bem indicado.
+          </div>
+
+          <div style="font-size:16px;line-height:1.8;color:#ffffff;">
+            <p style="margin:0 0 18px;">${greeting}</p>
+
+            <p style="margin:0 0 18px;">
+              Sua compra foi confirmada com sucesso.
+            </p>
+
+            <p style="margin:0 0 18px;">
+              O material adquirido já está disponível em sua conta e pode ser acessado a qualquer momento.
+            </p>
+
+            <p style="margin:0 0 18px;">
+              Para acessar:
+            </p>
+
+            <p style="margin:0 0 10px;">
+              Entre em sua conta<br />
+              Acesse a seção <strong style="color:#d4af37;">“Meus materiais”</strong>
+            </p>
+
+            <p style="margin:24px 0 0;">
+              Caso tenha qualquer dúvida, estaremos à disposição.
+            </p>
+
+            <p style="margin:24px 0 0;">
+              Agradecemos por confiar na <strong style="color:#d4af37;">Curadoria Elite Travel</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function sendApprovedPurchaseEmail(supabase, userId, paymentId, grantedCount) {
+  try {
+    if (!grantedCount || grantedCount <= 0) {
+      return { ok: true, skipped: true, reason: "Nothing new granted" };
+    }
+
+    const resendApiKey = getResendApiKey();
+    if (!resendApiKey) {
+      return { ok: false, error: "Missing RESEND_API_KEY env var" };
+    }
+
+    const { email, name } = await getCustomerEmailAndName(supabase, userId);
+    if (!email) {
+      return { ok: false, error: "Customer email not found" };
+    }
+
+    const html = buildAccessEmailHtml(name);
+
+    const r = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendApiKey}`,
+        "Content-Type": "application/json",
+        "Idempotency-Key": `mp-approved-${String(paymentId || "")}-${String(userId || "")}-${String(grantedCount || 0)}`,
+      },
+      body: JSON.stringify({
+        from: "Curadoria Elite Travel <onboarding@resend.dev>",
+        to: [email],
+        subject: "Confirmação de acesso – Curadoria Elite Travel",
+        html,
+        replyTo: "curadoriaelitetravel@gmail.com",
+      }),
+    });
+
+    const data = await r.json().catch(() => null);
+
+    if (!r.ok) {
+      return {
+        ok: false,
+        error:
+          data?.message ||
+          data?.error ||
+          `Resend returned status ${r.status}`,
+      };
+    }
+
+    return { ok: true, id: data?.id || null };
+  } catch (e) {
+    return {
+      ok: false,
+      error: e?.message || "Failed to send email",
+    };
+  }
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
@@ -186,8 +320,12 @@ module.exports = async function handler(req, res) {
           "Missing Mercado Pago token. Configure MERCADOPAGO_ACCESS_TOKEN_TEST / MERCADOPAGO_ACCESS_TOKEN_PROD (or MERCADOPAGO_ACCESS_TOKEN fallback).",
       });
     }
-    if (!supabaseUrl) return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
-    if (!supabaseServiceKey) return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
+    if (!supabaseUrl) {
+      return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
+    }
+    if (!supabaseServiceKey) {
+      return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
+    }
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey, {
       auth: { persistSession: false },
@@ -200,21 +338,17 @@ module.exports = async function handler(req, res) {
       const body = req.body || {};
       const eventId = String(body?.data?.id || body?.id || "").trim();
 
-      // valida assinatura
       const v = verifyWebhookSignature(req, eventId);
       if (!v.ok) {
         return res.status(401).json({ error: v.error || "Unauthorized" });
       }
 
       if (!eventId) {
-        // Sem id não dá pra buscar pagamento
         return res.status(200).json({ ok: true, ignored: true, reason: "Missing event id" });
       }
 
-      // Busca pagamento no MP
       const pay = await mpGetPayment(mpAccessToken, eventId);
       if (!pay.ok || !pay.data) {
-        // importante responder 200 para não ficar em retry infinito
         return res.status(200).json({
           ok: true,
           ignored: true,
@@ -223,10 +357,9 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      const status = String(pay.data.status || "").toLowerCase(); // approved | pending | rejected | ...
+      const status = String(pay.data.status || "").toLowerCase();
       const metadata = pay.data.metadata || {};
 
-      // Se não aprovado, não libera (mas responde 200)
       if (status !== "approved") {
         return res.status(200).json({ ok: true, payment_status: status, granted: 0 });
       }
@@ -240,7 +373,6 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      // Itens
       let items = [];
       try {
         const raw = metadata.items;
@@ -269,11 +401,20 @@ module.exports = async function handler(req, res) {
         });
       }
 
+      const emailResult = await sendApprovedPurchaseEmail(
+        supabase,
+        userId,
+        eventId,
+        grant.granted
+      );
+
       return res.status(200).json({
         ok: true,
         payment_status: status,
         granted: grant.granted,
         total_items: grant.total_items,
+        email_sent: !!emailResult.ok && !emailResult.skipped,
+        email_error: emailResult.ok ? null : emailResult.error || null,
       });
     }
 
@@ -289,7 +430,6 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: "Missing payment_id" });
     }
 
-    // 1) EXIGIR LOGIN (mesmo padrão do Stripe)
     const token = getBearerToken(req);
     if (!token) {
       return res.status(200).json({ code: "LOGIN_REQUIRED" });
@@ -302,7 +442,6 @@ module.exports = async function handler(req, res) {
 
     const userId = userData.user.id;
 
-    // 2) BUSCAR PAGAMENTO NO MERCADO PAGO
     const pay = await mpGetPayment(mpAccessToken, paymentId);
     if (!pay.ok || !pay.data) {
       return res.status(500).json({
@@ -312,16 +451,14 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const status = String(pay.data.status || "").toLowerCase(); // approved | pending | rejected | ...
+    const status = String(pay.data.status || "").toLowerCase();
     const metadata = pay.data.metadata || {};
 
-    // segurança: user_id no metadata precisa bater com o usuário logado
     const metaUserId = String(metadata.user_id || "").trim();
     if (!metaUserId || metaUserId !== String(userId)) {
       return res.status(403).json({ error: "Payment does not belong to this user" });
     }
 
-    // se não aprovado, não libera
     if (status !== "approved") {
       return res.status(200).json({
         ok: false,
@@ -330,12 +467,13 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // 3) ITENS (do metadata)
     let items = [];
     try {
       const raw = metadata.items;
       const parsed = raw ? JSON.parse(raw) : [];
-      if (Array.isArray(parsed)) items = parsed.map(normalizeItem).filter((x) => x.category && x.city);
+      if (Array.isArray(parsed)) {
+        items = parsed.map(normalizeItem).filter((x) => x.category && x.city);
+      }
     } catch (e) {
       items = [];
     }
@@ -349,11 +487,20 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({ error: grant.error || "Failed to grant purchases" });
     }
 
+    const emailResult = await sendApprovedPurchaseEmail(
+      supabase,
+      userId,
+      paymentId,
+      grant.granted
+    );
+
     return res.status(200).json({
       ok: true,
       granted: grant.granted,
       total_items: grant.total_items,
       payment_status: status,
+      email_sent: !!emailResult.ok && !emailResult.skipped,
+      email_error: emailResult.ok ? null : emailResult.error || null,
     });
   } catch (err) {
     return res.status(500).json({
