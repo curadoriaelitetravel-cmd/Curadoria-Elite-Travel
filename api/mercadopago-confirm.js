@@ -15,12 +15,6 @@ function normalizeItem(it) {
   return { category, city };
 }
 
-/**
- * Decide automaticamente qual token do Mercado Pago usar:
- * - VERCEL_ENV=production  -> usa MERCADOPAGO_ACCESS_TOKEN_PROD
- * - VERCEL_ENV=preview/dev -> usa MERCADOPAGO_ACCESS_TOKEN_TEST
- * Fallback: MERCADOPAGO_ACCESS_TOKEN (antiga)
- */
 function getMercadoPagoAccessToken() {
   const vercelEnv = String(process.env.VERCEL_ENV || "").toLowerCase();
   const isProd = vercelEnv === "production";
@@ -33,12 +27,6 @@ function getMercadoPagoAccessToken() {
   return tokenTest || tokenLegacy || "";
 }
 
-/**
- * Decide automaticamente qual secret do Webhook usar:
- * - VERCEL_ENV=production  -> usa MERCADOPAGO_WEBHOOK_SECRET_PROD
- * - VERCEL_ENV=preview/dev -> usa MERCADOPAGO_WEBHOOK_SECRET_TEST
- * Fallback: MERCADOPAGO_WEBHOOK_SECRET (antiga)
- */
 function getWebhookSecret() {
   const vercelEnv = String(process.env.VERCEL_ENV || "").toLowerCase();
   const isProd = vercelEnv === "production";
@@ -53,6 +41,20 @@ function getWebhookSecret() {
 
 function getResendApiKey() {
   return String(process.env.RESEND_API_KEY || "").trim();
+}
+
+function logStep(step, details = {}) {
+  try {
+    console.log(
+      JSON.stringify({
+        source: "mercadopago-confirm",
+        step,
+        ...details,
+      })
+    );
+  } catch (e) {
+    console.log("[mercadopago-confirm]", step, details);
+  }
 }
 
 async function mpGetPayment(mpAccessToken, paymentId) {
@@ -70,11 +72,6 @@ async function mpGetPayment(mpAccessToken, paymentId) {
   return { ok: r.ok, status: r.status, data };
 }
 
-/**
- * Validação do webhook (x-signature) do Mercado Pago.
- * Manifest: `id:${id};request-id:${requestId};ts:${ts};`
- * Assinatura: HMAC SHA256 do manifest usando a secret, em hex, comparado com v1 do header.
- */
 function verifyWebhookSignature(req, eventId) {
   const secret = getWebhookSecret();
   if (!secret) return { ok: false, error: "Missing webhook secret env var" };
@@ -167,7 +164,12 @@ async function grantPurchasesFromPayment(supabase, userId, items) {
     }
   }
 
-  return { ok: true, granted: toInsert.length, total_items: items.length };
+  return {
+    ok: true,
+    granted: toInsert.length,
+    total_items: items.length,
+    already_owned: purchaseRows.length - toInsert.length,
+  };
 }
 
 function escapeHtml(value) {
@@ -250,21 +252,57 @@ function buildAccessEmailHtml(customerName) {
 
 async function sendApprovedPurchaseEmail(supabase, userId, paymentId, grantedCount) {
   try {
+    logStep("email.start", {
+      userId,
+      paymentId,
+      grantedCount,
+    });
+
     if (!grantedCount || grantedCount <= 0) {
+      logStep("email.skip.no_new_grant", {
+        userId,
+        paymentId,
+        grantedCount,
+      });
       return { ok: true, skipped: true, reason: "Nothing new granted" };
     }
 
     const resendApiKey = getResendApiKey();
     if (!resendApiKey) {
+      logStep("email.error.missing_resend_key");
       return { ok: false, error: "Missing RESEND_API_KEY env var" };
     }
 
     const { email, name } = await getCustomerEmailAndName(supabase, userId);
+
+    logStep("email.customer_lookup", {
+      userId,
+      foundEmail: !!email,
+      emailPreview: email ? email.replace(/^(.{3}).+(@.*)$/, "$1***$2") : "",
+      foundName: !!name,
+    });
+
     if (!email) {
       return { ok: false, error: "Customer email not found" };
     }
 
     const html = buildAccessEmailHtml(name);
+
+    const payload = {
+      from: "Curadoria Elite Travel <contato@curadoriaelitetravel.com>",
+      to: [email],
+      subject: "Confirmação de acesso – Curadoria Elite Travel",
+      html,
+      reply_to: "curadoriaelitetravel@gmail.com",
+    };
+
+    logStep("email.resend_request", {
+      userId,
+      paymentId,
+      to: email,
+      from: payload.from,
+      subject: payload.subject,
+    });
 
     const r = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -273,16 +311,18 @@ async function sendApprovedPurchaseEmail(supabase, userId, paymentId, grantedCou
         "Content-Type": "application/json",
         "Idempotency-Key": `mp-approved-${String(paymentId || "")}-${String(userId || "")}-${String(grantedCount || 0)}`,
       },
-      body: JSON.stringify({
-        from: "Curadoria Elite Travel <contato@curadoriaelitetravel.com>",
-        to: [email],
-        subject: "Confirmação de acesso – Curadoria Elite Travel",
-        html,
-        reply_to: "curadoriaelitetravel@gmail.com",
-      }),
+      body: JSON.stringify(payload),
     });
 
     const data = await r.json().catch(() => null);
+
+    logStep("email.resend_response", {
+      userId,
+      paymentId,
+      status: r.status,
+      ok: r.ok,
+      response: data,
+    });
 
     if (!r.ok) {
       return {
@@ -296,6 +336,12 @@ async function sendApprovedPurchaseEmail(supabase, userId, paymentId, grantedCou
 
     return { ok: true, id: data?.id || null };
   } catch (e) {
+    logStep("email.exception", {
+      userId,
+      paymentId,
+      message: e?.message || "Failed to send email",
+    });
+
     return {
       ok: false,
       error: e?.message || "Failed to send email",
@@ -311,6 +357,15 @@ module.exports = async function handler(req, res) {
     const mpAccessToken = getMercadoPagoAccessToken();
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    logStep("handler.start", {
+      method: req.method,
+      hasMpToken: !!mpAccessToken,
+      hasSupabaseUrl: !!supabaseUrl,
+      hasSupabaseServiceKey: !!supabaseServiceKey,
+      hasResendApiKey: !!getResendApiKey(),
+      vercelEnv: process.env.VERCEL_ENV || "",
+    });
 
     if (!mpAccessToken) {
       return res.status(500).json({
@@ -333,17 +388,31 @@ module.exports = async function handler(req, res) {
       const body = req.body || {};
       const eventId = String(body?.data?.id || body?.id || "").trim();
 
+      logStep("webhook.received", {
+        eventId,
+        bodyKeys: Object.keys(body || {}),
+      });
+
       const v = verifyWebhookSignature(req, eventId);
       if (!v.ok) {
+        logStep("webhook.invalid_signature", {
+          eventId,
+          error: v.error || "Unauthorized",
+        });
         return res.status(401).json({ error: v.error || "Unauthorized" });
       }
 
       if (!eventId) {
+        logStep("webhook.skip.missing_event_id");
         return res.status(200).json({ ok: true, ignored: true, reason: "Missing event id" });
       }
 
       const pay = await mpGetPayment(mpAccessToken, eventId);
       if (!pay.ok || !pay.data) {
+        logStep("webhook.skip.payment_fetch_failed", {
+          eventId,
+          status: pay.status,
+        });
         return res.status(200).json({
           ok: true,
           ignored: true,
@@ -355,12 +424,23 @@ module.exports = async function handler(req, res) {
       const status = String(pay.data.status || "").toLowerCase();
       const metadata = pay.data.metadata || {};
 
+      logStep("webhook.payment_fetched", {
+        eventId,
+        paymentStatus: status,
+        metadataKeys: Object.keys(metadata || {}),
+      });
+
       if (status !== "approved") {
+        logStep("webhook.skip.not_approved", {
+          eventId,
+          paymentStatus: status,
+        });
         return res.status(200).json({ ok: true, payment_status: status, granted: 0 });
       }
 
       const userId = String(metadata.user_id || "").trim();
       if (!userId) {
+        logStep("webhook.skip.missing_user_id", { eventId });
         return res.status(200).json({
           ok: true,
           ignored: true,
@@ -379,7 +459,18 @@ module.exports = async function handler(req, res) {
         items = [];
       }
 
+      logStep("webhook.items_parsed", {
+        eventId,
+        userId,
+        itemsCount: items.length,
+        items,
+      });
+
       if (!items.length) {
+        logStep("webhook.skip.invalid_items", {
+          eventId,
+          userId,
+        });
         return res.status(200).json({
           ok: true,
           ignored: true,
@@ -388,6 +479,13 @@ module.exports = async function handler(req, res) {
       }
 
       const grant = await grantPurchasesFromPayment(supabase, userId, items);
+
+      logStep("webhook.grant_result", {
+        eventId,
+        userId,
+        grant,
+      });
+
       if (!grant.ok) {
         return res.status(200).json({
           ok: true,
@@ -402,6 +500,12 @@ module.exports = async function handler(req, res) {
         eventId,
         grant.granted
       );
+
+      logStep("webhook.email_result", {
+        eventId,
+        userId,
+        emailResult,
+      });
 
       return res.status(200).json({
         ok: true,
@@ -422,13 +526,23 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: "Missing payment_id" });
     }
 
+    logStep("return.received", {
+      paymentId,
+      query: req.query || {},
+    });
+
     const token = getBearerToken(req);
     if (!token) {
+      logStep("return.login_required.no_token", { paymentId });
       return res.status(200).json({ code: "LOGIN_REQUIRED" });
     }
 
     const { data: userData, error: userErr } = await supabase.auth.getUser(token);
     if (userErr || !userData?.user?.id) {
+      logStep("return.login_required.invalid_token", {
+        paymentId,
+        error: userErr?.message || null,
+      });
       return res.status(200).json({ code: "LOGIN_REQUIRED" });
     }
 
@@ -436,6 +550,11 @@ module.exports = async function handler(req, res) {
 
     const pay = await mpGetPayment(mpAccessToken, paymentId);
     if (!pay.ok || !pay.data) {
+      logStep("return.payment_fetch_failed", {
+        paymentId,
+        userId,
+        status: pay.status,
+      });
       return res.status(500).json({
         error: "Failed to fetch Mercado Pago payment",
         status: pay.status,
@@ -446,12 +565,29 @@ module.exports = async function handler(req, res) {
     const status = String(pay.data.status || "").toLowerCase();
     const metadata = pay.data.metadata || {};
 
+    logStep("return.payment_fetched", {
+      paymentId,
+      userId,
+      paymentStatus: status,
+      metadataKeys: Object.keys(metadata || {}),
+    });
+
     const metaUserId = String(metadata.user_id || "").trim();
     if (!metaUserId || metaUserId !== String(userId)) {
+      logStep("return.forbidden.user_mismatch", {
+        paymentId,
+        userId,
+        metaUserId,
+      });
       return res.status(403).json({ error: "Payment does not belong to this user" });
     }
 
     if (status !== "approved") {
+      logStep("return.not_approved", {
+        paymentId,
+        userId,
+        paymentStatus: status,
+      });
       return res.status(200).json({
         ok: false,
         payment_status: status,
@@ -470,11 +606,25 @@ module.exports = async function handler(req, res) {
       items = [];
     }
 
+    logStep("return.items_parsed", {
+      paymentId,
+      userId,
+      itemsCount: items.length,
+      items,
+    });
+
     if (!items.length) {
       return res.status(500).json({ error: "Payment metadata items missing/invalid" });
     }
 
     const grant = await grantPurchasesFromPayment(supabase, userId, items);
+
+    logStep("return.grant_result", {
+      paymentId,
+      userId,
+      grant,
+    });
+
     if (!grant.ok) {
       return res.status(500).json({ error: grant.error || "Failed to grant purchases" });
     }
@@ -486,6 +636,12 @@ module.exports = async function handler(req, res) {
       grant.granted
     );
 
+    logStep("return.email_result", {
+      paymentId,
+      userId,
+      emailResult,
+    });
+
     return res.status(200).json({
       ok: true,
       granted: grant.granted,
@@ -495,6 +651,11 @@ module.exports = async function handler(req, res) {
       email_error: emailResult.ok ? null : emailResult.error || null,
     });
   } catch (err) {
+    logStep("handler.exception", {
+      message: err?.message || "Unknown error",
+      stack: err?.stack || null,
+    });
+
     return res.status(500).json({
       error: "Failed to confirm Mercado Pago payment",
       message: err?.message ? err.message : "Unknown error",
