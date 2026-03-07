@@ -27,7 +27,6 @@ function getMercadoPagoAccessToken() {
 
   const tokenProd = process.env.MERCADOPAGO_ACCESS_TOKEN_PROD;
   const tokenTest = process.env.MERCADOPAGO_ACCESS_TOKEN_TEST;
-
   const tokenLegacy = process.env.MERCADOPAGO_ACCESS_TOKEN;
 
   if (isProd) return tokenProd || tokenLegacy || "";
@@ -46,7 +45,6 @@ function getWebhookSecret() {
 
   const secProd = process.env.MERCADOPAGO_WEBHOOK_SECRET_PROD;
   const secTest = process.env.MERCADOPAGO_WEBHOOK_SECRET_TEST;
-
   const secLegacy = process.env.MERCADOPAGO_WEBHOOK_SECRET;
 
   if (isProd) return secProd || secLegacy || "";
@@ -276,11 +274,11 @@ async function sendApprovedPurchaseEmail(supabase, userId, paymentId, grantedCou
         "Idempotency-Key": `mp-approved-${String(paymentId || "")}-${String(userId || "")}-${String(grantedCount || 0)}`,
       },
       body: JSON.stringify({
-        from: "Curadoria Elite Travel <onboarding@resend.dev>",
+        from: "Curadoria Elite Travel <contato@curadoriaelitetravel.com>",
         to: [email],
         subject: "Confirmação de acesso – Curadoria Elite Travel",
         html,
-        replyTo: "curadoriaelitetravel@gmail.com",
+        reply_to: "curadoriaelitetravel@gmail.com",
       }),
     });
 
@@ -331,9 +329,6 @@ module.exports = async function handler(req, res) {
       auth: { persistSession: false },
     });
 
-    // =====================================================
-    // ✅ WEBHOOK (POST) — Mercado Pago chamando seu site
-    // =====================================================
     if (req.method === "POST") {
       const body = req.body || {};
       const eventId = String(body?.data?.id || body?.id || "").trim();
@@ -418,9 +413,6 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // =====================================================
-    // ✅ RETORNO DO CHECKOUT (GET) — usuário voltando ao site
-    // =====================================================
     if (req.method !== "GET") {
       return res.status(405).json({ error: "Method Not Allowed" });
     }
