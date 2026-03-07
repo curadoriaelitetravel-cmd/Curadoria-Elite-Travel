@@ -12,6 +12,9 @@
       background:#0b0b0b;
       color:#fff;
       overflow-x:hidden;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
     }
 
     header{
@@ -84,13 +87,19 @@
     }
 
     main{
-      padding:120px 16px 60px;
-      max-width:980px;
-      margin:0 auto;
+      flex:1;
+      width:100%;
+      min-height:100vh;
+      padding:120px 16px 40px;
       box-sizing:border-box;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
     .card{
+      width:100%;
+      max-width:980px;
       background:linear-gradient(145deg,#111,#000);
       border:1px solid #222;
       border-radius:16px;
@@ -125,6 +134,10 @@
     @media (max-width:860px){
       .grid{ grid-template-columns:1fr; }
       header{ padding:14px 16px; }
+      main{
+        padding:104px 16px 24px;
+        align-items:flex-start;
+      }
     }
 
     label{
@@ -427,7 +440,7 @@
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm9zZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
   let supabaseClient = null;
 
