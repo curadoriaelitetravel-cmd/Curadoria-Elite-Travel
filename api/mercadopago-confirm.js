@@ -248,12 +248,8 @@ function buildAccessEmailHtml(customerName) {
   `;
 }
 
-async function sendApprovedPurchaseEmail(supabase, userId, paymentId, grantedCount) {
+async function sendApprovedPurchaseEmail(supabase, userId, paymentId) {
   try {
-    if (!grantedCount || grantedCount <= 0) {
-      return { ok: true, skipped: true, reason: "Nothing new granted" };
-    }
-
     const resendApiKey = getResendApiKey();
     if (!resendApiKey) {
       return { ok: false, error: "Missing RESEND_API_KEY env var" };
@@ -271,7 +267,7 @@ async function sendApprovedPurchaseEmail(supabase, userId, paymentId, grantedCou
       headers: {
         Authorization: `Bearer ${resendApiKey}`,
         "Content-Type": "application/json",
-        "Idempotency-Key": `mp-approved-${String(paymentId || "")}-${String(userId || "")}-${String(grantedCount || 0)}`,
+        "Idempotency-Key": `mp-approved-${String(paymentId || "")}-${String(userId || "")}`,
       },
       body: JSON.stringify({
         from: "Curadoria Elite Travel <contato@curadoriaelitetravel.com>",
@@ -329,6 +325,9 @@ module.exports = async function handler(req, res) {
       auth: { persistSession: false },
     });
 
+    // =====================================================
+    // ✅ WEBHOOK (POST) — Mercado Pago chamando seu site
+    // =====================================================
     if (req.method === "POST") {
       const body = req.body || {};
       const eventId = String(body?.data?.id || body?.id || "").trim();
@@ -399,8 +398,7 @@ module.exports = async function handler(req, res) {
       const emailResult = await sendApprovedPurchaseEmail(
         supabase,
         userId,
-        eventId,
-        grant.granted
+        eventId
       );
 
       return res.status(200).json({
@@ -408,11 +406,14 @@ module.exports = async function handler(req, res) {
         payment_status: status,
         granted: grant.granted,
         total_items: grant.total_items,
-        email_sent: !!emailResult.ok && !emailResult.skipped,
+        email_sent: !!emailResult.ok,
         email_error: emailResult.ok ? null : emailResult.error || null,
       });
     }
 
+    // =====================================================
+    // ✅ RETORNO DO CHECKOUT (GET) — usuário voltando ao site
+    // =====================================================
     if (req.method !== "GET") {
       return res.status(405).json({ error: "Method Not Allowed" });
     }
@@ -482,8 +483,7 @@ module.exports = async function handler(req, res) {
     const emailResult = await sendApprovedPurchaseEmail(
       supabase,
       userId,
-      paymentId,
-      grant.granted
+      paymentId
     );
 
     return res.status(200).json({
@@ -491,7 +491,7 @@ module.exports = async function handler(req, res) {
       granted: grant.granted,
       total_items: grant.total_items,
       payment_status: status,
-      email_sent: !!emailResult.ok && !emailResult.skipped,
+      email_sent: !!emailResult.ok,
       email_error: emailResult.ok ? null : emailResult.error || null,
     });
   } catch (err) {
