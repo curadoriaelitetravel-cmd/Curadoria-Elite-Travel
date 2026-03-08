@@ -107,6 +107,40 @@
       box-sizing:border-box;
     }
 
+    .status-card,
+    .error-card,
+    .loading-card{
+      text-align:center;
+    }
+
+    .status-card h1,
+    .error-card h1,
+    .loading-card h1{
+      text-align:center;
+    }
+
+    .status-card .subtitle,
+    .error-card .subtitle,
+    .loading-card .subtitle{
+      text-align:center;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .status-card .notice,
+    .error-card .notice,
+    .loading-card .notice{
+      text-align:center;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .status-card .actions,
+    .error-card .actions,
+    .loading-card .actions{
+      justify-content:center;
+    }
+
     h1{
       margin:0 0 8px;
       color:#d4af37;
@@ -412,7 +446,7 @@
     </form>
   </div>
 
-  <div class="card" id="screenPaymentError" style="display:none;">
+  <div class="card error-card" id="screenPaymentError" style="display:none;">
     <h1>Pagamento</h1>
     <p class="subtitle" id="paymentErrorText">Não encontramos a sessão de pagamento. Volte ao site e tente novamente.</p>
     <div class="actions">
@@ -421,7 +455,7 @@
     </div>
   </div>
 
-  <div class="card" id="screenStatus" style="display:none;">
+  <div class="card status-card" id="screenStatus" style="display:none;">
     <h1 id="statusTitle">Pagamento</h1>
     <p class="subtitle" id="statusSubtitle"></p>
     <div class="notice" id="statusNotice"></div>
@@ -431,7 +465,7 @@
     </div>
   </div>
 
-  <div class="card" id="screenLoading" style="display:block;">
+  <div class="card loading-card" id="screenLoading" style="display:block;">
     <h1 id="loadingTitle">Aguarde...</h1>
     <p class="subtitle" id="loadingSubtitle">Estamos preparando seu acesso.</p>
     <div class="notice" id="loadingNotice" style="display:none;"></div>
@@ -441,7 +475,7 @@
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm9zZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
   let supabaseClient = null;
 
