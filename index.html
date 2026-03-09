@@ -2203,6 +2203,43 @@
     updateCartBadge();
   }
 
+  function addToCartAndOpenCart(category, cityLabel){
+    if (userOwns(category, cityLabel)){
+      openPopup({
+        title: cityLabel,
+        text: "Você já adquiriu esse produto. Ele já está disponível em Minha conta.",
+        showProsseguir: false,
+        showRules: false,
+        secondaryText: "Ir para Minha conta",
+        onSecondary: () => goAccount()
+      });
+      updateCartBadge();
+      return;
+    }
+
+    const items = getCart();
+    const k = cartItemKey(category, cityLabel);
+
+    if (!items.some(it => it && it.key === k)){
+      const price = getPriceForCategory(category);
+
+      items.push({
+        key: k,
+        category: String(category || "").trim(),
+        city: String(cityLabel || "").trim(),
+        qty: 1,
+        price: Number(price || 0)
+      });
+
+      saveCart(items);
+      cartPricingPreview = null;
+      setCouponMessage("", "");
+      updateCartBadge();
+    }
+
+    openCart();
+  }
+
   function renderCities(){
     const grid = document.getElementById("cities-grid");
     const empty = document.getElementById("empty-state");
@@ -2262,7 +2299,9 @@
         }
       });
 
-      div.querySelector("[data-buy]").addEventListener("click", () => openDestinationPopup(currentCategory, cityLabel));
+      div.querySelector("[data-buy]").addEventListener("click", () => {
+        addToCartAndOpenCart(currentCategory, cityLabel);
+      });
 
       grid.appendChild(div);
     });
