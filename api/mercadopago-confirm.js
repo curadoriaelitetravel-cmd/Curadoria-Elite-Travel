@@ -15,38 +15,24 @@ function normalizeItem(it) {
   return { category, city };
 }
 
-/**
- * Decide automaticamente qual token do Mercado Pago usar:
- * - VERCEL_ENV=production  -> usa MERCADOPAGO_ACCESS_TOKEN_PROD
- * - VERCEL_ENV=preview/dev -> usa MERCADOPAGO_ACCESS_TOKEN_TEST
- * Fallback: MERCADOPAGO_ACCESS_TOKEN (antiga)
- */
 function getMercadoPagoAccessToken() {
-  const vercelEnv = String(process.env.VERCEL_ENV || "").toLowerCase(); // "production" | "preview" | "development"
+  const vercelEnv = String(process.env.VERCEL_ENV || "").toLowerCase();
   const isProd = vercelEnv === "production";
 
   const tokenProd = process.env.MERCADOPAGO_ACCESS_TOKEN_PROD;
   const tokenTest = process.env.MERCADOPAGO_ACCESS_TOKEN_TEST;
-
   const tokenLegacy = process.env.MERCADOPAGO_ACCESS_TOKEN;
 
   if (isProd) return tokenProd || tokenLegacy || "";
   return tokenTest || tokenLegacy || "";
 }
 
-/**
- * Decide automaticamente qual secret do Webhook usar:
- * - VERCEL_ENV=production  -> usa MERCADOPAGO_WEBHOOK_SECRET_PROD
- * - VERCEL_ENV=preview/dev -> usa MERCADOPAGO_WEBHOOK_SECRET_TEST
- * Fallback: MERCADOPAGO_WEBHOOK_SECRET (antiga)
- */
 function getWebhookSecret() {
   const vercelEnv = String(process.env.VERCEL_ENV || "").toLowerCase();
   const isProd = vercelEnv === "production";
 
   const secProd = process.env.MERCADOPAGO_WEBHOOK_SECRET_PROD;
   const secTest = process.env.MERCADOPAGO_WEBHOOK_SECRET_TEST;
-
   const secLegacy = process.env.MERCADOPAGO_WEBHOOK_SECRET;
 
   if (isProd) return secProd || secLegacy || "";
@@ -64,44 +50,28 @@ async function mpGetPayment(mpAccessToken, paymentId) {
       },
     }
   );
+
   const data = await r.json().catch(() => null);
   return { ok: r.ok, status: r.status, data };
 }
 
-/**
- * Validação do webhook (x-signature) do Mercado Pago.
- * Manifest: `id:${id};request-id:${requestId};ts:${ts};`
- * Assinatura: HMAC SHA256 do manifest usando a secret, em hex, comparado com v1 do header.
- */
 function verifyWebhookSignature(req, eventId) {
   const secret = getWebhookSecret();
   if (!secret) return { ok: false, error: "Missing webhook secret env var" };
 
-  const xSignature = req.headers["x-signature"] || req.headers["X-Signature"] || "";
-  const xRequestId = req.headers["x-request-id"] || req.headers["X-Request-Id"] || "";
+  const xSignature = req.headers["x-signature"] || "";
+  const xRequestId = req.headers["x-request-id"] || "";
 
-  const sig = String(xSignature || "");
-  const reqId = String(xRequestId || "");
-
-  if (!sig || !reqId) return { ok: false, error: "Missing x-signature or x-request-id" };
-
-  // x-signature vem tipo: "ts=1234567890, v1=abcdef..."
   let ts = "";
   let v1 = "";
 
-  sig.split(",").forEach((part) => {
+  xSignature.split(",").forEach((part) => {
     const [k, v] = part.split("=", 2);
-    const key = String(k || "").trim();
-    const val = String(v || "").trim();
-    if (key === "ts") ts = val;
-    if (key === "v1") v1 = val;
+    if (k.trim() === "ts") ts = v.trim();
+    if (k.trim() === "v1") v1 = v.trim();
   });
 
-  if (!ts || !v1) return { ok: false, error: "Invalid x-signature format" };
-  if (!eventId) return { ok: false, error: "Missing event id for signature" };
-
-  // Manifest oficial (docs / exemplos)
-  const manifest = `id:${eventId};request-id:${reqId};ts:${ts};`;
+  const manifest = `id:${eventId};request-id:${xRequestId};ts:${ts};`;
 
   const computed = crypto
     .createHmac("sha256", secret)
@@ -117,10 +87,11 @@ function verifyWebhookSignature(req, eventId) {
 }
 
 async function grantPurchasesFromPayment(supabase, userId, items) {
-  // 1) Monta lista com PDFs ativos
+
   const purchaseRows = [];
+
   for (const it of items) {
-    const { data: mat, error: matErr } = await supabase
+    const { data: mat } = await supabase
       .from("curadoria_materials")
       .select("pdf_url, city_label, category")
       .eq("is_active", true)
@@ -129,7 +100,7 @@ async function grantPurchasesFromPayment(supabase, userId, items) {
       .limit(1)
       .maybeSingle();
 
-    if (matErr || !mat?.pdf_url) continue;
+    if (!mat?.pdf_url) continue;
 
     purchaseRows.push({
       user_id: userId,
@@ -139,134 +110,140 @@ async function grantPurchasesFromPayment(supabase, userId, items) {
     });
   }
 
-  if (!purchaseRows.length) {
-    return { ok: false, error: "No valid materials found to grant access" };
-  }
-
-  // 2) Evitar duplicar
-  const { data: existing, error: exErr } = await supabase
+  const { data: existing } = await supabase
     .from("purchase")
     .select("category, city")
-    .eq("user_id", userId)
-    .limit(1000);
+    .eq("user_id", userId);
 
-  const existingSet = new Set();
-  if (!exErr && Array.isArray(existing)) {
-    existing.forEach((r) => {
-      existingSet.add(`${String(r.category || "").trim()}||${String(r.city || "").trim()}`);
-    });
-  }
+  const existingSet = new Set(
+    (existing || []).map((r) => `${r.category}||${r.city}`)
+  );
 
   const toInsert = purchaseRows.filter(
     (r) => !existingSet.has(`${r.category}||${r.city}`)
   );
 
   if (toInsert.length) {
-    const { error: insErr } = await supabase.from("purchase").insert(toInsert);
-    if (insErr) {
-      return { ok: false, error: insErr.message || "Failed to grant purchases" };
-    }
+    await supabase.from("purchase").insert(toInsert);
   }
 
   return { ok: true, granted: toInsert.length, total_items: items.length };
 }
 
+async function sendPurchaseEmail(email, items, total, installments, installmentAmount) {
+
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return;
+
+  let itemsHtml = "";
+  items.forEach((it) => {
+    itemsHtml += `<p>${it.category} - ${it.city}</p>`;
+  });
+
+  let paymentInfo = "Forma de pagamento: à vista";
+  if (installments && installments > 1) {
+    paymentInfo = `Forma de pagamento: ${installments}x de R$ ${installmentAmount}`;
+  }
+
+  const html = `
+  <h2>Compra confirmada</h2>
+
+  ${itemsHtml}
+
+  <p><strong>Total da compra: R$ ${total}</strong></p>
+
+  <p>${paymentInfo}</p>
+
+  <p>Para acessar seu material, entre em <strong>Minha conta</strong> no site da Curadoria Elite Travel.</p>
+
+  <p>Agradecemos a sua compra.</p>
+
+  <p><strong>CURADORIA ELITE TRAVEL</strong><br/>
+  O seu mundo, bem indicado.</p>
+  `;
+
+  await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: "Curadoria Elite Travel <contato@curadoriaelitetravel.com>",
+      to: [email],
+      subject: "Sua compra foi confirmada",
+      html: html,
+    }),
+  });
+}
+
 module.exports = async function handler(req, res) {
+
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
 
   try {
+
     const mpAccessToken = getMercadoPagoAccessToken();
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (!mpAccessToken) {
-      return res.status(500).json({
-        error:
-          "Missing Mercado Pago token. Configure MERCADOPAGO_ACCESS_TOKEN_TEST / MERCADOPAGO_ACCESS_TOKEN_PROD (or MERCADOPAGO_ACCESS_TOKEN fallback).",
-      });
-    }
-    if (!supabaseUrl) return res.status(500).json({ error: "Missing SUPABASE_URL env var" });
-    if (!supabaseServiceKey) return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY env var" });
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey, {
       auth: { persistSession: false },
     });
 
-    // =====================================================
-    // ✅ WEBHOOK (POST) — Mercado Pago chamando seu site
-    // =====================================================
     if (req.method === "POST") {
+
       const body = req.body || {};
       const eventId = String(body?.data?.id || body?.id || "").trim();
 
-      // valida assinatura
       const v = verifyWebhookSignature(req, eventId);
       if (!v.ok) {
-        return res.status(401).json({ error: v.error || "Unauthorized" });
+        return res.status(401).json({ error: v.error });
       }
 
-      if (!eventId) {
-        // Sem id não dá pra buscar pagamento
-        return res.status(200).json({ ok: true, ignored: true, reason: "Missing event id" });
-      }
-
-      // Busca pagamento no MP
       const pay = await mpGetPayment(mpAccessToken, eventId);
       if (!pay.ok || !pay.data) {
-        // importante responder 200 para não ficar em retry infinito
-        return res.status(200).json({
-          ok: true,
-          ignored: true,
-          reason: "Failed to fetch payment",
-          status: pay.status,
-        });
+        return res.status(200).json({ ok: true });
       }
 
-      const status = String(pay.data.status || "").toLowerCase(); // approved | pending | rejected | ...
-      const metadata = pay.data.metadata || {};
-
-      // Se não aprovado, não libera (mas responde 200)
+      const status = String(pay.data.status || "").toLowerCase();
       if (status !== "approved") {
-        return res.status(200).json({ ok: true, payment_status: status, granted: 0 });
+        return res.status(200).json({ ok: true });
       }
 
-      const userId = String(metadata.user_id || "").trim();
-      if (!userId) {
-        return res.status(200).json({
-          ok: true,
-          ignored: true,
-          reason: "Missing metadata.user_id",
-        });
-      }
+      const metadata = pay.data.metadata || {};
+      const userId = metadata.user_id;
 
-      // Itens
       let items = [];
       try {
-        const raw = metadata.items;
-        const parsed = raw ? JSON.parse(raw) : [];
-        if (Array.isArray(parsed)) {
-          items = parsed.map(normalizeItem).filter((x) => x.category && x.city);
-        }
-      } catch (e) {
+        items = JSON.parse(metadata.items || "[]").map(normalizeItem);
+      } catch {
         items = [];
       }
 
-      if (!items.length) {
-        return res.status(200).json({
-          ok: true,
-          ignored: true,
-          reason: "Missing/invalid metadata.items",
-        });
-      }
-
       const grant = await grantPurchasesFromPayment(supabase, userId, items);
-      if (!grant.ok) {
-        return res.status(200).json({
-          ok: true,
-          ignored: true,
-          reason: grant.error || "Grant failed",
-        });
+
+      // ===== ENVIO DE EMAIL (SEGURANÇA TOTAL) =====
+      try {
+
+        const payerEmail = pay.data.payer?.email;
+        const installments = pay.data.installments;
+        const installmentAmount = pay.data.transaction_details?.installment_amount;
+        const total = pay.data.transaction_amount;
+
+        if (payerEmail) {
+          await sendPurchaseEmail(
+            payerEmail,
+            items,
+            total,
+            installments,
+            installmentAmount
+          );
+        }
+
+      } catch (emailErr) {
+        console.log("email error", emailErr);
       }
 
       return res.status(200).json({
@@ -277,88 +254,12 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // =====================================================
-    // ✅ RETORNO DO CHECKOUT (GET) — usuário voltando ao site
-    // =====================================================
-    if (req.method !== "GET") {
-      return res.status(405).json({ error: "Method Not Allowed" });
-    }
+    return res.status(405).json({ error: "Method Not Allowed" });
 
-    const paymentId = String(req.query?.payment_id || "").trim();
-    if (!paymentId) {
-      return res.status(400).json({ error: "Missing payment_id" });
-    }
-
-    // 1) EXIGIR LOGIN (mesmo padrão do Stripe)
-    const token = getBearerToken(req);
-    if (!token) {
-      return res.status(200).json({ code: "LOGIN_REQUIRED" });
-    }
-
-    const { data: userData, error: userErr } = await supabase.auth.getUser(token);
-    if (userErr || !userData?.user?.id) {
-      return res.status(200).json({ code: "LOGIN_REQUIRED" });
-    }
-
-    const userId = userData.user.id;
-
-    // 2) BUSCAR PAGAMENTO NO MERCADO PAGO
-    const pay = await mpGetPayment(mpAccessToken, paymentId);
-    if (!pay.ok || !pay.data) {
-      return res.status(500).json({
-        error: "Failed to fetch Mercado Pago payment",
-        status: pay.status,
-        details: pay.data || null,
-      });
-    }
-
-    const status = String(pay.data.status || "").toLowerCase(); // approved | pending | rejected | ...
-    const metadata = pay.data.metadata || {};
-
-    // segurança: user_id no metadata precisa bater com o usuário logado
-    const metaUserId = String(metadata.user_id || "").trim();
-    if (!metaUserId || metaUserId !== String(userId)) {
-      return res.status(403).json({ error: "Payment does not belong to this user" });
-    }
-
-    // se não aprovado, não libera
-    if (status !== "approved") {
-      return res.status(200).json({
-        ok: false,
-        payment_status: status,
-        message: "Pagamento ainda não aprovado.",
-      });
-    }
-
-    // 3) ITENS (do metadata)
-    let items = [];
-    try {
-      const raw = metadata.items;
-      const parsed = raw ? JSON.parse(raw) : [];
-      if (Array.isArray(parsed)) items = parsed.map(normalizeItem).filter((x) => x.category && x.city);
-    } catch (e) {
-      items = [];
-    }
-
-    if (!items.length) {
-      return res.status(500).json({ error: "Payment metadata items missing/invalid" });
-    }
-
-    const grant = await grantPurchasesFromPayment(supabase, userId, items);
-    if (!grant.ok) {
-      return res.status(500).json({ error: grant.error || "Failed to grant purchases" });
-    }
-
-    return res.status(200).json({
-      ok: true,
-      granted: grant.granted,
-      total_items: grant.total_items,
-      payment_status: status,
-    });
   } catch (err) {
     return res.status(500).json({
       error: "Failed to confirm Mercado Pago payment",
-      message: err?.message ? err.message : "Unknown error",
+      message: err?.message || "Unknown error",
     });
   }
 };
