@@ -406,6 +406,151 @@ async function grantPurchasesFromPayment({ supabase, userId, items }) {
   return { ok: true, inserted: rowsToInsert.length };
 }
 
+// =====================================================
+// EMAIL HELPERS
+// =====================================================
+
+function formatBRL(value) {
+  const n = Number(value || 0);
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(n);
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+async function getUserEmailById(supabase, userId) {
+  try {
+    const { data, error } = await supabase.auth.admin.getUserById(userId);
+    if (error) return "";
+    return String(data?.user?.email || "").trim();
+  } catch (_) {
+    return "";
+  }
+}
+
+function buildPurchasedItemsForEmail(paymentData, items) {
+  const mpItemsA = Array.isArray(paymentData?.additional_info?.items)
+    ? paymentData.additional_info.items
+    : [];
+
+  const mpItemsB = Array.isArray(paymentData?.order?.items)
+    ? paymentData.order.items
+    : [];
+
+  const mpItems = mpItemsA.length ? mpItemsA : mpItemsB;
+
+  return (items || []).map((it) => {
+    const category = String(it?.category || "").trim();
+    const city = String(it?.city || "").trim();
+
+    const match = mpItems.find((mp) => {
+      const title = String(mp?.title || "").toLowerCase();
+      return title.includes(category.toLowerCase()) && title.includes(city.toLowerCase());
+    });
+
+    const amount = Number(match?.unit_price || 0);
+
+    return {
+      label: `${category} - ${city}`,
+      amount: amount > 0 ? amount : null,
+    };
+  });
+}
+
+function getPaymentTotal(paymentData) {
+  const metadataTotal = Number(paymentData?.metadata?.pricing?.total);
+  if (Number.isFinite(metadataTotal) && metadataTotal > 0) return metadataTotal;
+
+  const tx = Number(paymentData?.transaction_amount);
+  if (Number.isFinite(tx) && tx > 0) return tx;
+
+  return 0;
+}
+
+function getInstallmentsText(paymentData) {
+  const installments = Number(paymentData?.installments || 0);
+  const installmentAmount = Number(paymentData?.transaction_details?.installment_amount || 0);
+
+  if (installments > 1 && installmentAmount > 0) {
+    return `${installments}x de ${formatBRL(installmentAmount)}`;
+  }
+
+  return "à vista";
+}
+
+async function sendPurchaseEmail({ toEmail, paymentData, items }) {
+  const resendApiKey = String(process.env.RESEND_API_KEY || "").trim();
+  if (!resendApiKey) return { ok: false, skipped: true, reason: "Missing RESEND_API_KEY" };
+  if (!toEmail) return { ok: false, skipped: true, reason: "Missing recipient email" };
+
+  const purchasedItems = buildPurchasedItemsForEmail(paymentData, items);
+  const total = getPaymentTotal(paymentData);
+  const installmentsText = getInstallmentsText(paymentData);
+
+  const itemsHtml = purchasedItems.length
+    ? purchasedItems
+        .map((it) => {
+          const valueText = it.amount != null ? ` — ${formatBRL(it.amount)}` : "";
+          return `<p style="margin:0 0 10px 0;">${escapeHtml(it.label)}${escapeHtml(valueText)}</p>`;
+        })
+        .join("")
+    : `<p style="margin:0 0 10px 0;">Compra confirmada.</p>`;
+
+  const html = `
+    <div style="font-family:Segoe UI,Arial,sans-serif;color:#111;line-height:1.6;">
+      <h2 style="margin:0 0 18px 0;">Compra confirmada</h2>
+
+      ${itemsHtml}
+
+      <p style="margin:18px 0 8px 0;"><strong>Total da compra: ${escapeHtml(formatBRL(total))}</strong></p>
+      <p style="margin:0 0 18px 0;">Forma de pagamento: ${escapeHtml(installmentsText)}</p>
+
+      <p style="margin:0 0 18px 0;">Para acessar seu material, entre em <strong>Minha conta</strong> no site da Curadoria Elite Travel.</p>
+
+      <p style="margin:0 0 18px 0;">Agradecemos a sua compra.</p>
+
+      <p style="margin:0;">
+        <strong>CURADORIA ELITE TRAVEL</strong><br/>
+        O seu mundo, bem indicado.
+      </p>
+    </div>
+  `;
+
+  const r = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${resendApiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: "Curadoria Elite Travel <contato@curadoriaelitetravel.com>",
+      to: [toEmail],
+      subject: "Sua compra foi confirmada",
+      html,
+    }),
+  });
+
+  const data = await r.json().catch(() => null);
+
+  if (!r.ok) {
+    return {
+      ok: false,
+      status: r.status,
+      error: data?.message || data?.error || "Failed to send email",
+    };
+  }
+
+  return { ok: true, id: data?.id || null };
+}
+
 async function handleWebhook(req, res) {
   const mpAccessToken = getMercadoPagoAccessToken();
   const supabaseUrl = process.env.SUPABASE_URL;
@@ -471,6 +616,20 @@ async function handleWebhook(req, res) {
       reason: granted.error,
       details: granted.details || "",
     });
+  }
+
+  // ✅ envio de e-mail sem interferir no fluxo de compra
+  if (granted.inserted > 0) {
+    try {
+      const userEmail = await getUserEmailById(supabase, userId);
+      await sendPurchaseEmail({
+        toEmail: userEmail,
+        paymentData: pay.data,
+        items,
+      });
+    } catch (emailErr) {
+      console.error("purchase email failed:", emailErr?.message || emailErr);
+    }
   }
 
   return res.status(200).json({
