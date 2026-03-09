@@ -436,6 +436,29 @@ async function getUserEmailById(supabase, userId) {
   }
 }
 
+async function getCustomerNameByUserId(supabase, userId) {
+  try {
+    const { data, error } = await supabase
+      .from("invoice_profiles")
+      .select("full_name, corporate_name")
+      .eq("user_id", userId)
+      .limit(1)
+      .maybeSingle();
+
+    if (error || !data) return "";
+
+    return String(data.full_name || data.corporate_name || "").trim();
+  } catch (_) {
+    return "";
+  }
+}
+
+function getFirstName(fullName) {
+  const name = String(fullName || "").trim();
+  if (!name) return "";
+  return name.split(/\s+/)[0] || "";
+}
+
 function buildPurchasedItemsForEmail(paymentData, items) {
   const mpItemsA = Array.isArray(paymentData?.additional_info?.items)
     ? paymentData.additional_info.items
@@ -486,41 +509,90 @@ function getInstallmentsText(paymentData) {
   return "à vista";
 }
 
-async function sendPurchaseEmail({ toEmail, paymentData, items }) {
+async function sendPurchaseEmail({ toEmail, customerName, paymentData, items }) {
   const resendApiKey = String(process.env.RESEND_API_KEY || "").trim();
   if (!resendApiKey) return { ok: false, skipped: true, reason: "Missing RESEND_API_KEY" };
   if (!toEmail) return { ok: false, skipped: true, reason: "Missing recipient email" };
 
+  const accountUrl = "https://curadoria-elite-travel.vercel.app/account.html";
   const purchasedItems = buildPurchasedItemsForEmail(paymentData, items);
   const total = getPaymentTotal(paymentData);
   const installmentsText = getInstallmentsText(paymentData);
+  const firstName = getFirstName(customerName);
+
+  const greetingHtml = firstName
+    ? `<p style="margin:0 0 18px 0;font-size:16px;color:#111;">Olá, <strong>${escapeHtml(firstName)}</strong>.</p>`
+    : `<p style="margin:0 0 18px 0;font-size:16px;color:#111;">Olá.</p>`;
 
   const itemsHtml = purchasedItems.length
-    ? purchasedItems
-        .map((it) => {
-          const valueText = it.amount != null ? ` — ${formatBRL(it.amount)}` : "";
-          return `<p style="margin:0 0 10px 0;">${escapeHtml(it.label)}${escapeHtml(valueText)}</p>`;
-        })
-        .join("")
-    : `<p style="margin:0 0 10px 0;">Compra confirmada.</p>`;
+    ? `
+      <ul style="margin:0 0 18px 0;padding-left:20px;color:#111;">
+        ${purchasedItems
+          .map((it) => {
+            const valueText = it.amount != null ? ` — ${formatBRL(it.amount)}` : "";
+            return `<li style="margin:0 0 8px 0;">${escapeHtml(it.label)}${escapeHtml(valueText)}</li>`;
+          })
+          .join("")}
+      </ul>
+    `
+    : `<p style="margin:0 0 18px 0;color:#111;">Compra confirmada.</p>`;
 
   const html = `
-    <div style="font-family:Segoe UI,Arial,sans-serif;color:#111;line-height:1.6;">
-      <h2 style="margin:0 0 18px 0;">Compra confirmada</h2>
+    <div style="margin:0;padding:24px;background:#f6f3ea;">
+      <div style="max-width:640px;margin:0 auto;background:#ffffff;border:1px solid #e9e2cf;border-radius:16px;overflow:hidden;">
+        <div style="height:6px;background:#d4af37;"></div>
 
-      ${itemsHtml}
+        <div style="padding:32px 28px 30px 28px;font-family:Segoe UI,Arial,sans-serif;line-height:1.7;color:#111;">
+          <div style="text-align:center;margin-bottom:28px;">
+            <div style="font-family:Georgia,serif;font-size:22px;color:#b48a18;font-weight:700;letter-spacing:0.6px;">CURADORIA ELITE TRAVEL</div>
+            <div style="margin-top:4px;font-size:13px;color:#6f6a5d;">O seu mundo, bem indicado.</div>
+          </div>
 
-      <p style="margin:18px 0 8px 0;"><strong>Total da compra: ${escapeHtml(formatBRL(total))}</strong></p>
-      <p style="margin:0 0 18px 0;">Forma de pagamento: ${escapeHtml(installmentsText)}</p>
+          <h2 style="margin:0 0 20px 0;font-size:28px;line-height:1.2;color:#111;">Compra confirmada</h2>
 
-      <p style="margin:0 0 18px 0;">Para acessar seu material, entre em <strong>Minha conta</strong> no site da Curadoria Elite Travel.</p>
+          ${greetingHtml}
 
-      <p style="margin:0 0 18px 0;">Agradecemos a sua compra.</p>
+          <p style="margin:0 0 18px 0;font-size:16px;color:#111;">
+            Parabéns pela sua escolha. Sua compra foi confirmada com sucesso.
+            Ficamos felizes em fazer parte da sua próxima experiência.
+          </p>
 
-      <p style="margin:0;">
-        <strong>CURADORIA ELITE TRAVEL</strong><br/>
-        O seu mundo, bem indicado.
-      </p>
+          <p style="margin:0 0 10px 0;font-size:16px;color:#111;"><strong>Detalhes da compra:</strong></p>
+
+          ${itemsHtml}
+
+          <p style="margin:0 0 8px 0;font-size:16px;color:#111;"><strong>Total da compra:</strong> ${escapeHtml(formatBRL(total))}</p>
+          <p style="margin:0 0 22px 0;font-size:16px;color:#111;"><strong>Forma de pagamento:</strong> ${escapeHtml(installmentsText)}</p>
+
+          <div style="margin:0 0 22px 0;padding:18px;border:1px solid #eee3bf;border-radius:14px;background:#fcf8ec;">
+            <p style="margin:0 0 8px 0;font-size:15px;color:#111;"><strong>Importante:</strong></p>
+            <p style="margin:0;font-size:15px;color:#111;">
+              Por se tratar de conteúdo digital com acesso imediato após a compra,
+              não é possível realizar cancelamentos, trocas ou reembolsos.
+            </p>
+          </div>
+
+          <p style="margin:0 0 22px 0;font-size:16px;color:#111;">
+            Para acessar seu material, entre em <strong>Minha conta</strong> no site da Curadoria Elite Travel.
+          </p>
+
+          <div style="margin:0 0 26px 0;text-align:center;">
+            <a
+              href="${accountUrl}"
+              style="display:inline-block;background:#d4af37;color:#111;text-decoration:none;font-weight:700;padding:14px 26px;border-radius:10px;font-size:15px;"
+            >
+              Acessar Minha Conta
+            </a>
+          </div>
+
+          <p style="margin:0 0 18px 0;font-size:16px;color:#111;">Agradecemos a sua compra.</p>
+
+          <p style="margin:0;font-size:15px;color:#111;">
+            <strong>CURADORIA ELITE TRAVEL</strong><br/>
+            O seu mundo, bem indicado.
+          </p>
+        </div>
+      </div>
     </div>
   `;
 
@@ -622,8 +694,11 @@ async function handleWebhook(req, res) {
   if (granted.inserted > 0) {
     try {
       const userEmail = await getUserEmailById(supabase, userId);
+      const customerName = await getCustomerNameByUserId(supabase, userId);
+
       await sendPurchaseEmail({
         toEmail: userEmail,
+        customerName,
         paymentData: pay.data,
         items,
       });
