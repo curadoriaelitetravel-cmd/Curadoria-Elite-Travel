@@ -409,11 +409,23 @@
       letter-spacing:0.2px;
     }
 
+    .section-divider{
+      width:90px;
+      height:1px;
+      margin:18px auto 26px auto;
+      background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(212,175,55,0.95),
+        transparent
+      );
+    }
+
     .subtitle{
       text-align:center;
       color:rgba(255,255,255,0.82);
       max-width:900px;
-      margin:0 auto 36px;
+      margin:0 auto 44px;
       line-height:1.8;
       font-size:16px;
     }
@@ -438,8 +450,8 @@
     .grid{
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:22px;
-      margin-top:20px;
+      gap:26px;
+      margin-top:28px;
       align-items:stretch;
     }
 
@@ -471,7 +483,7 @@
       justify-content:center;
       gap:18px;
       max-width:1040px;
-      margin:26px auto 0 !important;
+      margin:30px auto 0 !important;
     }
 
     #curadoria-categories .card{
@@ -1133,6 +1145,7 @@
 
   <div class="cinema-section-inner">
     <h2>Curadoria</h2>
+    <div class="section-divider"></div>
     <p class="subtitle">
       Materiais digitais desenvolvidos para apoiar decisões de viagem com critério, clareza e indicações bem organizadas.
     </p>
