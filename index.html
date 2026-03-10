@@ -357,10 +357,14 @@
       position:absolute;
       inset:0;
       background-size:cover;
-      opacity:1;
-      transition:none;
+      opacity:0;
+      transition:opacity 3.2s ease;
       transform:scale(1.015);
       filter:brightness(0.70) saturate(0.80) contrast(1);
+    }
+
+    .side-bg.active{
+      opacity:1;
     }
 
     .side-bg.left{ background-position:left center; }
@@ -1409,8 +1413,11 @@
     "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80"
   ];
 
-  const LIBRARY_IMAGE =
-    "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=2000&q=80";
+  const LIBRARY_IMAGES = [
+    "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=2200&q=80",
+    "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=2200&q=80",
+    "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=2200&q=80"
+  ];
 
   const CURADORIA_IMAGES = [
     "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1800&q=80",
@@ -1488,14 +1495,8 @@
     startBackgroundSlider("curadoriaBg1", "curadoriaBg2", CURADORIA_IMAGES, 7600);
     startBackgroundSlider("buscadorBg1", "buscadorBg2", BUSCADOR_IMAGES, 7800);
 
-    const sl1 = document.getElementById("sl1");
-    const sl2 = document.getElementById("sl2");
-    const sr1 = document.getElementById("sr1");
-    const sr2 = document.getElementById("sr2");
-
-    [sl1, sl2, sr1, sr2].forEach(el => {
-      if (el) el.style.backgroundImage = `url("${LIBRARY_IMAGE}")`;
-    });
+    startBackgroundSlider("sl1", "sl2", LIBRARY_IMAGES, 8800);
+    startBackgroundSlider("sr1", "sr2", LIBRARY_IMAGES, 8800);
   }
 
   const OVERVIEW_PDF_URL = "https://lnyoqoezezisakghtmim.supabase.co/storage/v1/object/public/materiais/overview/general-overview.pdf";
