@@ -466,6 +466,26 @@
       line-height:1.65;
     }
 
+    #curadoria #curadoria-categories .card{
+      padding:18px 18px 20px;
+      cursor:pointer;
+    }
+
+    #curadoria #curadoria-categories .card img{
+      display:block;
+      width:100%;
+      height:150px;
+      object-fit:cover;
+      object-position:center;
+      border-radius:14px;
+      margin:0 auto 16px;
+      filter:brightness(0.92) saturate(0.88);
+    }
+
+    #curadoria #curadoria-categories .card h3{
+      margin:0 0 10px;
+    }
+
     button{
       cursor:pointer;
       padding:11px 18px;
@@ -1092,6 +1112,10 @@
 
       .cinema-section-inner{
         padding:40px 18px 30px;
+      }
+
+      #curadoria #curadoria-categories .card img{
+        height:140px;
       }
 
       .buscador-placeholder{
@@ -2163,14 +2187,18 @@
     categoryPricesMap.clear();
 
     try{
-      ensureSupabase();
+      const sb = ensureSupabase();
+      if (!sb) return;
 
-      const { data, error } = await supabaseClient
+      const { data, error } = await sb
         .from("category_prices")
         .select("category, price, is_active")
         .eq("is_active", true);
 
-      if (error) return;
+      if (error){
+        console.error("Erro ao carregar preços da Curadoria:", error);
+        return;
+      }
 
       (data || []).forEach(row => {
         const category = String(row.category || "").trim();
@@ -2181,7 +2209,9 @@
 
         categoryPricesMap.set(normalizeCategoryName(category), price);
       });
-    }catch(e){}
+    }catch(e){
+      console.error("Falha ao carregar preços da Curadoria:", e);
+    }
   }
 
   function setCheckoutContext(obj){
@@ -2352,15 +2382,20 @@
     materiaisAtivosPorCategoria.clear();
 
     try{
-      ensureSupabase();
+      const sb = ensureSupabase();
+      if (!sb){
+        setAdminStatus("Admin: falha na conexão", false);
+        return;
+      }
 
-      const { data, error } = await supabaseClient
+      const { data, error } = await sb
         .from("curadoria_materials")
         .select("category, city_label, pdf_url")
         .eq("is_active", true)
         .order("city_label", { ascending: true });
 
       if (error){
+        console.error("Erro ao carregar materiais da Curadoria:", error);
         setAdminStatus("Admin: erro ao carregar", false);
         return;
       }
@@ -2378,6 +2413,7 @@
 
       setAdminStatus("Admin: conectado", true);
     }catch(e){
+      console.error("Falha na conexão da Curadoria:", e);
       setAdminStatus("Admin: falha na conexão", false);
     }
   }
@@ -2389,21 +2425,27 @@
       const sess = await getSession();
       if (!sess || !sess.user) return;
 
-      ensureSupabase();
+      const sb = ensureSupabase();
+      if (!sb) return;
 
-      const { data, error } = await supabaseClient
+      const { data, error } = await sb
         .from("purchase")
         .select("category, city, pdf_url")
         .eq("user_id", sess.user.id)
         .limit(500);
 
-      if (error) return;
+      if (error){
+        console.error("Erro ao carregar compras do usuário:", error);
+        return;
+      }
 
       (data || []).forEach(row => {
         const k = purchaseKey(row.category || "", row.city || "");
         ownedMap.set(k, { pdf_url: row.pdf_url || null });
       });
-    }catch(e){}
+    }catch(e){
+      console.error("Falha ao carregar compras do usuário:", e);
+    }
   }
 
   function userOwns(category, cityLabel){
@@ -2521,7 +2563,7 @@
 
   function loadMoreCities(){
     visibleCount = Math.min(visibleCount + BATCH_SIZE, filteredCities.length);
-    renderCities(true);
+    renderCities();
   }
 
   function cartItemKey(category, cityLabel){
