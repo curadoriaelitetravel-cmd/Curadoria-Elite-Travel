@@ -466,6 +466,35 @@
       line-height:1.65;
     }
 
+    #curadoria-categories{
+      grid-template-columns:repeat(3, minmax(0, 320px));
+      justify-content:center;
+      gap:18px;
+      max-width:1040px;
+      margin:26px auto 0 !important;
+    }
+
+    #curadoria-categories .card{
+      padding:18px;
+      border-radius:16px;
+    }
+
+    #curadoria-categories .card img{
+      height:150px;
+      margin-bottom:12px;
+      border-radius:12px;
+    }
+
+    #curadoria-categories .card h3{
+      font-size:17px;
+      margin:6px 0 8px;
+    }
+
+    #curadoria-categories .card p{
+      font-size:13.4px;
+      line-height:1.55;
+    }
+
     button{
       cursor:pointer;
       padding:11px 18px;
@@ -923,6 +952,11 @@
       .grid{
         grid-template-columns:repeat(2,minmax(0,1fr));
       }
+
+      #curadoria-categories{
+        grid-template-columns:repeat(2, minmax(0, 320px));
+        max-width:700px;
+      }
     }
 
     @media (max-width:980px){
@@ -981,6 +1015,11 @@
 
       .grid{
         grid-template-columns:1fr;
+      }
+
+      #curadoria-categories{
+        grid-template-columns:1fr;
+        max-width:360px;
       }
     }
   </style>
