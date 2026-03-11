@@ -334,7 +334,7 @@
     }
 
     .pending-shell::before{
-      background-image:url("https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?auto=format&fit=crop&w=1800&q=80");
+      background-image:url("https://images.unsplash.com/photo-1751378678813-8039e91baed5?auto=format&fit=crop&w=1800&q=80");
       filter:brightness(0.82) saturate(0.92);
       opacity:0.54;
     }
@@ -835,7 +835,7 @@
     if (d.length > 2) out = d.slice(0,2) + "." + d.slice(2);
     if (d.length > 5) out = d.slice(0,6) + "." + d.slice(6);
     if (d.length > 8) out = out.slice(0,10) + "/" + d.slice(10);
-    if (d.length > 12) out = out.slice(0,15) + "-" + d.slice(15);
+    if (d.length > 12) out = out.slice(0,15) + "-" + out.slice(15);
     return out;
   }
 
