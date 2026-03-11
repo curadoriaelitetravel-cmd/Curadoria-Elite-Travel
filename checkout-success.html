@@ -296,7 +296,8 @@
     .hidden{ display:none !important; }
 
     .approved-shell,
-    .pending-shell{
+    .pending-shell,
+    .rejected-shell{
       position:relative;
       overflow:hidden;
       border:1px solid rgba(212,175,55,0.18);
@@ -307,7 +308,8 @@
     }
 
     .approved-shell::before,
-    .pending-shell::before{
+    .pending-shell::before,
+    .rejected-shell::before{
       content:"";
       position:absolute;
       inset:0;
@@ -317,7 +319,8 @@
     }
 
     .approved-shell::after,
-    .pending-shell::after{
+    .pending-shell::after,
+    .rejected-shell::after{
       content:"";
       position:absolute;
       inset:0;
@@ -339,8 +342,15 @@
       opacity:0.54;
     }
 
+    .rejected-shell::before{
+      background-image:url("https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1800&q=80");
+      filter:brightness(0.72) saturate(0.90);
+      opacity:0.52;
+    }
+
     .approved-content,
-    .pending-content{
+    .pending-content,
+    .rejected-content{
       position:relative;
       z-index:2;
       max-width:760px;
@@ -369,7 +379,8 @@
     }
 
     .approved-journey,
-    .pending-journey{
+    .pending-journey,
+    .rejected-journey{
       margin:4px auto 18px;
       color:rgba(255,255,255,0.92);
       font-size:18px;
@@ -379,33 +390,38 @@
     }
 
     .approved-shell .notice,
-    .pending-shell .notice{
+    .pending-shell .notice,
+    .rejected-shell .notice{
       max-width:760px;
       background:rgba(10,10,10,0.58);
       border:1px solid rgba(255,255,255,0.10);
       backdrop-filter:blur(6px);
     }
 
-    .pending-shell .actions{
+    .pending-shell .actions,
+    .rejected-shell .actions{
       position:relative;
       z-index:3;
     }
 
-    .pending-shell button{
+    .pending-shell button,
+    .rejected-shell button{
       position:relative;
       z-index:3;
       opacity:1;
       filter:none;
     }
 
-    .pending-shell button:not(.btn-ghost){
+    .pending-shell button:not(.btn-ghost),
+    .rejected-shell button:not(.btn-ghost){
       background:#d4af37;
       color:#000;
       border:none;
       box-shadow:0 10px 24px rgba(0,0,0,0.28);
     }
 
-    .pending-shell .btn-ghost{
+    .pending-shell .btn-ghost,
+    .rejected-shell .btn-ghost{
       background:transparent;
       color:#d4af37;
       border:1px solid rgba(212,175,55,0.35);
@@ -414,7 +430,8 @@
 
     @media (max-width:860px){
       .approved-content,
-      .pending-content{
+      .pending-content,
+      .rejected-content{
         padding-top:4px;
       }
 
@@ -426,7 +443,8 @@
       }
 
       .approved-journey,
-      .pending-journey{
+      .pending-journey,
+      .rejected-journey{
         font-size:16px;
         margin-bottom:16px;
       }
@@ -598,12 +616,14 @@
     </div>
 
     <div class="pending-content hidden" id="pendingContent"></div>
+    <div class="rejected-content hidden" id="rejectedContent"></div>
 
     <h1 id="statusTitle">Pagamento</h1>
     <p class="subtitle" id="statusSubtitle"></p>
 
     <p class="approved-journey hidden" id="approvedJourney">A sua jornada começa agora.</p>
     <p class="pending-journey hidden" id="pendingJourney">Estamos preparando sua experiência.</p>
+    <p class="rejected-journey hidden" id="rejectedJourney">Vamos tentar novamente.</p>
 
     <div class="notice" id="statusNotice"></div>
     <div class="actions" id="statusActions">
@@ -687,11 +707,13 @@
     const screen = document.getElementById("screenStatus");
     const approvedContent = document.getElementById("approvedContent");
     const pendingContent = document.getElementById("pendingContent");
+    const rejectedContent = document.getElementById("rejectedContent");
     const approvedJourney = document.getElementById("approvedJourney");
     const pendingJourney = document.getElementById("pendingJourney");
+    const rejectedJourney = document.getElementById("rejectedJourney");
 
     if (screen){
-      screen.classList.remove("approved-shell", "pending-shell");
+      screen.classList.remove("approved-shell", "pending-shell", "rejected-shell");
     }
 
     if (approvedContent){
@@ -702,12 +724,20 @@
       pendingContent.classList.add("hidden");
     }
 
+    if (rejectedContent){
+      rejectedContent.classList.add("hidden");
+    }
+
     if (approvedJourney){
       approvedJourney.classList.add("hidden");
     }
 
     if (pendingJourney){
       pendingJourney.classList.add("hidden");
+    }
+
+    if (rejectedJourney){
+      rejectedJourney.classList.add("hidden");
     }
   }
 
@@ -717,8 +747,10 @@
     const screen = document.getElementById("screenStatus");
     const approvedContent = document.getElementById("approvedContent");
     const pendingContent = document.getElementById("pendingContent");
+    const rejectedContent = document.getElementById("rejectedContent");
     const approvedJourney = document.getElementById("approvedJourney");
     const pendingJourney = document.getElementById("pendingJourney");
+    const rejectedJourney = document.getElementById("rejectedJourney");
 
     if (mode === "approved"){
       if (screen) screen.classList.add("approved-shell");
@@ -731,6 +763,13 @@
       if (screen) screen.classList.add("pending-shell");
       if (pendingContent) pendingContent.classList.remove("hidden");
       if (pendingJourney) pendingJourney.classList.remove("hidden");
+      return;
+    }
+
+    if (mode === "rejected"){
+      if (screen) screen.classList.add("rejected-shell");
+      if (rejectedContent) rejectedContent.classList.remove("hidden");
+      if (rejectedJourney) rejectedJourney.classList.remove("hidden");
     }
   }
 
@@ -861,7 +900,7 @@
     if (d.length > 2) out = d.slice(0,2) + "." + d.slice(2);
     if (d.length > 5) out = d.slice(0,6) + "." + d.slice(6);
     if (d.length > 8) out = out.slice(0,10) + "/" + d.slice(10);
-    if (d.length > 12) out = out.slice(0,15) + "-" + d.slice(15);
+    if (d.length > 12) out = out.slice(0,15) + "-" + out.slice(15);
     return out;
   }
 
@@ -1402,9 +1441,9 @@
     if (mpFlag === "failure"){
       setStatusScreen(
         "Pagamento não aprovado",
-        "Você pode tentar novamente com outro método de pagamento.",
+        "Você pode tentar novamente com outra forma de pagamento.",
         `<strong>Dica:</strong> se preferir, escolha outro meio de pagamento e conclua a compra para liberar o acesso.`,
-        ""
+        "rejected"
       );
       return;
     }
@@ -1449,9 +1488,9 @@
       if (result.final === "failure") {
         setStatusScreen(
           "Pagamento não aprovado",
-          "Você pode tentar novamente com outro método de pagamento.",
+          "Você pode tentar novamente com outra forma de pagamento.",
           `<strong>Dica:</strong> se preferir, escolha outro meio de pagamento e conclua a compra para liberar o acesso.`,
-          ""
+          "rejected"
         );
         return;
       }
