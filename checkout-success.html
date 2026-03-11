@@ -1,1526 +1,786 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Curadoria Elite Travel - Pagamento</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>Curadoria Elite Travel - Pagamento</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body{
-      margin:0;
-      font-family:"Segoe UI",sans-serif;
-      background:#0b0b0b;
-      color:#fff;
-      overflow-x:hidden;
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-    }
+<style>
 
-    header{
-      padding:16px 40px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      position:fixed;
-      width:100%;
-      top:0;
-      z-index:1000;
-      background:rgba(0,0,0,0.25);
-      backdrop-filter:blur(8px);
-      border-bottom:1px solid rgba(255,255,255,0.06);
-      box-sizing:border-box;
-      gap:16px;
-    }
+body{
+margin:0;
+font-family:"Segoe UI",sans-serif;
+background:#0b0b0b;
+color:#fff;
+overflow-x:hidden;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+}
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width:240px;
-      cursor:pointer;
-    }
+header{
+padding:16px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:fixed;
+width:100%;
+top:0;
+z-index:1000;
+background:rgba(0,0,0,0.25);
+backdrop-filter:blur(8px);
+border-bottom:1px solid rgba(255,255,255,0.06);
+box-sizing:border-box;
+gap:16px;
+}
 
-    .brand img{
-      height:34px;
-      width:34px;
-    }
+.brand{
+display:flex;
+align-items:center;
+gap:12px;
+min-width:240px;
+cursor:pointer;
+}
 
-    .brand-name{
-      font-family:"Cinzel","Georgia",serif;
-      font-size:18px;
-      color:#d4af37;
-      letter-spacing:0.8px;
-      text-transform:uppercase;
-      line-height:1.1;
-    }
+.brand img{
+height:34px;
+width:34px;
+}
 
-    .brand-tagline{
-      font-size:12px;
-      color:rgba(255,255,255,0.7);
-      line-height:1.2;
-      margin-top:2px;
-    }
+.brand-name{
+font-family:"Cinzel","Georgia",serif;
+font-size:18px;
+color:#d4af37;
+letter-spacing:0.8px;
+text-transform:uppercase;
+line-height:1.1;
+}
 
-    nav{
-      display:flex;
-      align-items:center;
-      gap:16px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
+.brand-tagline{
+font-size:12px;
+color:rgba(255,255,255,0.7);
+line-height:1.2;
+margin-top:2px;
+}
 
-    nav a{
-      color:#d4af37;
-      text-decoration:none;
-      font-weight:500;
-      cursor:pointer;
-      white-space:nowrap;
-    }
+nav{
+display:flex;
+align-items:center;
+gap:16px;
+flex-wrap:wrap;
+justify-content:flex-end;
+}
 
-    .nav-sep{
-      width:1px;
-      height:16px;
-      background:rgba(255,255,255,0.12);
-      display:inline-block;
-      margin:0 2px;
-    }
+nav a{
+color:#d4af37;
+text-decoration:none;
+font-weight:500;
+cursor:pointer;
+white-space:nowrap;
+}
 
-    main{
-      flex:1;
-      width:100%;
-      min-height:100vh;
-      padding:120px 16px 40px;
-      box-sizing:border-box;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
+.nav-sep{
+width:1px;
+height:16px;
+background:rgba(255,255,255,0.12);
+display:inline-block;
+margin:0 2px;
+}
 
-    .card{
-      width:100%;
-      max-width:980px;
-      background:linear-gradient(145deg,#111,#000);
-      border:1px solid #222;
-      border-radius:16px;
-      padding:26px;
-      box-sizing:border-box;
-    }
+main{
+flex:1;
+width:100%;
+min-height:100vh;
+padding:120px 16px 40px;
+box-sizing:border-box;
+display:flex;
+align-items:center;
+justify-content:center;
+}
 
-    .status-card,
-    .error-card,
-    .loading-card{
-      text-align:center;
-    }
+.card{
+width:100%;
+max-width:980px;
+background:linear-gradient(145deg,#111,#000);
+border:1px solid #222;
+border-radius:16px;
+padding:26px;
+box-sizing:border-box;
+}
 
-    .status-card h1,
-    .error-card h1,
-    .loading-card h1{
-      text-align:center;
-    }
+.status-card,
+.error-card,
+.loading-card{
+text-align:center;
+}
 
-    .status-card .subtitle,
-    .error-card .subtitle,
-    .loading-card .subtitle{
-      text-align:center;
-      margin-left:auto;
-      margin-right:auto;
-    }
+.status-card h1,
+.error-card h1,
+.loading-card h1{
+text-align:center;
+}
 
-    .status-card .notice,
-    .error-card .notice,
-    .loading-card .notice{
-      text-align:center;
-      margin-left:auto;
-      margin-right:auto;
-    }
+.status-card .subtitle,
+.error-card .subtitle,
+.loading-card .subtitle{
+text-align:center;
+margin-left:auto;
+margin-right:auto;
+}
 
-    .status-card .actions,
-    .error-card .actions,
-    .loading-card .actions{
-      justify-content:center;
-    }
+.status-card .notice,
+.error-card .notice,
+.loading-card .notice{
+text-align:center;
+margin-left:auto;
+margin-right:auto;
+}
 
-    h1{
-      margin:0 0 8px;
-      color:#d4af37;
-      font-size:22px;
-      letter-spacing:0.2px;
-      text-align:center;
-    }
+.status-card .actions,
+.error-card .actions,
+.loading-card .actions{
+justify-content:center;
+}
 
-    .subtitle{
-      margin:0 auto 16px;
-      max-width:760px;
-      color:rgba(255,255,255,0.78);
-      text-align:center;
-      line-height:1.6;
-      font-size:14px;
-    }
+h1{
+margin:0 0 8px;
+color:#d4af37;
+font-size:22px;
+letter-spacing:0.2px;
+text-align:center;
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-      margin-top:18px;
-    }
+.subtitle{
+margin:0 auto 16px;
+max-width:760px;
+color:rgba(255,255,255,0.78);
+text-align:center;
+line-height:1.6;
+font-size:14px;
+}
 
-    @media (max-width:860px){
-      .grid{ grid-template-columns:1fr; }
-      header{ padding:14px 16px; }
-      main{
-        padding:104px 16px 24px;
-        align-items:flex-start;
-      }
-    }
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+margin-top:18px;
+}
 
-    label{
-      display:block;
-      color:rgba(255,255,255,0.80);
-      font-size:13px;
-      margin:0 0 6px;
-    }
+@media (max-width:860px){
+.grid{ grid-template-columns:1fr; }
+header{ padding:14px 16px; }
+main{
+padding:104px 16px 24px;
+align-items:flex-start;
+}
+}
 
-    input, select{
-      width:100%;
-      padding:12px 12px;
-      border-radius:12px;
-      border:1px solid #222;
-      background:#0f0f0f;
-      color:#fff;
-      outline:none;
-      box-sizing:border-box;
-      font-size:14px;
-    }
+label{
+display:block;
+color:rgba(255,255,255,0.80);
+font-size:13px;
+margin:0 0 6px;
+}
 
-    input::placeholder{
-      color:rgba(255,255,255,0.45);
-    }
+input, select{
+width:100%;
+padding:12px 12px;
+border-radius:12px;
+border:1px solid #222;
+background:#0f0f0f;
+color:#fff;
+outline:none;
+box-sizing:border-box;
+font-size:14px;
+}
 
-    .hint{
-      margin-top:8px;
-      color:rgba(255,255,255,0.65);
-      font-size:13px;
-      line-height:1.55;
-      text-align:center;
-      min-height:20px;
-    }
+input::placeholder{
+color:rgba(255,255,255,0.45);
+}
 
-    .actions{
-      display:flex;
-      gap:12px;
-      justify-content:center;
-      flex-wrap:wrap;
-      margin-top:18px;
-    }
+.hint{
+margin-top:8px;
+color:rgba(255,255,255,0.65);
+font-size:13px;
+line-height:1.55;
+text-align:center;
+min-height:20px;
+}
 
-    button{
-      cursor:pointer;
-      padding:11px 16px;
-      border-radius:10px;
-      border:none;
-      background:#d4af37;
-      color:#000;
-      font-weight:800;
-      min-width:160px;
-    }
+.actions{
+display:flex;
+gap:12px;
+justify-content:center;
+flex-wrap:wrap;
+margin-top:18px;
+}
 
-    button[disabled]{
-      opacity:0.6;
-      cursor:not-allowed;
-    }
+button{
+cursor:pointer;
+padding:11px 16px;
+border-radius:10px;
+border:none;
+background:#d4af37;
+color:#000;
+font-weight:800;
+min-width:160px;
+}
 
-    .btn-ghost{
-      background:transparent;
-      border:1px solid rgba(212,175,55,0.35);
-      color:#d4af37;
-      font-weight:650;
-    }
+button[disabled]{
+opacity:0.6;
+cursor:not-allowed;
+}
 
-    .notice{
-      margin-top:18px;
-      padding:14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:#0f0f0f;
-      color:rgba(255,255,255,0.78);
-      font-size:13.5px;
-      line-height:1.8;
-      text-align:center;
-    }
+.btn-ghost{
+background:transparent;
+border:1px solid rgba(212,175,55,0.35);
+color:#d4af37;
+font-weight:650;
+}
 
-    .notice strong{ color:#d4af37; }
+.notice{
+margin-top:18px;
+padding:14px;
+border-radius:14px;
+border:1px solid rgba(255,255,255,0.10);
+background:#0f0f0f;
+color:rgba(255,255,255,0.78);
+font-size:13.5px;
+line-height:1.8;
+text-align:center;
+}
 
-    .ie-block{
-      grid-column:1 / -1;
-      border:1px solid #222;
-      border-radius:14px;
-      padding:14px;
-      background:#0f0f0f;
-    }
+.notice strong{ color:#d4af37; }
 
-    .ie-title{
-      color:#d4af37;
-      font-weight:700;
-      font-size:13px;
-      margin:0 0 10px;
-      letter-spacing:0.2px;
-    }
+.hidden{ display:none !important; }
 
-    .ie-options{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
+.approved-shell,
+.pending-shell,
+.rejected-shell{
+position:relative;
+overflow:hidden;
+border:1px solid rgba(212,175,55,0.18);
+background:linear-gradient(180deg, rgba(7,7,7,0.72), rgba(4,4,4,0.82));
+box-shadow:
+0 28px 70px rgba(0,0,0,0.36),
+inset 0 1px 0 rgba(255,255,255,0.02);
+}
 
-    .ie-opt{
-      display:inline-flex;
-      gap:10px;
-      align-items:center;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid rgba(212,175,55,0.25);
-      background:rgba(0,0,0,0.20);
-      cursor:pointer;
-      user-select:none;
-      color:rgba(255,255,255,0.86);
-      font-size:13px;
-    }
+.approved-shell::before,
+.pending-shell::before,
+.rejected-shell::before{
+content:"";
+position:absolute;
+inset:0;
+background-size:cover;
+background-position:center;
+pointer-events:none;
+}
 
-    .ie-opt input{
-      width:auto;
-      margin:0;
-      accent-color:#d4af37;
-    }
+.approved-shell::after,
+.pending-shell::after,
+.rejected-shell::after{
+content:"";
+position:absolute;
+inset:0;
+background:
+linear-gradient(180deg, rgba(0,0,0,0.26) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.46) 100%),
+linear-gradient(180deg, rgba(255,255,255,0.03), transparent 24%);
+pointer-events:none;
+}
 
-    .hidden{ display:none !important; }
+.approved-shell::before{
+background-image:url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1800&q=80");
+filter:brightness(0.86) saturate(0.98);
+opacity:0.60;
+}
 
-    .approved-shell,
-    .pending-shell,
-    .rejected-shell{
-      position:relative;
-      overflow:hidden;
-      border:1px solid rgba(212,175,55,0.18);
-      background:linear-gradient(180deg, rgba(7,7,7,0.72), rgba(4,4,4,0.82));
-      box-shadow:
-        0 28px 70px rgba(0,0,0,0.36),
-        inset 0 1px 0 rgba(255,255,255,0.02);
-    }
+.pending-shell::before{
+background-image:url("https://images.unsplash.com/photo-1751378678813-8039e91baed5?auto=format&fit=crop&w=1800&q=80");
+filter:brightness(0.82) saturate(0.92);
+opacity:0.54;
+}
 
-    .approved-shell::before,
-    .pending-shell::before,
-    .rejected-shell::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background-size:cover;
-      background-position:center;
-      pointer-events:none;
-    }
+.rejected-shell::before{
+background-image:url("https://images.unsplash.com/photo-1504198458649-3128b932f49b?auto=format&fit=crop&w=1800&q=80");
+filter:brightness(0.72) saturate(0.90);
+opacity:0.52;
+}
+.approved-content,
+.pending-content,
+.rejected-content{
+position:relative;
+z-index:2;
+max-width:760px;
+margin:0 auto;
+padding:12px 0 4px;
+}
 
-    .approved-shell::after,
-    .pending-shell::after,
-    .rejected-shell::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(180deg, rgba(0,0,0,0.26) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.46) 100%),
-        linear-gradient(180deg, rgba(255,255,255,0.03), transparent 24%);
-      pointer-events:none;
-    }
+.approved-badge{
+width:92px;
+height:92px;
+margin:0 auto 20px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#d4af37;
+font-size:40px;
+font-weight:800;
+border:1px solid rgba(212,175,55,0.40);
+background:
+radial-gradient(circle at center, rgba(212,175,55,0.24) 0%, rgba(212,175,55,0.12) 42%, rgba(212,175,55,0.05) 70%, transparent 100%);
+box-shadow:
+0 0 0 10px rgba(212,175,55,0.07),
+0 0 34px rgba(212,175,55,0.28),
+0 0 68px rgba(212,175,55,0.18);
+}
 
-    .approved-shell::before{
-      background-image:url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1800&q=80");
-      filter:brightness(0.86) saturate(0.98);
-      opacity:0.60;
-    }
+.approved-journey,
+.pending-journey,
+.rejected-journey{
+margin:4px auto 18px;
+color:rgba(255,255,255,0.92);
+font-size:18px;
+line-height:1.6;
+text-align:center;
+letter-spacing:0.2px;
+}
 
-    .pending-shell::before{
-      background-image:url("https://images.unsplash.com/photo-1751378678813-8039e91baed5?auto=format&fit=crop&w=1800&q=80");
-      filter:brightness(0.82) saturate(0.92);
-      opacity:0.54;
-    }
+.pending-shell .actions,
+.rejected-shell .actions{
+position:relative;
+z-index:3;
+}
 
-    .rejected-shell::before{
-      background-image:url("https://images.unsplash.com/photo-1504198458649-3128b932f49b?auto=format&fit=crop&w=1800&q=80");
-      filter:brightness(0.72) saturate(0.90);
-      opacity:0.52;
-    }
+.pending-shell button,
+.rejected-shell button{
+position:relative;
+z-index:3;
+opacity:1;
+filter:none;
+}
 
-    .approved-content,
-    .pending-content,
-    .rejected-content{
-      position:relative;
-      z-index:2;
-      max-width:760px;
-      margin:0 auto;
-      padding:12px 0 4px;
-    }
+.pending-shell button:not(.btn-ghost),
+.rejected-shell button:not(.btn-ghost){
+background:#d4af37;
+color:#000;
+border:none;
+box-shadow:0 10px 24px rgba(0,0,0,0.28);
+}
 
-    .approved-badge{
-      width:92px;
-      height:92px;
-      margin:0 auto 20px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#d4af37;
-      font-size:40px;
-      font-weight:800;
-      border:1px solid rgba(212,175,55,0.40);
-      background:
-        radial-gradient(circle at center, rgba(212,175,55,0.24) 0%, rgba(212,175,55,0.12) 42%, rgba(212,175,55,0.05) 70%, transparent 100%);
-      box-shadow:
-        0 0 0 10px rgba(212,175,55,0.07),
-        0 0 34px rgba(212,175,55,0.28),
-        0 0 68px rgba(212,175,55,0.18);
-    }
+.pending-shell .btn-ghost,
+.rejected-shell .btn-ghost{
+background:transparent;
+color:#d4af37;
+border:1px solid rgba(212,175,55,0.35);
+box-shadow:none;
+}
 
-    .approved-journey,
-    .pending-journey,
-    .rejected-journey{
-      margin:4px auto 18px;
-      color:rgba(255,255,255,0.92);
-      font-size:18px;
-      line-height:1.6;
-      text-align:center;
-      letter-spacing:0.2px;
-    }
-
-    .approved-shell .notice,
-    .pending-shell .notice,
-    .rejected-shell .notice{
-      max-width:760px;
-      background:rgba(10,10,10,0.58);
-      border:1px solid rgba(255,255,255,0.10);
-      backdrop-filter:blur(6px);
-    }
-
-    .pending-shell .actions,
-    .rejected-shell .actions{
-      position:relative;
-      z-index:3;
-    }
-
-    .pending-shell button,
-    .rejected-shell button{
-      position:relative;
-      z-index:3;
-      opacity:1;
-      filter:none;
-    }
-
-    .pending-shell button:not(.btn-ghost),
-    .rejected-shell button:not(.btn-ghost){
-      background:#d4af37;
-      color:#000;
-      border:none;
-      box-shadow:0 10px 24px rgba(0,0,0,0.28);
-    }
-
-    .pending-shell .btn-ghost,
-    .rejected-shell .btn-ghost{
-      background:transparent;
-      color:#d4af37;
-      border:1px solid rgba(212,175,55,0.35);
-      box-shadow:none;
-    }
-
-    @media (max-width:860px){
-      .approved-content,
-      .pending-content,
-      .rejected-content{
-        padding-top:4px;
-      }
-
-      .approved-badge{
-        width:82px;
-        height:82px;
-        font-size:34px;
-        margin-bottom:16px;
-      }
-
-      .approved-journey,
-      .pending-journey,
-      .rejected-journey{
-        font-size:16px;
-        margin-bottom:16px;
-      }
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
 <header>
-  <div class="brand" onclick="window.location.href='index.html'">
-    <img src="images/rosa-dos-ventos.png" alt="Rosa dos Ventos">
-    <div>
-      <div class="brand-name">Curadoria Elite Travel</div>
-      <div class="brand-tagline">O seu mundo, bem indicado.</div>
-    </div>
-  </div>
 
-  <nav>
-    <a onclick="window.location.href='index.html'">Início</a>
-    <span class="nav-sep"></span>
-    <a id="navAccount" onclick="window.location.href='account.html'" style="display:none;">Minha conta</a>
-    <a id="navLogin" onclick="window.location.href='login.html?return_to=checkout-success.html'" style="display:none;">Entrar</a>
-    <a id="navLogout" onclick="doLogout()" style="display:none;">Sair</a>
-  </nav>
+<div class="brand" onclick="window.location.href='index.html'">
+
+<img src="images/rosa-dos-ventos.png" alt="Rosa dos Ventos">
+
+<div>
+<div class="brand-name">Curadoria Elite Travel</div>
+<div class="brand-tagline">O seu mundo, bem indicado.</div>
+</div>
+
+</div>
+
+<nav>
+
+<a onclick="window.location.href='index.html'">Início</a>
+
+<span class="nav-sep"></span>
+
+<a id="navAccount"
+onclick="window.location.href='account.html'"
+style="display:none;">Minha conta</a>
+
+<a id="navLogin"
+onclick="window.location.href='login.html?return_to=checkout-success.html'"
+style="display:none;">Entrar</a>
+
+<a id="navLogout"
+onclick="doLogout()"
+style="display:none;">Sair</a>
+
+</nav>
+
 </header>
 
 <main>
-  <div class="card" id="screenInvoice" style="display:none;">
-    <h1>Nota Fiscal</h1>
-    <p class="subtitle">
-      Antes de prosseguir para o pagamento, confirme seus dados. Se já estiverem preenchidos, basta revisar e continuar.
-    </p>
 
-    <div class="notice" id="noticeText">
-      <strong>Importante:</strong> Produto digital. O acesso é liberado automaticamente em <strong>“Meus materiais”</strong> assim que o pagamento for <strong>aprovado</strong> pelo meio escolhido. <strong>Boleto:</strong> a confirmação pode levar até <strong>2 horas</strong>.<br><br>
-      Produto digital de acesso imediato. Não é possível realizar cancelamentos, trocas ou reembolsos após a confirmação da compra.<br><br>
-      Para sua comodidade, compras a partir de <strong>R$ 250</strong> poderão ser parceladas no cartão, conforme as condições exibidas no momento do pagamento.
-      Para valores inferiores a <strong>R$ 250</strong>, o pagamento segue à vista.
-    </div>
+<div class="card status-card hidden" id="screenStatus">
 
-    <form id="invoiceForm" autocomplete="on">
-      <div class="grid">
-        <div>
-          <label for="personType">Tipo</label>
-          <select id="personType">
-            <option value="cpf">Pessoa Física (CPF)</option>
-            <option value="cnpj">Pessoa Jurídica (CNPJ)</option>
-          </select>
-        </div>
+<div class="approved-content hidden" id="approvedContent">
 
-        <div>
-          <label for="docNumber" id="docLabel">CPF</label>
-          <input id="docNumber" placeholder="Digite o CPF" />
-        </div>
+<div class="approved-badge">✓</div>
 
-        <div>
-          <label for="fullName" id="nameLabel">Nome completo</label>
-          <input id="fullName" placeholder="Digite seu nome" />
-        </div>
+</div>
 
-        <div>
-          <label for="email">E-mail</label>
-          <input id="email" placeholder="Seu e-mail" />
-        </div>
+<div class="pending-content hidden" id="pendingContent"></div>
 
-        <div id="cpfBirthWrap">
-          <label for="birthDate">Data de nascimento</label>
-          <input id="birthDate" type="date" />
-        </div>
+<div class="rejected-content hidden" id="rejectedContent"></div>
 
-        <div id="cpfGenderWrap">
-          <label for="gender">Gênero</label>
-          <select id="gender">
-            <option value="">Selecione</option>
-            <option value="Mulher">Mulher</option>
-            <option value="Homem">Homem</option>
-            <option value="Outro">Outro</option>
-          </select>
-        </div>
+<h1 id="statusTitle">Pagamento</h1>
 
-        <div>
-          <label for="phone">Telefone</label>
-          <input id="phone" placeholder="(00) 00000-0000" />
-        </div>
+<p class="subtitle" id="statusSubtitle"></p>
 
-        <div>
-          <label for="zip">CEP</label>
-          <input id="zip" placeholder="00000-000" />
-        </div>
+<p class="approved-journey hidden" id="approvedJourney">
+A sua jornada começa agora.
+</p>
 
-        <div>
-          <label for="address">Endereço</label>
-          <input id="address" placeholder="Rua / Avenida" />
-        </div>
+<p class="pending-journey hidden" id="pendingJourney">
+Estamos preparando sua experiência.
+</p>
 
-        <div>
-          <label for="number">Número</label>
-          <input id="number" placeholder="Número" />
-        </div>
+<p class="rejected-journey hidden" id="rejectedJourney">
+Vamos tentar novamente.
+</p>
 
-        <div>
-          <label for="district">Bairro</label>
-          <input id="district" placeholder="Bairro" />
-        </div>
+<div class="notice" id="statusNotice"></div>
 
-        <div>
-          <label for="city">Cidade</label>
-          <input id="city" placeholder="Cidade" />
-        </div>
+<div class="actions" id="statusActions">
 
-        <div>
-          <label for="state">Estado</label>
-          <input id="state" placeholder="UF" />
-        </div>
+<button onclick="window.location.href='account.html'">
+Ir para minha conta
+</button>
 
-        <div>
-          <label for="complement">Complemento (opcional)</label>
-          <input id="complement" placeholder="Apto, bloco, etc." />
-        </div>
+<button class="btn-ghost"
+onclick="window.location.href='index.html'">
+Voltar ao site
+</button>
 
-        <div id="ieBlock" class="ie-block hidden">
-          <div class="ie-title">Indicador de IE</div>
+</div>
 
-          <div class="ie-options">
-            <label class="ie-opt">
-              <input type="radio" name="ie_indicator" value="CONTRIBUINTE">
-              Contribuinte
-            </label>
+</div>
 
-            <label class="ie-opt">
-              <input type="radio" name="ie_indicator" value="ISENTO">
-              Isento
-            </label>
+<div class="card loading-card" id="screenLoading">
 
-            <label class="ie-opt">
-              <input type="radio" name="ie_indicator" value="NAO_CONTRIBUINTE">
-              Não Contribuinte
-            </label>
-          </div>
+<h1>Aguarde...</h1>
 
-          <div id="ieNumberWrap" class="hidden" style="margin-top:12px;">
-            <label for="ieNumber">IE (se Contribuinte)</label>
-            <input id="ieNumber" placeholder="Digite a IE" />
-          </div>
-        </div>
-      </div>
+<p class="subtitle">
+Estamos verificando o status do seu pagamento.
+</p>
 
-      <div class="actions">
-        <button type="button" class="btn-ghost" onclick="window.location.href='index.html'">Voltar ao site</button>
-        <button type="button" id="btnInvoiceProceed">Prosseguir</button>
-      </div>
+</div>
 
-      <p class="hint" id="invoiceHint"></p>
-    </form>
-  </div>
+<div class="card error-card hidden" id="screenPaymentError">
 
-  <div class="card error-card" id="screenPaymentError" style="display:none;">
-    <h1>Pagamento</h1>
-    <p class="subtitle" id="paymentErrorText">Não encontramos a sessão de pagamento. Volte ao site e tente novamente.</p>
-    <div class="actions">
-      <button type="button" onclick="window.location.href='account.html'">Ir para minha conta</button>
-      <button type="button" class="btn-ghost" onclick="window.location.href='index.html'">Voltar ao site</button>
-    </div>
-  </div>
+<h1>Erro no pagamento</h1>
 
-  <div class="card status-card" id="screenStatus" style="display:none;">
-    <div class="approved-content hidden" id="approvedContent">
-      <div class="approved-badge">✓</div>
-    </div>
+<p class="subtitle">
+Não conseguimos localizar a confirmação do pagamento.
+</p>
 
-    <div class="pending-content hidden" id="pendingContent"></div>
-    <div class="rejected-content hidden" id="rejectedContent"></div>
+<div class="actions">
 
-    <h1 id="statusTitle">Pagamento</h1>
-    <p class="subtitle" id="statusSubtitle"></p>
+<button onclick="window.location.href='account.html'">
+Ir para minha conta
+</button>
 
-    <p class="approved-journey hidden" id="approvedJourney">A sua jornada começa agora.</p>
-    <p class="pending-journey hidden" id="pendingJourney">Estamos preparando sua experiência.</p>
-    <p class="rejected-journey hidden" id="rejectedJourney">Vamos tentar novamente.</p>
+<button class="btn-ghost"
+onclick="window.location.href='index.html'">
+Voltar ao site
+</button>
 
-    <div class="notice" id="statusNotice"></div>
-    <div class="actions" id="statusActions">
-      <button type="button" onclick="window.location.href='account.html'">Ir para minha conta</button>
-      <button type="button" class="btn-ghost" onclick="window.location.href='index.html'">Voltar ao site</button>
-    </div>
-  </div>
+</div>
 
-  <div class="card loading-card" id="screenLoading" style="display:block;">
-    <h1 id="loadingTitle">Aguarde...</h1>
-    <p class="subtitle" id="loadingSubtitle">Estamos preparando seu acesso.</p>
-    <div class="notice" id="loadingNotice" style="display:none;"></div>
-  </div>
+</div>
+
 </main>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
 <script>
-  const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
-  let supabaseClient = null;
+const SUPABASE_URL =
+"https://lnyoqoezezisakghtmim.supabase.co"
 
-  function ensureSupabase(){
-    if (supabaseClient) return supabaseClient;
-    if (!window.supabase) return null;
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    return supabaseClient;
-  }
+const SUPABASE_ANON_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
 
+let supabaseClient=null
+
+function ensureSupabase(){
+
+if(supabaseClient) return supabaseClient
+
+if(!window.supabase) return null
+
+supabaseClient=window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_ANON_KEY
+)
+
+return supabaseClient
+
+}
   async function getSession(){
-    const sb = ensureSupabase();
-    if (!sb) return null;
-    const { data } = await sb.auth.getSession();
-    return (data && data.session) ? data.session : null;
-  }
-
-  async function getAccessToken(){
-    const sess = await getSession();
-    return (sess && sess.access_token) ? sess.access_token : null;
-  }
-
-  async function doLogout(){
-    try{
-      const sb = ensureSupabase();
-      if (sb) await sb.auth.signOut();
-    }catch(e){}
-    window.location.href = "index.html";
-  }
-
-  function qs(name){
-    try{
-      return new URL(window.location.href).searchParams.get(name);
-    }catch(e){ return null; }
-  }
-
-  function sleep(ms){
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  function show(elId){
-    const ids = ["screenLoading","screenInvoice","screenPaymentError","screenStatus"];
-    ids.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.display = (id === elId) ? "block" : "none";
-    });
-  }
-
-  function setLoadingNotice(html){
-    const box = document.getElementById("loadingNotice");
-    if (!box) return;
-    if (!html){
-      box.style.display = "none";
-      box.innerHTML = "";
-      return;
-    }
-    box.style.display = "block";
-    box.innerHTML = html;
-  }
-
-  function resetStatusVisuals(){
-    const screen = document.getElementById("screenStatus");
-    const approvedContent = document.getElementById("approvedContent");
-    const pendingContent = document.getElementById("pendingContent");
-    const rejectedContent = document.getElementById("rejectedContent");
-    const approvedJourney = document.getElementById("approvedJourney");
-    const pendingJourney = document.getElementById("pendingJourney");
-    const rejectedJourney = document.getElementById("rejectedJourney");
-
-    if (screen){
-      screen.classList.remove("approved-shell", "pending-shell", "rejected-shell");
-    }
-
-    if (approvedContent){
-      approvedContent.classList.add("hidden");
-    }
-
-    if (pendingContent){
-      pendingContent.classList.add("hidden");
-    }
-
-    if (rejectedContent){
-      rejectedContent.classList.add("hidden");
-    }
-
-    if (approvedJourney){
-      approvedJourney.classList.add("hidden");
-    }
-
-    if (pendingJourney){
-      pendingJourney.classList.add("hidden");
-    }
-
-    if (rejectedJourney){
-      rejectedJourney.classList.add("hidden");
-    }
-  }
-
-  function setStatusVisual(mode){
-    resetStatusVisuals();
-
-    const screen = document.getElementById("screenStatus");
-    const approvedContent = document.getElementById("approvedContent");
-    const pendingContent = document.getElementById("pendingContent");
-    const rejectedContent = document.getElementById("rejectedContent");
-    const approvedJourney = document.getElementById("approvedJourney");
-    const pendingJourney = document.getElementById("pendingJourney");
-    const rejectedJourney = document.getElementById("rejectedJourney");
-
-    if (mode === "approved"){
-      if (screen) screen.classList.add("approved-shell");
-      if (approvedContent) approvedContent.classList.remove("hidden");
-      if (approvedJourney) approvedJourney.classList.remove("hidden");
-      return;
-    }
-
-    if (mode === "pending"){
-      if (screen) screen.classList.add("pending-shell");
-      if (pendingContent) pendingContent.classList.remove("hidden");
-      if (pendingJourney) pendingJourney.classList.remove("hidden");
-      return;
-    }
-
-    if (mode === "rejected"){
-      if (screen) screen.classList.add("rejected-shell");
-      if (rejectedContent) rejectedContent.classList.remove("hidden");
-      if (rejectedJourney) rejectedJourney.classList.remove("hidden");
-    }
-  }
-
-  function setStatusScreen(title, subtitle, noticeHtml, mode){
-    const t = document.getElementById("statusTitle");
-    const s = document.getElementById("statusSubtitle");
-    const n = document.getElementById("statusNotice");
-    if (t) t.innerText = title || "Pagamento";
-    if (s) s.innerText = subtitle || "";
-    if (n) n.innerHTML = noticeHtml || "";
-    setStatusVisual(mode || "");
-    show("screenStatus");
-  }
-
-  function showApprovedScreen(){
-    clearCartStorage();
-    setStatusScreen(
-      "Pagamento aprovado",
-      "Sua compra foi confirmada com sucesso.",
-      `<strong>Pronto:</strong> seu material já está disponível em <strong>“Meus materiais”</strong> dentro da sua conta.<br><br>Você já pode acessar o conteúdo agora.`,
-      "approved"
-    );
-  }
-
-  async function refreshNav(){
-    const sess = await getSession();
-    const navAccount = document.getElementById("navAccount");
-    const navLogin = document.getElementById("navLogin");
-    const navLogout = document.getElementById("navLogout");
-
-    if (!navAccount || !navLogin || !navLogout) return;
-
-    if (sess && sess.user){
-      navAccount.style.display = "inline";
-      navLogout.style.display = "inline";
-      navLogin.style.display = "none";
-    }else{
-      navAccount.style.display = "none";
-      navLogout.style.display = "none";
-      navLogin.style.display = "inline";
-    }
-  }
-
-  const CART_STORAGE_KEY = "cet_cart_v2";
-  const CART_CHECKOUT_ITEMS_KEY = "cet_cart_checkout_items_v2";
-  const CART_COUPON_CODE_KEY = "cet_cart_coupon_code_v1";
-
-  function normalizeCouponCode(code){
-    return String(code || "").trim().toUpperCase();
-  }
-
-  function getCartCouponCode(){
-    try{
-      const v = localStorage.getItem(CART_COUPON_CODE_KEY);
-      return normalizeCouponCode(v || "");
-    }catch(e){
-      return "";
-    }
-  }
-
-  function clearCartCouponCode(){
-    try{ localStorage.removeItem(CART_COUPON_CODE_KEY); }catch(e){}
-  }
-
-  function clearCartStorage(){
-    try{ localStorage.removeItem(CART_STORAGE_KEY); }catch(e){}
-    try{ localStorage.removeItem(CART_CHECKOUT_ITEMS_KEY); }catch(e){}
-    clearCartCouponCode();
-  }
-
-  function getCartCheckoutItems(){
-    try{
-      const raw = localStorage.getItem(CART_CHECKOUT_ITEMS_KEY);
-      const parsed = raw ? JSON.parse(raw) : [];
-      return Array.isArray(parsed) ? parsed : [];
-    }catch(e){
-      return [];
-    }
-  }
-
-  async function apiGET(url){
-    const token = await getAccessToken();
-    const r = await fetch(url, {
-      method:"GET",
-      headers: token ? { "Authorization": "Bearer " + token } : {}
-    });
-    let json = null;
-    try{ json = await r.json(); }catch(e){}
-    return { ok: r.ok, status: r.status, json };
-  }
-
-  async function apiPOST(url, body){
-    const token = await getAccessToken();
-    const headers = { "Content-Type":"application/json" };
-    if (token) headers["Authorization"] = "Bearer " + token;
-
-    const r = await fetch(url, {
-      method:"POST",
-      headers,
-      body: JSON.stringify(body || {})
-    });
-    let json = null;
-    try{ json = await r.json(); }catch(e){}
-    return { ok: r.ok, status: r.status, json };
-  }
-
-  function setHint(text){
-    const el = document.getElementById("invoiceHint");
-    if (el) el.innerText = text || "";
-  }
-
-  function onlyDigits(s){
-    return String(s || "").replace(/\D+/g, "");
-  }
-
-  function maskCPF(v){
-    const d = onlyDigits(v).slice(0, 11);
-    let out = d;
-    if (d.length > 3) out = d.slice(0,3) + "." + d.slice(3);
-    if (d.length > 6) out = out.slice(0,7) + "." + out.slice(7);
-    if (d.length > 9) out = out.slice(0,11) + "-" + out.slice(11);
-    return out;
-  }
-
-  function maskCNPJ(v){
-    const d = onlyDigits(v).slice(0, 14);
-    let out = d;
-    if (d.length > 2) out = d.slice(0,2) + "." + d.slice(2);
-    if (d.length > 5) out = d.slice(0,6) + "." + d.slice(6);
-    if (d.length > 8) out = out.slice(0,10) + "/" + d.slice(10);
-    if (d.length > 12) out = out.slice(0,15) + "-" + out.slice(15);
-    return out;
-  }
-
-  function maskDocByType(v){
-    const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
-    return (personType === "cnpj") ? maskCNPJ(v) : maskCPF(v);
-  }
-
-  function maskIE(v){
-    const d = onlyDigits(v).slice(0, 14);
-    const parts = [];
-    for (let i = 0; i < d.length; i += 3){
-      parts.push(d.slice(i, i+3));
-    }
-    return parts.join(".");
-  }
-
-  function maskCEP(v){
-    const d = onlyDigits(v).slice(0, 8);
-    if (d.length <= 5) return d;
-    return d.slice(0,5) + "-" + d.slice(5);
-  }
-
-  function maskPhone(v){
-    const d = onlyDigits(v).slice(0, 11);
-    if (d.length <= 2) return d;
-    if (d.length <= 6) return "(" + d.slice(0,2) + ") " + d.slice(2);
-    if (d.length <= 10) return "(" + d.slice(0,2) + ") " + d.slice(2,6) + "-" + d.slice(6);
-    return "(" + d.slice(0,2) + ") " + d.slice(2,7) + "-" + d.slice(7);
-  }
-
-  function getSelectedIeIndicator(){
-    const radios = document.querySelectorAll('input[name="ie_indicator"]');
-    for (const r of radios){
-      if (r.checked) return r.value;
-    }
-    return "";
-  }
-
-  function setSelectedIeIndicator(val){
-    const radios = document.querySelectorAll('input[name="ie_indicator"]');
-    radios.forEach(r => {
-      r.checked = (r.value === val);
-    });
-  }
-
-  function showCnpjBlocks(show){
-    const ieBlock = document.getElementById("ieBlock");
-    if (ieBlock) ieBlock.classList.toggle("hidden", !show);
-  }
-
-  function showCpfBlocks(show){
-    const bw = document.getElementById("cpfBirthWrap");
-    const gw = document.getElementById("cpfGenderWrap");
-    if (bw) bw.classList.toggle("hidden", !show);
-    if (gw) gw.classList.toggle("hidden", !show);
-  }
-
-  function toggleIeNumber(){
-    const ind = getSelectedIeIndicator();
-    const wrap = document.getElementById("ieNumberWrap");
-    if (!wrap) return;
-    wrap.classList.toggle("hidden", ind !== "CONTRIBUINTE");
-    if (ind !== "CONTRIBUINTE"){
-      const ie = document.getElementById("ieNumber");
-      if (ie) ie.value = "";
-    }
-  }
-
-  function setDocLabels(){
-    const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
-    const docLabel = document.getElementById("docLabel");
-    const nameLabel = document.getElementById("nameLabel");
-    const doc = document.getElementById("docNumber");
-    const name = document.getElementById("fullName");
-
-    if (!docLabel || !nameLabel || !doc || !name) return;
-
-    if (personType === "cnpj"){
-      docLabel.innerText = "CNPJ";
-      nameLabel.innerText = "Razão social";
-      doc.placeholder = "Digite o CNPJ";
-      name.placeholder = "Digite a Razão Social";
-
-      showCnpjBlocks(true);
-      showCpfBlocks(false);
-      toggleIeNumber();
-    }else{
-      docLabel.innerText = "CPF";
-      nameLabel.innerText = "Nome completo";
-      doc.placeholder = "Digite o CPF";
-      name.placeholder = "Digite seu nome";
-
-      showCnpjBlocks(false);
-      showCpfBlocks(true);
-    }
-
-    doc.value = maskDocByType(doc.value);
-  }
-
-  function getFormValuesForApi(){
-    const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
-    const isCnpj = personType === "cnpj";
-
-    const doc = onlyDigits(document.getElementById("docNumber")?.value || "");
-    const name = String(document.getElementById("fullName")?.value || "").trim();
-
-    const zip = onlyDigits(document.getElementById("zip")?.value || "");
-    const state = String(document.getElementById("state")?.value || "").trim();
-    const city = String(document.getElementById("city")?.value || "").trim();
-    const district = String(document.getElementById("district")?.value || "").trim();
-    const address = String(document.getElementById("address")?.value || "").trim();
-    const number = String(document.getElementById("number")?.value || "").trim();
-    const complement = String(document.getElementById("complement")?.value || "").trim() || null;
-
-    const email = String(document.getElementById("email")?.value || "").trim();
-    const phone = String(document.getElementById("phone")?.value || "").trim();
-
-    const birthDate = String(document.getElementById("birthDate")?.value || "").trim();
-    const gender = String(document.getElementById("gender")?.value || "").trim();
-
-    const ie_indicator = getSelectedIeIndicator();
-    const ieNumberDigits = onlyDigits(document.getElementById("ieNumber")?.value || "");
-
-    const payload = {
-      person_type: isCnpj ? "CNPJ" : "CPF",
-      doc_number: doc,
-
-      full_name: isCnpj ? "" : name,
-      corporate_name: isCnpj ? name : "",
-
-      ie_indicator: isCnpj ? ie_indicator : null,
-      ie: isCnpj ? (ie_indicator === "CONTRIBUINTE" ? (ieNumberDigits || null) : null) : null,
-
-      birth_date: isCnpj ? null : (birthDate || null),
-      gender: isCnpj ? null : (gender || null),
-
-      cep: zip,
-      uf: state,
-      city_name: city,
-      neighborhood: district,
-      street: address,
-      street_number: number,
-      complement: complement,
-
-      email,
-      phone,
-    };
-
-    return payload;
-  }
-
-  function validateFront(){
-    const personType = (document.getElementById("personType")?.value || "cpf").toLowerCase();
-    const isCnpj = personType === "cnpj";
-
-    const doc = onlyDigits(document.getElementById("docNumber")?.value || "");
-    const name = String(document.getElementById("fullName")?.value || "").trim();
-
-    const zip = onlyDigits(document.getElementById("zip")?.value || "");
-    const state = String(document.getElementById("state")?.value || "").trim();
-    const city = String(document.getElementById("city")?.value || "").trim();
-    const district = String(document.getElementById("district")?.value || "").trim();
-    const address = String(document.getElementById("address")?.value || "").trim();
-    const number = String(document.getElementById("number")?.value || "").trim();
-
-    if (!doc) return "Preencha CPF/CNPJ.";
-    if (!name) return isCnpj ? "Preencha a Razão Social." : "Preencha o Nome completo.";
-    if (!zip) return "Preencha o CEP.";
-    if (!address) return "Preencha o Endereço.";
-    if (!number) return "Preencha o Número.";
-    if (!district) return "Preencha o Bairro.";
-    if (!city) return "Preencha a Cidade.";
-    if (!state) return "Preencha o Estado (UF).";
-
-    if (!isCnpj){
-      const birthDate = String(document.getElementById("birthDate")?.value || "").trim();
-      const gender = String(document.getElementById("gender")?.value || "").trim();
-      if (!birthDate) return "Preencha a Data de nascimento.";
-      if (!gender) return "Selecione o Gênero.";
-    }else{
-      const ind = getSelectedIeIndicator();
-      if (!ind) return "Selecione o Indicador de IE (Contribuinte, Isento ou Não Contribuinte).";
-      if (ind === "CONTRIBUINTE"){
-        const ieNumber = onlyDigits(document.getElementById("ieNumber")?.value || "");
-        if (!ieNumber) return "Preencha a IE (se Contribuinte).";
-      }
-    }
-
-    return null;
-  }
-
-  async function loadInvoiceProfile(){
-    const res = await apiGET("/api/get-invoice-profile");
-    if (!res.ok) return null;
-    const j = res.json || {};
-    return j.profile || j.data || j;
-  }
-
-  function fillForm(profile){
-    if (!profile) return;
-
-    const pt = String(profile.person_type || profile.personType || "").toUpperCase();
-    const isCnpj = pt === "CNPJ";
-
-    const personTypeEl = document.getElementById("personType");
-    if (personTypeEl){
-      personTypeEl.value = isCnpj ? "cnpj" : "cpf";
-    }
-
-    setDocLabels();
-
-    const docEl = document.getElementById("docNumber");
-    if (docEl) {
-      docEl.value = maskDocByType(String(profile.doc_number || profile.document || "").trim());
-    }
-
-    const nameEl = document.getElementById("fullName");
-    if (nameEl) {
-      const nameValue = isCnpj
-        ? String(profile.corporate_name || profile.company_name || profile.full_name || profile.name || "").trim()
-        : String(profile.full_name || profile.name || "").trim();
-      nameEl.value = nameValue;
-    }
-
-    const emailEl = document.getElementById("email");
-    if (emailEl) {
-      emailEl.value = String(profile.email || "").trim();
-    }
-
-    const phoneEl = document.getElementById("phone");
-    if (phoneEl) {
-      phoneEl.value = maskPhone(String(profile.phone || "").trim());
-    }
-
-    const bd = document.getElementById("birthDate");
-    if (bd) {
-      bd.value = String(profile.birth_date || "").trim();
-    }
-
-    const g = document.getElementById("gender");
-    if (g) {
-      g.value = String(profile.gender || "").trim();
-    }
-
-    const zipEl = document.getElementById("zip");
-    if (zipEl) {
-      zipEl.value = maskCEP(String(profile.cep || profile.zip || "").trim());
-    }
-
-    const stEl = document.getElementById("state");
-    if (stEl) {
-      stEl.value = String(profile.uf || profile.state || "").trim();
-    }
-
-    const cityEl = document.getElementById("city");
-    if (cityEl) {
-      cityEl.value = String(profile.city_name || profile.city || "").trim();
-    }
-
-    const distEl = document.getElementById("district");
-    if (distEl) {
-      distEl.value = String(profile.neighborhood || profile.district || "").trim();
-    }
-
-    const addrEl = document.getElementById("address");
-    if (addrEl) {
-      addrEl.value = String(profile.street || profile.address || "").trim();
-    }
-
-    const numEl = document.getElementById("number");
-    if (numEl) {
-      numEl.value = String(profile.street_number || profile.number || "").trim();
-    }
-
-    const compEl = document.getElementById("complement");
-    if (compEl) {
-      compEl.value = String(profile.complement || "").trim();
-    }
-
-    const ind = String(profile.ie_indicator || "").toUpperCase();
-    setSelectedIeIndicator(ind || "");
-
-    const ieNumEl = document.getElementById("ieNumber");
-    if (ieNumEl) {
-      ieNumEl.value = profile.ie ? maskIE(String(profile.ie).trim()) : "";
-    }
-
-    toggleIeNumber();
-    setDocLabels();
-  }
-
-  async function createCheckoutMercadoPagoForSingle(category, city){
-    const res = await apiPOST("/api/create-checkout-mercadopago", { category, city });
-    if (!res.ok){
-      const msg = (res.json && (res.json.error || res.json.message)) ? (res.json.error || res.json.message) : null;
-      throw new Error(msg || "Não foi possível iniciar o pagamento.");
-    }
-    return res.json || {};
-  }
-
-  async function createCheckoutMercadoPagoForCart(items){
-    const couponCode = getCartCouponCode();
-    const body = { items };
-    if (couponCode) body.coupon_code = couponCode;
-
-    const res = await apiPOST("/api/create-checkout-mercadopago", body);
-    if (!res.ok){
-      const msg = (res.json && (res.json.error || res.json.message)) ? (res.json.error || res.json.message) : null;
-      throw new Error(msg || "Não foi possível iniciar o pagamento.");
-    }
-    return res.json || {};
-  }
-
-  function redirectToMercadoPago(resp){
-    const url =
-      resp.init_point ||
-      resp.sandbox_init_point ||
-      resp.url ||
-      (resp.data && (resp.data.init_point || resp.data.sandbox_init_point || resp.data.url)) ||
-      null;
-
-    if (url){
-      window.location.href = url;
-      return;
-    }
-    throw new Error("Não foi possível abrir o pagamento.");
-  }
-
-  async function ensureLoggedInForInvoice(){
-    const sess = await getSession();
-    if (sess && sess.user) return true;
-
-    const ret = encodeURIComponent(window.location.pathname + window.location.search);
-    window.location.href = "login.html?return_to=" + ret;
-    return false;
-  }
-
-  async function handleInvoiceStep(){
-    const ok = await ensureLoggedInForInvoice();
-    if (!ok) return;
-
-    show("screenInvoice");
-    setHint("");
-
-    const zipEl = document.getElementById("zip");
-    if (zipEl){
-      zipEl.addEventListener("input", () => {
-        zipEl.value = maskCEP(zipEl.value);
-      });
-    }
-
-    const phoneEl = document.getElementById("phone");
-    if (phoneEl){
-      phoneEl.addEventListener("input", () => {
-        phoneEl.value = maskPhone(phoneEl.value);
-      });
-    }
-
-    const docEl = document.getElementById("docNumber");
-    if (docEl){
-      docEl.addEventListener("input", () => {
-        docEl.value = maskDocByType(docEl.value);
-      });
-      docEl.value = maskDocByType(docEl.value);
-    }
-
-    const ieEl = document.getElementById("ieNumber");
-    if (ieEl){
-      ieEl.addEventListener("input", () => {
-        ieEl.value = maskIE(ieEl.value);
-      });
-    }
-
-    const personType = document.getElementById("personType");
-    if (personType){
-      personType.addEventListener("change", () => {
-        setHint("");
-        setSelectedIeIndicator("");
-        const ieNum = document.getElementById("ieNumber");
-        if (ieNum) ieNum.value = "";
-        setDocLabels();
-      });
-    }
-
-    const radios = document.querySelectorAll('input[name="ie_indicator"]');
-    radios.forEach(r => {
-      r.addEventListener("change", () => {
-        setHint("");
-        toggleIeNumber();
-      });
-    });
-
-    setDocLabels();
-
-    try{
-      const existing = await loadInvoiceProfile();
-      if (existing) fillForm(existing);
-    }catch(e){}
-
-    try{
-      const sess = await getSession();
-      const emailEl = document.getElementById("email");
-      if (emailEl && !emailEl.value && sess && sess.user && sess.user.email){
-        emailEl.value = sess.user.email;
-      }
-    }catch(e){}
-
-    const btn = document.getElementById("btnInvoiceProceed");
-    if (!btn) return;
-
-    btn.onclick = async () => {
-      try{
-        btn.disabled = true;
-        btn.innerText = "Aguarde...";
-        setHint("");
-
-        const token = await getAccessToken();
-        if (!token){
-          btn.disabled = false;
-          btn.innerText = "Prosseguir";
-          setHint("Sessão expirada. Faça login novamente.");
-          const ret = encodeURIComponent(window.location.pathname + window.location.search);
-          window.location.href = "login.html?return_to=" + ret;
-          return;
-        }
-
-        const err = validateFront();
-        if (err){
-          btn.disabled = false;
-          btn.innerText = "Prosseguir";
-          setHint(err);
-          return;
-        }
-
-        const payload = getFormValuesForApi();
-
-        const saveRes = await apiPOST("/api/save-invoice-profile", payload);
-        if (!saveRes.ok){
-          const msg = (saveRes.json && (saveRes.json.error || saveRes.json.message))
-            ? (saveRes.json.error || saveRes.json.message)
-            : "Não foi possível salvar seus dados.";
-          btn.disabled = false;
-          btn.innerText = "Prosseguir";
-          setHint(msg);
-          return;
-        }
-
-        const isCart = qs("cart") === "1";
-        const category = qs("category");
-        const city = qs("city");
-
-        let resp = null;
-
-        if (isCart){
-          const items = getCartCheckoutItems();
-          if (!items.length){
-            btn.disabled = false;
-            btn.innerText = "Prosseguir";
-            setHint("Seu carrinho está vazio. Volte ao site e selecione seus materiais.");
-            return;
-          }
-          resp = await createCheckoutMercadoPagoForCart(items);
-        }else{
-          if (!category || !city){
-            btn.disabled = false;
-            btn.innerText = "Prosseguir";
-            setHint("Não encontramos os dados do produto. Volte ao site e tente novamente.");
-            return;
-          }
-          resp = await createCheckoutMercadoPagoForSingle(category, city);
-        }
-
-        redirectToMercadoPago(resp);
-
-      }catch(e){
-        btn.disabled = false;
-        btn.innerText = "Prosseguir";
-        setHint(e && e.message ? e.message : "Não foi possível prosseguir. Tente novamente.");
-      }
-    };
-  }
-
-  async function confirmMercadoPagoPayment(paymentId, status, mpFlag, preferenceId){
-    const url =
-      "/api/mercadopago-confirm" +
-      "?status=" + encodeURIComponent((status || mpFlag || "")) +
-      "&payment_id=" + encodeURIComponent(paymentId || "") +
-      "&preference_id=" + encodeURIComponent(preferenceId || "");
-
-    return await apiGET(url);
-  }
-
-  async function tryConfirmUntilFinal(paymentId, status, mpFlag, preferenceId){
-    const attempts = 6;
-    const delays = [0, 1500, 2000, 2500, 3000, 3500];
-
-    for (let i = 0; i < attempts; i++){
-      if (i > 0) {
-        await sleep(delays[i]);
-      }
-
-      const res = await confirmMercadoPagoPayment(paymentId, status, mpFlag, preferenceId);
-
-      if (!res.ok) {
-        continue;
-      }
-
-      const j = res.json || {};
-      const paymentStatus = String(j.payment_status || status || mpFlag || "").toLowerCase();
-
-      if (paymentStatus === "approved" && j.ok) {
-        return { final: "approved", response: j };
-      }
-
-      if (j.derived_from_access === true) {
-        return { final: "approved", response: j };
-      }
-
-      if (paymentStatus === "pending") {
-        continue;
-      }
-
-      if (paymentStatus && paymentStatus !== "approved" && paymentStatus !== "pending") {
-        return { final: "failure", response: j };
-      }
-    }
-
-    return { final: "pending", response: null };
-  }
-
-  async function handleMercadoPagoReturn(){
-    const mpFlag = (qs("mp") || "").toLowerCase();
-    const status = (qs("status") || qs("collection_status") || "").toLowerCase();
-    const paymentId = qs("payment_id") || qs("collection_id") || "";
-    const preferenceId = qs("preference_id") || "";
-
-    if (mpFlag === "failure"){
-      setStatusScreen(
-        "Pagamento não aprovado",
-        "Você pode tentar novamente com outra forma de pagamento.",
-        `<strong>Dica:</strong> se preferir, escolha outro meio de pagamento e conclua a compra para liberar o acesso.`,
-        "rejected"
-      );
-      return;
-    }
-
-    if (!mpFlag && !status && !paymentId && !preferenceId){
-      show("screenPaymentError");
-      return;
-    }
-
-    const ok = await ensureLoggedInForInvoice();
-    if (!ok) return;
-
-    show("screenLoading");
-
-    setLoadingNotice(
-      `<strong>Liberação automática:</strong> seu acesso aparece em <strong>“Meus materiais”</strong> assim que o pagamento for <strong>aprovado</strong>.<br><strong>Boleto:</strong> a confirmação pode levar até <strong>2 horas</strong>.`
-    );
-
-    try{
-      if (!paymentId) {
-        if (mpFlag === "pending" || status === "pending") {
-          setStatusScreen(
-            "Pagamento em processamento",
-            "Assim que for aprovado, seu acesso será liberado automaticamente.",
-            `<strong>Liberação automática:</strong> seu material aparece em <strong>“Meus materiais”</strong> após a confirmação do pagamento.<br><strong>Boleto:</strong> a confirmação pode levar até <strong>2 horas</strong>.`,
-            "pending"
-          );
-          return;
-        }
-
-        show("screenPaymentError");
-        return;
-      }
-
-      const result = await tryConfirmUntilFinal(paymentId, status, mpFlag, preferenceId);
-
-      if (result.final === "approved") {
-        showApprovedScreen();
-        return;
-      }
-
-      if (result.final === "failure") {
-        setStatusScreen(
-          "Pagamento não aprovado",
-          "Você pode tentar novamente com outra forma de pagamento.",
-          `<strong>Dica:</strong> se preferir, escolha outro meio de pagamento e conclua a compra para liberar o acesso.`,
-          "rejected"
-        );
-        return;
-      }
-
-      setStatusScreen(
-        "Pagamento em processamento",
-        "Seu pagamento foi recebido e está em processamento.",
-        `<strong>Importante:</strong> se o pagamento acabar de ser aprovado, seu material pode aparecer em <strong>“Meus materiais”</strong> antes mesmo desta atualização visual.<br><br><strong>Boleto:</strong> a confirmação pode levar até <strong>2 horas</strong>.`,
-        "pending"
-      );
-    }catch(e){
-      show("screenPaymentError");
-    }
-  }
-
-  async function init(){
-    ensureSupabase();
-    await refreshNav();
-
-    const step = qs("step");
-
-    if (step === "invoice"){
-      await handleInvoiceStep();
-      return;
-    }
-
-    await handleMercadoPagoReturn();
-  }
-
-  document.addEventListener("DOMContentLoaded", init);
+const sb = ensureSupabase();
+if (!sb) return null;
+
+const { data } = await sb.auth.getSession();
+
+return (data && data.session) ? data.session : null;
+}
+
+async function doLogout(){
+try{
+const sb = ensureSupabase();
+if (sb) await sb.auth.signOut();
+}catch(e){}
+
+window.location.href="index.html";
+}
+
+function qs(name){
+try{
+return new URL(window.location.href).searchParams.get(name);
+}catch(e){
+return null;
+}
+}
+
+function show(elId){
+
+const ids = [
+"screenLoading",
+"screenStatus",
+"screenPaymentError"
+];
+
+ids.forEach(id => {
+
+const el=document.getElementById(id);
+
+if(!el) return;
+
+el.classList.toggle(
+"hidden",
+id!==elId
+);
+
+});
+}
+
+function resetStatusVisuals(){
+
+const screen=document.getElementById("screenStatus");
+
+const approvedContent=document.getElementById("approvedContent");
+const pendingContent=document.getElementById("pendingContent");
+const rejectedContent=document.getElementById("rejectedContent");
+
+const approvedJourney=document.getElementById("approvedJourney");
+const pendingJourney=document.getElementById("pendingJourney");
+const rejectedJourney=document.getElementById("rejectedJourney");
+
+if(screen){
+screen.classList.remove(
+"approved-shell",
+"pending-shell",
+"rejected-shell"
+);
+}
+
+if(approvedContent) approvedContent.classList.add("hidden");
+if(pendingContent) pendingContent.classList.add("hidden");
+if(rejectedContent) rejectedContent.classList.add("hidden");
+
+if(approvedJourney) approvedJourney.classList.add("hidden");
+if(pendingJourney) pendingJourney.classList.add("hidden");
+if(rejectedJourney) rejectedJourney.classList.add("hidden");
+
+}
+
+function setStatusVisual(mode){
+
+resetStatusVisuals();
+
+const screen=document.getElementById("screenStatus");
+
+const approvedContent=document.getElementById("approvedContent");
+const pendingContent=document.getElementById("pendingContent");
+const rejectedContent=document.getElementById("rejectedContent");
+
+const approvedJourney=document.getElementById("approvedJourney");
+const pendingJourney=document.getElementById("pendingJourney");
+const rejectedJourney=document.getElementById("rejectedJourney");
+
+if(mode==="approved"){
+
+if(screen) screen.classList.add("approved-shell");
+
+if(approvedContent) approvedContent.classList.remove("hidden");
+
+if(approvedJourney) approvedJourney.classList.remove("hidden");
+
+return;
+}
+
+if(mode==="pending"){
+
+if(screen) screen.classList.add("pending-shell");
+
+if(pendingContent) pendingContent.classList.remove("hidden");
+
+if(pendingJourney) pendingJourney.classList.remove("hidden");
+
+return;
+}
+
+if(mode==="rejected"){
+
+if(screen) screen.classList.add("rejected-shell");
+
+if(rejectedContent) rejectedContent.classList.remove("hidden");
+
+if(rejectedJourney) rejectedJourney.classList.remove("hidden");
+
+return;
+}
+
+}
+
+function setStatusScreen(
+title,
+subtitle,
+noticeHtml,
+mode
+){
+
+const t=document.getElementById("statusTitle");
+const s=document.getElementById("statusSubtitle");
+const n=document.getElementById("statusNotice");
+
+if(t) t.innerText=title||"Pagamento";
+
+if(s) s.innerText=subtitle||"";
+
+if(n) n.innerHTML=noticeHtml||"";
+
+setStatusVisual(mode||"");
+
+show("screenStatus");
+
+}
+
+function showApprovedScreen(){
+
+setStatusScreen(
+"Pagamento aprovado",
+"Sua compra foi confirmada com sucesso.",
+`<strong>Pronto:</strong> seu material já está disponível em <strong>“Meus materiais”</strong> dentro da sua conta.<br><br>Você já pode acessar o conteúdo agora.`,
+"approved"
+);
+
+}
+
+function showPendingScreen(){
+
+setStatusScreen(
+"Pagamento em processamento",
+"Seu pagamento foi recebido e está em processamento.",
+`<strong>Importante:</strong> seu material aparecerá em <strong>“Meus materiais”</strong> assim que o pagamento for aprovado.<br><br><strong>Boleto:</strong> a confirmação pode levar até <strong>2 horas</strong>.`,
+"pending"
+);
+
+}
+
+function showRejectedScreen(){
+
+setStatusScreen(
+"Pagamento não aprovado",
+"Você pode tentar novamente com outra forma de pagamento.",
+`<strong>Dica:</strong> se preferir, escolha outro meio de pagamento e conclua a compra para liberar o acesso.`,
+"rejected"
+);
+
+}
+
+async function refreshNav(){
+
+const sess=await getSession();
+
+const navAccount=document.getElementById("navAccount");
+const navLogin=document.getElementById("navLogin");
+const navLogout=document.getElementById("navLogout");
+
+if(!navAccount||!navLogin||!navLogout) return;
+
+if(sess&&sess.user){
+
+navAccount.style.display="inline";
+navLogout.style.display="inline";
+navLogin.style.display="none";
+
+}else{
+
+navAccount.style.display="none";
+navLogout.style.display="none";
+navLogin.style.display="inline";
+
+}
+
+}
+
+async function handleMercadoPagoReturn(){
+
+const mpFlag=(qs("mp")||"").toLowerCase();
+const status=(qs("status")||"").toLowerCase();
+
+if(mpFlag==="approved"||status==="approved"){
+
+showApprovedScreen();
+return;
+
+}
+
+if(mpFlag==="pending"||status==="pending"){
+
+showPendingScreen();
+return;
+
+}
+
+if(mpFlag==="failure"||status==="failure"){
+
+showRejectedScreen();
+return;
+
+}
+
+show("screenPaymentError");
+
+}
+
+async function init(){
+
+ensureSupabase();
+
+await refreshNav();
+
+show("screenLoading");
+
+await handleMercadoPagoReturn();
+
+}
+
+document.addEventListener(
+"DOMContentLoaded",
+init
+);
+
 </script>
 
 </body>
