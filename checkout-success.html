@@ -330,7 +330,33 @@
       pointer-events:none;
     }
 
-    .approved-content{
+    .pending-shell{
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(212,175,55,0.14);
+      background:
+        linear-gradient(180deg, rgba(8,8,8,0.72), rgba(4,4,4,0.84));
+      box-shadow:
+        0 28px 70px rgba(0,0,0,0.34),
+        inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+
+    .pending-shell::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:
+        linear-gradient(180deg, rgba(0,0,0,0.16) 0%, rgba(0,0,0,0.30) 48%, rgba(0,0,0,0.44) 100%),
+        url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1800&q=80");
+      background-size:cover;
+      background-position:center;
+      filter:brightness(0.72) saturate(0.95);
+      opacity:0.50;
+      pointer-events:none;
+    }
+
+    .approved-content,
+    .pending-content{
       position:relative;
       z-index:2;
       max-width:760px;
@@ -358,7 +384,8 @@
         0 0 68px rgba(212,175,55,0.18);
     }
 
-    .approved-journey{
+    .approved-journey,
+    .pending-journey{
       margin:4px auto 18px;
       color:rgba(255,255,255,0.92);
       font-size:18px;
@@ -367,7 +394,8 @@
       letter-spacing:0.2px;
     }
 
-    .approved-shell .notice{
+    .approved-shell .notice,
+    .pending-shell .notice{
       max-width:760px;
       background:rgba(10,10,10,0.58);
       border:1px solid rgba(255,255,255,0.10);
@@ -375,7 +403,8 @@
     }
 
     @media (max-width:860px){
-      .approved-content{
+      .approved-content,
+      .pending-content{
         padding-top:4px;
       }
 
@@ -386,7 +415,8 @@
         margin-bottom:16px;
       }
 
-      .approved-journey{
+      .approved-journey,
+      .pending-journey{
         font-size:16px;
         margin-bottom:16px;
       }
@@ -557,10 +587,13 @@
       <div class="approved-badge">✓</div>
     </div>
 
+    <div class="pending-content hidden" id="pendingContent"></div>
+
     <h1 id="statusTitle">Pagamento</h1>
     <p class="subtitle" id="statusSubtitle"></p>
 
     <p class="approved-journey hidden" id="approvedJourney">A sua jornada começa agora.</p>
+    <p class="pending-journey hidden" id="pendingJourney">Estamos preparando sua experiência.</p>
 
     <div class="notice" id="statusNotice"></div>
     <div class="actions" id="statusActions">
@@ -640,21 +673,32 @@
     box.innerHTML = html;
   }
 
-  function setStatusApprovedVisual(isApproved){
+  function setStatusVisual(mode){
     const screen = document.getElementById("screenStatus");
     const approvedContent = document.getElementById("approvedContent");
     const approvedJourney = document.getElementById("approvedJourney");
+    const pendingContent = document.getElementById("pendingContent");
+    const pendingJourney = document.getElementById("pendingJourney");
 
     if (screen){
-      screen.classList.toggle("approved-shell", !!isApproved);
+      screen.classList.toggle("approved-shell", mode === "approved");
+      screen.classList.toggle("pending-shell", mode === "pending");
     }
 
     if (approvedContent){
-      approvedContent.classList.toggle("hidden", !isApproved);
+      approvedContent.classList.toggle("hidden", mode !== "approved");
     }
 
     if (approvedJourney){
-      approvedJourney.classList.toggle("hidden", !isApproved);
+      approvedJourney.classList.toggle("hidden", mode !== "approved");
+    }
+
+    if (pendingContent){
+      pendingContent.classList.toggle("hidden", mode !== "pending");
+    }
+
+    if (pendingJourney){
+      pendingJourney.classList.toggle("hidden", mode !== "pending");
     }
   }
 
@@ -665,7 +709,7 @@
     if (t) t.innerText = title || "Pagamento";
     if (s) s.innerText = subtitle || "";
     if (n) n.innerHTML = noticeHtml || "";
-    setStatusApprovedVisual(mode === "approved");
+    setStatusVisual(mode || "");
     show("screenStatus");
   }
 
@@ -1352,7 +1396,8 @@
           setStatusScreen(
             "Pagamento em processamento",
             "Assim que for aprovado, seu acesso será liberado automaticamente.",
-            `<strong>Liberação automática:</strong> seu material aparece em <strong>“Meus materiais”</strong> após a confirmação do pagamento.<br><strong>Boleto:</strong> a confirmação pode levar até <strong>2 horas</strong>.`
+            `<strong>Liberação automática:</strong> seu material aparece em <strong>“Meus materiais”</strong> após a confirmação do pagamento.<br><strong>Boleto:</strong> a confirmação pode levar até <strong>2 horas</strong>.`,
+            "pending"
           );
           return;
         }
@@ -1380,7 +1425,8 @@
       setStatusScreen(
         "Pagamento em processamento",
         "Seu pagamento foi recebido e está em processamento.",
-        `<strong>Importante:</strong> se o pagamento acabar de ser aprovado, seu material pode aparecer em <strong>“Meus materiais”</strong> antes mesmo desta atualização visual.<br><br><strong>Boleto:</strong> a confirmação pode levar até <strong>2 horas</strong>.`
+        `<strong>Importante:</strong> se o pagamento acabar de ser aprovado, seu material pode aparecer em <strong>“Meus materiais”</strong> antes mesmo desta atualização visual.<br><br><strong>Boleto:</strong> a confirmação pode levar até <strong>2 horas</strong>.`,
+        "pending"
       );
     }catch(e){
       show("screenPaymentError");
