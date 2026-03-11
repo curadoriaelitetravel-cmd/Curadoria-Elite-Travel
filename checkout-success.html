@@ -295,112 +295,52 @@
 
     .hidden{ display:none !important; }
 
-    .approved-shell{
+    .approved-shell,
+    .pending-shell{
       position:relative;
       overflow:hidden;
       border:1px solid rgba(212,175,55,0.18);
-      background:
-        linear-gradient(180deg, rgba(7,7,7,0.72), rgba(4,4,4,0.82));
+      background:linear-gradient(180deg, rgba(7,7,7,0.72), rgba(4,4,4,0.82));
       box-shadow:
         0 28px 70px rgba(0,0,0,0.36),
         inset 0 1px 0 rgba(255,255,255,0.02);
     }
 
-    .approved-shell::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background-image:
-        linear-gradient(180deg, rgba(0,0,0,0.14) 0%, rgba(0,0,0,0.28) 45%, rgba(0,0,0,0.42) 100%),
-        url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1800&q=80");
-      background-size:cover;
-      background-position:center;
-      filter:brightness(0.86) saturate(0.98);
-      opacity:0.60;
-      pointer-events:none;
-    }
-
-    .approved-shell::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at center top, rgba(212,175,55,0.16), transparent 34%),
-        linear-gradient(180deg, rgba(255,255,255,0.04), transparent 24%);
-      pointer-events:none;
-    }
-
-    .pending-shell{
-      position:relative;
-      overflow:hidden;
-      border:1px solid rgba(212,175,55,0.16);
-      background:
-        linear-gradient(180deg, rgba(7,7,7,0.72), rgba(4,4,4,0.84));
-      box-shadow:
-        0 28px 70px rgba(0,0,0,0.34),
-        inset 0 1px 0 rgba(255,255,255,0.02);
-    }
-
+    .approved-shell::before,
     .pending-shell::before{
       content:"";
       position:absolute;
       inset:0;
-      background-image:
-        linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.30) 45%, rgba(0,0,0,0.44) 100%),
-        url("https://images.unsplash.com/photo-1504198266285-165a8c1c6d30?auto=format&fit=crop&w=1800&q=80");
       background-size:cover;
       background-position:center;
-      filter:brightness(0.78) saturate(0.96);
-      opacity:0.54;
       pointer-events:none;
     }
 
+    .approved-shell::after,
     .pending-shell::after{
       content:"";
       position:absolute;
       inset:0;
       background:
+        linear-gradient(180deg, rgba(0,0,0,0.26) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.46) 100%),
         linear-gradient(180deg, rgba(255,255,255,0.03), transparent 24%);
       pointer-events:none;
     }
 
-    .rejected-shell{
-      position:relative;
-      overflow:hidden;
-      border:1px solid rgba(212,175,55,0.12);
-      background:
-        linear-gradient(180deg, rgba(7,7,7,0.74), rgba(4,4,4,0.86));
-      box-shadow:
-        0 28px 70px rgba(0,0,0,0.34),
-        inset 0 1px 0 rgba(255,255,255,0.02);
+    .approved-shell::before{
+      background-image:url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1800&q=80");
+      filter:brightness(0.86) saturate(0.98);
+      opacity:0.60;
     }
 
-    .rejected-shell::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background-image:
-        linear-gradient(180deg, rgba(0,0,0,0.24) 0%, rgba(0,0,0,0.36) 48%, rgba(0,0,0,0.48) 100%),
-        url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80");
-      background-size:cover;
-      background-position:center;
-      filter:brightness(0.68) saturate(0.90);
-      opacity:0.42;
-      pointer-events:none;
-    }
-
-    .rejected-shell::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.03), transparent 24%);
-      pointer-events:none;
+    .pending-shell::before{
+      background-image:url("https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?auto=format&fit=crop&w=1800&q=80");
+      filter:brightness(0.82) saturate(0.92);
+      opacity:0.54;
     }
 
     .approved-content,
-    .pending-content,
-    .rejected-content{
+    .pending-content{
       position:relative;
       z-index:2;
       max-width:760px;
@@ -429,8 +369,7 @@
     }
 
     .approved-journey,
-    .pending-journey,
-    .rejected-journey{
+    .pending-journey{
       margin:4px auto 18px;
       color:rgba(255,255,255,0.92);
       font-size:18px;
@@ -440,8 +379,7 @@
     }
 
     .approved-shell .notice,
-    .pending-shell .notice,
-    .rejected-shell .notice{
+    .pending-shell .notice{
       max-width:760px;
       background:rgba(10,10,10,0.58);
       border:1px solid rgba(255,255,255,0.10);
@@ -450,8 +388,7 @@
 
     @media (max-width:860px){
       .approved-content,
-      .pending-content,
-      .rejected-content{
+      .pending-content{
         padding-top:4px;
       }
 
@@ -463,8 +400,7 @@
       }
 
       .approved-journey,
-      .pending-journey,
-      .rejected-journey{
+      .pending-journey{
         font-size:16px;
         margin-bottom:16px;
       }
@@ -636,14 +572,12 @@
     </div>
 
     <div class="pending-content hidden" id="pendingContent"></div>
-    <div class="rejected-content hidden" id="rejectedContent"></div>
 
     <h1 id="statusTitle">Pagamento</h1>
     <p class="subtitle" id="statusSubtitle"></p>
 
     <p class="approved-journey hidden" id="approvedJourney">A sua jornada começa agora.</p>
     <p class="pending-journey hidden" id="pendingJourney">Estamos preparando sua experiência.</p>
-    <p class="rejected-journey hidden" id="rejectedJourney">Você pode tentar novamente com outro método.</p>
 
     <div class="notice" id="statusNotice"></div>
     <div class="actions" id="statusActions">
@@ -723,29 +657,55 @@
     box.innerHTML = html;
   }
 
-  function setStatusVisual(mode){
+  function resetStatusVisuals(){
     const screen = document.getElementById("screenStatus");
     const approvedContent = document.getElementById("approvedContent");
     const pendingContent = document.getElementById("pendingContent");
-    const rejectedContent = document.getElementById("rejectedContent");
     const approvedJourney = document.getElementById("approvedJourney");
     const pendingJourney = document.getElementById("pendingJourney");
-    const rejectedJourney = document.getElementById("rejectedJourney");
 
     if (screen){
-      screen.classList.remove("approved-shell","pending-shell","rejected-shell");
-      if (mode === "approved") screen.classList.add("approved-shell");
-      if (mode === "pending") screen.classList.add("pending-shell");
-      if (mode === "rejected") screen.classList.add("rejected-shell");
+      screen.classList.remove("approved-shell", "pending-shell");
     }
 
-    if (approvedContent) approvedContent.classList.toggle("hidden", mode !== "approved");
-    if (pendingContent) pendingContent.classList.toggle("hidden", mode !== "pending");
-    if (rejectedContent) rejectedContent.classList.toggle("hidden", mode !== "rejected");
+    if (approvedContent){
+      approvedContent.classList.add("hidden");
+    }
 
-    if (approvedJourney) approvedJourney.classList.toggle("hidden", mode !== "approved");
-    if (pendingJourney) pendingJourney.classList.toggle("hidden", mode !== "pending");
-    if (rejectedJourney) rejectedJourney.classList.toggle("hidden", mode !== "rejected");
+    if (pendingContent){
+      pendingContent.classList.add("hidden");
+    }
+
+    if (approvedJourney){
+      approvedJourney.classList.add("hidden");
+    }
+
+    if (pendingJourney){
+      pendingJourney.classList.add("hidden");
+    }
+  }
+
+  function setStatusVisual(mode){
+    resetStatusVisuals();
+
+    const screen = document.getElementById("screenStatus");
+    const approvedContent = document.getElementById("approvedContent");
+    const pendingContent = document.getElementById("pendingContent");
+    const approvedJourney = document.getElementById("approvedJourney");
+    const pendingJourney = document.getElementById("pendingJourney");
+
+    if (mode === "approved"){
+      if (screen) screen.classList.add("approved-shell");
+      if (approvedContent) approvedContent.classList.remove("hidden");
+      if (approvedJourney) approvedJourney.classList.remove("hidden");
+      return;
+    }
+
+    if (mode === "pending"){
+      if (screen) screen.classList.add("pending-shell");
+      if (pendingContent) pendingContent.classList.remove("hidden");
+      if (pendingJourney) pendingJourney.classList.remove("hidden");
+    }
   }
 
   function setStatusScreen(title, subtitle, noticeHtml, mode){
@@ -1418,7 +1378,7 @@
         "Pagamento não aprovado",
         "Você pode tentar novamente com outro método de pagamento.",
         `<strong>Dica:</strong> se preferir, escolha outro meio de pagamento e conclua a compra para liberar o acesso.`,
-        "rejected"
+        ""
       );
       return;
     }
@@ -1465,7 +1425,7 @@
           "Pagamento não aprovado",
           "Você pode tentar novamente com outro método de pagamento.",
           `<strong>Dica:</strong> se preferir, escolha outro meio de pagamento e conclua a compra para liberar o acesso.`,
-          "rejected"
+          ""
         );
         return;
       }
