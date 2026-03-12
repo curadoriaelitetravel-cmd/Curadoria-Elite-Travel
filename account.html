@@ -39,9 +39,9 @@
     }
     .header-inner{
       width:100%;
-      max-width:1500px;
+      max-width:1860px;
       margin:0 auto;
-      padding:0 22px;
+      padding:0 28px;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -96,12 +96,12 @@
 
     .page-shell{
       width:100%;
-      max-width:1500px;
+      max-width:1860px;
       margin:0 auto;
-      padding:20px 22px 30px;
+      padding:20px 28px 30px;
       display:grid;
-      grid-template-columns: 250px minmax(0, 1fr) 250px;
-      gap:16px;
+      grid-template-columns: 360px minmax(0, 1fr) 360px;
+      gap:20px;
       align-items:stretch;
       flex:1;
     }
@@ -111,7 +111,7 @@
       min-height:100%;
       border-radius:24px;
       background-image:
-        linear-gradient(rgba(0,0,0,.22), rgba(0,0,0,.22)),
+        linear-gradient(rgba(0,0,0,.20), rgba(0,0,0,.20)),
         url("images/sala-vista.jpg");
       background-repeat:no-repeat;
       background-size:cover;
@@ -262,7 +262,6 @@
     .row{display:flex; gap:10px;}
     .row > div{flex:1;}
 
-    /* Indicador de IE (CNPJ) */
     .ieBox{
       margin-top:12px;
       border:1px solid rgba(255,255,255,.12);
@@ -309,13 +308,39 @@
       margin-top:auto;
     }
 
-    @media (max-width: 1320px){
+    @media (max-width: 1720px){
       .header-inner{
-        max-width:1320px;
+        max-width:1660px;
+        padding:0 24px;
+      }
+      .page-shell{
+        max-width:1660px;
+        padding:20px 24px 30px;
+        grid-template-columns: 320px minmax(0, 1fr) 320px;
+        gap:18px;
+      }
+    }
+
+    @media (max-width: 1520px){
+      .header-inner{
+        max-width:1460px;
+        padding:0 20px;
+      }
+      .page-shell{
+        max-width:1460px;
+        padding:18px 20px 30px;
+        grid-template-columns: 280px minmax(0, 1fr) 280px;
+        gap:16px;
+      }
+    }
+
+    @media (max-width: 1280px){
+      .header-inner{
+        max-width:1240px;
         padding:0 18px;
       }
       .page-shell{
-        max-width:1320px;
+        max-width:1240px;
         padding:18px 18px 30px;
         grid-template-columns: 220px minmax(0, 1fr) 220px;
         gap:14px;
@@ -423,7 +448,6 @@
             </div>
           </div>
 
-          <!-- CNPJ: Indicador de IE -->
           <div id="cnpjIeBox" class="ieBox hidden">
             <p class="ieTitle">Indicador de IE</p>
             <div class="ieOptions">
@@ -574,7 +598,6 @@
       return d.slice(0,5) + "-" + d.slice(5);
     }
 
-    // ✅ CPF: 000.000.000-00
     function maskCPF(v){
       const d = onlyDigits(v).slice(0, 11);
       let out = d;
@@ -584,32 +607,27 @@
       return out;
     }
 
-    // ✅ CNPJ: 00.000.000/0000-00
     function maskCNPJ(v){
       const d = onlyDigits(v).slice(0, 14);
       let out = d;
       if (d.length > 2) out = d.slice(0,2) + "." + d.slice(2);
-      if (d.length > 5) out = out.slice(0,6) + "." + out.slice(6);
+      if (d.length > 5) out = d.slice(0,6) + "." + out.slice(6);
       if (d.length > 8) out = out.slice(0,10) + "/" + out.slice(10);
       if (d.length > 12) out = out.slice(0,15) + "-" + d.slice(15);
       return out;
     }
 
-    // ✅ Decide CPF ou CNPJ pelo tipo selecionado
     function maskDocByType(v){
       const pt = String(personTypeEl?.value || "CPF").toUpperCase();
       return (pt === "CNPJ") ? maskCNPJ(v) : maskCPF(v);
     }
 
-    // ✅ IE (formato genérico padronizado, sem travar por estado)
-    // Ex: 12345678901234 -> 123.456.789.012.34
     function maskIE(v){
       const d = onlyDigits(v).slice(0, 14);
       const parts = [];
       for (let i = 0; i < d.length; i += 3){
         parts.push(d.slice(i, i+3));
       }
-      // ajusta o último bloco para não ficar estranho (ex: 2 dígitos no final)
       return parts.join(".");
     }
 
@@ -634,7 +652,6 @@
 
       if (nameLabel) nameLabel.textContent = isCnpj ? "Razão social" : "Nome completo";
 
-      // re-mascara doc ao trocar tipo
       if (docInput) docInput.value = maskDocByType(docInput.value);
 
       if (!isCnpj){
@@ -723,7 +740,6 @@
       const pt = String(row?.person_type || "CPF").toUpperCase();
       personTypeEl.value = (pt === "CNPJ") ? "CNPJ" : "CPF";
 
-      // aplica máscara visual no input
       if (docInput) docInput.value = formatDocForView(pt, row?.doc_number || "");
 
       document.getElementById("full_name").value = row?.full_name || "";
@@ -851,7 +867,6 @@
       });
     });
 
-    // ✅ máscaras leves
     if (cepEl){
       cepEl.addEventListener("input", () => {
         cepEl.value = maskCEP(cepEl.value);
