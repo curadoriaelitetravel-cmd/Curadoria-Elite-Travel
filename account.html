@@ -8,8 +8,8 @@
 
   <style>
     :root{
-      --bg:#0b0f17;
-      --card:#111827;
+      --bg:#05070b;
+      --card:#0b1424;
       --text:#e5e7eb;
       --muted:#9ca3af;
       --line:rgba(255,255,255,.10);
@@ -28,11 +28,16 @@
     }
 
     header{
+      width:100%;
+      padding:14px 28px;
+      box-sizing:border-box;
+      background:rgba(10,10,10,.42);
       border-bottom:1px solid var(--line);
-      padding:16px;
+      backdrop-filter:blur(4px);
+      -webkit-backdrop-filter:blur(4px);
     }
     .header-inner{
-      max-width:980px;
+      max-width:1500px;
       margin:0 auto;
       display:flex;
       align-items:center;
@@ -40,14 +45,35 @@
       gap:12px;
       flex-wrap:wrap;
     }
-    .brand{display:flex; flex-direction:column; gap:4px;}
-    .brand .name{
-      font-weight:800;
-      letter-spacing:.3px;
-      text-transform:uppercase;
-      font-size:14px;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
-    .brand .sub{color:var(--muted); font-size:12px;}
+    .brand img{
+      width:34px;
+      height:34px;
+      object-fit:contain;
+      flex-shrink:0;
+    }
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .brand .name{
+      color:var(--gold);
+      font-weight:800;
+      letter-spacing:.4px;
+      text-transform:uppercase;
+      font-size:15px;
+      line-height:1.1;
+    }
+    .brand .sub{
+      color:rgba(255,255,255,.78);
+      font-size:12px;
+      line-height:1.2;
+    }
     .actions{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
     .btn{
       border:none;
@@ -56,15 +82,52 @@
       font-weight:800;
       cursor:pointer;
       font-size:13px;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
     }
     .btn.primary{background:var(--accent); color:#000;}
     .btn.ghost{background:transparent; border:1px solid var(--line); color:var(--text);}
 
-    main{
-      max-width:980px;
+    .page-shell{
       width:100%;
+      max-width:1800px;
       margin:0 auto;
-      padding:18px 16px 30px;
+      padding:18px 0 30px;
+      display:grid;
+      grid-template-columns: 260px minmax(0, 980px) 260px;
+      gap:22px;
+      align-items:start;
+      flex:1;
+    }
+
+    .side-visual{
+      min-height:calc(100vh - 140px);
+      border-radius:24px;
+      background-image:
+        linear-gradient(rgba(0,0,0,.30), rgba(0,0,0,.30)),
+        url("images/sala-vista.jpg");
+      background-repeat:no-repeat;
+      background-size:cover;
+      background-attachment:scroll;
+      border:1px solid rgba(212,175,55,.10);
+      box-shadow:0 24px 60px rgba(0,0,0,.32);
+      position:sticky;
+      top:18px;
+    }
+    .side-visual.left{
+      background-position:left center;
+      margin-left:16px;
+    }
+    .side-visual.right{
+      background-position:right center;
+      margin-right:16px;
+    }
+
+    main{
+      width:100%;
+      padding:0 16px;
       display:grid;
       gap:14px;
       grid-template-columns: 1fr;
@@ -72,9 +135,12 @@
 
     .card{
       border:1px solid var(--line);
-      background: var(--card);
+      background: linear-gradient(180deg, rgba(12,21,38,.94), rgba(9,16,29,.94));
       border-radius:16px;
       padding:16px;
+      backdrop-filter:blur(3px);
+      -webkit-backdrop-filter:blur(3px);
+      box-shadow:0 16px 40px rgba(0,0,0,.18);
     }
 
     h1{margin:0; font-size:18px;}
@@ -200,7 +266,6 @@
     .row{display:flex; gap:10px;}
     .row > div{flex:1;}
 
-    /* Indicador de IE (CNPJ) */
     .ieBox{
       margin-top:12px;
       border:1px solid rgba(255,255,255,.12);
@@ -245,6 +310,43 @@
       font-size:12px;
       text-align:center;
       margin-top:auto;
+      background:rgba(0,0,0,.20);
+      backdrop-filter:blur(3px);
+      -webkit-backdrop-filter:blur(3px);
+    }
+
+    @media (max-width: 1360px){
+      .page-shell{
+        grid-template-columns: 220px minmax(0, 980px) 220px;
+      }
+    }
+
+    @media (max-width: 1180px){
+      .page-shell{
+        grid-template-columns: 1fr;
+        gap:0;
+        padding-top:18px;
+      }
+      .side-visual{
+        display:none;
+      }
+      main{
+        max-width:980px;
+        margin:0 auto;
+        padding:0 16px 30px;
+      }
+    }
+
+    @media (max-width: 640px){
+      header{
+        padding:12px 16px;
+      }
+      .brand .name{
+        font-size:14px;
+      }
+      .brand .sub{
+        font-size:11px;
+      }
     }
   </style>
 </head>
@@ -253,8 +355,11 @@
   <header>
     <div class="header-inner">
       <div class="brand">
-        <div class="name">CURADORIA ELITE TRAVEL</div>
-        <div class="sub">Área do cliente</div>
+        <img src="images/rosa-dos-ventos.png" alt="Curadoria Elite Travel">
+        <div class="brand-text">
+          <div class="name">CURADORIA ELITE TRAVEL</div>
+          <div class="sub">O seu mundo, bem indicado.</div>
+        </div>
       </div>
 
       <div class="actions">
@@ -264,151 +369,156 @@
     </div>
   </header>
 
-  <main>
-    <section class="card">
-      <h1>Minha conta</h1>
-      <div class="muted" id="userEmail">Carregando...</div>
-      <div id="globalMsg" class="msg" role="status" aria-live="polite"></div>
-    </section>
+  <div class="page-shell">
+    <aside class="side-visual left" aria-hidden="true"></aside>
 
-    <section class="card">
-      <div class="section-title">
+    <main>
+      <section class="card">
+        <h1>Minha conta</h1>
+        <div class="muted" id="userEmail">Carregando...</div>
+        <div id="globalMsg" class="msg" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <div>
+            <h1>Meu perfil (Nota Fiscal)</h1>
+            <div class="muted">Revise ou atualize seus dados de emissão.</div>
+          </div>
+          <button class="btn ghost" id="btnEditProfile" type="button">Editar</button>
+        </div>
+
+        <div id="profileView" class="profile-grid"></div>
+
+        <form id="profileForm">
+          <div class="row">
+            <div>
+              <label>Tipo de documento</label>
+              <select id="person_type">
+                <option value="CPF">Pessoa Física (CPF)</option>
+                <option value="CNPJ">Pessoa Jurídica (CNPJ)</option>
+              </select>
+            </div>
+            <div>
+              <label>CPF / CNPJ</label>
+              <input id="doc_number" placeholder="Digite seu CPF ou CNPJ" inputmode="numeric" />
+            </div>
+          </div>
+
+          <label id="nameLabel">Nome completo / Razão social</label>
+          <input id="full_name" />
+
+          <div class="row" id="cpfRow">
+            <div>
+              <label>Sexo (apenas CPF)</label>
+              <select id="gender">
+                <option value="" selected>Selecione</option>
+                <option value="Mulher">Mulher</option>
+                <option value="Homem">Homem</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+            <div>
+              <label>Data de nascimento (apenas CPF)</label>
+              <input type="date" id="birth_date" />
+            </div>
+          </div>
+
+          <div id="cnpjIeBox" class="ieBox hidden">
+            <p class="ieTitle">Indicador de IE</p>
+            <div class="ieOptions">
+              <label class="ieOpt">
+                <input type="radio" name="ie_indicator" value="CONTRIBUINTE">
+                Contribuinte
+              </label>
+              <label class="ieOpt">
+                <input type="radio" name="ie_indicator" value="ISENTO">
+                Isento
+              </label>
+              <label class="ieOpt">
+                <input type="radio" name="ie_indicator" value="NAO_CONTRIBUINTE">
+                Não Contribuinte
+              </label>
+            </div>
+          </div>
+
+          <div id="cnpjIeNumberWrap" class="hidden">
+            <label>Inscrição Estadual (IE) (apenas CNPJ e Contribuinte)</label>
+            <input id="ie" inputmode="numeric" />
+          </div>
+
+          <div class="row">
+            <div>
+              <label>UF</label>
+              <input id="uf" placeholder="SP" />
+            </div>
+            <div>
+              <label>Cidade</label>
+              <input id="city_name" placeholder="São Paulo" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>CEP</label>
+              <input id="cep" inputmode="numeric" placeholder="00000-000" />
+            </div>
+            <div>
+              <label>Bairro</label>
+              <input id="neighborhood" />
+            </div>
+          </div>
+
+          <label>Endereço</label>
+          <input id="street" placeholder="Ex: Av. Paulista" />
+
+          <div class="row">
+            <div>
+              <label>Número</label>
+              <input id="street_number" />
+            </div>
+            <div>
+              <label>Complemento</label>
+              <input id="complement" placeholder="Apto, bloco, etc." />
+            </div>
+          </div>
+
+          <button class="btn primary" id="btnSaveProfile" type="submit" style="margin-top:14px;">Salvar</button>
+        </form>
+      </section>
+
+      <section class="card grid">
         <div>
-          <h1>Meu perfil (Nota Fiscal)</h1>
-          <div class="muted">Revise ou atualize seus dados de emissão.</div>
-        </div>
-        <button class="btn ghost" id="btnEditProfile" type="button">Editar</button>
-      </div>
-
-      <div id="profileView" class="profile-grid"></div>
-
-      <form id="profileForm">
-        <div class="row">
-          <div>
-            <label>Tipo de documento</label>
-            <select id="person_type">
-              <option value="CPF">Pessoa Física (CPF)</option>
-              <option value="CNPJ">Pessoa Jurídica (CNPJ)</option>
-            </select>
+          <h1>Meus materiais</h1>
+          <div class="muted">
+            Seus materiais ficam organizados por categoria. Selecione para visualizar.
           </div>
-          <div>
-            <label>CPF / CNPJ</label>
-            <input id="doc_number" placeholder="Digite seu CPF ou CNPJ" inputmode="numeric" />
+
+          <div id="list" class="list"></div>
+
+          <div id="emptyState" class="muted" style="margin-top:12px; display:none;">
+            Nenhum material disponível no momento.
           </div>
         </div>
 
-        <label id="nameLabel">Nome completo / Razão social</label>
-        <input id="full_name" />
-
-        <div class="row" id="cpfRow">
-          <div>
-            <label>Sexo (apenas CPF)</label>
-            <select id="gender">
-              <option value="" selected>Selecione</option>
-              <option value="Mulher">Mulher</option>
-              <option value="Homem">Homem</option>
-              <option value="Outro">Outro</option>
-            </select>
+        <div>
+          <h1>Visualização</h1>
+          <div class="muted">
+            Selecione um material na lista para visualizar aqui.
           </div>
-          <div>
-            <label>Data de nascimento (apenas CPF)</label>
-            <input type="date" id="birth_date" />
+
+          <div class="viewer-wrap" oncontextmenu="return false;">
+            <div class="viewer-top">
+              <div class="label" id="viewerLabel">Nenhum material selecionado</div>
+            </div>
+            <iframe id="viewer" title="Visualização do material"></iframe>
           </div>
         </div>
+      </section>
+    </main>
 
-        <!-- CNPJ: Indicador de IE -->
-        <div id="cnpjIeBox" class="ieBox hidden">
-          <p class="ieTitle">Indicador de IE</p>
-          <div class="ieOptions">
-            <label class="ieOpt">
-              <input type="radio" name="ie_indicator" value="CONTRIBUINTE">
-              Contribuinte
-            </label>
-            <label class="ieOpt">
-              <input type="radio" name="ie_indicator" value="ISENTO">
-              Isento
-            </label>
-            <label class="ieOpt">
-              <input type="radio" name="ie_indicator" value="NAO_CONTRIBUINTE">
-              Não Contribuinte
-            </label>
-          </div>
-        </div>
-
-        <div id="cnpjIeNumberWrap" class="hidden">
-          <label>Inscrição Estadual (IE) (apenas CNPJ e Contribuinte)</label>
-          <input id="ie" inputmode="numeric" />
-        </div>
-
-        <div class="row">
-          <div>
-            <label>UF</label>
-            <input id="uf" placeholder="SP" />
-          </div>
-          <div>
-            <label>Cidade</label>
-            <input id="city_name" placeholder="São Paulo" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <label>CEP</label>
-            <input id="cep" inputmode="numeric" placeholder="00000-000" />
-          </div>
-          <div>
-            <label>Bairro</label>
-            <input id="neighborhood" />
-          </div>
-        </div>
-
-        <label>Endereço</label>
-        <input id="street" placeholder="Ex: Av. Paulista" />
-
-        <div class="row">
-          <div>
-            <label>Número</label>
-            <input id="street_number" />
-          </div>
-          <div>
-            <label>Complemento</label>
-            <input id="complement" placeholder="Apto, bloco, etc." />
-          </div>
-        </div>
-
-        <button class="btn primary" id="btnSaveProfile" type="submit" style="margin-top:14px;">Salvar</button>
-      </form>
-    </section>
-
-    <section class="card grid">
-      <div>
-        <h1>Meus materiais</h1>
-        <div class="muted">
-          Seus materiais ficam organizados por categoria. Selecione para visualizar.
-        </div>
-
-        <div id="list" class="list"></div>
-
-        <div id="emptyState" class="muted" style="margin-top:12px; display:none;">
-          Nenhum material disponível no momento.
-        </div>
-      </div>
-
-      <div>
-        <h1>Visualização</h1>
-        <div class="muted">
-          Selecione um material na lista para visualizar aqui.
-        </div>
-
-        <div class="viewer-wrap" oncontextmenu="return false;">
-          <div class="viewer-top">
-            <div class="label" id="viewerLabel">Nenhum material selecionado</div>
-          </div>
-          <iframe id="viewer" title="Visualização do material"></iframe>
-        </div>
-      </div>
-    </section>
-  </main>
+    <aside class="side-visual right" aria-hidden="true"></aside>
+  </div>
 
   <footer>
     © <span id="year"></span> Curadoria Elite Travel. Todos os direitos reservados.
@@ -464,7 +574,6 @@
       return d.slice(0,5) + "-" + d.slice(5);
     }
 
-    // ✅ CPF: 000.000.000-00
     function maskCPF(v){
       const d = onlyDigits(v).slice(0, 11);
       let out = d;
@@ -474,32 +583,27 @@
       return out;
     }
 
-    // ✅ CNPJ: 00.000.000/0000-00
     function maskCNPJ(v){
       const d = onlyDigits(v).slice(0, 14);
       let out = d;
       if (d.length > 2) out = d.slice(0,2) + "." + d.slice(2);
-      if (d.length > 5) out = out.slice(0,6) + "." + out.slice(6);
+      if (d.length > 5) out = d.slice(0,6) + "." + out.slice(6);
       if (d.length > 8) out = out.slice(0,10) + "/" + out.slice(10);
-      if (d.length > 12) out = out.slice(0,15) + "-" + out.slice(15);
+      if (d.length > 12) out = out.slice(0,15) + "-" + d.slice(15);
       return out;
     }
 
-    // ✅ Decide CPF ou CNPJ pelo tipo selecionado
     function maskDocByType(v){
       const pt = String(personTypeEl?.value || "CPF").toUpperCase();
       return (pt === "CNPJ") ? maskCNPJ(v) : maskCPF(v);
     }
 
-    // ✅ IE (formato genérico padronizado, sem travar por estado)
-    // Ex: 12345678901234 -> 123.456.789.012.34
     function maskIE(v){
       const d = onlyDigits(v).slice(0, 14);
       const parts = [];
       for (let i = 0; i < d.length; i += 3){
         parts.push(d.slice(i, i+3));
       }
-      // ajusta o último bloco para não ficar estranho (ex: 2 dígitos no final)
       return parts.join(".");
     }
 
@@ -524,7 +628,6 @@
 
       if (nameLabel) nameLabel.textContent = isCnpj ? "Razão social" : "Nome completo";
 
-      // re-mascara doc ao trocar tipo
       if (docInput) docInput.value = maskDocByType(docInput.value);
 
       if (!isCnpj){
@@ -613,7 +716,6 @@
       const pt = String(row?.person_type || "CPF").toUpperCase();
       personTypeEl.value = (pt === "CNPJ") ? "CNPJ" : "CPF";
 
-      // aplica máscara visual no input
       if (docInput) docInput.value = formatDocForView(pt, row?.doc_number || "");
 
       document.getElementById("full_name").value = row?.full_name || "";
@@ -741,7 +843,6 @@
       });
     });
 
-    // ✅ máscaras leves
     if (cepEl){
       cepEl.addEventListener("input", () => {
         cepEl.value = maskCEP(cepEl.value);
