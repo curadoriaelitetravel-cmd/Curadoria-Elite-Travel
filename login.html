@@ -9,7 +9,9 @@
     body{
       margin:0;
       font-family:"Segoe UI",sans-serif;
-      background:#0b0b0b;
+      background:
+        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+        url("imagens/recepcao-hotel.jpg") center/cover no-repeat fixed;
       color:#fff;
       min-height:100vh;
       display:flex;
@@ -221,7 +223,6 @@
       okBox.style.display = "block";
     }
 
-    // “olhinho”
     toggleEye.addEventListener("click", () => {
       const isHidden = passEl.type === "password";
       passEl.type = isHidden ? "text" : "password";
@@ -229,7 +230,6 @@
       passEl.focus();
     });
 
-    // Lembrar e-mail (somente e-mail)
     function loadRememberedEmail(){
       try{
         const saved = localStorage.getItem("remember_email_value");
@@ -260,7 +260,6 @@
 
     loadRememberedEmail();
 
-    // Se já estiver logado, manda direto
     (async () => {
       const { data } = await sb.auth.getSession();
       if (data && data.session){
@@ -281,7 +280,6 @@
         return;
       }
 
-      // salva e-mail se marcado
       saveRememberedEmail();
 
       btn.disabled = true;
