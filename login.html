@@ -1,408 +1,317 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Entrar | Curadoria Elite Travel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+<title>Entrar | Curadoria Elite Travel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <style>
-    body{
-      margin:0;
-      font-family:"Segoe UI",sans-serif;
-      background:
-        linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
-        url("images/recepcao-hotel.jpg") center/cover no-repeat fixed;
-      color:#fff;
-      min-height:100vh;
-      box-sizing:border-box;
-    }
+<style>
 
-    header{
-      width:100%;
-      padding:14px 28px;
-      box-sizing:border-box;
-      background:rgba(30,30,30,0.42);
-      border-bottom:1px solid rgba(255,255,255,0.10);
-      backdrop-filter:blur(4px);
-      -webkit-backdrop-filter:blur(4px);
-    }
+body{
+  margin:0;
+  font-family:"Segoe UI",sans-serif;
+  background:
+  linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+  url("images/recepcao-hotel.jpeg") center/cover no-repeat fixed;
+  color:#fff;
+  min-height:100vh;
+  box-sizing:border-box;
+}
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
+/* barra superior */
 
-    .brand img{
-      width:34px;
-      height:34px;
-      object-fit:contain;
-    }
+header{
+  width:100%;
+  padding:14px 28px;
+  box-sizing:border-box;
+  background:rgba(30,30,30,0.42);
+  border-bottom:1px solid rgba(255,255,255,0.10);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
 
-    .brand-text{
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-    }
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
-    .brand-name{
-      color:#d4af37;
-      font-size:18px;
-      font-weight:700;
-      letter-spacing:0.4px;
-      text-transform:uppercase;
-      line-height:1.1;
-    }
+.brand img{
+  width:34px;
+  height:34px;
+  object-fit:contain;
+}
 
-    .brand-sub{
-      color:rgba(255,255,255,0.78);
-      font-size:12px;
-      margin-top:2px;
-      line-height:1.2;
-    }
+.brand-text{
+  display:flex;
+  flex-direction:column;
+}
 
-    main{
-      min-height:calc(100vh - 63px);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px 18px;
-      box-sizing:border-box;
-    }
+.brand-name{
+  color:#d4af37;
+  font-size:18px;
+  font-weight:700;
+  letter-spacing:0.4px;
+  text-transform:uppercase;
+}
 
-    .card{
-      width:100%;
-      max-width:520px;
-      background:linear-gradient(145deg,rgba(16,19,23,0.92),rgba(11,11,11,0.92));
-      border:1px solid rgba(255,255,255,0.10);
-      border-radius:16px;
-      padding:28px;
-      box-sizing:border-box;
-      backdrop-filter:blur(6px);
-      -webkit-backdrop-filter:blur(6px);
-      box-shadow:0 25px 60px rgba(0,0,0,0.55);
-    }
+.brand-sub{
+  color:rgba(255,255,255,0.78);
+  font-size:12px;
+  margin-top:2px;
+}
 
-    h1{
-      margin:0 0 6px;
-      font-size:22px;
-      color:#fff;
-      letter-spacing:0.2px;
-    }
+/* centralização da tela */
 
-    .sub{
-      margin:0 0 18px;
-      color:rgba(255,255,255,0.72);
-      font-size:14px;
-      line-height:1.6;
-    }
+main{
+  min-height:calc(100vh - 63px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px 18px;
+  box-sizing:border-box;
+}
 
-    label{
-      display:block;
-      margin:14px 0 6px;
-      font-size:13px;
-      color:rgba(255,255,255,0.72);
-    }
+/* card login */
 
-    input{
-      width:100%;
-      padding:12px 14px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:#eaf2ff;
-      color:#000;
-      box-sizing:border-box;
-      outline:none;
-      font-size:14px;
-    }
+.card{
+  width:100%;
+  max-width:520px;
+  background:linear-gradient(145deg,rgba(16,19,23,0.92),rgba(11,11,11,0.92));
+  border:1px solid rgba(255,255,255,0.10);
+  border-radius:16px;
+  padding:28px;
+  box-sizing:border-box;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  box-shadow:0 25px 60px rgba(0,0,0,0.55);
+}
 
-    .password-wrap{
-      position:relative;
-    }
+h1{
+  margin:0 0 6px;
+  font-size:22px;
+}
 
-    .toggle-eye{
-      position:absolute;
-      right:10px;
-      top:50%;
-      transform:translateY(-50%);
-      border:none;
-      background:transparent;
-      cursor:pointer;
-      padding:8px 10px;
-      border-radius:10px;
-      font-weight:700;
-      color:rgba(0,0,0,0.70);
-      font-size:12.5px;
-    }
+.sub{
+  margin:0 0 18px;
+  color:rgba(255,255,255,0.72);
+  font-size:14px;
+}
 
-    .toggle-eye:hover{
-      background:rgba(0,0,0,0.06);
-    }
+label{
+  display:block;
+  margin:14px 0 6px;
+  font-size:13px;
+  color:rgba(255,255,255,0.72);
+}
 
-    .remember-row{
-      margin-top:12px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      color:rgba(255,255,255,0.78);
-      font-size:13px;
-      user-select:none;
-    }
+input{
+  width:100%;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.10);
+  background:#eaf2ff;
+  color:#000;
+  box-sizing:border-box;
+  outline:none;
+}
 
-    .remember-row input{
-      width:auto;
-      margin:0;
-      accent-color:#d4af37;
-    }
+.password-wrap{
+  position:relative;
+}
 
-    .btn{
-      margin-top:16px;
-      width:100%;
-      padding:12px;
-      border-radius:12px;
-      border:none;
-      background:#ffffff;
-      color:#000;
-      font-weight:800;
-      cursor:pointer;
-      font-size:14px;
-    }
+.toggle-eye{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  padding:8px 10px;
+  border-radius:10px;
+  font-weight:700;
+  color:rgba(0,0,0,0.70);
+  font-size:12.5px;
+}
 
-    .btn:disabled{
-      opacity:0.65;
-      cursor:not-allowed;
-    }
+.remember-row{
+  margin-top:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:rgba(255,255,255,0.78);
+  font-size:13px;
+}
 
-    .row{
-      margin-top:14px;
-      color:rgba(255,255,255,0.75);
-      font-size:13px;
-    }
+.remember-row input{
+  width:auto;
+  accent-color:#d4af37;
+}
 
-    a{
-      color:#d4af37;
-      text-decoration:none;
-      font-weight:700;
-    }
+.btn{
+  margin-top:16px;
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:none;
+  background:#ffffff;
+  color:#000;
+  font-weight:800;
+  cursor:pointer;
+}
 
-    .error{
-      margin-top:12px;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:rgba(212,175,55,0.10);
-      color:rgba(255,255,255,0.92);
-      font-size:13px;
-      line-height:1.5;
-      display:none;
-    }
+.btn:disabled{
+  opacity:0.65;
+  cursor:not-allowed;
+}
 
-    .ok{
-      margin-top:12px;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:rgba(255,255,255,0.06);
-      color:rgba(255,255,255,0.88);
-      font-size:13px;
-      line-height:1.5;
-      display:none;
-    }
+.row{
+  margin-top:14px;
+  font-size:13px;
+}
 
-    @media (max-width:640px){
-      header{
-        padding:12px 16px;
-      }
+a{
+  color:#d4af37;
+  text-decoration:none;
+  font-weight:700;
+}
 
-      .brand-name{
-        font-size:16px;
-      }
+.error{
+  margin-top:12px;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.10);
+  background:rgba(212,175,55,0.10);
+  display:none;
+}
 
-      .brand-sub{
-        font-size:11px;
-      }
+.ok{
+  margin-top:12px;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.10);
+  background:rgba(255,255,255,0.06);
+  display:none;
+}
 
-      main{
-        min-height:calc(100vh - 59px);
-        padding:18px 14px;
-      }
-
-      .card{
-        padding:22px;
-      }
-    }
-  </style>
+</style>
 </head>
 
 <body>
-  <header>
-    <div class="brand">
-      <img src="images/rosa-dos-ventos.png" alt="Curadoria Elite Travel">
-      <div class="brand-text">
-        <div class="brand-name">Curadoria Elite Travel</div>
-        <div class="brand-sub">O seu mundo, bem indicado.</div>
-      </div>
-    </div>
-  </header>
 
-  <main>
-    <div class="card">
-      <h1>Entrar</h1>
-      <p class="sub">Acesse sua conta para visualizar seus materiais.</p>
+<header>
+<div class="brand">
+<img src="images/rosa-dos-ventos.png">
+<div class="brand-text">
+<div class="brand-name">Curadoria Elite Travel</div>
+<div class="brand-sub">O seu mundo, bem indicado.</div>
+</div>
+</div>
+</header>
 
-      <form id="loginForm">
-        <label for="email">E-mail</label>
-        <input id="email" type="email" autocomplete="email" required />
+<main>
 
-        <label for="password">Senha</label>
-        <div class="password-wrap">
-          <input id="password" type="password" autocomplete="current-password" required />
-          <button type="button" id="toggleEye" class="toggle-eye">Mostrar</button>
-        </div>
+<div class="card">
 
-        <div class="remember-row">
-          <input type="checkbox" id="rememberEmail" />
-          <label for="rememberEmail" style="margin:0;">Lembrar meu e-mail</label>
-        </div>
+<h1>Entrar</h1>
+<p class="sub">Acesse sua conta para visualizar seus materiais.</p>
 
-        <button class="btn" id="btnLogin" type="submit">Entrar</button>
+<form id="loginForm">
 
-        <div class="error" id="errorBox"></div>
-        <div class="ok" id="okBox"></div>
+<label>E-mail</label>
+<input id="email" type="email" required />
 
-        <div class="row">
-          Não tem conta? <a href="register.html">Criar cadastro</a>
-        </div>
-      </form>
-    </div>
-  </main>
+<label>Senha</label>
 
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
+<div class="password-wrap">
+<input id="password" type="password" required />
+<button type="button" id="toggleEye" class="toggle-eye">Mostrar</button>
+</div>
 
-    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+<div class="remember-row">
+<input type="checkbox" id="rememberEmail">
+<label for="rememberEmail">Lembrar meu e-mail</label>
+</div>
 
-    const params = new URLSearchParams(window.location.search);
-    const returnTo = params.get("return_to") ? String(params.get("return_to")) : "account.html";
+<button class="btn" id="btnLogin">Entrar</button>
 
-    const emailEl = document.getElementById("email");
-    const passEl = document.getElementById("password");
-    const toggleEye = document.getElementById("toggleEye");
-    const rememberEmailEl = document.getElementById("rememberEmail");
+<div class="error" id="errorBox"></div>
+<div class="ok" id="okBox"></div>
 
-    const form = document.getElementById("loginForm");
-    const btn = document.getElementById("btnLogin");
-    const errorBox = document.getElementById("errorBox");
-    const okBox = document.getElementById("okBox");
+<div class="row">
+Não tem conta? <a href="register.html">Criar cadastro</a>
+</div>
 
-    function showError(msg){
-      okBox.style.display = "none";
-      errorBox.innerText = msg;
-      errorBox.style.display = "block";
-    }
+</form>
 
-    function showOk(msg){
-      errorBox.style.display = "none";
-      okBox.innerText = msg;
-      okBox.style.display = "block";
-    }
+</div>
 
-    toggleEye.addEventListener("click", () => {
-      const isHidden = passEl.type === "password";
-      passEl.type = isHidden ? "text" : "password";
-      toggleEye.innerText = isHidden ? "Ocultar" : "Mostrar";
-      passEl.focus();
-    });
+</main>
 
-    function loadRememberedEmail(){
-      try{
-        const saved = localStorage.getItem("remember_email_value");
-        const flag = localStorage.getItem("remember_email_enabled");
-        if (flag === "1" && saved){
-          emailEl.value = saved;
-          rememberEmailEl.checked = true;
-        }
-      }catch(e){}
-    }
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
-    function saveRememberedEmail(){
-      try{
-        if (rememberEmailEl.checked){
-          localStorage.setItem("remember_email_enabled","1");
-          localStorage.setItem("remember_email_value", (emailEl.value || "").trim());
-        } else {
-          localStorage.setItem("remember_email_enabled","0");
-          localStorage.removeItem("remember_email_value");
-        }
-      }catch(e){}
-    }
+<script>
 
-    rememberEmailEl.addEventListener("change", saveRememberedEmail);
-    emailEl.addEventListener("input", () => {
-      if (rememberEmailEl.checked) saveRememberedEmail();
-    });
+const SUPABASE_URL="https://lnyoqoezezisakghtmim.supabase.co";
+const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
-    loadRememberedEmail();
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 
-    (async () => {
-      const { data } = await sb.auth.getSession();
-      if (data && data.session){
-        window.location.href = returnTo;
-      }
-    })();
+const params=new URLSearchParams(window.location.search);
+const returnTo=params.get("return_to")||"account.html";
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      errorBox.style.display = "none";
-      okBox.style.display = "none";
+const emailEl=document.getElementById("email");
+const passEl=document.getElementById("password");
+const toggleEye=document.getElementById("toggleEye");
 
-      const email = (emailEl.value || "").trim();
-      const password = (passEl.value || "");
+const form=document.getElementById("loginForm");
+const btn=document.getElementById("btnLogin");
+const errorBox=document.getElementById("errorBox");
+const okBox=document.getElementById("okBox");
 
-      if (!email || !password){
-        showError("Preencha e-mail e senha.");
-        return;
-      }
+toggleEye.addEventListener("click",()=>{
+const hidden=passEl.type==="password";
+passEl.type=hidden?"text":"password";
+toggleEye.innerText=hidden?"Ocultar":"Mostrar";
+});
 
-      saveRememberedEmail();
+form.addEventListener("submit",async(e)=>{
 
-      btn.disabled = true;
-      btn.innerText = "Entrando...";
+e.preventDefault();
 
-      try{
-        const { data, error } = await sb.auth.signInWithPassword({ email, password });
+const email=emailEl.value.trim();
+const password=passEl.value;
 
-        if (error){
-          const raw = (error.message || "").toLowerCase();
+if(!email||!password){
+errorBox.innerText="Preencha e-mail e senha.";
+errorBox.style.display="block";
+return;
+}
 
-          if (raw.includes("invalid login credentials")){
-            showError("E-mail ou senha incorretos. Confira e tente novamente.");
-          } else if (raw.includes("email not confirmed") || raw.includes("confirm")){
-            showError("Seu e-mail ainda não foi confirmado. Verifique sua caixa de entrada e confirme o cadastro.");
-          } else {
-            showError("Não foi possível entrar. " + (error.message || "Tente novamente."));
-          }
-          return;
-        }
+btn.disabled=true;
+btn.innerText="Entrando...";
 
-        if (!data || !data.session){
-          showError("Não foi possível iniciar sua sessão. Tente novamente.");
-          return;
-        }
+const {data,error}=await sb.auth.signInWithPassword({email,password});
 
-        showOk("Acesso confirmado. Redirecionando...");
-        setTimeout(() => {
-          window.location.href = returnTo;
-        }, 350);
-      } catch(err){
-        showError("Erro inesperado ao entrar. Tente novamente.");
-      } finally{
-        btn.disabled = false;
-        btn.innerText = "Entrar";
-      }
-    });
-  </script>
+if(error){
+errorBox.innerText="E-mail ou senha incorretos.";
+errorBox.style.display="block";
+btn.disabled=false;
+btn.innerText="Entrar";
+return;
+}
+
+okBox.innerText="Acesso confirmado. Redirecionando...";
+okBox.style.display="block";
+
+setTimeout(()=>{
+window.location.href=returnTo;
+},350);
+
+});
+
+</script>
+
 </body>
 </html>
