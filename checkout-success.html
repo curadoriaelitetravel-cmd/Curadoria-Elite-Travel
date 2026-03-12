@@ -296,7 +296,8 @@
     .hidden{ display:none !important; }
 
     .approved-shell,
-    .pending-shell{
+    .pending-shell,
+    .failure-shell{
       position:relative;
       overflow:hidden;
       border:1px solid rgba(212,175,55,0.18);
@@ -307,7 +308,8 @@
     }
 
     .approved-shell::before,
-    .pending-shell::before{
+    .pending-shell::before,
+    .failure-shell::before{
       content:"";
       position:absolute;
       inset:0;
@@ -317,7 +319,8 @@
     }
 
     .approved-shell::after,
-    .pending-shell::after{
+    .pending-shell::after,
+    .failure-shell::after{
       content:"";
       position:absolute;
       inset:0;
@@ -337,6 +340,12 @@
       background-image:url("https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?auto=format&fit=crop&w=1800&q=80");
       filter:brightness(0.82) saturate(0.92);
       opacity:0.54;
+    }
+
+    .failure-shell::before{
+      background-image:url("images/negativo.jpg");
+      filter:brightness(0.62) saturate(0.72);
+      opacity:0.48;
     }
 
     .approved-content,
@@ -379,7 +388,8 @@
     }
 
     .approved-shell .notice,
-    .pending-shell .notice{
+    .pending-shell .notice,
+    .failure-shell .notice{
       max-width:760px;
       background:rgba(10,10,10,0.58);
       border:1px solid rgba(255,255,255,0.10);
@@ -665,7 +675,7 @@
     const pendingJourney = document.getElementById("pendingJourney");
 
     if (screen){
-      screen.classList.remove("approved-shell", "pending-shell");
+      screen.classList.remove("approved-shell", "pending-shell", "failure-shell");
     }
 
     if (approvedContent){
@@ -705,6 +715,11 @@
       if (screen) screen.classList.add("pending-shell");
       if (pendingContent) pendingContent.classList.remove("hidden");
       if (pendingJourney) pendingJourney.classList.remove("hidden");
+      return;
+    }
+
+    if (mode === "failure"){
+      if (screen) screen.classList.add("failure-shell");
     }
   }
 
@@ -834,7 +849,7 @@
     let out = d;
     if (d.length > 2) out = d.slice(0,2) + "." + d.slice(2);
     if (d.length > 5) out = d.slice(0,6) + "." + d.slice(6);
-    if (d.length > 8) out = out.slice(0,10) + "/" + d.slice(10);
+    if (d.length > 8) out = d.slice(0,10) + "/" + d.slice(10);
     if (d.length > 12) out = out.slice(0,15) + "-" + d.slice(15);
     return out;
   }
@@ -1378,7 +1393,7 @@
         "Pagamento não aprovado",
         "Você pode tentar novamente com outro método de pagamento.",
         `<strong>Dica:</strong> se preferir, escolha outro meio de pagamento e conclua a compra para liberar o acesso.`,
-        ""
+        "failure"
       );
       return;
     }
@@ -1425,7 +1440,7 @@
           "Pagamento não aprovado",
           "Você pode tentar novamente com outro método de pagamento.",
           `<strong>Dica:</strong> se preferir, escolha outro meio de pagamento e conclua a compra para liberar o acesso.`,
-          ""
+          "failure"
         );
         return;
       }
