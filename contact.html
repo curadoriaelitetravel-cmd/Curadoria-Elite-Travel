@@ -195,14 +195,6 @@
       opacity:0.92;
     }
 
-    .section-label{
-      display:block;
-      margin:0 0 12px;
-      color:rgba(255,255,255,0.76);
-      font-size:13px;
-      line-height:1.5;
-    }
-
     .topics{
       display:flex;
       flex-wrap:wrap;
@@ -572,9 +564,13 @@
       topic.addEventListener("click", () => {
         const subject = topic.dataset.subject || "Contato — Curadoria Elite Travel";
         const body =
-          "Olá, Curadoria Elite Travel.\n\n" +
-          "Escrevo sobre: " + topic.innerText + "\n\n" +
-          "Mensagem:\n";
+          "Olá,\n\n" +
+          "Estou entrando em contato com a Curadoria Elite Travel.\n\n" +
+          "Assunto: " + topic.innerText + "\n\n" +
+          "Mensagem:\n\n" +
+          "—\n" +
+          "Mensagem enviada pela página de contato\n" +
+          "Curadoria Elite Travel";
 
         window.location.href =
           "mailto:curadoriaelitetravel@gmail.com" +
@@ -590,10 +586,14 @@
       const subject = "Avaliação " + ratingLabel + " — Curadoria Elite Travel";
 
       const body =
-        "Avaliação da Curadoria Elite Travel\n\n" +
+        "Olá,\n\n" +
+        "Realizei uma avaliação da Curadoria Elite Travel.\n\n" +
         "Nome: " + (name || "Não informado") + "\n" +
         "Nota: " + ratingLabel + "\n\n" +
-        "Mensagem de avaliação:\n" + message;
+        "Avaliação:\n" + message + "\n\n" +
+        "—\n" +
+        "Mensagem enviada pela página de avaliação\n" +
+        "Curadoria Elite Travel";
 
       window.location.href =
         "mailto:curadoriaelitetravel@gmail.com" +
