@@ -402,17 +402,15 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      if (grant.granted > 0) {
-        try {
-          const userEmail = await getUserEmailById(supabase, userId);
-          await sendPurchaseEmail({
-            toEmail: userEmail,
-            paymentData: pay.data,
-            items,
-          });
-        } catch (emailErr) {
-          console.error("purchase email failed (webhook):", emailErr?.message || emailErr);
-        }
+      try {
+        const userEmail = await getUserEmailById(supabase, userId);
+        await sendPurchaseEmail({
+          toEmail: userEmail,
+          paymentData: pay.data,
+          items,
+        });
+      } catch (emailErr) {
+        console.error("purchase email failed (webhook):", emailErr?.message || emailErr);
       }
 
       return res.status(200).json({
@@ -501,17 +499,15 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({ error: grant.error || "Failed to grant purchases" });
     }
 
-    if (grant.granted > 0) {
-      try {
-        const userEmail = await getUserEmailById(supabase, userId);
-        await sendPurchaseEmail({
-          toEmail: userEmail,
-          paymentData: pay.data,
-          items,
-        });
-      } catch (emailErr) {
-        console.error("purchase email failed (return):", emailErr?.message || emailErr);
-      }
+    try {
+      const userEmail = await getUserEmailById(supabase, userId);
+      await sendPurchaseEmail({
+        toEmail: userEmail,
+        paymentData: pay.data,
+        items,
+      });
+    } catch (emailErr) {
+      console.error("purchase email failed (return):", emailErr?.message || emailErr);
     }
 
     return res.status(200).json({
