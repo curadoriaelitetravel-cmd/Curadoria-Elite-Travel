@@ -402,16 +402,8 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      try {
-        const userEmail = await getUserEmailById(supabase, userId);
-        await sendPurchaseEmail({
-          toEmail: userEmail,
-          paymentData: pay.data,
-          items,
-        });
-      } catch (emailErr) {
-        console.error("purchase email failed (webhook):", emailErr?.message || emailErr);
-      }
+      // Email removido deste fluxo para evitar duplicidade.
+      // O email bonito da Curadoria permanece sendo enviado por api/create-checkout-mercadopago.js.
 
       return res.status(200).json({
         ok: true,
@@ -499,16 +491,8 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({ error: grant.error || "Failed to grant purchases" });
     }
 
-    try {
-      const userEmail = await getUserEmailById(supabase, userId);
-      await sendPurchaseEmail({
-        toEmail: userEmail,
-        paymentData: pay.data,
-        items,
-      });
-    } catch (emailErr) {
-      console.error("purchase email failed (return):", emailErr?.message || emailErr);
-    }
+    // Email removido deste fluxo para evitar duplicidade.
+    // O email bonito da Curadoria permanece sendo enviado por api/create-checkout-mercadopago.js.
 
     return res.status(200).json({
       ok: true,
