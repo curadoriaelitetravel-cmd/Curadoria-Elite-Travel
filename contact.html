@@ -195,14 +195,6 @@
       opacity:0.92;
     }
 
-    .contact-note{
-      margin-top:22px;
-      color:rgba(255,255,255,0.68);
-      font-size:13.5px;
-      line-height:1.7;
-      max-width:540px;
-    }
-
     .section-label{
       display:block;
       margin:0 0 12px;
@@ -243,6 +235,14 @@
       font-weight:700;
     }
 
+    .contact-note{
+      margin-top:22px;
+      color:rgba(255,255,255,0.68);
+      font-size:13.5px;
+      line-height:1.7;
+      max-width:540px;
+    }
+
     .contact-helper{
       margin-top:14px;
       color:rgba(255,255,255,0.60);
@@ -281,6 +281,30 @@
       color:rgba(255,255,255,0.78);
       font-size:14px;
       line-height:1.5;
+    }
+
+    .input-field{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.14);
+      background:rgba(5,15,34,0.86);
+      color:#fff;
+      padding:14px 16px;
+      outline:none;
+      font-family:inherit;
+      font-size:14px;
+      line-height:1.5;
+      transition:border-color 0.2s ease, box-shadow 0.2s ease;
+      margin-bottom:18px;
+    }
+
+    .input-field:focus{
+      border-color:rgba(212,175,55,0.38);
+      box-shadow:0 0 0 3px rgba(212,175,55,0.08);
+    }
+
+    .input-field::placeholder{
+      color:rgba(255,255,255,0.42);
     }
 
     textarea{
@@ -472,6 +496,14 @@
 
           <div class="rating-text" id="ratingText">Nenhuma nota selecionada.</div>
 
+          <span class="section-label">Nome</span>
+          <input
+            id="name"
+            class="input-field"
+            type="text"
+            placeholder="Digite seu nome"
+          />
+
           <span class="section-label">Mensagem de avaliação</span>
 
           <textarea id="message" placeholder="Escreva aqui sua avaliação sobre a experiência com a Curadoria Elite Travel..."></textarea>
@@ -496,17 +528,22 @@
     const stars = document.querySelectorAll(".star");
     const ratingText = document.getElementById("ratingText");
 
+    function getRatingLabel(value){
+      if (value === 1) return "1 estrela";
+      if (value === 2) return "2 estrelas";
+      if (value === 3) return "3 estrelas";
+      if (value === 4) return "4 estrelas";
+      if (value === 5) return "5 estrelas";
+      return "Sem nota";
+    }
+
     function updateRatingText(){
       if (!rating){
         ratingText.textContent = "Nenhuma nota selecionada.";
         return;
       }
 
-      if (rating === 1) ratingText.textContent = "Nota: 1 estrela";
-      if (rating === 2) ratingText.textContent = "Nota: 2 estrelas";
-      if (rating === 3) ratingText.textContent = "Nota: 3 estrelas";
-      if (rating === 4) ratingText.textContent = "Nota: 4 estrelas";
-      if (rating === 5) ratingText.textContent = "Nota: 5 estrelas";
+      ratingText.textContent = "Nota: " + getRatingLabel(rating);
     }
 
     stars.forEach((star) => {
@@ -547,19 +584,15 @@
     });
 
     function sendFeedback(){
+      const name = (document.getElementById("name").value || "").trim();
       const message = document.getElementById("message").value || "";
-      const subject = "Avaliação — Curadoria Elite Travel";
-
-      let nota = "Sem nota";
-      if (rating === 1) nota = "1 estrela";
-      if (rating === 2) nota = "2 estrelas";
-      if (rating === 3) nota = "3 estrelas";
-      if (rating === 4) nota = "4 estrelas";
-      if (rating === 5) nota = "5 estrelas";
+      const ratingLabel = getRatingLabel(rating);
+      const subject = "Avaliação " + ratingLabel + " — Curadoria Elite Travel";
 
       const body =
         "Avaliação da Curadoria Elite Travel\n\n" +
-        "Nota: " + nota + "\n\n" +
+        "Nome: " + (name || "Não informado") + "\n" +
+        "Nota: " + ratingLabel + "\n\n" +
         "Mensagem de avaliação:\n" + message;
 
       window.location.href =
