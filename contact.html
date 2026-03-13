@@ -17,6 +17,75 @@
       color:#fff;
       overflow-x:hidden;
       min-height:100vh;
+      position:relative;
+    }
+
+    .background-carousel{
+      position:fixed;
+      inset:0;
+      z-index:-3;
+      overflow:hidden;
+      background:#050505;
+    }
+
+    .background-slide{
+      position:absolute;
+      inset:0;
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+      opacity:0;
+      transform:scale(1.06);
+      animation:backgroundFade 45s infinite;
+      will-change:opacity, transform;
+    }
+
+    .background-slide:nth-child(1){
+      background-image:url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80");
+      animation-delay:0s;
+    }
+
+    .background-slide:nth-child(2){
+      background-image:url("https://images.unsplash.com/photo-1579033462043-0f11a7862f7d?auto=format&fit=crop&w=1800&q=80");
+      animation-delay:15s;
+    }
+
+    .background-slide:nth-child(3){
+      background-image:url("https://images.unsplash.com/photo-1515238152791-8216bfdf89a7?auto=format&fit=crop&w=1800&q=80");
+      animation-delay:30s;
+    }
+
+    @keyframes backgroundFade{
+      0%{
+        opacity:0;
+        transform:scale(1.06);
+      }
+      8%{
+        opacity:1;
+      }
+      30%{
+        opacity:1;
+        transform:scale(1.1);
+      }
+      38%{
+        opacity:0;
+        transform:scale(1.12);
+      }
+      100%{
+        opacity:0;
+        transform:scale(1.12);
+      }
+    }
+
+    .background-overlay{
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.72), rgba(0,0,0,0.80)),
+        radial-gradient(circle at top center, rgba(8,24,60,0.24), transparent 45%),
+        radial-gradient(circle at bottom center, rgba(2,10,28,0.28), transparent 50%);
+      pointer-events:none;
     }
 
     header{
@@ -122,13 +191,15 @@
       font-size:clamp(30px,4vw,46px);
       line-height:1.1;
       letter-spacing:-0.4px;
+      text-shadow:0 4px 18px rgba(0,0,0,0.30);
     }
 
     .page-intro p{
       margin:0;
-      color:rgba(255,255,255,0.80);
+      color:rgba(255,255,255,0.84);
       font-size:16px;
       line-height:1.8;
+      text-shadow:0 2px 12px rgba(0,0,0,0.25);
     }
 
     .contact-layout{
@@ -140,13 +211,14 @@
 
     .card{
       position:relative;
-      background:linear-gradient(180deg, rgba(8,20,44,0.94), rgba(4,12,28,0.96));
+      background:linear-gradient(180deg, rgba(8,20,44,0.88), rgba(4,12,28,0.92));
       border:1px solid rgba(255,255,255,0.10);
       border-radius:22px;
       padding:36px;
       min-height:480px;
-      box-shadow:0 20px 52px rgba(0,0,0,0.28);
+      box-shadow:0 20px 52px rgba(0,0,0,0.34);
       overflow:hidden;
+      backdrop-filter:blur(7px);
     }
 
     .card::before{
@@ -361,6 +433,8 @@
       font-size:13px;
       line-height:1.7;
       margin-top:4px;
+      position:relative;
+      z-index:2;
     }
 
     @media (max-width:980px){
@@ -420,6 +494,13 @@
   </style>
 </head>
 <body>
+
+  <div class="background-carousel" aria-hidden="true">
+    <div class="background-slide"></div>
+    <div class="background-slide"></div>
+    <div class="background-slide"></div>
+  </div>
+  <div class="background-overlay" aria-hidden="true"></div>
 
   <header>
     <a class="brand" href="index.html">
