@@ -203,31 +203,6 @@
       max-width:540px;
     }
 
-    .stars{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin:8px 0 24px;
-    }
-
-    .star{
-      font-size:38px;
-      line-height:1;
-      color:rgba(255,255,255,0.26);
-      cursor:pointer;
-      transition:transform 0.18s ease, color 0.18s ease, text-shadow 0.18s ease;
-      user-select:none;
-    }
-
-    .star:hover{
-      transform:translateY(-1px) scale(1.04);
-    }
-
-    .star.active{
-      color:#d4af37;
-      text-shadow:0 0 18px rgba(212,175,55,0.30);
-    }
-
     .section-label{
       display:block;
       margin:0 0 12px;
@@ -240,7 +215,7 @@
       display:flex;
       flex-wrap:wrap;
       gap:10px;
-      margin-bottom:20px;
+      margin:18px 0 0;
     }
 
     .topic{
@@ -266,6 +241,46 @@
       color:#000;
       border-color:#d4af37;
       font-weight:700;
+    }
+
+    .contact-helper{
+      margin-top:14px;
+      color:rgba(255,255,255,0.60);
+      font-size:12.8px;
+      line-height:1.6;
+    }
+
+    .stars{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin:8px 0 14px;
+    }
+
+    .star{
+      font-size:38px;
+      line-height:1;
+      color:rgba(255,255,255,0.26);
+      cursor:pointer;
+      transition:transform 0.18s ease, color 0.18s ease, text-shadow 0.18s ease;
+      user-select:none;
+    }
+
+    .star:hover{
+      transform:translateY(-1px) scale(1.04);
+    }
+
+    .star.active{
+      color:#d4af37;
+      text-shadow:0 0 18px rgba(212,175,55,0.30);
+    }
+
+    .rating-text{
+      min-height:22px;
+      margin:0 0 18px;
+      color:rgba(255,255,255,0.78);
+      font-size:14px;
+      line-height:1.5;
     }
 
     textarea{
@@ -423,8 +438,20 @@
             curadoriaelitetravel@gmail.com
           </a>
 
+          <div class="topics" id="contactTopics">
+            <div class="topic" data-subject="Sugestão — Curadoria Elite Travel">Sugestão</div>
+            <div class="topic" data-subject="Dúvida — Curadoria Elite Travel">Dúvida</div>
+            <div class="topic" data-subject="Correção — Curadoria Elite Travel">Correção</div>
+            <div class="topic" data-subject="Parceria — Curadoria Elite Travel">Parceria</div>
+            <div class="topic" data-subject="Outro — Curadoria Elite Travel">Outro</div>
+          </div>
+
           <div class="contact-note">
             Este canal pode ser utilizado para dúvidas gerais, esclarecimentos e aproximações institucionais.
+          </div>
+
+          <div class="contact-helper">
+            Clique em um tema acima para abrir seu aplicativo de email com o assunto já organizado.
           </div>
         </div>
       </section>
@@ -443,22 +470,16 @@
             <span class="star" data-value="5">★</span>
           </div>
 
-          <span class="section-label">Selecione o tema principal</span>
+          <div class="rating-text" id="ratingText">Nenhuma nota selecionada.</div>
 
-          <div class="topics">
-            <div class="topic">Sugestão</div>
-            <div class="topic">Dúvida</div>
-            <div class="topic">Correção</div>
-            <div class="topic">Parceria</div>
-            <div class="topic">Outro</div>
-          </div>
+          <span class="section-label">Mensagem de avaliação</span>
 
-          <textarea id="message" placeholder="Conte-nos mais sobre sua experiência..."></textarea>
+          <textarea id="message" placeholder="Escreva aqui sua avaliação sobre a experiência com a Curadoria Elite Travel..."></textarea>
 
           <button class="primary-btn" onclick="sendFeedback()">Enviar avaliação</button>
 
           <div class="helper-text">
-            Ao clicar em enviar, seu aplicativo de email será aberto com a avaliação preenchida automaticamente.
+            Ao clicar em enviar, seu aplicativo de email será aberto com a nota e a avaliação preenchidas automaticamente.
           </div>
         </div>
       </section>
@@ -471,46 +492,83 @@
 
   <script>
     let rating = 0;
-    let topic = "";
 
     const stars = document.querySelectorAll(".star");
+    const ratingText = document.getElementById("ratingText");
+
+    function updateRatingText(){
+      if (!rating){
+        ratingText.textContent = "Nenhuma nota selecionada.";
+        return;
+      }
+
+      if (rating === 1) ratingText.textContent = "Nota: 1 estrela";
+      if (rating === 2) ratingText.textContent = "Nota: 2 estrelas";
+      if (rating === 3) ratingText.textContent = "Nota: 3 estrelas";
+      if (rating === 4) ratingText.textContent = "Nota: 4 estrelas";
+      if (rating === 5) ratingText.textContent = "Nota: 5 estrelas";
+    }
 
     stars.forEach((star) => {
       star.addEventListener("click", () => {
-        rating = Number(star.dataset.value || 0);
+        const clickedValue = Number(star.dataset.value || 0);
+
+        if (rating === clickedValue){
+          rating = 0;
+        } else {
+          rating = clickedValue;
+        }
 
         stars.forEach((s) => s.classList.remove("active"));
 
         for (let i = 0; i < rating; i++) {
           if (stars[i]) stars[i].classList.add("active");
         }
+
+        updateRatingText();
       });
     });
 
-    const topics = document.querySelectorAll(".topic");
+    const contactTopics = document.querySelectorAll("#contactTopics .topic");
 
-    topics.forEach((t) => {
-      t.addEventListener("click", () => {
-        topics.forEach((x) => x.classList.remove("active"));
-        t.classList.add("active");
-        topic = t.innerText;
+    contactTopics.forEach((topic) => {
+      topic.addEventListener("click", () => {
+        const subject = topic.dataset.subject || "Contato — Curadoria Elite Travel";
+        const body =
+          "Olá, Curadoria Elite Travel.\n\n" +
+          "Escrevo sobre: " + topic.innerText + "\n\n" +
+          "Mensagem:\n";
+
+        window.location.href =
+          "mailto:curadoriaelitetravel@gmail.com" +
+          "?subject=" + encodeURIComponent(subject) +
+          "&body=" + encodeURIComponent(body);
       });
     });
 
     function sendFeedback(){
       const message = document.getElementById("message").value || "";
-      const subject = "Avaliação Curadoria Elite Travel";
+      const subject = "Avaliação — Curadoria Elite Travel";
+
+      let nota = "Sem nota";
+      if (rating === 1) nota = "1 estrela";
+      if (rating === 2) nota = "2 estrelas";
+      if (rating === 3) nota = "3 estrelas";
+      if (rating === 4) nota = "4 estrelas";
+      if (rating === 5) nota = "5 estrelas";
 
       const body =
-        "Nota: " + rating + " estrelas\n\n" +
-        "Tópico: " + topic + "\n\n" +
-        "Mensagem:\n" + message;
+        "Avaliação da Curadoria Elite Travel\n\n" +
+        "Nota: " + nota + "\n\n" +
+        "Mensagem de avaliação:\n" + message;
 
       window.location.href =
         "mailto:curadoriaelitetravel@gmail.com" +
         "?subject=" + encodeURIComponent(subject) +
         "&body=" + encodeURIComponent(body);
     }
+
+    updateRatingText();
   </script>
 
 </body>
