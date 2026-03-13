@@ -179,20 +179,15 @@
       margin:0 0 26px;
     }
 
-    .contact-link{
+    .contact-email{
       display:inline-flex;
       align-items:center;
       gap:10px;
-      color:#4ea1ff;
-      text-decoration:none;
+      color:#ffffff;
       font-size:17px;
       font-weight:600;
       line-height:1.5;
       word-break:break-word;
-    }
-
-    .contact-link:hover{
-      opacity:0.92;
     }
 
     .topics{
@@ -350,6 +345,14 @@
       line-height:1.6;
     }
 
+    .section-label{
+      display:block;
+      margin:0 0 12px;
+      color:rgba(255,255,255,0.76);
+      font-size:13px;
+      line-height:1.5;
+    }
+
     footer{
       border-top:1px solid rgba(255,255,255,0.08);
       padding:26px 20px 32px;
@@ -405,13 +408,13 @@
         justify-content:flex-start;
       }
 
-      .contact-link{
-        font-size:16px;
-      }
-
       .topic{
         font-size:13px;
         padding:9px 14px;
+      }
+
+      .contact-email{
+        font-size:16px;
       }
     }
   </style>
@@ -450,9 +453,13 @@
             Se desejar falar diretamente conosco, envie um email. Responderemos o mais breve possível.
           </p>
 
-          <a class="contact-link" href="mailto:curadoriaelitetravel@gmail.com">
+          <span class="section-label">Email institucional</span>
+
+          <div class="contact-email">
             curadoriaelitetravel@gmail.com
-          </a>
+          </div>
+
+          <span class="section-label" style="margin-top:20px;">Selecione o assunto da mensagem</span>
 
           <div class="topics" id="contactTopics">
             <div class="topic" data-subject="Sugestão — Curadoria Elite Travel">Sugestão</div>
@@ -467,7 +474,7 @@
           </div>
 
           <div class="contact-helper">
-            Clique em um tema acima para abrir seu aplicativo de email com o assunto já organizado.
+            Ao clicar em um tema, seu aplicativo de email será aberto com o assunto já organizado.
           </div>
         </div>
       </section>
