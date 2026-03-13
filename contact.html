@@ -1,257 +1,517 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Contato e Avaliação | Curadoria Elite Travel</title>
+  <meta charset="UTF-8" />
+  <title>Contato e Avaliação | Curadoria Elite Travel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
+  <style>
+    *{
+      box-sizing:border-box;
+    }
 
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:#05070b;
-color:white;
-}
+    body{
+      margin:0;
+      font-family:"Segoe UI",sans-serif;
+      background:#070707;
+      color:#fff;
+      overflow-x:hidden;
+      min-height:100vh;
+    }
 
-header{
-width:100%;
-padding:20px 40px;
-border-bottom:1px solid rgba(255,255,255,0.1);
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
+    header{
+      padding:16px 40px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:rgba(0,0,0,0.30);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      gap:16px;
+      width:100%;
+    }
 
-.logo{
-font-weight:700;
-letter-spacing:1px;
-color:#d4af37;
-}
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:240px;
+      cursor:pointer;
+      text-decoration:none;
+    }
 
-.container{
-max-width:1400px;
-margin:auto;
-padding:60px 40px;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:60px;
-}
+    .brand img{
+      height:34px;
+      width:34px;
+      display:block;
+    }
 
-.card{
-background:linear-gradient(180deg,#0c1526,#09101d);
-border:1px solid rgba(255,255,255,0.1);
-border-radius:16px;
-padding:40px;
-}
+    .brand-name{
+      font-family:"Cinzel","Georgia",serif;
+      font-size:18px;
+      color:#d4af37;
+      letter-spacing:0.8px;
+      text-transform:uppercase;
+      line-height:1.1;
+    }
 
-h2{
-margin-top:0;
-}
+    .brand-tagline{
+      font-size:12px;
+      color:rgba(255,255,255,0.7);
+      line-height:1.2;
+      margin-top:2px;
+    }
 
-.email{
-margin-top:20px;
-font-size:18px;
-color:#d4af37;
-text-decoration:none;
-}
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
 
-.stars{
-margin:20px 0;
-font-size:32px;
-cursor:pointer;
-}
+    .btn-ghost{
+      background:transparent;
+      border:1px solid rgba(212,175,55,0.38);
+      color:#d4af37;
+      font-weight:600;
+      border-radius:10px;
+      padding:11px 18px;
+      cursor:pointer;
+      text-decoration:none;
+      transition:transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+      box-shadow:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
+    }
 
-.star{
-opacity:0.3;
-}
+    .btn-ghost:hover{
+      transform:translateY(-1px);
+      opacity:0.92;
+    }
 
-.star.active{
-opacity:1;
-}
+    main{
+      width:100%;
+      max-width:1240px;
+      margin:0 auto;
+      padding:56px 24px 72px;
+    }
 
-.topics{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin-bottom:20px;
-}
+    .page-intro{
+      text-align:center;
+      max-width:840px;
+      margin:0 auto 34px;
+    }
 
-.topic{
-padding:8px 14px;
-border:1px solid rgba(255,255,255,0.2);
-border-radius:20px;
-cursor:pointer;
-font-size:14px;
-}
+    .page-kicker{
+      color:rgba(212,175,55,0.86);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:1.6px;
+      margin-bottom:14px;
+    }
 
-.topic.active{
-background:#d4af37;
-color:black;
-border:none;
-}
+    .page-intro h1{
+      margin:0 0 14px;
+      color:#d4af37;
+      font-size:clamp(30px,4vw,46px);
+      line-height:1.1;
+      letter-spacing:-0.4px;
+    }
 
-textarea{
-width:100%;
-height:120px;
-border-radius:10px;
-border:1px solid rgba(255,255,255,0.2);
-background:#0b1323;
-color:white;
-padding:10px;
-resize:none;
-}
+    .page-intro p{
+      margin:0;
+      color:rgba(255,255,255,0.80);
+      font-size:16px;
+      line-height:1.8;
+    }
 
-button{
-margin-top:20px;
-padding:12px 20px;
-border:none;
-border-radius:10px;
-background:#d4af37;
-color:black;
-font-weight:700;
-cursor:pointer;
-}
+    .contact-layout{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:28px;
+      align-items:stretch;
+    }
 
-button:hover{
-opacity:0.9;
-}
+    .card{
+      position:relative;
+      background:linear-gradient(180deg, rgba(8,20,44,0.94), rgba(4,12,28,0.96));
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:22px;
+      padding:36px;
+      min-height:480px;
+      box-shadow:0 20px 52px rgba(0,0,0,0.28);
+      overflow:hidden;
+    }
 
-@media(max-width:900px){
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at top right, rgba(212,175,55,0.08), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 30%);
+      pointer-events:none;
+    }
 
-.container{
-grid-template-columns:1fr;
-}
+    .card-content{
+      position:relative;
+      z-index:2;
+    }
 
-}
+    .card h2{
+      margin:0 0 18px;
+      font-size:22px;
+      line-height:1.2;
+      color:#ffffff;
+    }
 
-</style>
+    .contact-copy{
+      max-width:520px;
+      color:#ffffff;
+      font-size:15px;
+      line-height:1.7;
+      margin:0 0 26px;
+    }
+
+    .contact-link{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      color:#d4af37;
+      text-decoration:none;
+      font-size:17px;
+      font-weight:600;
+      line-height:1.5;
+      word-break:break-word;
+    }
+
+    .contact-link:hover{
+      opacity:0.92;
+    }
+
+    .contact-note{
+      margin-top:22px;
+      color:rgba(255,255,255,0.68);
+      font-size:13.5px;
+      line-height:1.7;
+      max-width:540px;
+    }
+
+    .stars{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin:8px 0 24px;
+    }
+
+    .star{
+      font-size:38px;
+      line-height:1;
+      color:rgba(255,255,255,0.26);
+      cursor:pointer;
+      transition:transform 0.18s ease, color 0.18s ease, text-shadow 0.18s ease;
+      user-select:none;
+    }
+
+    .star:hover{
+      transform:translateY(-1px) scale(1.04);
+    }
+
+    .star.active{
+      color:#d4af37;
+      text-shadow:0 0 18px rgba(212,175,55,0.30);
+    }
+
+    .section-label{
+      display:block;
+      margin:0 0 12px;
+      color:rgba(255,255,255,0.76);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .topics{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:20px;
+    }
+
+    .topic{
+      padding:10px 16px;
+      border:1px solid rgba(255,255,255,0.18);
+      border-radius:999px;
+      cursor:pointer;
+      font-size:14px;
+      line-height:1;
+      color:#fff;
+      background:rgba(255,255,255,0.02);
+      transition:all 0.2s ease;
+      user-select:none;
+    }
+
+    .topic:hover{
+      border-color:rgba(212,175,55,0.42);
+      color:#d4af37;
+    }
+
+    .topic.active{
+      background:#d4af37;
+      color:#000;
+      border-color:#d4af37;
+      font-weight:700;
+    }
+
+    textarea{
+      width:100%;
+      min-height:152px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.14);
+      background:rgba(5,15,34,0.86);
+      color:#fff;
+      padding:16px 16px;
+      resize:none;
+      outline:none;
+      font-family:inherit;
+      font-size:14px;
+      line-height:1.6;
+      transition:border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    textarea:focus{
+      border-color:rgba(212,175,55,0.38);
+      box-shadow:0 0 0 3px rgba(212,175,55,0.08);
+    }
+
+    textarea::placeholder{
+      color:rgba(255,255,255,0.42);
+    }
+
+    .primary-btn{
+      margin-top:22px;
+      cursor:pointer;
+      padding:13px 22px;
+      border-radius:12px;
+      border:none;
+      background:#d4af37;
+      color:#000;
+      font-weight:700;
+      font-size:15px;
+      transition:transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+      box-shadow:0 12px 28px rgba(212,175,55,0.18);
+    }
+
+    .primary-btn:hover{
+      transform:translateY(-1px);
+      opacity:0.96;
+    }
+
+    .helper-text{
+      margin-top:14px;
+      color:rgba(255,255,255,0.60);
+      font-size:12.8px;
+      line-height:1.6;
+    }
+
+    footer{
+      border-top:1px solid rgba(255,255,255,0.08);
+      padding:26px 20px 32px;
+      text-align:center;
+      color:rgba(255,255,255,0.62);
+      font-size:13px;
+      line-height:1.7;
+      margin-top:4px;
+    }
+
+    @media (max-width:980px){
+      header{
+        padding:14px 16px;
+      }
+
+      main{
+        padding:40px 16px 56px;
+      }
+
+      .contact-layout{
+        grid-template-columns:1fr;
+      }
+
+      .card{
+        min-height:auto;
+        padding:28px 22px;
+      }
+
+      .page-intro{
+        margin-bottom:26px;
+      }
+
+      .star{
+        font-size:34px;
+      }
+    }
+
+    @media (max-width:640px){
+      .brand{
+        min-width:auto;
+      }
+
+      .brand-name{
+        font-size:16px;
+      }
+
+      .brand-tagline{
+        font-size:11px;
+      }
+
+      .header-actions{
+        width:100%;
+        justify-content:flex-start;
+      }
+
+      .contact-link{
+        font-size:16px;
+      }
+
+      .topic{
+        font-size:13px;
+        padding:9px 14px;
+      }
+    }
+  </style>
 </head>
-
-
 <body>
 
-<header>
+  <header>
+    <a class="brand" href="index.html">
+      <img src="images/rosa-dos-ventos.png" alt="Rosa dos Ventos">
+      <div>
+        <div class="brand-name">Curadoria Elite Travel</div>
+        <div class="brand-tagline">O seu mundo, bem indicado.</div>
+      </div>
+    </a>
 
-<div class="logo">
-CURADORIA ELITE TRAVEL
-</div>
+    <div class="header-actions">
+      <a class="btn-ghost" href="index.html">Voltar ao site</a>
+    </div>
+  </header>
 
-<div>
-<a href="index.html" style="color:white;text-decoration:none;">Voltar ao site</a>
-</div>
+  <main>
+    <div class="page-intro">
+      <div class="page-kicker">Contato · Escuta · Avaliação</div>
+      <h1>Fale conosco ou avalie sua experiência</h1>
+      <p>
+        Este espaço foi criado para facilitar o contato direto e receber impressões valiosas sobre a Curadoria Elite Travel.
+      </p>
+    </div>
 
-</header>
+    <div class="contact-layout">
+      <section class="card">
+        <div class="card-content">
+          <h2>Contato</h2>
 
+          <p class="contact-copy">
+            Se desejar falar diretamente conosco, envie um email. Responderemos o mais breve possível.
+          </p>
 
-<div class="container">
+          <a class="contact-link" href="mailto:curadoriaelitetravel@gmail.com">
+            curadoriaelitetravel@gmail.com
+          </a>
 
-<!-- CONTATO -->
+          <div class="contact-note">
+            Este canal pode ser utilizado para dúvidas gerais, esclarecimentos e aproximações institucionais.
+          </div>
+        </div>
+      </section>
 
-<div class="card">
+      <section class="card">
+        <div class="card-content">
+          <h2>Avaliação da Curadoria</h2>
 
-<h2>Contato</h2>
+          <span class="section-label">Como você avalia sua experiência?</span>
 
-<p>
-Se desejar falar diretamente conosco, envie um email.
-Responderemos o mais breve possível.
-</p>
+          <div class="stars">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
 
-<a class="email" href="mailto:curadoriaelitetravel@gmail.com">
-curadoriaelitetravel@gmail.com
-</a>
+          <span class="section-label">Selecione o tema principal</span>
 
-</div>
+          <div class="topics">
+            <div class="topic">Sugestão</div>
+            <div class="topic">Dúvida</div>
+            <div class="topic">Correção</div>
+            <div class="topic">Parceria</div>
+            <div class="topic">Outro</div>
+          </div>
 
+          <textarea id="message" placeholder="Conte-nos mais sobre sua experiência..."></textarea>
 
-<!-- AVALIAÇÃO -->
+          <button class="primary-btn" onclick="sendFeedback()">Enviar avaliação</button>
 
-<div class="card">
+          <div class="helper-text">
+            Ao clicar em enviar, seu aplicativo de email será aberto com a avaliação preenchida automaticamente.
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
 
-<h2>Avaliação da Curadoria</h2>
+  <footer>
+    Curadoria Elite Travel · O seu mundo, bem indicado.
+  </footer>
 
-<div class="stars">
+  <script>
+    let rating = 0;
+    let topic = "";
 
-<span class="star" data-value="1">★</span>
-<span class="star" data-value="2">★</span>
-<span class="star" data-value="3">★</span>
-<span class="star" data-value="4">★</span>
-<span class="star" data-value="5">★</span>
+    const stars = document.querySelectorAll(".star");
 
-</div>
+    stars.forEach((star) => {
+      star.addEventListener("click", () => {
+        rating = Number(star.dataset.value || 0);
 
-<div class="topics">
+        stars.forEach((s) => s.classList.remove("active"));
 
-<div class="topic">Sugestão</div>
-<div class="topic">Dúvida</div>
-<div class="topic">Correção</div>
-<div class="topic">Parceria</div>
-<div class="topic">Outro</div>
+        for (let i = 0; i < rating; i++) {
+          if (stars[i]) stars[i].classList.add("active");
+        }
+      });
+    });
 
-</div>
+    const topics = document.querySelectorAll(".topic");
 
-<textarea id="message" placeholder="Conte-nos mais sobre sua experiência..."></textarea>
+    topics.forEach((t) => {
+      t.addEventListener("click", () => {
+        topics.forEach((x) => x.classList.remove("active"));
+        t.classList.add("active");
+        topic = t.innerText;
+      });
+    });
 
-<button onclick="sendFeedback()">Enviar avaliação</button>
+    function sendFeedback(){
+      const message = document.getElementById("message").value || "";
+      const subject = "Avaliação Curadoria Elite Travel";
 
-</div>
+      const body =
+        "Nota: " + rating + " estrelas\n\n" +
+        "Tópico: " + topic + "\n\n" +
+        "Mensagem:\n" + message;
 
-</div>
-
-
-<script>
-
-let rating = 0
-let topic = ""
-
-const stars = document.querySelectorAll(".star")
-
-stars.forEach(star=>{
-star.addEventListener("click",()=>{
-
-rating = star.dataset.value
-
-stars.forEach(s=>s.classList.remove("active"))
-
-for(let i=0;i<rating;i++){
-stars[i].classList.add("active")
-}
-
-})
-})
-
-const topics = document.querySelectorAll(".topic")
-
-topics.forEach(t=>{
-t.addEventListener("click",()=>{
-
-topics.forEach(x=>x.classList.remove("active"))
-
-t.classList.add("active")
-
-topic = t.innerText
-
-})
-})
-
-function sendFeedback(){
-
-const message = document.getElementById("message").value
-
-const subject = "Avaliação Curadoria Elite Travel"
-
-const body =
-"Nota: " + rating + " estrelas\n\n" +
-"Tópico: " + topic + "\n\n" +
-"Mensagem:\n" + message
-
-window.location.href =
-"mailto:curadoriaelitetravel@gmail.com" +
-"?subject=" + encodeURIComponent(subject) +
-"&body=" + encodeURIComponent(body)
-
-}
-
-</script>
+      window.location.href =
+        "mailto:curadoriaelitetravel@gmail.com" +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(body);
+    }
+  </script>
 
 </body>
 </html>
