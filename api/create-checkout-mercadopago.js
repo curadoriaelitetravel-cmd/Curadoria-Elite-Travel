@@ -515,18 +515,21 @@ async function sendPurchaseEmail({ toEmail, customerName, paymentData, items }) 
   if (!toEmail) return { ok: false, skipped: true, reason: "Missing recipient email" };
 
   const accountUrl = "https://curadoria-elite-travel.vercel.app/account.html";
+  const roseUrl = "https://curadoria-elite-travel.vercel.app/images/rosa-dos-ventos.png";
+  const logoUrl = "https://curadoria-elite-travel.vercel.app/images/logo-curadoria.jpg";
+
   const purchasedItems = buildPurchasedItemsForEmail(paymentData, items);
   const total = getPaymentTotal(paymentData);
   const installmentsText = getInstallmentsText(paymentData);
   const firstName = getFirstName(customerName);
 
   const greetingHtml = firstName
-    ? `<p style="margin:0 0 18px 0;font-size:16px;color:#111;">Olá, <strong>${escapeHtml(firstName)}</strong>.</p>`
-    : `<p style="margin:0 0 18px 0;font-size:16px;color:#111;">Olá.</p>`;
+    ? `<p style="margin:0 0 18px 0;font-size:16px;color:#f3f3f3;">Olá, <strong>${escapeHtml(firstName)}</strong>.</p>`
+    : `<p style="margin:0 0 18px 0;font-size:16px;color:#f3f3f3;">Olá.</p>`;
 
   const itemsHtml = purchasedItems.length
     ? `
-      <ul style="margin:0 0 18px 0;padding-left:20px;color:#111;">
+      <ul style="margin:0 0 18px 0;padding-left:20px;color:#f3f3f3;">
         ${purchasedItems
           .map((it) => {
             const valueText = it.amount != null ? ` — ${formatBRL(it.amount)}` : "";
@@ -535,62 +538,103 @@ async function sendPurchaseEmail({ toEmail, customerName, paymentData, items }) 
           .join("")}
       </ul>
     `
-    : `<p style="margin:0 0 18px 0;color:#111;">Compra confirmada.</p>`;
+    : `<p style="margin:0 0 18px 0;color:#f3f3f3;">Compra confirmada.</p>`;
 
   const html = `
-    <div style="margin:0;padding:24px;background:#f6f3ea;">
-      <div style="max-width:640px;margin:0 auto;background:#ffffff;border:1px solid #e9e2cf;border-radius:16px;overflow:hidden;">
-        <div style="height:6px;background:#d4af37;"></div>
+    <div style="margin:0;padding:24px;background:#5e5a52;">
+      <div style="max-width:640px;margin:0 auto;background:#232325;border:1px solid #d6c28a;border-radius:16px;overflow:hidden;position:relative;">
+        <div style="height:4px;background:#d4af37;"></div>
 
-        <div style="padding:32px 28px 30px 28px;font-family:Segoe UI,Arial,sans-serif;line-height:1.7;color:#111;">
-          <div style="text-align:center;margin-bottom:28px;">
-            <div style="font-family:Georgia,serif;font-size:22px;color:#b48a18;font-weight:700;letter-spacing:0.6px;">CURADORIA ELITE TRAVEL</div>
-            <div style="margin-top:4px;font-size:13px;color:#6f6a5d;">O seu mundo, bem indicado.</div>
-          </div>
+        <div style="position:relative;padding:34px 26px 34px 26px;font-family:Segoe UI,Arial,sans-serif;line-height:1.7;color:#f3f3f3;">
+          <img
+            src="${logoUrl}"
+            alt="Logo Curadoria Elite Travel"
+            width="360"
+            style="position:absolute;top:88px;left:50%;transform:translateX(-50%);opacity:0.08;pointer-events:none;z-index:0;max-width:60%;height:auto;"
+          />
 
-          <h2 style="margin:0 0 20px 0;font-size:28px;line-height:1.2;color:#111;">Compra confirmada</h2>
+          <div style="position:relative;z-index:1;">
+            <div style="text-align:center;margin-bottom:28px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 8px auto;">
+                <tr>
+                  <td style="vertical-align:middle;padding-right:10px;">
+                    <img
+                      src="${roseUrl}"
+                      alt="Rosa dos Ventos"
+                      width="34"
+                      height="34"
+                      style="display:block;border:0;outline:none;text-decoration:none;"
+                    />
+                  </td>
+                  <td style="vertical-align:middle;">
+                    <div style="font-family:Georgia,serif;font-size:20px;color:#d4af37;font-weight:700;letter-spacing:0.5px;">
+                      CURADORIA ELITE TRAVEL
+                    </div>
+                  </td>
+                </tr>
+              </table>
 
-          ${greetingHtml}
+              <div style="margin-top:2px;font-size:13px;color:#d9d9d9;">O seu mundo, bem indicado.</div>
+            </div>
 
-          <p style="margin:0 0 18px 0;font-size:16px;color:#111;">
-            Parabéns pela sua escolha. Sua compra foi confirmada com sucesso.
-            Ficamos felizes em fazer parte da sua próxima experiência.
-          </p>
+            <h2 style="margin:0 0 20px 0;font-size:28px;line-height:1.2;color:#ffffff;">Compra confirmada</h2>
 
-          <p style="margin:0 0 10px 0;font-size:16px;color:#111;"><strong>Detalhes da compra:</strong></p>
+            ${greetingHtml}
 
-          ${itemsHtml}
-
-          <p style="margin:0 0 8px 0;font-size:16px;color:#111;"><strong>Total da compra:</strong> ${escapeHtml(formatBRL(total))}</p>
-          <p style="margin:0 0 22px 0;font-size:16px;color:#111;"><strong>Forma de pagamento:</strong> ${escapeHtml(installmentsText)}</p>
-
-          <div style="margin:0 0 22px 0;padding:18px;border:1px solid #eee3bf;border-radius:14px;background:#fcf8ec;">
-            <p style="margin:0 0 8px 0;font-size:15px;color:#111;"><strong>Importante:</strong></p>
-            <p style="margin:0;font-size:15px;color:#111;">
-              Por se tratar de conteúdo digital com acesso imediato após a compra,
-              não é possível realizar cancelamentos, trocas ou reembolsos.
+            <p style="margin:0 0 18px 0;font-size:16px;color:#f3f3f3;">
+              Parabéns pela sua escolha. Sua compra foi confirmada com sucesso.
+              Ficamos felizes em fazer parte da sua próxima experiência.
             </p>
+
+            <p style="margin:0 0 10px 0;font-size:16px;color:#f3f3f3;"><strong>Detalhes da compra:</strong></p>
+
+            ${itemsHtml}
+
+            <p style="margin:0 0 8px 0;font-size:16px;color:#f3f3f3;"><strong>Total da compra:</strong> ${escapeHtml(formatBRL(total))}</p>
+            <p style="margin:0 0 22px 0;font-size:16px;color:#f3f3f3;"><strong>Forma de pagamento:</strong> ${escapeHtml(installmentsText)}</p>
+
+            <div style="margin:0 0 22px 0;padding:18px;border:1px solid #d8c690;border-radius:14px;background:#5f5b51;">
+              <p style="margin:0 0 8px 0;font-size:15px;color:#ffffff;"><strong>Importante:</strong></p>
+              <p style="margin:0;font-size:15px;color:#f3f3f3;">
+                Por se tratar de conteúdo digital com acesso imediato após a compra,
+                não é possível realizar cancelamentos, trocas ou reembolsos.
+              </p>
+            </div>
+
+            <p style="margin:0 0 22px 0;font-size:16px;color:#f3f3f3;">
+              Para acessar seu material, entre em <strong>Minha conta</strong> no site da Curadoria Elite Travel.
+            </p>
+
+            <div style="margin:0 0 30px 0;text-align:center;">
+              <a
+                href="${accountUrl}"
+                style="display:inline-block;background:#9f7a00;color:#ffffff;text-decoration:none;font-weight:700;padding:14px 26px;border-radius:10px;font-size:15px;"
+              >
+                Acessar Minha Conta
+              </a>
+            </div>
+
+            <p style="margin:0 0 18px 0;font-size:16px;color:#f3f3f3;">Agradecemos a sua compra.</p>
+
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+              <tr>
+                <td style="vertical-align:bottom;">
+                  <p style="margin:0;font-size:15px;color:#f3f3f3;">
+                    <strong>CURADORIA ELITE TRAVEL</strong><br/>
+                    O seu mundo, bem indicado.
+                  </p>
+                </td>
+                <td style="width:96px;text-align:right;vertical-align:bottom;">
+                  <img
+                    src="${logoUrl}"
+                    alt="Logo Curadoria Elite Travel"
+                    width="78"
+                    style="display:inline-block;border:0;outline:none;text-decoration:none;border-radius:6px;"
+                  />
+                </td>
+              </tr>
+            </table>
           </div>
-
-          <p style="margin:0 0 22px 0;font-size:16px;color:#111;">
-            Para acessar seu material, entre em <strong>Minha conta</strong> no site da Curadoria Elite Travel.
-          </p>
-
-          <div style="margin:0 0 26px 0;text-align:center;">
-            <a
-              href="${accountUrl}"
-              style="display:inline-block;background:#d4af37;color:#111;text-decoration:none;font-weight:700;padding:14px 26px;border-radius:10px;font-size:15px;"
-            >
-              Acessar Minha Conta
-            </a>
-          </div>
-
-          <p style="margin:0 0 18px 0;font-size:16px;color:#111;">Agradecemos a sua compra.</p>
-
-          <p style="margin:0;font-size:15px;color:#111;">
-            <strong>CURADORIA ELITE TRAVEL</strong><br/>
-            O seu mundo, bem indicado.
-          </p>
         </div>
       </div>
     </div>
