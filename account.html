@@ -261,7 +261,8 @@
     }
 
     input[readonly],
-    input:disabled{
+    input:disabled,
+    select:disabled{
       background:rgba(255,255,255,.06);
       color:rgba(255,255,255,.50);
       border:1px solid rgba(255,255,255,.08);
@@ -439,10 +440,11 @@
           <div class="row">
             <div>
               <label>Tipo de documento</label>
-              <select id="person_type">
+              <select id="person_type" disabled>
                 <option value="CPF">Pessoa Física (CPF)</option>
                 <option value="CNPJ">Pessoa Jurídica (CNPJ)</option>
               </select>
+              <div class="field-locked-note">Este campo não pode ser alterado.</div>
             </div>
             <div>
               <label>CPF / CNPJ</label>
@@ -572,13 +574,6 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script>
-    const sb = supabase.createClient(
-      "https://lnyoqoezezisakghtmim.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
-    );
-  </script>
 
   <script>
     const sbReal = supabase.createClient(
@@ -913,11 +908,6 @@
     btnEditProfile.addEventListener("click", async () => {
       hideGlobal();
       setProfileEditMode(!isEditingProfile);
-    });
-
-    personTypeEl.addEventListener("change", () => {
-      hideGlobal();
-      syncFormByType();
     });
 
     const ieRadios = document.querySelectorAll('input[name="ie_indicator"]');
