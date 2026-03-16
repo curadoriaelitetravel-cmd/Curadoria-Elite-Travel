@@ -202,11 +202,11 @@ function computePricesWithCoupon({ items, couponRow, pricesMap }) {
     };
   }
 
-  // ✅ conta SOMENTE os itens do destino do cupom
+  // conta SOMENTE os itens do destino do cupom
   const matchingItems = baseItems.filter((x) => sameCity(x.city, cityLabel));
   const matchCount = matchingItems.length;
 
-  // ✅ se não houver item do destino do cupom, não aplica desconto
+  // se não houver item do destino do cupom, não aplica desconto
   if (matchCount === 0) {
     return {
       applied: {
@@ -228,7 +228,6 @@ function computePricesWithCoupon({ items, couponRow, pricesMap }) {
   let discountTotal = 0;
 
   for (const x of baseItems) {
-    // ✅ só mexe nos itens do destino do cupom
     if (!sameCity(x.city, cityLabel)) continue;
 
     if (matchCount >= 2) {
@@ -241,7 +240,6 @@ function computePricesWithCoupon({ items, couponRow, pricesMap }) {
       };
       discountTotal += d;
     } else {
-      // ✅ 1 item do destino => desconto fixo só nesse item
       const rawDiscount = toCentsBRL(discountAmount);
       const safeDiscount = toCentsBRL(Math.min(Number(x.base_price || 0) - 0.01, rawDiscount));
       const appliedDiscount = Math.max(0, safeDiscount);
@@ -508,7 +506,6 @@ function getInstallmentsText(paymentData) {
 
   return "à vista";
 }
-
 async function sendPurchaseEmail({ toEmail, customerName, paymentData, items }) {
   const resendApiKey = String(process.env.RESEND_API_KEY || "").trim();
   if (!resendApiKey) return { ok: false, skipped: true, reason: "Missing RESEND_API_KEY" };
@@ -524,12 +521,12 @@ async function sendPurchaseEmail({ toEmail, customerName, paymentData, items }) 
   const firstName = getFirstName(customerName);
 
   const greetingHtml = firstName
-    ? `<p style="margin:0 0 18px 0;font-size:16px;color:#f3f3f3;">Olá, <strong>${escapeHtml(firstName)}</strong>.</p>`
-    : `<p style="margin:0 0 18px 0;font-size:16px;color:#f3f3f3;">Olá.</p>`;
+    ? `<p style="margin:0 0 18px 0;font-size:16px;color:#f5f1e8;">Olá, <strong>${escapeHtml(firstName)}</strong>.</p>`
+    : `<p style="margin:0 0 18px 0;font-size:16px;color:#f5f1e8;">Olá.</p>`;
 
   const itemsHtml = purchasedItems.length
     ? `
-      <ul style="margin:0 0 18px 0;padding-left:20px;color:#f3f3f3;">
+      <ul style="margin:0 0 18px 0;padding-left:20px;color:#f5f1e8;">
         ${purchasedItems
           .map((it) => {
             const valueText = it.amount != null ? ` — ${formatBRL(it.amount)}` : "";
@@ -538,102 +535,140 @@ async function sendPurchaseEmail({ toEmail, customerName, paymentData, items }) 
           .join("")}
       </ul>
     `
-    : `<p style="margin:0 0 18px 0;color:#f3f3f3;">Compra confirmada.</p>`;
+    : `<p style="margin:0 0 18px 0;color:#f5f1e8;">Compra confirmada.</p>`;
 
   const html = `
-    <div style="margin:0;padding:24px;background:#5e5a52;">
-      <div style="max-width:640px;margin:0 auto;background:#232325;border:1px solid #d6c28a;border-radius:16px;overflow:hidden;position:relative;">
-        <div style="height:4px;background:#d4af37;"></div>
+    <div style="margin:0;padding:24px;background:#5f5a52;">
+      <div style="max-width:760px;margin:0 auto;background:#2b2b2f;border:1px solid #d9c78c;border-radius:18px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.35);">
+        <div style="height:3px;background:#c79a18;"></div>
 
-        <div style="position:relative;padding:34px 26px 34px 26px;font-family:Segoe UI,Arial,sans-serif;line-height:1.7;color:#f3f3f3;">
-          <img
-            src="${logoUrl}"
-            alt="Logo Curadoria Elite Travel"
-            width="360"
-            style="position:absolute;top:88px;left:50%;transform:translateX(-50%);opacity:0.08;pointer-events:none;z-index:0;max-width:60%;height:auto;"
-          />
-
-          <div style="position:relative;z-index:1;">
-            <div style="text-align:center;margin-bottom:28px;">
-              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 8px auto;">
-                <tr>
-                  <td style="vertical-align:middle;padding-right:10px;">
-                    <img
-                      src="${roseUrl}"
-                      alt="Rosa dos Ventos"
-                      width="34"
-                      height="34"
-                      style="display:block;border:0;outline:none;text-decoration:none;"
-                    />
-                  </td>
-                  <td style="vertical-align:middle;">
-                    <div style="font-family:Georgia,serif;font-size:20px;color:#d4af37;font-weight:700;letter-spacing:0.5px;">
-                      CURADORIA ELITE TRAVEL
-                    </div>
-                  </td>
-                </tr>
-              </table>
-
-              <div style="margin-top:2px;font-size:13px;color:#d9d9d9;">O seu mundo, bem indicado.</div>
-            </div>
-
-            <h2 style="margin:0 0 20px 0;font-size:28px;line-height:1.2;color:#ffffff;">Compra confirmada</h2>
-
-            ${greetingHtml}
-
-            <p style="margin:0 0 18px 0;font-size:16px;color:#f3f3f3;">
-              Parabéns pela sua escolha. Sua compra foi confirmada com sucesso.
-              Ficamos felizes em fazer parte da sua próxima experiência.
-            </p>
-
-            <p style="margin:0 0 10px 0;font-size:16px;color:#f3f3f3;"><strong>Detalhes da compra:</strong></p>
-
-            ${itemsHtml}
-
-            <p style="margin:0 0 8px 0;font-size:16px;color:#f3f3f3;"><strong>Total da compra:</strong> ${escapeHtml(formatBRL(total))}</p>
-            <p style="margin:0 0 22px 0;font-size:16px;color:#f3f3f3;"><strong>Forma de pagamento:</strong> ${escapeHtml(installmentsText)}</p>
-
-            <div style="margin:0 0 22px 0;padding:18px;border:1px solid #d8c690;border-radius:14px;background:#5f5b51;">
-              <p style="margin:0 0 8px 0;font-size:15px;color:#ffffff;"><strong>Importante:</strong></p>
-              <p style="margin:0;font-size:15px;color:#f3f3f3;">
-                Por se tratar de conteúdo digital com acesso imediato após a compra,
-                não é possível realizar cancelamentos, trocas ou reembolsos.
-              </p>
-            </div>
-
-            <p style="margin:0 0 22px 0;font-size:16px;color:#f3f3f3;">
-              Para acessar seu material, entre em <strong>Minha conta</strong> no site da Curadoria Elite Travel.
-            </p>
-
-            <div style="margin:0 0 30px 0;text-align:center;">
-              <a
-                href="${accountUrl}"
-                style="display:inline-block;background:#9f7a00;color:#ffffff;text-decoration:none;font-weight:700;padding:14px 26px;border-radius:10px;font-size:15px;"
+        <div
+          style="
+            position:relative;
+            padding:34px 28px 34px 28px;
+            font-family:Segoe UI,Arial,sans-serif;
+            line-height:1.7;
+            color:#f5f1e8;
+            background:
+              linear-gradient(rgba(38,38,41,0.92), rgba(38,38,41,0.96)),
+              url('${logoUrl}') center center / 340px auto no-repeat;
+          "
+        >
+          <div style="text-align:center;margin-bottom:28px;">
+            <div style="display:inline-flex;align-items:center;justify-content:center;gap:12px;">
+              <img
+                src="${roseUrl}"
+                alt="Rosa dos Ventos"
+                style="width:34px;height:34px;display:block;object-fit:contain;"
+              />
+              <div
+                style="
+                  font-family:Georgia,serif;
+                  font-size:22px;
+                  color:#c79a18;
+                  font-weight:700;
+                  letter-spacing:0.6px;
+                  text-transform:uppercase;
+                "
               >
-                Acessar Minha Conta
-              </a>
+                CURADORIA ELITE TRAVEL
+              </div>
             </div>
 
-            <p style="margin:0 0 18px 0;font-size:16px;color:#f3f3f3;">Agradecemos a sua compra.</p>
+            <div style="margin-top:6px;font-size:13px;color:#d8d2c4;">
+              O seu mundo, bem indicado.
+            </div>
+          </div>
 
-            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-              <tr>
-                <td style="vertical-align:bottom;">
-                  <p style="margin:0;font-size:15px;color:#f3f3f3;">
-                    <strong>CURADORIA ELITE TRAVEL</strong><br/>
-                    O seu mundo, bem indicado.
-                  </p>
-                </td>
-                <td style="width:96px;text-align:right;vertical-align:bottom;">
-                  <img
-                    src="${logoUrl}"
-                    alt="Logo Curadoria Elite Travel"
-                    width="78"
-                    style="display:inline-block;border:0;outline:none;text-decoration:none;border-radius:6px;"
-                  />
-                </td>
-              </tr>
-            </table>
+          <h2 style="margin:0 0 20px 0;font-size:28px;line-height:1.2;color:#ffffff;">
+            Compra confirmada
+          </h2>
+
+          ${greetingHtml}
+
+          <p style="margin:0 0 18px 0;font-size:16px;color:#f5f1e8;">
+            Parabéns pela sua escolha. Sua compra foi confirmada com sucesso.
+            Ficamos felizes em fazer parte da sua próxima experiência.
+          </p>
+
+          <p style="margin:0 0 10px 0;font-size:16px;color:#f5f1e8;">
+            <strong>Detalhes da compra:</strong>
+          </p>
+
+          ${itemsHtml}
+
+          <p style="margin:0 0 8px 0;font-size:16px;color:#f5f1e8;">
+            <strong>Total da compra:</strong> ${escapeHtml(formatBRL(total))}
+          </p>
+
+          <p style="margin:0 0 22px 0;font-size:16px;color:#f5f1e8;">
+            <strong>Forma de pagamento:</strong> ${escapeHtml(installmentsText)}
+          </p>
+
+          <div
+            style="
+              margin:0 0 22px 0;
+              padding:18px;
+              border:1px solid #d8c792;
+              border-radius:14px;
+              background:#6b675d;
+            "
+          >
+            <p style="margin:0 0 8px 0;font-size:15px;color:#ffffff;">
+              <strong>Importante:</strong>
+            </p>
+            <p style="margin:0;font-size:15px;color:#f5f1e8;">
+              Por se tratar de conteúdo digital com acesso imediato após a compra,
+              não é possível realizar cancelamentos, trocas ou reembolsos.
+            </p>
+          </div>
+
+          <p style="margin:0 0 22px 0;font-size:16px;color:#f5f1e8;">
+            Para acessar seu material, entre em <strong>Minha conta</strong> no site da Curadoria Elite Travel.
+          </p>
+
+          <div style="margin:0 0 28px 0;text-align:center;">
+            <a
+              href="${accountUrl}"
+              style="
+                display:inline-block;
+                background:#9e7800;
+                color:#ffffff;
+                text-decoration:none;
+                font-weight:700;
+                padding:14px 26px;
+                border-radius:10px;
+                font-size:15px;
+              "
+            >
+              Acessar Minha Conta
+            </a>
+          </div>
+
+          <p style="margin:0 0 18px 0;font-size:16px;color:#f5f1e8;">
+            Agradecemos a sua compra.
+          </p>
+
+          <div style="margin-top:10px;">
+            <p style="margin:0;font-size:15px;color:#f5f1e8;">
+              <strong>CURADORIA ELITE TRAVEL</strong><br/>
+              O seu mundo, bem indicado.
+            </p>
+          </div>
+
+          <div style="text-align:right;margin-top:18px;">
+            <img
+              src="${logoUrl}"
+              alt="Logo Curadoria Elite Travel"
+              style="
+                width:92px;
+                max-width:92px;
+                height:auto;
+                display:inline-block;
+                border-radius:8px;
+                opacity:0.95;
+              "
+            />
           </div>
         </div>
       </div>
@@ -734,7 +769,6 @@ async function handleWebhook(req, res) {
     });
   }
 
-  // ✅ envio de e-mail sem interferir no fluxo de compra
   if (granted.inserted > 0) {
     try {
       const userEmail = await getUserEmailById(supabase, userId);
@@ -865,8 +899,7 @@ module.exports = async function handler(req, res) {
         totals: pricing.totals,
       });
     }
-
-    const origin = (req.headers && (req.headers.origin || req.headers.referer)) || "";
+        const origin = (req.headers && (req.headers.origin || req.headers.referer)) || "";
     const safeOrigin =
       origin && String(origin).startsWith("http")
         ? String(origin).replace(/\/$/, "")
