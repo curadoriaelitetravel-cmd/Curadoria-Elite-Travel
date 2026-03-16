@@ -259,6 +259,27 @@
       box-sizing:border-box;
       outline:none;
     }
+
+    input[readonly],
+    input:disabled{
+      background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.50);
+      border:1px solid rgba(255,255,255,.08);
+      cursor:not-allowed;
+    }
+
+    input[readonly]::placeholder,
+    input:disabled::placeholder{
+      color:rgba(255,255,255,.36);
+    }
+
+    .field-locked-note{
+      margin-top:6px;
+      font-size:11.5px;
+      color:rgba(255,255,255,.42);
+      line-height:1.4;
+    }
+
     .row{display:flex; gap:10px;}
     .row > div{flex:1;}
 
@@ -425,7 +446,8 @@
             </div>
             <div>
               <label>CPF / CNPJ</label>
-              <input id="doc_number" placeholder="Digite seu CPF ou CNPJ" inputmode="numeric" />
+              <input id="doc_number" placeholder="Digite seu CPF ou CNPJ" inputmode="numeric" readonly />
+              <div class="field-locked-note">Este campo não pode ser alterado.</div>
             </div>
           </div>
 
@@ -444,7 +466,8 @@
             </div>
             <div>
               <label>Data de nascimento (apenas CPF)</label>
-              <input type="date" id="birth_date" />
+              <input type="text" id="birth_date" readonly />
+              <div class="field-locked-note">Este campo não pode ser alterado.</div>
             </div>
           </div>
 
@@ -553,6 +576,13 @@
   <script>
     const sb = supabase.createClient(
       "https://lnyoqoezezisakghtmim.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+    );
+  </script>
+
+  <script>
+    const sbReal = supabase.createClient(
+      "https://lnyoqoezezisakghtmim.supabase.co",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA"
     );
 
@@ -580,6 +610,9 @@
 
     const docInput = document.getElementById("doc_number");
     const cepEl = document.getElementById("cep");
+    const birthDateInput = document.getElementById("birth_date");
+
+    let isEditingProfile = false;
 
     function showGlobal(title, text){
       globalMsg.innerHTML = "<strong>" + title + "</strong>" + (text || "");
@@ -602,7 +635,7 @@
       const d = onlyDigits(v).slice(0, 11);
       let out = d;
       if (d.length > 3) out = d.slice(0,3) + "." + d.slice(3);
-      if (d.length > 6) out = out.slice(0,7) + "." + out.slice(7);
+      if (d.length > 6) out = d.slice(0,7) + "." + out.slice(7);
       if (d.length > 9) out = out.slice(0,11) + "-" + out.slice(11);
       return out;
     }
@@ -612,7 +645,7 @@
       let out = d;
       if (d.length > 2) out = d.slice(0,2) + "." + d.slice(2);
       if (d.length > 5) out = d.slice(0,6) + "." + out.slice(6);
-      if (d.length > 8) out = out.slice(0,10) + "/" + out.slice(10);
+      if (d.length > 8) out = d.slice(0,10) + "/" + out.slice(10);
       if (d.length > 12) out = out.slice(0,15) + "-" + d.slice(15);
       return out;
     }
@@ -629,6 +662,16 @@
         parts.push(d.slice(i, i+3));
       }
       return parts.join(".");
+    }
+
+    function formatDateForInput(value){
+      const raw = String(value || "").trim();
+      if (!raw) return "";
+      if (/^\d{4}-\d{2}-\d{2}$/.test(raw)){
+        const [y, m, d] = raw.split("-");
+        return `${d}/${m}/${y}`;
+      }
+      return raw;
     }
 
     function getSelectedIeIndicator(){
@@ -670,8 +713,24 @@
       if (ind !== "CONTRIBUINTE" && ieInput) ieInput.value = "";
     }
 
+    function setProfileEditMode(editing){
+      isEditingProfile = !!editing;
+
+      if (profileView){
+        profileView.style.display = editing ? "none" : "grid";
+      }
+
+      if (profileForm){
+        profileForm.style.display = editing ? "block" : "none";
+      }
+
+      if (btnEditProfile){
+        btnEditProfile.textContent = editing ? "Fechar" : "Editar";
+      }
+    }
+
     async function requireSession(){
-      const { data } = await sb.auth.getSession();
+      const { data } = await sbReal.auth.getSession();
       if (!data || !data.session) {
         window.location.href = "login.html?return_to=" + encodeURIComponent("account.html");
         return null;
@@ -680,7 +739,7 @@
     }
 
     async function getAccessToken(){
-      const { data } = await sb.auth.getSession();
+      const { data } = await sbReal.auth.getSession();
       return data?.session?.access_token || null;
     }
 
@@ -722,7 +781,7 @@
 
       fields.push(["UF", safe(row?.uf)]);
       fields.push(["Cidade", safe(row?.city_name)]);
-      fields.push(["CEP", safe(row?.cep)]);
+      fields.push(["CEP", safe(row?.cep ? maskCEP(row?.cep) : "")]);
       fields.push(["Bairro", safe(row?.neighborhood)]);
       fields.push(["Endereço", safe(row?.street)]);
       fields.push(["Número", safe(row?.street_number)]);
@@ -745,7 +804,9 @@
       document.getElementById("full_name").value = row?.full_name || "";
 
       document.getElementById("gender").value = row?.gender || "";
-      document.getElementById("birth_date").value = row?.birth_date || "";
+      if (birthDateInput) {
+        birthDateInput.value = formatDateForInput(row?.birth_date || "");
+      }
 
       const ind = String(row?.ie_indicator || "").toUpperCase();
       setSelectedIeIndicator(ind);
@@ -765,7 +826,7 @@
     }
 
     async function loadInvoiceProfile(userId){
-      const { data, error } = await sb
+      const { data, error } = await sbReal
         .from("invoice_profiles")
         .select("*")
         .eq("user_id", userId)
@@ -796,7 +857,7 @@
       listEl.innerHTML = "";
       emptyStateEl.style.display = "none";
 
-      const { data, error } = await sb
+      const { data, error } = await sbReal
         .from("purchase")
         .select("id, category, city, pdf_url, created_at")
         .eq("user_id", userId)
@@ -850,8 +911,8 @@
     }
 
     btnEditProfile.addEventListener("click", async () => {
-      profileForm.style.display = (profileForm.style.display === "block") ? "none" : "block";
-      btnEditProfile.textContent = (profileForm.style.display === "block") ? "Fechar" : "Editar";
+      hideGlobal();
+      setProfileEditMode(!isEditingProfile);
     });
 
     personTypeEl.addEventListener("change", () => {
@@ -894,7 +955,7 @@
         if (payload.ie_indicator === "CONTRIBUINTE" && !payload.ie) return "Preencha a IE (se Contribuinte).";
       }else{
         if (!payload.full_name) return "Preencha o Nome completo.";
-        if (!payload.birth_date) return "Preencha a Data de nascimento.";
+        if (!payload.birth_date) return "Data de nascimento não encontrada.";
         if (!payload.gender) return "Selecione o Sexo.";
       }
 
@@ -927,6 +988,11 @@
       const doc = onlyDigits(document.getElementById("doc_number").value);
       const name = String(document.getElementById("full_name").value || "").trim();
 
+      const currentBirthDate = String(birthDateInput?.value || "").trim();
+      const normalizedBirthDate = /^\d{2}\/\d{2}\/\d{4}$/.test(currentBirthDate)
+        ? currentBirthDate.split("/").reverse().join("-")
+        : currentBirthDate;
+
       const payload = {
         person_type: pt,
         doc_number: doc,
@@ -935,7 +1001,7 @@
         corporate_name: isCnpj ? name : "",
 
         gender: isCnpj ? null : (document.getElementById("gender").value || null),
-        birth_date: isCnpj ? null : (document.getElementById("birth_date").value || null),
+        birth_date: isCnpj ? null : (normalizedBirthDate || null),
 
         ie_indicator: isCnpj ? getSelectedIeIndicator() : null,
         ie: isCnpj ? (getSelectedIeIndicator() === "CONTRIBUINTE" ? (onlyDigits(document.getElementById("ie").value) || null) : null) : null,
@@ -977,8 +1043,7 @@
         }
 
         showGlobal("Sucesso", "Dados atualizados com sucesso.");
-        profileForm.style.display = "none";
-        btnEditProfile.textContent = "Editar";
+        setProfileEditMode(false);
 
         const viewRow = {
           person_type: pt,
@@ -998,6 +1063,7 @@
         };
 
         renderProfile(viewRow);
+        fillForm(viewRow);
 
       }catch(err){
         showGlobal("Erro", "Falha ao salvar. Tente novamente.");
@@ -1008,7 +1074,7 @@
     });
 
     btnLogout.addEventListener("click", async () => {
-      await sb.auth.signOut();
+      await sbReal.auth.signOut();
       window.location.href = "index.html";
     });
 
@@ -1024,6 +1090,7 @@
       if (inv) fillForm(inv);
 
       syncFormByType();
+      setProfileEditMode(false);
       await loadMaterials(user.id);
     }
 
