@@ -202,11 +202,9 @@ function computePricesWithCoupon({ items, couponRow, pricesMap }) {
     };
   }
 
-  // conta SOMENTE os itens do destino do cupom
   const matchingItems = baseItems.filter((x) => sameCity(x.city, cityLabel));
   const matchCount = matchingItems.length;
 
-  // se não houver item do destino do cupom, não aplica desconto
   if (matchCount === 0) {
     return {
       applied: {
@@ -443,7 +441,9 @@ async function getCustomerNameByUserId(supabase, userId) {
       .limit(1)
       .maybeSingle();
 
-    if (error || !data) return "";
+    if (error || !data) {
+      return "";
+    }
 
     return String(data.full_name || data.corporate_name || "").trim();
   } catch (_) {
@@ -506,6 +506,7 @@ function getInstallmentsText(paymentData) {
 
   return "à vista";
 }
+
 async function sendPurchaseEmail({ toEmail, customerName, paymentData, items }) {
   const resendApiKey = String(process.env.RESEND_API_KEY || "").trim();
   if (!resendApiKey) return { ok: false, skipped: true, reason: "Missing RESEND_API_KEY" };
@@ -538,140 +539,147 @@ async function sendPurchaseEmail({ toEmail, customerName, paymentData, items }) 
     : `<p style="margin:0 0 18px 0;color:#f5f1e8;">Compra confirmada.</p>`;
 
   const html = `
-    <div style="margin:0;padding:24px;background:#5f5a52;">
-      <div style="max-width:760px;margin:0 auto;background:#2b2b2f;border:1px solid #d9c78c;border-radius:18px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.35);">
-        <div style="height:3px;background:#c79a18;"></div>
-
-        <div
-          style="
-            position:relative;
-            padding:34px 28px 34px 28px;
-            font-family:Segoe UI,Arial,sans-serif;
-            line-height:1.7;
-            color:#f5f1e8;
-            background:
-              linear-gradient(rgba(38,38,41,0.92), rgba(38,38,41,0.96)),
-              url('${logoUrl}') center center / 340px auto no-repeat;
-          "
-        >
-          <div style="text-align:center;margin-bottom:28px;">
-            <div style="display:inline-flex;align-items:center;justify-content:center;gap:12px;">
-              <img
-                src="${roseUrl}"
-                alt="Rosa dos Ventos"
-                style="width:34px;height:34px;display:block;object-fit:contain;"
-              />
-              <div
-                style="
-                  font-family:Georgia,serif;
-                  font-size:22px;
-                  color:#c79a18;
-                  font-weight:700;
-                  letter-spacing:0.6px;
-                  text-transform:uppercase;
-                "
-              >
-                CURADORIA ELITE TRAVEL
-              </div>
-            </div>
-
-            <div style="margin-top:6px;font-size:13px;color:#d8d2c4;">
-              O seu mundo, bem indicado.
-            </div>
-          </div>
-
-          <h2 style="margin:0 0 20px 0;font-size:28px;line-height:1.2;color:#ffffff;">
-            Compra confirmada
-          </h2>
-
-          ${greetingHtml}
-
-          <p style="margin:0 0 18px 0;font-size:16px;color:#f5f1e8;">
-            Parabéns pela sua escolha. Sua compra foi confirmada com sucesso.
-            Ficamos felizes em fazer parte da sua próxima experiência.
-          </p>
-
-          <p style="margin:0 0 10px 0;font-size:16px;color:#f5f1e8;">
-            <strong>Detalhes da compra:</strong>
-          </p>
-
-          ${itemsHtml}
-
-          <p style="margin:0 0 8px 0;font-size:16px;color:#f5f1e8;">
-            <strong>Total da compra:</strong> ${escapeHtml(formatBRL(total))}
-          </p>
-
-          <p style="margin:0 0 22px 0;font-size:16px;color:#f5f1e8;">
-            <strong>Forma de pagamento:</strong> ${escapeHtml(installmentsText)}
-          </p>
-
-          <div
-            style="
-              margin:0 0 22px 0;
-              padding:18px;
-              border:1px solid #d8c792;
-              border-radius:14px;
-              background:#6b675d;
-            "
-          >
-            <p style="margin:0 0 8px 0;font-size:15px;color:#ffffff;">
-              <strong>Importante:</strong>
-            </p>
-            <p style="margin:0;font-size:15px;color:#f5f1e8;">
-              Por se tratar de conteúdo digital com acesso imediato após a compra,
-              não é possível realizar cancelamentos, trocas ou reembolsos.
-            </p>
-          </div>
-
-          <p style="margin:0 0 22px 0;font-size:16px;color:#f5f1e8;">
-            Para acessar seu material, entre em <strong>Minha conta</strong> no site da Curadoria Elite Travel.
-          </p>
-
-          <div style="margin:0 0 28px 0;text-align:center;">
-            <a
-              href="${accountUrl}"
-              style="
-                display:inline-block;
-                background:#9e7800;
-                color:#ffffff;
-                text-decoration:none;
-                font-weight:700;
-                padding:14px 26px;
-                border-radius:10px;
-                font-size:15px;
-              "
+    <div style="margin:0;padding:24px 12px;background:#5f5a52;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
+        <tr>
+          <td align="center">
+            <table
+              role="presentation"
+              width="100%"
+              cellpadding="0"
+              cellspacing="0"
+              border="0"
+              style="max-width:610px;width:100%;margin:0 auto;background:#2b2b2f;border:1px solid #d9c78c;border-radius:18px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.35);"
             >
-              Acessar Minha Conta
-            </a>
-          </div>
+              <tr>
+                <td style="height:3px;background:#c79a18;font-size:0;line-height:0;">&nbsp;</td>
+              </tr>
 
-          <p style="margin:0 0 18px 0;font-size:16px;color:#f5f1e8;">
-            Agradecemos a sua compra.
-          </p>
+              <tr>
+                <td
+                  style="
+                    padding:34px 32px 34px 32px;
+                    font-family:Segoe UI,Arial,sans-serif;
+                    line-height:1.7;
+                    color:#f5f1e8;
+                    background-color:#5a5a60;
+                    background-image:
+                      linear-gradient(rgba(90,90,96,0.92), rgba(90,90,96,0.94)),
+                      url('${logoUrl}');
+                    background-repeat:no-repeat,no-repeat;
+                    background-position:center center, center center;
+                    background-size:auto, 280px auto;
+                  "
+                >
+                  <div style="text-align:center;margin-bottom:28px;">
+                    <div style="display:inline-flex;align-items:center;justify-content:center;gap:12px;">
+                      <img
+                        src="${roseUrl}"
+                        alt="Rosa dos Ventos"
+                        style="width:26px;height:26px;display:inline-block;vertical-align:middle;object-fit:contain;"
+                      />
+                      <span
+                        style="
+                          font-family:Georgia,serif;
+                          font-size:18px;
+                          color:#c79a18;
+                          font-weight:700;
+                          letter-spacing:0.5px;
+                          text-transform:uppercase;
+                          vertical-align:middle;
+                          display:inline-block;
+                        "
+                      >
+                        CURADORIA ELITE TRAVEL
+                      </span>
+                    </div>
 
-          <div style="margin-top:10px;">
-            <p style="margin:0;font-size:15px;color:#f5f1e8;">
-              <strong>CURADORIA ELITE TRAVEL</strong><br/>
-              O seu mundo, bem indicado.
-            </p>
-          </div>
+                    <div style="margin-top:8px;font-size:13px;color:#ece7dc;">
+                      O seu mundo, bem indicado.
+                    </div>
+                  </div>
 
-          <div style="text-align:right;margin-top:18px;">
-            <img
-              src="${logoUrl}"
-              alt="Logo Curadoria Elite Travel"
-              style="
-                width:92px;
-                max-width:92px;
-                height:auto;
-                display:inline-block;
-                border-radius:8px;
-                opacity:0.95;
-              "
-            />
-          </div>
-        </div>
-      </div>
+                  <h2 style="margin:0 0 20px 0;font-size:28px;line-height:1.2;color:#ffffff;">
+                    Compra confirmada
+                  </h2>
+
+                  ${greetingHtml}
+
+                  <p style="margin:0 0 18px 0;font-size:16px;color:#f5f1e8;">
+                    Parabéns pela sua escolha. Sua compra foi confirmada com sucesso.
+                    Ficamos felizes em fazer parte da sua próxima experiência.
+                  </p>
+
+                  <p style="margin:0 0 10px 0;font-size:16px;color:#f5f1e8;">
+                    <strong>Detalhes da compra:</strong>
+                  </p>
+
+                  ${itemsHtml}
+
+                  <p style="margin:0 0 8px 0;font-size:16px;color:#f5f1e8;">
+                    <strong>Total da compra:</strong> ${escapeHtml(formatBRL(total))}
+                  </p>
+
+                  <p style="margin:0 0 22px 0;font-size:16px;color:#f5f1e8;">
+                    <strong>Forma de pagamento:</strong> ${escapeHtml(installmentsText)}
+                  </p>
+
+                  <div
+                    style="
+                      margin:0 0 22px 0;
+                      padding:18px;
+                      border:1px solid #d8c792;
+                      border-radius:14px;
+                      background:#6b675d;
+                    "
+                  >
+                    <p style="margin:0 0 8px 0;font-size:15px;color:#ffffff;">
+                      <strong>Importante:</strong>
+                    </p>
+                    <p style="margin:0;font-size:15px;color:#f5f1e8;">
+                      Por se tratar de conteúdo digital com acesso imediato após a compra,
+                      não é possível realizar cancelamentos, trocas ou reembolsos.
+                    </p>
+                  </div>
+
+                  <p style="margin:0 0 22px 0;font-size:16px;color:#f5f1e8;">
+                    Para acessar seu material, entre em <strong>Minha conta</strong> no site da Curadoria Elite Travel.
+                  </p>
+
+                  <div style="margin:0 0 28px 0;text-align:center;">
+                    <a
+                      href="${accountUrl}"
+                      style="
+                        display:inline-block;
+                        background:#9e7800;
+                        color:#ffffff;
+                        text-decoration:none;
+                        font-weight:700;
+                        padding:14px 26px;
+                        border-radius:10px;
+                        font-size:15px;
+                      "
+                    >
+                      Acessar Minha Conta
+                    </a>
+                  </div>
+
+                  <p style="margin:0 0 18px 0;font-size:16px;color:#f5f1e8;">
+                    Agradecemos a sua compra.
+                  </p>
+
+                  <div style="margin-top:10px;">
+                    <p style="margin:0;font-size:15px;color:#f5f1e8;">
+                      <strong>CURADORIA ELITE TRAVEL</strong><br/>
+                      O seu mundo, bem indicado.
+                    </p>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
     </div>
   `;
 
@@ -899,7 +907,8 @@ module.exports = async function handler(req, res) {
         totals: pricing.totals,
       });
     }
-        const origin = (req.headers && (req.headers.origin || req.headers.referer)) || "";
+
+    const origin = (req.headers && (req.headers.origin || req.headers.referer)) || "";
     const safeOrigin =
       origin && String(origin).startsWith("http")
         ? String(origin).replace(/\/$/, "")
