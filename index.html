@@ -283,6 +283,25 @@
       text-transform:uppercase;
     }
 
+    .hero-cta{
+      margin-top:28px;
+      padding:13px 28px;
+      border-radius:999px;
+      border:1px solid rgba(212,175,55,0.42);
+      background:rgba(0,0,0,0.22);
+      color:#d4af37;
+      font-weight:700;
+      font-size:15px;
+      letter-spacing:0.2px;
+      box-shadow:0 12px 28px rgba(0,0,0,0.22);
+      backdrop-filter:blur(4px);
+    }
+
+    .hero-cta:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(212,175,55,0.14);
+    }
+
     #quem{
       max-width:none;
       padding-left:0;
@@ -1229,6 +1248,7 @@
         <h1>Uma plataforma de curadoria para viajar melhor.</h1>
         <p>Curadoria que orienta. Decisão que flui.</p>
         <p>Tudo o que você precisa para decidir sua viagem, organizado em um só lugar.</p>
+        <button class="hero-cta" onclick="showSection('curadoria')">Explorar a Curadoria</button>
       </div>
     </div>
   </div>
