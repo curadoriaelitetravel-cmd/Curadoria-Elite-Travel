@@ -442,8 +442,8 @@
     <h1>Nota Fiscal</h1>
     <p class="subtitle">
       Antes de finalizar, revise seus dados abaixo.<br><br>
-  Seu acesso será liberado automaticamente após a confirmação do pagamento.<br><br>
-  Você está a um passo de organizar melhor sua viagem com informações selecionadas para facilitar suas decisões no destino.
+      Seu acesso será liberado automaticamente após a confirmação do pagamento.<br><br>
+      Você está a um passo de organizar melhor sua viagem com informações selecionadas para facilitar suas decisões no destino.
     </p>
 
     <div class="notice" id="noticeText">
@@ -452,6 +452,10 @@
       Para sua comodidade, compras a partir de <strong>R$ 250</strong> poderão ser parceladas no cartão, conforme as condições exibidas no momento do pagamento.
       Para valores inferiores a <strong>R$ 250</strong>, o pagamento segue à vista.
     </div>
+
+    <p style="text-align:center; margin-top:14px; color:rgba(255,255,255,0.65); font-size:13px;">
+      Utilizado por viajantes que buscam decisões mais seguras e experiências melhor planejadas.
+    </p>
 
     <form id="invoiceForm" autocomplete="on">
       <div class="grid">
@@ -560,10 +564,18 @@
         </div>
       </div>
 
+      <p style="text-align:center; margin-top:18px; color:#d4af37; font-size:14px;">
+        Você está a poucos segundos de ter acesso a um material que pode transformar sua experiência na viagem.
+      </p>
+
       <div class="actions">
         <button type="button" class="btn-ghost" onclick="window.location.href='index.html'">Voltar ao site</button>
         <button type="button" id="btnInvoiceProceed">Finalizar pagamento</button>
       </div>
+
+      <p style="text-align:center; margin-top:10px; color:rgba(255,255,255,0.55); font-size:12px;">
+        Pagamento 100% seguro processado por Mercado Pago.
+      </p>
 
       <p class="hint" id="invoiceHint"></p>
     </form>
@@ -1273,7 +1285,7 @@
         const token = await getAccessToken();
         if (!token){
           btn.disabled = false;
-          btn.innerText = "Prosseguir";
+          btn.innerText = "Finalizar pagamento";
           setHint("Sessão expirada. Faça login novamente.");
           const ret = encodeURIComponent(window.location.pathname + window.location.search);
           window.location.href = "login.html?return_to=" + ret;
@@ -1283,7 +1295,7 @@
         const err = validateFront();
         if (err){
           btn.disabled = false;
-          btn.innerText = "Prosseguir";
+          btn.innerText = "Finalizar pagamento";
           setHint(err);
           return;
         }
@@ -1296,7 +1308,7 @@
             ? (saveRes.json.error || saveRes.json.message)
             : "Não foi possível salvar seus dados.";
           btn.disabled = false;
-          btn.innerText = "Prosseguir";
+          btn.innerText = "Finalizar pagamento";
           setHint(msg);
           return;
         }
@@ -1311,7 +1323,7 @@
           const items = getCartCheckoutItems();
           if (!items.length){
             btn.disabled = false;
-            btn.innerText = "Prosseguir";
+            btn.innerText = "Finalizar pagamento";
             setHint("Seu carrinho está vazio. Volte ao site e selecione seus materiais.");
             return;
           }
@@ -1319,7 +1331,7 @@
         }else{
           if (!category || !city){
             btn.disabled = false;
-            btn.innerText = "Prosseguir";
+            btn.innerText = "Finalizar pagamento";
             setHint("Não encontramos os dados do produto. Volte ao site e tente novamente.");
             return;
           }
@@ -1330,7 +1342,7 @@
 
       }catch(e){
         btn.disabled = false;
-        btn.innerText = "Prosseguir";
+        btn.innerText = "Finalizar pagamento";
         setHint(e && e.message ? e.message : "Não foi possível prosseguir. Tente novamente.");
       }
     };
