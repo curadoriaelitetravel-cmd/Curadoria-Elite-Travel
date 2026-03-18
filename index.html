@@ -1093,6 +1093,103 @@
       background:#0f0f0f;
     }
 
+    .faq-section{
+      max-width:980px;
+      margin:42px auto 0;
+      padding:30px 26px;
+      border-radius:22px;
+      background:linear-gradient(180deg, rgba(8,8,8,0.92), rgba(4,4,4,0.88));
+      border:1px solid rgba(212,175,55,0.16);
+      box-shadow:0 18px 44px rgba(0,0,0,0.24);
+    }
+
+    .faq-title{
+      text-align:center;
+      color:#d4af37;
+      margin:0 0 10px;
+      font-size:30px;
+      letter-spacing:0.2px;
+    }
+
+    .faq-subtitle{
+      text-align:center;
+      color:rgba(255,255,255,0.74);
+      max-width:760px;
+      margin:0 auto 24px;
+      line-height:1.75;
+      font-size:14px;
+    }
+
+    .faq-list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .faq-item{
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(12,12,12,0.96), rgba(7,7,7,0.93));
+      overflow:hidden;
+      transition:border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .faq-item.active{
+      border-color:rgba(212,175,55,0.30);
+      box-shadow:0 14px 34px rgba(0,0,0,0.18);
+    }
+
+    .faq-question{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:18px 20px;
+      background:transparent;
+      border:none;
+      color:#fff;
+      font-weight:600;
+      font-size:15px;
+      line-height:1.5;
+      text-align:left;
+      cursor:pointer;
+      margin:0;
+      box-shadow:none;
+    }
+
+    .faq-question:hover{
+      transform:none;
+    }
+
+    .faq-question span:first-child{
+      flex:1;
+    }
+
+    .faq-icon{
+      color:#d4af37;
+      font-size:20px;
+      line-height:1;
+      flex:0 0 auto;
+      transition:transform 0.25s ease;
+    }
+
+    .faq-item.active .faq-icon{
+      transform:rotate(45deg);
+    }
+
+    .faq-answer{
+      display:none;
+      padding:0 20px 18px;
+      color:rgba(255,255,255,0.76);
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    .faq-item.active .faq-answer{
+      display:block;
+    }
+
     @media (max-width:1180px){
       .grid{
         grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1196,6 +1293,26 @@
         margin-bottom:16px;
         font-size:11px;
         letter-spacing:1px;
+      }
+
+      .faq-section{
+        margin-top:34px;
+        padding:22px 16px;
+        border-radius:18px;
+      }
+
+      .faq-title{
+        font-size:24px;
+      }
+
+      .faq-question{
+        padding:16px;
+        font-size:14px;
+      }
+
+      .faq-answer{
+        padding:0 16px 16px;
+        font-size:13.5px;
       }
     }
   </style>
@@ -1394,6 +1511,97 @@
         <button id="btn-more" class="btn-ghost" style="display:none;" onclick="loadMoreCities()">
           Ver mais cidades
         </button>
+      </div>
+    </div>
+
+    <div class="faq-section">
+      <h3 class="faq-title">Dúvidas Frequentes</h3>
+      <p class="faq-subtitle">
+        Respostas objetivas para ajudar você a entender como funciona a curadoria e acessar seus materiais com tranquilidade.
+      </p>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" type="button" onclick="toggleFaq(this)">
+            <span>Como recebo meu material?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            O acesso é liberado imediatamente após a compra, diretamente na sua conta dentro do site.<br><br>
+            Você poderá acessar sempre que precisar, de forma simples e organizada.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button" onclick="toggleFaq(this)">
+            <span>O acesso é vitalício?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Sim. O material fica disponível para você acessar quando quiser, sem prazo de expiração.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button" onclick="toggleFaq(this)">
+            <span>Posso acessar pelo celular durante a viagem?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Sim. Todo o conteúdo é adaptado para celular, tablet e computador, pensado para acompanhar você antes e durante a viagem.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button" onclick="toggleFaq(this)">
+            <span>Preciso comprar todas as categorias do destino?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Não. Você pode escolher apenas as categorias que fazem sentido para a sua viagem.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button" onclick="toggleFaq(this)">
+            <span>Vocês realizam reservas ou compram ingressos para o cliente?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Não. A Curadoria Elite Travel oferece indicações organizadas para apoiar suas decisões.<br><br>
+            As reservas e compras são feitas diretamente por você, com mais autonomia e flexibilidade.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button" onclick="toggleFaq(this)">
+            <span>O que diferencia essa curadoria de pesquisas comuns na internet?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Aqui você encontra informações filtradas e organizadas para facilitar decisões reais — evitando excesso de opções e economizando seu tempo.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button" onclick="toggleFaq(this)">
+            <span>Posso confiar na qualidade das indicações?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Sim. Todo o conteúdo é desenvolvido com base em experiência prática, critério e atenção aos detalhes, para oferecer escolhas seguras e bem orientadas.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button" onclick="toggleFaq(this)">
+            <span>Posso solicitar reembolso após a compra?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Por se tratar de conteúdo digital com acesso imediato, não realizamos cancelamentos ou reembolsos.
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2817,6 +3025,21 @@
         await startSingleCheckoutAfterPolicy(category, city);
       }
     });
+  }
+
+  function toggleFaq(button){
+    const item = button.closest(".faq-item");
+    if (!item) return;
+
+    const isActive = item.classList.contains("active");
+
+    document.querySelectorAll(".faq-item").forEach((faq) => {
+      faq.classList.remove("active");
+    });
+
+    if (!isActive){
+      item.classList.add("active");
+    }
   }
 
   async function resumeAfterLoginIfNeeded(){
