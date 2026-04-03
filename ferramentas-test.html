@@ -6,1485 +6,1223 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    body{
-      margin:0;
-      font-family:"Segoe UI",sans-serif;
-      background:#070707;
-      color:#fff;
-      overflow-x:hidden;
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #070707;
+      color: #fff;
+      overflow-x: hidden;
     }
 
-    header{
-      padding:16px 40px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      position:fixed;
-      width:100%;
-      top:0;
-      z-index:1000;
-      background:rgba(0,0,0,0.30);
-      backdrop-filter:blur(10px);
-      border-bottom:1px solid rgba(255,255,255,0.08);
-      box-sizing:border-box;
-      gap:16px;
+    header {
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.30);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      box-sizing: border-box;
+      gap: 16px;
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width:240px;
-      cursor:pointer;
-      text-decoration:none;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 240px;
+      cursor: pointer;
+      text-decoration: none;
     }
 
-    .brand img{
-      height:34px;
-      width:34px;
+    .brand img {
+      height: 34px;
+      width: 34px;
     }
 
-    .brand-name{
-      font-family:"Cinzel","Georgia",serif;
-      font-size:18px;
-      color:#d4af37;
-      letter-spacing:0.8px;
-      text-transform:uppercase;
-      line-height:1.1;
+    .brand-name {
+      font-family: "Cinzel", "Georgia", serif;
+      font-size: 18px;
+      color: #d4af37;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      line-height: 1.1;
     }
 
-    .brand-tagline{
-      font-size:12px;
-      color:rgba(255,255,255,0.7);
-      line-height:1.2;
-      margin-top:2px;
+    .brand-tagline {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.2;
+      margin-top: 2px;
     }
 
-    nav{
-      display:flex;
-      align-items:center;
-      gap:16px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-      position:relative;
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      position: relative;
     }
 
-    nav a{
-      color:#d4af37;
-      text-decoration:none;
-      font-weight:500;
-      cursor:pointer;
-      white-space:nowrap;
-      transition:opacity 0.25s ease, color 0.25s ease;
+    nav a {
+      color: #d4af37;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.25s ease, color 0.25s ease;
     }
 
-    nav a:hover{
-      opacity:0.88;
+    nav a:hover {
+      opacity: 0.88;
     }
 
-    .nav-sep{
-      width:1px;
-      height:16px;
-      background:rgba(255,255,255,0.12);
-      display:inline-block;
-      margin:0 2px;
+    .nav-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: #d4af37;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      line-height: 1;
     }
 
-    .nav-toggle{
-      display:none;
-      background:transparent;
-      border:1px solid rgba(212,175,55,0.35);
-      color:#d4af37;
-      padding:10px 12px;
-      border-radius:10px;
-      font-weight:700;
-      line-height:1;
+    .nav-toggle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #d4af37;
+      margin: 4px 0;
+      border-radius: 99px;
     }
 
-    .nav-toggle span{
-      display:block;
-      width:18px;
-      height:2px;
-      background:#d4af37;
-      margin:4px 0;
-      border-radius:99px;
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
-    .nav-menu{
-      display:flex;
-      align-items:center;
-      gap:16px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
+    section {
+      position: relative;
+      padding: 118px 40px 90px;
+      max-width: 1240px;
+      margin: auto;
+      box-sizing: border-box;
     }
 
-    section{
-      position:relative;
-      padding:118px 40px 90px;
-      max-width:1240px;
-      margin:auto;
-      box-sizing:border-box;
+    .section-cinema {
+      overflow: hidden;
+      border-radius: 28px;
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      background: linear-gradient(145deg, rgba(12, 12, 12, 0.92), rgba(5, 5, 5, 0.88));
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+      max-width: none;
     }
 
-    .section-shell{
-      position:relative;
-      z-index:3;
-    }
-
-    .section-cinema{
-      overflow:hidden;
-      border-radius:28px;
-      border:1px solid rgba(212,175,55,0.12);
-      background:linear-gradient(145deg, rgba(12,12,12,0.92), rgba(5,5,5,0.88));
-      box-shadow:0 24px 70px rgba(0,0,0,0.32);
-      max-width:none;
-    }
-
-    .section-cinema::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(
+    .section-cinema::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
         180deg,
-        rgba(0,0,0,0.24) 0%,
-        rgba(0,0,0,0.32) 35%,
-        rgba(0,0,0,0.44) 100%
+        rgba(0, 0, 0, 0.24) 0%,
+        rgba(0, 0, 0, 0.32) 35%,
+        rgba(0, 0, 0, 0.44) 100%
       );
-      z-index:1;
-      pointer-events:none;
+      z-index: 1;
+      pointer-events: none;
     }
 
-    .section-cinema::after{
-      content:"";
-      position:absolute;
-      inset:0;
+    .section-cinema::after {
+      content: "";
+      position: absolute;
+      inset: 0;
       background:
-        radial-gradient(circle at top center, rgba(212,175,55,0.10), transparent 34%),
-        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 28%);
-      z-index:1;
-      pointer-events:none;
+        radial-gradient(circle at top center, rgba(212, 175, 55, 0.10), transparent 34%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 28%);
+      z-index: 1;
+      pointer-events: none;
     }
 
-    .section-bg{
-      position:absolute;
-      inset:0;
-      background-size:cover;
-      background-position:center;
-      opacity:0;
-      transform:scale(1.04);
-      transition:opacity 3.5s ease;
-      filter:brightness(1.02) saturate(0.86) contrast(1.02);
-      z-index:0;
+    .section-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transform: scale(1.04);
+      transition: opacity 3.5s ease;
+      filter: brightness(1.02) saturate(0.86) contrast(1.02);
+      z-index: 0;
     }
 
-    .section-bg.active{
-      opacity:1;
+    .section-bg.active {
+      opacity: 1;
     }
 
-    .cinema-section-inner{
-      position:relative;
-      z-index:3;
-      padding:54px 40px 42px;
+    .cinema-section-inner {
+      position: relative;
+      z-index: 3;
+      padding: 54px 40px 42px;
     }
 
-    h2{
-      text-align:center;
-      color:#d4af37;
-      margin:0 0 14px;
-      font-size:34px;
-      letter-spacing:0.2px;
+    h2 {
+      text-align: center;
+      color: #d4af37;
+      margin: 0 0 14px;
+      font-size: 34px;
+      letter-spacing: 0.2px;
     }
 
-    .subtitle{
-      text-align:center;
-      color:rgba(255,255,255,0.82);
-      max-width:900px;
-      margin:0 auto 36px;
-      line-height:1.8;
-      font-size:16px;
+    .subtitle {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.82);
+      max-width: 900px;
+      margin: 0 auto 36px;
+      line-height: 1.8;
+      font-size: 16px;
     }
 
-    .buscador-divider{
-      width:110px;
-      height:1px;
-      margin:0 auto 26px;
-      background:linear-gradient(90deg, transparent, rgba(212,175,55,0.95), transparent);
+    .divider {
+      width: 110px;
+      height: 1px;
+      margin: 0 auto 26px;
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.95), transparent);
     }
 
-    .card{
-      background:linear-gradient(180deg, rgba(10,10,10,0.95), rgba(4,4,4,0.92));
-      border:1px solid rgba(212,175,55,0.16);
-      border-radius:18px;
-      padding:22px;
-      transition:all 0.35s ease;
-      position:relative;
-      backdrop-filter:blur(2px);
-      box-shadow:0 16px 40px rgba(0,0,0,0.24);
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+      align-items: stretch;
+      max-width: 1080px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .card:hover{
-      transform:translateY(-6px);
-      border-color:rgba(212,175,55,0.42);
-      box-shadow:0 18px 36px rgba(212,175,55,0.12);
+    .card {
+      background: linear-gradient(180deg, rgba(10, 10, 10, 0.95), rgba(4, 4, 4, 0.92));
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-radius: 18px;
+      padding: 22px;
+      transition: all 0.35s ease;
+      position: relative;
+      backdrop-filter: blur(2px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:18px;
-      margin-top:20px;
-      align-items:stretch;
-      max-width:1080px;
-      margin-left:auto;
-      margin-right:auto;
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(212, 175, 55, 0.42);
+      box-shadow: 0 18px 36px rgba(212, 175, 55, 0.12);
     }
 
-    .card img{
-      width:100%;
-      height:118px;
-      object-fit:cover;
-      border-radius:12px;
-      margin-bottom:12px;
-      filter:brightness(0.92) saturate(0.88);
-      display:block;
+    .card img {
+      width: 100%;
+      height: 118px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      filter: brightness(0.92) saturate(0.88);
+      display: block;
     }
 
-    .card h3{
-      margin:0 0 8px;
-      color:#d4af37;
-      font-size:17px;
-      line-height:1.25;
-      text-align:center;
+    .card h3 {
+      margin: 0 0 8px;
+      color: #d4af37;
+      font-size: 17px;
+      line-height: 1.25;
+      text-align: center;
     }
 
-    .card p{
-      margin:0;
-      color:rgba(255,255,255,0.78);
-      font-size:13px;
-      line-height:1.55;
-      text-align:center;
+    .card p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 13px;
+      line-height: 1.55;
+      text-align: center;
     }
 
-    .card-badge{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(212,175,55,0.28);
-      background:rgba(15,15,15,0.92);
-      color:#d4af37;
-      font-size:11.5px;
-      line-height:1;
-      white-space:nowrap;
-      margin:14px auto 0;
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      background: rgba(15, 15, 15, 0.92);
+      color: #d4af37;
+      font-size: 11.5px;
+      line-height: 1;
+      white-space: nowrap;
+      margin: 14px auto 0;
     }
 
-    .tool-panel{
-      margin:30px auto 0;
-      max-width:1080px;
-      border-radius:20px;
-      border:1px solid rgba(212,175,55,0.18);
-      background:linear-gradient(145deg, rgba(10,10,10,0.95), rgba(6,6,6,0.92));
-      padding:22px;
-      box-shadow:0 20px 48px rgba(0,0,0,0.26);
+    .tool-panel {
+      margin: 30px auto 0;
+      max-width: 1080px;
+      border-radius: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      background: linear-gradient(145deg, rgba(10, 10, 10, 0.95), rgba(6, 6, 6, 0.92));
+      padding: 22px;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.26);
     }
 
-    .panel-top{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:16px;
-      flex-wrap:wrap;
-      margin-bottom:16px;
+    .panel-top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
     }
 
-    .breadcrumb{
-      color:rgba(255,255,255,0.72);
-      font-size:13px;
-      margin-bottom:6px;
+    .breadcrumb {
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 13px;
+      margin-bottom: 6px;
     }
 
-    .panel-title{
-      color:#d4af37;
-      font-size:22px;
-      margin:0;
-      letter-spacing:0.2px;
+    .panel-title {
+      color: #d4af37;
+      font-size: 22px;
+      margin: 0;
+      letter-spacing: 0.2px;
     }
 
-    .panel-meta{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      margin-top:10px;
+    .panel-meta {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 10px;
     }
 
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(15,15,15,0.92);
-      color:rgba(255,255,255,0.75);
-      font-size:12.5px;
-      line-height:1;
-      white-space:nowrap;
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(15, 15, 15, 0.92);
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 12.5px;
+      line-height: 1;
+      white-space: nowrap;
     }
 
-    .pill.ok{
-      border-color:rgba(212,175,55,0.32);
-      color:#d4af37;
+    .pill.ok {
+      border-color: rgba(212, 175, 55, 0.32);
+      color: #d4af37;
     }
 
-    .search-wrap{
-      flex:1;
-      min-width:280px;
-      max-width:620px;
-      position:relative;
+    .search-wrap {
+      flex: 1;
+      min-width: 280px;
+      max-width: 620px;
+      position: relative;
     }
 
-    .search-input{
-      width:100%;
-      padding:14px 16px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:rgba(10,10,10,0.95);
-      color:#fff;
-      outline:none;
-      box-sizing:border-box;
-      font-size:14px;
+    .search-input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      background: rgba(10, 10, 10, 0.95);
+      color: #fff;
+      outline: none;
+      box-sizing: border-box;
+      font-size: 14px;
     }
 
-    .search-input::placeholder{
-      color:rgba(255,255,255,0.45);
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.45);
     }
 
-    .panel-actions{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      flex-wrap:wrap;
+    .panel-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
     }
 
-    button{
-      cursor:pointer;
-      padding:11px 18px;
-      border-radius:10px;
-      border:none;
-      background:#d4af37;
-      color:#000;
-      font-weight:700;
-      transition:transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
-      box-shadow:0 10px 24px rgba(212,175,55,0.18);
+    button {
+      cursor: pointer;
+      padding: 11px 18px;
+      border-radius: 10px;
+      border: none;
+      background: #d4af37;
+      color: #000;
+      font-weight: 700;
+      transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 10px 24px rgba(212, 175, 55, 0.18);
     }
 
-    button:hover{
-      transform:translateY(-1px);
+    button:hover {
+      transform: translateY(-1px);
     }
 
-    .btn-ghost{
-      background:transparent;
-      border:1px solid rgba(212,175,55,0.38);
-      color:#d4af37;
-      font-weight:600;
-      box-shadow:none;
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid rgba(212, 175, 55, 0.38);
+      color: #d4af37;
+      font-weight: 600;
+      box-shadow: none;
     }
 
-    .helper-line{
-      margin-top:10px;
-      color:rgba(255,255,255,0.62);
-      font-size:13px;
-      line-height:1.6;
+    .helper-line {
+      margin-top: 10px;
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 13px;
+      line-height: 1.6;
     }
 
-    .result-shell{
-      margin-top:18px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:linear-gradient(180deg, rgba(12,12,12,0.96), rgba(7,7,7,0.93));
-      box-shadow:0 14px 34px rgba(0,0,0,0.18);
-      overflow:hidden;
+    .result-shell {
+      margin-top: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(12, 12, 12, 0.96), rgba(7, 7, 7, 0.93));
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+      overflow: hidden;
     }
 
-    .result-header{
-      padding:22px 22px 14px;
-      border-bottom:1px solid rgba(255,255,255,0.06);
-      background:linear-gradient(180deg, rgba(18,18,18,0.96), rgba(9,9,9,0.96));
+    .result-header {
+      padding: 22px 22px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: linear-gradient(180deg, rgba(18, 18, 18, 0.96), rgba(9, 9, 9, 0.96));
     }
 
-    .result-country{
-      color:#d4af37;
-      font-size:28px;
-      margin:0 0 6px;
-      line-height:1.2;
+    .result-country {
+      color: #d4af37;
+      font-size: 28px;
+      margin: 0 0 6px;
+      line-height: 1.2;
     }
 
-    .result-subtitle{
-      color:rgba(255,255,255,0.76);
-      font-size:14px;
-      line-height:1.7;
-      margin:0;
+    .result-subtitle {
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 14px;
+      line-height: 1.7;
+      margin: 0;
     }
 
-    .result-body{
-      padding:22px;
-      display:grid;
-      grid-template-columns:1fr;
-      gap:16px;
+    .result-body {
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
     }
 
-    .info-block{
-      border:1px solid rgba(255,255,255,0.06);
-      border-radius:16px;
-      padding:18px;
-      background:rgba(8,8,8,0.62);
+    .info-block {
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 18px;
+      background: rgba(8, 8, 8, 0.62);
     }
 
-    .info-title{
-      color:#d4af37;
-      font-size:18px;
-      margin:0 0 12px;
-      line-height:1.3;
+    .info-title {
+      color: #d4af37;
+      font-size: 18px;
+      margin: 0 0 12px;
+      line-height: 1.3;
     }
 
-    .info-block p{
-      margin:0 0 10px;
-      color:rgba(255,255,255,0.82);
-      font-size:14px;
-      line-height:1.75;
+    .info-block p {
+      margin: 0 0 10px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 14px;
+      line-height: 1.75;
     }
 
-    .info-block p:last-child{
-      margin-bottom:0;
+    .kv {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 12px;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .kv{
-      display:grid;
-      grid-template-columns:190px 1fr;
-      gap:12px;
-      padding:7px 0;
-      border-bottom:1px solid rgba(255,255,255,0.05);
+    .kv:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
     }
 
-    .kv:last-child{
-      border-bottom:none;
-      padding-bottom:0;
+    .kv-label {
+      color: #d4af37;
+      font-size: 13.5px;
+      line-height: 1.6;
+      font-weight: 600;
     }
 
-    .kv-label{
-      color:#d4af37;
-      font-size:13.5px;
-      line-height:1.6;
-      font-weight:600;
+    .kv-value {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 13.8px;
+      line-height: 1.7;
     }
 
-    .kv-value{
-      color:rgba(255,255,255,0.82);
-      font-size:13.8px;
-      line-height:1.7;
+    .list-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .list-lines{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
+    .line-item {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 14px;
+      line-height: 1.7;
     }
 
-    .line-item{
-      color:rgba(255,255,255,0.82);
-      font-size:14px;
-      line-height:1.7;
+    .contact-card {
+      margin-top: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 14px;
+      background: rgba(14, 14, 14, 0.88);
     }
 
-    .line-item strong{
-      color:#d4af37;
-      font-weight:600;
+    .contact-title {
+      color: #d4af37;
+      font-size: 15px;
+      font-weight: 700;
+      margin: 0 0 10px;
     }
 
-    .note-box{
-      margin-top:14px;
-      border:1px solid rgba(212,175,55,0.18);
-      border-radius:14px;
-      background:rgba(14,14,14,0.88);
-      padding:14px;
-      color:rgba(255,255,255,0.76);
-      font-size:13px;
-      line-height:1.7;
+    .contact-row {
+      font-size: 13.8px;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.82);
     }
 
-    .empty-state{
-      text-align:center;
-      color:rgba(255,255,255,0.68);
-      border:1px dashed rgba(255,255,255,0.12);
-      border-radius:14px;
-      padding:22px 16px;
-      margin-top:16px;
-      font-size:14px;
-      line-height:1.7;
-      background:rgba(8,8,8,0.72);
+    .contact-row strong {
+      color: #d4af37;
     }
 
-    .match-list{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:14px;
-      justify-content:center;
+    .note-box {
+      margin-top: 14px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 14px;
+      background: rgba(14, 14, 14, 0.88);
+      padding: 14px;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 13px;
+      line-height: 1.7;
     }
 
-    .match-chip{
-      border:1px solid rgba(212,175,55,0.28);
-      background:rgba(15,15,15,0.92);
-      color:#d4af37;
-      border-radius:999px;
-      padding:9px 14px;
-      font-size:12.5px;
-      line-height:1;
-      cursor:pointer;
-      transition:all 0.25s ease;
+    .empty-state {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.68);
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 22px 16px;
+      margin-top: 16px;
+      font-size: 14px;
+      line-height: 1.7;
+      background: rgba(8, 8, 8, 0.72);
     }
 
-    .match-chip:hover{
-      transform:translateY(-1px);
-      border-color:rgba(212,175,55,0.45);
+    .match-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+      justify-content: center;
     }
 
-    footer{
-      border-top:1px solid rgba(255,255,255,0.08);
-      padding:34px 24px 38px;
-      text-align:center;
-      color:rgba(255,255,255,0.68);
-      font-size:14px;
-      line-height:1.7;
-      margin-top:12px;
+    .match-chip {
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      background: rgba(15, 15, 15, 0.92);
+      color: #d4af37;
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-size: 12.5px;
+      line-height: 1;
+      cursor: pointer;
+      transition: all 0.25s ease;
     }
 
-    footer a{
-      color:#1a0dab;
-      text-decoration:underline;
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 34px 24px 38px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-top: 12px;
     }
 
-    @media (max-width:1180px){
-      .grid{
-        grid-template-columns:repeat(2,minmax(0,1fr));
+    footer a {
+      color: #1a0dab;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 1180px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
-    @media (max-width:980px){
-      header{ padding:14px 16px; }
-      section{ padding:110px 16px 70px; }
-
-      .nav-toggle{
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
+    @media (max-width: 980px) {
+      header {
+        padding: 14px 16px;
       }
 
-      .nav-menu{
-        display:none;
-        position:absolute;
-        top:56px;
-        right:0;
-        min-width:220px;
-        padding:14px;
-        border:1px solid rgba(255,255,255,0.10);
-        border-radius:14px;
-        background:rgba(0,0,0,0.92);
-        backdrop-filter:blur(10px);
-        flex-direction:column;
-        align-items:flex-start;
-        gap:12px;
-        z-index:2000;
+      section {
+        padding: 110px 16px 70px;
       }
 
-      header.nav-open .nav-menu{ display:flex; }
-      .nav-sep{ display:none; }
-
-      .grid{
-        grid-template-columns:1fr;
+      .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      .cinema-section-inner{
-        padding:40px 18px 30px;
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 56px;
+        right: 0;
+        min-width: 220px;
+        padding: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        z-index: 2000;
       }
 
-      .panel-top{
-        align-items:flex-start;
+      header.nav-open .nav-menu {
+        display: flex;
       }
 
-      .search-wrap{
-        max-width:100%;
-        min-width:100%;
+      .grid {
+        grid-template-columns: 1fr;
       }
 
-      .result-country{
-        font-size:23px;
+      .cinema-section-inner {
+        padding: 40px 18px 30px;
       }
 
-      .kv{
-        grid-template-columns:1fr;
-        gap:4px;
+      .panel-top {
+        align-items: flex-start;
+      }
+
+      .search-wrap {
+        max-width: 100%;
+        min-width: 100%;
+      }
+
+      .result-country {
+        font-size: 23px;
+      }
+
+      .kv {
+        grid-template-columns: 1fr;
+        gap: 4px;
       }
     }
   </style>
 </head>
 <body>
-
-<header id="siteHeader">
-  <a class="brand" href="index.html">
-    <img src="images/rosa-dos-ventos.png" alt="Rosa dos Ventos">
-    <div>
-      <div class="brand-name">Curadoria Elite Travel</div>
-      <div class="brand-tagline">O seu mundo, bem indicado.</div>
-    </div>
-  </a>
-
-  <nav>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu" title="Menu" onclick="toggleMobileNav()">
-      <span></span><span></span><span></span>
-    </button>
-
-    <div class="nav-menu" id="navMenu">
-      <a href="index.html">Início</a>
-      <a href="index.html">Quem Somos</a>
-      <a href="index.html">Curadoria</a>
-      <a href="ferramentas-test.html" style="opacity:1;">Buscador</a>
-    </div>
-  </nav>
-</header>
-
-<section id="ferramentas" class="section-cinema">
-  <div class="section-bg active" id="toolsBg1"></div>
-  <div class="section-bg" id="toolsBg2"></div>
-
-  <div class="cinema-section-inner">
-    <h2>Ferramentas</h2>
-    <div class="buscador-divider"></div>
-    <p class="subtitle">
-      Uma área em desenvolvimento para concentrar recursos de apoio ao planejamento da viagem, sem interferir no site já publicado.
-    </p>
-
-    <div class="grid">
-      <div class="card" onclick="focusTool()">
-        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80" alt="Documentação e saúde para viagem">
-        <h3>Documentação e informações de saúde para viagem</h3>
-        <p>Orientações iniciais sobre entrada no destino, documentos necessários, apoio consular e pontos de saúde relevantes para brasileiros viajando ao exterior.</p>
+  <header id="siteHeader">
+    <a class="brand" href="index.html">
+      <img src="images/rosa-dos-ventos.png" alt="Rosa dos Ventos" />
+      <div>
+        <div class="brand-name">Curadoria Elite Travel</div>
+        <div class="brand-tagline">O seu mundo, bem indicado.</div>
       </div>
+    </a>
 
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80" alt="Eventos no destino">
-        <h3>Eventos no destino</h3>
-        <p>Uma futura ferramenta para acompanhar acontecimentos, programações e movimentações relevantes na cidade durante a viagem.</p>
-        <div class="card-badge">Em breve</div>
+    <nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" title="Menu" onclick="toggleMobileNav()">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <a href="index.html">Início</a>
+        <a href="index.html">Quem Somos</a>
+        <a href="index.html">Curadoria</a>
+        <a href="ferramentas-test.html" style="opacity:1;">Buscador</a>
       </div>
+    </nav>
+  </header>
 
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80" alt="Experiências e passeios">
-        <h3>Experiências e passeios</h3>
-        <p>Uma futura ferramenta para reunir atividades e opções de lazer com contexto suficiente para apoiar a escolha do viajante.</p>
-        <div class="card-badge">Em breve</div>
-      </div>
-    </div>
+  <section id="ferramentas" class="section-cinema">
+    <div class="section-bg active" id="toolsBg1"></div>
+    <div class="section-bg" id="toolsBg2"></div>
 
-    <div class="tool-panel" id="tool-panel">
-      <div class="panel-top">
-        <div>
-          <div class="breadcrumb">Ferramentas &gt; Documentação e informações de saúde para viagem</div>
-          <h3 class="panel-title">Consulta inicial por destino</h3>
-          <div class="panel-meta">
-            <span class="pill ok">Teste interno</span>
-            <span class="pill">13 destinos iniciais</span>
-            <span class="pill">Resultado abaixo do campo</span>
-          </div>
+    <div class="cinema-section-inner">
+      <h2>Ferramentas</h2>
+      <div class="divider"></div>
+      <p class="subtitle">
+        Uma área em desenvolvimento para concentrar recursos de apoio ao planejamento da viagem, sem interferir no site já publicado.
+      </p>
+
+      <div class="grid">
+        <div class="card" onclick="focusTool()">
+          <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80" alt="Documentação e saúde para viagem" />
+          <h3>Documentação e informações de saúde para viagem</h3>
+          <p>Orientações iniciais sobre entrada no destino, documentos necessários, apoio consular e pontos de saúde relevantes para brasileiros viajando ao exterior.</p>
         </div>
 
-        <div class="panel-actions">
-          <div class="search-wrap">
-            <input
-              id="destination-search"
-              class="search-input"
-              type="text"
-              placeholder="Digite cidade ou país. Ex.: New York, França, Londres, Portugal"
-            />
-          </div>
-          <button onclick="searchDestination()">Buscar</button>
-          <button class="btn-ghost" onclick="clearSearch()">Limpar</button>
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80" alt="Eventos no destino" />
+          <h3>Eventos no destino</h3>
+          <p>Uma futura ferramenta para acompanhar acontecimentos, programações e movimentações relevantes na cidade durante a viagem.</p>
+          <div class="card-badge">Em breve</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80" alt="Experiências e passeios" />
+          <h3>Experiências e passeios</h3>
+          <p>Uma futura ferramenta para reunir atividades e opções de lazer com contexto suficiente para apoiar a escolha do viajante.</p>
+          <div class="card-badge">Em breve</div>
         </div>
       </div>
 
-      <div class="helper-line">
-        Você pode testar com: Estados Unidos, França, Espanha, Londres, Itália, Reino Unido, México, Argentina, Portugal, Holanda, República Tcheca, Alemanha e Emirados Árabes.
-      </div>
-
-      <div id="result-area"></div>
-    </div>
-  </div>
-</section>
-
-<footer id="siteFooter">
-  Curadoria Elite Travel · O seu mundo, bem indicado.<br>
-  São Paulo - SP · <a href="contact.html">curadoriaelitetravel@gmail.com</a>
-</footer>
-
-<script>
-  const TOOL_IMAGES = [
-    "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1800&q=80",
-    "https://images.unsplash.com/photo-1474302770737-173ee21bab63?auto=format&fit=crop&w=1800&q=80",
-    "https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?auto=format&fit=crop&w=1800&q=80"
-  ];
-
-  function toggleMobileNav(){
-    const header = document.getElementById("siteHeader");
-    if (!header) return;
-    header.classList.toggle("nav-open");
-  }
-
-  function closeMobileNav(){
-    const header = document.getElementById("siteHeader");
-    if (!header) return;
-    header.classList.remove("nav-open");
-  }
-
-  document.addEventListener("click", (e) => {
-    const nav = document.getElementById("navMenu");
-    const toggle = document.getElementById("navToggle");
-    const header = document.getElementById("siteHeader");
-    if (!nav || !toggle || !header) return;
-    if (!header.classList.contains("nav-open")) return;
-    if (nav.contains(e.target) || toggle.contains(e.target)) return;
-    closeMobileNav();
-  });
-
-  function startBackgroundSlider(primaryId, secondaryId, images, intervalMs){
-    const first = document.getElementById(primaryId);
-    const second = document.getElementById(secondaryId);
-
-    if (!first || !second || !Array.isArray(images) || images.length === 0) return;
-
-    let currentIndex = 0;
-    let showingFirst = true;
-
-    first.style.backgroundImage = `url("${images[0]}")`;
-    first.classList.add("active");
-
-    if (images.length === 1) return;
-
-    setInterval(() => {
-      currentIndex = (currentIndex + 1) % images.length;
-      const visible = showingFirst ? first : second;
-      const hidden = showingFirst ? second : first;
-
-      hidden.style.backgroundImage = `url("${images[currentIndex]}")`;
-      hidden.classList.add("active");
-      visible.classList.remove("active");
-      showingFirst = !showingFirst;
-    }, intervalMs || 7000);
-  }
-
-  function focusTool(){
-    const panel = document.getElementById("tool-panel");
-    if (!panel) return;
-    panel.scrollIntoView({ behavior:"smooth", block:"start" });
-    const input = document.getElementById("destination-search");
-    if (input){
-      setTimeout(() => input.focus({ preventScroll:true }), 250);
-    }
-  }
-
-  function normalizeText(value){
-    return String(value || "")
-      .trim()
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[—–−]/g, "-")
-      .replace(/\s+/g, " ");
-  }
-
-  const DESTINATIONS = {
-    "estados-unidos": {
-      country: "🇺🇸 ESTADOS UNIDOS",
-      displayLocation: "NEW YORK",
-      aliases: ["estados unidos", "eua", "usa", "united states", "new york", "nova york", "nyc"],
-      visto: {
-        intro: "Brasileiros costumam precisar de visto de turismo para viagem de lazer aos Estados Unidos.",
-        rows: [
-          ["Tipo mais comum", "B1/B2 para turismo e negócios de curta duração."],
-          ["Valor de referência", "Taxa consular de solicitação em torno de USD 185."],
-          ["Entrevista", "Pode ser exigida conforme perfil e disponibilidade de agendamento."],
-          ["Prazo médio", "Varia conforme o posto consular e a disponibilidade de agenda."],
-          ["Antecedência ideal", "Organizar a solicitação com boa antecedência costuma ser o caminho mais seguro."]
-        ],
-        where: "A solicitação deve ser iniciada pelos canais oficiais da embaixada ou dos consulados dos Estados Unidos no Brasil."
-      },
-      documentos: [
-        "Passaporte válido durante todo o período planejado da viagem.",
-        "Formulário consular correspondente ao pedido de visto.",
-        "Comprovantes que sustentem o objetivo da viagem e a organização financeira.",
-        "Confirmações de agendamento e pagamento, quando aplicável."
-      ],
-      brasil: [
-        "Embaixada dos Estados Unidos no Brasil — Brasília/DF.",
-        "Consulado-Geral dos Estados Unidos em São Paulo — São Paulo/SP.",
-        "Consulado-Geral dos Estados Unidos no Rio de Janeiro — Rio de Janeiro/RJ.",
-        "Outros postos consulares podem estar disponíveis conforme o atendimento do destino."
-      ],
-      apoio: {
-        title: "📍 Apoio no destino — New York",
-        lines: [
-          "Há representação consular brasileira em New York para apoio ao viajante brasileiro.",
-          "Também existem outras repartições do Brasil nos Estados Unidos, conforme a região da viagem."
-        ]
-      },
-      vacinas: [
-        "Não há uma vacina única obrigatória para toda viagem turística ao destino em situação regular de entrada direta.",
-        "A verificação de febre amarela pode se tornar relevante conforme conexões, histórico recente de viagem e regras sanitárias do momento.",
-        "Quando houver exigência internacional relacionada à febre amarela, o comprovante costuma depender do CIVP."
-      ],
-      important: "Este conteúdo foi cuidadosamente organizado para simplificar o planejamento de viagens internacionais para brasileiros, reunindo pontos iniciais sobre documentação, entrada e saúde. Para etapas formais e atualizações específicas, o processo deve seguir os canais diplomáticos, consulares e sanitários correspondentes."
-    },
-
-    "franca": {
-      country: "🇫🇷 FRANÇA",
-      displayLocation: "",
-      aliases: ["franca", "frança", "paris"],
-      visto: {
-        intro: "Para turismo de curta duração, brasileiros normalmente viajam sem visto prévio, observadas as regras migratórias vigentes.",
-        rows: [
-          ["Tipo de entrada", "Turismo de curta permanência, conforme regras aplicáveis ao espaço Schengen."],
-          ["Valor", "Sem taxa consular de visto quando não há exigência de visto prévio para a viagem curta."],
-          ["Entrevista", "Em regra, não faz parte do processo de entrada turística sem visto prévio."],
-          ["Prazo médio", "A organização costuma depender da documentação do viajante e não de um pedido consular de visto."],
-          ["Antecedência ideal", "Levar a documentação organizada com antecedência segue sendo importante."]
-        ],
-        where: "Quando necessário tratar de temas formais, a orientação deve partir dos canais diplomáticos e consulares franceses no Brasil."
-      },
-      documentos: [
-        "Passaporte válido para o período da viagem.",
-        "Comprovação do objetivo da viagem e meios de manutenção, quando solicitados.",
-        "Documentos de hospedagem, retorno e cobertura exigida conforme a viagem."
-      ],
-      brasil: [
-        "Embaixada da França no Brasil.",
-        "Consulados franceses no Brasil conforme a jurisdição do atendimento."
-      ],
-      apoio: {
-        title: "📍 Apoio no destino",
-        lines: [
-          "Apoio consular ao brasileiro deve ser buscado junto à embaixada ou aos consulados do Brasil na França, conforme a cidade da viagem."
-        ]
-      },
-      vacinas: [
-        "Não há, em regra, uma vacina turística universal obrigatória para entrada regular direta.",
-        "A saúde do viajante deve considerar histórico, conexões e exigências sanitárias vigentes."
-      ],
-      important: "Esta ferramenta ainda está em fase inicial. O objetivo aqui é orientar a leitura do processo e não substituir a etapa formal feita nos canais oficiais."
-    },
-
-    "espanha": {
-      country: "🇪🇸 ESPANHA",
-      displayLocation: "",
-      aliases: ["espanha", "madrid", "barcelona"],
-      visto: {
-        intro: "Para turismo de curta duração, brasileiros normalmente viajam sem visto prévio, conforme as regras migratórias aplicáveis.",
-        rows: [
-          ["Tipo de entrada", "Turismo de curta permanência."],
-          ["Valor", "Em regra, não há taxa de visto quando não existe exigência de visto prévio para turismo curto."],
-          ["Entrevista", "Não integra, em geral, a entrada turística sem visto prévio."],
-          ["Prazo médio", "A preparação depende da organização documental do viajante."],
-          ["Antecedência ideal", "Preparar passaporte e comprovantes com antecedência ajuda a viagem fluir com mais segurança."]
-        ],
-        where: "Tratativas formais devem seguir os canais oficiais da Espanha no Brasil."
-      },
-      documentos: [
-        "Passaporte válido.",
-        "Comprovantes de hospedagem, retorno e meios financeiros, se solicitados.",
-        "Documentação compatível com o propósito da viagem."
-      ],
-      brasil: [
-        "Embaixada da Espanha no Brasil.",
-        "Consulados da Espanha no Brasil, conforme a cidade de atendimento."
-      ],
-      apoio: {
-        title: "📍 Apoio no destino",
-        lines: [
-          "O apoio ao brasileiro deve considerar a representação do Brasil mais adequada à região da viagem na Espanha."
-        ]
-      },
-      vacinas: [
-        "Não há, em regra, exigência turística universal de vacina para entrada direta regular.",
-        "Conexões e mudanças sanitárias do período da viagem podem exigir atenção adicional."
-      ],
-      important: "O conteúdo está organizado para teste interno da ferramenta e será ampliado gradualmente com mais detalhamento por cidade."
-    },
-
-    "londres": {
-      country: "🇬🇧 REINO UNIDO",
-      displayLocation: "LONDRES",
-      aliases: ["londres", "london"],
-      visto: {
-        intro: "Para parte das viagens de curta duração ao Reino Unido, brasileiros podem precisar cumprir autorização eletrônica prévia conforme a regra vigente.",
-        rows: [
-          ["Autorização", "A ETA pode ser a exigência aplicável para turismo de curta duração."],
-          ["Valor de referência", "Custo informado oficialmente em libras esterlinas, sujeito a atualização."],
-          ["Entrevista", "Não faz parte do fluxo típico da autorização eletrônica."],
-          ["Prazo médio", "A análise costuma ser eletrônica, mas a decisão final depende das regras vigentes."],
-          ["Antecedência ideal", "Solicitar com antecedência continua sendo o mais prudente."]
-        ],
-        where: "A etapa formal deve ser feita pelos canais oficiais do Reino Unido."
-      },
-      documentos: [
-        "Passaporte válido.",
-        "Autorização eletrônica aplicável, quando exigida.",
-        "Comprovantes compatíveis com a natureza da viagem, se solicitados."
-      ],
-      brasil: [
-        "Embaixada do Reino Unido no Brasil.",
-        "Demais canais oficiais britânicos no Brasil, quando aplicáveis."
-      ],
-      apoio: {
-        title: "📍 Apoio no destino — Londres",
-        lines: [
-          "Há representação do Brasil em Londres para apoio consular ao viajante brasileiro.",
-          "A necessidade prática pode variar conforme o bairro, a situação e o tipo de atendimento."
-        ]
-      },
-      vacinas: [
-        "Não há, em regra, exigência turística universal de vacina para entrada direta regular.",
-        "A atenção com febre amarela e demais documentos de saúde deve considerar conexões e histórico recente de viagem."
-      ],
-      important: "Este bloco foi estruturado para teste da experiência da ferramenta. O detalhamento fino por cidade e apoio consular poderá ser aprofundado na próxima etapa."
-    },
-
-    "reino-unido": {
-      country: "🇬🇧 REINO UNIDO",
-      displayLocation: "",
-      aliases: ["reino unido", "uk", "inglaterra", "scotland", "escocia"],
-      visto: {
-        intro: "Para viagens de curta duração, a regra costuma envolver autorização eletrônica ou exigência equivalente, conforme o caso.",
-        rows: [
-          ["Autorização", "Verificar a exigência eletrônica vigente para brasileiros."],
-          ["Valor de referência", "Taxa oficial em libras esterlinas, sujeita a atualização."],
-          ["Entrevista", "Não costuma integrar a autorização eletrônica padrão."],
-          ["Prazo médio", "A resposta depende da análise oficial do pedido."],
-          ["Antecedência ideal", "Organizar a viagem com antecedência segue sendo o cenário mais seguro."]
-        ],
-        where: "A etapa formal deve ser conduzida pelos canais britânicos oficiais."
-      },
-      documentos: [
-        "Passaporte válido.",
-        "Autorização eletrônica aplicável, quando exigida.",
-        "Comprovantes compatíveis com o objetivo da viagem."
-      ],
-      brasil: [
-        "Embaixada do Reino Unido no Brasil.",
-        "Canais britânicos oficiais para informações migratórias."
-      ],
-      apoio: {
-        title: "📍 Apoio no destino",
-        lines: [
-          "O apoio ao brasileiro deve ser buscado junto à embaixada ou aos consulados do Brasil no Reino Unido, conforme a localidade."
-        ]
-      },
-      vacinas: [
-        "Não há, em regra, exigência universal de vacina para entrada direta regular em viagem turística."
-      ],
-      important: "A ferramenta ainda será enriquecida com diferenciação mais fina entre cidades e regiões do Reino Unido."
-    },
-
-    "italia": {
-      country: "🇮🇹 ITÁLIA",
-      displayLocation: "",
-      aliases: ["italia", "itália", "roma", "milao", "milão"],
-      visto: {
-        intro: "Para turismo de curta duração, brasileiros normalmente viajam sem visto prévio, observadas as regras aplicáveis.",
-        rows: [
-          ["Tipo de entrada", "Turismo de curta permanência."],
-          ["Valor", "Sem taxa consular de visto quando não há exigência de visto prévio."],
-          ["Entrevista", "Não costuma integrar a entrada turística curta sem visto prévio."],
-          ["Prazo médio", "A preparação depende da organização do viajante."],
-          ["Antecedência ideal", "Passaporte e comprovantes devem ser organizados com folga."]
-        ],
-        where: "Questões formais devem ser direcionadas à embaixada ou aos consulados italianos no Brasil."
-      },
-      documentos: [
-        "Passaporte válido.",
-        "Comprovantes de hospedagem, retorno e meios financeiros, quando solicitados.",
-        "Documentação compatível com o propósito da viagem."
-      ],
-      brasil: [
-        "Embaixada da Itália no Brasil.",
-        "Consulados italianos no Brasil."
-      ],
-      apoio: {
-        title: "📍 Apoio no destino",
-        lines: [
-          "O apoio ao brasileiro deve considerar a representação do Brasil mais adequada à região da viagem na Itália."
-        ]
-      },
-      vacinas: [
-        "Não há, em regra, uma exigência turística universal de vacina para entrada direta regular."
-      ],
-      important: "A versão atual prioriza a estrutura e a experiência do módulo, com expansão progressiva do detalhamento por destino."
-    },
-
-    "mexico": {
-      country: "🇲🇽 MÉXICO",
-      displayLocation: "",
-      aliases: ["mexico", "méxico", "cidade do mexico", "cidade do méxico", "cancun", "cancún"],
-      visto: {
-        intro: "A necessidade de visto e as exceções devem ser verificadas conforme a condição documental do viajante e a regra vigente.",
-        rows: [
-          ["Tipo de entrada", "Turismo de curta duração, conforme a regra aplicável."],
-          ["Valor", "Pode variar conforme a exigência consular ou a condição de entrada."],
-          ["Entrevista", "Depende do procedimento exigido para o caso concreto."],
-          ["Prazo médio", "Varia conforme o canal oficial e a etapa migratória."],
-          ["Antecedência ideal", "Planejar com antecedência continua sendo recomendável."]
-        ],
-        where: "A orientação formal deve partir da embaixada ou dos consulados do México no Brasil."
-      },
-      documentos: [
-        "Passaporte válido.",
-        "Documentação coerente com o objetivo da viagem.",
-        "Comprovantes adicionais podem ser exigidos no ingresso."
-      ],
-      brasil: [
-        "Embaixada do México no Brasil.",
-        "Consulados mexicanos no Brasil, quando aplicáveis."
-      ],
-      apoio: {
-        title: "📍 Apoio no destino",
-        lines: [
-          "O apoio ao brasileiro deve ser buscado junto à embaixada ou aos consulados do Brasil no México, conforme a cidade da viagem."
-        ]
-      },
-      vacinas: [
-        "As exigências de saúde podem variar conforme origem, conexões e regra sanitária do período."
-      ],
-      important: "Nesta fase, o destino já está incluído para validar a experiência de navegação e leitura do bloco."
-    },
-
-    "argentina": {
-      country: "🇦🇷 ARGENTINA",
-      displayLocation: "",
-      aliases: ["argentina", "buenos aires", "buenosaires"],
-      visto: {
-        intro: "Em viagens turísticas usuais, a entrada de brasileiros costuma seguir regras simplificadas, observadas as normas vigentes.",
-        rows: [
-          ["Tipo de entrada", "Turismo de curta permanência."],
-          ["Valor", "Normalmente não envolve taxa de visto prévio em viagem turística regular."],
-          ["Entrevista", "Não costuma integrar esse fluxo de entrada."],
-          ["Prazo médio", "A organização depende principalmente da documentação do viajante."],
-          ["Antecedência ideal", "Mesmo em viagens próximas, vale revisar a documentação com antecedência."]
-        ],
-        where: "Questões formais devem seguir os canais argentinos oficiais no Brasil."
-      },
-      documentos: [
-        "Documento de viagem aceito para a entrada, conforme a regra vigente.",
-        "Documentação adicional conforme o caso e o objetivo da viagem."
-      ],
-      brasil: [
-        "Embaixada da Argentina no Brasil.",
-        "Consulados argentinos no Brasil."
-      ],
-      apoio: {
-        title: "📍 Apoio no destino",
-        lines: [
-          "Há diferentes representações brasileiras na Argentina, a depender da cidade e da região visitada."
-        ]
-      },
-      vacinas: [
-        "As exigências sanitárias dependem do contexto da viagem, conexões e regras do período."
-      ],
-      important: "O módulo será aprofundado depois com separação por cidade e apoio regional mais específico."
-    },
-
-    "portugal": {
-      country: "🇵🇹 PORTUGAL",
-      displayLocation: "",
-      aliases: ["portugal", "lisboa", "porto"],
-      visto: {
-        intro: "Para turismo de curta duração, brasileiros normalmente entram sem visto prévio, observadas as regras vigentes.",
-        rows: [
-          ["Tipo de entrada", "Turismo de curta permanência."],
-          ["Valor", "Sem taxa de visto prévio quando o visto não é exigido para a curta viagem."],
-          ["Entrevista", "Não costuma integrar esse fluxo."],
-          ["Prazo médio", "A preparação depende da documentação do viajante."],
-          ["Antecedência ideal", "Organizar passaporte e comprovantes com folga continua sendo importante."]
-        ],
-        where: "Tratativas formais devem partir dos canais portugueses oficiais no Brasil."
-      },
-      documentos: [
-        "Passaporte válido.",
-        "Comprovantes de hospedagem, retorno e meios financeiros, quando solicitados.",
-        "Documentação compatível com a viagem."
-      ],
-      brasil: [
-        "Embaixada de Portugal no Brasil.",
-        "Consulados portugueses no Brasil."
-      ],
-      apoio: {
-        title: "📍 Apoio no destino",
-        lines: [
-          "O apoio ao brasileiro em Portugal deve considerar a representação do Brasil mais adequada à cidade da viagem."
-        ]
-      },
-      vacinas: [
-        "Não há, em regra, exigência universal de vacina para entrada direta regular."
-      ],
-      important: "Esta fase do projeto prioriza o desenho funcional da ferramenta e a clareza de leitura."
-    },
-
-    "holanda": {
-      country: "🇳🇱 HOLANDA",
-      displayLocation: "",
-      aliases: ["holanda", "paises baixos", "países baixos", "amsterda", "amsterdam"],
-      visto: {
-        intro: "Para turismo de curta duração, brasileiros normalmente viajam sem visto prévio, conforme as regras aplicáveis.",
-        rows: [
-          ["Tipo de entrada", "Turismo de curta permanência."],
-          ["Valor", "Sem taxa de visto prévio quando não houver exigência de visto."],
-          ["Entrevista", "Não costuma integrar a entrada turística curta."],
-          ["Prazo médio", "A preparação depende da organização documental do viajante."],
-          ["Antecedência ideal", "Documentação organizada com antecedência é sempre recomendável."]
-        ],
-        where: "Canais diplomáticos e consulares oficiais devem ser usados para confirmação formal."
-      },
-      documentos: [
-        "Passaporte válido.",
-        "Documentação de viagem e comprovantes, se solicitados."
-      ],
-      brasil: [
-        "Embaixada do Reino dos Países Baixos no Brasil.",
-        "Canais consulares correspondentes."
-      ],
-      apoio: {
-        title: "📍 Apoio no destino",
-        lines: [
-          "O apoio ao brasileiro deve ser direcionado à representação do Brasil competente para a região da viagem."
-        ]
-      },
-      vacinas: [
-        "Não há, em regra, exigência universal de vacina para entrada direta regular."
-      ],
-      important: "No futuro, o módulo poderá distinguir melhor país, capital e cidade buscada."
-    },
-
-    "republica-tcheca": {
-      country: "🇨🇿 REPÚBLICA TCHECA",
-      displayLocation: "",
-      aliases: ["republica tcheca", "república tcheca", "praga", "czech republic", "chequia", "tchequia"],
-      visto: {
-        intro: "Para turismo de curta duração, brasileiros normalmente entram sem visto prévio, conforme as regras migratórias aplicáveis.",
-        rows: [
-          ["Tipo de entrada", "Turismo de curta permanência."],
-          ["Valor", "Sem taxa de visto prévio quando não houver exigência de visto."],
-          ["Entrevista", "Não costuma integrar a entrada curta sem visto."],
-          ["Prazo médio", "A organização depende da documentação do viajante."],
-          ["Antecedência ideal", "Revisar os documentos antes da viagem continua sendo importante."]
-        ],
-        where: "Confirmações formais devem seguir os canais tchecos oficiais no Brasil."
-      },
-      documentos: [
-        "Passaporte válido.",
-        "Documentação coerente com a natureza da viagem."
-      ],
-      brasil: [
-        "Embaixada correspondente no Brasil.",
-        "Canais consulares oficiais quando aplicáveis."
-      ],
-      apoio: {
-        title: "📍 Apoio no destino",
-        lines: [
-          "Apoio ao brasileiro deve considerar a representação do Brasil correspondente à localidade visitada."
-        ]
-      },
-      vacinas: [
-        "As orientações sanitárias dependem das regras e conexões do período da viagem."
-      ],
-      important: "O módulo foi preparado para crescer com mais destinos e mais detalhe por cidade."
-    },
-
-    "alemanha": {
-      country: "🇩🇪 ALEMANHA",
-      displayLocation: "",
-      aliases: ["alemanha", "berlim", "munique", "frankfurt"],
-      visto: {
-        intro: "Para turismo de curta duração, brasileiros normalmente viajam sem visto prévio, observadas as regras vigentes.",
-        rows: [
-          ["Tipo de entrada", "Turismo de curta permanência."],
-          ["Valor", "Sem taxa de visto prévio quando não houver exigência de visto."],
-          ["Entrevista", "Não costuma integrar o fluxo da viagem curta sem visto prévio."],
-          ["Prazo médio", "A preparação depende da documentação de viagem."],
-          ["Antecedência ideal", "Organizar comprovantes e passaporte com antecedência é recomendável."]
-        ],
-        where: "Questões formais devem ser tratadas pelos canais alemães oficiais no Brasil."
-      },
-      documentos: [
-        "Passaporte válido.",
-        "Comprovantes de viagem, hospedagem e meios financeiros, se exigidos."
-      ],
-      brasil: [
-        "Embaixada da Alemanha no Brasil.",
-        "Consulados alemães no Brasil, conforme o atendimento."
-      ],
-      apoio: {
-        title: "📍 Apoio no destino",
-        lines: [
-          "O apoio consular ao brasileiro deve considerar a repartição do Brasil adequada à cidade da viagem."
-        ]
-      },
-      vacinas: [
-        "Não há, em regra, exigência universal de vacina para entrada direta regular."
-      ],
-      important: "A estrutura já está pronta para aprofundar posteriormente apoio no destino por cidade."
-    },
-
-    "emirados-arabes": {
-      country: "🇦🇪 EMIRADOS ÁRABES",
-      displayLocation: "",
-      aliases: ["emirados arabes", "emirados árabes", "dubai", "abu dhabi", "abu dabi", "uae"],
-      visto: {
-        intro: "A regra de entrada turística para brasileiros deve ser observada conforme a política vigente do destino e o perfil da viagem.",
-        rows: [
-          ["Tipo de entrada", "Turismo de curta duração, conforme regra vigente."],
-          ["Valor", "Pode variar conforme a forma de entrada aplicável."],
-          ["Entrevista", "Depende do procedimento formal exigido, quando houver."],
-          ["Prazo médio", "Varia conforme a etapa migratória do caso concreto."],
-          ["Antecedência ideal", "Planejar a documentação com antecedência continua sendo prudente."]
-        ],
-        where: "A orientação formal deve seguir os canais oficiais dos Emirados Árabes no Brasil."
-      },
-      documentos: [
-        "Passaporte válido.",
-        "Documentação compatível com a viagem e eventuais exigências de entrada."
-      ],
-      brasil: [
-        "Embaixada dos Emirados Árabes Unidos no Brasil.",
-        "Demais canais consulares oficiais, quando aplicáveis."
-      ],
-      apoio: {
-        title: "📍 Apoio no destino",
-        lines: [
-          "O apoio ao brasileiro deve ser buscado na representação do Brasil competente para a cidade ou emirado visitado."
-        ]
-      },
-      vacinas: [
-        "A avaliação sanitária deve considerar origem, conexões e requisitos do período da viagem."
-      ],
-      important: "O módulo ainda será refinado para distinguir melhor cidade, emirado e apoio consular mais próximo."
-    }
-  };
-
-  function buildResultCard(data){
-    const documentos = (data.documentos || []).map(item => `
-      <div class="line-item">• ${item}</div>
-    `).join("");
-
-    const brasil = (data.brasil || []).map(item => `
-      <div class="line-item">• ${item}</div>
-    `).join("");
-
-    const vacinas = (data.vacinas || []).map(item => `
-      <div class="line-item">• ${item}</div>
-    `).join("");
-
-    const apoio = (data.apoio && data.apoio.lines ? data.apoio.lines : []).map(item => `
-      <div class="line-item">• ${item}</div>
-    `).join("");
-
-    const rows = (data.visto && data.visto.rows ? data.visto.rows : []).map(([label, value]) => `
-      <div class="kv">
-        <div class="kv-label">${label}</div>
-        <div class="kv-value">${value}</div>
-      </div>
-    `).join("");
-
-    const heading = data.displayLocation ? `${data.country} — ${data.displayLocation}` : data.country;
-
-    return `
-      <div class="result-shell">
-        <div class="result-header">
-          <h3 class="result-country">${heading}</h3>
-          <p class="result-subtitle">
-            Estrutura inicial de teste interno da ferramenta para avaliar leitura, organização e padrão visual antes de levar qualquer versão para a área pública do site.
-          </p>
-        </div>
-
-        <div class="result-body">
-          <div class="info-block">
-            <h4 class="info-title">🛂 Visto</h4>
-            <p>${data.visto.intro}</p>
-            ${rows}
-            <div class="note-box">
-              <strong>Onde solicitar:</strong> ${data.visto.where}
+      <div class="tool-panel" id="tool-panel">
+        <div class="panel-top">
+          <div>
+            <div class="breadcrumb">Ferramentas &gt; Documentação e informações de saúde para viagem</div>
+            <h3 class="panel-title">Consulta inicial por destino</h3>
+            <div class="panel-meta">
+              <span class="pill ok">Teste interno</span>
+              <span class="pill">13 destinos iniciais</span>
+              <span class="pill">Resultado abaixo do campo</span>
             </div>
           </div>
 
-          <div class="info-block">
-            <h4 class="info-title">📄 Documentos</h4>
-            <div class="list-lines">${documentos}</div>
-          </div>
-
-          <div class="info-block">
-            <h4 class="info-title">📍 Solicitação de visto no Brasil</h4>
-            <p>Para as etapas formais, o viajante deve se orientar pelos canais diplomáticos e consulares correspondentes ao destino:</p>
-            <div class="list-lines">${brasil}</div>
-          </div>
-
-          <div class="info-block">
-            <h4 class="info-title">${data.apoio.title || "📍 Apoio no destino"}</h4>
-            <div class="list-lines">${apoio}</div>
-          </div>
-
-          <div class="info-block">
-            <h4 class="info-title">💉 Vacinas</h4>
-            <div class="list-lines">${vacinas}</div>
-          </div>
-
-          <div class="info-block">
-            <h4 class="info-title">⚠️ Informações importantes</h4>
-            <p>${data.important}</p>
-            <div class="note-box">
-              Estamos trabalhando continuamente com mais destinos para ampliar esta ferramenta nas próximas etapas de teste.
+          <div class="panel-actions">
+            <div class="search-wrap">
+              <input
+                id="destination-search"
+                class="search-input"
+                type="text"
+                placeholder="Digite cidade ou país. Ex.: New York, França, Londres, Portugal"
+              />
             </div>
+            <button onclick="searchDestination()">Buscar</button>
+            <button class="btn-ghost" onclick="clearSearch()">Limpar</button>
           </div>
         </div>
+
+        <div class="helper-line">
+          Você pode testar com: Estados Unidos, França, Espanha, Londres, Itália, Reino Unido, México, Argentina, Portugal, Holanda, República Tcheca, Alemanha e Emirados Árabes.
+        </div>
+
+        <div id="result-area"></div>
       </div>
-    `;
-  }
+    </div>
+  </section>
 
-  function findDestination(query){
-    const normalizedQuery = normalizeText(query);
-    if (!normalizedQuery) return null;
+  <footer id="siteFooter">
+    Curadoria Elite Travel · O seu mundo, bem indicado.<br />
+    São Paulo - SP · <a href="contact.html">curadoriaelitetravel@gmail.com</a>
+  </footer>
 
-    const keys = Object.keys(DESTINATIONS);
+  <script>
+    const TOOL_IMAGES = [
+      "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1800&q=80",
+      "https://images.unsplash.com/photo-1474302770737-173ee21bab63?auto=format&fit=crop&w=1800&q=80",
+      "https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?auto=format&fit=crop&w=1800&q=80"
+    ];
 
-    for (const key of keys){
-      const item = DESTINATIONS[key];
-      const aliases = item.aliases || [];
-      if (aliases.some(alias => normalizeText(alias) === normalizedQuery)){
-        return item;
+    const DESTINATIONS = {
+      "estados-unidos": {
+        country: "🇺🇸 ESTADOS UNIDOS",
+        displayLocation: "NEW YORK",
+        aliases: ["estados unidos", "eua", "usa", "united states", "new york", "nova york", "nyc"],
+        visto: {
+          intro: "Brasileiros precisam de visto de turismo para lazer nos Estados Unidos. Isso vale para adultos e também para crianças.",
+          where: "Embaixada e consulados oficiais dos Estados Unidos no Brasil.",
+          rows: [
+            ["Quem precisa", "Adultos e crianças precisam de visto próprio."],
+            ["Tipo mais comum", "B1/B2 para turismo e negócios de curta duração."],
+            ["Valor", "US$ 185 (aproximadamente entre R$ 900 e R$ 1.100, conforme câmbio e tarifas do momento)."],
+            ["Entrevista", "Em regra, sim. Desde 1º de outubro de 2025, a volta da exigência geral de entrevista presencial alcança inclusive menores de 14 anos e maiores de 79, salvo exceções específicas previstas pelos canais consulares."],
+            ["Duração média da entrevista", "Geralmente poucos minutos, em muitos casos entre 2 e 5 minutos de atendimento direto."],
+            ["Quanto tempo antes se movimentar", "O mais seguro é iniciar com pelo menos 2 a 3 meses de antecedência."],
+            ["Prazo do processo", "Como referência operacional, considerar algo entre 2 e 8 semanas do início até a conclusão, dependendo da agenda disponível e da tramitação do caso."],
+            ["Agendamento", "O tempo real de agenda varia por posto e momento. Para não prometer um dado instável, o ideal aqui é considerar uma janela de semanas, não de dias."]
+          ]
+        },
+        documentos: [
+          "Passaporte brasileiro válido.",
+          "Formulário DS-160 preenchido corretamente.",
+          "Comprovante de pagamento da taxa consular.",
+          "Confirmação do agendamento da entrevista, quando aplicável.",
+          "Documentos de suporte que demonstrem objetivo da viagem, capacidade financeira e vínculos com o Brasil."
+        ],
+        brasil: [
+          {
+            name: "🇺🇸 Embaixada dos Estados Unidos no Brasil",
+            address: "SES, Av. das Nações, Quadra 801, Lote 3, Brasília/DF, CEP 70403-900",
+            phone: "+55 (61) 3312-7000",
+            email: "BrasiliaVisaInformation@state.gov",
+            site: "https://br.usembassy.gov/pt/embassy-consulates-pt/brasilia-pt/"
+          },
+          {
+            name: "🇺🇸 Consulado-Geral dos Estados Unidos em São Paulo",
+            address: "Rua Henri Dunant, 500, Chácara Santo Antônio, São Paulo/SP, CEP 04709-110",
+            phone: "+55 (11) 3250-5000",
+            email: "visasaopaulo@state.gov",
+            site: "https://br.usembassy.gov/pt/embassy-consulates-pt/saopaulo-pt/"
+          },
+          {
+            name: "🇺🇸 Consulado-Geral dos Estados Unidos no Rio de Janeiro",
+            address: "Av. Presidente Wilson, 147, Castelo, Rio de Janeiro/RJ, CEP 20030-020",
+            phone: "+55 (21) 3823-2000",
+            email: "consulardistrictrio@state.gov",
+            site: "https://br.usembassy.gov/pt/embassy-consulates-pt/riodejaneiro-pt/"
+          }
+        ],
+        apoio: {
+          title: "📍 Apoio no destino — New York",
+          lines: [
+            "Há representação brasileira em New York para apoio consular ao viajante brasileiro.",
+            "Como o destino buscado já conta com posto brasileiro, não entra a lógica de cidade mais próxima neste exemplo."
+          ],
+          contact: {
+            type: "🇧🇷 Consulado-Geral do Brasil em Nova York",
+            address: "225 East 41st Street, New York, NY 10017, Estados Unidos",
+            phone: "+1 (917) 777-7777",
+            email: "cg.novayork@itamaraty.gov.br",
+            site: "https://www.gov.br/mre/pt-br/consulado-nova-york",
+            distance: "0 km",
+            driveTime: "Não se aplica.",
+            flightTime: "Não se aplica."
+          }
+        },
+        vacinas: [
+          "Não existe, para turismo regular direto ao destino, uma vacina universal obrigatória específica para todos os viajantes vindos do Brasil.",
+          "Atenção maior costuma surgir em cenários com histórico recente de viagem para áreas com febre amarela ou regras sanitárias temporárias.",
+          "Se houver exigência vinculada à febre amarela, o comprovante normalmente envolve o Certificado Internacional de Vacinação e Profilaxia (CIVP).",
+          "Para segurança prática do viajante, vale manter vacinas de rotina atualizadas e observar a antecedência de 10 dias para febre amarela quando ela for necessária."
+        ],
+        important: "Este bloco foi montado para que o usuário já encontre o básico útil dentro do seu site, sem resposta vaga. O aprofundamento pode existir depois, mas a base operacional já precisa estar aqui."
+      },
+
+      "franca": {
+        country: "🇫🇷 FRANÇA",
+        displayLocation: "",
+        aliases: ["franca", "frança", "paris"],
+        comingSoon: true
+      },
+      "espanha": {
+        country: "🇪🇸 ESPANHA",
+        displayLocation: "",
+        aliases: ["espanha", "madrid", "barcelona"],
+        comingSoon: true
+      },
+      "londres": {
+        country: "🇬🇧 REINO UNIDO",
+        displayLocation: "LONDRES",
+        aliases: ["londres", "london"],
+        comingSoon: true
+      },
+      "italia": {
+        country: "🇮🇹 ITÁLIA",
+        displayLocation: "",
+        aliases: ["italia", "itália", "roma", "milao", "milão"],
+        comingSoon: true
+      },
+      "reino-unido": {
+        country: "🇬🇧 REINO UNIDO",
+        displayLocation: "",
+        aliases: ["reino unido", "uk", "inglaterra"],
+        comingSoon: true
+      },
+      "mexico": {
+        country: "🇲🇽 MÉXICO",
+        displayLocation: "",
+        aliases: ["mexico", "méxico", "cidade do mexico", "cidade do méxico", "cancun", "cancún"],
+        comingSoon: true
+      },
+      "argentina": {
+        country: "🇦🇷 ARGENTINA",
+        displayLocation: "",
+        aliases: ["argentina", "buenos aires"],
+        comingSoon: true
+      },
+      "portugal": {
+        country: "🇵🇹 PORTUGAL",
+        displayLocation: "",
+        aliases: ["portugal", "lisboa", "porto"],
+        comingSoon: true
+      },
+      "holanda": {
+        country: "🇳🇱 HOLANDA",
+        displayLocation: "",
+        aliases: ["holanda", "paises baixos", "países baixos", "amsterdam"],
+        comingSoon: true
+      },
+      "republica-tcheca": {
+        country: "🇨🇿 REPÚBLICA TCHECA",
+        displayLocation: "",
+        aliases: ["republica tcheca", "república tcheca", "praga", "chequia"],
+        comingSoon: true
+      },
+      "alemanha": {
+        country: "🇩🇪 ALEMANHA",
+        displayLocation: "",
+        aliases: ["alemanha", "berlim", "frankfurt", "munique"],
+        comingSoon: true
+      },
+      "emirados-arabes": {
+        country: "🇦🇪 EMIRADOS ÁRABES",
+        displayLocation: "",
+        aliases: ["emirados arabes", "emirados árabes", "dubai", "abu dhabi"],
+        comingSoon: true
       }
+    };
+
+    function toggleMobileNav() {
+      const header = document.getElementById("siteHeader");
+      if (header) header.classList.toggle("nav-open");
     }
 
-    return null;
-  }
+    document.addEventListener("click", (e) => {
+      const nav = document.getElementById("navMenu");
+      const toggle = document.getElementById("navToggle");
+      const header = document.getElementById("siteHeader");
 
-  function suggestDestinations(query){
-    const normalizedQuery = normalizeText(query);
-    if (!normalizedQuery) return [];
-
-    const keys = Object.keys(DESTINATIONS);
-    const suggestions = [];
-
-    for (const key of keys){
-      const item = DESTINATIONS[key];
-      const aliases = item.aliases || [];
-      if (aliases.some(alias => normalizeText(alias).includes(normalizedQuery))){
-        suggestions.push(item);
-      }
-    }
-
-    const unique = [];
-    const seen = new Set();
-
-    suggestions.forEach(item => {
-      const identifier = item.country + "|" + (item.displayLocation || "");
-      if (!seen.has(identifier)){
-        seen.add(identifier);
-        unique.push(item);
-      }
+      if (!nav || !toggle || !header || !header.classList.contains("nav-open")) return;
+      if (nav.contains(e.target) || toggle.contains(e.target)) return;
+      header.classList.remove("nav-open");
     });
 
-    return unique.slice(0, 6);
-  }
+    function startBackgroundSlider(a, b, images, ms) {
+      const first = document.getElementById(a);
+      const second = document.getElementById(b);
 
-  function renderSuggestions(list){
-    if (!list.length) return "";
+      if (!first || !second || !images.length) return;
 
-    const chips = list.map(item => {
-      const label = item.displayLocation ? `${item.country.replace(/^[^\s]+\s/, "")} — ${item.displayLocation}` : item.country.replace(/^[^\s]+\s/, "");
-      const primaryAlias = (item.aliases && item.aliases[0]) ? item.aliases[0] : "";
-      return `<button class="match-chip" onclick="selectSuggestion('${primaryAlias.replace(/'/g, "\\'")}')">${label}</button>`;
-    }).join("");
+      let i = 0;
+      let show = true;
 
-    return `
-      <div class="empty-state">
-        Não encontrei um resultado exato para essa busca ainda.
-        <br><br>
-        Você pode tentar uma destas opções:
-        <div class="match-list">${chips}</div>
-      </div>
-    `;
-  }
+      first.style.backgroundImage = `url("${images[0]}")`;
+      first.classList.add("active");
 
-  function renderDefault(){
-    const defaultData = findDestination("new york");
-    const area = document.getElementById("result-area");
-    const input = document.getElementById("destination-search");
-    if (input) input.value = "NEW YORK";
-    if (area && defaultData){
-      area.innerHTML = buildResultCard(defaultData);
-    }
-  }
+      setInterval(() => {
+        i = (i + 1) % images.length;
+        const visible = show ? first : second;
+        const hidden = show ? second : first;
 
-  function searchDestination(){
-    const input = document.getElementById("destination-search");
-    const area = document.getElementById("result-area");
-    if (!input || !area) return;
+        hidden.style.backgroundImage = `url("${images[i]}")`;
+        hidden.classList.add("active");
+        visible.classList.remove("active");
 
-    const rawValue = input.value || "";
-    const value = rawValue.trim();
-
-    if (!value){
-      renderDefault();
-      return;
+        show = !show;
+      }, ms || 7600);
     }
 
-    const exact = findDestination(value);
+    function focusTool() {
+      const panel = document.getElementById("tool-panel");
+      if (panel) panel.scrollIntoView({ behavior: "smooth", block: "start" });
 
-    if (exact){
-      area.innerHTML = buildResultCard(exact);
-      return;
+      const input = document.getElementById("destination-search");
+      if (input) {
+        setTimeout(() => input.focus({ preventScroll: true }), 250);
+      }
     }
 
-    const suggestions = suggestDestinations(value);
-    area.innerHTML = renderSuggestions(suggestions);
-  }
+    function normalizeText(v) {
+      return String(v || "")
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[—–−]/g, "-")
+        .replace(/\s+/g, " ");
+    }
 
-  function clearSearch(){
-    renderDefault();
-    focusTool();
-  }
+    function findDestination(q) {
+      const n = normalizeText(q);
+      if (!n) return null;
 
-  function selectSuggestion(value){
-    const input = document.getElementById("destination-search");
-    if (!input) return;
-    input.value = String(value || "").toUpperCase();
-    searchDestination();
-    focusTool();
-  }
+      for (const item of Object.values(DESTINATIONS)) {
+        if ((item.aliases || []).some((a) => normalizeText(a) === n)) {
+          return item;
+        }
+      }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    startBackgroundSlider("toolsBg1", "toolsBg2", TOOL_IMAGES, 7600);
-    renderDefault();
+      return null;
+    }
 
-    const input = document.getElementById("destination-search");
-    if (input){
-      input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter"){
-          e.preventDefault();
-          searchDestination();
+    function suggestDestinations(q) {
+      const n = normalizeText(q);
+      if (!n) return [];
+
+      const out = [];
+
+      Object.values(DESTINATIONS).forEach((item) => {
+        if ((item.aliases || []).some((a) => normalizeText(a).includes(n))) {
+          out.push(item);
         }
       });
-    }
-  });
-</script>
 
+      const seen = new Set();
+
+      return out
+        .filter((item) => {
+          const key = item.country + "|" + (item.displayLocation || "");
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        })
+        .slice(0, 8);
+    }
+
+    function buildContacts(cards) {
+      return cards
+        .map(
+          (card) => `
+          <div class="contact-card">
+            <div class="contact-title">${card.name}</div>
+            <div class="contact-row"><strong>Endereço:</strong> ${card.address}</div>
+            <div class="contact-row"><strong>Telefone:</strong> ${card.phone}</div>
+            <div class="contact-row"><strong>E-mail:</strong> ${card.email}</div>
+            <div class="contact-row"><strong>Site:</strong> ${card.site}</div>
+          </div>
+        `
+        )
+        .join("");
+    }
+
+    function buildResultCard(data) {
+      if (data.comingSoon) {
+        const heading = data.displayLocation
+          ? `${data.country} — ${data.displayLocation}`
+          : data.country;
+
+        return `
+          <div class="result-shell">
+            <div class="result-header">
+              <h3 class="result-country">${heading}</h3>
+              <p class="result-subtitle">Destino já previsto na base da ferramenta.</p>
+            </div>
+
+            <div class="result-body">
+              <div class="info-block">
+                <h4 class="info-title">Em atualização</h4>
+                <p>Para não te entregar informação genérica ou incompleta, este destino ainda não foi preenchido nesta rodada.</p>
+                <div class="note-box">
+                  A estrutura da página já foi corrigida para abrir vazia e só exibir resultado após busca.
+                  O próximo preenchimento deve seguir o mesmo nível de detalhe aplicado em Estados Unidos:
+                  quem precisa, custo, documentos, postos no Brasil com endereço/telefone/e-mail/site e apoio no destino com distância quando necessário.
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      const heading = data.displayLocation
+        ? `${data.country} — ${data.displayLocation}`
+        : data.country;
+
+      const rows = data.visto.rows
+        .map(
+          ([l, v]) => `
+          <div class="kv">
+            <div class="kv-label">${l}</div>
+            <div class="kv-value">${v}</div>
+          </div>
+        `
+        )
+        .join("");
+
+      const documentos = data.documentos
+        .map((i) => `<div class="line-item">• ${i}</div>`)
+        .join("");
+
+      const vacinas = data.vacinas
+        .map((i) => `<div class="line-item">• ${i}</div>`)
+        .join("");
+
+      const apoioLines = data.apoio.lines
+        .map((i) => `<div class="line-item">• ${i}</div>`)
+        .join("");
+
+      return `
+        <div class="result-shell">
+          <div class="result-header">
+            <h3 class="result-country">${heading}</h3>
+            <p class="result-subtitle">
+              Base inicial de teste com foco em resposta concreta. Aqui o objetivo é orientar o viajante com clareza suficiente para agir.
+            </p>
+          </div>
+
+          <div class="result-body">
+            <div class="info-block">
+              <h4 class="info-title">🛂 Visto</h4>
+              <p>${data.visto.intro}</p>
+              ${rows}
+              <div class="note-box">
+                <strong>Onde solicitar:</strong> ${data.visto.where}
+              </div>
+            </div>
+
+            <div class="info-block">
+              <h4 class="info-title">📄 Documentos</h4>
+              <div class="list-lines">${documentos}</div>
+            </div>
+
+            <div class="info-block">
+              <h4 class="info-title">📍 Onde tirar o visto no Brasil</h4>
+              <p>
+                Todos os postos abaixo entram no resultado porque são relevantes para o processo e aparecem com endereço, telefone, e-mail e site.
+              </p>
+              ${buildContacts(data.brasil)}
+            </div>
+
+            <div class="info-block">
+              <h4 class="info-title">${data.apoio.title}</h4>
+              <div class="list-lines">${apoioLines}</div>
+
+              <div class="contact-card">
+                <div class="contact-title">${data.apoio.contact.type}</div>
+                <div class="contact-row"><strong>Endereço:</strong> ${data.apoio.contact.address}</div>
+                <div class="contact-row"><strong>Telefone:</strong> ${data.apoio.contact.phone}</div>
+                <div class="contact-row"><strong>E-mail:</strong> ${data.apoio.contact.email}</div>
+                <div class="contact-row"><strong>Site:</strong> ${data.apoio.contact.site}</div>
+                <div class="contact-row"><strong>Distância:</strong> ${data.apoio.contact.distance}</div>
+                <div class="contact-row"><strong>Tempo de carro:</strong> ${data.apoio.contact.driveTime}</div>
+                <div class="contact-row"><strong>Tempo de voo:</strong> ${data.apoio.contact.flightTime}</div>
+              </div>
+            </div>
+
+            <div class="info-block">
+              <h4 class="info-title">💉 Vacinas</h4>
+              <div class="list-lines">${vacinas}</div>
+            </div>
+
+            <div class="info-block">
+              <h4 class="info-title">⚠️ Informações importantes</h4>
+              <p>${data.important}</p>
+              <div class="note-box">
+                Estamos trabalhando com mais destinos em breve. A intenção é que cada país siga este mesmo padrão de precisão, sem texto genérico.
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderSuggestions(list) {
+      if (!list.length) {
+        return `
+          <div class="empty-state">
+            Não encontrei esse destino na base atual de teste.
+          </div>
+        `;
+      }
+
+      const chips = list
+        .map((item) => {
+          const label = item.displayLocation
+            ? `${item.country.replace(/^[^\s]+\s/, "")} — ${item.displayLocation}`
+            : item.country.replace(/^[^\s]+\s/, "");
+
+          const value = item.aliases && item.aliases[0] ? item.aliases[0] : "";
+
+          return `
+            <button class="match-chip" onclick="selectSuggestion('${String(value).replace(/'/g, "\\'")}')">
+              ${label}
+            </button>
+          `;
+        })
+        .join("");
+
+      return `
+        <div class="empty-state">
+          Não encontrei um resultado exato para esta busca.
+          <br /><br />
+          Você pode testar uma destas opções:
+          <div class="match-list">${chips}</div>
+        </div>
+      `;
+    }
+
+    function searchDestination() {
+      const input = document.getElementById("destination-search");
+      const area = document.getElementById("result-area");
+
+      if (!input || !area) return;
+
+      const value = String(input.value || "").trim();
+
+      if (!value) {
+        area.innerHTML = `
+          <div class="empty-state">
+            Digite um destino para exibir a consulta.
+          </div>
+        `;
+        return;
+      }
+
+      const exact = findDestination(value);
+
+      if (exact) {
+        area.innerHTML = buildResultCard(exact);
+        return;
+      }
+
+      area.innerHTML = renderSuggestions(suggestDestinations(value));
+    }
+
+    function selectSuggestion(value) {
+      const input = document.getElementById("destination-search");
+      if (!input) return;
+
+      input.value = String(value || "").toUpperCase();
+      searchDestination();
+      focusTool();
+    }
+
+    function clearSearch() {
+      const input = document.getElementById("destination-search");
+      const area = document.getElementById("result-area");
+
+      if (input) input.value = "";
+
+      if (area) {
+        area.innerHTML = `
+          <div class="empty-state">
+            Digite um destino para exibir a consulta.
+          </div>
+        `;
+      }
+
+      focusTool();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      startBackgroundSlider("toolsBg1", "toolsBg2", TOOL_IMAGES, 7600);
+      clearSearch();
+
+      const input = document.getElementById("destination-search");
+      if (input) {
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            searchDestination();
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>
