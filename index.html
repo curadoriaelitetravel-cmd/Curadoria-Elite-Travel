@@ -6,8 +6,12 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    function trackEvent(name, params = {}) {
+      if (typeof gtag === "function") {
+        gtag("event", name, params);
+      }
+    }
     gtag('js', new Date());
-
     gtag('config', 'G-S07L3R13WJ');
   </script>
 
@@ -2606,6 +2610,18 @@
         });
         return;
       }
+
+      trackEvent("begin_checkout", {
+        currency: "BRL",
+        value: calcCartTotal(getCart()),
+        items: getCart().map(it => ({
+          item_name: it.city,
+          item_category: it.category,
+          price: it.price,
+          quantity: it.qty
+        }))
+      });
+
       goInvoiceCart(finalItems, couponNow);
     });
   }
@@ -2877,6 +2893,13 @@
 
     saveCart(items);
 
+    trackEvent("add_to_cart", {
+      item_category: category,
+      item_name: cityLabel,
+      currency: "BRL",
+      value: Number(getPriceForCategory(category) || 0)
+    });
+
     cartPricingPreview = null;
     setCouponMessage("", "");
 
@@ -2912,6 +2935,14 @@
       });
 
       saveCart(items);
+
+      trackEvent("add_to_cart", {
+        item_category: category,
+        item_name: cityLabel,
+        currency: "BRL",
+        value: Number(getPriceForCategory(category) || 0)
+      });
+
       cartPricingPreview = null;
       setCouponMessage("", "");
       updateCartBadge();
@@ -2992,9 +3023,16 @@
   }
 
   function openDestinationPopup(category, city){
+    trackEvent("view_item", {
+      item_name: city,
+      item_category: category,
+      currency: "BRL",
+      value: Number(getPriceForCategory(category) || 0)
+    });
+
     const msg =
       `${category} é um material digital com indicações e referências selecionadas, pensado para orientar suas escolhas com mais clareza ao longo da viagem. ` +
-  `Após a confirmação da compra, o acesso será liberado diretamente na sua conta.`;
+      `Após a confirmação da compra, o acesso será liberado diretamente na sua conta.`;
 
     const owns = userOwns(category, city);
 
