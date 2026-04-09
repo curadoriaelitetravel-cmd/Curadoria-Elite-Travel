@@ -501,6 +501,7 @@
       font-size: 13.8px;
       line-height: 1.8;
       color: rgba(255, 255, 255, 0.82);
+      word-break: break-word;
     }
 
     .contact-row strong {
@@ -548,6 +549,11 @@
       line-height: 1;
       cursor: pointer;
       transition: all 0.25s ease;
+    }
+
+    .match-chip:hover {
+      transform: translateY(-1px);
+      border-color: rgba(212, 175, 55, 0.45);
     }
 
     footer {
@@ -666,6 +672,7 @@
     <div class="cinema-section-inner">
       <h2>Ferramentas</h2>
       <div class="divider"></div>
+
       <p class="subtitle">
         Uma área em desenvolvimento para concentrar recursos de apoio ao planejamento da viagem, sem interferir no site já publicado.
       </p>
@@ -674,20 +681,26 @@
         <div class="card" onclick="focusTool()">
           <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80" alt="Documentação e saúde para viagem" />
           <h3>Documentação e informações de saúde para viagem</h3>
-          <p>Orientações iniciais sobre entrada no destino, documentos necessários, apoio consular e pontos de saúde relevantes para brasileiros viajando ao exterior.</p>
+          <p>
+            Orientações iniciais sobre entrada no destino, documentos necessários, apoio consular e informações de saúde relevantes para brasileiros viajando ao exterior.
+          </p>
         </div>
 
         <div class="card">
           <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80" alt="Eventos no destino" />
           <h3>Eventos no destino</h3>
-          <p>Uma futura ferramenta para acompanhar acontecimentos, programações e movimentações relevantes na cidade durante a viagem.</p>
+          <p>
+            Uma futura ferramenta para acompanhar acontecimentos, programações e movimentações relevantes na cidade durante a viagem.
+          </p>
           <div class="card-badge">Em breve</div>
         </div>
 
         <div class="card">
           <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80" alt="Experiências e passeios" />
           <h3>Experiências e passeios</h3>
-          <p>Uma futura ferramenta para reunir atividades e opções de lazer com contexto suficiente para apoiar a escolha do viajante.</p>
+          <p>
+            Uma futura ferramenta para reunir atividades e opções de lazer com contexto suficiente para apoiar a escolha do viajante.
+          </p>
           <div class="card-badge">Em breve</div>
         </div>
       </div>
@@ -699,7 +712,7 @@
             <h3 class="panel-title">Consulta inicial por destino</h3>
             <div class="panel-meta">
               <span class="pill ok">Teste interno</span>
-              <span class="pill">13 destinos iniciais</span>
+              <span class="pill">Países e cidades mapeados</span>
               <span class="pill">Resultado abaixo do campo</span>
             </div>
           </div>
@@ -710,7 +723,7 @@
                 id="destination-search"
                 class="search-input"
                 type="text"
-                placeholder="Digite cidade ou país. Ex.: New York, França, Londres, Portugal"
+                placeholder="Digite cidade ou país. Ex.: Orlando, Paris, Londres, Portugal"
               />
             </div>
             <button onclick="searchDestination()">Buscar</button>
@@ -719,7 +732,7 @@
         </div>
 
         <div class="helper-line">
-          Você pode testar com: Estados Unidos, França, Espanha, Londres, Itália, Reino Unido, México, Argentina, Portugal, Holanda, República Tcheca, Alemanha e Emirados Árabes.
+          Cidades já mapeadas para busca: New York, Orlando, Miami, Boston, Los Angeles, Las Vegas, San Francisco, Washington DC, Paris, Nice, Lyon, Madrid, Barcelona, Londres, Manchester, Roma, Milão, Florença, Cancún, Cidade do México, Buenos Aires, Lisboa, Porto, Amsterdã, Praga, Berlim, Munique, Dubai e Abu Dhabi.
         </div>
 
         <div id="result-area"></div>
@@ -739,11 +752,23 @@
       "https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?auto=format&fit=crop&w=1800&q=80"
     ];
 
-    const DESTINATIONS = {
-      "estados-unidos": {
+    const COUNTRIES = {
+      us: {
         country: "🇺🇸 ESTADOS UNIDOS",
-        displayLocation: "NEW YORK",
-        aliases: ["estados unidos", "eua", "usa", "united states", "new york", "nova york", "nyc"],
+        aliases: ["estados unidos", "eua", "usa", "united states", "america", "américa"],
+        cities: [
+          "new york",
+          "nova york",
+          "orlando",
+          "miami",
+          "boston",
+          "los angeles",
+          "las vegas",
+          "san francisco",
+          "washington dc",
+          "washington"
+        ],
+        detailed: true,
         visto: {
           intro: "Brasileiros precisam de visto de turismo para lazer nos Estados Unidos. Isso vale para adultos e também para crianças.",
           where: "Embaixada e consulados oficiais dos Estados Unidos no Brasil.",
@@ -751,11 +776,11 @@
             ["Quem precisa", "Adultos e crianças precisam de visto próprio."],
             ["Tipo mais comum", "B1/B2 para turismo e negócios de curta duração."],
             ["Valor", "US$ 185 (aproximadamente entre R$ 900 e R$ 1.100, conforme câmbio e tarifas do momento)."],
-            ["Entrevista", "Em regra, sim. Desde 1º de outubro de 2025, a volta da exigência geral de entrevista presencial alcança inclusive menores de 14 anos e maiores de 79, salvo exceções específicas previstas pelos canais consulares."],
-            ["Duração média da entrevista", "Geralmente poucos minutos, em muitos casos entre 2 e 5 minutos de atendimento direto."],
+            ["Entrevista", "Em regra, sim. Desde 1º de outubro de 2025, a exigência geral de entrevista presencial voltou a alcançar inclusive menores de 14 anos e maiores de 79, salvo exceções específicas."],
+            ["Duração média da entrevista", "Em muitos casos, poucos minutos de atendimento direto."],
             ["Quanto tempo antes se movimentar", "O mais seguro é iniciar com pelo menos 2 a 3 meses de antecedência."],
             ["Prazo do processo", "Como referência operacional, considerar algo entre 2 e 8 semanas do início até a conclusão, dependendo da agenda disponível e da tramitação do caso."],
-            ["Agendamento", "O tempo real de agenda varia por posto e momento. Para não prometer um dado instável, o ideal aqui é considerar uma janela de semanas, não de dias."]
+            ["Agendamento", "O tempo real de agenda varia por posto e momento. Para não prometer um dado instável, o mais seguro é considerar uma janela de semanas, não de dias."]
           ]
         },
         documentos: [
@@ -769,40 +794,169 @@
           {
             name: "🇺🇸 Embaixada dos Estados Unidos no Brasil",
             address: "SES, Av. das Nações, Quadra 801, Lote 3, Brasília/DF, CEP 70403-900",
-            phone: "+55 (61) 3312-7000",
-            email: "BrasiliaVisaInformation@state.gov",
-            site: "https://br.usembassy.gov/pt/embassy-consulates-pt/brasilia-pt/"
+            phone: "+55 (61) 3550-0774",
+            email: "Use o formulário oficial de contato da missão dos EUA no Brasil",
+            site: "https://br.usembassy.gov/pt/u-s-embassy-in-brasilia-pt/"
           },
           {
             name: "🇺🇸 Consulado-Geral dos Estados Unidos em São Paulo",
             address: "Rua Henri Dunant, 500, Chácara Santo Antônio, São Paulo/SP, CEP 04709-110",
-            phone: "+55 (11) 3250-5000",
-            email: "visasaopaulo@state.gov",
+            phone: "+55 (11) 3230-5000",
+            email: "Use o formulário oficial de vistos/contato da missão dos EUA no Brasil",
             site: "https://br.usembassy.gov/pt/embassy-consulates-pt/saopaulo-pt/"
           },
           {
             name: "🇺🇸 Consulado-Geral dos Estados Unidos no Rio de Janeiro",
             address: "Av. Presidente Wilson, 147, Castelo, Rio de Janeiro/RJ, CEP 20030-020",
             phone: "+55 (21) 3823-2000",
-            email: "consulardistrictrio@state.gov",
+            email: "Use o formulário oficial de vistos/contato da missão dos EUA no Brasil",
             site: "https://br.usembassy.gov/pt/embassy-consulates-pt/riodejaneiro-pt/"
+          },
+          {
+            name: "🇺🇸 Consulado-Geral dos Estados Unidos em Recife",
+            address: "Rua Gonçalves Maia, 163, Boa Vista, Recife/PE, CEP 50070-060",
+            phone: "+55 (81) 4042-0050",
+            email: "Use o formulário oficial de vistos/contato da missão dos EUA no Brasil",
+            site: "https://br.usembassy.gov/pt/embassy-consulates-pt/recife-pt/"
+          },
+          {
+            name: "🇺🇸 Consulado-Geral dos Estados Unidos em Porto Alegre",
+            address: "Av. Assis Brasil, 1889, Porto Alegre/RS, CEP 91010-007",
+            phone: "+55 (51) 3500-1460",
+            email: "Use o formulário oficial de vistos/contato da missão dos EUA no Brasil",
+            site: "https://br.usembassy.gov/pt/embassy-consulates-pt/portoalegre-pt/"
           }
         ],
-        apoio: {
-          title: "📍 Apoio no destino — New York",
-          lines: [
-            "Há representação brasileira em New York para apoio consular ao viajante brasileiro.",
-            "Como o destino buscado já conta com posto brasileiro, não entra a lógica de cidade mais próxima neste exemplo."
-          ],
-          contact: {
-            type: "🇧🇷 Consulado-Geral do Brasil em Nova York",
-            address: "225 East 41st Street, New York, NY 10017, Estados Unidos",
-            phone: "+1 (917) 777-7777",
-            email: "cg.novayork@itamaraty.gov.br",
-            site: "https://www.gov.br/mre/pt-br/consulado-nova-york",
-            distance: "0 km",
-            driveTime: "Não se aplica.",
-            flightTime: "Não se aplica."
+        apoioByCity: {
+          "new york": {
+            heading: "📍 Apoio no destino — New York",
+            lines: [
+              "Há representação brasileira em New York para apoio consular ao viajante brasileiro."
+            ],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Nova York",
+              address: "225 East 41st Street, New York, NY 10017, Estados Unidos",
+              phone: "+1 (917) 777-7777",
+              email: "cg.novayork@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-nova-york",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "orlando": {
+            heading: "📍 Apoio no destino — Orlando",
+            lines: [
+              "Não há consulado brasileiro na cidade de Orlando.",
+              "A representação brasileira mais próxima para essa busca fica em Miami."
+            ],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Miami",
+              address: "3150 SW 38th Avenue, Miami, FL 33146, Estados Unidos",
+              phone: "+1 (305) 285-6200",
+              email: "cg.miami@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-miami",
+              distance: "aprox. 380 km",
+              driveTime: "aprox. 3h45 de carro",
+              flightTime: "aprox. 1h de voo"
+            }
+          },
+          "miami": {
+            heading: "📍 Apoio no destino — Miami",
+            lines: [
+              "Há representação brasileira em Miami para apoio consular ao viajante brasileiro."
+            ],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Miami",
+              address: "3150 SW 38th Avenue, Miami, FL 33146, Estados Unidos",
+              phone: "+1 (305) 285-6200",
+              email: "cg.miami@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-miami",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "boston": {
+            heading: "📍 Apoio no destino — Boston",
+            lines: [
+              "Há representação brasileira em Boston para apoio consular ao viajante brasileiro."
+            ],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Boston",
+              address: "175 Purchase Street, Boston, MA 02110, Estados Unidos",
+              phone: "+1 (617) 542-4000",
+              email: "cg.boston@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-boston",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "los angeles": {
+            heading: "📍 Apoio no destino — Los Angeles",
+            lines: [
+              "Há representação brasileira em Los Angeles para apoio consular ao viajante brasileiro."
+            ],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Los Angeles",
+              address: "8484 Wilshire Blvd, Suite 300, Beverly Hills, CA 90211, Estados Unidos",
+              phone: "+1 (323) 651-2664",
+              email: "cg.losangeles@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-los-angeles",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "san francisco": {
+            heading: "📍 Apoio no destino — San Francisco",
+            lines: [
+              "Há representação brasileira em San Francisco para apoio consular ao viajante brasileiro."
+            ],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em São Francisco",
+              address: "300 Montgomery Street, Suite 300, San Francisco, CA 94104, Estados Unidos",
+              phone: "+1 (415) 981-8170",
+              email: "cg.saofrancisco@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-sao-francisco",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "las vegas": {
+            heading: "📍 Apoio no destino — Las Vegas",
+            lines: [
+              "Não há consulado brasileiro em Las Vegas.",
+              "A representação brasileira mais próxima para essa busca fica em Los Angeles."
+            ],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Los Angeles",
+              address: "8484 Wilshire Blvd, Suite 300, Beverly Hills, CA 90211, Estados Unidos",
+              phone: "+1 (323) 651-2664",
+              email: "cg.losangeles@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-los-angeles",
+              distance: "aprox. 435 km",
+              driveTime: "aprox. 4h20 de carro",
+              flightTime: "aprox. 1h15 de voo"
+            }
+          },
+          "washington dc": {
+            heading: "📍 Apoio no destino — Washington DC",
+            lines: [
+              "Há embaixada do Brasil em Washington para apoio ao viajante brasileiro."
+            ],
+            contact: {
+              type: "🇧🇷 Embaixada do Brasil em Washington",
+              address: "3006 Massachusetts Ave NW, Washington, DC 20008, Estados Unidos",
+              phone: "+1 (202) 238-2700",
+              email: "brasemb.washington@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/embaixada-washington",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
           }
         },
         vacinas: [
@@ -814,77 +968,71 @@
         important: "Este bloco foi montado para que o usuário já encontre o básico útil dentro do seu site, sem resposta vaga. O aprofundamento pode existir depois, mas a base operacional já precisa estar aqui."
       },
 
-      "franca": {
+      fr: {
         country: "🇫🇷 FRANÇA",
-        displayLocation: "",
-        aliases: ["franca", "frança", "paris"],
-        comingSoon: true
+        aliases: ["franca", "frança"],
+        cities: ["paris", "nice", "lyon", "marselha", "marseille"],
+        detailed: false
       },
-      "espanha": {
+      es: {
         country: "🇪🇸 ESPANHA",
-        displayLocation: "",
-        aliases: ["espanha", "madrid", "barcelona"],
-        comingSoon: true
+        aliases: ["espanha"],
+        cities: ["madrid", "barcelona", "sevilha", "sevilla"],
+        detailed: false
       },
-      "londres": {
+      uk: {
         country: "🇬🇧 REINO UNIDO",
-        displayLocation: "LONDRES",
-        aliases: ["londres", "london"],
-        comingSoon: true
-      },
-      "italia": {
-        country: "🇮🇹 ITÁLIA",
-        displayLocation: "",
-        aliases: ["italia", "itália", "roma", "milao", "milão"],
-        comingSoon: true
-      },
-      "reino-unido": {
-        country: "🇬🇧 REINO UNIDO",
-        displayLocation: "",
         aliases: ["reino unido", "uk", "inglaterra"],
-        comingSoon: true
+        cities: ["londres", "london", "manchester", "edinburgh", "edimburgo"],
+        detailed: false
       },
-      "mexico": {
+      it: {
+        country: "🇮🇹 ITÁLIA",
+        aliases: ["italia", "itália"],
+        cities: ["roma", "milan", "milao", "milão", "florenca", "florença", "veneza"],
+        detailed: false
+      },
+      mx: {
         country: "🇲🇽 MÉXICO",
-        displayLocation: "",
-        aliases: ["mexico", "méxico", "cidade do mexico", "cidade do méxico", "cancun", "cancún"],
-        comingSoon: true
+        aliases: ["mexico", "méxico"],
+        cities: ["cancun", "cancún", "cidade do mexico", "cidade do méxico", "mexico city", "playa del carmen"],
+        detailed: false
       },
-      "argentina": {
+      ar: {
         country: "🇦🇷 ARGENTINA",
-        displayLocation: "",
-        aliases: ["argentina", "buenos aires"],
-        comingSoon: true
+        aliases: ["argentina"],
+        cities: ["buenos aires", "bariloche", "mendoza"],
+        detailed: false
       },
-      "portugal": {
+      pt: {
         country: "🇵🇹 PORTUGAL",
-        displayLocation: "",
-        aliases: ["portugal", "lisboa", "porto"],
-        comingSoon: true
+        aliases: ["portugal"],
+        cities: ["lisboa", "porto", "faro"],
+        detailed: false
       },
-      "holanda": {
+      nl: {
         country: "🇳🇱 HOLANDA",
-        displayLocation: "",
-        aliases: ["holanda", "paises baixos", "países baixos", "amsterdam"],
-        comingSoon: true
+        aliases: ["holanda", "paises baixos", "países baixos", "netherlands"],
+        cities: ["amsterda", "amsterdam", "rotterdam", "haia", "the hague"],
+        detailed: false
       },
-      "republica-tcheca": {
+      cz: {
         country: "🇨🇿 REPÚBLICA TCHECA",
-        displayLocation: "",
-        aliases: ["republica tcheca", "república tcheca", "praga", "chequia"],
-        comingSoon: true
+        aliases: ["republica tcheca", "república tcheca", "chequia", "tchequia"],
+        cities: ["praga", "prague"],
+        detailed: false
       },
-      "alemanha": {
+      de: {
         country: "🇩🇪 ALEMANHA",
-        displayLocation: "",
-        aliases: ["alemanha", "berlim", "frankfurt", "munique"],
-        comingSoon: true
+        aliases: ["alemanha", "germany"],
+        cities: ["berlim", "berlin", "munique", "munich", "frankfurt", "hamburgo", "hamburg"],
+        detailed: false
       },
-      "emirados-arabes": {
+      ae: {
         country: "🇦🇪 EMIRADOS ÁRABES",
-        displayLocation: "",
-        aliases: ["emirados arabes", "emirados árabes", "dubai", "abu dhabi"],
-        comingSoon: true
+        aliases: ["emirados arabes", "emirados árabes", "uae"],
+        cities: ["dubai", "abu dhabi", "abu dabi"],
+        detailed: false
       }
     };
 
@@ -900,6 +1048,7 @@
 
       if (!nav || !toggle || !header || !header.classList.contains("nav-open")) return;
       if (nav.contains(e.target) || toggle.contains(e.target)) return;
+
       header.classList.remove("nav-open");
     });
 
@@ -930,7 +1079,9 @@
 
     function focusTool() {
       const panel = document.getElementById("tool-panel");
-      if (panel) panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (panel) {
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
 
       const input = document.getElementById("destination-search");
       if (input) {
@@ -948,113 +1099,122 @@
         .replace(/\s+/g, " ");
     }
 
-    function findDestination(q) {
-      const n = normalizeText(q);
-      if (!n) return null;
+    function resolveDestination(query) {
+      const q = normalizeText(query);
+      if (!q) return null;
 
-      for (const item of Object.values(DESTINATIONS)) {
-        if ((item.aliases || []).some((a) => normalizeText(a) === n)) {
-          return item;
+      for (const [key, data] of Object.entries(COUNTRIES)) {
+        if ((data.aliases || []).some((alias) => normalizeText(alias) === q)) {
+          return {
+            key,
+            countryData: data,
+            matchedType: "country",
+            matchedCity: ""
+          };
+        }
+
+        const cityMatch = (data.cities || []).find((city) => normalizeText(city) === q);
+        if (cityMatch) {
+          return {
+            key,
+            countryData: data,
+            matchedType: "city",
+            matchedCity: cityMatch
+          };
         }
       }
 
       return null;
     }
 
-    function suggestDestinations(q) {
-      const n = normalizeText(q);
-      if (!n) return [];
+    function suggestDestinations(query) {
+      const q = normalizeText(query);
+      if (!q) return [];
 
-      const out = [];
+      const suggestions = [];
 
-      Object.values(DESTINATIONS).forEach((item) => {
-        if ((item.aliases || []).some((a) => normalizeText(a).includes(n))) {
-          out.push(item);
-        }
+      Object.entries(COUNTRIES).forEach(([key, data]) => {
+        (data.aliases || []).forEach((alias) => {
+          if (normalizeText(alias).includes(q)) {
+            suggestions.push({
+              key,
+              type: "country",
+              label: data.country.replace(/^[^\s]+\s/, ""),
+              value: alias
+            });
+          }
+        });
+
+        (data.cities || []).forEach((city) => {
+          if (normalizeText(city).includes(q)) {
+            suggestions.push({
+              key,
+              type: "city",
+              label: `${data.country.replace(/^[^\s]+\s/, "")} — ${city.toUpperCase()}`,
+              value: city
+            });
+          }
+        });
       });
 
       const seen = new Set();
 
-      return out
-        .filter((item) => {
-          const key = item.country + "|" + (item.displayLocation || "");
-          if (seen.has(key)) return false;
-          seen.add(key);
-          return true;
-        })
-        .slice(0, 8);
+      return suggestions.filter((item) => {
+        const id = `${item.key}|${item.value}`;
+        if (seen.has(id)) return false;
+        seen.add(id);
+        return true;
+      }).slice(0, 8);
     }
 
     function buildContacts(cards) {
-      return cards
-        .map(
-          (card) => `
-          <div class="contact-card">
-            <div class="contact-title">${card.name}</div>
-            <div class="contact-row"><strong>Endereço:</strong> ${card.address}</div>
-            <div class="contact-row"><strong>Telefone:</strong> ${card.phone}</div>
-            <div class="contact-row"><strong>E-mail:</strong> ${card.email}</div>
-            <div class="contact-row"><strong>Site:</strong> ${card.site}</div>
-          </div>
-        `
-        )
-        .join("");
+      return cards.map((card) => `
+        <div class="contact-card">
+          <div class="contact-title">${card.name}</div>
+          <div class="contact-row"><strong>Endereço:</strong> ${card.address}</div>
+          <div class="contact-row"><strong>Telefone:</strong> ${card.phone}</div>
+          <div class="contact-row"><strong>E-mail:</strong> ${card.email}</div>
+          <div class="contact-row"><strong>Site:</strong> ${card.site}</div>
+        </div>
+      `).join("");
     }
 
-    function buildResultCard(data) {
-      if (data.comingSoon) {
-        const heading = data.displayLocation
-          ? `${data.country} — ${data.displayLocation}`
-          : data.country;
+    function getUsSupport(matchedCity) {
+      const supportMap = COUNTRIES.us.apoioByCity;
+      const cityKey = normalizeText(matchedCity || "new york");
 
-        return `
-          <div class="result-shell">
-            <div class="result-header">
-              <h3 class="result-country">${heading}</h3>
-              <p class="result-subtitle">Destino já previsto na base da ferramenta.</p>
-            </div>
-
-            <div class="result-body">
-              <div class="info-block">
-                <h4 class="info-title">Em atualização</h4>
-                <p>Para não te entregar informação genérica ou incompleta, este destino ainda não foi preenchido nesta rodada.</p>
-                <div class="note-box">
-                  A estrutura da página já foi corrigida para abrir vazia e só exibir resultado após busca.
-                  O próximo preenchimento deve seguir o mesmo nível de detalhe aplicado em Estados Unidos:
-                  quem precisa, custo, documentos, postos no Brasil com endereço/telefone/e-mail/site e apoio no destino com distância quando necessário.
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
+      if (supportMap[cityKey]) {
+        return supportMap[cityKey];
       }
 
-      const heading = data.displayLocation
-        ? `${data.country} — ${data.displayLocation}`
+      return supportMap["new york"];
+    }
+
+    function buildDetailedUsCard(match) {
+      const data = match.countryData;
+      const rows = data.visto.rows.map(([label, value]) => `
+        <div class="kv">
+          <div class="kv-label">${label}</div>
+          <div class="kv-value">${value}</div>
+        </div>
+      `).join("");
+
+      const documentos = data.documentos.map((item) => `
+        <div class="line-item">• ${item}</div>
+      `).join("");
+
+      const vacinas = data.vacinas.map((item) => `
+        <div class="line-item">• ${item}</div>
+      `).join("");
+
+      const support = getUsSupport(match.matchedCity);
+      const apoioLines = support.lines.map((item) => `
+        <div class="line-item">• ${item}</div>
+      `).join("");
+
+      const heading = match.matchedType === "city"
+        ? `${data.country} — ${match.matchedCity.toUpperCase()}`
         : data.country;
-
-      const rows = data.visto.rows
-        .map(
-          ([l, v]) => `
-          <div class="kv">
-            <div class="kv-label">${l}</div>
-            <div class="kv-value">${v}</div>
-          </div>
-        `
-        )
-        .join("");
-
-      const documentos = data.documentos
-        .map((i) => `<div class="line-item">• ${i}</div>`)
-        .join("");
-
-      const vacinas = data.vacinas
-        .map((i) => `<div class="line-item">• ${i}</div>`)
-        .join("");
-
-      const apoioLines = data.apoio.lines
-        .map((i) => `<div class="line-item">• ${i}</div>`)
-        .join("");
 
       return `
         <div class="result-shell">
@@ -1089,18 +1249,18 @@
             </div>
 
             <div class="info-block">
-              <h4 class="info-title">${data.apoio.title}</h4>
+              <h4 class="info-title">${support.heading}</h4>
               <div class="list-lines">${apoioLines}</div>
 
               <div class="contact-card">
-                <div class="contact-title">${data.apoio.contact.type}</div>
-                <div class="contact-row"><strong>Endereço:</strong> ${data.apoio.contact.address}</div>
-                <div class="contact-row"><strong>Telefone:</strong> ${data.apoio.contact.phone}</div>
-                <div class="contact-row"><strong>E-mail:</strong> ${data.apoio.contact.email}</div>
-                <div class="contact-row"><strong>Site:</strong> ${data.apoio.contact.site}</div>
-                <div class="contact-row"><strong>Distância:</strong> ${data.apoio.contact.distance}</div>
-                <div class="contact-row"><strong>Tempo de carro:</strong> ${data.apoio.contact.driveTime}</div>
-                <div class="contact-row"><strong>Tempo de voo:</strong> ${data.apoio.contact.flightTime}</div>
+                <div class="contact-title">${support.contact.type}</div>
+                <div class="contact-row"><strong>Endereço:</strong> ${support.contact.address}</div>
+                <div class="contact-row"><strong>Telefone:</strong> ${support.contact.phone}</div>
+                <div class="contact-row"><strong>E-mail:</strong> ${support.contact.email}</div>
+                <div class="contact-row"><strong>Site:</strong> ${support.contact.site}</div>
+                <div class="contact-row"><strong>Distância:</strong> ${support.contact.distance}</div>
+                <div class="contact-row"><strong>Tempo de carro:</strong> ${support.contact.driveTime}</div>
+                <div class="contact-row"><strong>Tempo de voo:</strong> ${support.contact.flightTime}</div>
               </div>
             </div>
 
@@ -1121,6 +1281,45 @@
       `;
     }
 
+    function buildComingSoonCard(match) {
+      const data = match.countryData;
+      const heading = match.matchedType === "city"
+        ? `${data.country} — ${match.matchedCity.toUpperCase()}`
+        : data.country;
+
+      return `
+        <div class="result-shell">
+          <div class="result-header">
+            <h3 class="result-country">${heading}</h3>
+            <p class="result-subtitle">
+              Destino já previsto na base da ferramenta e reconhecido corretamente pela busca.
+            </p>
+          </div>
+
+          <div class="result-body">
+            <div class="info-block">
+              <h4 class="info-title">Em atualização</h4>
+              <p>
+                Este destino já foi cadastrado com país + cidades para a lógica de busca funcionar direito.
+              </p>
+              <div class="note-box">
+                O próximo preenchimento deste bloco seguirá o mesmo padrão do destino Estados Unidos:
+                informação prática, sem texto genérico, incluindo visto, documentos, postos no Brasil e apoio no destino com distância quando necessário.
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function buildResultCard(match) {
+      if (match.key === "us" && match.countryData.detailed) {
+        return buildDetailedUsCard(match);
+      }
+
+      return buildComingSoonCard(match);
+    }
+
     function renderSuggestions(list) {
       if (!list.length) {
         return `
@@ -1130,21 +1329,11 @@
         `;
       }
 
-      const chips = list
-        .map((item) => {
-          const label = item.displayLocation
-            ? `${item.country.replace(/^[^\s]+\s/, "")} — ${item.displayLocation}`
-            : item.country.replace(/^[^\s]+\s/, "");
-
-          const value = item.aliases && item.aliases[0] ? item.aliases[0] : "";
-
-          return `
-            <button class="match-chip" onclick="selectSuggestion('${String(value).replace(/'/g, "\\'")}')">
-              ${label}
-            </button>
-          `;
-        })
-        .join("");
+      const chips = list.map((item) => `
+        <button class="match-chip" onclick="selectSuggestion('${String(item.value).replace(/'/g, "\\'")}')">
+          ${item.label}
+        </button>
+      `).join("");
 
       return `
         <div class="empty-state">
@@ -1173,10 +1362,10 @@
         return;
       }
 
-      const exact = findDestination(value);
+      const match = resolveDestination(value);
 
-      if (exact) {
-        area.innerHTML = buildResultCard(exact);
+      if (match) {
+        area.innerHTML = buildResultCard(match);
         return;
       }
 
