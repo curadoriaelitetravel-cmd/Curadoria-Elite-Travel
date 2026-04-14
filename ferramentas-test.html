@@ -523,6 +523,27 @@
       line-height: 1.7;
     }
 
+    .status-box {
+      margin-top: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 14px;
+      background: rgba(14, 14, 14, 0.88);
+    }
+
+    .status-title {
+      color: #d4af37;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .status-text {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 13.8px;
+      line-height: 1.8;
+    }
+
     .empty-state {
       text-align: center;
       color: rgba(255, 255, 255, 0.68);
@@ -558,27 +579,6 @@
     .match-chip:hover {
       transform: translateY(-1px);
       border-color: rgba(212, 175, 55, 0.45);
-    }
-
-    .status-box {
-      margin-top: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 14px;
-      padding: 14px;
-      background: rgba(14, 14, 14, 0.88);
-    }
-
-    .status-box .status-title {
-      color: #d4af37;
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .status-box .status-text {
-      color: rgba(255, 255, 255, 0.82);
-      font-size: 13.8px;
-      line-height: 1.8;
     }
 
     footer {
@@ -784,74 +784,796 @@
       lastReviewPlaceholder: "Controle automático a cada 15 dias"
     };
 
-    const COUNTRIES = window.COUNTRIES || {};
     const ETIAS_RELEVANT_KEYS = ["fr", "es", "it", "pt", "nl", "cz", "de"];
 
-    function normalizeText(v) {
-      return String(v || "")
-        .trim()
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[—–−]/g, "-")
-        .replace(/\s+/g, " ");
-    }
+    const COUNTRIES = {
+      us: {
+        country: "🇺🇸 ESTADOS UNIDOS",
+        aliases: ["estados unidos", "eua", "usa", "united states", "america", "américa"],
+        cities: ["new york", "nova york", "orlando", "miami", "boston", "los angeles", "las vegas", "san francisco", "washington dc", "washington"],
+        detailed: true,
+        visaLabel: "🛂 Visto",
+        visto: {
+          intro: "Brasileiros precisam de visto de turismo para lazer nos Estados Unidos. Isso vale para adultos e também para crianças.",
+          where: "Embaixada e consulados oficiais dos Estados Unidos no Brasil.",
+          rows: [
+            ["Quem precisa", "Adultos e crianças precisam de visto próprio."],
+            ["Tipo mais comum", "B1/B2 para turismo e negócios de curta duração."],
+            ["Valor", "US$ 185 (aproximadamente entre R$ 900 e R$ 1.100, conforme câmbio do período)."],
+            ["Entrevista", "Em regra, sim. A exigência geral de entrevista presencial voltou a alcançar inclusive menores de 14 anos e maiores de 79, salvo exceções específicas."],
+            ["Duração média da entrevista", "Em muitos casos, poucos minutos de atendimento direto."],
+            ["Quanto tempo antes se movimentar", "O mais seguro é iniciar com pelo menos 2 a 3 meses de antecedência."],
+            ["Prazo do processo", "Como referência operacional, considerar algo entre 2 e 8 semanas do início até a conclusão."],
+            ["Agendamento", "A agenda varia por posto e momento. Para planejamento, tratar como janela de semanas, não de dias."]
+          ]
+        },
+        documentos: [
+          "Passaporte brasileiro válido.",
+          "Formulário DS-160 preenchido corretamente.",
+          "Comprovante de pagamento da taxa consular.",
+          "Confirmação do agendamento da entrevista, quando aplicável.",
+          "Documentos de suporte que demonstrem objetivo da viagem, capacidade financeira e vínculos com o Brasil."
+        ],
+        brasil: [
+          {
+            name: "🇺🇸 Embaixada dos Estados Unidos no Brasil",
+            address: "SES, Av. das Nações, Quadra 801, Lote 3, Brasília/DF, CEP 70403-900",
+            phone: "+55 (61) 3312-7000",
+            email: "Use o formulário oficial da missão dos EUA no Brasil",
+            site: "https://br.usembassy.gov/pt/u-s-embassy-in-brasilia-pt/"
+          },
+          {
+            name: "🇺🇸 Consulado-Geral dos Estados Unidos em São Paulo",
+            address: "Rua Henri Dunant, 500, Chácara Santo Antônio, São Paulo/SP, CEP 04709-110",
+            phone: "+55 (11) 3230-5000",
+            email: "Use o formulário oficial da missão dos EUA no Brasil",
+            site: "https://br.usembassy.gov/pt/embassy-consulates-pt/saopaulo-pt/"
+          },
+          {
+            name: "🇺🇸 Consulado-Geral dos Estados Unidos no Rio de Janeiro",
+            address: "Av. Presidente Wilson, 147, Castelo, Rio de Janeiro/RJ, CEP 20030-020",
+            phone: "+55 (21) 3823-2000",
+            email: "Use o formulário oficial da missão dos EUA no Brasil",
+            site: "https://br.usembassy.gov/pt/embassy-consulates-pt/riodejaneiro-pt/"
+          },
+          {
+            name: "🇺🇸 Consulado-Geral dos Estados Unidos em Recife",
+            address: "Rua Gonçalves Maia, 163, Boa Vista, Recife/PE, CEP 50070-060",
+            phone: "+55 (81) 4042-0050",
+            email: "Use o formulário oficial da missão dos EUA no Brasil",
+            site: "https://br.usembassy.gov/pt/embassy-consulates-pt/recife-pt/"
+          },
+          {
+            name: "🇺🇸 Consulado-Geral dos Estados Unidos em Porto Alegre",
+            address: "Av. Assis Brasil, 1889, Porto Alegre/RS, CEP 91010-007",
+            phone: "+55 (51) 3500-1460",
+            email: "Use o formulário oficial da missão dos EUA no Brasil",
+            site: "https://br.usembassy.gov/pt/embassy-consulates-pt/portoalegre-pt/"
+          }
+        ],
+        supportByCity: {
+          "new york": {
+            heading: "📍 Apoio no destino — New York",
+            lines: ["Há representação brasileira em New York para apoio consular ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Nova York",
+              address: "225 East 41st Street, New York, NY 10017, Estados Unidos",
+              phone: "+1 (917) 777-7777",
+              email: "cg.novayork@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-nova-york",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "orlando": {
+            heading: "📍 Apoio no destino — Orlando",
+            lines: [
+              "Não há consulado brasileiro na cidade de Orlando.",
+              "A representação brasileira mais próxima para essa busca fica em Miami."
+            ],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Miami",
+              address: "3150 SW 38th Avenue, Miami, FL 33146, Estados Unidos",
+              phone: "+1 (305) 285-6200",
+              email: "cg.miami@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-miami",
+              distance: "aprox. 380 km",
+              driveTime: "aprox. 3h45 de carro",
+              flightTime: "aprox. 1h de voo"
+            }
+          },
+          "miami": {
+            heading: "📍 Apoio no destino — Miami",
+            lines: ["Há representação brasileira em Miami para apoio consular ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Miami",
+              address: "3150 SW 38th Avenue, Miami, FL 33146, Estados Unidos",
+              phone: "+1 (305) 285-6200",
+              email: "cg.miami@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-miami",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "boston": {
+            heading: "📍 Apoio no destino — Boston",
+            lines: ["Há representação brasileira em Boston para apoio consular ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Boston",
+              address: "175 Purchase Street, Boston, MA 02110, Estados Unidos",
+              phone: "+1 (617) 542-4000",
+              email: "cg.boston@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-boston",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "los angeles": {
+            heading: "📍 Apoio no destino — Los Angeles",
+            lines: ["Há representação brasileira em Los Angeles para apoio consular ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Los Angeles",
+              address: "8484 Wilshire Blvd, Suite 300, Beverly Hills, CA 90211, Estados Unidos",
+              phone: "+1 (323) 651-2664",
+              email: "cg.losangeles@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-los-angeles",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "san francisco": {
+            heading: "📍 Apoio no destino — San Francisco",
+            lines: ["Há representação brasileira em San Francisco para apoio consular ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em São Francisco",
+              address: "300 Montgomery Street, Suite 300, San Francisco, CA 94104, Estados Unidos",
+              phone: "+1 (415) 981-8170",
+              email: "cg.saofrancisco@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-sao-francisco",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "las vegas": {
+            heading: "📍 Apoio no destino — Las Vegas",
+            lines: [
+              "Não há consulado brasileiro em Las Vegas.",
+              "A representação brasileira mais próxima para essa busca fica em Los Angeles."
+            ],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Los Angeles",
+              address: "8484 Wilshire Blvd, Suite 300, Beverly Hills, CA 90211, Estados Unidos",
+              phone: "+1 (323) 651-2664",
+              email: "cg.losangeles@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-los-angeles",
+              distance: "aprox. 435 km",
+              driveTime: "aprox. 4h20 de carro",
+              flightTime: "aprox. 1h15 de voo"
+            }
+          },
+          "washington dc": {
+            heading: "📍 Apoio no destino — Washington DC",
+            lines: ["Há embaixada do Brasil em Washington para apoio ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Embaixada do Brasil em Washington",
+              address: "3006 Massachusetts Ave NW, Washington, DC 20008, Estados Unidos",
+              phone: "+1 (202) 238-2700",
+              email: "brasemb.washington@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/embaixada-washington",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          }
+        },
+        vacinas: [
+          "Não existe, para turismo regular direto ao destino, uma vacina universal obrigatória específica para todos os viajantes vindos do Brasil.",
+          "Atenção maior costuma surgir em cenários com histórico recente de viagem para áreas com febre amarela ou regras sanitárias temporárias.",
+          "Se houver exigência vinculada à febre amarela, o comprovante normalmente envolve o Certificado Internacional de Vacinação e Profilaxia (CIVP).",
+          "Para segurança prática do viajante, vale manter vacinas de rotina atualizadas e observar a antecedência de 10 dias para febre amarela quando ela for necessária."
+        ],
+        important: "Este bloco foi montado para que o usuário já encontre o básico útil dentro do seu site, sem resposta vaga. O aprofundamento pode existir depois, mas a base operacional já precisa estar aqui."
+      },
 
-    function toggleMobileNav() {
-      const header = document.getElementById("siteHeader");
-      if (header) {
-        header.classList.toggle("nav-open");
+      fr: {
+        country: "🇫🇷 FRANÇA",
+        aliases: ["franca", "frança"],
+        cities: ["paris", "nice", "lyon"],
+        detailed: true,
+        visaLabel: "🛂 Entrada para turismo",
+        visto: {
+          intro: "Brasileiros em viagem de turismo de até 90 dias não precisam de visto prévio para a França.",
+          where: "Como o turismo de até 90 dias não exige visto prévio, não há etapa consular de entrevista para esse caso.",
+          rows: [
+            ["Quem precisa", "Para turismo de até 90 dias, brasileiros não precisam de visto prévio."],
+            ["Criança precisa", "Não. Crianças brasileiras também entram sem visto prévio nesse cenário de turismo curto."],
+            ["Tipo aplicável", "Regra de entrada de curta permanência no espaço Schengen, até 90 dias em 180 dias."],
+            ["Valor", "R$ 0 em taxa de visto para turismo de até 90 dias, porque não há solicitação consular prévia."],
+            ["Entrevista", "Não há entrevista consular para turismo de até 90 dias sem visto prévio."],
+            ["Antecedência recomendada", "Organizar a documentação da viagem pelo menos 30 dias antes do embarque."],
+            ["Prazo", "Não há prazo consular de visto para esse cenário; o foco é estar com a documentação correta no embarque e na imigração."],
+            ["Agendamento", "Não se aplica para turismo de até 90 dias."]
+          ]
+        },
+        europeEntry: {
+          intro: "Aqui o ponto principal não é tirar um visto Schengen, e sim entender a regra de entrada para turismo curto.",
+          whatIs: "Schengen é a área europeia de livre circulação entre países participantes, com controle migratório concentrado no primeiro ponto de entrada.",
+          whatIsNot: "Schengen não é um documento para tirar e não é um visto separado para o brasileiro em turismo curto.",
+          stayRule: "Até 90 dias dentro de um período de 180 dias.",
+          borderRule: "A entrada é analisada no primeiro país europeu de chegada dentro da área Schengen.",
+          docs: [
+            "Passaporte válido durante a viagem.",
+            "Comprovante de hospedagem ou carta-convite, quando aplicável.",
+            "Passagem de saída da Europa ou continuação da viagem.",
+            "Comprovação de meios financeiros.",
+            "Seguro viagem com cobertura adequada para o espaço Schengen."
+          ]
+        },
+        etias: {
+          intro: "O ETIAS será uma autorização eletrônica de viagem para entradas de curta permanência quando entrar em vigor.",
+          whatIs: "Não é visto. É uma autorização eletrônica prévia de viagem.",
+          whenApplies: "Quando estiver vigente, será exigido antes do embarque para viajantes de países isentos de visto, como o Brasil.",
+          fee: "Valor previsto em euros quando o sistema estiver ativo.",
+          timing: "A expectativa é de resposta rápida em muitos casos, mas isso dependerá do sistema quando entrar em vigor.",
+          printing: "A tendência é associação eletrônica ao passaporte, mas o ideal continuará sendo viajar com comprovantes organizados.",
+          docs: [
+            "Passaporte válido.",
+            "Dados pessoais e formulário eletrônico preenchido.",
+            "Endereço de e-mail válido.",
+            "Pagamento da taxa aplicável, quando o sistema estiver em vigor."
+          ]
+        },
+        documentos: [
+          "Passaporte válido para toda a viagem.",
+          "Comprovante de hospedagem ou carta-convite, quando aplicável.",
+          "Passagem de saída do espaço Schengen.",
+          "Comprovação de meios financeiros para a permanência.",
+          "Seguro viagem para a cobertura exigida no espaço Schengen."
+        ],
+        brasil: [
+          {
+            name: "🇫🇷 Embaixada da França em Brasília",
+            address: "SES Avenida das Nações, Quadra 801, Lote 4, Brasília/DF, CEP 70404-900",
+            phone: "+55 (61) 3222-3999",
+            email: "consulat.brasilia-amba@diplomatie.gouv.fr",
+            site: "http://www.ambafrance-br.org/"
+          },
+          {
+            name: "🇫🇷 Consulado-Geral da França em São Paulo",
+            address: "Av. Paulista, 1842, 14º andar, São Paulo/SP, CEP 01310-923",
+            phone: "+55 (11) 3371-5400",
+            email: "contact.sao-paulo-fslt@diplomatie.gouv.fr",
+            site: "https://saopaulo.consulfrance.org/"
+          },
+          {
+            name: "🇫🇷 Consulado-Geral da França no Rio de Janeiro",
+            address: "Av. Presidente Antônio Carlos, 58, Centro, Rio de Janeiro/RJ, CEP 20020-010",
+            phone: "+55 (21) 3974-6699",
+            email: "francais.rio-de-janeiro-fslt@diplomatie.gouv.fr",
+            site: "https://riodejaneiro.consulfrance.org/"
+          },
+          {
+            name: "🇫🇷 Consulado-Geral da França em Recife",
+            address: "Rua Prof. Aloísio Pessoa de Araújo, 75, Boa Viagem Corporate, 10º andar, Recife/PE, CEP 51021-410",
+            phone: "+55 (81) 3117-3290",
+            email: "admin-francais.recife-fslt@diplomatie.gouv.fr",
+            site: "https://recife.consulfrance.org/"
+          }
+        ],
+        supportByCity: {
+          "paris": {
+            heading: "📍 Apoio no destino — Paris",
+            lines: ["Há representação brasileira em Paris para apoio consular ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Paris",
+              address: "65, Avenue Franklin Delano Roosevelt, 75008 Paris, França",
+              phone: "+33 1 45 61 63 00",
+              email: "cg.paris@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-paris",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "nice": {
+            heading: "📍 Apoio no destino — Nice",
+            lines: [
+              "Há apoio brasileiro em Nice por meio de consulado honorário subordinado ao Consulado-Geral em Marselha."
+            ],
+            contact: {
+              type: "🇧🇷 Consulado Honorário do Brasil em Nice",
+              address: "12, rue Mozart, 06000 Nice, França",
+              phone: "+33 6 84 10 18 67",
+              email: "consulado.honorario.br.nice@gmail.com",
+              site: "https://www.gov.br/mre/pt-br/consulado-marselha/o-consulado-geral-1/consulados-honorarios/consulado-honorario-em-nice/consulado-honorario-em-nice",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "lyon": {
+            heading: "📍 Apoio no destino — Lyon",
+            lines: [
+              "Há apoio brasileiro em Lyon por meio de consulado honorário subordinado ao Consulado-Geral em Marselha."
+            ],
+            contact: {
+              type: "🇧🇷 Consulado Honorário do Brasil em Lyon",
+              address: "63, avenue Maréchal de Saxe, 69003 Lyon, França",
+              phone: "+33 4 72 60 55 68",
+              email: "bresil@consulat-lyon.fr",
+              site: "https://www.gov.br/mre/pt-br/consulado-marselha/o-consulado-geral-1/consulados-honorarios/consulado-honorario-em-lyon/consulado-honorario-em-lyon",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          }
+        },
+        vacinas: [
+          "Não há vacina obrigatória específica para turismo regular vindo do Brasil em cenário normal de entrada.",
+          "Seguro viagem continua sendo um item importante para o planejamento prático.",
+          "Se houver exigência sanitária extraordinária, ela deve ser tratada como exceção do período da viagem."
+        ],
+        important: "Neste caso, a utilidade prática está menos em visto e mais em documentação de entrada, seguro e apoio no destino."
+      },
+
+      es: {
+        country: "🇪🇸 ESPANHA",
+        aliases: ["espanha"],
+        cities: ["madrid", "barcelona"],
+        detailed: true,
+        visaLabel: "🛂 Entrada para turismo",
+        visto: {
+          intro: "Brasileiros em turismo de até 90 dias não precisam de visto prévio para entrar na Espanha.",
+          where: "Como o turismo de até 90 dias não exige visto prévio, não há entrevista consular para esse caso.",
+          rows: [
+            ["Quem precisa", "Para turismo de até 90 dias, brasileiros não precisam de visto prévio."],
+            ["Criança precisa", "Não. Crianças brasileiras também entram sem visto prévio nesse cenário de turismo curto."],
+            ["Tipo aplicável", "Regra de entrada de curta permanência no espaço Schengen, até 90 dias em 180 dias."],
+            ["Valor", "R$ 0 em taxa de visto para turismo de até 90 dias, porque não há solicitação consular prévia."],
+            ["Entrevista", "Não há entrevista consular para turismo de até 90 dias sem visto prévio."],
+            ["Antecedência recomendada", "Organizar a documentação e o seguro viagem pelo menos 30 dias antes do embarque."],
+            ["Prazo", "Não há prazo consular de visto para esse cenário; o foco é documentação correta para o embarque e a imigração."],
+            ["Agendamento", "Não se aplica para turismo de até 90 dias."]
+          ]
+        },
+        europeEntry: {
+          intro: "Aqui o foco não é tirar um documento Schengen, mas entrar corretamente na Europa para uma viagem curta.",
+          whatIs: "Schengen é a regra de circulação entre países europeus participantes, com controle concentrado no primeiro país de entrada.",
+          whatIsNot: "Não existe 'documento Schengen' para o brasileiro tirar neste cenário de turismo curto.",
+          stayRule: "Até 90 dias dentro de um período de 180 dias.",
+          borderRule: "A imigração é analisada no primeiro país de entrada da área Schengen.",
+          docs: [
+            "Passaporte válido.",
+            "Comprovante de hospedagem ou carta-convite, quando aplicável.",
+            "Passagem de saída da Europa ou continuação da viagem.",
+            "Comprovação de meios financeiros.",
+            "Seguro viagem adequado para o espaço Schengen."
+          ]
+        },
+        etias: {
+          intro: "O ETIAS será a autorização eletrônica de viagem para entradas curtas quando entrar em vigor.",
+          whatIs: "Autorização eletrônica prévia de viagem, e não visto consular.",
+          whenApplies: "Passará a importar quando o sistema estiver em vigor para viajantes de países isentos de visto, como o Brasil.",
+          fee: "Valor previsto em euros quando o sistema entrar em vigor.",
+          timing: "A lógica esperada é de processamento rápido na maior parte dos casos.",
+          printing: "A associação tende a ser eletrônica ao passaporte, mas o ideal seguirá sendo viajar com comprovantes organizados.",
+          docs: [
+            "Passaporte válido.",
+            "Formulário eletrônico preenchido.",
+            "E-mail válido.",
+            "Pagamento da taxa prevista, quando aplicável."
+          ]
+        },
+        documentos: [
+          "Passaporte válido.",
+          "Comprovante de hospedagem ou carta-convite, quando aplicável.",
+          "Passagem de saída do espaço Schengen.",
+          "Comprovação de meios econômicos para a permanência.",
+          "Seguro viagem para cobertura exigida no espaço Schengen."
+        ],
+        brasil: [
+          {
+            name: "🇪🇸 Embaixada da Espanha em Brasília",
+            address: "SES Avenida das Nações, Quadra 811, Lote 44, Brasília/DF, CEP 70429-900",
+            phone: "+55 (61) 3701-1640",
+            email: "emb.brasilia@maec.es",
+            site: "http://www.exteriores.gob.es/Embajadas/BRASILIA/pt/Pages/inicio.aspx"
+          },
+          {
+            name: "🇪🇸 Consulado-Geral da Espanha no Rio de Janeiro",
+            address: "Rua Lauro Müller, 116, Salas 1601/1602/1608, Torre Rio Sul, Botafogo, Rio de Janeiro/RJ, CEP 22290-160",
+            phone: "+55 (21) 2543-3200",
+            email: "cog.riodejaneiro@maec.es",
+            site: "http://www.exteriores.gob.es/Consulados/RIODEJANEIRO/es/Paginas/inicio.aspx"
+          },
+          {
+            name: "🇪🇸 Consulado-Geral da Espanha em Porto Alegre",
+            address: "Av. Carlos Gomes, 222, Conj. 301, Auxiliadora, Porto Alegre/RS, CEP 90480-000",
+            phone: "+55 (51) 3321-1901",
+            email: "cog.portoalegre@maec.es",
+            site: "http://www.exteriores.gob.es/Consulados/PORTOALEGRE/pt/Pages/inicio.aspx"
+          }
+        ],
+        supportByCity: {
+          "madrid": {
+            heading: "📍 Apoio no destino — Madrid",
+            lines: ["Há representação brasileira em Madrid para apoio consular ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Madri",
+              address: "Calle de Goya, 5-7, Pasaje Comercial, 2ª entreplanta, 28001 Madrid, Espanha",
+              phone: "+34 917 021 220",
+              email: "assistencia.cgmadri@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-madri",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "barcelona": {
+            heading: "📍 Apoio no destino — Barcelona",
+            lines: ["Há representação brasileira em Barcelona para apoio consular ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Barcelona",
+              address: "Avenida Diagonal, 468, 2º, 08006 Barcelona, Espanha",
+              phone: "+34 934 882 288",
+              email: "assist.barcelona@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-barcelona",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          }
+        },
+        vacinas: [
+          "Não há vacina obrigatória específica para turismo regular vindo do Brasil em cenário normal de entrada.",
+          "Seguro viagem continua sendo um ponto central do planejamento.",
+          "Em caso de emergência consular, Madrid e Barcelona mantêm canais próprios de atendimento."
+        ],
+        important: "Aqui o foco principal para o viajante é ter documentação de entrada e meios de comprovação organizados."
+      },
+
+      uk: {
+        country: "🇬🇧 REINO UNIDO",
+        aliases: ["reino unido", "uk", "inglaterra"],
+        cities: ["londres", "london", "manchester"],
+        detailed: true,
+        visaLabel: "🛂 Autorização de entrada",
+        visto: {
+          intro: "Para turismo, brasileiros normalmente precisam de ETA para viajar ao Reino Unido, e não de visto tradicional.",
+          where: "A ETA é solicitada online, sem entrevista consular para a maioria dos casos.",
+          rows: [
+            ["Quem precisa", "Cada viajante precisa da própria ETA, inclusive bebês e crianças."],
+            ["Tipo aplicável", "ETA — autorização eletrônica de viagem."],
+            ["Valor", "£20 (valor oficial da ETA)."],
+            ["Entrevista", "Não há entrevista consular no processo normal de ETA."],
+            ["Prazo", "A decisão costuma sair em até 3 dias úteis, muitas vezes antes."],
+            ["Antecedência recomendada", "Solicitar com pelo menos 3 dias úteis de antecedência; para viajar com margem, o ideal é organizar 2 semanas antes."],
+            ["Duração da permissão", "Permite viagens ao Reino Unido para estadias de até 6 meses por visita, conforme a regra aplicável."],
+            ["Agendamento", "Não se aplica, porque o pedido é eletrônico."]
+          ]
+        },
+        documentos: [
+          "Passaporte válido usado no próprio pedido da ETA.",
+          "Autorização ETA aprovada antes do embarque.",
+          "Comprovação do objetivo da viagem, quando solicitada no controle de fronteira.",
+          "Comprovantes de hospedagem, retorno e meios financeiros, quando necessários."
+        ],
+        brasil: [
+          {
+            name: "🇬🇧 Embaixada do Reino Unido em Brasília",
+            address: "SES Avenida das Nações, Quadra 801, Conjunto K, Lote 8, Brasília/DF, CEP 70408-900",
+            phone: "+55 (61) 3329-2300",
+            email: "press.brasilia@fco.gov.uk",
+            site: "https://www.gov.uk/world/brazil"
+          },
+          {
+            name: "🇬🇧 Consulado-Geral do Reino Unido em São Paulo",
+            address: "Rua Ferreira de Araújo, 741, 2º andar, Pinheiros, São Paulo/SP",
+            phone: "+55 (11) 3094-2700",
+            email: "bcg.sp@fcdo.gov.uk",
+            site: "https://www.gov.uk/world/organisations/british-consulate-general-sao-paulo"
+          },
+          {
+            name: "🇬🇧 Consulado-Geral do Reino Unido no Rio de Janeiro",
+            address: "Praia do Flamengo, 284, 2º andar, Flamengo, Rio de Janeiro/RJ, CEP 22210-065",
+            phone: "+55 (21) 3329-2300",
+            email: "bcg.rj@fco.gov.uk",
+            site: "https://www.gov.uk/world/organisations/british-consulate-general-rio-de-janeiro"
+          },
+          {
+            name: "🇬🇧 Consulado-Geral do Reino Unido em Recife",
+            address: "Av. Agamenon Magalhães, 4775, 8º andar, Ed. Empresarial Thomas Edison, Recife/PE, CEP 50070-160",
+            phone: "+55 (81) 3094-2700",
+            email: "bcg.recife@fcdo.gov.uk",
+            site: "https://www.gov.uk/world/organisations/british-consulate-general-recife"
+          }
+        ],
+        supportByCity: {
+          "londres": {
+            heading: "📍 Apoio no destino — Londres",
+            lines: ["Há representação brasileira em Londres para apoio consular ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Londres",
+              address: "3 Vere Street, London, W1G 0DG, Reino Unido",
+              phone: "+44 20 7747 4500",
+              email: "cg.londres@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-londres",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "london": {
+            heading: "📍 Apoio no destino — Londres",
+            lines: ["Há representação brasileira em Londres para apoio consular ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Londres",
+              address: "3 Vere Street, London, W1G 0DG, Reino Unido",
+              phone: "+44 20 7747 4500",
+              email: "cg.londres@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-londres",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "manchester": {
+            heading: "📍 Apoio no destino — Manchester",
+            lines: [
+              "Não há consulado-geral brasileiro permanente em Manchester.",
+              "Para apoio consular regular, a referência principal é o Consulado-Geral do Brasil em Londres."
+            ],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Londres",
+              address: "3 Vere Street, London, W1G 0DG, Reino Unido",
+              phone: "+44 20 7747 4500",
+              email: "assist.cglondres@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-londres",
+              distance: "aprox. 335 km",
+              driveTime: "aprox. 4h00 de carro",
+              flightTime: "aprox. 1h de voo"
+            }
+          }
+        },
+        vacinas: [
+          "Não há vacina obrigatória específica para turismo regular vindo do Brasil em cenário normal de entrada.",
+          "O ponto central aqui é a ETA aprovada antes do embarque.",
+          "Como regra prática, viajar com passaporte válido e ETA já emitida é o básico indispensável."
+        ],
+        important: "Neste destino, a lógica muda: o viajante não está tratando de visto tradicional de turismo, mas de autorização eletrônica de viagem."
+      },
+
+      it: {
+        country: "🇮🇹 ITÁLIA",
+        aliases: ["italia", "itália"],
+        cities: ["roma", "milan", "milao", "milão", "florenca", "florença", "florence"],
+        detailed: true,
+        visaLabel: "🛂 Entrada para turismo",
+        visto: {
+          intro: "Brasileiros em turismo de até 90 dias não precisam de visto prévio para entrar na Itália.",
+          where: "Como o turismo de até 90 dias não exige visto prévio, não há entrevista consular para esse caso.",
+          rows: [
+            ["Quem precisa", "Para turismo de até 90 dias, brasileiros não precisam de visto prévio."],
+            ["Criança precisa", "Não. Crianças brasileiras também entram sem visto prévio nesse cenário de turismo curto."],
+            ["Tipo aplicável", "Regra de entrada de curta permanência no espaço Schengen, até 90 dias em 180 dias."],
+            ["Valor", "R$ 0 em taxa de visto para turismo de até 90 dias, porque não há solicitação consular prévia."],
+            ["Entrevista", "Não há entrevista consular para turismo de até 90 dias sem visto prévio."],
+            ["Antecedência recomendada", "Organizar a documentação e o seguro viagem pelo menos 30 dias antes do embarque."],
+            ["Prazo", "Não há prazo consular de visto para esse cenário; o foco é documentação correta para o embarque e a imigração."],
+            ["Agendamento", "Não se aplica para turismo de até 90 dias."]
+          ]
+        },
+        europeEntry: {
+          intro: "Na Itália, o ponto central para turismo curto é a regra de entrada Schengen, não um visto Schengen separado.",
+          whatIs: "Schengen é a regra de livre circulação e controle concentrado no primeiro ponto de entrada da área europeia participante.",
+          whatIsNot: "Não existe documento Schengen para o brasileiro tirar neste cenário de turismo curto.",
+          stayRule: "Até 90 dias dentro de um período de 180 dias.",
+          borderRule: "A análise migratória é feita no primeiro país Schengen de entrada.",
+          docs: [
+            "Passaporte válido.",
+            "Passagem de saída da Europa ou continuação da viagem.",
+            "Comprovante de hospedagem ou carta-convite, quando aplicável.",
+            "Comprovação de meios financeiros.",
+            "Seguro viagem válido para o espaço Schengen."
+          ]
+        },
+        etias: {
+          intro: "O ETIAS será a autorização eletrônica de viagem aplicável às entradas curtas quando entrar em vigor.",
+          whatIs: "Autorização eletrônica prévia de viagem, e não visto consular.",
+          whenApplies: "Passará a importar quando estiver vigente para viajantes de países isentos de visto, como o Brasil.",
+          fee: "Valor previsto em euros quando o sistema entrar em vigor.",
+          timing: "A lógica esperada é de processamento rápido na maior parte dos casos.",
+          printing: "A associação tende a ser eletrônica ao passaporte, mas o ideal seguirá sendo viajar com comprovantes organizados.",
+          docs: [
+            "Passaporte válido.",
+            "Formulário eletrônico preenchido.",
+            "E-mail válido.",
+            "Pagamento da taxa prevista, quando aplicável."
+          ]
+        },
+        documentos: [
+          "Passaporte válido.",
+          "Passagem de saída do espaço Schengen.",
+          "Comprovante de hospedagem ou carta-convite, quando aplicável.",
+          "Comprovação de meios financeiros.",
+          "Seguro viagem válido para o espaço Schengen."
+        ],
+        brasil: [
+          {
+            name: "🇮🇹 Embaixada da Itália em Brasília",
+            address: "SES Avenida das Nações, Quadra 807, Lote 30, Brasília/DF, CEP 70420-900",
+            phone: "+55 (61) 3442-9900",
+            email: "ambasciata.brasilia@esteri.it",
+            site: "https://ambbrasilia.esteri.it/"
+          },
+          {
+            name: "🇮🇹 Consulado-Geral da Itália em São Paulo",
+            address: "Av. Paulista, 1963, Bela Vista, São Paulo/SP, CEP 01311-300",
+            phone: "+55 (11) 3549-5656",
+            email: "segreteria.sanpaolo@esteri.it",
+            site: "https://conssanpaolo.esteri.it/"
+          },
+          {
+            name: "🇮🇹 Consulado-Geral da Itália no Rio de Janeiro",
+            address: "Av. Presidente Antônio Carlos, 40, Centro, Rio de Janeiro/RJ, CEP 20020-010",
+            phone: "+55 (21) 3534-1315",
+            email: "segreteria.riodejaneiro@esteri.it",
+            site: "https://consriodejaneiro.esteri.it/"
+          },
+          {
+            name: "🇮🇹 Consulado da Itália em Recife",
+            address: "Rua Padre Carapuceiro, 706, 13º andar, Boa Viagem, Recife/PE, CEP 51020-280",
+            phone: "+55 (81) 3035-4700",
+            email: "consolato.recife@esteri.it",
+            site: "https://consrecife.esteri.it/"
+          }
+        ],
+        supportByCity: {
+          "roma": {
+            heading: "📍 Apoio no destino — Roma",
+            lines: ["Há representação brasileira em Roma para apoio consular ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Roma",
+              address: "Piazza di Pasquino, 8, 00186 Roma, Itália",
+              phone: "+39 06 6889661",
+              email: "consular.roma@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-roma",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "milan": {
+            heading: "📍 Apoio no destino — Milão",
+            lines: ["Há representação brasileira em Milão para apoio consular ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Milão",
+              address: "Corso Europa, 12, 20122 Milano, Itália",
+              phone: "+39 02 777 107 1",
+              email: "consular.milao@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-milao",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "milao": {
+            heading: "📍 Apoio no destino — Milão",
+            lines: ["Há representação brasileira em Milão para apoio consular ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Milão",
+              address: "Corso Europa, 12, 20122 Milano, Itália",
+              phone: "+39 02 777 107 1",
+              email: "consular.milao@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-milao",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "milão": {
+            heading: "📍 Apoio no destino — Milão",
+            lines: ["Há representação brasileira em Milão para apoio consular ao viajante brasileiro."],
+            contact: {
+              type: "🇧🇷 Consulado-Geral do Brasil em Milão",
+              address: "Corso Europa, 12, 20122 Milano, Itália",
+              phone: "+39 02 777 107 1",
+              email: "consular.milao@itamaraty.gov.br",
+              site: "https://www.gov.br/mre/pt-br/consulado-milao",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "florenca": {
+            heading: "📍 Apoio no destino — Florença",
+            lines: [
+              "Há apoio brasileiro em Florença por meio de consulado honorário subordinado à rede consular brasileira na Itália."
+            ],
+            contact: {
+              type: "🇧🇷 Consulado Honorário do Brasil em Florença",
+              address: "Lungarno Amerigo Vespucci, 18, 50123 Florença, Itália",
+              phone: "+39 055 290948",
+              email: "conbrafi@email.it",
+              site: "http://www.consolatobrasilefirenze.it",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          },
+          "florença": {
+            heading: "📍 Apoio no destino — Florença",
+            lines: [
+              "Há apoio brasileiro em Florença por meio de consulado honorário subordinado à rede consular brasileira na Itália."
+            ],
+            contact: {
+              type: "🇧🇷 Consulado Honorário do Brasil em Florença",
+              address: "Lungarno Amerigo Vespucci, 18, 50123 Florença, Itália",
+              phone: "+39 055 290948",
+              email: "conbrafi@email.it",
+              site: "http://www.consolatobrasilefirenze.it",
+              distance: "0 km",
+              driveTime: "Não se aplica",
+              flightTime: "Não se aplica"
+            }
+          }
+        },
+        vacinas: [
+          "Não há vacina obrigatória específica para turismo regular vindo do Brasil em cenário normal de entrada.",
+          "Seguro viagem continua sendo item prático indispensável para quem entra no espaço Schengen.",
+          "O foco aqui é documentação correta, não visto prévio."
+        ],
+        important: "Neste destino, a parte central da decisão do viajante é organizar documentação e comprovações adequadas para entrada no espaço Schengen."
+      },
+
+      mx: {
+        country: "🇲🇽 MÉXICO",
+        aliases: ["mexico", "méxico"],
+        cities: ["cancun", "cancún", "cidade do mexico", "cidade do méxico"],
+        detailed: false
+      },
+      ar: {
+        country: "🇦🇷 ARGENTINA",
+        aliases: ["argentina"],
+        cities: ["buenos aires"],
+        detailed: false
+      },
+      pt: {
+        country: "🇵🇹 PORTUGAL",
+        aliases: ["portugal"],
+        cities: ["lisboa", "porto"],
+        detailed: false
+      },
+      nl: {
+        country: "🇳🇱 HOLANDA",
+        aliases: ["holanda", "paises baixos", "países baixos", "netherlands"],
+        cities: ["amsterda", "amsterdam"],
+        detailed: false
+      },
+      cz: {
+        country: "🇨🇿 REPÚBLICA TCHECA",
+        aliases: ["republica tcheca", "república tcheca", "chequia", "tchequia"],
+        cities: ["praga"],
+        detailed: false
+      },
+      de: {
+        country: "🇩🇪 ALEMANHA",
+        aliases: ["alemanha", "germany"],
+        cities: ["berlim", "berlin", "munique", "munich"],
+        detailed: false
+      },
+      ae: {
+        country: "🇦🇪 EMIRADOS ÁRABES",
+        aliases: ["emirados arabes", "emirados árabes", "uae"],
+        cities: ["dubai", "abu dhabi", "abu dabi"],
+        detailed: false
       }
-    }
-
-    document.addEventListener("click", (e) => {
-      const nav = document.getElementById("navMenu");
-      const toggle = document.getElementById("navToggle");
-      const header = document.getElementById("siteHeader");
-
-      if (!nav || !toggle || !header || !header.classList.contains("nav-open")) return;
-      if (nav.contains(e.target) || toggle.contains(e.target)) return;
-
-      header.classList.remove("nav-open");
-    });
-
-    function startBackgroundSlider(a, b, images, ms) {
-      const first = document.getElementById(a);
-      const second = document.getElementById(b);
-
-      if (!first || !second || !images.length) return;
-
-      let i = 0;
-      let show = true;
-
-      first.style.backgroundImage = `url("${images[0]}")`;
-      first.classList.add("active");
-
-      setInterval(() => {
-        i = (i + 1) % images.length;
-
-        const visible = show ? first : second;
-        const hidden = show ? second : first;
-
-        hidden.style.backgroundImage = `url("${images[i]}")`;
-        hidden.classList.add("active");
-        visible.classList.remove("active");
-
-        show = !show;
-      }, ms || 7600);
-    }
-
-    function focusTool() {
-      const panel = document.getElementById("tool-panel");
-      if (panel) {
-        panel.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-
-      const input = document.getElementById("destination-search");
-      if (input) {
-        setTimeout(() => input.focus({ preventScroll: true }), 250);
-      }
-    }
+    };
 
     function resolveDestination(query) {
       const q = normalizeText(query);
@@ -859,22 +1581,12 @@
 
       for (const [key, data] of Object.entries(COUNTRIES)) {
         if ((data.aliases || []).some((alias) => normalizeText(alias) === q)) {
-          return {
-            key,
-            countryData: data,
-            matchedType: "country",
-            matchedCity: ""
-          };
+          return { key, countryData: data, matchedType: "country", matchedCity: "" };
         }
 
         const cityMatch = (data.cities || []).find((city) => normalizeText(city) === q);
         if (cityMatch) {
-          return {
-            key,
-            countryData: data,
-            matchedType: "city",
-            matchedCity: cityMatch
-          };
+          return { key, countryData: data, matchedType: "city", matchedCity: cityMatch };
         }
       }
 
@@ -1153,7 +1865,6 @@
       if (match.countryData.detailed) {
         return buildDetailedCard(match);
       }
-
       return buildComingSoonCard(match);
     }
 
