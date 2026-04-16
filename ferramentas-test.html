@@ -375,20 +375,33 @@
       </div>
 
       <div class="helper-text">
-        Cidades já mapeadas para teste: New York, Orlando, Miami, Boston, Los Angeles, Las Vegas, San Francisco, Washington DC, Paris, Nice, Lyon, Madrid, Barcelona, Londres, Manchester, Edimburgo, Glasgow, Roma, Milão, Florença, Cancún, Cidade do México, Buenos Aires, Lisboa, Porto, Amsterdã, Praga, Berlim, Munique, Dubai, Abu Dhabi, Toronto, Vancouver, Montreal, Lima, Cusco, Santiago, Atacama, Montevidéu, Punta del Este, Bruxelas, Bruges, Zurique, Genebra, Bogotá, Cartagena, Helsinque, Rovaniemi, Tóquio, Osaka, Pequim, Xangai, Bangkok, Phuket, Istambul e Capadócia.
+        A busca reconhece países e dezenas de cidades turísticas. Os botões abaixo mostram apenas uma cidade principal por país para manter a navegação mais limpa.
       </div>
 
       <div class="chips">
-        <button class="chip" data-search="Orlando">Orlando</button>
-        <button class="chip" data-search="Paris">Paris</button>
-        <button class="chip" data-search="Londres">Londres</button>
-        <button class="chip" data-search="Cusco">Cusco</button>
+        <button class="chip" data-search="New York">New York</button>
         <button class="chip" data-search="Toronto">Toronto</button>
+        <button class="chip" data-search="Cancún">Cancún</button>
+        <button class="chip" data-search="Cusco">Cusco</button>
+        <button class="chip" data-search="Santiago">Santiago</button>
+        <button class="chip" data-search="Montevidéu">Montevidéu</button>
+        <button class="chip" data-search="Bogotá">Bogotá</button>
         <button class="chip" data-search="Buenos Aires">Buenos Aires</button>
+        <button class="chip" data-search="Paris">Paris</button>
+        <button class="chip" data-search="Roma">Roma</button>
+        <button class="chip" data-search="Barcelona">Barcelona</button>
+        <button class="chip" data-search="Lisboa">Lisboa</button>
+        <button class="chip" data-search="Londres">Londres</button>
+        <button class="chip" data-search="Berlim">Berlim</button>
+        <button class="chip" data-search="Amsterdã">Amsterdã</button>
+        <button class="chip" data-search="Bruxelas">Bruxelas</button>
+        <button class="chip" data-search="Zurique">Zurique</button>
+        <button class="chip" data-search="Praga">Praga</button>
         <button class="chip" data-search="Tóquio">Tóquio</button>
         <button class="chip" data-search="Pequim">Pequim</button>
-        <button class="chip" data-search="Bangkok">Bangkok</button>
         <button class="chip" data-search="Istambul">Istambul</button>
+        <button class="chip" data-search="Dubai">Dubai</button>
+        <button class="chip" data-search="Atenas">Atenas</button>
       </div>
 
       <div id="status" class="status"></div>
@@ -909,17 +922,301 @@
           block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória na entrada comum nesta base.', '<strong>Regra prática:</strong> tratar a Turquia como destino com entrada própria, fora da lógica Schengen.']),
           block6: createParagraphs(['A Turquia não faz parte do espaço Schengen.', 'A lógica de entrada é própria e não se mistura com a autorização europeia.', 'Mesmo sem visto, a documentação de viagem continua importante.'])
         }
+      },
+
+      'emirados-arabes-unidos': {
+        name: 'Emirados Árabes Unidos', aliases: ['emirados arabes unidos', 'emirados árabes unidos', 'eau', 'uae'],
+        summary: { entry: 'Brasileiros não precisam de visto prévio para turismo e recebem entrada na chegada.', health: 'Sem exigência geral de vacina obrigatória na entrada comum.', support: 'Dubai e Abu Dhabi são os apoios principais desta base.' },
+        cities: {
+          'dubai': [{ name: 'Consulado-Geral do Brasil em Dubai', highlight: 'Principal apoio brasileiro em Dubai.', address: 'Al Wasl Road, Dubai', phone: '+971 4 349 5600', email: 'consular.dubai@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-dubai', distance: '~ 10 a 15 km', car: '15 a 25 min' }],
+          'abu dhabi': [{ name: 'Embaixada do Brasil em Abu Dhabi', highlight: 'Principal apoio brasileiro em Abu Dhabi.', address: 'Al Bateen Area, Abu Dhabi', phone: '+971 2 632 0606', email: 'consular.abudhabi@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-abu-dhabi', distance: '~ 5 a 10 km', car: '10 a 20 min' }]
+        },
+        defaultCity: 'dubai',
+        blocks: {
+          block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto prévio para turismo nos Emirados Árabes Unidos.', '<strong>Tipo de entrada:</strong> autorização de turismo concedida na chegada.', '<strong>Valor:</strong> sem custo nesta lógica de entrada turística comum.', '<strong>Entrevista:</strong> não há entrevista consular prévia.', '<strong>Tempo de permanência:</strong> até 90 dias, conforme regra migratória aplicável.', '<strong>Antecedência recomendada:</strong> não há necessidade de pedir visto antes, mas o viajante deve embarcar com documentação completa.']),
+          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido, com validade recomendada mínima de 6 meses.', 'Passagem de saída.', 'Comprovante de hospedagem.'])}<h4>Podem ser solicitados</h4>${createBulletList(['Comprovação financeira.', 'Endereço completo da estadia.', 'Documentação do objetivo da viagem.'])}`,
+          block3: createLocationCards([{ name: 'Embaixada dos Emirados Árabes Unidos – Brasília', address: 'SES Av. das Nações, Quadra 805, Lote 30 – Brasília – DF', phone: '+55 (61) 3248-2400', email: 'brasiliaemb@mofa.gov.ae', site: 'https://www.mofa.gov.ae' }, { name: 'Consulado dos Emirados Árabes Unidos – São Paulo', address: 'Av. Paulista, 1499 – São Paulo – SP', phone: '+55 (11) 3061-9500', email: 'Consultar portal oficial', site: 'https://www.mofa.gov.ae' }]),
+          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para a entrada turística comum nesta base.', '<strong>Exigências reais:</strong> o ponto crítico está muito mais na documentação e no respeito às regras locais do que em exigência sanitária geral.', '<strong>Febre amarela:</strong> se houver exigência ligada ao itinerário, considerar a lógica dos 10 dias de antecedência.']),
+          block6: createParagraphs(['Os Emirados Árabes Unidos têm leis locais rígidas e comportamento inadequado pode gerar problema real ao viajante.', 'Mesmo sem visto prévio, a entrada pode ser negada se a documentação estiver inconsistente.', 'Dubai e Abu Dhabi funcionam muito bem para viagens curtas, conexão internacional e turismo urbano de alto padrão.'])
+        }
+      },
+
+      'grecia': {
+        name: 'Grécia', aliases: ['grecia', 'grécia', 'greece'],
+        summary: { entry: 'Brasileiros não precisam de visto para curta duração Schengen.', health: 'Sem exigência geral de vacina obrigatória; documentação e lógica Schengen seguem essenciais.', support: 'Atenas é o apoio principal desta base.' },
+        cities: {
+          'atenas': [{ name: 'Embaixada do Brasil em Atenas', highlight: 'Principal apoio brasileiro na Grécia.', address: '26, Filippou Str., Psychiko, Atenas', phone: '+30 210 721 3039', email: 'consular.atenas@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-atenas', distance: '~ 5 km', car: '15 a 20 min' }]
+        },
+        defaultCity: 'atenas',
+        blocks: {
+          block1: `${createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo de curta duração.', '<strong>Tipo de entrada:</strong> turismo com isenção na lógica Schengen.', '<strong>Valor:</strong> sem taxa de visto para turismo comum.', '<strong>Tempo de permanência:</strong> até 90 dias em 180 dias.', '<strong>Entrevista:</strong> não há entrevista consular prévia.'])}<h4>Schengen</h4>${createParagraphs(contentBlocks.schengenIntro)}<h4>ETIAS</h4>${createParagraphs(contentBlocks.etias)}`,
+          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Hospedagem.', 'Passagem de saída.', 'Comprovação financeira.', 'Seguro viagem.'])}<h4>Regra prática</h4>${createBulletList(['A documentação da viagem deve estar coerente, mesmo quando a entrada Schengen ocorrer por outro país.', 'Ilhas gregas muito buscadas por turistas continuam dependendo da mesma base documental do país.'])}`,
+          block3: createLocationCards([{ name: 'Embaixada da Grécia – Brasília', address: 'SES, Av. das Nações, Quadra 805, Lote 22 – Brasília – DF', phone: '+55 (61) 3443-5504', email: 'gremb.bra@mfa.gr', site: 'https://www.mfa.gr/brazil' }]),
+          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para entrada turística comum.', '<strong>Exigências reais:</strong> o ponto central continua sendo documentação completa e seguro viagem.', '<strong>Febre amarela:</strong> se aplicável ao itinerário, usar a lógica dos 10 dias de antecedência.']),
+          block6: `${createParagraphs(['A Grécia segue a lógica Schengen, então a imigração pode acontecer em outro país do bloco antes da chegada.', 'Mesmo sem visto, a entrada pode ser negada se a documentação estiver inconsistente.', 'Destinos de ilhas e conexões internas exigem planejamento logístico claro.'])}<div class="note">${contentBlocks.europeStrategy}</div>`
+        }
       }
     };
 
     const cityMap = {
-      'new york': 'estados-unidos','orlando': 'estados-unidos','miami': 'estados-unidos','boston': 'estados-unidos','los angeles': 'estados-unidos','las vegas': 'estados-unidos','san francisco': 'estados-unidos','washington dc': 'estados-unidos','paris': 'franca','nice': 'franca','lyon': 'franca','madrid': 'espanha','barcelona': 'espanha','londres': 'reino-unido','manchester': 'reino-unido','edimburgo': 'reino-unido','glasgow': 'reino-unido','roma': 'italia','milao': 'italia','milão': 'italia','florenca': 'italia','florença': 'italia','cancun': 'mexico','cancún': 'mexico','cidade do mexico': 'mexico','cidade do méxico': 'mexico','buenos aires': 'argentina','lisboa': 'portugal','porto': 'portugal','amsterda': 'paises-baixos','amsterdã': 'paises-baixos','praga': 'republica-tcheca','berlim': 'alemanha','munique': 'alemanha','toronto': 'canada','vancouver': 'canada','montreal': 'canada','montréal': 'canada','lima': 'peru','cusco': 'peru','santiago': 'chile','atacama': 'chile','montevideu': 'uruguai','montevidéu': 'uruguai','punta del este': 'uruguai','bruxelas': 'belgica','bruges': 'belgica','zurique': 'suica','genebra': 'suica','bogota': 'colombia','bogotá': 'colombia','cartagena': 'colombia','helsinque': 'finlandia','rovaniemi': 'finlandia','toquio': 'japao','tóquio': 'japao','osaka': 'japao','pequim': 'china','xangai': 'china','bangkok': 'tailandia','phuket': 'tailandia','istambul': 'turquia','capadocia': 'turquia','capadócia': 'turquia'
+      'new york': 'estados-unidos','orlando': 'estados-unidos','miami': 'estados-unidos','boston': 'estados-unidos','los angeles': 'estados-unidos','las vegas': 'estados-unidos','san francisco': 'estados-unidos','washington dc': 'estados-unidos','paris': 'franca','nice': 'franca','lyon': 'franca','madrid': 'espanha','barcelona': 'espanha','londres': 'reino-unido','manchester': 'reino-unido','edimburgo': 'reino-unido','glasgow': 'reino-unido','roma': 'italia','milao': 'italia','milão': 'italia','florenca': 'italia','florença': 'italia','cancun': 'mexico','cancún': 'mexico','cidade do mexico': 'mexico','cidade do méxico': 'mexico','buenos aires': 'argentina','lisboa': 'portugal','porto': 'portugal','amsterda': 'paises-baixos','amsterdã': 'paises-baixos','praga': 'republica-tcheca','berlim': 'alemanha','munique': 'alemanha','toronto': 'canada','vancouver': 'canada','montreal': 'canada','montréal': 'canada','lima': 'peru','cusco': 'peru','santiago': 'chile','atacama': 'chile','montevideu': 'uruguai','montevidéu': 'uruguai','punta del este': 'uruguai','bruxelas': 'belgica','bruges': 'belgica','zurique': 'suica','genebra': 'suica','bogota': 'colombia','bogotá': 'colombia','cartagena': 'colombia','helsinque': 'finlandia','rovaniemi': 'finlandia','toquio': 'japao','tóquio': 'japao','osaka': 'japao','pequim': 'china','xangai': 'china','bangkok': 'tailandia','phuket': 'tailandia','istambul': 'turquia','capadocia': 'turquia','capadócia': 'turquia','dubai': 'emirados-arabes-unidos','abu dhabi': 'emirados-arabes-unidos','abu dhabi ': 'emirados-arabes-unidos','atenas': 'grecia'
+    };
+
+    const cityRedirects = {
+      'chicago': { countryKey: 'estados-unidos', cityKey: 'new york', displayName: 'Chicago' },
+      'new orleans': { countryKey: 'estados-unidos', cityKey: 'miami', displayName: 'New Orleans' },
+      'seattle': { countryKey: 'estados-unidos', cityKey: 'san francisco', displayName: 'Seattle' },
+
+      'quebec': { countryKey: 'canada', cityKey: 'montreal', displayName: 'Quebec' },
+      'banff': { countryKey: 'canada', cityKey: 'vancouver', displayName: 'Banff' },
+      'ottawa': { countryKey: 'canada', cityKey: 'toronto', displayName: 'Ottawa' },
+      'calgary': { countryKey: 'canada', cityKey: 'vancouver', displayName: 'Calgary' },
+      'halifax': { countryKey: 'canada', cityKey: 'montreal', displayName: 'Halifax' },
+      'victoria': { countryKey: 'canada', cityKey: 'vancouver', displayName: 'Victoria' },
+      'whistler': { countryKey: 'canada', cityKey: 'vancouver', displayName: 'Whistler' },
+
+      'playa del carmen': { countryKey: 'mexico', cityKey: 'cancun', displayName: 'Playa del Carmen' },
+      'tulum': { countryKey: 'mexico', cityKey: 'cancun', displayName: 'Tulum' },
+      'puerto vallarta': { countryKey: 'mexico', cityKey: 'cidade do mexico', displayName: 'Puerto Vallarta' },
+      'cabo san lucas': { countryKey: 'mexico', cityKey: 'cidade do mexico', displayName: 'Cabo San Lucas' },
+      'oaxaca': { countryKey: 'mexico', cityKey: 'cidade do mexico', displayName: 'Oaxaca' },
+      'merida': { countryKey: 'mexico', cityKey: 'cidade do mexico', displayName: 'Mérida' },
+      'mérida': { countryKey: 'mexico', cityKey: 'cidade do mexico', displayName: 'Mérida' },
+      'guadalajara': { countryKey: 'mexico', cityKey: 'cidade do mexico', displayName: 'Guadalajara' },
+      'san miguel de allende': { countryKey: 'mexico', cityKey: 'cidade do mexico', displayName: 'San Miguel de Allende' },
+
+      'arequipa': { countryKey: 'peru', cityKey: 'lima', displayName: 'Arequipa' },
+      'puno': { countryKey: 'peru', cityKey: 'cusco', displayName: 'Puno' },
+      'aguas calientes': { countryKey: 'peru', cityKey: 'cusco', displayName: 'Aguas Calientes' },
+      'machu picchu': { countryKey: 'peru', cityKey: 'cusco', displayName: 'Machu Picchu' },
+      'iquitos': { countryKey: 'peru', cityKey: 'lima', displayName: 'Iquitos' },
+      'trujillo': { countryKey: 'peru', cityKey: 'lima', displayName: 'Trujillo' },
+      'huaraz': { countryKey: 'peru', cityKey: 'lima', displayName: 'Huaraz' },
+      'paracas': { countryKey: 'peru', cityKey: 'lima', displayName: 'Paracas' },
+      'nazca': { countryKey: 'peru', cityKey: 'lima', displayName: 'Nazca' },
+
+      'san pedro de atacama': { countryKey: 'chile', cityKey: 'atacama', displayName: 'San Pedro de Atacama' },
+      'torres del paine': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Torres del Paine' },
+      'puerto natales': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Puerto Natales' },
+      'valparaiso': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Valparaíso' },
+      'valparaíso': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Valparaíso' },
+      'fiordes chilenos': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Fiordes Chilenos' },
+      'ilha de pascoa': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Ilha de Páscoa' },
+      'ilha de páscoa': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Ilha de Páscoa' },
+      'puerto varas': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Puerto Varas' },
+      'la serena': { countryKey: 'chile', cityKey: 'santiago', displayName: 'La Serena' },
+      'pucon': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Pucón' },
+      'pucón': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Pucón' },
+      'vina del mar': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Viña del Mar' },
+      'viña del mar': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Viña del Mar' },
+
+      'colonia do sacramento': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Colônia do Sacramento' },
+      'colonia del sacramento': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Colônia do Sacramento' },
+      'jose ignacio': { countryKey: 'uruguai', cityKey: 'punta del este', displayName: 'José Ignacio' },
+      'josé ignacio': { countryKey: 'uruguai', cityKey: 'punta del este', displayName: 'José Ignacio' },
+      'piriapolis': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Piriápolis' },
+      'piriápolis': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Piriápolis' },
+      'cabo polonio': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Cabo Polonio' },
+      'rocha': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Rocha' },
+      'salto': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Salto' },
+      'carmelo': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Carmelo' },
+      'atlantida': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Atlântida' },
+      'atlântida': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Atlântida' },
+
+      'medellin': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'Medellín' },
+      'medellín': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'Medellín' },
+      'cali': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'Cali' },
+      'san andres': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'San Andrés' },
+      'san andrés': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'San Andrés' },
+      'santa marta': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'Santa Marta' },
+      'cartagena das indias': { countryKey: 'colombia', cityKey: 'cartagena', displayName: 'Cartagena das Índias' },
+      'cartagena das índias': { countryKey: 'colombia', cityKey: 'cartagena', displayName: 'Cartagena das Índias' },
+      'salento': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'Salento' },
+      'villa de leyva': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'Villa de Leyva' },
+      'tayrona park': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'Tayrona Park' },
+
+      'bariloche': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Bariloche' },
+      'mendoza': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Mendoza' },
+      'ushuaia': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Ushuaia' },
+      'el calafate': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'El Calafate' },
+      'iguazu': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Iguazú' },
+      'iguazú': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Iguazú' },
+      'salta': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Salta' },
+      'cordoba': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Córdoba' },
+      'córdoba': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Córdoba' },
+      'san martin de los andes': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'San Martín de los Andes' },
+      'san martín de los andes': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'San Martín de los Andes' },
+
+      'bordeaux': { countryKey: 'franca', cityKey: 'paris', displayName: 'Bordeaux' },
+      'estrasburgo': { countryKey: 'franca', cityKey: 'paris', displayName: 'Estrasburgo' },
+      'marseille': { countryKey: 'franca', cityKey: 'paris', displayName: 'Marseille' },
+      'cannes': { countryKey: 'franca', cityKey: 'nice', displayName: 'Cannes' },
+      'mont saint michel': { countryKey: 'franca', cityKey: 'paris', displayName: 'Mont Saint-Michel' },
+      'annecy': { countryKey: 'franca', cityKey: 'lyon', displayName: 'Annecy' },
+      'biarritz': { countryKey: 'franca', cityKey: 'paris', displayName: 'Biarritz' },
+
+      'veneza': { countryKey: 'italia', cityKey: 'milao', displayName: 'Veneza' },
+      'venezia': { countryKey: 'italia', cityKey: 'milao', displayName: 'Veneza' },
+      'napoles': { countryKey: 'italia', cityKey: 'roma', displayName: 'Nápoles' },
+      'nápoles': { countryKey: 'italia', cityKey: 'roma', displayName: 'Nápoles' },
+      'bolonha': { countryKey: 'italia', cityKey: 'milao', displayName: 'Bolonha' },
+      'bolonia': { countryKey: 'italia', cityKey: 'milao', displayName: 'Bolonha' },
+      'verona': { countryKey: 'italia', cityKey: 'milao', displayName: 'Verona' },
+      'cinque terre': { countryKey: 'italia', cityKey: 'milao', displayName: 'Cinque Terre' },
+      'amalfi': { countryKey: 'italia', cityKey: 'roma', displayName: 'Amalfi' },
+      'turim': { countryKey: 'italia', cityKey: 'milao', displayName: 'Turim' },
+      'torino': { countryKey: 'italia', cityKey: 'milao', displayName: 'Turim' },
+
+      'sevilha': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Sevilha' },
+      'sevilla': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Sevilha' },
+      'valencia': { countryKey: 'espanha', cityKey: 'barcelona', displayName: 'Valência' },
+      'valência': { countryKey: 'espanha', cityKey: 'barcelona', displayName: 'Valência' },
+      'granada': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Granada' },
+      'palma de mallorca': { countryKey: 'espanha', cityKey: 'barcelona', displayName: 'Palma de Mallorca' },
+      'san sebastian': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'San Sebastián' },
+      'san sebastián': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'San Sebastián' },
+      'salamanca': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Salamanca' },
+      'bilbao': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Bilbao' },
+      'cordoba espanha': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Córdoba' },
+      'cordoba': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Córdoba' },
+      'córdoba': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Córdoba' },
+
+      'funchal': { countryKey: 'portugal', cityKey: 'lisboa', displayName: 'Funchal' },
+      'sintra': { countryKey: 'portugal', cityKey: 'lisboa', displayName: 'Sintra' },
+      'faro': { countryKey: 'portugal', cityKey: 'lisboa', displayName: 'Faro' },
+      'lagos': { countryKey: 'portugal', cityKey: 'lisboa', displayName: 'Lagos' },
+      'coimbra': { countryKey: 'portugal', cityKey: 'porto', displayName: 'Coimbra' },
+      'evora': { countryKey: 'portugal', cityKey: 'lisboa', displayName: 'Évora' },
+      'évora': { countryKey: 'portugal', cityKey: 'lisboa', displayName: 'Évora' },
+      'braga': { countryKey: 'portugal', cityKey: 'porto', displayName: 'Braga' },
+      'aveiro': { countryKey: 'portugal', cityKey: 'porto', displayName: 'Aveiro' },
+
+      'liverpool': { countryKey: 'reino-unido', cityKey: 'manchester', displayName: 'Liverpool' },
+      'oxford': { countryKey: 'reino-unido', cityKey: 'londres', displayName: 'Oxford' },
+      'cambridge': { countryKey: 'reino-unido', cityKey: 'londres', displayName: 'Cambridge' },
+      'bristol': { countryKey: 'reino-unido', cityKey: 'londres', displayName: 'Bristol' },
+      'bath': { countryKey: 'reino-unido', cityKey: 'londres', displayName: 'Bath' },
+      'york': { countryKey: 'reino-unido', cityKey: 'manchester', displayName: 'York' },
+
+      'hamburgo': { countryKey: 'alemanha', cityKey: 'berlim', displayName: 'Hamburgo' },
+      'frankfurt': { countryKey: 'alemanha', cityKey: 'munique', displayName: 'Frankfurt' },
+      'colonia': { countryKey: 'alemanha', cityKey: 'munique', displayName: 'Colônia' },
+      'colônia': { countryKey: 'alemanha', cityKey: 'munique', displayName: 'Colônia' },
+      'heidelberg': { countryKey: 'alemanha', cityKey: 'munique', displayName: 'Heidelberg' },
+      'dresden': { countryKey: 'alemanha', cityKey: 'berlim', displayName: 'Dresden' },
+      'rothenburg ob der tauber': { countryKey: 'alemanha', cityKey: 'munique', displayName: 'Rothenburg ob der Tauber' },
+      'nuremberg': { countryKey: 'alemanha', cityKey: 'munique', displayName: 'Nuremberg' },
+      'stuttgart': { countryKey: 'alemanha', cityKey: 'munique', displayName: 'Stuttgart' },
+
+      'rotterdam': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Roterdã' },
+      'roterda': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Roterdã' },
+      'roterdã': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Roterdã' },
+      'haia': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Haia' },
+      'utrecht': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Utrecht' },
+      'maastricht': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Maastricht' },
+      'delft': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Delft' },
+      'leiden': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Leiden' },
+      'haarlem': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Haarlem' },
+      'eindhoven': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Eindhoven' },
+      'keukenhof': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Keukenhof (Lisse)' },
+      'lisse': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Lisse' },
+
+      'gante': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Gante' },
+      'gent': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Gante' },
+      'antuerpia': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Antuérpia' },
+      'antuérpia': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Antuérpia' },
+      'antwerp': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Antuérpia' },
+      'liege': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Liège' },
+      'liège': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Liège' },
+      'namur': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Namur' },
+      'leuven': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Leuven' },
+      'ostend': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Ostend' },
+      'mechelen': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Mechelen' },
+      'ypres': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Ypres' },
+
+      'lucerna': { countryKey: 'suica', cityKey: 'zurique', displayName: 'Lucerna' },
+      'berna': { countryKey: 'suica', cityKey: 'zurique', displayName: 'Berna' },
+      'interlaken': { countryKey: 'suica', cityKey: 'zurique', displayName: 'Interlaken' },
+      'zermatt': { countryKey: 'suica', cityKey: 'genebra', displayName: 'Zermatt' },
+      'lausanne': { countryKey: 'suica', cityKey: 'genebra', displayName: 'Lausanne' },
+      'basileia': { countryKey: 'suica', cityKey: 'zurique', displayName: 'Basileia' },
+      'basel': { countryKey: 'suica', cityKey: 'zurique', displayName: 'Basileia' },
+      'lugano': { countryKey: 'suica', cityKey: 'zurique', displayName: 'Lugano' },
+      'st moritz': { countryKey: 'suica', cityKey: 'zurique', displayName: 'St. Moritz' },
+
+      'cesky krumlov': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Český Krumlov' },
+      'český krumlov': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Český Krumlov' },
+      'karlovy vary': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Karlovy Vary' },
+      'brno': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Brno' },
+      'pilsen': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Pilsen' },
+      'kutna hora': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Kutná Hora' },
+      'kutná hora': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Kutná Hora' },
+      'olomouc': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Olomouc' },
+      'liberec': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Liberec' },
+      'ostrava': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Ostrava' },
+      'telc': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Telč' },
+      'telč': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Telč' },
+
+      'quioto': { countryKey: 'japao', cityKey: 'toquio', displayName: 'Quioto' },
+      'kyoto': { countryKey: 'japao', cityKey: 'toquio', displayName: 'Quioto' },
+      'hiroshima': { countryKey: 'japao', cityKey: 'osaka', displayName: 'Hiroshima' },
+      'nara': { countryKey: 'japao', cityKey: 'osaka', displayName: 'Nara' },
+      'sapporo': { countryKey: 'japao', cityKey: 'toquio', displayName: 'Sapporo' },
+      'kanazawa': { countryKey: 'japao', cityKey: 'toquio', displayName: 'Kanazawa' },
+      'hakone': { countryKey: 'japao', cityKey: 'toquio', displayName: 'Hakone' },
+      'fukuoka': { countryKey: 'japao', cityKey: 'osaka', displayName: 'Fukuoka' },
+      'okinawa': { countryKey: 'japao', cityKey: 'toquio', displayName: 'Okinawa' },
+
+      'beijing': { countryKey: 'china', cityKey: 'pequim', displayName: 'Pequim (Beijing)' },
+      'hong kong': { countryKey: 'china', cityKey: 'xangai', displayName: 'Hong Kong' },
+      'xian': { countryKey: 'china', cityKey: 'pequim', displayName: "Xi'an" },
+      'xi an': { countryKey: 'china', cityKey: 'pequim', displayName: "Xi'an" },
+      'guilin': { countryKey: 'china', cityKey: 'xangai', displayName: 'Guilin' },
+      'chengdu': { countryKey: 'china', cityKey: 'xangai', displayName: 'Chengdu' },
+      'hangzhou': { countryKey: 'china', cityKey: 'xangai', displayName: 'Hangzhou' },
+      'suzhou': { countryKey: 'china', cityKey: 'xangai', displayName: 'Suzhou' },
+      'shenzhen': { countryKey: 'china', cityKey: 'xangai', displayName: 'Shenzhen' },
+      'guangzhou': { countryKey: 'china', cityKey: 'xangai', displayName: 'Guangzhou' },
+
+      'antalya': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Antalya' },
+      'goreme': { countryKey: 'turquia', cityKey: 'capadocia', displayName: 'Capadócia (Göreme)' },
+      'göreme': { countryKey: 'turquia', cityKey: 'capadocia', displayName: 'Capadócia (Göreme)' },
+      'bodrum': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Bodrum' },
+      'ankara': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Ankara' },
+      'pamukkale': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Pamukkale' },
+      'efeso': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Éfeso (Selçuk)' },
+      'éfeso': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Éfeso (Selçuk)' },
+      'selcuk': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Selçuk' },
+      'selçuk': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Selçuk' },
+      'fethiye': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Fethiye' },
+      'marmaris': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Marmaris' },
+      'bursa': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Bursa' },
+
+      'sharjah': { countryKey: 'emirados-arabes-unidos', cityKey: 'dubai', displayName: 'Sharjah' },
+      'al ain': { countryKey: 'emirados-arabes-unidos', cityKey: 'abu dhabi', displayName: 'Al Ain' },
+      'ajman': { countryKey: 'emirados-arabes-unidos', cityKey: 'dubai', displayName: 'Ajman' },
+      'fujairah': { countryKey: 'emirados-arabes-unidos', cityKey: 'dubai', displayName: 'Fujairah' },
+      'ras al khaimah': { countryKey: 'emirados-arabes-unidos', cityKey: 'dubai', displayName: 'Ras Al Khaimah' },
+      'umm al quwain': { countryKey: 'emirados-arabes-unidos', cityKey: 'dubai', displayName: 'Umm Al Quwain' },
+      'khor fakkan': { countryKey: 'emirados-arabes-unidos', cityKey: 'dubai', displayName: 'Khor Fakkan' },
+      'dibba': { countryKey: 'emirados-arabes-unidos', cityKey: 'dubai', displayName: 'Dibba' },
+
+      'mykonos': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Mykonos' },
+      'santorine': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Santorini' },
+      'santorini': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Santorini' },
+      'creta': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Creta' },
+      'rodes': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Rodes' },
+      'milos': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Milos' },
+      'tessalonica': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Tessalônica' },
+      'tessalônica': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Tessalônica' },
+      'olimpia': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Olimpia' }
     };
 
     function findDestination(queryRaw) {
       const query = normalizeText(queryRaw);
       if (!query) return null;
       if (cityMap[query]) return { countryKey: cityMap[query], cityKey: query, type: 'city' };
+      if (cityRedirects[query]) return { ...cityRedirects[query], type: 'redirect' };
 
       for (const [countryKey, country] of Object.entries(countries)) {
         const allNames = [country.name, ...(country.aliases || [])].map(normalizeText);
