@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Curadoria Elite Travel | Ferramenta</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       --bg: #050505;
@@ -434,819 +435,180 @@
   </footer>
 
   <script>
+    const SUPABASE_URL = 'https://lnyoqoezezisakghtmim.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     function normalizeText(value) {
-      return value
+      return String(value || '')
         .toLowerCase()
         .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[̀-ͯ]/g, '')
         .replace(/[^\w\s-]/g, '')
         .replace(/\s+/g, ' ')
         .trim();
     }
 
-    function createParagraphs(items) {
-      return items.map(item => `<p>${item}</p>`).join('');
-    }
-
-    function createBulletList(items) {
-      return `<ul>${items.map(item => `<li>${item}</li>`).join('')}</ul>`;
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
     }
 
     function createLocationCards(locations) {
+      if (!Array.isArray(locations) || !locations.length) return '<p>Informações indisponíveis no momento.</p>';
+
       return locations.map(loc => `
         <div class="location-card">
-          <strong>${loc.name}</strong>
-          ${loc.highlight ? `<p><strong>Destaque:</strong> ${loc.highlight}</p>` : ''}
-          ${loc.address ? `<p><strong>Endereço:</strong> ${loc.address}</p>` : ''}
-          ${loc.phone ? `<p><strong>Telefone:</strong> ${loc.phone}</p>` : ''}
-          ${loc.email ? `<p><strong>E-mail:</strong> ${loc.email}</p>` : ''}
-          ${loc.site ? `<p><strong>Site:</strong> ${loc.site}</p>` : ''}
-          ${loc.distance ? `<p><strong>Distância:</strong> ${loc.distance}</p>` : ''}
-          ${loc.car ? `<p><strong>Tempo de carro:</strong> ${loc.car}</p>` : ''}
-          ${loc.flight ? `<p><strong>Tempo de voo:</strong> ${loc.flight}</p>` : ''}
-          ${loc.train ? `<p><strong>Tempo de trem:</strong> ${loc.train}</p>` : ''}
-          ${loc.note ? `<div class="note">${loc.note}</div>` : ''}
+          <strong>${escapeHtml(loc.name || '')}</strong>
+          ${loc.highlight ? `<p><strong>Destaque:</strong> ${escapeHtml(loc.highlight)}</p>` : ''}
+          ${loc.address ? `<p><strong>Endereço:</strong> ${escapeHtml(loc.address)}</p>` : ''}
+          ${loc.phone ? `<p><strong>Telefone:</strong> ${escapeHtml(loc.phone)}</p>` : ''}
+          ${loc.email ? `<p><strong>E-mail:</strong> ${escapeHtml(loc.email)}</p>` : ''}
+          ${loc.site ? `<p><strong>Site:</strong> <a href="${escapeHtml(loc.site)}" target="_blank" rel="noopener noreferrer">${escapeHtml(loc.site)}</a></p>` : ''}
+          ${loc.distance ? `<p><strong>Distância:</strong> ${escapeHtml(loc.distance)}</p>` : ''}
+          ${loc.car ? `<p><strong>Tempo de carro:</strong> ${escapeHtml(loc.car)}</p>` : ''}
+          ${loc.flight ? `<p><strong>Tempo de voo:</strong> ${escapeHtml(loc.flight)}</p>` : ''}
+          ${loc.train ? `<p><strong>Tempo de trem:</strong> ${escapeHtml(loc.train)}</p>` : ''}
+          ${loc.note ? `<div class="note">${escapeHtml(loc.note)}</div>` : ''}
         </div>
       `).join('');
     }
 
-    const contentBlocks = {
-      schengenIntro: [
-        '<strong>Schengen:</strong> é a área de circulação entre países europeus participantes.',
-        '<strong>O que não é:</strong> Schengen não é visto e não é um país.',
-        '<strong>Tempo de permanência:</strong> até 90 dias dentro de 180 dias.',
-        '<strong>Como funciona a entrada:</strong> a imigração acontece no primeiro país Schengen da viagem, não necessariamente no destino final.',
-        '<strong>Documentos que podem ser exigidos:</strong> passaporte, hospedagem, passagem de saída, seguro viagem e comprovação financeira.'
-      ],
-      etias: [
-        '<strong>ETIAS:</strong> autorização eletrônica prevista para viajantes isentos de visto.',
-        '<strong>Status atual:</strong> ainda não está em vigor nesta lógica atual da ferramenta.',
-        '<strong>Valor previsto:</strong> €7.',
-        '<strong>Formato:</strong> digital, vinculado ao passaporte, sem exigência de impressão quando entrar em operação.'
-      ],
-      europeStrategy: '<strong>Estratégia de entrada na Europa:</strong> a imigração acontece no primeiro país Schengen. Depois da entrada, a circulação tende a ser interna. Sem visto não significa sem comprovação. A decisão final é sempre da autoridade migratória.'
-    };
+    function renderList(items) {
+      if (!Array.isArray(items) || !items.length) return '';
+      return `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`;
+    }
 
-    const countries = {
-      'estados-unidos': {
-        name: 'Estados Unidos',
-        aliases: ['estados unidos', 'eua', 'usa', 'united states', 'america'],
-        summary: {
-          entry: 'Brasileiros precisam de visto B1/B2 para turismo.',
-          health: 'Sem exigência geral de vacina obrigatória na entrada direta.',
-          support: 'O apoio varia conforme a cidade buscada.'
-        },
-        cities: {
-          'new york': [{ name: 'Consulado-Geral do Brasil em Nova York', highlight: 'Principal apoio para brasileiros na região de Nova York.', address: '225 E 41st St, New York, NY 10017', phone: '+1 917 777 7777', email: 'consular.novayork@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-nova-york', distance: '~ 5 km', car: '15 a 25 min' }],
-          'orlando': [{ name: 'Consulado-Geral do Brasil em Orlando', highlight: 'Principal apoio para brasileiros na região central da Flórida.', address: '800 N Magnolia Ave, Suite 300, Orlando, FL', phone: '+1 407 872 6200', email: 'consular.orlando@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-orlando', distance: '~ 5 km', car: '15 a 20 min' }],
-          'miami': [{ name: 'Consulado-Geral do Brasil em Miami', highlight: 'Principal apoio para brasileiros no sul da Flórida.', address: '3150 SW 38th Ave, Miami, FL', phone: '+1 305 285 6200', email: 'consular.miami@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-miami', distance: '~ 8 km', car: '15 a 25 min' }],
-          'boston': [{ name: 'Consulado-Geral do Brasil em Boston', highlight: 'Apoio brasileiro na região da Nova Inglaterra.', address: '1 Marina Park Drive, Suite 410, Boston, MA', phone: '+1 617 542 4000', email: 'consular.boston@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-boston', distance: '~ 5 km', car: '15 min' }],
-          'los angeles': [{ name: 'Consulado-Geral do Brasil em Los Angeles', highlight: 'Principal apoio para brasileiros no sul da Califórnia.', address: '8484 Wilshire Blvd, Suite 300, Beverly Hills, CA', phone: '+1 323 651 2664', email: 'consular.losangeles@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-los-angeles', distance: '~ 15 km', car: '25 a 40 min' }],
-          'las vegas': [{ name: 'Consulado brasileiro mais próximo: Los Angeles', highlight: 'Las Vegas usa como apoio principal o posto brasileiro de Los Angeles nesta base.', address: '8484 Wilshire Blvd, Suite 300, Beverly Hills, CA', phone: '+1 323 651 2664', email: 'consular.losangeles@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-los-angeles', distance: '~ 435 km', car: '4h a 5h', flight: '1h10' }],
-          'san francisco': [{ name: 'Consulado-Geral do Brasil em São Francisco', highlight: 'Principal apoio brasileiro no norte da Califórnia.', address: '300 Montgomery St, Suite 300, San Francisco, CA', phone: '+1 415 981 8170', email: 'consular.saofrancisco@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-sao-francisco', distance: '~ 4 km', car: '15 min' }],
-          'washington dc': [{ name: 'Embaixada do Brasil em Washington DC', highlight: 'Principal representação diplomática do Brasil nos Estados Unidos.', address: '3006 Massachusetts Ave NW, Washington, DC', phone: '+1 202 238 2700', email: 'consular.washington@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-washington', distance: '~ 5 km', car: '15 a 20 min' }]
-        },
-        defaultCity: 'orlando',
-        blocks: {
-          block1: createParagraphs([
-            '<strong>Quem precisa:</strong> brasileiros precisam de visto para turismo, inclusive adultos e crianças.',
-            '<strong>Tipo de visto:</strong> B1/B2 para turismo e negócios.',
-            '<strong>Valor:</strong> US$ 185, com estimativa média aproximada de R$ 950 a R$ 1.050, conforme o câmbio.',
-            '<strong>Entrevista:</strong> obrigatória para a maioria dos solicitantes, com exceções pontuais em renovações específicas.',
-            '<strong>Tempo médio da entrevista:</strong> normalmente curto, em geral de 3 a 5 minutos.',
-            '<strong>Antecedência recomendada:</strong> mínimo de 3 meses antes da viagem; ideal entre 4 e 6 meses.',
-            '<strong>Tempo total do processo:</strong> pode variar de algumas semanas a alguns meses, conforme disponibilidade de agendamento.'
-          ]),
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Formulário DS-160 preenchido.', 'Confirmação de agendamento.', 'Comprovante de pagamento da taxa.'])}<h4>Fortemente recomendados</h4>${createBulletList(['Comprovante de renda.', 'Extratos bancários recentes.', 'Vínculo profissional ou empresarial.', 'Histórico de viagens, quando houver.', 'Comprovante de residência.'])}<h4>Onde tirar</h4>${createBulletList(['Passaporte: Polícia Federal.', 'DS-160 e agendamento: sistema oficial do governo dos EUA.'])}`,
-          block3: createLocationCards([
-            { name: 'Embaixada dos EUA – Brasília', address: 'SES Av. das Nações, Lote 3, Brasília – DF', phone: '+55 (61) 3312-7000', email: 'brasiliaconsular@state.gov', site: 'https://br.usembassy.gov/pt/' },
-            { name: 'Consulado dos EUA – São Paulo', address: 'Rua Henri Dunant, 500 – Chácara Santo Antônio – São Paulo – SP', phone: '+55 (11) 5186-7000', email: 'saopaulovisa@state.gov', site: 'https://br.usembassy.gov/pt/embassy-consulates/sao-paulo/' },
-            { name: 'Consulado dos EUA – Rio de Janeiro', address: 'Av. Presidente Wilson, 147 – Centro – Rio de Janeiro – RJ', phone: '+55 (21) 3823-2000', email: 'riodejaneirovisa@state.gov', site: 'https://br.usembassy.gov/pt/embassy-consulates/rio-de-janeiro/' }
-          ]),
-          block5: createParagraphs([
-            '<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para entrada direta de brasileiros.',
-            '<strong>Exigências reais:</strong> não há exigência geral de CIVP na entrada comum.',
-            '<strong>Febre amarela:</strong> se houver itinerário que exija comprovação, a vacina deve ser tomada com pelo menos 10 dias de antecedência.',
-            '<strong>Regra prática:</strong> manter a situação vacinal organizada é recomendável, especialmente em viagens com escalas internacionais.'
-          ]),
-          block6: createParagraphs([
-            'A entrada pode ser negada mesmo com visto válido, porque a decisão final é do agente de imigração.',
-            'Pode haver perguntas sobre motivo da viagem, hospedagem, tempo de permanência e recursos financeiros.',
-            'Seguro viagem não é obrigatório, mas é altamente recomendado por causa do custo médico elevado.',
-            'Passagem de saída e reserva de hospedagem podem ser exigidas na chegada.'
-          ])
+    function renderParagraphs(items) {
+      if (!Array.isArray(items) || !items.length) return '';
+      return items.map(item => `<p>${escapeHtml(item)}</p>`).join('');
+    }
+
+    function renderObjectBlock(block) {
+      let html = '';
+
+      if (block.title) {
+        html += `<h4>${escapeHtml(block.title)}</h4>`;
+      }
+
+      const knownListKeys = [
+        ['key_points', 'Pontos principais'],
+        ['items', 'Itens'],
+        ['required', 'Obrigatórios'],
+        ['recommended', 'Fortemente recomendados'],
+        ['critical_points', 'Ponto crítico'],
+        ['entry_strategy', 'Estratégia de entrada'],
+        ['notes', 'Observações'],
+        ['steps', 'Passos'],
+        ['documents', 'Documentos'],
+        ['warnings', 'Alertas']
+      ];
+
+      knownListKeys.forEach(([key, label]) => {
+        if (Array.isArray(block[key]) && block[key].length) {
+          html += `<h4>${escapeHtml(label)}</h4>${renderList(block[key])}`;
         }
-      },
+      });
 
-      'franca': {
-        name: 'França',
-        aliases: ['franca', 'frança'],
-        summary: {
-          entry: 'Brasileiros não precisam de visto para turismo de curta duração.',
-          health: 'Sem exigência geral de vacina obrigatória; seguro e documentação seguem essenciais.',
-          support: 'Paris é o apoio principal desta base; Nice e Lyon usam referência francesa principal.'
-        },
-        cities: {
-          'paris': [{ name: 'Embaixada do Brasil em Paris', highlight: 'Principal apoio diplomático para brasileiros na França.', address: '34 Cours Albert 1er, Paris', phone: '+33 1 45 61 63 00', email: 'consular.paris@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-paris', distance: '~ 5 km', car: '15 a 25 min' }],
-          'nice': [{ name: 'Posto brasileiro mais próximo nesta base: Paris', highlight: 'Nice é coberta nesta base pelo apoio principal em Paris.', address: '34 Cours Albert 1er, Paris', phone: '+33 1 45 61 63 00', email: 'consular.paris@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-paris', distance: '~ 930 km', car: '9h', flight: '1h30' }],
-          'lyon': [{ name: 'Posto brasileiro mais próximo nesta base: Paris', highlight: 'Lyon usa como referência principal o posto brasileiro em Paris.', address: '34 Cours Albert 1er, Paris', phone: '+33 1 45 61 63 00', email: 'consular.paris@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-paris', distance: '~ 460 km', car: '4h30', train: '2h' }]
-        },
-        defaultCity: 'paris',
-        blocks: {
-          block1: `${createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo de curta duração; adultos e crianças seguem a mesma regra.', '<strong>Tipo de entrada:</strong> turismo com isenção de visto na lógica Schengen.', '<strong>Valor:</strong> sem taxa de visto para a entrada turística comum.', '<strong>Tempo de permanência:</strong> até 90 dias dentro de 180 dias no espaço Schengen.', '<strong>Entrevista:</strong> não há entrevista prévia, mas a imigração pode fazer perguntas na chegada.', '<strong>Antecedência recomendada:</strong> organizar documentos com 2 a 4 semanas de antecedência.'])}<h4>Schengen</h4>${createParagraphs(contentBlocks.schengenIntro)}<h4>ETIAS</h4>${createParagraphs(contentBlocks.etias)}`,
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Comprovante de hospedagem.', 'Passagem de saída do espaço Schengen.', 'Comprovação financeira compatível com a estadia.', 'Seguro viagem.'])}<h4>Fortemente recomendados</h4>${createBulletList(['Comprovantes adicionais da viagem, quando houver mais de uma cidade.', 'Reservas organizadas e coerentes.', 'Documentação de apoio impressa ou salva de forma acessível.'])}<h4>Onde tirar</h4>${createBulletList(['Passaporte: Polícia Federal.', 'Hospedagem e passagem: fornecedores da viagem.', 'Seguro: seguradoras internacionais.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada da França – Brasília', address: 'SES Av. das Nações, Quadra 801, Lote 04 – Brasília – DF', phone: '+55 (61) 3222-3999', email: 'presse.brasilia-amba@diplomatie.gouv.fr', site: 'https://br.ambafrance.org' }, { name: 'Consulado Geral da França – São Paulo', address: 'Av. Paulista, 1842 – Torre Norte – São Paulo – SP', phone: '+55 (11) 3371-5400', email: 'info.sp@consulfrance.org', site: 'https://saopaulo.consulfrance.org' }, { name: 'Consulado Geral da França – Rio de Janeiro', address: 'Av. Presidente Antônio Carlos, 58 – Rio de Janeiro – RJ', phone: '+55 (21) 3974-6600', email: 'contact.rio@consulfrance.org', site: 'https://riodejaneiro.consulfrance.org' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para entrada turística comum.', '<strong>Exigências reais:</strong> o principal ponto de saúde para a viagem é a organização documental e o seguro de viagem.', '<strong>Febre amarela:</strong> se o itinerário exigir comprovação, a vacina deve ser tomada com pelo menos 10 dias de antecedência.', '<strong>Regra prática:</strong> sem visto não significa sem preparo; documentação e cobertura de viagem seguem sendo essenciais.']),
-          block6: `${createParagraphs(['A França segue a lógica Schengen, então a imigração pode acontecer em outro país do bloco antes da chegada ao destino final.', 'Mesmo sem visto, a entrada pode ser negada se a documentação estiver inconsistente.', 'Hospedagem, comprovação financeira e passagem de saída podem ser exigidas.', 'Seguro de viagem é tratado nesta base como item essencial da viagem europeia.'])}<div class="note">${contentBlocks.europeStrategy}</div>`
+      Object.entries(block).forEach(([key, value]) => {
+        if (key === 'title' || knownListKeys.some(([known]) => known === key)) return;
+        if (Array.isArray(value) && value.length && value.every(item => typeof item === 'string')) {
+          const label = key.replace(/_/g, ' ').replace(/\w/g, c => c.toUpperCase());
+          html += `<h4>${escapeHtml(label)}</h4>${renderList(value)}`;
+        } else if (typeof value === 'string' && value.trim()) {
+          const label = key.replace(/_/g, ' ').replace(/\w/g, c => c.toUpperCase());
+          html += `<p><strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}</p>`;
         }
-      },
+      });
 
-      'espanha': {
-        name: 'Espanha',
-        aliases: ['espanha', 'spain'],
-        summary: {
-          entry: 'Brasileiros não precisam de visto para turismo de curta duração.',
-          health: 'Sem exigência geral de vacina obrigatória; seguro e documentos seguem essenciais.',
-          support: 'Madrid e Barcelona têm apoio principal; demais cidades usam o posto mais adequado.'
-        },
-        cities: {
-          'madrid': [{ name: 'Embaixada do Brasil em Madrid', highlight: 'Principal apoio brasileiro na capital espanhola.', address: 'Calle Fernando el Santo, 6 – Madrid', phone: '+34 91 700 4650', email: 'consular.madrid@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-madrid', distance: '~ 3 a 5 km', car: '10 a 20 min' }],
-          'barcelona': [{ name: 'Consulado-Geral do Brasil em Barcelona', highlight: 'Principal apoio brasileiro na Catalunha.', address: 'Passeig de Gràcia, 21 – Barcelona', phone: '+34 93 488 2288', email: 'consular.barcelona@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-barcelona', distance: '~ 2 km', car: '10 min' }]
-        },
-        defaultCity: 'madrid',
-        blocks: {
-          block1: `${createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo de curta duração.', '<strong>Tipo de entrada:</strong> turismo com isenção na lógica Schengen.', '<strong>Valor:</strong> sem taxa de visto para turismo comum.', '<strong>Tempo de permanência:</strong> até 90 dias em 180 dias no espaço Schengen.', '<strong>Entrevista:</strong> não há entrevista consular prévia.', '<strong>Antecedência recomendada:</strong> organizar documentos com 2 a 4 semanas de antecedência.'])}<h4>Schengen</h4>${createParagraphs(contentBlocks.schengenIntro)}<h4>ETIAS</h4>${createParagraphs(contentBlocks.etias)}`,
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Comprovante de hospedagem.', 'Passagem de saída.', 'Comprovação financeira.', 'Seguro viagem.'])}<h4>Regra prática real da Espanha</h4>${createBulletList(['A imigração pode exigir comprovação financeira robusta.', 'Carta-convite precisa estar formalizada quando a hospedagem for em residência de terceiros.', 'Reservas inconsistentes aumentam o risco de problemas na entrada.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada da Espanha – Brasília', address: 'SES Av. das Nações, Quadra 811, Lote 44 – Brasília – DF', phone: '+55 (61) 3701-1600', email: 'emb.brasilia@maec.es', site: 'https://www.exteriores.gob.es/embajadas/brasilia' }, { name: 'Consulado Geral da Espanha – São Paulo', address: 'Av. Paulista, 2439 – São Paulo – SP', phone: '+55 (11) 3087-2600', email: 'cog.saopaulo@maec.es', site: 'https://www.exteriores.gob.es/consulados/saopaulo' }, { name: 'Consulado Geral da Espanha – Rio de Janeiro', address: 'Rua Lauro Müller, 116 – Botafogo – Rio de Janeiro – RJ', phone: '+55 (21) 2543-3200', email: 'cog.riodejaneiro@maec.es', site: 'https://www.exteriores.gob.es/consulados/riodejaneiro' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para entrada turística comum.', '<strong>Exigências reais:</strong> o foco principal está na documentação e no seguro de viagem.', '<strong>Febre amarela:</strong> considerar a lógica dos 10 dias se o itinerário exigir comprovação.']),
-          block6: `${createParagraphs(['A Espanha é um dos países europeus mais rigorosos na triagem migratória de turistas com documentação fraca.', 'Reserva inconsistente, pouca comprovação financeira e explicação frágil da viagem aumentam o risco de problemas.', 'Mesmo sem visto, a entrada pode ser negada.'])}<div class="note">${contentBlocks.europeStrategy}</div>`
+      return html || `<pre>${escapeHtml(JSON.stringify(block, null, 2))}</pre>`;
+    }
+
+    function formatBlock(block) {
+      if (block == null) return '<p>Informações indisponíveis no momento.</p>';
+
+      if (typeof block === 'string') {
+        return block.includes('<') ? block : `<p>${escapeHtml(block)}</p>`;
+      }
+
+      if (Array.isArray(block)) {
+        if (!block.length) return '<p>Informações indisponíveis no momento.</p>';
+        if (block.every(item => typeof item === 'string')) {
+          return renderParagraphs(block);
         }
-      },
-
-      'reino-unido': {
-        name: 'Reino Unido', aliases: ['reino unido', 'uk', 'united kingdom', 'inglaterra', 'escocia', 'escócia'],
-        summary: { entry: 'Brasileiros precisam de ETA para turismo.', health: 'Sem exigência geral de vacina obrigatória na entrada comum.', support: 'Londres e Edimburgo são os apoios principais desta base.' },
-        cities: {
-          'londres': [{ name: 'Consulado-Geral do Brasil em Londres', highlight: 'Principal apoio brasileiro para viajantes na capital inglesa.', address: '14-16 Cockspur Street, London, SW1Y 5BL', phone: '+44 20 7747 4500', email: 'consular.londres@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-londres', distance: '~ 4 km', car: '15 a 25 min' }],
-          'manchester': [{ name: 'Consulado-Geral do Brasil em Edimburgo', highlight: 'Nesta base, Manchester usa como referência principal o posto de Edimburgo.', address: '19A Canning Street, Caledonian Exchange, Ground Floor, Edinburgh, EH3 8EG', phone: '+44 07873 261219', email: 'edimburgo@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-edimburgo', distance: '~ 350 km', car: '4h a 4h30', train: '3h a 3h30' }],
-          'edimburgo': [{ name: 'Consulado-Geral do Brasil em Edimburgo', highlight: 'Principal apoio brasileiro na Escócia.', address: '19A Canning Street, Caledonian Exchange, Ground Floor, Edinburgh, EH3 8EG', phone: '+44 07873 261219', email: 'edimburgo@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-edimburgo', distance: '~ 3 km', car: '10 a 15 min' }],
-          'glasgow': [{ name: 'Consulado-Geral do Brasil em Edimburgo', highlight: 'Glasgow usa o apoio brasileiro principal em Edimburgo.', address: '19A Canning Street, Caledonian Exchange, Ground Floor, Edinburgh, EH3 8EG', phone: '+44 07873 261219', email: 'edimburgo@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-edimburgo', distance: '~ 75 km', car: '1h', train: '50 min a 1h' }]
-        },
-        defaultCity: 'londres',
-        blocks: {
-          block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros precisam de ETA para turismo no Reino Unido, inclusive adultos e crianças.', '<strong>Tipo de autorização:</strong> ETA (Electronic Travel Authorisation).', '<strong>Valor:</strong> £20, com estimativa média de aproximadamente R$ 145 a R$ 160.', '<strong>Entrevista:</strong> não há entrevista consular padrão para ETA.', '<strong>Tempo de processo:</strong> normalmente rápido, mas o ideal é não deixar para a última hora.', '<strong>Tempo de permanência:</strong> até 6 meses por visita.', '<strong>Antecedência recomendada:</strong> pedir com pelo menos 2 a 3 semanas de antecedência.']),
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'ETA aprovado e vinculado ao passaporte.', 'Comprovante de hospedagem.', 'Passagem de saída.', 'Recursos financeiros compatíveis com a viagem.'])}<h4>Fortemente recomendados</h4>${createBulletList(['Comprovantes do motivo da viagem.', 'Reservas organizadas.', 'Seguro viagem.'])}<h4>Onde tirar</h4>${createBulletList(['Passaporte: Polícia Federal.', 'ETA: sistema oficial do governo britânico.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada Britânica – Brasília', address: 'Quadra 801 - Conjunto K - Lote 08, Av. das Nações, Asa Sul, Brasília – DF', phone: '+55 (61) 3329-2300', email: 'Contato centralizado pelos canais oficiais do Reino Unido', site: 'https://www.gov.uk/world/organisations/british-embassy-brazil.pt' }, { name: 'Consulado-Geral Britânico – São Paulo', address: 'R. Ferreira de Araújo, 741 - Pinheiros, São Paulo – SP', phone: '+55 (11) 3094-2700', email: 'Contato centralizado pelos canais oficiais do Reino Unido', site: 'https://www.gov.uk/world/organisations/british-embassy-brazil/office/british-consulate-general-sao-paulo' }, { name: 'Consulado-Geral Britânico – Rio de Janeiro', address: 'Praia do Flamengo, 284 - Flamengo, Rio de Janeiro – RJ', phone: '+55 (21) 2555-9600', email: 'Contato centralizado pelos canais oficiais do Reino Unido', site: 'https://www.gov.uk/world/organisations/british-embassy-brazil/office/british-consulate-general-rio-de-janeiro' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para a entrada turística comum.', '<strong>Exigências reais:</strong> a entrada depende mais da autorização correta e da documentação de viagem do que de exigência sanitária.', '<strong>Febre amarela:</strong> quando necessária por itinerário específico, a lógica prática continua sendo tomar a vacina com pelo menos 10 dias de antecedência.']),
-          block6: createParagraphs(['O Reino Unido não faz parte do espaço Schengen.', 'Ter entrada liberada em países da Europa continental não substitui a ETA britânica.', 'A entrada pode ser negada mesmo com ETA aprovado.', 'A imigração pode exigir motivo da viagem, hospedagem, recursos financeiros e passagem de saída.'])
+        if (block.every(item => item && typeof item === 'object' && ('name' in item || 'address' in item))) {
+          return createLocationCards(block);
         }
-      },
+        return block.map(item => {
+          if (typeof item === 'string') return `<p>${escapeHtml(item)}</p>`;
+          if (item && typeof item === 'object') return renderObjectBlock(item);
+          return '';
+        }).join('');
+      }
 
-      'italia': {
-        name: 'Itália', aliases: ['italia', 'itália', 'italy'],
-        summary: { entry: 'Brasileiros não precisam de visto para turismo de curta duração.', health: 'Sem exigência geral de vacina obrigatória; seguro e documentos seguem essenciais.', support: 'Roma e Milão têm apoio direto; outras cidades usam o posto mais adequado.' },
-        cities: {
-          'roma': [{ name: 'Embaixada do Brasil em Roma', highlight: 'Principal apoio brasileiro na capital italiana.', address: 'Piazza Navona, 14 – Roma', phone: '+39 06 6889 661', email: 'consular.roma@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-roma', distance: '~ 3 km', car: '10 a 15 min' }],
-          'milao': [{ name: 'Consulado-Geral do Brasil em Milão', highlight: 'Principal apoio brasileiro no norte da Itália.', address: 'Corso Europa, 12 – Milão', phone: '+39 02 7771 0700', email: 'consular.milao@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-milao', distance: '~ 2 km', car: '10 min' }],
-          'florenca': [{ name: 'Posto brasileiro mais próximo nesta base: Roma', highlight: 'Florença utiliza como referência principal o posto brasileiro em Roma.', address: 'Piazza Navona, 14 – Roma', phone: '+39 06 6889 661', email: 'consular.roma@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-roma', distance: '~ 280 km', car: '3h', train: '1h30' }]
-        },
-        defaultCity: 'roma',
-        blocks: {
-          block1: `${createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo de curta duração.', '<strong>Tipo de entrada:</strong> turismo com isenção na lógica Schengen.', '<strong>Valor:</strong> sem taxa de visto para turismo comum.', '<strong>Tempo de permanência:</strong> até 90 dias em 180 dias.', '<strong>Entrevista:</strong> não há entrevista consular prévia.'])}<h4>Schengen</h4>${createParagraphs(contentBlocks.schengenIntro)}<h4>ETIAS</h4>${createParagraphs(contentBlocks.etias)}`,
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Hospedagem.', 'Passagem de saída.', 'Comprovação financeira.', 'Seguro viagem.'])}<h4>Regra prática</h4>${createBulletList(['A imigração pode pedir todos os comprovantes na chegada.', 'Mesmo entrando por outro país Schengen, a documentação da viagem italiana precisa estar coerente.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada da Itália – Brasília', address: 'SES Av. das Nações, Quadra 807, Lote 30 – Brasília – DF', phone: '+55 (61) 3442-9900', email: 'ambasciata.brasilia@esteri.it', site: 'https://ambbrasilia.esteri.it' }, { name: 'Consulado Geral da Itália – São Paulo', address: 'Av. Paulista, 1963 – São Paulo – SP', phone: '+55 (11) 3549-5699', email: 'segreteria.sanpaolo@esteri.it', site: 'https://conssanpaolo.esteri.it' }, { name: 'Consulado Geral da Itália – Rio de Janeiro', address: 'Av. Presidente Antônio Carlos, 40 – Rio de Janeiro – RJ', phone: '+55 (21) 3534-1313', email: 'segreteria.riodejaneiro@esteri.it', site: 'https://conssanpaolo.esteri.it' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para entrada turística comum.', '<strong>Exigências reais:</strong> o principal ponto é a documentação e o seguro de viagem.', '<strong>Febre amarela:</strong> se aplicável ao itinerário, usar a lógica dos 10 dias.']),
-          block6: `${createParagraphs(['Mesmo sem visto, a entrada pode ser negada se a documentação estiver inconsistente.', 'A imigração pode acontecer em outro país Schengen antes da chegada à Itália.', 'Seguro viagem é tratado nesta base como item essencial da viagem europeia.'])}<div class="note">${contentBlocks.europeStrategy}</div>`
-        }
-      },
+      if (typeof block === 'object') {
+        return renderObjectBlock(block);
+      }
 
-      'mexico': {
-        name: 'México', aliases: ['mexico', 'méxico'],
-        summary: { entry: 'Brasileiros não precisam de visto em alguns cenários, mas a imigração é sensível.', health: 'Sem exigência geral de vacina obrigatória na entrada comum.', support: 'Cidade do México e Cancún são os apoios principais desta base.' },
-        cities: {
-          'cidade do mexico': [{ name: 'Embaixada do Brasil na Cidade do México', highlight: 'Principal apoio diplomático brasileiro na capital mexicana.', address: 'Paseo de la Reforma, 300 – Cidade do México', phone: '+52 55 5207 2344', email: 'consular.mexico@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-mexico', distance: '~ 5 km', car: '15 a 25 min' }],
-          'cancun': [{ name: 'Consulado do Brasil em Cancún', highlight: 'Principal apoio brasileiro na região turística de Cancún.', address: 'Zona Hotelera – Cancún', phone: '+52 998 980 0602', email: 'cancun@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br', distance: '~ 5 a 10 km', car: '15 a 20 min' }]
-        },
-        defaultCity: 'cancun',
-        blocks: {
-          block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto em alguns cenários específicos, mas a regra depende da documentação de entrada válida, como visto americano ou de outros países elegíveis.', '<strong>Tipo de entrada:</strong> turismo sem visto em situações elegíveis ou visto mexicano de turismo quando necessário.', '<strong>Valor do visto:</strong> aproximadamente US$ 51, com estimativa média de R$ 260 a R$ 300.', '<strong>Entrevista:</strong> presencial quando o visto mexicano é necessário.', '<strong>Tempo de processo:</strong> em geral de 1 a 4 semanas.', '<strong>Antecedência recomendada:</strong> mínimo de 1 mês quando houver necessidade de visto.']),
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Passagem de saída.', 'Comprovante de hospedagem.', 'Comprovação financeira.', 'Formulários migratórios quando aplicáveis.'])}<h4>Ponto crítico</h4>${createBulletList(['O México é um dos países que mais recusa entrada de brasileiros com documentação fraca.', 'Mesmo sem exigência de visto em alguns casos, a imigração pode negar entrada.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada do México – Brasília', address: 'SES Av. das Nações, Quadra 805, Lote 18 – Brasília – DF', phone: '+55 (61) 3204-5200', email: 'embbra@embamex.gob.mx', site: 'https://embamex.sre.gob.mx/brasil' }, { name: 'Consulado do México – São Paulo', address: 'Av. Paulista, 2073 – São Paulo – SP', phone: '+55 (11) 3065-4300', email: 'consulado.sao@embamex.gob.mx', site: 'https://embamex.sre.gob.mx/brasil' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para entrada turística comum.', '<strong>Exigências reais:</strong> o ponto mais sensível é a triagem migratória, não a regra sanitária.', '<strong>Febre amarela:</strong> usar a lógica dos 10 dias se houver exigência por itinerário.']),
-          block6: createParagraphs(['O México é um dos destinos com maior número de recusas de entrada de brasileiros quando a documentação está fraca.', 'Reserva inconsistente, pouca comprovação financeira e explicação vaga da viagem aumentam o risco.', 'Mesmo sem visto em alguns cenários, a entrada pode ser negada.'])
-        }
-      },
+      return `<p>${escapeHtml(String(block))}</p>`;
+    }
 
-      'argentina': {
-        name: 'Argentina', aliases: ['argentina'],
-        summary: { entry: 'Brasileiros não precisam de visto e podem entrar com RG válido ou passaporte.', health: 'Sem exigência geral de vacina obrigatória para entrada comum.', support: 'Buenos Aires é o apoio principal desta base.' },
-        cities: {
-          'buenos aires': [{ name: 'Embaixada do Brasil em Buenos Aires', highlight: 'Principal apoio diplomático do Brasil na Argentina.', address: 'Cerrito 1350 – Buenos Aires', phone: '+54 11 4515-2400', email: 'consular.buenosaires@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-buenos-aires', distance: '~ 3 km', car: '10 a 15 min' }]
-        },
-        defaultCity: 'buenos aires',
-        blocks: {
-          block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo.', '<strong>Forma de entrada:</strong> pode entrar com passaporte válido ou RG em bom estado.', '<strong>Valor:</strong> sem taxa de visto para turismo.', '<strong>Tempo de permanência:</strong> até 90 dias, com possibilidade de prorrogação conforme regra local.', '<strong>Entrevista:</strong> não há entrevista prévia.']),
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['RG em bom estado ou passaporte válido.', 'Passagem de saída.', 'Comprovante de hospedagem.'])}<h4>Ponto prático</h4>${createBulletList(['RG em mau estado pode gerar problema.', 'Se houver dúvida sobre o documento, viajar com passaporte é mais seguro.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada da Argentina – Brasília', address: 'SES Av. das Nações, Quadra 803, Lote 2 – Brasília – DF', phone: '+55 (61) 3364-7600', email: 'embajada@embargentina.org.br', site: 'https://ebrasi.cancilleria.gob.ar' }, { name: 'Consulado Geral da Argentina – São Paulo', address: 'Av. Paulista, 2313 – São Paulo – SP', phone: '+55 (11) 3897-0700', email: 'cgsan@mrecic.gov.ar', site: 'https://ebrasi.cancilleria.gob.ar' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para entrada comum.', '<strong>Exigências reais:</strong> o principal cuidado está no documento de entrada e na organização da viagem.']),
-          block6: createParagraphs(['A entrada costuma ser simples, mas documento deteriorado pode gerar problema.', 'Seguro viagem não é obrigatório por regra geral de entrada, mas é recomendável.', 'Mesmo em países com entrada mais simples, a autoridade migratória pode questionar o objetivo da viagem.'])
-        }
-      },
+    function getSummaryValue(summary, key) {
+      if (!summary || typeof summary !== 'object') return '';
+      return summary[key] || '';
+    }
 
-      'portugal': {
-        name: 'Portugal', aliases: ['portugal'],
-        summary: { entry: 'Brasileiros não precisam de visto para turismo de curta duração.', health: 'Sem exigência geral de vacina obrigatória; seguro e comprovação seguem essenciais.', support: 'Lisboa e Porto têm apoio direto nesta base.' },
-        cities: {
-          'lisboa': [{ name: 'Embaixada do Brasil em Lisboa', highlight: 'Principal apoio diplomático do Brasil em Portugal.', address: 'Estrada das Laranjeiras, 144 – Lisboa', phone: '+351 21 724 8500', email: 'consular.lisboa@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-lisboa', distance: '~ 5 km', car: '15 a 25 min' }],
-          'porto': [{ name: 'Consulado-Geral do Brasil no Porto', highlight: 'Principal apoio brasileiro na região norte de Portugal.', address: 'Avenida da Boavista, 1681 – Porto', phone: '+351 22 607 5600', email: 'consular.porto@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-porto', distance: '~ 3 km', car: '10 a 15 min' }]
-        },
-        defaultCity: 'lisboa',
-        blocks: {
-          block1: `${createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo de curta duração.', '<strong>Tipo de entrada:</strong> turismo com isenção na lógica Schengen.', '<strong>Valor:</strong> sem taxa de visto para turismo comum.', '<strong>Tempo de permanência:</strong> até 90 dias em 180 dias.', '<strong>Entrevista:</strong> não há entrevista consular prévia.'])}<h4>Schengen</h4>${createParagraphs(contentBlocks.schengenIntro)}<h4>ETIAS</h4>${createParagraphs(contentBlocks.etias)}`,
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Hospedagem.', 'Passagem de saída.', 'Comprovação financeira.', 'Seguro viagem.'])}<h4>Regra prática real</h4>${createBulletList(['Portugal é um dos países que mais barra brasileiros com documentação inconsistente.', 'Reserva de hospedagem, dinheiro compatível e explicação clara da viagem são pontos sensíveis.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada de Portugal – Brasília', address: 'SES Av. das Nações, Quadra 801, Lote 02 – Brasília – DF', phone: '+55 (61) 3032-9600', email: 'brasilia@mne.pt', site: 'https://brasilia.embaixadaportugal.mne.gov.pt' }, { name: 'Consulado Geral de Portugal – São Paulo', address: 'Rua Canadá, 324 – Jardim América – São Paulo – SP', phone: '+55 (11) 3087-3100', email: 'consulado.saopaulo@mne.pt', site: 'https://brasilia.embaixadaportugal.mne.gov.pt' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para entrada turística comum.', '<strong>Exigências reais:</strong> o foco principal está no seguro e na consistência documental.', '<strong>Febre amarela:</strong> se aplicável ao itinerário, considerar a regra dos 10 dias.']),
-          block6: `${createParagraphs(['Portugal é um dos destinos europeus mais sensíveis para brasileiros com documentação fraca.', 'Pouca comprovação financeira, reserva inconsistente ou perfil mal explicado aumentam o risco de problemas.', 'Mesmo sem visto, a entrada pode ser negada.'])}<div class="note">${contentBlocks.europeStrategy}</div>`
-        }
-      },
+    function findMatchingCity(cities, normalizedQuery) {
+      if (!cities || typeof cities !== 'object') return null;
 
-      'alemanha': {
-        name: 'Alemanha', aliases: ['alemanha', 'germany'],
-        summary: { entry: 'Brasileiros não precisam de visto para turismo de curta duração.', health: 'Sem exigência geral de vacina obrigatória; seguro e documentação seguem essenciais.', support: 'Berlim e Munique são os apoios principais desta base.' },
-        cities: {
-          'berlim': [{ name: 'Embaixada do Brasil em Berlim', highlight: 'Principal apoio diplomático brasileiro em Berlim.', address: 'Wallstraße 57 – Berlim', phone: '+49 30 726280', email: 'consular.berlim@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-berlim', distance: '~ 3 km', car: '10 a 15 min' }],
-          'munique': [{ name: 'Consulado-Geral do Brasil em Munique', highlight: 'Principal apoio brasileiro em Munique.', address: 'Sonnenstraße 31 – Munique', phone: '+49 89 5527930', email: 'consular.munique@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-munique', distance: '~ 2 km', car: '10 min' }]
-        },
-        defaultCity: 'berlim',
-        blocks: {
-          block1: `${createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo de curta duração.', '<strong>Tipo de entrada:</strong> turismo com isenção na lógica Schengen.', '<strong>Valor:</strong> sem taxa de visto para turismo comum.', '<strong>Tempo de permanência:</strong> até 90 dias em 180 dias.', '<strong>Entrevista:</strong> não há entrevista consular prévia.'])}<h4>Schengen</h4>${createParagraphs(contentBlocks.schengenIntro)}<h4>ETIAS</h4>${createParagraphs(contentBlocks.etias)}`,
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Hospedagem.', 'Passagem de saída.', 'Comprovação financeira.', 'Seguro viagem.'])}<h4>Regra prática real</h4>${createBulletList(['A Alemanha costuma valorizar documentação organizada e coerente.', 'Perfil objetivo e comprovantes claros ajudam muito na triagem migratória.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada da Alemanha – Brasília', address: 'SES Av. das Nações, Quadra 807, Lote 25 – Brasília – DF', phone: '+55 (61) 3442-7000', email: 'info@brasilia.diplo.de', site: 'https://brasil.diplo.de' }, { name: 'Consulado-Geral – São Paulo', address: 'Av. Brigadeiro Faria Lima, 2092 – São Paulo – SP', phone: '+55 (11) 5187-0000', email: 'info@saopaulo.diplo.de', site: 'https://brasil.diplo.de' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para entrada turística comum.', '<strong>Exigências reais:</strong> o foco está em documentação organizada e cobertura adequada de viagem.', '<strong>Febre amarela:</strong> usar a lógica dos 10 dias se aplicável.']),
-          block6: `${createParagraphs(['A Alemanha é mais técnica do que subjetiva na triagem migratória.', 'Mesmo sem visto, a entrada pode ser negada se a documentação não estiver coerente.', 'Seguro viagem e comprovação financeira seguem relevantes.'])}<div class="note">${contentBlocks.europeStrategy}</div>`
-        }
-      },
-
-      'paises-baixos': {
-        name: 'Países Baixos', aliases: ['paises baixos', 'países baixos', 'holanda', 'netherlands'],
-        summary: { entry: 'Brasileiros não precisam de visto para turismo de curta duração.', health: 'Sem exigência geral de vacina obrigatória; seguro e documentação seguem essenciais.', support: 'Amsterdã usa apoio principal em Haia nesta base.' },
-        cities: {
-          'amsterda': [{ name: 'Embaixada do Brasil em Haia', highlight: 'Principal apoio brasileiro para viajantes que entram pelos Países Baixos.', address: 'Lange Voorhout 14, Den Haag', phone: '+31 70 302 3959', email: 'consular.haia@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-haia', distance: '~ 60 km', car: '45 min a 1h', train: '50 min' }]
-        },
-        defaultCity: 'amsterda',
-        blocks: {
-          block1: `${createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo de curta duração.', '<strong>Tipo de entrada:</strong> turismo com isenção na lógica Schengen.', '<strong>Valor:</strong> sem taxa de visto para turismo comum.', '<strong>Tempo de permanência:</strong> até 90 dias em 180 dias.', '<strong>Entrevista:</strong> não há entrevista consular prévia.'])}<h4>Schengen</h4>${createParagraphs(contentBlocks.schengenIntro)}<h4>ETIAS</h4>${createParagraphs(contentBlocks.etias)}`,
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Hospedagem.', 'Passagem de saída.', 'Comprovação financeira.', 'Seguro viagem.'])}<h4>Regra prática</h4>${createBulletList(['Amsterdã é uma das principais portas de entrada da Europa.', 'A imigração tende a ser objetiva e documental.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada dos Países Baixos – Brasília', address: 'SES Av. das Nações, Quadra 801, Lote 08 – Brasília – DF', phone: '+55 (61) 3321-4769', email: 'bra@minbuza.nl', site: 'https://www.netherlandsandyou.nl' }, { name: 'Consulado Geral – São Paulo', address: 'Av. Brigadeiro Faria Lima, 3064 – São Paulo – SP', phone: '+55 (11) 3819-7500', email: 'sao@minbuza.nl', site: 'https://www.netherlandsandyou.nl' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória.', '<strong>Exigências reais:</strong> o foco maior está na documentação e no seguro.']),
-          block6: `${createParagraphs(['Os Países Baixos são usados por muitos viajantes como porta de entrada estratégica na Europa.', 'Mesmo sem visto, a entrada pode ser negada se a documentação estiver inconsistente.'])}<div class="note">${contentBlocks.europeStrategy}</div>`
-        }
-      },
-
-      'republica-tcheca': {
-        name: 'República Tcheca', aliases: ['republica tcheca', 'república tcheca', 'tchequia', 'praga'],
-        summary: { entry: 'Brasileiros não precisam de visto para turismo de curta duração.', health: 'Sem exigência geral de vacina obrigatória; seguro e documentação seguem essenciais.', support: 'Praga é o apoio principal desta base.' },
-        cities: {
-          'praga': [{ name: 'Embaixada do Brasil em Praga', highlight: 'Principal apoio brasileiro na República Tcheca.', address: 'Panská 895/6 – Praga', phone: '+420 224 311 253', email: 'consular.praga@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-praga', distance: '~ 2 km', car: '10 min' }]
-        },
-        defaultCity: 'praga',
-        blocks: {
-          block1: `${createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo de curta duração.', '<strong>Tipo de entrada:</strong> turismo com isenção na lógica Schengen.', '<strong>Valor:</strong> sem taxa de visto.', '<strong>Tempo de permanência:</strong> até 90 dias em 180 dias.', '<strong>Entrevista:</strong> não há entrevista consular prévia.'])}<h4>Schengen</h4>${createParagraphs(contentBlocks.schengenIntro)}<h4>ETIAS</h4>${createParagraphs(contentBlocks.etias)}`,
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Hospedagem.', 'Passagem de saída.', 'Comprovação financeira.', 'Seguro viagem.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada da República Tcheca – Brasília', address: 'SES Av. das Nações, Quadra 805, Lote 21 – Brasília – DF', phone: '+55 (61) 3242-2811', email: 'brasilia@embassy.mzv.cz', site: 'https://www.mzv.cz/brasilia' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória na entrada comum.']),
-          block6: `${createParagraphs(['A República Tcheca não costuma ser a porta principal de entrada na Europa para a maioria dos brasileiros.', 'Mesmo sem visto, a documentação precisa estar correta.'])}<div class="note">${contentBlocks.europeStrategy}</div>`
-        }
-      },
-
-      'canada': {
-        name: 'Canadá', aliases: ['canada', 'canadá'],
-        summary: { entry: 'Brasileiros precisam de eTA ou visto, conforme o perfil.', health: 'Sem exigência geral de vacina obrigatória na entrada comum.', support: 'Toronto, Vancouver e Montreal têm apoio configurado nesta base.' },
-        cities: {
-          'toronto': [{ name: 'Consulado-Geral do Brasil em Toronto', highlight: 'Principal apoio consular brasileiro em Toronto.', address: '77 Bloor Street West, Suite 1109, Toronto, ON', phone: '+1 416 922 2503', email: 'cg.toronto@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-toronto', distance: '~ 5 km', car: '10 a 20 min' }],
-          'vancouver': [{ name: 'Consulado-Geral do Brasil em Vancouver', highlight: 'Principal apoio consular brasileiro em Vancouver.', address: '1111 Melville St, Suite 1050, Vancouver, BC', phone: '+1 604 696-5311', email: 'Consultar canais oficiais do posto', site: 'https://www.gov.br/mre/pt-br/assuntos/portal-consular/reparticoes-consulares-do-brasil/regiao/canada/canada', distance: '~ 3 km', car: '10 min' }],
-          'montreal': [{ name: 'Consulado-Geral do Brasil em Montreal', highlight: 'Principal apoio brasileiro na região de Quebec.', address: '1 Westmount Square, Suite 1700, Westmount, QC H3Z 2P9', phone: 'Consultar portal oficial', email: 'Consultar portal oficial', site: 'https://www.gov.br/mre/pt-br/assuntos/portal-consular/reparticoes-consulares-do-brasil/regiao/canada/canada', distance: '~ 5 km', car: '15 min' }]
-        },
-        defaultCity: 'toronto',
-        blocks: {
-          block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros precisam de autorização obrigatória para entrar no Canadá.', '<strong>Formas de entrada:</strong> eTA para quem se enquadra nos critérios oficiais; visto de visitante para quem não se enquadra.', '<strong>Valor do eTA:</strong> CAD 7, com estimativa média de aproximadamente R$ 30 a R$ 40.', '<strong>Valor do visto:</strong> CAD 100, com estimativa média aproximada de R$ 380 a R$ 420.', '<strong>Entrevista:</strong> normalmente não para eTA; pode existir exigência adicional em processos de visto.', '<strong>Biometria:</strong> pode ser necessária para o visto.', '<strong>Antecedência recomendada:</strong> eTA com pelo menos 1 a 3 semanas; visto com pelo menos 2 a 3 meses.']),
-          block2: `<h4>Para eTA</h4>${createBulletList(['Passaporte válido.', 'E-mail.', 'Cartão para pagamento da taxa.', 'Dados pessoais e do passaporte.'])}<h4>Para visto</h4>${createBulletList(['Passaporte válido.', 'Formulários do processo.', 'Comprovante financeiro.', 'Comprovação de vínculo com o Brasil.', 'Histórico de viagens, quando houver.', 'Biometria, quando exigida.'])}<h4>Na entrada</h4>${createBulletList(['Passaporte.', 'Hospedagem.', 'Passagem de saída.', 'Prova de recursos financeiros compatíveis com a viagem.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada do Canadá – Brasília', address: 'SES, Av. das Nações, Quadra 803, Lote 16, Brasília – DF', phone: '+55 (61) 3424-5400', email: 'Consultar canais oficiais do governo do Canadá no Brasil', site: 'https://www.canadainternational.gc.ca' }, { name: 'Consulado-Geral do Canadá – São Paulo', address: 'Rede consular oficial do Canadá em São Paulo', phone: 'Consultar canais oficiais', email: 'Consultar canais oficiais', site: 'https://travel.gc.ca/assistance/embassies-consulates/brazil' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para entrada turística comum.', '<strong>Regra prática:</strong> se o itinerário exigir CIVP por conexão ou situação específica, aplicar a lógica de 10 dias para febre amarela.']),
-          block6: createParagraphs(['O Canadá tem controle migratório organizado e rigoroso.', 'O eTA ou o visto não garantem entrada automática.', 'A imigração pode questionar motivo da viagem, hospedagem, recursos financeiros e retorno.', 'Seguro viagem não é obrigatório por regra geral de entrada, mas é altamente recomendável.'])
-        }
-      },
-
-      'peru': {
-        name: 'Peru', aliases: ['peru'],
-        summary: { entry: 'Brasileiros não precisam de visto para turismo.', health: 'Sem exigência geral de vacina obrigatória na entrada turística comum.', support: 'Lima é o principal apoio; Cusco usa referência de Lima.' },
-        cities: {
-          'lima': [{ name: 'Embaixada do Brasil em Lima', highlight: 'Principal apoio diplomático do Brasil no Peru.', address: 'Av. José Pardo 850, Miraflores, Lima', phone: '+51 512-0830', email: 'consular.lima@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-lima', distance: '~ 5 km', car: '15 a 20 min' }],
-          'cusco': [{ name: 'Posto brasileiro mais próximo: Lima', highlight: 'Cusco utiliza como principal referência de apoio a Embaixada do Brasil em Lima.', address: 'Av. José Pardo 850, Miraflores, Lima', phone: '+51 512-0830', email: 'consular.lima@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-lima', distance: '~ 1.100 km', car: '20h', flight: '1h20', note: 'Para urgências, o apoio costuma ser articulado a partir de Lima.' }]
-        },
-        defaultCity: 'lima',
-        blocks: {
-          block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo; adultos e crianças seguem a mesma lógica de entrada.', '<strong>Tipo de entrada:</strong> turismo sem visto.', '<strong>Valor:</strong> sem taxa de visto para a entrada turística comum.', '<strong>Entrevista:</strong> não há entrevista consular prévia para turismo.', '<strong>Antecedência:</strong> não precisa solicitar visto antes, mas vale viajar com toda a documentação organizada.', '<strong>Tempo de permanência:</strong> o prazo é definido pela autoridade migratória peruana no momento da entrada.']),
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Documento de viagem válido.', 'Comprovante de hospedagem.', 'Passagem de saída ou de continuação da viagem.'])}<h4>Podem ser solicitados</h4>${createBulletList(['Comprovação financeira.', 'Comprovação do objetivo da viagem.'])}<h4>Onde tirar</h4>${createBulletList(['Passaporte: Polícia Federal.', 'Hospedagem e passagem: fornecedores da viagem.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada do Peru – Brasília', address: 'S.E.S. Av. das Nações, lote 43, Quadra 811, Brasília – DF', phone: 'Consultar canal oficial atualizado da embaixada', email: 'Consultar canal oficial atualizado da embaixada', site: 'https://www.gob.pe/embajada-del-peru-en-brasil' }, { name: 'Consulado-Geral do Peru – São Paulo', address: 'Avenida Paulista, 2439, Bela Vista, São Paulo – SP', phone: '+55 (11) 3149-2525', email: 'contacto@consuladoperusp.com.br', site: 'https://www.gob.pe/institucion/consulado-del-peru-en-san-pablo' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral indicada nesta base para a entrada turística comum.', '<strong>Regra prática:</strong> se houver necessidade de comprovação por itinerário específico, a febre amarela deve ser tomada com pelo menos 10 dias de antecedência.', '<strong>CIVP:</strong> só entra como ponto crítico se o itinerário realmente exigir.']),
-          block6: createParagraphs(['O ponto mais importante no Peru é respeitar exatamente o prazo concedido pela imigração na entrada.', 'Exceder o prazo concedido pode gerar problema ou multa na saída.', 'Mesmo sem visto, o viajante deve manter hospedagem, retorno e documentação organizados.'])
-        }
-      },
-
-      'chile': {
-        name: 'Chile', aliases: ['chile'],
-        summary: { entry: 'Brasileiros não precisam de visto para turismo.', health: 'Sem exigência geral de vacina obrigatória na entrada comum.', support: 'Santiago tem apoio direto; Atacama usa apoio central em Santiago.' },
-        cities: {
-          'santiago': [{ name: 'Consulado-Geral do Brasil em Santiago', highlight: 'Principal apoio consular brasileiro para viajantes no Chile.', address: 'Los Militares 6191, térreo / 1º piso, Las Condes, Santiago', phone: 'Consultar portal oficial', email: 'cg.santiago@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-santiago', distance: '~ 5 km', car: '15 a 25 min' }],
-          'atacama': [{ name: 'Posto brasileiro mais próximo nesta base: Santiago', highlight: 'San Pedro de Atacama usa como apoio principal o posto brasileiro em Santiago nesta estrutura inicial.', address: 'Los Militares 6191, térreo / 1º piso, Las Condes, Santiago', phone: 'Consultar portal oficial', email: 'cg.santiago@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-santiago', distance: '~ 1.600 km', flight: '2h', note: 'Em urgência real, o apoio tende a ser articulado remotamente a partir de Santiago.' }]
-        },
-        defaultCity: 'santiago',
-        blocks: {
-          block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo.', '<strong>Forma de entrada:</strong> viagem turística sem visto, com documento válido.', '<strong>Valor:</strong> sem taxa de visto para turismo comum.', '<strong>Entrevista:</strong> não há entrevista consular prévia.', '<strong>Antecedência:</strong> não precisa de visto, mas o ideal é viajar com toda a documentação organizada.']),
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Documento de viagem válido.', 'Comprovante de hospedagem.', 'Passagem de saída.'])}<h4>Podem ser solicitados</h4>${createBulletList(['Comprovação financeira.', 'Documentação que demonstre a finalidade da viagem.', 'Seguro viagem.'])}<h4>Onde tirar</h4>${createBulletList(['Passaporte: Polícia Federal.', 'Hospedagem e passagem: fornecedores da viagem.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada do Chile – Brasília', address: 'SES Quadra 803, lote 11 – Asa Sul, Brasília – DF', phone: '+55 (61) 2103-6100', email: 'echile.brasil@minrel.gob.cl', site: 'https://chile.gob.cl/brasil' }, { name: 'Consulado-Geral do Chile – São Paulo', address: 'Avenida Paulista 1009, Conj. 1001, 10º piso, São Paulo – SP', phone: '+55 (11) 3286-7600', email: 'Consultar canais oficiais do consulado', site: 'https://chile.gob.cl/sao-paulo' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para a entrada turística comum nesta base.', '<strong>Regra prática:</strong> o foco maior está na coerência documental e no planejamento da viagem.', '<strong>Febre amarela:</strong> se houver necessidade por itinerário, considerar a lógica dos 10 dias de antecedência.']),
-          block6: createParagraphs(['O Chile costuma ter imigração organizada e objetiva.', 'Mesmo sem visto, o viajante deve chegar com hospedagem, retorno e documentação consistentes.', 'Seguro viagem não aparece aqui como exigência universal de entrada, mas é recomendável.'])
-        }
-      },
-
-      'uruguai': {
-        name: 'Uruguai', aliases: ['uruguai', 'uruguay'],
-        summary: { entry: 'Brasileiros não precisam de visto e podem entrar com RG válido ou passaporte.', health: 'Sem exigência geral de vacina obrigatória para a entrada comum.', support: 'Montevidéu é o apoio principal; Punta del Este usa referência de Montevidéu.' },
-        cities: {
-          'montevideu': [{ name: 'Consulado-Geral do Brasil em Montevidéu', highlight: 'Principal apoio consular brasileiro no Uruguai.', address: 'Convención 1343, 6º andar, Montevidéu', phone: '+598 2901 2024', email: 'consular.montevideu@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/assuntos/portal-consular/reparticoes-consulares-do-brasil/regiao/uruguai/uruguai', distance: '~ 4 km', car: '10 a 15 min' }],
-          'punta del este': [{ name: 'Posto brasileiro mais próximo: Montevidéu', highlight: 'Punta del Este usa o apoio consular principal em Montevidéu nesta base.', address: 'Convención 1343, 6º andar, Montevidéu', phone: '+598 2901 2024', email: 'consular.montevideu@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/assuntos/portal-consular/reparticoes-consulares-do-brasil/regiao/uruguai/uruguai', distance: '~ 130 km', car: '2h' }]
-        },
-        defaultCity: 'montevideu',
-        blocks: {
-          block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo.', '<strong>Forma de entrada:</strong> pode entrar com passaporte válido ou RG válido e em bom estado.', '<strong>Valor:</strong> sem taxa de visto para turismo.', '<strong>Entrevista:</strong> não há entrevista consular prévia.', '<strong>Tempo de permanência:</strong> até 90 dias, com possibilidade de extensão conforme regra local.']),
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido ou RG válido e em bom estado.', 'Documentação da viagem, se solicitada.'])}<h4>Ponto prático importante</h4>${createBulletList(['RG deteriorado, muito antigo ou com foto incompatível pode gerar problema.', 'Se houver dúvida, viajar com passaporte é mais seguro.'])}<h4>Onde tirar</h4>${createBulletList(['Passaporte: Polícia Federal.', 'RG: órgão estadual responsável.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada / Seção Consular do Uruguai – Brasília', address: 'SES 803, Avenida das Nações, Lote 14, Brasília – DF', phone: '+55 (61) 3322-1200 / 3025-9759 / 3025-9760', email: 'Consultar canais oficiais atualizados da representação', site: 'https://mapaconsular.mrree.gub.uy' }, { name: 'Consulado-Geral do Uruguai – São Paulo', address: 'Rua Estados Unidos 1284, Jardins, São Paulo – SP', phone: '+55 (11) 2879-6600', email: 'cgsanpablo@mrree.gub.uy', site: 'https://www.gub.uy/ministerio-relaciones-exteriores' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para a entrada turística comum nesta base.', '<strong>Regra prática:</strong> se o itinerário exigir CIVP por motivo específico, aplicar a lógica dos 10 dias para febre amarela.']),
-          block6: createParagraphs(['O Uruguai é um destino de entrada relativamente simples para brasileiros.', 'Mesmo assim, a documentação precisa estar correta e o RG precisa estar em bom estado.', 'Para viagens terrestres, a atenção documental deve ser ainda maior.'])
-        }
-      },
-
-      'belgica': {
-        name: 'Bélgica', aliases: ['belgica', 'bélgica', 'belgium'],
-        summary: { entry: 'Brasileiros não precisam de visto para curta duração Schengen.', health: 'Sem exigência geral de vacina obrigatória; seguro e comprovação seguem importantes.', support: 'Bruxelas é o apoio principal; Bruges usa referência de Bruxelas.' },
-        cities: {
-          'bruxelas': [{ name: 'Embaixada do Brasil em Bruxelas', highlight: 'Principal apoio diplomático do Brasil na Bélgica.', address: 'Boulevard Saint-Michel 27, 1040 Etterbeek', phone: '+32 (0)2 640 20 15', email: 'brasemb.bruxelas@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-bruxelas', distance: '~ 3 km', car: '10 a 20 min' }],
-          'bruges': [{ name: 'Posto brasileiro mais próximo: Bruxelas', highlight: 'Bruges utiliza como principal referência o posto brasileiro em Bruxelas.', address: 'Boulevard Saint-Michel 27, 1040 Etterbeek', phone: '+32 (0)2 640 20 15', email: 'brasemb.bruxelas@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-bruxelas', distance: '~ 100 km', car: '1h30' }]
-        },
-        defaultCity: 'bruxelas',
-        blocks: {
-          block1: `${createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo de curta duração.', '<strong>Tipo de entrada:</strong> turismo com isenção na lógica Schengen.', '<strong>Valor:</strong> sem taxa de visto para turismo comum.', '<strong>Tempo de permanência:</strong> até 90 dias em 180 dias no espaço Schengen.', '<strong>Entrevista:</strong> não há entrevista consular prévia para esse tipo de viagem.'])}<h4>Schengen</h4>${createParagraphs(contentBlocks.schengenIntro)}<h4>ETIAS</h4>${createParagraphs(contentBlocks.etias)}`,
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Hospedagem.', 'Passagem de saída.', 'Comprovação financeira.'])}<h4>Fortemente recomendados</h4>${createBulletList(['Seguro viagem.', 'Documentação organizada da viagem.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada da Bélgica – Brasília', address: 'SES Avenida das Nações, Quadra 809, Lote 32, Brasília – DF', phone: '+55 (61) 344 311 33', email: 'brasilia@diplobel.fed.be', site: 'https://brazil.diplomatie.belgium.be' }, { name: 'Consulado-Geral da Bélgica – São Paulo', address: 'Avenida Paulista 2073, Edifício Horsa I, 13º andar, São Paulo – SP', phone: '+55 (11) 3145-7500', email: 'saopaulo@diplobel.fed.be', site: 'https://brazil.diplomatie.belgium.be' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para a entrada turística comum.', '<strong>Regra prática:</strong> na lógica europeia, o ponto mais sensível costuma ser a documentação e o seguro, não vacina obrigatória.', '<strong>Febre amarela:</strong> se o itinerário exigir comprovação, usar a regra de 10 dias de antecedência.']),
-          block6: `${createParagraphs(['Sem visto não significa sem comprovação.', 'A entrada pode ser negada se a viagem estiver mal documentada.', 'A Bélgica segue a lógica Schengen, então a imigração pode acontecer antes da chegada ao país.'])}<div class="note">${contentBlocks.europeStrategy}</div>`
-        }
-      },
-
-      'suica': {
-        name: 'Suíça', aliases: ['suica', 'suíça', 'switzerland'],
-        summary: { entry: 'Brasileiros não precisam de visto para curta duração.', health: 'Sem exigência geral de vacina obrigatória na entrada comum.', support: 'Zurique e Genebra têm apoio próprio.' },
-        cities: {
-          'zurique': [{ name: 'Consulado-Geral do Brasil em Zurique', highlight: 'Principal apoio consular brasileiro em Zurique.', address: 'Stampfenbachstrasse 138, 8006 Zürich', phone: '+41 044 206 9020', email: 'geral.cgzurique@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-zurique', distance: '~ 3 km', car: '10 a 15 min' }],
-          'genebra': [{ name: 'Consulado-Geral do Brasil em Genebra', highlight: 'Principal apoio consular brasileiro em Genebra.', address: 'Rue du Pré-de-la-Bichette 1, 1º andar, 1202 Genève GE', phone: '+41 22 906 9420', email: 'cg.genebra@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-genebra', distance: '~ 4 km', car: '10 a 20 min' }]
-        },
-        defaultCity: 'zurique',
-        blocks: {
-          block1: `${createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para curta duração turística.', '<strong>Tipo de entrada:</strong> viagem de turismo sem visto na lógica europeia de curta permanência.', '<strong>Valor:</strong> sem taxa de visto para turismo comum.', '<strong>Tempo de permanência:</strong> até 90 dias em 180 dias.', '<strong>Entrevista:</strong> não há entrevista consular prévia.'])}<h4>Schengen</h4>${createParagraphs(contentBlocks.schengenIntro)}<h4>ETIAS</h4>${createParagraphs(contentBlocks.etias)}`,
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Hospedagem.', 'Passagem de saída.', 'Comprovação financeira.'])}<h4>Fortemente recomendados</h4>${createBulletList(['Seguro viagem.', 'Plano de viagem claro e coerente.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada da Suíça – Brasília', address: 'SES, Avenida das Nações, Qd. 811, Lote 41, Brasília – DF', phone: '+55 (61) 3443 5500', email: 'brasilia@eda.admin.ch', site: 'https://www.eda.admin.ch/brasilia' }, { name: 'Consulado-Geral da Suíça – São Paulo', address: 'Representação oficial da Suíça em São Paulo', phone: 'Consultar portal oficial', email: 'Consultar portal oficial', site: 'https://www.eda.admin.ch/countries/brazil' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para a entrada turística comum.', '<strong>Regra prática:</strong> na Suíça, o impacto maior costuma estar em custo de viagem, comprovação financeira e coerência documental.', '<strong>Febre amarela:</strong> se aplicável ao itinerário, usar a lógica dos 10 dias.']),
-          block6: `${createParagraphs(['A Suíça exige perfil de viagem muito organizado.', 'É um destino de custo alto, então a comprovação financeira pode pesar mais.', 'Mesmo sem visto, a entrada não é automática.'])}<div class="note">${contentBlocks.europeStrategy}</div>`
-        }
-      },
-
-      'colombia': {
-        name: 'Colômbia', aliases: ['colombia', 'colômbia'],
-        summary: { entry: 'Brasileiros não precisam de visto para turismo.', health: 'Seguro saúde é fortemente recomendado nesta base.', support: 'Bogotá é o apoio principal; Cartagena usa referência de Bogotá.' },
-        cities: {
-          'bogota': [{ name: 'Embaixada do Brasil em Bogotá', highlight: 'Principal apoio diplomático brasileiro na Colômbia.', address: 'Calle 93 # 14-20, piso 8, Bogotá D.C.', phone: '+57 1 218 0800', email: 'consular.bogota@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-bogota', distance: '~ 5 km', car: '10 a 20 min' }],
-          'cartagena': [{ name: 'Posto brasileiro mais próximo: Bogotá', highlight: 'Cartagena utiliza como principal referência de apoio a embaixada em Bogotá.', address: 'Calle 93 # 14-20, piso 8, Bogotá D.C.', phone: '+57 1 218 0800', email: 'consular.bogota@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-bogota', distance: '~ 1.000 km', flight: '1h', note: 'Em urgências, o contato inicial costuma ser remoto via embaixada.' }]
-        },
-        defaultCity: 'bogota',
-        blocks: {
-          block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo.', '<strong>Tipo de entrada:</strong> turismo sem visto.', '<strong>Valor:</strong> sem taxa de visto para a entrada turística comum.', '<strong>Tempo de permanência:</strong> até 90 dias, com possibilidade de prorrogação conforme regra local.', '<strong>Entrevista:</strong> não há entrevista consular prévia.']),
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte vigente ou RG em perfeito estado.', 'Documentação da viagem, quando solicitada.', 'Comprovante de hospedagem.', 'Passagem de saída.'])}<h4>Fortemente recomendados</h4>${createBulletList(['Seguro saúde internacional.', 'Comprovação financeira.', 'Plano de viagem coerente.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada da Colômbia – Brasília', address: 'SES, Av. das Nações, Lote 10, Quadra 803, Brasília – DF', phone: '+55 (61) 3214-8900', email: 'ebrasilia@cancilleria.gov.co', site: 'https://www.cancilleria.gov.co/embajada-colombia-brasil' }, { name: 'Consulado da Colômbia – São Paulo', address: 'Rede consular oficial da Colômbia em São Paulo', phone: 'Consultar canais oficiais', email: 'Consultar canais oficiais', site: 'https://www.cancilleria.gov.co/embajada-colombia-brasil' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para a entrada turística comum nesta base.', '<strong>Regra real:</strong> seguro saúde pesa mais aqui do que em vários outros destinos da América do Sul.', '<strong>Febre amarela:</strong> se houver exigência por itinerário, considerar a lógica dos 10 dias.']),
-          block6: createParagraphs(['A entrada para turismo costuma ser relativamente simples, mas o documento precisa estar em bom estado.', 'Seguro saúde é fortemente recomendado.', 'Para estadias mais longas ou finalidade diferente de turismo, a lógica muda e pode exigir documentação específica.'])
-        }
-      },
-
-      'finlandia': {
-        name: 'Finlândia', aliases: ['finlandia', 'finlândia', 'finland'],
-        summary: { entry: 'Brasileiros não precisam de visto para curta duração Schengen.', health: 'Sem exigência geral de vacina obrigatória; documentação e coerência da viagem são essenciais.', support: 'Helsinque é o apoio principal; Rovaniemi usa referência de Helsinque.' },
-        cities: {
-          'helsinque': [{ name: 'Embaixada do Brasil em Helsinque – Setor Consular', highlight: 'Principal apoio diplomático do Brasil na Finlândia.', address: 'Itäinen Puistotie 4 B 1, 00140 Helsinque, Finlândia', phone: '+358 9 684 1500', email: 'consular.helsinque@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-helsinque', distance: '~ 3 a 5 km', car: '10 a 15 min' }],
-          'rovaniemi': [{ name: 'Posto brasileiro mais próximo: Helsinque', highlight: 'Rovaniemi utiliza como principal referência a embaixada em Helsinque.', address: 'Itäinen Puistotie 4 B 1, 00140 Helsinque, Finlândia', phone: '+358 9 684 1500', email: 'consular.helsinque@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-helsinque', distance: '~ 800 km', flight: '1h30', note: 'Para apoio urgente, o contato inicial costuma ser feito com o posto de Helsinque.' }]
-        },
-        defaultCity: 'helsinque',
-        blocks: {
-          block1: `${createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo de curta duração.', '<strong>Tipo de entrada:</strong> viagem turística na lógica Schengen.', '<strong>Valor:</strong> sem taxa de visto para turismo comum.', '<strong>Tempo de permanência:</strong> até 90 dias em 180 dias no espaço Schengen.', '<strong>Entrevista:</strong> não há entrevista consular prévia para turismo sem visto.', '<strong>Antecedência recomendada:</strong> organizar documentos com 2 a 4 semanas de antecedência.'])}<h4>Schengen</h4>${createParagraphs(contentBlocks.schengenIntro)}<h4>ETIAS</h4>${createParagraphs(contentBlocks.etias)}`,
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Comprovante de hospedagem.', 'Bilhete de retorno ou passagem de saída.', 'Recursos financeiros compatíveis com a viagem.'])}<h4>Podem ser exigidos</h4>${createBulletList(['Comprovantes do objetivo da viagem.', 'Carta-convite, quando aplicável.', 'Documentação adicional da estadia.'])}<h4>Onde tirar</h4>${createBulletList(['Passaporte: Polícia Federal.', 'Hospedagem e passagem: fornecedores da viagem.', 'Documentação financeira: do próprio viajante.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada da Finlândia – Brasília', address: 'SES, Avenida das Nações, Quadra 811, Lote 35, Brasília – DF', phone: '+55 (61) 3443-5555', email: 'sanomat.bra@gov.fi', site: 'https://finlandabroad.fi/web/bra/embaixada' }, { name: 'Consulado da Finlândia – São Paulo', address: 'Serviço consular centralizado em São Paulo, com atendimento mediante agendamento', phone: '+55 (11) 3061 0938', email: 'sanomat.bra@gov.fi', site: 'https://finlandabroad.fi/web/bra/consulado-da-finlandia-sao-paulo' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para entrada turística comum.', '<strong>Exigências reais:</strong> o ponto principal está na coerência documental e não em exigência sanitária geral.', '<strong>Febre amarela:</strong> se aplicável ao itinerário, considerar a regra dos 10 dias.']),
-          block6: `${createParagraphs(['A Finlândia é um destino de custo alto e o viajante pode ser questionado sobre recursos financeiros.', 'Mesmo sem visto, a entrada pode ser negada se a documentação estiver inconsistente.', 'A imigração pode ocorrer em outro país Schengen antes da chegada à Finlândia.'])}<div class="note">${contentBlocks.europeStrategy}</div>`
-        }
-      },
-
-      'japao': {
-        name: 'Japão', aliases: ['japao', 'japão', 'japan'],
-        summary: { entry: 'Brasileiros não precisam de visto para turismo de curta duração.', health: 'Sem exigência geral de vacina obrigatória na entrada comum.', support: 'Tóquio é o apoio principal; Osaka usa referência de Tóquio nesta base.' },
-        cities: {
-          'toquio': [{ name: 'Embaixada do Brasil em Tóquio', highlight: 'Principal apoio diplomático do Brasil no Japão.', address: '2-11-12 Kita-Aoyama, Minato-ku, Tóquio', phone: '+81 3 3404-5211', email: 'consular.toquio@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-toquio', distance: '~ 5 km', car: '15 a 25 min' }],
-          'osaka': [{ name: 'Posto brasileiro mais próximo nesta base: Tóquio', highlight: 'Osaka usa como referência o apoio principal de Tóquio nesta versão inicial.', address: '2-11-12 Kita-Aoyama, Minato-ku, Tóquio', phone: '+81 3 3404-5211', email: 'consular.toquio@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-toquio', distance: '~ 500 km', train: '2h30', flight: '1h' }]
-        },
-        defaultCity: 'toquio',
-        blocks: {
-          block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo de curta duração.', '<strong>Tipo de entrada:</strong> turismo sem visto.', '<strong>Valor:</strong> sem taxa de visto para turismo comum.', '<strong>Tempo de permanência:</strong> até 90 dias.', '<strong>Entrevista:</strong> não há entrevista prévia para a entrada turística comum.']),
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Passagem de saída.', 'Comprovante de hospedagem.'])}<h4>Podem ser solicitados</h4>${createBulletList(['Comprovação financeira.', 'Plano de viagem.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada do Japão – Brasília', address: 'SES Av. das Nações, Quadra 811, Lote 39 – Brasília – DF', phone: '+55 (61) 3442-4200', email: 'consul@bs.mofa.go.jp', site: 'https://www.br.emb-japan.go.jp' }, { name: 'Consulado Geral do Japão – São Paulo', address: 'Av. Paulista, 854 – São Paulo – SP', phone: '+55 (11) 3254-0100', email: 'Consultar portal oficial', site: 'https://www.br.emb-japan.go.jp' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para entrada turística comum.', '<strong>Exigências reais:</strong> o ponto principal no Japão é a coerência documental e o respeito às regras locais.']),
-          block6: createParagraphs(['O Japão é um país extremamente organizado e objetivo na entrada.', 'Mesmo sem visto, documentação inconsistente pode gerar dificuldade.', 'A viagem tende a fluir melhor quando o plano está muito claro.'])
-        }
-      },
-
-      'china': {
-        name: 'China', aliases: ['china'],
-        summary: { entry: 'Brasileiros precisam de visto para turismo.', health: 'As regras sanitárias devem ser verificadas com atenção conforme o momento da viagem.', support: 'Pequim e Xangai são os pontos principais desta base.' },
-        cities: {
-          'pequim': [{ name: 'Embaixada do Brasil em Pequim', highlight: 'Principal apoio diplomático do Brasil na China.', address: 'Consular District, Beijing', phone: 'Consultar portal oficial', email: 'consular.pequim@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-pequim', distance: '~ 8 km', car: '20 a 30 min' }],
-          'xangai': [{ name: 'Consulado-Geral do Brasil em Xangai', highlight: 'Principal apoio brasileiro em Xangai.', address: 'Xangai', phone: 'Consultar portal oficial', email: 'consular.xangai@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-xangai', distance: '~ 5 km', car: '15 a 20 min' }]
-        },
-        defaultCity: 'pequim',
-        blocks: {
-          block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros precisam de visto para turismo.', '<strong>Tipo de visto:</strong> turismo, normalmente na categoria correspondente a visitante turístico.', '<strong>Valor:</strong> varia conforme a política vigente e o centro oficial de solicitação.', '<strong>Entrevista:</strong> pode ser exigida.', '<strong>Tempo total do processo:</strong> costuma exigir planejamento e antecedência.', '<strong>Antecedência recomendada:</strong> idealmente com algumas semanas ou meses de folga, conforme a data da viagem.']),
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Formulário de solicitação.', 'Foto conforme padrão exigido.', 'Comprovantes da viagem.', 'Reservas ou documentos compatíveis com o pedido.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada da China – Brasília', address: 'Rede oficial da Embaixada da China em Brasília', phone: '+55 (61) 2195-8200', email: 'Consultar portal oficial', site: 'https://br.china-embassy.gov.cn/por/' }, { name: 'Consulado da China – São Paulo', address: 'Rede consular oficial em São Paulo', phone: 'Consultar portal oficial', email: 'Consultar portal oficial', site: 'https://br.china-embassy.gov.cn/por/' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> a lógica sanitária pode variar, então este bloco deve ser sempre revisado antes da publicação final da página pública.', '<strong>Regra prática:</strong> tratar a China como destino que exige conferência mais cuidadosa antes do embarque.']),
-          block6: createParagraphs(['A China exige planejamento maior do que destinos com entrada livre.', 'A documentação do visto precisa estar muito bem organizada.', 'Não é um destino para deixar exigências para a última hora.'])
-        }
-      },
-
-      'tailandia': {
-        name: 'Tailândia', aliases: ['tailandia', 'tailândia', 'thailand'],
-        summary: { entry: 'Brasileiros não precisam de visto para turismo na lógica desta base.', health: 'A atenção sanitária depende do itinerário e do tipo de viagem.', support: 'Bangkok é o apoio principal; Phuket usa referência de Bangkok.' },
-        cities: {
-          'bangkok': [{ name: 'Embaixada do Brasil em Bangkok', highlight: 'Principal apoio diplomático do Brasil na Tailândia.', address: 'Bangkok', phone: '+66 2 679 7500', email: 'consular.bangkok@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br', distance: '~ 5 km', car: '15 a 25 min' }],
-          'phuket': [{ name: 'Posto brasileiro mais próximo nesta base: Bangkok', highlight: 'Phuket utiliza como referência principal o apoio de Bangkok.', address: 'Bangkok', phone: '+66 2 679 7500', email: 'consular.bangkok@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br', distance: '~ 840 km', flight: '1h30' }]
-        },
-        defaultCity: 'bangkok',
-        blocks: {
-          block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo na lógica desta base inicial.', '<strong>Tipo de entrada:</strong> turismo sem visto.', '<strong>Valor:</strong> sem taxa de visto para turismo comum nesta lógica de entrada.', '<strong>Entrevista:</strong> não há entrevista consular prévia para a entrada turística comum.']),
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Passagem de saída.', 'Comprovante de hospedagem.'])}<h4>Podem ser solicitados</h4>${createBulletList(['Comprovação financeira.', 'Plano de viagem.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada da Tailândia – Brasília', address: 'Rede oficial da representação tailandesa em Brasília', phone: '+55 (61) 3225-7500', email: 'Consultar portal oficial', site: 'https://brasilia.thaiembassy.org/' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> a necessidade prática pode depender do histórico do viajante e do itinerário.', '<strong>Regra prática:</strong> para febre amarela, considerar a lógica dos 10 dias quando aplicável.']),
-          block6: createParagraphs(['A Tailândia é destino turístico muito procurado e a entrada tende a ser mais simples para turismo curto.', 'Mesmo assim, documentação organizada continua sendo essencial.'])
-        }
-      },
-
-      'turquia': {
-        name: 'Turquia', aliases: ['turquia', 'turkey'],
-        summary: { entry: 'Brasileiros não precisam de visto para turismo de curta duração.', health: 'Sem exigência geral de vacina obrigatória na entrada comum nesta base.', support: 'Istambul é o apoio principal; Capadócia usa referência de Istambul.' },
-        cities: {
-          'istambul': [{ name: 'Consulado do Brasil em Istambul', highlight: 'Principal apoio brasileiro configurado nesta base para a Turquia.', address: 'Istambul', phone: 'Consultar portal oficial', email: 'consular.istambul@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br', distance: '~ 5 km', car: '15 a 25 min' }],
-          'capadocia': [{ name: 'Posto brasileiro mais próximo nesta base: Istambul', highlight: 'Capadócia utiliza como referência principal o apoio brasileiro em Istambul.', address: 'Istambul', phone: 'Consultar portal oficial', email: 'consular.istambul@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br', distance: '~ 730 km', flight: '1h15' }]
-        },
-        defaultCity: 'istambul',
-        blocks: {
-          block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo de curta duração.', '<strong>Tipo de entrada:</strong> turismo sem visto.', '<strong>Valor:</strong> sem taxa de visto para turismo comum nesta base.', '<strong>Entrevista:</strong> não há entrevista consular prévia.']),
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Hospedagem.', 'Passagem de saída.'])}<h4>Podem ser solicitados</h4>${createBulletList(['Comprovação financeira.', 'Objetivo da viagem.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada da Turquia – Brasília', address: 'Rede oficial da Embaixada da Turquia em Brasília', phone: '+55 (61) 3242-1850', email: 'Consultar portal oficial', site: 'https://brasilia.emb.mfa.gov.tr/' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória na entrada comum nesta base.', '<strong>Regra prática:</strong> tratar a Turquia como destino com entrada própria, fora da lógica Schengen.']),
-          block6: createParagraphs(['A Turquia não faz parte do espaço Schengen.', 'A lógica de entrada é própria e não se mistura com a autorização europeia.', 'Mesmo sem visto, a documentação de viagem continua importante.'])
-        }
-      },
-
-      'emirados-arabes-unidos': {
-        name: 'Emirados Árabes Unidos', aliases: ['emirados arabes unidos', 'emirados árabes unidos', 'eau', 'uae'],
-        summary: { entry: 'Brasileiros não precisam de visto prévio para turismo e recebem entrada na chegada.', health: 'Sem exigência geral de vacina obrigatória na entrada comum.', support: 'Dubai e Abu Dhabi são os apoios principais desta base.' },
-        cities: {
-          'dubai': [{ name: 'Consulado-Geral do Brasil em Dubai', highlight: 'Principal apoio brasileiro em Dubai.', address: 'Al Wasl Road, Dubai', phone: '+971 4 349 5600', email: 'consular.dubai@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-dubai', distance: '~ 10 a 15 km', car: '15 a 25 min' }],
-          'abu dhabi': [{ name: 'Embaixada do Brasil em Abu Dhabi', highlight: 'Principal apoio brasileiro em Abu Dhabi.', address: 'Al Bateen Area, Abu Dhabi', phone: '+971 2 632 0606', email: 'consular.abudhabi@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-abu-dhabi', distance: '~ 5 a 10 km', car: '10 a 20 min' }]
-        },
-        defaultCity: 'dubai',
-        blocks: {
-          block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto prévio para turismo nos Emirados Árabes Unidos.', '<strong>Tipo de entrada:</strong> autorização de turismo concedida na chegada.', '<strong>Valor:</strong> sem custo nesta lógica de entrada turística comum.', '<strong>Entrevista:</strong> não há entrevista consular prévia.', '<strong>Tempo de permanência:</strong> até 90 dias, conforme regra migratória aplicável.', '<strong>Antecedência recomendada:</strong> não há necessidade de pedir visto antes, mas o viajante deve embarcar com documentação completa.']),
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido, com validade recomendada mínima de 6 meses.', 'Passagem de saída.', 'Comprovante de hospedagem.'])}<h4>Podem ser solicitados</h4>${createBulletList(['Comprovação financeira.', 'Endereço completo da estadia.', 'Documentação do objetivo da viagem.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada dos Emirados Árabes Unidos – Brasília', address: 'SES Av. das Nações, Quadra 805, Lote 30 – Brasília – DF', phone: '+55 (61) 3248-2400', email: 'brasiliaemb@mofa.gov.ae', site: 'https://www.mofa.gov.ae' }, { name: 'Consulado dos Emirados Árabes Unidos – São Paulo', address: 'Av. Paulista, 1499 – São Paulo – SP', phone: '+55 (11) 3061-9500', email: 'Consultar portal oficial', site: 'https://www.mofa.gov.ae' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para a entrada turística comum nesta base.', '<strong>Exigências reais:</strong> o ponto crítico está muito mais na documentação e no respeito às regras locais do que em exigência sanitária geral.', '<strong>Febre amarela:</strong> se houver exigência ligada ao itinerário, considerar a lógica dos 10 dias de antecedência.']),
-          block6: createParagraphs(['Os Emirados Árabes Unidos têm leis locais rígidas e comportamento inadequado pode gerar problema real ao viajante.', 'Mesmo sem visto prévio, a entrada pode ser negada se a documentação estiver inconsistente.', 'Dubai e Abu Dhabi funcionam muito bem para viagens curtas, conexão internacional e turismo urbano de alto padrão.'])
-        }
-      },
-
-      'grecia': {
-        name: 'Grécia', aliases: ['grecia', 'grécia', 'greece'],
-        summary: { entry: 'Brasileiros não precisam de visto para curta duração Schengen.', health: 'Sem exigência geral de vacina obrigatória; documentação e lógica Schengen seguem essenciais.', support: 'Atenas é o apoio principal desta base.' },
-        cities: {
-          'atenas': [{ name: 'Embaixada do Brasil em Atenas', highlight: 'Principal apoio brasileiro na Grécia.', address: '26, Filippou Str., Psychiko, Atenas', phone: '+30 210 721 3039', email: 'consular.atenas@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/embaixada-atenas', distance: '~ 5 km', car: '15 a 20 min' }]
-        },
-        defaultCity: 'atenas',
-        blocks: {
-          block1: `${createParagraphs(['<strong>Quem precisa:</strong> brasileiros não precisam de visto para turismo de curta duração.', '<strong>Tipo de entrada:</strong> turismo com isenção na lógica Schengen.', '<strong>Valor:</strong> sem taxa de visto para turismo comum.', '<strong>Tempo de permanência:</strong> até 90 dias em 180 dias.', '<strong>Entrevista:</strong> não há entrevista consular prévia.'])}<h4>Schengen</h4>${createParagraphs(contentBlocks.schengenIntro)}<h4>ETIAS</h4>${createParagraphs(contentBlocks.etias)}`,
-          block2: `<h4>Obrigatórios</h4>${createBulletList(['Passaporte válido.', 'Hospedagem.', 'Passagem de saída.', 'Comprovação financeira.', 'Seguro viagem.'])}<h4>Regra prática</h4>${createBulletList(['A documentação da viagem deve estar coerente, mesmo quando a entrada Schengen ocorrer por outro país.', 'Ilhas gregas muito buscadas por turistas continuam dependendo da mesma base documental do país.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada da Grécia – Brasília', address: 'SES, Av. das Nações, Quadra 805, Lote 22 – Brasília – DF', phone: '+55 (61) 3443-5504', email: 'gremb.bra@mfa.gr', site: 'https://www.mfa.gr/brazil' }]),
-          block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para entrada turística comum.', '<strong>Exigências reais:</strong> o ponto central continua sendo documentação completa e seguro viagem.', '<strong>Febre amarela:</strong> se aplicável ao itinerário, usar a lógica dos 10 dias de antecedência.']),
-          block6: `${createParagraphs(['A Grécia segue a lógica Schengen, então a imigração pode acontecer em outro país do bloco antes da chegada.', 'Mesmo sem visto, a entrada pode ser negada se a documentação estiver inconsistente.', 'Destinos de ilhas e conexões internas exigem planejamento logístico claro.'])}<div class="note">${contentBlocks.europeStrategy}</div>`
+      for (const cityName of Object.keys(cities)) {
+        if (normalizeText(cityName) === normalizedQuery) {
+          return cityName;
         }
       }
-    };
 
-    const cityMap = {
-      'new york': 'estados-unidos','orlando': 'estados-unidos','miami': 'estados-unidos','boston': 'estados-unidos','los angeles': 'estados-unidos','las vegas': 'estados-unidos','san francisco': 'estados-unidos','washington dc': 'estados-unidos','paris': 'franca','nice': 'franca','lyon': 'franca','madrid': 'espanha','barcelona': 'espanha','londres': 'reino-unido','manchester': 'reino-unido','edimburgo': 'reino-unido','glasgow': 'reino-unido','roma': 'italia','milao': 'italia','milão': 'italia','florenca': 'italia','florença': 'italia','cancun': 'mexico','cancún': 'mexico','cidade do mexico': 'mexico','cidade do méxico': 'mexico','buenos aires': 'argentina','lisboa': 'portugal','porto': 'portugal','amsterda': 'paises-baixos','amsterdã': 'paises-baixos','praga': 'republica-tcheca','berlim': 'alemanha','munique': 'alemanha','toronto': 'canada','vancouver': 'canada','montreal': 'canada','montréal': 'canada','lima': 'peru','cusco': 'peru','santiago': 'chile','atacama': 'chile','montevideu': 'uruguai','montevidéu': 'uruguai','punta del este': 'uruguai','bruxelas': 'belgica','bruges': 'belgica','zurique': 'suica','genebra': 'suica','bogota': 'colombia','bogotá': 'colombia','cartagena': 'colombia','helsinque': 'finlandia','rovaniemi': 'finlandia','toquio': 'japao','tóquio': 'japao','osaka': 'japao','pequim': 'china','xangai': 'china','bangkok': 'tailandia','phuket': 'tailandia','istambul': 'turquia','capadocia': 'turquia','capadócia': 'turquia','dubai': 'emirados-arabes-unidos','abu dhabi': 'emirados-arabes-unidos','abu dhabi ': 'emirados-arabes-unidos','atenas': 'grecia'
-    };
-
-    const cityRedirects = {
-      'chicago': { countryKey: 'estados-unidos', cityKey: 'new york', displayName: 'Chicago' },
-      'new orleans': { countryKey: 'estados-unidos', cityKey: 'miami', displayName: 'New Orleans' },
-      'seattle': { countryKey: 'estados-unidos', cityKey: 'san francisco', displayName: 'Seattle' },
-
-      'quebec': { countryKey: 'canada', cityKey: 'montreal', displayName: 'Quebec' },
-      'banff': { countryKey: 'canada', cityKey: 'vancouver', displayName: 'Banff' },
-      'ottawa': { countryKey: 'canada', cityKey: 'toronto', displayName: 'Ottawa' },
-      'calgary': { countryKey: 'canada', cityKey: 'vancouver', displayName: 'Calgary' },
-      'halifax': { countryKey: 'canada', cityKey: 'montreal', displayName: 'Halifax' },
-      'victoria': { countryKey: 'canada', cityKey: 'vancouver', displayName: 'Victoria' },
-      'whistler': { countryKey: 'canada', cityKey: 'vancouver', displayName: 'Whistler' },
-
-      'playa del carmen': { countryKey: 'mexico', cityKey: 'cancun', displayName: 'Playa del Carmen' },
-      'tulum': { countryKey: 'mexico', cityKey: 'cancun', displayName: 'Tulum' },
-      'puerto vallarta': { countryKey: 'mexico', cityKey: 'cidade do mexico', displayName: 'Puerto Vallarta' },
-      'cabo san lucas': { countryKey: 'mexico', cityKey: 'cidade do mexico', displayName: 'Cabo San Lucas' },
-      'oaxaca': { countryKey: 'mexico', cityKey: 'cidade do mexico', displayName: 'Oaxaca' },
-      'merida': { countryKey: 'mexico', cityKey: 'cidade do mexico', displayName: 'Mérida' },
-      'mérida': { countryKey: 'mexico', cityKey: 'cidade do mexico', displayName: 'Mérida' },
-      'guadalajara': { countryKey: 'mexico', cityKey: 'cidade do mexico', displayName: 'Guadalajara' },
-      'san miguel de allende': { countryKey: 'mexico', cityKey: 'cidade do mexico', displayName: 'San Miguel de Allende' },
-
-      'arequipa': { countryKey: 'peru', cityKey: 'lima', displayName: 'Arequipa' },
-      'puno': { countryKey: 'peru', cityKey: 'cusco', displayName: 'Puno' },
-      'aguas calientes': { countryKey: 'peru', cityKey: 'cusco', displayName: 'Aguas Calientes' },
-      'machu picchu': { countryKey: 'peru', cityKey: 'cusco', displayName: 'Machu Picchu' },
-      'iquitos': { countryKey: 'peru', cityKey: 'lima', displayName: 'Iquitos' },
-      'trujillo': { countryKey: 'peru', cityKey: 'lima', displayName: 'Trujillo' },
-      'huaraz': { countryKey: 'peru', cityKey: 'lima', displayName: 'Huaraz' },
-      'paracas': { countryKey: 'peru', cityKey: 'lima', displayName: 'Paracas' },
-      'nazca': { countryKey: 'peru', cityKey: 'lima', displayName: 'Nazca' },
-
-      'san pedro de atacama': { countryKey: 'chile', cityKey: 'atacama', displayName: 'San Pedro de Atacama' },
-      'torres del paine': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Torres del Paine' },
-      'puerto natales': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Puerto Natales' },
-      'valparaiso': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Valparaíso' },
-      'valparaíso': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Valparaíso' },
-      'fiordes chilenos': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Fiordes Chilenos' },
-      'ilha de pascoa': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Ilha de Páscoa' },
-      'ilha de páscoa': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Ilha de Páscoa' },
-      'puerto varas': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Puerto Varas' },
-      'la serena': { countryKey: 'chile', cityKey: 'santiago', displayName: 'La Serena' },
-      'pucon': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Pucón' },
-      'pucón': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Pucón' },
-      'vina del mar': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Viña del Mar' },
-      'viña del mar': { countryKey: 'chile', cityKey: 'santiago', displayName: 'Viña del Mar' },
-
-      'colonia do sacramento': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Colônia do Sacramento' },
-      'colonia del sacramento': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Colônia do Sacramento' },
-      'jose ignacio': { countryKey: 'uruguai', cityKey: 'punta del este', displayName: 'José Ignacio' },
-      'josé ignacio': { countryKey: 'uruguai', cityKey: 'punta del este', displayName: 'José Ignacio' },
-      'piriapolis': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Piriápolis' },
-      'piriápolis': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Piriápolis' },
-      'cabo polonio': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Cabo Polonio' },
-      'rocha': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Rocha' },
-      'salto': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Salto' },
-      'carmelo': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Carmelo' },
-      'atlantida': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Atlântida' },
-      'atlântida': { countryKey: 'uruguai', cityKey: 'montevideu', displayName: 'Atlântida' },
-
-      'medellin': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'Medellín' },
-      'medellín': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'Medellín' },
-      'cali': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'Cali' },
-      'san andres': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'San Andrés' },
-      'san andrés': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'San Andrés' },
-      'santa marta': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'Santa Marta' },
-      'cartagena das indias': { countryKey: 'colombia', cityKey: 'cartagena', displayName: 'Cartagena das Índias' },
-      'cartagena das índias': { countryKey: 'colombia', cityKey: 'cartagena', displayName: 'Cartagena das Índias' },
-      'salento': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'Salento' },
-      'villa de leyva': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'Villa de Leyva' },
-      'tayrona park': { countryKey: 'colombia', cityKey: 'bogota', displayName: 'Tayrona Park' },
-
-      'bariloche': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Bariloche' },
-      'mendoza': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Mendoza' },
-      'ushuaia': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Ushuaia' },
-      'el calafate': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'El Calafate' },
-      'iguazu': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Iguazú' },
-      'iguazú': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Iguazú' },
-      'salta': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Salta' },
-      'cordoba': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Córdoba' },
-      'córdoba': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'Córdoba' },
-      'san martin de los andes': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'San Martín de los Andes' },
-      'san martín de los andes': { countryKey: 'argentina', cityKey: 'buenos aires', displayName: 'San Martín de los Andes' },
-
-      'bordeaux': { countryKey: 'franca', cityKey: 'paris', displayName: 'Bordeaux' },
-      'estrasburgo': { countryKey: 'franca', cityKey: 'paris', displayName: 'Estrasburgo' },
-      'marseille': { countryKey: 'franca', cityKey: 'paris', displayName: 'Marseille' },
-      'cannes': { countryKey: 'franca', cityKey: 'nice', displayName: 'Cannes' },
-      'mont saint michel': { countryKey: 'franca', cityKey: 'paris', displayName: 'Mont Saint-Michel' },
-      'annecy': { countryKey: 'franca', cityKey: 'lyon', displayName: 'Annecy' },
-      'biarritz': { countryKey: 'franca', cityKey: 'paris', displayName: 'Biarritz' },
-
-      'veneza': { countryKey: 'italia', cityKey: 'milao', displayName: 'Veneza' },
-      'venezia': { countryKey: 'italia', cityKey: 'milao', displayName: 'Veneza' },
-      'napoles': { countryKey: 'italia', cityKey: 'roma', displayName: 'Nápoles' },
-      'nápoles': { countryKey: 'italia', cityKey: 'roma', displayName: 'Nápoles' },
-      'bolonha': { countryKey: 'italia', cityKey: 'milao', displayName: 'Bolonha' },
-      'bolonia': { countryKey: 'italia', cityKey: 'milao', displayName: 'Bolonha' },
-      'verona': { countryKey: 'italia', cityKey: 'milao', displayName: 'Verona' },
-      'cinque terre': { countryKey: 'italia', cityKey: 'milao', displayName: 'Cinque Terre' },
-      'amalfi': { countryKey: 'italia', cityKey: 'roma', displayName: 'Amalfi' },
-      'turim': { countryKey: 'italia', cityKey: 'milao', displayName: 'Turim' },
-      'torino': { countryKey: 'italia', cityKey: 'milao', displayName: 'Turim' },
-
-      'sevilha': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Sevilha' },
-      'sevilla': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Sevilha' },
-      'valencia': { countryKey: 'espanha', cityKey: 'barcelona', displayName: 'Valência' },
-      'valência': { countryKey: 'espanha', cityKey: 'barcelona', displayName: 'Valência' },
-      'granada': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Granada' },
-      'palma de mallorca': { countryKey: 'espanha', cityKey: 'barcelona', displayName: 'Palma de Mallorca' },
-      'san sebastian': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'San Sebastián' },
-      'san sebastián': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'San Sebastián' },
-      'salamanca': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Salamanca' },
-      'bilbao': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Bilbao' },
-      'cordoba espanha': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Córdoba' },
-      'cordoba': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Córdoba' },
-      'córdoba': { countryKey: 'espanha', cityKey: 'madrid', displayName: 'Córdoba' },
-
-      'funchal': { countryKey: 'portugal', cityKey: 'lisboa', displayName: 'Funchal' },
-      'sintra': { countryKey: 'portugal', cityKey: 'lisboa', displayName: 'Sintra' },
-      'faro': { countryKey: 'portugal', cityKey: 'lisboa', displayName: 'Faro' },
-      'lagos': { countryKey: 'portugal', cityKey: 'lisboa', displayName: 'Lagos' },
-      'coimbra': { countryKey: 'portugal', cityKey: 'porto', displayName: 'Coimbra' },
-      'evora': { countryKey: 'portugal', cityKey: 'lisboa', displayName: 'Évora' },
-      'évora': { countryKey: 'portugal', cityKey: 'lisboa', displayName: 'Évora' },
-      'braga': { countryKey: 'portugal', cityKey: 'porto', displayName: 'Braga' },
-      'aveiro': { countryKey: 'portugal', cityKey: 'porto', displayName: 'Aveiro' },
-
-      'liverpool': { countryKey: 'reino-unido', cityKey: 'manchester', displayName: 'Liverpool' },
-      'oxford': { countryKey: 'reino-unido', cityKey: 'londres', displayName: 'Oxford' },
-      'cambridge': { countryKey: 'reino-unido', cityKey: 'londres', displayName: 'Cambridge' },
-      'bristol': { countryKey: 'reino-unido', cityKey: 'londres', displayName: 'Bristol' },
-      'bath': { countryKey: 'reino-unido', cityKey: 'londres', displayName: 'Bath' },
-      'york': { countryKey: 'reino-unido', cityKey: 'manchester', displayName: 'York' },
-
-      'hamburgo': { countryKey: 'alemanha', cityKey: 'berlim', displayName: 'Hamburgo' },
-      'frankfurt': { countryKey: 'alemanha', cityKey: 'munique', displayName: 'Frankfurt' },
-      'colonia': { countryKey: 'alemanha', cityKey: 'munique', displayName: 'Colônia' },
-      'colônia': { countryKey: 'alemanha', cityKey: 'munique', displayName: 'Colônia' },
-      'heidelberg': { countryKey: 'alemanha', cityKey: 'munique', displayName: 'Heidelberg' },
-      'dresden': { countryKey: 'alemanha', cityKey: 'berlim', displayName: 'Dresden' },
-      'rothenburg ob der tauber': { countryKey: 'alemanha', cityKey: 'munique', displayName: 'Rothenburg ob der Tauber' },
-      'nuremberg': { countryKey: 'alemanha', cityKey: 'munique', displayName: 'Nuremberg' },
-      'stuttgart': { countryKey: 'alemanha', cityKey: 'munique', displayName: 'Stuttgart' },
-
-      'rotterdam': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Roterdã' },
-      'roterda': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Roterdã' },
-      'roterdã': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Roterdã' },
-      'haia': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Haia' },
-      'utrecht': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Utrecht' },
-      'maastricht': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Maastricht' },
-      'delft': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Delft' },
-      'leiden': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Leiden' },
-      'haarlem': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Haarlem' },
-      'eindhoven': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Eindhoven' },
-      'keukenhof': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Keukenhof (Lisse)' },
-      'lisse': { countryKey: 'paises-baixos', cityKey: 'amsterda', displayName: 'Lisse' },
-
-      'gante': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Gante' },
-      'gent': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Gante' },
-      'antuerpia': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Antuérpia' },
-      'antuérpia': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Antuérpia' },
-      'antwerp': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Antuérpia' },
-      'liege': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Liège' },
-      'liège': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Liège' },
-      'namur': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Namur' },
-      'leuven': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Leuven' },
-      'ostend': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Ostend' },
-      'mechelen': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Mechelen' },
-      'ypres': { countryKey: 'belgica', cityKey: 'bruxelas', displayName: 'Ypres' },
-
-      'lucerna': { countryKey: 'suica', cityKey: 'zurique', displayName: 'Lucerna' },
-      'berna': { countryKey: 'suica', cityKey: 'zurique', displayName: 'Berna' },
-      'interlaken': { countryKey: 'suica', cityKey: 'zurique', displayName: 'Interlaken' },
-      'zermatt': { countryKey: 'suica', cityKey: 'genebra', displayName: 'Zermatt' },
-      'lausanne': { countryKey: 'suica', cityKey: 'genebra', displayName: 'Lausanne' },
-      'basileia': { countryKey: 'suica', cityKey: 'zurique', displayName: 'Basileia' },
-      'basel': { countryKey: 'suica', cityKey: 'zurique', displayName: 'Basileia' },
-      'lugano': { countryKey: 'suica', cityKey: 'zurique', displayName: 'Lugano' },
-      'st moritz': { countryKey: 'suica', cityKey: 'zurique', displayName: 'St. Moritz' },
-
-      'cesky krumlov': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Český Krumlov' },
-      'český krumlov': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Český Krumlov' },
-      'karlovy vary': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Karlovy Vary' },
-      'brno': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Brno' },
-      'pilsen': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Pilsen' },
-      'kutna hora': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Kutná Hora' },
-      'kutná hora': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Kutná Hora' },
-      'olomouc': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Olomouc' },
-      'liberec': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Liberec' },
-      'ostrava': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Ostrava' },
-      'telc': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Telč' },
-      'telč': { countryKey: 'republica-tcheca', cityKey: 'praga', displayName: 'Telč' },
-
-      'quioto': { countryKey: 'japao', cityKey: 'toquio', displayName: 'Quioto' },
-      'kyoto': { countryKey: 'japao', cityKey: 'toquio', displayName: 'Quioto' },
-      'hiroshima': { countryKey: 'japao', cityKey: 'osaka', displayName: 'Hiroshima' },
-      'nara': { countryKey: 'japao', cityKey: 'osaka', displayName: 'Nara' },
-      'sapporo': { countryKey: 'japao', cityKey: 'toquio', displayName: 'Sapporo' },
-      'kanazawa': { countryKey: 'japao', cityKey: 'toquio', displayName: 'Kanazawa' },
-      'hakone': { countryKey: 'japao', cityKey: 'toquio', displayName: 'Hakone' },
-      'fukuoka': { countryKey: 'japao', cityKey: 'osaka', displayName: 'Fukuoka' },
-      'okinawa': { countryKey: 'japao', cityKey: 'toquio', displayName: 'Okinawa' },
-
-      'beijing': { countryKey: 'china', cityKey: 'pequim', displayName: 'Pequim (Beijing)' },
-      'hong kong': { countryKey: 'china', cityKey: 'xangai', displayName: 'Hong Kong' },
-      'xian': { countryKey: 'china', cityKey: 'pequim', displayName: "Xi'an" },
-      'xi an': { countryKey: 'china', cityKey: 'pequim', displayName: "Xi'an" },
-      'guilin': { countryKey: 'china', cityKey: 'xangai', displayName: 'Guilin' },
-      'chengdu': { countryKey: 'china', cityKey: 'xangai', displayName: 'Chengdu' },
-      'hangzhou': { countryKey: 'china', cityKey: 'xangai', displayName: 'Hangzhou' },
-      'suzhou': { countryKey: 'china', cityKey: 'xangai', displayName: 'Suzhou' },
-      'shenzhen': { countryKey: 'china', cityKey: 'xangai', displayName: 'Shenzhen' },
-      'guangzhou': { countryKey: 'china', cityKey: 'xangai', displayName: 'Guangzhou' },
-
-      'antalya': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Antalya' },
-      'goreme': { countryKey: 'turquia', cityKey: 'capadocia', displayName: 'Capadócia (Göreme)' },
-      'göreme': { countryKey: 'turquia', cityKey: 'capadocia', displayName: 'Capadócia (Göreme)' },
-      'bodrum': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Bodrum' },
-      'ankara': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Ankara' },
-      'pamukkale': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Pamukkale' },
-      'efeso': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Éfeso (Selçuk)' },
-      'éfeso': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Éfeso (Selçuk)' },
-      'selcuk': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Selçuk' },
-      'selçuk': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Selçuk' },
-      'fethiye': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Fethiye' },
-      'marmaris': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Marmaris' },
-      'bursa': { countryKey: 'turquia', cityKey: 'istambul', displayName: 'Bursa' },
-
-      'sharjah': { countryKey: 'emirados-arabes-unidos', cityKey: 'dubai', displayName: 'Sharjah' },
-      'al ain': { countryKey: 'emirados-arabes-unidos', cityKey: 'abu dhabi', displayName: 'Al Ain' },
-      'ajman': { countryKey: 'emirados-arabes-unidos', cityKey: 'dubai', displayName: 'Ajman' },
-      'fujairah': { countryKey: 'emirados-arabes-unidos', cityKey: 'dubai', displayName: 'Fujairah' },
-      'ras al khaimah': { countryKey: 'emirados-arabes-unidos', cityKey: 'dubai', displayName: 'Ras Al Khaimah' },
-      'umm al quwain': { countryKey: 'emirados-arabes-unidos', cityKey: 'dubai', displayName: 'Umm Al Quwain' },
-      'khor fakkan': { countryKey: 'emirados-arabes-unidos', cityKey: 'dubai', displayName: 'Khor Fakkan' },
-      'dibba': { countryKey: 'emirados-arabes-unidos', cityKey: 'dubai', displayName: 'Dibba' },
-
-      'mykonos': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Mykonos' },
-      'santorine': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Santorini' },
-      'santorini': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Santorini' },
-      'creta': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Creta' },
-      'rodes': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Rodes' },
-      'milos': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Milos' },
-      'tessalonica': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Tessalônica' },
-      'tessalônica': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Tessalônica' },
-      'olimpia': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Olimpia' }
-    };
-
-    function findDestination(queryRaw) {
-      const query = normalizeText(queryRaw);
-      if (!query) return null;
-      if (cityMap[query]) return { countryKey: cityMap[query], cityKey: query, type: 'city' };
-      if (cityRedirects[query]) return { ...cityRedirects[query], type: 'redirect' };
-
-      for (const [countryKey, country] of Object.entries(countries)) {
-        const allNames = [country.name, ...(country.aliases || [])].map(normalizeText);
-        if (allNames.includes(query)) {
-          return { countryKey, cityKey: country.defaultCity || Object.keys(country.cities)[0], type: 'country' };
-        }
-      }
       return null;
     }
 
-    function render(match, raw) {
-      const country = countries[match.countryKey];
-      const cityKey = match.cityKey || country.defaultCity || Object.keys(country.cities)[0];
-      const cityName = cityKey ? cityKey.replace(/\b\w/g, c => c.toUpperCase()) : country.name;
-      const supportCards = cityKey && country.cities[cityKey] ? country.cities[cityKey] : [];
+    async function fetchCountries() {
+      const { data, error } = await supabase
+        .from('travel_tool_countries')
+        .select('*');
 
-      document.getElementById('countryTitle').textContent = country.name;
-      document.getElementById('searchedCity').textContent = `Busca reconhecida: ${cityName} → ${country.name}`;
-      document.getElementById('summaryEntry').textContent = country.summary.entry;
-      document.getElementById('summaryHealth').textContent = country.summary.health;
-      document.getElementById('summarySupport').textContent = `${country.summary.support}`;
+      if (error) throw error;
+      return Array.isArray(data) ? data : [];
+    }
 
-      document.getElementById('block1').innerHTML = country.blocks.block1;
-      document.getElementById('block2').innerHTML = country.blocks.block2;
-      document.getElementById('block3').innerHTML = country.blocks.block3;
+    function renderResult(country, matchedCity) {
+      const summary = country.summary || {};
+      const cities = country.cities || {};
+      const cityKeys = Object.keys(cities);
+      const selectedCity = matchedCity || cityKeys[0] || null;
+      const supportCards = selectedCity && Array.isArray(cities[selectedCity]) ? cities[selectedCity] : [];
+
+      document.getElementById('countryTitle').textContent = country.country_name || '';
+      document.getElementById('searchedCity').textContent = selectedCity
+        ? `Busca reconhecida: ${selectedCity} → ${country.country_name}`
+        : `${country.country_name}`;
+
+      document.getElementById('summaryEntry').textContent = getSummaryValue(summary, 'entry');
+      document.getElementById('summaryHealth').textContent = getSummaryValue(summary, 'health');
+      document.getElementById('summarySupport').textContent = getSummaryValue(summary, 'support');
+
+      document.getElementById('block1').innerHTML = formatBlock(country.block_1);
+      document.getElementById('block2').innerHTML = formatBlock(country.block_2);
+      document.getElementById('block3').innerHTML = formatBlock(country.block_3);
       document.getElementById('block4').innerHTML = createLocationCards(supportCards);
-      document.getElementById('block5').innerHTML = country.blocks.block5;
-      document.getElementById('block6').innerHTML = country.blocks.block6;
+      document.getElementById('block5').innerHTML = formatBlock(country.block_5);
+      document.getElementById('block6').innerHTML = formatBlock(country.block_6);
 
-      document.getElementById('status').textContent = `Resultado encontrado para: ${raw}`;
+      document.getElementById('status').textContent = selectedCity
+        ? `Resultado encontrado para: ${selectedCity}`
+        : `Resultado encontrado para: ${country.country_name}`;
       document.getElementById('emptyState').style.display = 'none';
       document.getElementById('result').classList.add('active');
     }
@@ -1256,22 +618,69 @@
       document.getElementById('status').textContent = '';
       document.getElementById('result').classList.remove('active');
       document.getElementById('emptyState').style.display = 'block';
+      document.getElementById('countryTitle').textContent = '';
+      document.getElementById('searchedCity').textContent = '';
+      document.getElementById('summaryEntry').textContent = '';
+      document.getElementById('summaryHealth').textContent = '';
+      document.getElementById('summarySupport').textContent = '';
+      document.getElementById('block1').innerHTML = '';
+      document.getElementById('block2').innerHTML = '';
+      document.getElementById('block3').innerHTML = '';
+      document.getElementById('block4').innerHTML = '';
+      document.getElementById('block5').innerHTML = '';
+      document.getElementById('block6').innerHTML = '';
     }
 
-    function search(query) {
-      const value = query.trim();
+    async function search(query) {
+      const value = String(query || '').trim();
       if (!value) {
         clearResult();
         return;
       }
-      const match = findDestination(value);
-      if (!match) {
-        document.getElementById('status').textContent = `Nenhum resultado encontrado para: ${value}`;
+
+      document.getElementById('status').textContent = 'Buscando...';
+      document.getElementById('result').classList.remove('active');
+      document.getElementById('emptyState').style.display = 'none';
+
+      try {
+        const countries = await fetchCountries();
+        const normalizedQuery = normalizeText(value);
+        let match = null;
+        let matchedCity = null;
+
+        for (const country of countries) {
+          const aliases = Array.isArray(country.aliases) ? country.aliases : [];
+          const possibleCountryNames = [country.country_name, ...aliases]
+            .filter(Boolean)
+            .map(item => normalizeText(item));
+
+          if (possibleCountryNames.includes(normalizedQuery)) {
+            match = country;
+            break;
+          }
+
+          const cityMatch = findMatchingCity(country.cities, normalizedQuery);
+          if (cityMatch) {
+            match = country;
+            matchedCity = cityMatch;
+            break;
+          }
+        }
+
+        if (!match) {
+          document.getElementById('status').textContent = `Nenhum resultado encontrado para: ${value}`;
+          document.getElementById('result').classList.remove('active');
+          document.getElementById('emptyState').style.display = 'block';
+          return;
+        }
+
+        renderResult(match, matchedCity);
+      } catch (error) {
+        console.error(error);
+        document.getElementById('status').textContent = 'Erro ao buscar os dados no Supabase.';
         document.getElementById('result').classList.remove('active');
         document.getElementById('emptyState').style.display = 'block';
-        return;
       }
-      render(match, value);
     }
 
     document.getElementById('searchBtn').addEventListener('click', () => search(document.getElementById('searchInput').value));
