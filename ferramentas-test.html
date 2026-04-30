@@ -1311,7 +1311,6 @@
       const hasMaterial = publishedCommercialDestinations.has(normalizeText(destinationName)) ||
         publishedCommercialCountries.has(normalizeText(countryKey)) ||
         publishedCommercialCountries.has(normalizeText(country.name));
-      const safeDestinationName = String(destinationName).replace(/'/g, "\\'");
 
       block.style.display = 'block';
 
@@ -1321,7 +1320,7 @@
           <p>Você já tem o essencial para entrada, documentos e apoio no destino.</p>
           <p>Agora, na Curadoria Elite Travel, você acessa materiais organizados por categoria — gastronomia, atrações, experiências, compras e vida noturna — para tomar decisões com clareza e sem perda de tempo.</p>
           <div class="commercial-actions">
-            <a id="commercialCta" class="btn" href="/#curadoria" onclick="localStorage.setItem('selected_city', '${safeDestinationName}')">Explorar materiais de ${destinationName}</a>
+            <a id="commercialCta" class="btn" href="https://curadoria-elite-travel.vercel.app/#curadoria" target="_top" onclick="try { localStorage.setItem('selected_city', '${destinationName}'); } catch(e) {}">Explorar materiais de ${destinationName}</a>
           </div>
         `;
       } else {
@@ -1330,15 +1329,11 @@
           <p>As informações essenciais já estão disponíveis aqui.</p>
           <p>A Curadoria Elite Travel está estruturando materiais completos para este destino, com o mesmo nível de critério e organização.</p>
           <div class="commercial-actions">
-            <a id="commercialCta" class="btn secondary" href="/#curadoria">Ver destinos disponíveis</a>
+            <a id="commercialCta" class="btn secondary" href="https://curadoria-elite-travel.vercel.app/#curadoria" target="_top">Ver destinos disponíveis</a>
           </div>
         `;
       }
 
-      const button = document.getElementById('commercialCta');
-      if (button) {
-        button.addEventListener('click', () => goToCuradoria(hasMaterial ? destinationName : null));
-      }
     }
 
     function clearResult() {
