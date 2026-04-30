@@ -443,7 +443,7 @@
       return String(value || '')
         .toLowerCase()
         .normalize('NFD')
-        .replace(/[̀-ͯ]/g, '')
+        .replace(/[\u0300-\u036f]/g, '')
         .replace(/[^\w\s-]/g, '')
         .replace(/\s+/g, ' ')
         .trim();
@@ -565,8 +565,16 @@
     function findMatchingCity(cities, normalizedQuery) {
       if (!cities || typeof cities !== 'object') return null;
 
-      for (const cityName of Object.keys(cities)) {
-        if (normalizeText(cityName) === normalizedQuery) {
+      for (const [cityName, cityData] of Object.entries(cities)) {
+        const possibleCityNames = [cityName];
+
+        if (cityData && typeof cityData === 'object' && !Array.isArray(cityData)) {
+          if (cityData.label) possibleCityNames.push(cityData.label);
+          if (cityData.slug) possibleCityNames.push(cityData.slug);
+          if (Array.isArray(cityData.aliases)) possibleCityNames.push(...cityData.aliases);
+        }
+
+        if (possibleCityNames.filter(Boolean).map(item => normalizeText(item)).includes(normalizedQuery)) {
           return cityName;
         }
       }
@@ -588,7 +596,8 @@
       const cities = country.cities || {};
       const cityKeys = Object.keys(cities);
       const selectedCity = matchedCity || cityKeys[0] || null;
-      const supportCards = selectedCity && Array.isArray(cities[selectedCity]) ? cities[selectedCity] : [];
+      const cityData = selectedCity ? cities[selectedCity] : null;
+      const supportCards = Array.isArray(cityData) ? cityData : [];
 
       document.getElementById('countryTitle').textContent = country.country_name || '';
       document.getElementById('searchedCity').textContent = selectedCity
@@ -602,7 +611,9 @@
       document.getElementById('block1').innerHTML = formatBlock(country.block_1);
       document.getElementById('block2').innerHTML = formatBlock(country.block_2);
       document.getElementById('block3').innerHTML = formatBlock(country.block_3);
-      document.getElementById('block4').innerHTML = createLocationCards(supportCards);
+      document.getElementById('block4').innerHTML = supportCards.length
+        ? createLocationCards(supportCards)
+        : formatBlock(country.block_4);
       document.getElementById('block5').innerHTML = formatBlock(country.block_5);
       document.getElementById('block6').innerHTML = formatBlock(country.block_6);
 
@@ -650,7 +661,7 @@
 
         for (const country of countries) {
           const aliases = Array.isArray(country.aliases) ? country.aliases : [];
-          const possibleCountryNames = [country.country_name, ...aliases]
+          const possibleCountryNames = [country.country_name, country.slug, ...aliases]
             .filter(Boolean)
             .map(item => normalizeText(item));
 
