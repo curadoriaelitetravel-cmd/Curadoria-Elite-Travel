@@ -3131,6 +3131,30 @@
     }
   }
 
+  function getSecaoDaURL(){
+    try{
+      const params = new URLSearchParams(window.location.search);
+      const secaoParam = params.get("secao") || params.get("go");
+      const hashParam = String(window.location.hash || "").replace("#", "");
+      const destino = String(secaoParam || hashParam || "").trim().toLowerCase();
+      const secoesValidas = ["inicio", "quem", "curadoria", "buscador"];
+
+      if (secoesValidas.includes(destino)){
+        return destino;
+      }
+    }catch(e){
+      console.error("Erro ao ler seção pela URL:", e);
+    }
+
+    return null;
+  }
+
+  function abrirSecaoViaURL(){
+    const destino = getSecaoDaURL();
+    if (!destino) return;
+    showSection(destino);
+  }
+
   document.addEventListener("DOMContentLoaded", async () => {
     ensureSupabase();
     initCinemaBackgrounds();
@@ -3142,7 +3166,10 @@
     await loadOwnedPurchases();
     await handleCartAfterPurchaseIfNeeded();
     await resumeAfterLoginIfNeeded();
+    abrirSecaoViaURL();
   });
+
+  window.addEventListener("hashchange", abrirSecaoViaURL);
 </script>
 
 <script type="application/ld+json">
