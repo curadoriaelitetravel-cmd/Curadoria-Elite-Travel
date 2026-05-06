@@ -861,6 +861,56 @@
       text-shadow:0 6px 24px rgba(0,0,0,0.34);
     }
 
+
+
+    .tool-access-card{
+      position:relative;
+      z-index:2;
+      max-width:980px;
+      margin:24px auto 0;
+      padding:30px 30px;
+      border-radius:24px;
+      background:linear-gradient(180deg, rgba(8,8,8,0.92), rgba(4,4,4,0.88));
+      border:1px solid rgba(212,175,55,0.22);
+      box-shadow:0 20px 48px rgba(0,0,0,0.28);
+      text-align:center;
+    }
+
+    .tool-access-card h3{
+      margin:0 0 10px;
+      color:#d4af37;
+      font-size:26px;
+      letter-spacing:0.2px;
+    }
+
+    .tool-access-card p{
+      margin:0 auto 18px;
+      color:rgba(255,255,255,0.82);
+      max-width:760px;
+      line-height:1.75;
+      font-size:15px;
+    }
+
+    .tool-access-card .tool-note{
+      margin-top:14px;
+      color:rgba(255,255,255,0.64);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .tool-access-card a{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:13px 24px;
+      border-radius:12px;
+      background:#d4af37;
+      color:#000;
+      font-weight:800;
+      text-decoration:none;
+      box-shadow:0 12px 28px rgba(212,175,55,0.16);
+    }
+
     .popup-bg{
       position:fixed;
       inset:0;
@@ -1642,6 +1692,18 @@
           <p class="subtitle" style="margin-bottom:0;">
             Em breve, uma central inteligente de ferramentas para orientar cada etapa da sua viagem.
           </p>
+        </div>
+      </div>
+
+      <div class="tool-access-card">
+        <h3>Documentação e informações de saúde para viagem</h3>
+        <p>
+          Consulte por país ou cidade e veja informações práticas sobre entrada no destino, documentos,
+          apoio diplomático e saúde para viagem.
+        </p>
+        <a href="/documentos.html">Acessar ferramenta</a>
+        <div class="tool-note">
+          Esta é a primeira ferramenta da área Buscador. Seguimos trabalhando em novas ferramentas para ampliar a central de apoio à viagem.
         </div>
       </div>
     </div>
@@ -3131,28 +3193,23 @@
     }
   }
 
-  function getSecaoDaURL(){
+  function abrirSecaoViaURL(){
     try{
       const params = new URLSearchParams(window.location.search);
       const secaoParam = params.get("secao") || params.get("go");
       const hashParam = String(window.location.hash || "").replace("#", "");
-      const destino = String(secaoParam || hashParam || "").trim().toLowerCase();
+      const destino = secaoParam || hashParam;
+
+      if (!destino) return;
+
       const secoesValidas = ["inicio", "quem", "curadoria", "buscador"];
 
       if (secoesValidas.includes(destino)){
-        return destino;
+        showSection(destino);
       }
     }catch(e){
-      console.error("Erro ao ler seção pela URL:", e);
+      console.error("Erro ao abrir seção via URL:", e);
     }
-
-    return null;
-  }
-
-  function abrirSecaoViaURL(){
-    const destino = getSecaoDaURL();
-    if (!destino) return;
-    showSection(destino);
   }
 
   document.addEventListener("DOMContentLoaded", async () => {
@@ -3160,16 +3217,16 @@
     initCinemaBackgrounds();
     updateCartBadge();
     updateFooterVisibility();
+
+    abrirSecaoViaURL();
+
     await refreshNavAuth();
     await loadCategoryPrices();
     await loadActiveMaterials();
     await loadOwnedPurchases();
     await handleCartAfterPurchaseIfNeeded();
     await resumeAfterLoginIfNeeded();
-    abrirSecaoViaURL();
   });
-
-  window.addEventListener("hashchange", abrirSecaoViaURL);
 </script>
 
 <script type="application/ld+json">
