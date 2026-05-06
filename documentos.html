@@ -262,6 +262,37 @@
       font-size: 14px;
     }
 
+    .chips-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: -4px 0 18px;
+    }
+
+    .chips-counter {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .show-more-chip {
+      border: 1px solid rgba(212,175,55,0.44);
+      background: transparent;
+      color: var(--gold);
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .show-more-chip:hover,
+    .chip:hover {
+      border-color: rgba(212,175,55,0.72);
+    }
+
     .status {
       min-height: 22px;
       color: var(--muted);
@@ -487,13 +518,18 @@
       </div>
 
       <div class="helper-text">
-        A busca reconhece países e dezenas de cidades turísticas. A lista abaixo é gerada automaticamente a partir da mesma base usada nos resultados, para manter os destinos sincronizados com o conteúdo disponível.
+        A busca reconhece países e cidades turísticas. Para manter a navegação limpa, mostramos os destinos em ordem alfabética de 10 em 10.
       </div>
 
       <div id="chipsContainer" class="chips"></div>
 
+      <div class="chips-actions">
+        <div id="chipsCounter" class="chips-counter"></div>
+        <button id="showMoreChipsBtn" class="show-more-chip" type="button" onclick="showMoreChips()" style="display:none;">Ver mais destinos</button>
+      </div>
+
       <div class="destination-note">
-        Mostramos alguns dos principais destinos para facilitar sua busca. Se o seu ainda não apareceu, estamos expandindo continuamente nossa base para incluir novos países e cidades.
+        Não encontrou seu destino? Estamos expandindo continuamente nossa base. Você também pode buscar pelo país para visualizar as informações disponíveis.
       </div>
 
       <div id="status" class="status"></div>
@@ -1462,6 +1498,9 @@
       return String(cityKey || '').replace(/\w/g, c => c.toUpperCase());
     }
 
+    let visibleChipCount = 10;
+    const CHIP_BATCH_SIZE = 10;
+
     function getAvailableDestinationsForChips() {
       const available = new Map();
 
@@ -1477,24 +1516,23 @@
         available.set(normalizeText(label), label);
       });
 
-      const ordered = [];
-      priorityChipDestinations.forEach(label => {
-        const key = normalizeText(label);
-        if (available.has(key)) {
-          ordered.push(available.get(key));
-          available.delete(key);
-        }
-      });
-
-      return ordered.concat(Array.from(available.values()).sort((a, b) => a.localeCompare(b, 'pt-BR')));
+      return Array.from(available.values()).sort((a, b) =>
+        a.localeCompare(b, 'pt-BR', { sensitivity: 'base' })
+      );
     }
 
     function renderDynamicChips() {
       const container = document.getElementById('chipsContainer');
+      const counter = document.getElementById('chipsCounter');
+      const moreBtn = document.getElementById('showMoreChipsBtn');
       if (!container) return;
+
+      const destinations = getAvailableDestinationsForChips();
+      const visibleDestinations = destinations.slice(0, visibleChipCount);
+
       container.innerHTML = '';
 
-      getAvailableDestinationsForChips().forEach(label => {
+      visibleDestinations.forEach(label => {
         const button = document.createElement('button');
         button.className = 'chip';
         button.type = 'button';
@@ -1506,6 +1544,20 @@
         });
         container.appendChild(button);
       });
+
+      if (counter) {
+        counter.textContent = `Mostrando ${Math.min(visibleChipCount, destinations.length)} de ${destinations.length} destinos em ordem alfabética.`;
+      }
+
+      if (moreBtn) {
+        moreBtn.style.display = visibleChipCount < destinations.length ? 'inline-flex' : 'none';
+        moreBtn.textContent = `Ver mais ${Math.min(CHIP_BATCH_SIZE, destinations.length - visibleChipCount)} destinos`;
+      }
+    }
+
+    function showMoreChips() {
+      visibleChipCount += CHIP_BATCH_SIZE;
+      renderDynamicChips();
     }
 
     function clearResult() {
