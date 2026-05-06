@@ -37,15 +37,16 @@
       position: sticky;
       top: 0;
       z-index: 20;
-      background: rgba(8,8,8,0.88);
+      width: 100%;
+      background: rgba(0,0,0,0.30);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(212,175,55,0.16);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
     .site-header-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 16px 18px;
+      width: 100%;
+      margin: 0;
+      padding: 16px 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -54,29 +55,61 @@
 
     .brand {
       display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 260px;
+    }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      flex: 0 0 auto;
+    }
+
+    .brand-text {
+      display: flex;
       flex-direction: column;
       gap: 2px;
     }
 
     .brand-title {
       color: var(--gold);
+      font-family: Georgia, 'Times New Roman', serif;
       font-weight: 700;
-      letter-spacing: 0.03em;
-      font-size: 28px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      font-size: 22px;
+      line-height: 1.1;
     }
 
     .brand-sub {
-      color: var(--muted);
-      font-size: 13px;
+      color: rgba(255,255,255,0.70);
+      font-size: 12px;
+      line-height: 1.2;
     }
 
     .nav {
       display: flex;
+      align-items: center;
+      justify-content: flex-end;
       flex-wrap: wrap;
-      gap: 18px;
+      gap: 16px;
       color: var(--gold);
       font-weight: 600;
       font-size: 16px;
+    }
+
+    .nav a {
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    .nav-sep {
+      width: 1px;
+      height: 16px;
+      background: rgba(255,255,255,0.14);
+      display: inline-block;
     }
 
     .hero {
@@ -358,22 +391,35 @@
       .panel-title { font-size: 30px; }
       .block h3 { font-size: 24px; }
       .hero p { font-size: 18px; }
-      .nav { display: none; }
+      .site-header-inner { padding: 14px 16px; align-items: flex-start; }
+      .brand { min-width: auto; }
+      .brand-title { font-size: 18px; }
+      .nav { gap: 10px; font-size: 13px; justify-content: flex-start; }
+      .nav-sep { display: none; }
     }
   </style>
 </head>
 <body>
   <header class="site-header">
     <div class="site-header-inner">
-      <div class="brand">
-        <div class="brand-title">CURADORIA ELITE TRAVEL</div>
-        <div class="brand-sub">O seu mundo, bem indicado.</div>
-      </div>
-      <nav class="nav">
+      <a class="brand" href="/" aria-label="Curadoria Elite Travel">
+        <img src="images/rosa-dos-ventos.png" alt="Rosa dos Ventos">
+        <span class="brand-text">
+          <span class="brand-title">Curadoria Elite Travel</span>
+          <span class="brand-sub">O seu mundo, bem indicado.</span>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Navegação principal">
         <a href="/">Início</a>
-        <a href="/#quem">Quem Somos</a>
-        <a href="/#curadoria">Curadoria</a>
-        <a href="/#buscador">Buscador</a>
+        <a href="/?secao=quem#quem">Quem Somos</a>
+        <a href="/?secao=curadoria#curadoria">Curadoria</a>
+        <a href="/?secao=buscador#buscador">Buscador</a>
+        <span class="nav-sep"></span>
+        <a href="/" id="navCartDoc">Carrinho (0)</a>
+        <span class="nav-sep"></span>
+        <a href="account.html">Minha conta</a>
+        <a href="/" id="navLogoutDoc">Sair</a>
       </nav>
     </div>
   </header>
@@ -1299,7 +1345,7 @@
       if (destinationName) {
         localStorage.setItem('selected_city', destinationName);
       }
-      window.location.href = 'https://curadoria-elite-travel.vercel.app/#curadoria';
+      window.location.href = 'https://curadoria-elite-travel.vercel.app/?secao=curadoria#curadoria';
     }
 
     function renderCommercialBlock(match, country, cityName) {
@@ -1376,6 +1422,28 @@
       document.getElementById('searchInput').value = value;
       search(value);
     }));
+
+
+    function updateDocumentosHeaderCart(){
+      try{
+        const raw = localStorage.getItem('cet_cart_v2');
+        const items = raw ? JSON.parse(raw) : [];
+        const count = Array.isArray(items) ? items.length : 0;
+        const el = document.getElementById('navCartDoc');
+        if (el) el.textContent = 'Carrinho (' + count + ')';
+      }catch(e){}
+    }
+
+    updateDocumentosHeaderCart();
+
+    const logoutDoc = document.getElementById('navLogoutDoc');
+    if (logoutDoc) {
+      logoutDoc.addEventListener('click', function(e){
+        try{
+          localStorage.removeItem('sb-lnyoqoezezisakghtmim-auth-token');
+        }catch(err){}
+      });
+    }
   </script>
 </body>
 </html>
