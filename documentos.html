@@ -32,24 +32,32 @@
     .page-bg {
       position: fixed;
       inset: 0;
+      z-index: -2;
+      background: #050505;
+      overflow: hidden;
+    }
+
+    .page-bg-layer {
+      position: absolute;
+      inset: 0;
       background-size: cover;
       background-position: center;
       opacity: 0;
       transform: scale(1.04);
       transition: opacity 2.8s ease;
-      filter: brightness(0.82) saturate(0.88) contrast(1.02);
-      z-index: -3;
+      filter: brightness(0.82) saturate(0.9) contrast(1.02);
     }
 
-    .page-bg.active { opacity: 1; }
+    .page-bg-layer.active { opacity: 1; }
 
-    .page-bg-overlay {
-      position: fixed;
+    .page-bg::after {
+      content: "";
+      position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at center, rgba(0,0,0,0.18), rgba(0,0,0,0.56)),
-        linear-gradient(180deg, rgba(0,0,0,0.34), rgba(0,0,0,0.78));
-      z-index: -2;
+        radial-gradient(circle at center, rgba(0,0,0,0.12), rgba(0,0,0,0.55)),
+        linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.82));
+      z-index: 2;
       pointer-events: none;
     }
 
@@ -59,16 +67,15 @@
       position: sticky;
       top: 0;
       z-index: 20;
-      width: 100%;
-      background: rgba(0,0,0,0.30);
+      background: rgba(8,8,8,0.88);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(212,175,55,0.16);
     }
 
     .site-header-inner {
       width: 100%;
       margin: 0;
-      padding: 16px 40px;
+      padding: 12px 30px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -86,7 +93,7 @@
       width: 34px;
       height: 34px;
       object-fit: contain;
-      flex: 0 0 auto;
+      opacity: 0.92;
     }
 
     .brand-text {
@@ -99,32 +106,26 @@
       color: var(--gold);
       font-family: Georgia, 'Times New Roman', serif;
       font-weight: 700;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
+      letter-spacing: 0.03em;
       font-size: 22px;
-      line-height: 1.1;
+      line-height: 1.05;
     }
 
     .brand-sub {
-      color: rgba(255,255,255,0.70);
+      color: var(--muted);
       font-size: 12px;
       line-height: 1.2;
     }
 
     .nav {
       display: flex;
-      align-items: center;
-      justify-content: flex-end;
       flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: center;
       gap: 16px;
       color: var(--gold);
-      font-weight: 600;
-      font-size: 16px;
-    }
-
-    .nav a {
-      color: var(--gold);
-      white-space: nowrap;
+      font-weight: 700;
+      font-size: 15px;
     }
 
     .nav-sep {
@@ -398,6 +399,14 @@
       gap: 12px;
     }
 
+    .destination-note {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+      margin: -4px 0 20px;
+      max-width: 900px;
+    }
+
     .footer {
       border-top: 1px solid rgba(212,175,55,0.18);
       background: #020202;
@@ -412,47 +421,41 @@
       text-decoration: underline;
     }
 
-    .footer a:hover { opacity: 0.88; }
-
     @media (max-width: 940px) {
       .search-row { grid-template-columns: 1fr; }
       .summary-grid { grid-template-columns: 1fr; }
       .panel-title { font-size: 30px; }
       .block h3 { font-size: 24px; }
       .hero p { font-size: 18px; }
-      .site-header-inner { padding: 14px 16px; align-items: flex-start; }
-      .brand { min-width: auto; }
-      .brand-title { font-size: 18px; }
-      .nav { gap: 10px; font-size: 13px; justify-content: flex-start; }
-      .nav-sep { display: none; }
+      .nav { display: none; }
     }
   </style>
 </head>
 <body>
-  <div class="page-bg active" id="docBg1"></div>
-  <div class="page-bg" id="docBg2"></div>
-  <div class="page-bg-overlay"></div>
+  <div class="page-bg" aria-hidden="true">
+    <div class="page-bg-layer active" id="pageBgA"></div>
+    <div class="page-bg-layer" id="pageBgB"></div>
+  </div>
 
   <header class="site-header">
     <div class="site-header-inner">
       <a class="brand" href="/" aria-label="Curadoria Elite Travel">
         <img src="images/rosa-dos-ventos.png" alt="Rosa dos Ventos">
-        <span class="brand-text">
-          <span class="brand-title">Curadoria Elite Travel</span>
-          <span class="brand-sub">O seu mundo, bem indicado.</span>
-        </span>
+        <div class="brand-text">
+          <div class="brand-title">CURADORIA ELITE TRAVEL</div>
+          <div class="brand-sub">O seu mundo, bem indicado.</div>
+        </div>
       </a>
-
-      <nav class="nav" aria-label="Navegação principal">
+      <nav class="nav">
         <a href="/">Início</a>
         <a href="/?secao=quem#quem">Quem Somos</a>
         <a href="/?secao=curadoria#curadoria">Curadoria</a>
         <a href="/?secao=buscador#buscador">Buscador</a>
         <span class="nav-sep"></span>
-        <a href="/" id="navCartDoc">Carrinho (0)</a>
+        <a href="/?cart=1">Carrinho (0)</a>
         <span class="nav-sep"></span>
-        <a href="account.html">Minha conta</a>
-        <a href="/" id="navLogoutDoc">Sair</a>
+        <a href="/account.html">Minha conta</a>
+        <a href="/login.html">Sair</a>
       </nav>
     </div>
   </header>
@@ -484,33 +487,13 @@
       </div>
 
       <div class="helper-text">
-        A busca reconhece países e dezenas de cidades turísticas. Os botões abaixo mostram apenas uma cidade principal por país para manter a navegação mais limpa.
+        A busca reconhece países e dezenas de cidades turísticas. A lista abaixo é gerada automaticamente a partir da mesma base usada nos resultados, para manter os destinos sincronizados com o conteúdo disponível.
       </div>
 
-      <div class="chips">
-        <button class="chip" data-search="New York">New York</button>
-        <button class="chip" data-search="Toronto">Toronto</button>
-        <button class="chip" data-search="Cancún">Cancún</button>
-        <button class="chip" data-search="Cusco">Cusco</button>
-        <button class="chip" data-search="Santiago">Santiago</button>
-        <button class="chip" data-search="Montevidéu">Montevidéu</button>
-        <button class="chip" data-search="Bogotá">Bogotá</button>
-        <button class="chip" data-search="Buenos Aires">Buenos Aires</button>
-        <button class="chip" data-search="Paris">Paris</button>
-        <button class="chip" data-search="Roma">Roma</button>
-        <button class="chip" data-search="Barcelona">Barcelona</button>
-        <button class="chip" data-search="Lisboa">Lisboa</button>
-        <button class="chip" data-search="Londres">Londres</button>
-        <button class="chip" data-search="Berlim">Berlim</button>
-        <button class="chip" data-search="Amsterdã">Amsterdã</button>
-        <button class="chip" data-search="Bruxelas">Bruxelas</button>
-        <button class="chip" data-search="Zurique">Zurique</button>
-        <button class="chip" data-search="Praga">Praga</button>
-        <button class="chip" data-search="Tóquio">Tóquio</button>
-        <button class="chip" data-search="Pequim">Pequim</button>
-        <button class="chip" data-search="Istambul">Istambul</button>
-        <button class="chip" data-search="Dubai">Dubai</button>
-        <button class="chip" data-search="Atenas">Atenas</button>
+      <div id="chipsContainer" class="chips"></div>
+
+      <div class="destination-note">
+        Mostramos alguns dos principais destinos para facilitar sua busca. Se o seu ainda não apareceu, estamos expandindo continuamente nossa base para incluir novos países e cidades.
       </div>
 
       <div id="status" class="status"></div>
@@ -540,43 +523,10 @@
 
   <footer class="footer">
     Curadoria Elite Travel · O seu mundo, bem indicado.<br>
-    São Paulo - SP · <a href="contact.html">curadoriaelitetravel@gmail.com</a>
+    São Paulo - SP · <a href="mailto:curadoriaelitetravel@gmail.com">curadoriaelitetravel@gmail.com</a>
   </footer>
 
   <script>
-    const DOC_CAROUSEL_IMAGES = [
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80',
-      'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=80',
-      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1800&q=80',
-      'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1800&q=80',
-      'https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?auto=format&fit=crop&w=1800&q=80'
-    ];
-
-    function startDocumentosCarousel(){
-      const first = document.getElementById('docBg1');
-      const second = document.getElementById('docBg2');
-      if (!first || !second) return;
-
-      let currentIndex = 0;
-      let showingFirst = true;
-
-      first.style.backgroundImage = `url("${DOC_CAROUSEL_IMAGES[0]}")`;
-      first.classList.add('active');
-
-      setInterval(() => {
-        currentIndex = (currentIndex + 1) % DOC_CAROUSEL_IMAGES.length;
-        const visible = showingFirst ? first : second;
-        const hidden = showingFirst ? second : first;
-
-        hidden.style.backgroundImage = `url("${DOC_CAROUSEL_IMAGES[currentIndex]}")`;
-        hidden.classList.add('active');
-        visible.classList.remove('active');
-        showingFirst = !showingFirst;
-      }, 6200);
-    }
-
-    startDocumentosCarousel();
-
     function normalizeText(value) {
       return String(value || '')
         .toLowerCase()
@@ -641,12 +591,12 @@
         },
         cities: {
           'new york': [{ name: 'Consulado-Geral do Brasil em Nova York', highlight: 'Principal apoio para brasileiros na região de Nova York.', address: '225 E 41st St, New York, NY 10017', phone: '+1 917 777 7777', email: 'consular.novayork@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-nova-york', distance: '~ 5 km', car: '15 a 25 min' }],
+          'atlanta': [{ name: 'Consulado-Geral do Brasil em Atlanta', highlight: 'Atende Geórgia, Carolina do Sul, Alabama, Tennessee e Mississippi.', address: 'Consultar endereço oficial atualizado do Consulado-Geral do Brasil em Atlanta.', phone: 'Consultar canal oficial atualizado do consulado.', email: 'Consultar canal oficial atualizado do consulado.', site: 'https://www.gov.br/mre/pt-br/consulado-atlanta', note: 'Sempre confirme jurisdição e canais oficiais antes de buscar atendimento.' }],
+          'chicago': [{ name: 'Consulado-Geral do Brasil em Chicago', highlight: 'Atende Illinois, Indiana, Iowa, Michigan, Minnesota, Missouri, Nebraska, North Dakota, South Dakota e Wisconsin.', address: 'Consultar endereço oficial atualizado do Consulado-Geral do Brasil em Chicago.', phone: 'Consultar canal oficial atualizado do consulado.', email: 'Consultar canal oficial atualizado do consulado.', site: 'https://www.gov.br/mre/pt-br/consulado-chicago', note: 'Sempre confirme jurisdição e canais oficiais antes de buscar atendimento.' }],
+          'hartford': [{ name: 'Consulado-Geral do Brasil em Hartford', highlight: 'Atende Connecticut.', address: 'Consultar endereço oficial atualizado do Consulado-Geral do Brasil em Hartford.', phone: 'Consultar canal oficial atualizado do consulado.', email: 'Consultar canal oficial atualizado do consulado.', site: 'https://www.gov.br/mre/pt-br/consulado-hartford', note: 'Sempre confirme jurisdição e canais oficiais antes de buscar atendimento.' }],
+          'houston': [{ name: 'Consulado-Geral do Brasil em Houston', highlight: 'Atende Texas.', address: 'Consultar endereço oficial atualizado do Consulado-Geral do Brasil em Houston.', phone: 'Consultar canal oficial atualizado do consulado.', email: 'Consultar canal oficial atualizado do consulado.', site: 'https://www.gov.br/mre/pt-br/consulado-houston', note: 'Sempre confirme jurisdição e canais oficiais antes de buscar atendimento.' }],
           'orlando': [{ name: 'Consulado-Geral do Brasil em Orlando', highlight: 'Principal apoio para brasileiros na região central da Flórida.', address: '800 N Magnolia Ave, Suite 300, Orlando, FL', phone: '+1 407 872 6200', email: 'consular.orlando@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-orlando', distance: '~ 5 km', car: '15 a 20 min' }],
           'miami': [{ name: 'Consulado-Geral do Brasil em Miami', highlight: 'Principal apoio para brasileiros no sul da Flórida.', address: '3150 SW 38th Ave, Miami, FL', phone: '+1 305 285 6200', email: 'consular.miami@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-miami', distance: '~ 8 km', car: '15 a 25 min' }],
-          'atlanta': [{ name: 'Consulado-Geral do Brasil em Atlanta', highlight: 'Apoio brasileiro para Geórgia e estados da região sudeste dos EUA.', address: '3500 Lenox Road NE, One Alliance Center, Suite 800, Atlanta, GA', phone: '+1 404 949 2400', email: 'consular.atlanta@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-atlanta', distance: '~ 15 km', car: '20 a 35 min' }],
-          'chicago': [{ name: 'Consulado-Geral do Brasil em Chicago', highlight: 'Apoio brasileiro para Illinois e estados do Meio-Oeste.', address: '401 N Michigan Ave, Suite 1850, Chicago, IL', phone: '+1 312 464 0244', email: 'consular.chicago@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-chicago', distance: '~ 3 km', car: '10 a 20 min' }],
-          'hartford': [{ name: 'Consulado-Geral do Brasil em Hartford', highlight: 'Apoio brasileiro no estado de Connecticut.', address: '1 Constitution Plaza, Hartford, CT', phone: '+1 860 760 3100', email: 'consular.hartford@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-hartford', distance: '~ 2 km', car: '10 a 15 min' }],
-          'houston': [{ name: 'Consulado-Geral do Brasil em Houston', highlight: 'Apoio brasileiro no Texas.', address: '1233 West Loop South, Park Tower North, Suite 1150, Houston, TX', phone: '+1 713 961 3063', email: 'consular.houston@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-houston', distance: '~ 12 km', car: '20 a 35 min' }],
           'boston': [{ name: 'Consulado-Geral do Brasil em Boston', highlight: 'Apoio brasileiro na região da Nova Inglaterra.', address: '1 Marina Park Drive, Suite 410, Boston, MA', phone: '+1 617 542 4000', email: 'consular.boston@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-boston', distance: '~ 5 km', car: '15 min' }],
           'los angeles': [{ name: 'Consulado-Geral do Brasil em Los Angeles', highlight: 'Principal apoio para brasileiros no sul da Califórnia.', address: '8484 Wilshire Blvd, Suite 300, Beverly Hills, CA', phone: '+1 323 651 2664', email: 'consular.losangeles@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-los-angeles', distance: '~ 15 km', car: '25 a 40 min' }],
           'las vegas': [{ name: 'Consulado brasileiro mais próximo: Los Angeles', highlight: 'Las Vegas usa como apoio principal o posto brasileiro de Los Angeles nesta base.', address: '8484 Wilshire Blvd, Suite 300, Beverly Hills, CA', phone: '+1 323 651 2664', email: 'consular.losangeles@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-los-angeles', distance: '~ 435 km', car: '4h a 5h', flight: '1h10' }],
@@ -1106,15 +1056,13 @@
     };
 
     const cityMap = {
-      'new york': 'estados-unidos','nova york': 'estados-unidos','orlando': 'estados-unidos','miami': 'estados-unidos','atlanta': 'estados-unidos','boston': 'estados-unidos','chicago': 'estados-unidos','hartford': 'estados-unidos','houston': 'estados-unidos','los angeles': 'estados-unidos','las vegas': 'estados-unidos','san francisco': 'estados-unidos','washington dc': 'estados-unidos','washington d.c.': 'estados-unidos','washington': 'estados-unidos','paris': 'franca','nice': 'franca','lyon': 'franca','madrid': 'espanha','barcelona': 'espanha','londres': 'reino-unido','manchester': 'reino-unido','edimburgo': 'reino-unido','glasgow': 'reino-unido','roma': 'italia','milao': 'italia','milão': 'italia','florenca': 'italia','florença': 'italia','cancun': 'mexico','cancún': 'mexico','cidade do mexico': 'mexico','cidade do méxico': 'mexico','buenos aires': 'argentina','lisboa': 'portugal','porto': 'portugal','amsterda': 'paises-baixos','amsterdã': 'paises-baixos','praga': 'republica-tcheca','berlim': 'alemanha','munique': 'alemanha','toronto': 'canada','vancouver': 'canada','montreal': 'canada','montréal': 'canada','lima': 'peru','cusco': 'peru','santiago': 'chile','atacama': 'chile','montevideu': 'uruguai','montevidéu': 'uruguai','punta del este': 'uruguai','bruxelas': 'belgica','bruges': 'belgica','zurique': 'suica','genebra': 'suica','bogota': 'colombia','bogotá': 'colombia','cartagena': 'colombia','helsinque': 'finlandia','rovaniemi': 'finlandia','toquio': 'japao','tóquio': 'japao','osaka': 'japao','pequim': 'china','xangai': 'china','bangkok': 'tailandia','phuket': 'tailandia','istambul': 'turquia','capadocia': 'turquia','capadócia': 'turquia','dubai': 'emirados-arabes-unidos','abu dhabi': 'emirados-arabes-unidos','abu dhabi ': 'emirados-arabes-unidos','atenas': 'grecia'
+      'new york': 'estados-unidos','nova york': 'estados-unidos','atlanta': 'estados-unidos','chicago': 'estados-unidos','hartford': 'estados-unidos','houston': 'estados-unidos','orlando': 'estados-unidos','miami': 'estados-unidos','boston': 'estados-unidos','los angeles': 'estados-unidos','las vegas': 'estados-unidos','san francisco': 'estados-unidos','washington dc': 'estados-unidos','paris': 'franca','nice': 'franca','lyon': 'franca','madrid': 'espanha','barcelona': 'espanha','londres': 'reino-unido','manchester': 'reino-unido','edimburgo': 'reino-unido','glasgow': 'reino-unido','roma': 'italia','milao': 'italia','milão': 'italia','florenca': 'italia','florença': 'italia','cancun': 'mexico','cancún': 'mexico','cidade do mexico': 'mexico','cidade do méxico': 'mexico','buenos aires': 'argentina','lisboa': 'portugal','porto': 'portugal','amsterda': 'paises-baixos','amsterdã': 'paises-baixos','praga': 'republica-tcheca','berlim': 'alemanha','munique': 'alemanha','toronto': 'canada','vancouver': 'canada','montreal': 'canada','montréal': 'canada','lima': 'peru','cusco': 'peru','santiago': 'chile','atacama': 'chile','montevideu': 'uruguai','montevidéu': 'uruguai','punta del este': 'uruguai','bruxelas': 'belgica','bruges': 'belgica','zurique': 'suica','genebra': 'suica','bogota': 'colombia','bogotá': 'colombia','cartagena': 'colombia','helsinque': 'finlandia','rovaniemi': 'finlandia','toquio': 'japao','tóquio': 'japao','osaka': 'japao','pequim': 'china','xangai': 'china','bangkok': 'tailandia','phuket': 'tailandia','istambul': 'turquia','capadocia': 'turquia','capadócia': 'turquia','dubai': 'emirados-arabes-unidos','abu dhabi': 'emirados-arabes-unidos','abu dhabi ': 'emirados-arabes-unidos','atenas': 'grecia'
     };
 
     const cityRedirects = {
+      'chicago': { countryKey: 'estados-unidos', cityKey: 'new york', displayName: 'Chicago' },
       'new orleans': { countryKey: 'estados-unidos', cityKey: 'miami', displayName: 'New Orleans' },
       'seattle': { countryKey: 'estados-unidos', cityKey: 'san francisco', displayName: 'Seattle' },
-      'nova york': { countryKey: 'estados-unidos', cityKey: 'new york', displayName: 'Nova York' },
-      'washington': { countryKey: 'estados-unidos', cityKey: 'washington dc', displayName: 'Washington, D.C.' },
-      'washington d.c.': { countryKey: 'estados-unidos', cityKey: 'washington dc', displayName: 'Washington, D.C.' },
 
       'quebec': { countryKey: 'canada', cityKey: 'montreal', displayName: 'Quebec' },
       'banff': { countryKey: 'canada', cityKey: 'vancouver', displayName: 'Banff' },
@@ -1364,8 +1312,8 @@
     function findDestination(queryRaw) {
       const query = normalizeText(queryRaw);
       if (!query) return null;
-      if (cityRedirects[query]) return { ...cityRedirects[query], type: 'redirect' };
       if (cityMap[query]) return { countryKey: cityMap[query], cityKey: query, type: 'city' };
+      if (cityRedirects[query]) return { ...cityRedirects[query], type: 'redirect' };
 
       for (const [countryKey, country] of Object.entries(countries)) {
         const allNames = [countryKey, country.slug, country.name, ...(country.aliases || [])].filter(Boolean).map(normalizeText);
@@ -1417,7 +1365,7 @@
       if (destinationName) {
         localStorage.setItem('selected_city', destinationName);
       }
-      window.location.href = 'https://curadoria-elite-travel.vercel.app/?secao=curadoria#curadoria';
+      window.location.href = 'https://curadoria-elite-travel.vercel.app/#curadoria';
     }
 
     function renderCommercialBlock(match, country, cityName) {
@@ -1458,6 +1406,108 @@
       }
     }
 
+    const SCENERY_IMAGES = [
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80',
+      'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=80',
+      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1800&q=80',
+      'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1800&q=80'
+    ];
+
+    function startSceneryCarousel() {
+      const a = document.getElementById('pageBgA');
+      const b = document.getElementById('pageBgB');
+      if (!a || !b || !SCENERY_IMAGES.length) return;
+
+      let index = 0;
+      let showingA = true;
+      a.style.backgroundImage = `url("${SCENERY_IMAGES[0]}")`;
+
+      setInterval(() => {
+        index = (index + 1) % SCENERY_IMAGES.length;
+        const visible = showingA ? a : b;
+        const hidden = showingA ? b : a;
+        hidden.style.backgroundImage = `url("${SCENERY_IMAGES[index]}")`;
+        hidden.classList.add('active');
+        visible.classList.remove('active');
+        showingA = !showingA;
+      }, 6500);
+    }
+
+    const priorityChipDestinations = [
+      'New York', 'Miami', 'Orlando', 'Atlanta', 'Boston', 'Chicago', 'Hartford', 'Houston', 'Los Angeles', 'Washington DC',
+      'Toronto', 'Cancún', 'Cusco', 'Santiago', 'Montevidéu', 'Bogotá', 'Buenos Aires', 'Paris', 'Roma', 'Barcelona',
+      'Lisboa', 'Londres', 'Berlim', 'Amsterdã', 'Bruxelas', 'Zurique', 'Praga', 'Tóquio', 'Pequim', 'Istambul', 'Dubai', 'Atenas'
+    ];
+
+    function titleFromCityKey(cityKey) {
+      const manual = {
+        'new york': 'New York',
+        'nova york': 'Nova York',
+        'washington dc': 'Washington DC',
+        'los angeles': 'Los Angeles',
+        'san francisco': 'San Francisco',
+        'buenos aires': 'Buenos Aires',
+        'cidade do mexico': 'Cidade do México',
+        'cidade do méxico': 'Cidade do México',
+        'montevidéu': 'Montevidéu',
+        'tóquio': 'Tóquio',
+        'pequim': 'Pequim',
+        'amsterdã': 'Amsterdã',
+        'zurique': 'Zurique',
+        'bogotá': 'Bogotá',
+        'cancún': 'Cancún'
+      };
+      const normalized = normalizeText(cityKey);
+      if (manual[normalized]) return manual[normalized];
+      return String(cityKey || '').replace(/\w/g, c => c.toUpperCase());
+    }
+
+    function getAvailableDestinationsForChips() {
+      const available = new Map();
+
+      Object.entries(countries).forEach(([countryKey, country]) => {
+        Object.keys(country.cities || {}).forEach(cityKey => {
+          const label = titleFromCityKey(cityKey);
+          available.set(normalizeText(label), label);
+        });
+      });
+
+      Object.entries(cityRedirects || {}).forEach(([alias, data]) => {
+        const label = data.displayName || titleFromCityKey(alias);
+        available.set(normalizeText(label), label);
+      });
+
+      const ordered = [];
+      priorityChipDestinations.forEach(label => {
+        const key = normalizeText(label);
+        if (available.has(key)) {
+          ordered.push(available.get(key));
+          available.delete(key);
+        }
+      });
+
+      return ordered.concat(Array.from(available.values()).sort((a, b) => a.localeCompare(b, 'pt-BR')));
+    }
+
+    function renderDynamicChips() {
+      const container = document.getElementById('chipsContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      getAvailableDestinationsForChips().forEach(label => {
+        const button = document.createElement('button');
+        button.className = 'chip';
+        button.type = 'button';
+        button.dataset.search = label;
+        button.textContent = label;
+        button.addEventListener('click', () => {
+          document.getElementById('searchInput').value = label;
+          search(label);
+        });
+        container.appendChild(button);
+      });
+    }
+
     function clearResult() {
       document.getElementById('searchInput').value = '';
       document.getElementById('status').textContent = '';
@@ -1489,33 +1539,8 @@
     document.getElementById('searchBtn').addEventListener('click', () => search(document.getElementById('searchInput').value));
     document.getElementById('clearBtn').addEventListener('click', clearResult);
     document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') search(e.target.value); });
-    document.querySelectorAll('.chip').forEach(chip => chip.addEventListener('click', () => {
-      const value = chip.dataset.search;
-      document.getElementById('searchInput').value = value;
-      search(value);
-    }));
-
-
-    function updateDocumentosHeaderCart(){
-      try{
-        const raw = localStorage.getItem('cet_cart_v2');
-        const items = raw ? JSON.parse(raw) : [];
-        const count = Array.isArray(items) ? items.length : 0;
-        const el = document.getElementById('navCartDoc');
-        if (el) el.textContent = 'Carrinho (' + count + ')';
-      }catch(e){}
-    }
-
-    updateDocumentosHeaderCart();
-
-    const logoutDoc = document.getElementById('navLogoutDoc');
-    if (logoutDoc) {
-      logoutDoc.addEventListener('click', function(e){
-        try{
-          localStorage.removeItem('sb-lnyoqoezezisakghtmim-auth-token');
-        }catch(err){}
-      });
-    }
+    startSceneryCarousel();
+    renderDynamicChips();
   </script>
 </body>
 </html>
