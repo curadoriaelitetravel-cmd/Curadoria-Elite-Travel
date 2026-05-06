@@ -24,11 +24,33 @@
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background:
-        linear-gradient(rgba(0,0,0,0.70), rgba(0,0,0,0.78)),
-        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80') center/cover fixed;
+      background: #050505;
       color: var(--text);
       line-height: 1.6;
+    }
+
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transform: scale(1.04);
+      transition: opacity 2.8s ease;
+      filter: brightness(0.82) saturate(0.88) contrast(1.02);
+      z-index: -3;
+    }
+
+    .page-bg.active { opacity: 1; }
+
+    .page-bg-overlay {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at center, rgba(0,0,0,0.18), rgba(0,0,0,0.56)),
+        linear-gradient(180deg, rgba(0,0,0,0.34), rgba(0,0,0,0.78));
+      z-index: -2;
+      pointer-events: none;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -385,6 +407,13 @@
       margin-top: 40px;
     }
 
+    .footer a {
+      color: #1a0dab;
+      text-decoration: underline;
+    }
+
+    .footer a:hover { opacity: 0.88; }
+
     @media (max-width: 940px) {
       .search-row { grid-template-columns: 1fr; }
       .summary-grid { grid-template-columns: 1fr; }
@@ -400,6 +429,10 @@
   </style>
 </head>
 <body>
+  <div class="page-bg active" id="docBg1"></div>
+  <div class="page-bg" id="docBg2"></div>
+  <div class="page-bg-overlay"></div>
+
   <header class="site-header">
     <div class="site-header-inner">
       <a class="brand" href="/" aria-label="Curadoria Elite Travel">
@@ -507,10 +540,43 @@
 
   <footer class="footer">
     Curadoria Elite Travel · O seu mundo, bem indicado.<br>
-    São Paulo - SP · curadoriaelitetravel@gmail.com
+    São Paulo - SP · <a href="contact.html">curadoriaelitetravel@gmail.com</a>
   </footer>
 
   <script>
+    const DOC_CAROUSEL_IMAGES = [
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80',
+      'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=80',
+      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1800&q=80',
+      'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1800&q=80',
+      'https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?auto=format&fit=crop&w=1800&q=80'
+    ];
+
+    function startDocumentosCarousel(){
+      const first = document.getElementById('docBg1');
+      const second = document.getElementById('docBg2');
+      if (!first || !second) return;
+
+      let currentIndex = 0;
+      let showingFirst = true;
+
+      first.style.backgroundImage = `url("${DOC_CAROUSEL_IMAGES[0]}")`;
+      first.classList.add('active');
+
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % DOC_CAROUSEL_IMAGES.length;
+        const visible = showingFirst ? first : second;
+        const hidden = showingFirst ? second : first;
+
+        hidden.style.backgroundImage = `url("${DOC_CAROUSEL_IMAGES[currentIndex]}")`;
+        hidden.classList.add('active');
+        visible.classList.remove('active');
+        showingFirst = !showingFirst;
+      }, 6200);
+    }
+
+    startDocumentosCarousel();
+
     function normalizeText(value) {
       return String(value || '')
         .toLowerCase()
@@ -577,6 +643,10 @@
           'new york': [{ name: 'Consulado-Geral do Brasil em Nova York', highlight: 'Principal apoio para brasileiros na região de Nova York.', address: '225 E 41st St, New York, NY 10017', phone: '+1 917 777 7777', email: 'consular.novayork@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-nova-york', distance: '~ 5 km', car: '15 a 25 min' }],
           'orlando': [{ name: 'Consulado-Geral do Brasil em Orlando', highlight: 'Principal apoio para brasileiros na região central da Flórida.', address: '800 N Magnolia Ave, Suite 300, Orlando, FL', phone: '+1 407 872 6200', email: 'consular.orlando@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-orlando', distance: '~ 5 km', car: '15 a 20 min' }],
           'miami': [{ name: 'Consulado-Geral do Brasil em Miami', highlight: 'Principal apoio para brasileiros no sul da Flórida.', address: '3150 SW 38th Ave, Miami, FL', phone: '+1 305 285 6200', email: 'consular.miami@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-miami', distance: '~ 8 km', car: '15 a 25 min' }],
+          'atlanta': [{ name: 'Consulado-Geral do Brasil em Atlanta', highlight: 'Apoio brasileiro para Geórgia e estados da região sudeste dos EUA.', address: '3500 Lenox Road NE, One Alliance Center, Suite 800, Atlanta, GA', phone: '+1 404 949 2400', email: 'consular.atlanta@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-atlanta', distance: '~ 15 km', car: '20 a 35 min' }],
+          'chicago': [{ name: 'Consulado-Geral do Brasil em Chicago', highlight: 'Apoio brasileiro para Illinois e estados do Meio-Oeste.', address: '401 N Michigan Ave, Suite 1850, Chicago, IL', phone: '+1 312 464 0244', email: 'consular.chicago@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-chicago', distance: '~ 3 km', car: '10 a 20 min' }],
+          'hartford': [{ name: 'Consulado-Geral do Brasil em Hartford', highlight: 'Apoio brasileiro no estado de Connecticut.', address: '1 Constitution Plaza, Hartford, CT', phone: '+1 860 760 3100', email: 'consular.hartford@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-hartford', distance: '~ 2 km', car: '10 a 15 min' }],
+          'houston': [{ name: 'Consulado-Geral do Brasil em Houston', highlight: 'Apoio brasileiro no Texas.', address: '1233 West Loop South, Park Tower North, Suite 1150, Houston, TX', phone: '+1 713 961 3063', email: 'consular.houston@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-houston', distance: '~ 12 km', car: '20 a 35 min' }],
           'boston': [{ name: 'Consulado-Geral do Brasil em Boston', highlight: 'Apoio brasileiro na região da Nova Inglaterra.', address: '1 Marina Park Drive, Suite 410, Boston, MA', phone: '+1 617 542 4000', email: 'consular.boston@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-boston', distance: '~ 5 km', car: '15 min' }],
           'los angeles': [{ name: 'Consulado-Geral do Brasil em Los Angeles', highlight: 'Principal apoio para brasileiros no sul da Califórnia.', address: '8484 Wilshire Blvd, Suite 300, Beverly Hills, CA', phone: '+1 323 651 2664', email: 'consular.losangeles@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-los-angeles', distance: '~ 15 km', car: '25 a 40 min' }],
           'las vegas': [{ name: 'Consulado brasileiro mais próximo: Los Angeles', highlight: 'Las Vegas usa como apoio principal o posto brasileiro de Los Angeles nesta base.', address: '8484 Wilshire Blvd, Suite 300, Beverly Hills, CA', phone: '+1 323 651 2664', email: 'consular.losangeles@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-los-angeles', distance: '~ 435 km', car: '4h a 5h', flight: '1h10' }],
@@ -1036,13 +1106,15 @@
     };
 
     const cityMap = {
-      'new york': 'estados-unidos','orlando': 'estados-unidos','miami': 'estados-unidos','boston': 'estados-unidos','los angeles': 'estados-unidos','las vegas': 'estados-unidos','san francisco': 'estados-unidos','washington dc': 'estados-unidos','paris': 'franca','nice': 'franca','lyon': 'franca','madrid': 'espanha','barcelona': 'espanha','londres': 'reino-unido','manchester': 'reino-unido','edimburgo': 'reino-unido','glasgow': 'reino-unido','roma': 'italia','milao': 'italia','milão': 'italia','florenca': 'italia','florença': 'italia','cancun': 'mexico','cancún': 'mexico','cidade do mexico': 'mexico','cidade do méxico': 'mexico','buenos aires': 'argentina','lisboa': 'portugal','porto': 'portugal','amsterda': 'paises-baixos','amsterdã': 'paises-baixos','praga': 'republica-tcheca','berlim': 'alemanha','munique': 'alemanha','toronto': 'canada','vancouver': 'canada','montreal': 'canada','montréal': 'canada','lima': 'peru','cusco': 'peru','santiago': 'chile','atacama': 'chile','montevideu': 'uruguai','montevidéu': 'uruguai','punta del este': 'uruguai','bruxelas': 'belgica','bruges': 'belgica','zurique': 'suica','genebra': 'suica','bogota': 'colombia','bogotá': 'colombia','cartagena': 'colombia','helsinque': 'finlandia','rovaniemi': 'finlandia','toquio': 'japao','tóquio': 'japao','osaka': 'japao','pequim': 'china','xangai': 'china','bangkok': 'tailandia','phuket': 'tailandia','istambul': 'turquia','capadocia': 'turquia','capadócia': 'turquia','dubai': 'emirados-arabes-unidos','abu dhabi': 'emirados-arabes-unidos','abu dhabi ': 'emirados-arabes-unidos','atenas': 'grecia'
+      'new york': 'estados-unidos','nova york': 'estados-unidos','orlando': 'estados-unidos','miami': 'estados-unidos','atlanta': 'estados-unidos','boston': 'estados-unidos','chicago': 'estados-unidos','hartford': 'estados-unidos','houston': 'estados-unidos','los angeles': 'estados-unidos','las vegas': 'estados-unidos','san francisco': 'estados-unidos','washington dc': 'estados-unidos','washington d.c.': 'estados-unidos','washington': 'estados-unidos','paris': 'franca','nice': 'franca','lyon': 'franca','madrid': 'espanha','barcelona': 'espanha','londres': 'reino-unido','manchester': 'reino-unido','edimburgo': 'reino-unido','glasgow': 'reino-unido','roma': 'italia','milao': 'italia','milão': 'italia','florenca': 'italia','florença': 'italia','cancun': 'mexico','cancún': 'mexico','cidade do mexico': 'mexico','cidade do méxico': 'mexico','buenos aires': 'argentina','lisboa': 'portugal','porto': 'portugal','amsterda': 'paises-baixos','amsterdã': 'paises-baixos','praga': 'republica-tcheca','berlim': 'alemanha','munique': 'alemanha','toronto': 'canada','vancouver': 'canada','montreal': 'canada','montréal': 'canada','lima': 'peru','cusco': 'peru','santiago': 'chile','atacama': 'chile','montevideu': 'uruguai','montevidéu': 'uruguai','punta del este': 'uruguai','bruxelas': 'belgica','bruges': 'belgica','zurique': 'suica','genebra': 'suica','bogota': 'colombia','bogotá': 'colombia','cartagena': 'colombia','helsinque': 'finlandia','rovaniemi': 'finlandia','toquio': 'japao','tóquio': 'japao','osaka': 'japao','pequim': 'china','xangai': 'china','bangkok': 'tailandia','phuket': 'tailandia','istambul': 'turquia','capadocia': 'turquia','capadócia': 'turquia','dubai': 'emirados-arabes-unidos','abu dhabi': 'emirados-arabes-unidos','abu dhabi ': 'emirados-arabes-unidos','atenas': 'grecia'
     };
 
     const cityRedirects = {
-      'chicago': { countryKey: 'estados-unidos', cityKey: 'new york', displayName: 'Chicago' },
       'new orleans': { countryKey: 'estados-unidos', cityKey: 'miami', displayName: 'New Orleans' },
       'seattle': { countryKey: 'estados-unidos', cityKey: 'san francisco', displayName: 'Seattle' },
+      'nova york': { countryKey: 'estados-unidos', cityKey: 'new york', displayName: 'Nova York' },
+      'washington': { countryKey: 'estados-unidos', cityKey: 'washington dc', displayName: 'Washington, D.C.' },
+      'washington d.c.': { countryKey: 'estados-unidos', cityKey: 'washington dc', displayName: 'Washington, D.C.' },
 
       'quebec': { countryKey: 'canada', cityKey: 'montreal', displayName: 'Quebec' },
       'banff': { countryKey: 'canada', cityKey: 'vancouver', displayName: 'Banff' },
@@ -1292,8 +1364,8 @@
     function findDestination(queryRaw) {
       const query = normalizeText(queryRaw);
       if (!query) return null;
-      if (cityMap[query]) return { countryKey: cityMap[query], cityKey: query, type: 'city' };
       if (cityRedirects[query]) return { ...cityRedirects[query], type: 'redirect' };
+      if (cityMap[query]) return { countryKey: cityMap[query], cityKey: query, type: 'city' };
 
       for (const [countryKey, country] of Object.entries(countries)) {
         const allNames = [countryKey, country.slug, country.name, ...(country.aliases || [])].filter(Boolean).map(normalizeText);
