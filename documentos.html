@@ -412,6 +412,46 @@
 
 
 
+    .info-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      margin-bottom: 2px;
+    }
+
+    .update-badge,
+    .sources-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .update-badge {
+      color: #8ff0a4;
+      border: 1px solid rgba(143, 240, 164, 0.42);
+      background: rgba(30, 180, 80, 0.08);
+    }
+
+    .sources-badge {
+      color: #ff7b7b;
+      border: 1px solid rgba(255, 123, 123, 0.42);
+      background: rgba(255, 70, 70, 0.08);
+    }
+
+    .sources-badge span,
+    .update-badge span {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+
     .commercial-card {
       background: linear-gradient(180deg, rgba(212,175,55,0.10), rgba(255,255,255,0.02));
       border: 1px solid rgba(212,175,55,0.42);
@@ -550,6 +590,10 @@
         <section class="summary">
           <h2 id="countryTitle"></h2>
           <p id="searchedCity"></p>
+          <div class="info-meta">
+            <div id="lastUpdateInfo" class="update-badge"></div>
+            <div id="sourcesInfo" class="sources-badge"></div>
+          </div>
           <div class="summary-grid">
             <div class="summary-box"><span>Entrada</span><div id="summaryEntry"></div></div>
             <div class="summary-box"><span>Saúde</span><div id="summaryHealth"></div></div>
@@ -626,6 +670,20 @@
       ],
       europeStrategy: '<strong>Estratégia de entrada na Europa:</strong> a imigração acontece no primeiro país Schengen. Depois da entrada, a circulação tende a ser interna. Sem visto não significa sem comprovação. A decisão final é sempre da autoridade migratória.'
     };
+
+    const LAST_DATA_UPDATE = '07/05/2026 às 06:00';
+    const DEFAULT_INFO_SOURCES = ['GOV.BR', 'ANVISA', 'site oficial do governo do destino'];
+
+    function renderInfoMeta(country) {
+      const updateEl = document.getElementById('lastUpdateInfo');
+      const sourcesEl = document.getElementById('sourcesInfo');
+      if (!updateEl || !sourcesEl) return;
+
+      const sources = country.sources && country.sources.length ? country.sources : DEFAULT_INFO_SOURCES;
+      updateEl.innerHTML = `Última atualização: <span>${country.lastUpdated || LAST_DATA_UPDATE}</span>`;
+      sourcesEl.innerHTML = `Fontes utilizadas: <span>${sources.join(' · ')}</span>`;
+    }
+
 
     const countries = {
       'estados-unidos': {
@@ -1106,6 +1164,8 @@
       'new york': 'estados-unidos','nova york': 'estados-unidos','atlanta': 'estados-unidos','chicago': 'estados-unidos','hartford': 'estados-unidos','houston': 'estados-unidos','orlando': 'estados-unidos','miami': 'estados-unidos','boston': 'estados-unidos','los angeles': 'estados-unidos','las vegas': 'estados-unidos','san francisco': 'estados-unidos','washington dc': 'estados-unidos','paris': 'franca','nice': 'franca','lyon': 'franca','madrid': 'espanha','barcelona': 'espanha','londres': 'reino-unido','manchester': 'reino-unido','edimburgo': 'reino-unido','glasgow': 'reino-unido','roma': 'italia','milao': 'italia','milão': 'italia','florenca': 'italia','florença': 'italia','cancun': 'mexico','cancún': 'mexico','cidade do mexico': 'mexico','cidade do méxico': 'mexico','buenos aires': 'argentina','lisboa': 'portugal','porto': 'portugal','amsterda': 'paises-baixos','amsterdã': 'paises-baixos','praga': 'republica-tcheca','berlim': 'alemanha','munique': 'alemanha','toronto': 'canada','vancouver': 'canada','montreal': 'canada','montréal': 'canada','lima': 'peru','cusco': 'peru','santiago': 'chile','atacama': 'chile','montevideu': 'uruguai','montevidéu': 'uruguai','punta del este': 'uruguai','bruxelas': 'belgica','bruges': 'belgica','zurique': 'suica','genebra': 'suica','bogota': 'colombia','bogotá': 'colombia','cartagena': 'colombia','helsinque': 'finlandia','rovaniemi': 'finlandia','toquio': 'japao','tóquio': 'japao','osaka': 'japao','pequim': 'china','xangai': 'china','bangkok': 'tailandia','phuket': 'tailandia','istambul': 'turquia','capadocia': 'turquia','capadócia': 'turquia','dubai': 'emirados-arabes-unidos','abu dhabi': 'emirados-arabes-unidos','abu dhabi ': 'emirados-arabes-unidos','atenas': 'grecia'
     };
 
+    // Cidades adicionais: aparecem na busca como atalhos estáticos.
+    // Para entrarem no ciclo automático das 6h, elas também precisam estar cadastradas no Supabase/fluxo da Edge Function.
     const cityRedirects = {
       'chicago': { countryKey: 'estados-unidos', cityKey: 'new york', displayName: 'Chicago' },
       'new orleans': { countryKey: 'estados-unidos', cityKey: 'miami', displayName: 'New Orleans' },
@@ -1379,6 +1439,7 @@
 
       document.getElementById('countryTitle').textContent = country.name;
       document.getElementById('searchedCity').textContent = `Busca reconhecida: ${cityName} → ${country.name}`;
+      renderInfoMeta(country);
       document.getElementById('summaryEntry').textContent = country.summary.entry;
       document.getElementById('summaryHealth').textContent = country.summary.health;
       document.getElementById('summarySupport').textContent = `${country.summary.support}`;
