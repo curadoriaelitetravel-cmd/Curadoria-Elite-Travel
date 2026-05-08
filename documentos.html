@@ -413,40 +413,54 @@
 
 
 
-    .smart-consular-card {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(212,175,55,0.38);
-      border-radius: 24px;
-      padding: 22px;
-      margin-bottom: 16px;
+    .official-source-link {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 700;
     }
 
-    .smart-consular-card h3 {
-      margin: 0 0 14px;
-      font-size: 30px;
+    .official-source-link:hover {
+      color: var(--gold);
+    }
+
+    .info-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      margin-bottom: 2px;
+    }
+
+    .update-badge,
+    .sources-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .update-badge {
+      color: #8ff0a4;
+      border: 1px solid rgba(143, 240, 164, 0.42);
+      background: rgba(30, 180, 80, 0.08);
+    }
+
+    .sources-badge {
+      color: #ff7b7b;
+      border: 1px solid rgba(255, 123, 123, 0.42);
+      background: rgba(255, 70, 70, 0.08);
+    }
+
+    .sources-badge span,
+    .update-badge span {
       color: var(--text);
-    }
-
-    .smart-consular-card p {
-      margin: 8px 0;
-      color: var(--muted);
-    }
-
-    .smart-consular-card strong {
-      color: var(--text);
-    }
-
-    .smart-consular-highlight {
-      border-left: 3px solid var(--gold);
-      background: rgba(212,175,55,0.06);
-      border-radius: 10px;
-      padding: 12px 14px;
-      margin-top: 12px;
-      color: var(--muted);
-    }
-
-    .smart-consular-highlight p {
-      margin: 6px 0;
+      font-weight: 600;
     }
 
     .commercial-card {
@@ -587,6 +601,10 @@
         <section class="summary">
           <h2 id="countryTitle"></h2>
           <p id="searchedCity"></p>
+          <div class="info-meta">
+            <div id="lastUpdateInfo" class="update-badge"></div>
+            <div id="sourcesInfo" class="sources-badge"></div>
+          </div>
           <div class="summary-grid">
             <div class="summary-box"><span>Entrada</span><div id="summaryEntry"></div></div>
             <div class="summary-box"><span>Saúde</span><div id="summaryHealth"></div></div>
@@ -600,7 +618,6 @@
         <section class="block"><h3>4. Apoio no destino</h3><div id="block4"></div></section>
         <section class="block"><h3>5. Informações de saúde</h3><div id="block5"></div></section>
         <section class="block"><h3>6. Informações importantes</h3><div id="block6"></div></section>
-        <section id="smartConsularBlock" class="smart-consular-card" style="display:none;"></section>
         <section id="commercialBlock" class="commercial-card" style="display:none;"></section>
       </div>
     </section>
@@ -638,7 +655,7 @@
           ${loc.address ? `<p><strong>Endereço:</strong> ${loc.address}</p>` : ''}
           ${loc.phone ? `<p><strong>Telefone:</strong> ${loc.phone}</p>` : ''}
           ${loc.email ? `<p><strong>E-mail:</strong> ${loc.email}</p>` : ''}
-          ${loc.site ? `<p><strong>Site:</strong> ${loc.site}</p>` : ''}
+          ${loc.site ? `<p><strong>Site oficial:</strong> <a class="official-source-link" href="${loc.site}" target="_blank" rel="noopener noreferrer">${loc.site}</a></p>` : ''}
           ${loc.distance ? `<p><strong>Distância:</strong> ${loc.distance}</p>` : ''}
           ${loc.car ? `<p><strong>Tempo de carro:</strong> ${loc.car}</p>` : ''}
           ${loc.flight ? `<p><strong>Tempo de voo:</strong> ${loc.flight}</p>` : ''}
@@ -665,6 +682,29 @@
       europeStrategy: '<strong>Estratégia de entrada na Europa:</strong> a imigração acontece no primeiro país Schengen. Depois da entrada, a circulação tende a ser interna. Sem visto não significa sem comprovação. A decisão final é sempre da autoridade migratória.'
     };
 
+
+    const LAST_DATA_UPDATE = '07/05/2026 às 06:00';
+    const DEFAULT_INFO_SOURCES = [
+      { label: 'GOV.BR', url: 'https://www.gov.br/pt-br' },
+      { label: 'ANVISA', url: 'https://www.gov.br/anvisa/pt-br' },
+      { label: 'Portal Consular GOV.BR', url: 'https://www.gov.br/mre/pt-br/assuntos/portal-consular' }
+    ];
+
+    function renderInfoMeta(country) {
+      const updateEl = document.getElementById('lastUpdateInfo');
+      const sourcesEl = document.getElementById('sourcesInfo');
+      if (!updateEl || !sourcesEl) return;
+
+      const sources = country.sources && country.sources.length ? country.sources : DEFAULT_INFO_SOURCES;
+      const sourceLinks = sources.map(source => {
+        if (typeof source === 'string') return source;
+        return `<a class="official-source-link" href="${source.url}" target="_blank" rel="noopener noreferrer">${source.label}</a>`;
+      });
+
+      updateEl.innerHTML = `Última atualização: <span>${country.lastUpdated || LAST_DATA_UPDATE}</span>`;
+      sourcesEl.innerHTML = `Fontes oficiais usadas nesta síntese: <span>${sourceLinks.join(' · ')}</span>`;
+    }
+
     const countries = {
       'estados-unidos': {
         name: 'Estados Unidos',
@@ -676,10 +716,10 @@
         },
         cities: {
           'new york': [{ name: 'Consulado-Geral do Brasil em Nova York', highlight: 'Principal apoio para brasileiros na região de Nova York.', address: '225 E 41st St, New York, NY 10017', phone: '+1 917 777 7777', email: 'consular.novayork@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-nova-york', distance: '~ 5 km', car: '15 a 25 min' }],
-          'atlanta': [{ name: 'Consulado-Geral do Brasil em Atlanta', highlight: 'Atende Geórgia, Carolina do Sul, Alabama, Tennessee e Mississippi.', address: 'Consultar endereço oficial atualizado do Consulado-Geral do Brasil em Atlanta.', phone: 'Consultar canal oficial atualizado do consulado.', email: 'Consultar canal oficial atualizado do consulado.', site: 'https://www.gov.br/mre/pt-br/consulado-atlanta', note: 'Sempre confirme jurisdição e canais oficiais antes de buscar atendimento.' }],
-          'chicago': [{ name: 'Consulado-Geral do Brasil em Chicago', highlight: 'Atende Illinois, Indiana, Iowa, Michigan, Minnesota, Missouri, Nebraska, North Dakota, South Dakota e Wisconsin.', address: 'Consultar endereço oficial atualizado do Consulado-Geral do Brasil em Chicago.', phone: 'Consultar canal oficial atualizado do consulado.', email: 'Consultar canal oficial atualizado do consulado.', site: 'https://www.gov.br/mre/pt-br/consulado-chicago', note: 'Sempre confirme jurisdição e canais oficiais antes de buscar atendimento.' }],
-          'hartford': [{ name: 'Consulado-Geral do Brasil em Hartford', highlight: 'Atende Connecticut.', address: 'Consultar endereço oficial atualizado do Consulado-Geral do Brasil em Hartford.', phone: 'Consultar canal oficial atualizado do consulado.', email: 'Consultar canal oficial atualizado do consulado.', site: 'https://www.gov.br/mre/pt-br/consulado-hartford', note: 'Sempre confirme jurisdição e canais oficiais antes de buscar atendimento.' }],
-          'houston': [{ name: 'Consulado-Geral do Brasil em Houston', highlight: 'Atende Texas.', address: 'Consultar endereço oficial atualizado do Consulado-Geral do Brasil em Houston.', phone: 'Consultar canal oficial atualizado do consulado.', email: 'Consultar canal oficial atualizado do consulado.', site: 'https://www.gov.br/mre/pt-br/consulado-houston', note: 'Sempre confirme jurisdição e canais oficiais antes de buscar atendimento.' }],
+          'atlanta': [{ name: 'Consulado-Geral do Brasil em Atlanta', highlight: 'Atende Geórgia, Carolina do Sul, Alabama, Tennessee e Mississippi.', address: 'Consultar endereço oficial atualizado do Consulado-Geral do Brasil em Atlanta.', phone: 'Canal oficial disponível no site do consulado.', email: 'Canal oficial disponível no site do consulado.', site: 'https://www.gov.br/mre/pt-br/consulado-atlanta', note: 'Fonte oficial de referência para jurisdição e canais de atendimento.' }],
+          'chicago': [{ name: 'Consulado-Geral do Brasil em Chicago', highlight: 'Atende Illinois, Indiana, Iowa, Michigan, Minnesota, Missouri, Nebraska, North Dakota, South Dakota e Wisconsin.', address: 'Consultar endereço oficial atualizado do Consulado-Geral do Brasil em Chicago.', phone: 'Canal oficial disponível no site do consulado.', email: 'Canal oficial disponível no site do consulado.', site: 'https://www.gov.br/mre/pt-br/consulado-chicago', note: 'Fonte oficial de referência para jurisdição e canais de atendimento.' }],
+          'hartford': [{ name: 'Consulado-Geral do Brasil em Hartford', highlight: 'Atende Connecticut.', address: 'Consultar endereço oficial atualizado do Consulado-Geral do Brasil em Hartford.', phone: 'Canal oficial disponível no site do consulado.', email: 'Canal oficial disponível no site do consulado.', site: 'https://www.gov.br/mre/pt-br/consulado-hartford', note: 'Fonte oficial de referência para jurisdição e canais de atendimento.' }],
+          'houston': [{ name: 'Consulado-Geral do Brasil em Houston', highlight: 'Atende Texas.', address: 'Endereço oficial disponível no site do Consulado-Geral do Brasil em Houston.', phone: 'Canal oficial disponível no site do consulado.', email: 'Canal oficial disponível no site do consulado.', site: 'https://www.gov.br/mre/pt-br/consulado-houston', note: 'Fonte oficial de referência para jurisdição e canais de atendimento.' }],
           'orlando': [{ name: 'Consulado-Geral do Brasil em Orlando', highlight: 'Principal apoio para brasileiros na região central da Flórida.', address: '800 N Magnolia Ave, Suite 300, Orlando, FL', phone: '+1 407 872 6200', email: 'consular.orlando@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-orlando', distance: '~ 5 km', car: '15 a 20 min' }],
           'miami': [{ name: 'Consulado-Geral do Brasil em Miami', highlight: 'Principal apoio para brasileiros no sul da Flórida.', address: '3150 SW 38th Ave, Miami, FL', phone: '+1 305 285 6200', email: 'consular.miami@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-miami', distance: '~ 8 km', car: '15 a 25 min' }],
           'boston': [{ name: 'Consulado-Geral do Brasil em Boston', highlight: 'Apoio brasileiro na região da Nova Inglaterra.', address: '1 Marina Park Drive, Suite 410, Boston, MA', phone: '+1 617 542 4000', email: 'consular.boston@itamaraty.gov.br', site: 'https://www.gov.br/mre/pt-br/consulado-boston', distance: '~ 5 km', car: '15 min' }],
@@ -1442,11 +1482,13 @@
     function render(match, raw) {
       const country = countries[match.countryKey];
       const cityKey = match.cityKey || country.defaultCity || Object.keys(country.cities)[0];
-      const cityName = match.displayName || (cityKey ? cityKey.replace(/\b\w/g, c => c.toUpperCase()) : country.name);
-      const supportCards = cityKey && country.cities[cityKey] ? country.cities[cityKey] : [];
+      const cityName = cityKey ? cityKey.replace(/\b\w/g, c => c.toUpperCase()) : country.name;
+      const baseSupportCards = cityKey && country.cities[cityKey] ? country.cities[cityKey] : [];
+      const supportCards = buildSupportCards(match, country, cityName, baseSupportCards);
 
       document.getElementById('countryTitle').textContent = country.name;
       document.getElementById('searchedCity').textContent = `Busca reconhecida: ${cityName} → ${country.name}`;
+      renderInfoMeta(country);
       document.getElementById('summaryEntry').textContent = country.summary.entry;
       document.getElementById('summaryHealth').textContent = country.summary.health;
       document.getElementById('summarySupport').textContent = `${country.summary.support}`;
@@ -1461,7 +1503,6 @@
       document.getElementById('status').textContent = `Resultado encontrado para: ${raw}`;
       document.getElementById('emptyState').style.display = 'none';
       document.getElementById('result').classList.add('active');
-      renderSmartConsularBlock(match, country, cityName, supportCards);
       renderCommercialBlock(match, country, cityName);
     }
 
@@ -1469,56 +1510,28 @@
 
 
 
-    function renderSmartConsularBlock(match, country, cityName, supportCards) {
-      const block = document.getElementById('smartConsularBlock');
-      if (!block) return;
+    function buildSupportCards(match, country, cityName, baseSupportCards) {
+      const cards = Array.isArray(baseSupportCards) ? baseSupportCards : [];
+      if (!cards.length) return cards;
 
-      const cards = Array.isArray(supportCards) ? supportCards : [];
-      const primarySupport = cards[0];
+      if (match.type !== 'redirect') {
+        return cards;
+      }
+
+      const primary = cards[0];
       const searchedName = match.displayName || cityName || country.name;
-      const isRedirect = match.type === 'redirect';
       const nearestCity = match.nearestConsularCity || cityName;
 
-      if (!primarySupport) {
-        block.style.display = 'none';
-        block.innerHTML = '';
-        return;
-      }
-
-      block.style.display = 'block';
-
-      if (isRedirect) {
-        block.innerHTML = `
-          <h3>Apoio consular mais próximo</h3>
-          <p><strong>${searchedName}</strong> usa as informações oficiais de entrada, documentos e saúde de <strong>${country.name}</strong>, porque essas regras são por país.</p>
-          <p>${match.consularNote || `${searchedName} não possui posto consular brasileiro nesta base. Para atendimento presencial, a referência indicada é o posto brasileiro responsável pela jurisdição.`}</p>
-          <div class="smart-consular-highlight">
-            <p><strong>Apoio indicado:</strong> ${primarySupport.name}</p>
-            <p><strong>Cidade de referência:</strong> ${nearestCity}</p>
-            ${match.distance ? `<p><strong>Distância aproximada:</strong> ${match.distance}</p>` : ''}
-            ${match.car ? `<p><strong>Tempo estimado de carro:</strong> ${match.car}</p>` : ''}
-            ${match.flight ? `<p><strong>Tempo estimado de voo:</strong> ${match.flight}</p>` : ''}
-            ${match.train ? `<p><strong>Tempo estimado de trem:</strong> ${match.train}</p>` : ''}
-            ${primarySupport.site ? `<p><strong>Fonte consular:</strong> ${primarySupport.site}</p>` : ''}
-          </div>
-        `;
-        return;
-      }
-
-      block.innerHTML = `
-        <h3>Apoio consular pela cidade buscada</h3>
-        <p><strong>${searchedName}</strong> usa as informações oficiais de entrada, documentos e saúde de <strong>${country.name}</strong>, porque essas regras são por país.</p>
-        <p>Para apoio diplomático, a ferramenta considera a cidade pesquisada e indica o posto brasileiro configurado nesta base.</p>
-        <div class="smart-consular-highlight">
-          <p><strong>Apoio indicado:</strong> ${primarySupport.name}</p>
-          ${primarySupport.highlight ? `<p><strong>Observação:</strong> ${primarySupport.highlight}</p>` : ''}
-          ${primarySupport.distance ? `<p><strong>Distância aproximada:</strong> ${primarySupport.distance}</p>` : ''}
-          ${primarySupport.car ? `<p><strong>Tempo estimado de carro:</strong> ${primarySupport.car}</p>` : ''}
-          ${primarySupport.flight ? `<p><strong>Tempo estimado de voo:</strong> ${primarySupport.flight}</p>` : ''}
-          ${primarySupport.train ? `<p><strong>Tempo estimado de trem:</strong> ${primarySupport.train}</p>` : ''}
-          ${primarySupport.site ? `<p><strong>Fonte consular:</strong> ${primarySupport.site}</p>` : ''}
-        </div>
-      `;
+      return [{
+        ...primary,
+        name: `Apoio consular mais próximo: ${nearestCity}`,
+        highlight: match.consularNote || `${searchedName} não possui posto consular brasileiro próprio nesta base. A referência indicada é ${nearestCity}.`,
+        distance: match.distance || primary.distance,
+        car: match.car || primary.car,
+        flight: match.flight || primary.flight,
+        train: match.train || primary.train,
+        note: `As informações de visto, documentos e saúde exibidas acima são de ${country.name}, porque essas regras são por país. A referência consular foi ajustada conforme a cidade pesquisada: ${searchedName}, com link para a fonte oficial do posto indicado.`
+      }];
     }
 
     const publishedCommercialDestinations = new Set([
@@ -1719,11 +1732,6 @@
       document.getElementById('status').textContent = '';
       document.getElementById('result').classList.remove('active');
       document.getElementById('emptyState').style.display = 'block';
-      const smartConsularBlock = document.getElementById('smartConsularBlock');
-      if (smartConsularBlock) {
-        smartConsularBlock.style.display = 'none';
-        smartConsularBlock.innerHTML = '';
-      }
       const commercialBlock = document.getElementById('commercialBlock');
       if (commercialBlock) commercialBlock.style.display = 'none';
     }
