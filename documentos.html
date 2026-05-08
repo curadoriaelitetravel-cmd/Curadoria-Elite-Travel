@@ -601,9 +601,9 @@
         <section class="summary">
           <h2 id="countryTitle"></h2>
           <p id="searchedCity"></p>
-          <div class="info-meta">
-            <div id="lastUpdateInfo" class="update-badge"></div>
-            <div id="sourcesInfo" class="sources-badge"></div>
+          <div class="info-meta" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px;margin-bottom:14px;">
+            <div id="lastUpdateInfo" class="update-badge" style="display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700;line-height:1.3;color:#8ff0a4;border:1px solid rgba(143,240,164,0.42);background:rgba(30,180,80,0.08);"></div>
+            <div id="sourcesInfo" class="sources-badge" style="display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700;line-height:1.3;color:#ff7b7b;border:1px solid rgba(255,123,123,0.42);background:rgba(255,70,70,0.08);"></div>
           </div>
           <div class="summary-grid">
             <div class="summary-box"><span>Entrada</span><div id="summaryEntry"></div></div>
@@ -698,16 +698,22 @@
       const sources = country.sources && country.sources.length ? country.sources : DEFAULT_INFO_SOURCES;
       const sourceLinks = sources.map(source => {
         if (typeof source === 'string') return source;
-        return `<a class="official-source-link" href="${source.url}" target="_blank" rel="noopener noreferrer">${source.label}</a>`;
+        return `<a class="official-source-link" href="${source.url}" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:underline;text-underline-offset:3px;">${source.label}</a>`;
       });
 
-      updateEl.innerHTML = `Última atualização: <span>${country.lastUpdated || LAST_DATA_UPDATE}</span>`;
-      sourcesEl.innerHTML = `Fontes oficiais usadas nesta síntese: <span>${sourceLinks.join(' · ')}</span>`;
+      updateEl.innerHTML = `Última atualização na ferramenta: <span style="color:#ffffff;font-weight:700;">${country.lastUpdated || LAST_DATA_UPDATE}</span>`;
+      sourcesEl.innerHTML = `Fontes oficiais da síntese: <span style="color:#ffffff;font-weight:700;">${sourceLinks.join(' · ')}</span>`;
     }
 
     const countries = {
       'estados-unidos': {
         name: 'Estados Unidos',
+        lastUpdated: LAST_DATA_UPDATE,
+        sources: [
+          { label: 'GOV.BR — Portal Consular', url: 'https://www.gov.br/mre/pt-br/assuntos/portal-consular' },
+          { label: 'ANVISA', url: 'https://www.gov.br/anvisa/pt-br' },
+          { label: 'Governo dos EUA — Travel', url: 'https://travel.state.gov/' }
+        ],
         aliases: ['estados unidos', 'eua', 'usa', 'united states', 'america'],
         summary: {
           entry: 'Brasileiros precisam de visto B1/B2 para turismo.',
@@ -1482,7 +1488,7 @@
     function render(match, raw) {
       const country = countries[match.countryKey];
       const cityKey = match.cityKey || country.defaultCity || Object.keys(country.cities)[0];
-      const cityName = cityKey ? cityKey.replace(/\b\w/g, c => c.toUpperCase()) : country.name;
+      const cityName = match.displayName || (cityKey ? cityKey.replace(/\b\w/g, c => c.toUpperCase()) : country.name);
       const baseSupportCards = cityKey && country.cities[cityKey] ? country.cities[cityKey] : [];
       const supportCards = buildSupportCards(match, country, cityName, baseSupportCards);
 
