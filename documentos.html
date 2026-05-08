@@ -452,6 +452,43 @@
     }
 
 
+
+    .smart-consular-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(212,175,55,0.38);
+      border-radius: 24px;
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+
+    .smart-consular-card h3 {
+      margin: 0 0 14px;
+      font-size: 30px;
+      color: var(--text);
+    }
+
+    .smart-consular-card p {
+      margin: 8px 0;
+      color: var(--muted);
+    }
+
+    .smart-consular-card strong {
+      color: var(--text);
+    }
+
+    .smart-consular-highlight {
+      border-left: 3px solid var(--gold);
+      background: rgba(212,175,55,0.06);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-top: 12px;
+      color: var(--muted);
+    }
+
+    .smart-consular-highlight p {
+      margin: 6px 0;
+    }
+
     .commercial-card {
       background: linear-gradient(180deg, rgba(212,175,55,0.10), rgba(255,255,255,0.02));
       border: 1px solid rgba(212,175,55,0.42);
@@ -607,6 +644,7 @@
         <section class="block"><h3>4. Apoio no destino</h3><div id="block4"></div></section>
         <section class="block"><h3>5. Informações de saúde</h3><div id="block5"></div></section>
         <section class="block"><h3>6. Informações importantes</h3><div id="block6"></div></section>
+        <section id="smartConsularBlock" class="smart-consular-card" style="display:none;"></section>
         <section id="commercialBlock" class="commercial-card" style="display:none;"></section>
       </div>
     </section>
@@ -1167,6 +1205,17 @@
     // Cidades adicionais: aparecem na busca como atalhos estáticos.
     // Para entrarem no ciclo automático das 6h, elas também precisam estar cadastradas no Supabase/fluxo da Edge Function.
     const cityRedirects = {
+      'dallas': {
+        countryKey: 'estados-unidos',
+        cityKey: 'houston',
+        displayName: 'Dallas',
+        nearestConsularCity: 'Houston',
+        distance: '~ 390 km',
+        car: '3h30 a 4h',
+        flight: '1h15',
+        consularNote: 'Dallas não possui posto consular brasileiro nesta base. Para apoio presencial, a referência mais próxima indicada é Houston.'
+      },
+
       'chicago': { countryKey: 'estados-unidos', cityKey: 'new york', displayName: 'Chicago' },
       'new orleans': { countryKey: 'estados-unidos', cityKey: 'miami', displayName: 'New Orleans' },
       'seattle': { countryKey: 'estados-unidos', cityKey: 'san francisco', displayName: 'Seattle' },
@@ -1434,7 +1483,7 @@
     function render(match, raw) {
       const country = countries[match.countryKey];
       const cityKey = match.cityKey || country.defaultCity || Object.keys(country.cities)[0];
-      const cityName = cityKey ? cityKey.replace(/\b\w/g, c => c.toUpperCase()) : country.name;
+      const cityName = match.displayName || (cityKey ? cityKey.replace(/\b\w/g, c => c.toUpperCase()) : country.name);
       const supportCards = cityKey && country.cities[cityKey] ? country.cities[cityKey] : [];
 
       document.getElementById('countryTitle').textContent = country.name;
@@ -1454,10 +1503,64 @@
       document.getElementById('status').textContent = `Resultado encontrado para: ${raw}`;
       document.getElementById('emptyState').style.display = 'none';
       document.getElementById('result').classList.add('active');
+      renderSmartConsularBlock(match, country, cityName, supportCards);
       renderCommercialBlock(match, country, cityName);
     }
 
 
+
+
+
+    function renderSmartConsularBlock(match, country, cityName, supportCards) {
+      const block = document.getElementById('smartConsularBlock');
+      if (!block) return;
+
+      const cards = Array.isArray(supportCards) ? supportCards : [];
+      const primarySupport = cards[0];
+      const searchedName = match.displayName || cityName || country.name;
+      const isRedirect = match.type === 'redirect';
+      const nearestCity = match.nearestConsularCity || cityName;
+
+      if (!primarySupport) {
+        block.style.display = 'none';
+        block.innerHTML = '';
+        return;
+      }
+
+      block.style.display = 'block';
+
+      if (isRedirect) {
+        block.innerHTML = `
+          <h3>Apoio consular mais próximo</h3>
+          <p><strong>${searchedName}</strong> usa as informações oficiais de entrada, documentos e saúde de <strong>${country.name}</strong>, porque essas regras são por país.</p>
+          <p>${match.consularNote || `${searchedName} não possui posto consular brasileiro nesta base.`}</p>
+          <div class="smart-consular-highlight">
+            <p><strong>Apoio indicado:</strong> ${primarySupport.name}</p>
+            <p><strong>Cidade de referência:</strong> ${nearestCity}</p>
+            ${match.distance ? `<p><strong>Distância aproximada:</strong> ${match.distance}</p>` : ''}
+            ${match.car ? `<p><strong>Tempo estimado de carro:</strong> ${match.car}</p>` : ''}
+            ${match.flight ? `<p><strong>Tempo estimado de voo:</strong> ${match.flight}</p>` : ''}
+            ${primarySupport.site ? `<p><strong>Fonte consular:</strong> ${primarySupport.site}</p>` : ''}
+          </div>
+        `;
+        return;
+      }
+
+      block.innerHTML = `
+        <h3>Apoio consular pela cidade buscada</h3>
+        <p><strong>${searchedName}</strong> usa as informações oficiais de entrada, documentos e saúde de <strong>${country.name}</strong>, porque essas regras são por país.</p>
+        <p>Para apoio diplomático, a ferramenta considera a cidade pesquisada e indica o posto brasileiro configurado nesta base.</p>
+        <div class="smart-consular-highlight">
+          <p><strong>Apoio indicado:</strong> ${primarySupport.name}</p>
+          ${primarySupport.highlight ? `<p><strong>Observação:</strong> ${primarySupport.highlight}</p>` : ''}
+          ${primarySupport.distance ? `<p><strong>Distância aproximada:</strong> ${primarySupport.distance}</p>` : ''}
+          ${primarySupport.car ? `<p><strong>Tempo estimado de carro:</strong> ${primarySupport.car}</p>` : ''}
+          ${primarySupport.flight ? `<p><strong>Tempo estimado de voo:</strong> ${primarySupport.flight}</p>` : ''}
+          ${primarySupport.train ? `<p><strong>Tempo estimado de trem:</strong> ${primarySupport.train}</p>` : ''}
+          ${primarySupport.site ? `<p><strong>Fonte consular:</strong> ${primarySupport.site}</p>` : ''}
+        </div>
+      `;
+    }
 
     const publishedCommercialDestinations = new Set([
       'new york', 'orlando', 'miami',
@@ -1669,6 +1772,11 @@
       document.getElementById('status').textContent = '';
       document.getElementById('result').classList.remove('active');
       document.getElementById('emptyState').style.display = 'block';
+      const smartConsularBlock = document.getElementById('smartConsularBlock');
+      if (smartConsularBlock) {
+        smartConsularBlock.style.display = 'none';
+        smartConsularBlock.innerHTML = '';
+      }
       const commercialBlock = document.getElementById('commercialBlock');
       if (commercialBlock) commercialBlock.style.display = 'none';
     }
