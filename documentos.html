@@ -412,46 +412,6 @@
 
 
 
-    .info-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      margin-top: 14px;
-      margin-bottom: 2px;
-    }
-
-    .update-badge,
-    .sources-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1.3;
-    }
-
-    .update-badge {
-      color: #8ff0a4;
-      border: 1px solid rgba(143, 240, 164, 0.42);
-      background: rgba(30, 180, 80, 0.08);
-    }
-
-    .sources-badge {
-      color: #ff7b7b;
-      border: 1px solid rgba(255, 123, 123, 0.42);
-      background: rgba(255, 70, 70, 0.08);
-    }
-
-    .sources-badge span,
-    .update-badge span {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-
 
     .smart-consular-card {
       background: rgba(255,255,255,0.02);
@@ -627,10 +587,6 @@
         <section class="summary">
           <h2 id="countryTitle"></h2>
           <p id="searchedCity"></p>
-          <div class="info-meta">
-            <div id="lastUpdateInfo" class="update-badge"></div>
-            <div id="sourcesInfo" class="sources-badge"></div>
-          </div>
           <div class="summary-grid">
             <div class="summary-box"><span>Entrada</span><div id="summaryEntry"></div></div>
             <div class="summary-box"><span>Saúde</span><div id="summaryHealth"></div></div>
@@ -708,20 +664,6 @@
       ],
       europeStrategy: '<strong>Estratégia de entrada na Europa:</strong> a imigração acontece no primeiro país Schengen. Depois da entrada, a circulação tende a ser interna. Sem visto não significa sem comprovação. A decisão final é sempre da autoridade migratória.'
     };
-
-    const LAST_DATA_UPDATE = '07/05/2026 às 06:00';
-    const DEFAULT_INFO_SOURCES = ['GOV.BR', 'ANVISA', 'site oficial do governo do destino'];
-
-    function renderInfoMeta(country) {
-      const updateEl = document.getElementById('lastUpdateInfo');
-      const sourcesEl = document.getElementById('sourcesInfo');
-      if (!updateEl || !sourcesEl) return;
-
-      const sources = country.sources && country.sources.length ? country.sources : DEFAULT_INFO_SOURCES;
-      updateEl.innerHTML = `Última atualização: <span>${country.lastUpdated || LAST_DATA_UPDATE}</span>`;
-      sourcesEl.innerHTML = `Fontes utilizadas: <span>${sources.join(' · ')}</span>`;
-    }
-
 
     const countries = {
       'estados-unidos': {
@@ -1202,8 +1144,6 @@
       'new york': 'estados-unidos','nova york': 'estados-unidos','atlanta': 'estados-unidos','chicago': 'estados-unidos','hartford': 'estados-unidos','houston': 'estados-unidos','orlando': 'estados-unidos','miami': 'estados-unidos','boston': 'estados-unidos','los angeles': 'estados-unidos','las vegas': 'estados-unidos','san francisco': 'estados-unidos','washington dc': 'estados-unidos','paris': 'franca','nice': 'franca','lyon': 'franca','madrid': 'espanha','barcelona': 'espanha','londres': 'reino-unido','manchester': 'reino-unido','edimburgo': 'reino-unido','glasgow': 'reino-unido','roma': 'italia','milao': 'italia','milão': 'italia','florenca': 'italia','florença': 'italia','cancun': 'mexico','cancún': 'mexico','cidade do mexico': 'mexico','cidade do méxico': 'mexico','buenos aires': 'argentina','lisboa': 'portugal','porto': 'portugal','amsterda': 'paises-baixos','amsterdã': 'paises-baixos','praga': 'republica-tcheca','berlim': 'alemanha','munique': 'alemanha','toronto': 'canada','vancouver': 'canada','montreal': 'canada','montréal': 'canada','lima': 'peru','cusco': 'peru','santiago': 'chile','atacama': 'chile','montevideu': 'uruguai','montevidéu': 'uruguai','punta del este': 'uruguai','bruxelas': 'belgica','bruges': 'belgica','zurique': 'suica','genebra': 'suica','bogota': 'colombia','bogotá': 'colombia','cartagena': 'colombia','helsinque': 'finlandia','rovaniemi': 'finlandia','toquio': 'japao','tóquio': 'japao','osaka': 'japao','pequim': 'china','xangai': 'china','bangkok': 'tailandia','phuket': 'tailandia','istambul': 'turquia','capadocia': 'turquia','capadócia': 'turquia','dubai': 'emirados-arabes-unidos','abu dhabi': 'emirados-arabes-unidos','abu dhabi ': 'emirados-arabes-unidos','atenas': 'grecia'
     };
 
-    // Cidades adicionais: aparecem na busca como atalhos estáticos.
-    // Para entrarem no ciclo automático das 6h, elas também precisam estar cadastradas no Supabase/fluxo da Edge Function.
     const cityRedirects = {
       'dallas': {
         countryKey: 'estados-unidos',
@@ -1213,9 +1153,28 @@
         distance: '~ 390 km',
         car: '3h30 a 4h',
         flight: '1h15',
-        consularNote: 'Dallas não possui posto consular brasileiro nesta base. Para apoio presencial, a referência mais próxima indicada é Houston.'
+        consularNote: 'Dallas não possui posto consular brasileiro próprio nesta base. Para atendimento presencial, a referência indicada é o Consulado-Geral do Brasil em Houston, responsável pela jurisdição do Texas.'
       },
-
+      'san diego': {
+        countryKey: 'estados-unidos',
+        cityKey: 'los angeles',
+        displayName: 'San Diego',
+        nearestConsularCity: 'Los Angeles',
+        distance: '~ 195 km',
+        car: '2h a 3h',
+        train: '2h45 a 3h30',
+        consularNote: 'San Diego não possui posto consular brasileiro próprio nesta base. A referência indicada é o Consulado-Geral do Brasil em Los Angeles.'
+      },
+      'philadelphia': {
+        countryKey: 'estados-unidos',
+        cityKey: 'new york',
+        displayName: 'Philadelphia',
+        nearestConsularCity: 'Nova York',
+        distance: '~ 150 km',
+        car: '1h30 a 2h',
+        train: '1h15 a 1h40',
+        consularNote: 'Philadelphia não possui posto consular brasileiro próprio nesta base. A referência indicada é o Consulado-Geral do Brasil em Nova York, responsável pela jurisdição da Pennsylvania.'
+      },
       'chicago': { countryKey: 'estados-unidos', cityKey: 'new york', displayName: 'Chicago' },
       'new orleans': { countryKey: 'estados-unidos', cityKey: 'miami', displayName: 'New Orleans' },
       'seattle': { countryKey: 'estados-unidos', cityKey: 'san francisco', displayName: 'Seattle' },
@@ -1488,7 +1447,6 @@
 
       document.getElementById('countryTitle').textContent = country.name;
       document.getElementById('searchedCity').textContent = `Busca reconhecida: ${cityName} → ${country.name}`;
-      renderInfoMeta(country);
       document.getElementById('summaryEntry').textContent = country.summary.entry;
       document.getElementById('summaryHealth').textContent = country.summary.health;
       document.getElementById('summarySupport').textContent = `${country.summary.support}`;
@@ -1533,13 +1491,14 @@
         block.innerHTML = `
           <h3>Apoio consular mais próximo</h3>
           <p><strong>${searchedName}</strong> usa as informações oficiais de entrada, documentos e saúde de <strong>${country.name}</strong>, porque essas regras são por país.</p>
-          <p>${match.consularNote || `${searchedName} não possui posto consular brasileiro nesta base.`}</p>
+          <p>${match.consularNote || `${searchedName} não possui posto consular brasileiro nesta base. Para atendimento presencial, a referência indicada é o posto brasileiro responsável pela jurisdição.`}</p>
           <div class="smart-consular-highlight">
             <p><strong>Apoio indicado:</strong> ${primarySupport.name}</p>
             <p><strong>Cidade de referência:</strong> ${nearestCity}</p>
             ${match.distance ? `<p><strong>Distância aproximada:</strong> ${match.distance}</p>` : ''}
             ${match.car ? `<p><strong>Tempo estimado de carro:</strong> ${match.car}</p>` : ''}
             ${match.flight ? `<p><strong>Tempo estimado de voo:</strong> ${match.flight}</p>` : ''}
+            ${match.train ? `<p><strong>Tempo estimado de trem:</strong> ${match.train}</p>` : ''}
             ${primarySupport.site ? `<p><strong>Fonte consular:</strong> ${primarySupport.site}</p>` : ''}
           </div>
         `;
@@ -1572,18 +1531,7 @@
       'estados-unidos', 'estados unidos', 'usa', 'franca', 'frança', 'espanha', 'italia', 'itália', 'portugal', 'argentina'
     ].map(normalizeText));
 
-    function getCountryMaterialLabel(countryName) {
-      const normalized = normalizeText(countryName);
-      if (normalized === 'estados unidos') return 'dos Estados Unidos';
-      if (normalized === 'emirados arabes unidos') return 'dos Emirados Árabes Unidos';
-      if (normalized === 'paises baixos') return 'dos Países Baixos';
-      return `de ${countryName}`;
-    }
-
-    function goToCuradoria(destinationName, countryName) {
-      if (countryName) {
-        localStorage.setItem('selected_country', countryName);
-      }
+    function goToCuradoria(destinationName) {
       if (destinationName) {
         localStorage.setItem('selected_city', destinationName);
       }
@@ -1595,37 +1543,36 @@
       if (!block) return;
 
       const destinationName = cityName || country.name || 'este destino';
-      const countryName = country.name || 'este país';
       const countryKey = match.countryKey || '';
-      const materialLabel = getCountryMaterialLabel(countryName);
-      const hasMaterial = publishedCommercialCountries.has(normalizeText(countryKey)) ||
-        publishedCommercialCountries.has(normalizeText(countryName));
+      const hasMaterial = publishedCommercialDestinations.has(normalizeText(destinationName)) ||
+        publishedCommercialCountries.has(normalizeText(countryKey)) ||
+        publishedCommercialCountries.has(normalizeText(country.name));
 
       block.style.display = 'block';
 
       if (hasMaterial) {
         block.innerHTML = `
           <h3>Vá além da informação básica</h3>
-          <p>Você já tem o essencial para entrada, documentos e apoio em ${destinationName}.</p>
-          <p>Como nossos materiais são organizados por país, esta busca direciona você para a curadoria ${materialLabel}, com categorias como gastronomia, atrações, experiências, compras e vida noturna.</p>
+          <p>Você já tem o essencial para entrada, documentos e apoio no destino.</p>
+          <p>Agora, na Curadoria Elite Travel, você acessa materiais organizados por categoria — gastronomia, atrações, experiências, compras e vida noturna — para tomar decisões com clareza e sem perda de tempo.</p>
           <div class="commercial-actions">
-            <button id="commercialCta" class="btn" type="button">Explorar materiais ${materialLabel}</button>
+            <button id="commercialCta" class="btn" type="button">Explorar materiais de ${destinationName}</button>
           </div>
         `;
       } else {
         block.innerHTML = `
-          <h3>Este país está em desenvolvimento</h3>
-          <p>As informações essenciais para ${destinationName} já estão disponíveis aqui.</p>
-          <p>A Curadoria Elite Travel está estruturando materiais completos para ${countryName}, com o mesmo nível de critério e organização.</p>
+          <h3>Este destino está em desenvolvimento</h3>
+          <p>As informações essenciais já estão disponíveis aqui.</p>
+          <p>A Curadoria Elite Travel está estruturando materiais completos para este destino, com o mesmo nível de critério e organização.</p>
           <div class="commercial-actions">
-            <button id="commercialCta" class="btn secondary" type="button">Ver países disponíveis</button>
+            <button id="commercialCta" class="btn secondary" type="button">Ver destinos disponíveis</button>
           </div>
         `;
       }
 
       const button = document.getElementById('commercialCta');
       if (button) {
-        button.addEventListener('click', () => goToCuradoria(hasMaterial ? countryName : null, hasMaterial ? countryName : null));
+        button.addEventListener('click', () => goToCuradoria(hasMaterial ? destinationName : null));
       }
     }
 
