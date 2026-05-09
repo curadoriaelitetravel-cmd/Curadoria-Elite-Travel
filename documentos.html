@@ -510,6 +510,15 @@
       line-height: 1.45;
     }
 
+    .info-action-card em {
+      display: inline-block;
+      margin-top: 12px;
+      color: var(--gold);
+      font-style: normal;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
     .detail-modal {
       display: none;
       position: fixed;
@@ -769,13 +778,13 @@
             <div class="summary-box"><span>Apoio diplomático</span><div id="summarySupport"></div></div>
           </div>
           <div id="interactiveInfoGrid" class="interactive-info-grid">
-            <button type="button" class="info-action-card" data-detail="visa"><span>Bloco 1</span><strong>Visto</strong><small>Entrada, validade, entrevista e atenção antes da viagem.</small></button>
-            <button type="button" class="info-action-card" data-detail="documents"><span>Bloco 2</span><strong>Documentos necessários</strong><small>Passaporte, comprovantes e documentos de apoio.</small></button>
-            <button type="button" class="info-action-card" data-detail="brazil"><span>Bloco 3</span><strong>Onde resolver no Brasil</strong><small>Embaixada, consulados e canais oficiais no Brasil.</small></button>
-            <button type="button" class="info-action-card" data-detail="support"><span>Bloco 4</span><strong>Apoio no destino</strong><small>Referência consular conforme a cidade pesquisada.</small></button>
-            <button type="button" class="info-action-card" data-detail="health"><span>Bloco 5</span><strong>Informações de saúde</strong><small>Vacinas, seguro e atenção médica no destino.</small></button>
-            <button type="button" class="info-action-card" data-detail="important"><span>Bloco 6</span><strong>Informações importantes</strong><small>Pontos críticos antes do embarque e na chegada.</small></button>
-            <button type="button" class="info-action-card" data-detail="customs"><span>Bloco 7</span><strong>Alfândega, bagagem e itens restritos</strong><small>Entrada no destino e retorno ao Brasil sem erro caro.</small></button>
+            <button type="button" class="info-action-card" data-detail="visa"><span>Bloco 1</span><strong>Visto</strong><small>Entrada, validade, entrevista e atenção antes da viagem.</small><em>Saiba mais →</em></button>
+            <button type="button" class="info-action-card" data-detail="documents"><span>Bloco 2</span><strong>Documentos necessários</strong><small>Passaporte, comprovantes e documentos de apoio.</small><em>Saiba mais →</em></button>
+            <button type="button" class="info-action-card" data-detail="brazil"><span>Bloco 3</span><strong>Onde resolver no Brasil</strong><small>Embaixada, consulados e canais oficiais no Brasil.</small><em>Saiba mais →</em></button>
+            <button type="button" class="info-action-card" data-detail="support"><span>Bloco 4</span><strong>Apoio no destino</strong><small>Referência consular conforme a cidade pesquisada.</small><em>Saiba mais →</em></button>
+            <button type="button" class="info-action-card" data-detail="health"><span>Bloco 5</span><strong>Informações de saúde</strong><small>Vacinas, seguro e atenção médica no destino.</small><em>Saiba mais →</em></button>
+            <button type="button" class="info-action-card" data-detail="important"><span>Bloco 6</span><strong>Informações importantes</strong><small>Pontos críticos antes do embarque e na chegada.</small><em>Saiba mais →</em></button>
+            <button type="button" class="info-action-card" data-detail="customs"><span>Bloco 7</span><strong>Alfândega, bagagem e itens restritos</strong><small>Entrada no destino e retorno ao Brasil sem erro caro.</small><em>Saiba mais →</em></button>
           </div>
         </section>
 
@@ -881,6 +890,8 @@
     }
 
 
+    let CURRENT_INTERACTIVE_DETAILS = {};
+
     const US_INTERACTIVE_DETAILS = {
       visa: { title: '1. Visto ou entrada nos Estados Unidos', body: `<p>Brasileiros precisam de visto B1/B2 para turismo, negócios ou trânsito, salvo casos específicos.</p><ul><li><strong>Tipo mais comum:</strong> B1/B2 para turismo e negócios.</li><li><strong>Entrevista:</strong> normalmente exigida para emissão inicial.</li><li><strong>Antecedência recomendada:</strong> iniciar o processo com folga.</li><li><strong>Atenção:</strong> visto válido não garante entrada; a decisão final é do agente de imigração.</li></ul><div class="modal-source">Fontes oficiais: GOV.BR Portal Consular · Governo dos EUA — Travel.State.Gov</div>` },
       documents: { title: '2. Documentos necessários', body: `<p>Além do visto, a entrada pode exigir coerência entre documentos, motivo da viagem e capacidade de permanência.</p><ul><li>Passaporte válido.</li><li>Visto americano compatível com o motivo da viagem.</li><li>Passagem de saída ou retorno.</li><li>Comprovante de hospedagem ou endereço de permanência.</li><li>Recursos financeiros compatíveis com o período da viagem.</li></ul><div class="modal-source">Fonte oficial: Governo dos EUA — Travel.State.Gov</div>` },
@@ -891,8 +902,75 @@
       customs: { title: '7. Alfândega, bagagem e itens restritos', body: `<p>Este bloco reúne pontos práticos para evitar problemas tanto na entrada nos Estados Unidos quanto no retorno ao Brasil.</p><div class="customs-subcards"><div class="customs-subcard"><strong>Entrada nos EUA</strong><p>Alimentos, sementes, carnes, produtos agrícolas, medicamentos e dinheiro em espécie podem exigir declaração ou restrição específica.</p></div><div class="customs-subcard"><strong>Bagagem e transporte</strong><p>Líquidos, baterias, power banks e eletrônicos devem seguir regras de segurança aérea e inspeção.</p></div><div class="customs-subcard"><strong>Itens proibidos ou sensíveis</strong><p>Produtos com substâncias controladas, medicamentos sem prescrição, armas, alimentos e itens agrícolas podem gerar retenção.</p></div><div class="customs-subcard"><strong>Compras e retorno ao Brasil</strong><p>Compras acima da cota podem exigir declaração e tributação. Valores e regras devem ser consultados na Receita Federal.</p></div><div class="customs-subcard"><strong>Receita Federal</strong><p>Na volta ao Brasil, eletrônicos, bebidas, perfumes e produtos em quantidade comercial podem passar por fiscalização.</p></div></div><p><strong>Valor estimado:</strong> excedentes podem gerar tributação e multa conforme avaliação da Receita Federal. A ferramenta apresenta referência prática, não promessa de isenção.</p><div class="modal-source">Fontes oficiais: CBP/EUA · TSA/EUA · Receita Federal do Brasil · ANVISA</div>` }
     };
 
+
+    function prepareInteractiveDetails(match, country, cityName, supportCards) {
+      const supportHtml = createLocationCards(supportCards);
+      const customsHtml = `
+        <p>Este bloco reúne o que costuma gerar dúvida, retenção, multa ou perda de tempo em viagens aos Estados Unidos e no retorno ao Brasil.</p>
+        <div class="customs-subcards">
+          <div class="customs-subcard">
+            <strong>Entrada nos Estados Unidos</strong>
+            <p>Alimentos, sementes, carnes, produtos agrícolas, medicamentos e dinheiro em espécie podem exigir declaração ou restrição. Itens não declarados podem ser retidos pela fiscalização.</p>
+          </div>
+          <div class="customs-subcard">
+            <strong>Medicamentos</strong>
+            <p>Leve medicamentos na embalagem original, em quantidade compatível com a viagem e, quando possível, com receita ou relatório médico em inglês. Medicamentos controlados merecem atenção extra.</p>
+          </div>
+          <div class="customs-subcard">
+            <strong>Bagagem e transporte</strong>
+            <p>Power banks e baterias de lítio normalmente devem ir na bagagem de mão. Líquidos na cabine seguem regras de segurança aérea. Itens cortantes ou inflamáveis podem ser barrados.</p>
+          </div>
+          <div class="customs-subcard">
+            <strong>Itens proibidos ou sensíveis</strong>
+            <p>Armas, substâncias controladas, produtos agrícolas, carnes, sementes, alguns alimentos e itens com aparência comercial podem gerar inspeção, retenção ou questionamento.</p>
+          </div>
+          <div class="customs-subcard">
+            <strong>Compras e retorno ao Brasil</strong>
+            <p>Na volta ao Brasil, compras acima da cota de isenção podem exigir declaração e tributação. Produtos em grande quantidade podem ser interpretados como finalidade comercial.</p>
+          </div>
+          <div class="customs-subcard">
+            <strong>Receita Federal</strong>
+            <p>Eletrônicos, bebidas, perfumes, roupas, acessórios e itens de alto valor podem passar por fiscalização. A ausência de declaração quando obrigatória pode gerar cobrança e multa.</p>
+          </div>
+        </div>
+        <p><strong>Valor estimado:</strong> no retorno ao Brasil, excedentes à cota podem gerar tributação e multa conforme a Receita Federal. Use esta informação como referência prática para evitar erro caro.</p>
+        <div class="modal-source">Fontes oficiais: CBP/EUA · TSA/EUA · Receita Federal do Brasil · ANVISA</div>
+      `;
+
+      CURRENT_INTERACTIVE_DETAILS = {
+        visa: {
+          title: '1. Visto ou entrada no país',
+          body: country.blocks.block1 + `<div class="modal-source">Fontes oficiais: GOV.BR Portal Consular · Governo dos EUA — Travel.State.Gov</div>`
+        },
+        documents: {
+          title: '2. Documentos necessários',
+          body: country.blocks.block2 + `<div class="modal-source">Fonte oficial: Governo dos EUA — Travel.State.Gov</div>`
+        },
+        brazil: {
+          title: '3. Onde resolver no Brasil',
+          body: country.blocks.block3 + `<div class="modal-source">Fonte oficial: Embaixada e Consulados dos EUA no Brasil</div>`
+        },
+        support: {
+          title: '4. Apoio no destino',
+          body: supportHtml + `<div class="modal-source">Fonte oficial: GOV.BR Portal Consular</div>`
+        },
+        health: {
+          title: '5. Informações de saúde',
+          body: country.blocks.block5 + `<div class="modal-source">Fontes oficiais: ANVISA · Governo dos EUA</div>`
+        },
+        important: {
+          title: '6. Informações importantes',
+          body: country.blocks.block6 + `<div class="modal-source">Fonte oficial: Governo dos EUA — Travel.State.Gov</div>`
+        },
+        customs: {
+          title: '7. Alfândega, bagagem e itens restritos',
+          body: customsHtml
+        }
+      };
+    }
+
     function openDetailModal(detailKey) {
-      const detail = US_INTERACTIVE_DETAILS[detailKey];
+      const detail = CURRENT_INTERACTIVE_DETAILS[detailKey] || US_INTERACTIVE_DETAILS[detailKey];
       const modal = document.getElementById('detailModal');
       const title = document.getElementById('detailModalTitle');
       const body = document.getElementById('detailModalBody');
@@ -1858,9 +1936,10 @@
       document.getElementById('summaryEntry').textContent = country.summary.entry;
       document.getElementById('summaryHealth').textContent = country.summary.health;
       document.getElementById('summarySupport').textContent = `${country.summary.support}`;
+      const isUnitedStates = match.countryKey === 'estados-unidos';
       const interactiveGrid = document.getElementById('interactiveInfoGrid');
       if (interactiveGrid) {
-        interactiveGrid.style.display = match.countryKey === 'estados-unidos' ? 'grid' : 'none';
+        interactiveGrid.style.display = isUnitedStates ? 'grid' : 'none';
       }
 
       document.getElementById('block1').innerHTML = country.blocks.block1;
@@ -1869,6 +1948,17 @@
       document.getElementById('block4').innerHTML = createLocationCards(supportCards);
       document.getElementById('block5').innerHTML = country.blocks.block5;
       document.getElementById('block6').innerHTML = country.blocks.block6;
+
+      ['block1', 'block2', 'block3', 'block4', 'block5', 'block6'].forEach(id => {
+        const section = document.getElementById(id)?.closest('.block');
+        if (section) section.style.display = isUnitedStates ? 'none' : 'block';
+      });
+
+      if (isUnitedStates) {
+        prepareInteractiveDetails(match, country, cityName, supportCards);
+      } else {
+        CURRENT_INTERACTIVE_DETAILS = {};
+      }
 
       document.getElementById('status').textContent = `Resultado encontrado para: ${raw}`;
       document.getElementById('emptyState').style.display = 'none';
@@ -2102,6 +2192,13 @@
       document.getElementById('status').textContent = '';
       document.getElementById('result').classList.remove('active');
       document.getElementById('emptyState').style.display = 'block';
+      CURRENT_INTERACTIVE_DETAILS = {};
+      const interactiveGrid = document.getElementById('interactiveInfoGrid');
+      if (interactiveGrid) interactiveGrid.style.display = 'none';
+      ['block1', 'block2', 'block3', 'block4', 'block5', 'block6'].forEach(id => {
+        const section = document.getElementById(id)?.closest('.block');
+        if (section) section.style.display = 'block';
+      });
       const commercialBlock = document.getElementById('commercialBlock');
       if (commercialBlock) commercialBlock.style.display = 'none';
     }
