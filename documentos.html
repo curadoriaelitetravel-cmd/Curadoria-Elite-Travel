@@ -463,6 +463,164 @@
       font-weight: 600;
     }
 
+
+    .interactive-info-grid {
+      display: none;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      margin-bottom: 18px;
+    }
+
+    .info-action-card {
+      border: 1px solid rgba(212,175,55,0.32);
+      background: rgba(255,255,255,0.025);
+      border-radius: 18px;
+      padding: 16px;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      transition: border-color .2s ease, transform .2s ease, background .2s ease;
+    }
+
+    .info-action-card:hover {
+      border-color: rgba(212,175,55,0.72);
+      background: rgba(212,175,55,0.07);
+      transform: translateY(-1px);
+    }
+
+    .info-action-card span {
+      display: block;
+      color: var(--gold);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: .06em;
+      margin-bottom: 8px;
+    }
+
+    .info-action-card strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .info-action-card small {
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .detail-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      inset: 0;
+      background: rgba(0,0,0,0.78);
+      padding: 28px;
+      overflow-y: auto;
+    }
+
+    .detail-modal.is-open {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .detail-modal-panel {
+      width: min(920px, 100%);
+      background: rgba(10,10,10,0.98);
+      border: 1px solid rgba(212,175,55,0.45);
+      border-radius: 24px;
+      box-shadow: 0 22px 70px rgba(0,0,0,0.6);
+      padding: 26px;
+      margin: 38px 0;
+      color: var(--text);
+      position: relative;
+    }
+
+    .detail-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      border: 1px solid rgba(212,175,55,0.42);
+      background: rgba(255,255,255,0.04);
+      color: var(--gold);
+      border-radius: 999px;
+      width: 38px;
+      height: 38px;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .detail-modal-panel h3 {
+      color: var(--gold);
+      font-size: 30px;
+      margin: 0 44px 14px 0;
+    }
+
+    .detail-modal-panel p,
+    .customs-subcard p {
+      color: var(--muted);
+      line-height: 1.65;
+      margin: 10px 0;
+    }
+
+    .detail-modal-panel ul {
+      margin: 14px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .detail-modal-panel li {
+      margin-bottom: 8px;
+    }
+
+    .modal-source {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(212,175,55,0.22);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .customs-subcards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .customs-subcard {
+      border: 1px solid rgba(212,175,55,0.28);
+      background: rgba(255,255,255,0.025);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .customs-subcard strong {
+      color: var(--gold);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    @media (max-width: 760px) {
+      .interactive-info-grid,
+      .customs-subcards {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-modal {
+        padding: 16px;
+      }
+
+      .detail-modal-panel {
+        padding: 22px;
+        margin: 24px 0;
+      }
+    }
+
     .commercial-card {
       background: linear-gradient(180deg, rgba(212,175,55,0.10), rgba(255,255,255,0.02));
       border: 1px solid rgba(212,175,55,0.42);
@@ -610,6 +768,15 @@
             <div class="summary-box"><span>Saúde</span><div id="summaryHealth"></div></div>
             <div class="summary-box"><span>Apoio diplomático</span><div id="summarySupport"></div></div>
           </div>
+          <div id="interactiveInfoGrid" class="interactive-info-grid">
+            <button type="button" class="info-action-card" data-detail="visa"><span>Bloco 1</span><strong>Visto</strong><small>Entrada, validade, entrevista e atenção antes da viagem.</small></button>
+            <button type="button" class="info-action-card" data-detail="documents"><span>Bloco 2</span><strong>Documentos necessários</strong><small>Passaporte, comprovantes e documentos de apoio.</small></button>
+            <button type="button" class="info-action-card" data-detail="brazil"><span>Bloco 3</span><strong>Onde resolver no Brasil</strong><small>Embaixada, consulados e canais oficiais no Brasil.</small></button>
+            <button type="button" class="info-action-card" data-detail="support"><span>Bloco 4</span><strong>Apoio no destino</strong><small>Referência consular conforme a cidade pesquisada.</small></button>
+            <button type="button" class="info-action-card" data-detail="health"><span>Bloco 5</span><strong>Informações de saúde</strong><small>Vacinas, seguro e atenção médica no destino.</small></button>
+            <button type="button" class="info-action-card" data-detail="important"><span>Bloco 6</span><strong>Informações importantes</strong><small>Pontos críticos antes do embarque e na chegada.</small></button>
+            <button type="button" class="info-action-card" data-detail="customs"><span>Bloco 7</span><strong>Alfândega, bagagem e itens restritos</strong><small>Entrada no destino e retorno ao Brasil sem erro caro.</small></button>
+          </div>
         </section>
 
         <section class="block"><h3>1. Visto ou entrada no país</h3><div id="block1"></div></section>
@@ -627,6 +794,14 @@
     Curadoria Elite Travel · O seu mundo, bem indicado.<br>
     São Paulo - SP · <a href="mailto:curadoriaelitetravel@gmail.com">curadoriaelitetravel@gmail.com</a>
   </footer>
+
+  <div id="detailModal" class="detail-modal" aria-hidden="true">
+    <div class="detail-modal-panel" role="dialog" aria-modal="true" aria-labelledby="detailModalTitle">
+      <button type="button" class="detail-modal-close" id="detailModalClose" aria-label="Fechar">×</button>
+      <h3 id="detailModalTitle"></h3>
+      <div id="detailModalBody"></div>
+    </div>
+  </div>
 
   <script>
     function normalizeText(value) {
@@ -703,6 +878,47 @@
 
       updateEl.innerHTML = `Última atualização na ferramenta: <span style="color:#ffffff;font-weight:700;">${country.lastUpdated || LAST_DATA_UPDATE}</span>`;
       sourcesEl.innerHTML = `Fontes oficiais da síntese: <span style="color:#ffffff;font-weight:700;">${sourceLinks.join(' · ')}</span>`;
+    }
+
+
+    const US_INTERACTIVE_DETAILS = {
+      visa: { title: '1. Visto ou entrada nos Estados Unidos', body: `<p>Brasileiros precisam de visto B1/B2 para turismo, negócios ou trânsito, salvo casos específicos.</p><ul><li><strong>Tipo mais comum:</strong> B1/B2 para turismo e negócios.</li><li><strong>Entrevista:</strong> normalmente exigida para emissão inicial.</li><li><strong>Antecedência recomendada:</strong> iniciar o processo com folga.</li><li><strong>Atenção:</strong> visto válido não garante entrada; a decisão final é do agente de imigração.</li></ul><div class="modal-source">Fontes oficiais: GOV.BR Portal Consular · Governo dos EUA — Travel.State.Gov</div>` },
+      documents: { title: '2. Documentos necessários', body: `<p>Além do visto, a entrada pode exigir coerência entre documentos, motivo da viagem e capacidade de permanência.</p><ul><li>Passaporte válido.</li><li>Visto americano compatível com o motivo da viagem.</li><li>Passagem de saída ou retorno.</li><li>Comprovante de hospedagem ou endereço de permanência.</li><li>Recursos financeiros compatíveis com o período da viagem.</li></ul><div class="modal-source">Fonte oficial: Governo dos EUA — Travel.State.Gov</div>` },
+      brazil: { title: '3. Onde resolver no Brasil', body: `<p>Solicitações de visto norte-americano devem seguir os canais oficiais da Embaixada e Consulados dos Estados Unidos no Brasil.</p><ul><li>Embaixada dos Estados Unidos em Brasília.</li><li>Consulados em São Paulo, Rio de Janeiro, Recife e Porto Alegre.</li><li>Agendamento, formulário e instruções devem seguir canais oficiais norte-americanos.</li></ul><div class="modal-source">Fonte oficial: Embaixada e Consulados dos EUA no Brasil</div>` },
+      support: { title: '4. Apoio no destino', body: `<p>O apoio consular brasileiro varia conforme a cidade buscada. A ferramenta identifica a cidade pesquisada e indica o posto brasileiro configurado na base.</p><ul><li>New York: Consulado-Geral do Brasil em Nova York.</li><li>Miami/Orlando: referência consular na Flórida.</li><li>Dallas: referência em Houston.</li><li>Las Vegas/San Diego: referência em Los Angeles.</li><li>Philadelphia: referência em Nova York.</li></ul><div class="modal-source">Fonte oficial: GOV.BR Portal Consular</div>` },
+      health: { title: '5. Informações de saúde', body: `<p>Não há exigência geral de vacina obrigatória para brasileiros em entrada direta nos Estados Unidos, mas recomenda-se manter a situação vacinal organizada.</p><ul><li>Seguro viagem não é obrigatório, mas é altamente recomendado pelo custo médico elevado.</li><li>Medicamentos controlados devem estar acompanhados de prescrição, preferencialmente em inglês.</li><li>Viagens com conexão podem exigir atenção adicional conforme o país de trânsito.</li></ul><div class="modal-source">Fontes oficiais: ANVISA · Governo dos EUA</div>` },
+      important: { title: '6. Informações importantes', body: `<p>Mesmo com visto válido, a entrada pode ser negada se o agente migratório entender que as informações apresentadas não são compatíveis com a viagem.</p><ul><li>Esteja preparado para responder sobre motivo da viagem, hospedagem, tempo de permanência e recursos financeiros.</li><li>Evite informações inconsistentes entre passagem, hospedagem e declaração verbal.</li><li>Passagem de saída e reserva de hospedagem podem ser solicitadas.</li></ul><div class="modal-source">Fonte oficial: Governo dos EUA — Travel.State.Gov</div>` },
+      customs: { title: '7. Alfândega, bagagem e itens restritos', body: `<p>Este bloco reúne pontos práticos para evitar problemas tanto na entrada nos Estados Unidos quanto no retorno ao Brasil.</p><div class="customs-subcards"><div class="customs-subcard"><strong>Entrada nos EUA</strong><p>Alimentos, sementes, carnes, produtos agrícolas, medicamentos e dinheiro em espécie podem exigir declaração ou restrição específica.</p></div><div class="customs-subcard"><strong>Bagagem e transporte</strong><p>Líquidos, baterias, power banks e eletrônicos devem seguir regras de segurança aérea e inspeção.</p></div><div class="customs-subcard"><strong>Itens proibidos ou sensíveis</strong><p>Produtos com substâncias controladas, medicamentos sem prescrição, armas, alimentos e itens agrícolas podem gerar retenção.</p></div><div class="customs-subcard"><strong>Compras e retorno ao Brasil</strong><p>Compras acima da cota podem exigir declaração e tributação. Valores e regras devem ser consultados na Receita Federal.</p></div><div class="customs-subcard"><strong>Receita Federal</strong><p>Na volta ao Brasil, eletrônicos, bebidas, perfumes e produtos em quantidade comercial podem passar por fiscalização.</p></div></div><p><strong>Valor estimado:</strong> excedentes podem gerar tributação e multa conforme avaliação da Receita Federal. A ferramenta apresenta referência prática, não promessa de isenção.</p><div class="modal-source">Fontes oficiais: CBP/EUA · TSA/EUA · Receita Federal do Brasil · ANVISA</div>` }
+    };
+
+    function openDetailModal(detailKey) {
+      const detail = US_INTERACTIVE_DETAILS[detailKey];
+      const modal = document.getElementById('detailModal');
+      const title = document.getElementById('detailModalTitle');
+      const body = document.getElementById('detailModalBody');
+      if (!detail || !modal || !title || !body) return;
+      title.textContent = detail.title;
+      body.innerHTML = detail.body;
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeDetailModal() {
+      const modal = document.getElementById('detailModal');
+      if (!modal) return;
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    function setupDetailModalEvents() {
+      document.querySelectorAll('[data-detail]').forEach(button => {
+        button.addEventListener('click', () => openDetailModal(button.dataset.detail));
+      });
+      const closeButton = document.getElementById('detailModalClose');
+      const modal = document.getElementById('detailModal');
+      if (closeButton) closeButton.addEventListener('click', closeDetailModal);
+      if (modal) modal.addEventListener('click', event => { if (event.target === modal) closeDetailModal(); });
+      document.addEventListener('keydown', event => { if (event.key === 'Escape') closeDetailModal(); });
     }
 
     const countries = {
@@ -1642,6 +1858,10 @@
       document.getElementById('summaryEntry').textContent = country.summary.entry;
       document.getElementById('summaryHealth').textContent = country.summary.health;
       document.getElementById('summarySupport').textContent = `${country.summary.support}`;
+      const interactiveGrid = document.getElementById('interactiveInfoGrid');
+      if (interactiveGrid) {
+        interactiveGrid.style.display = match.countryKey === 'estados-unidos' ? 'grid' : 'none';
+      }
 
       document.getElementById('block1').innerHTML = country.blocks.block1;
       document.getElementById('block2').innerHTML = country.blocks.block2;
@@ -1908,6 +2128,7 @@
     document.getElementById('searchBtn').addEventListener('click', () => search(document.getElementById('searchInput').value));
     document.getElementById('clearBtn').addEventListener('click', clearResult);
     document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') search(e.target.value); });
+    setupDetailModalEvents();
     startSceneryCarousel();
     renderDynamicChips();
   </script>
