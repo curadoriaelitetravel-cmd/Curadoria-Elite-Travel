@@ -245,6 +245,47 @@
       margin-bottom: 18px;
     }
 
+    .letter-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 2px 0 16px;
+      padding: 12px;
+      border: 1px solid rgba(212,175,55,0.18);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.018);
+    }
+
+    .letter-chip {
+      border: 1px solid rgba(212,175,55,0.36);
+      background: rgba(255,255,255,0.025);
+      color: var(--text);
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
+    }
+
+    .letter-chip:hover,
+    .letter-chip.active {
+      background: rgba(212,175,55,0.16);
+      border-color: rgba(212,175,55,0.80);
+      color: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    .letter-chip.all {
+      width: auto;
+      min-width: 58px;
+      padding: 0 14px;
+    }
+
     .chips {
       display: flex;
       flex-wrap: wrap;
@@ -788,6 +829,8 @@
         A busca reconhece países e cidades turísticas. Para manter a navegação limpa, mostramos os destinos em ordem alfabética de 10 em 10.
       </div>
 
+      <div id="letterFilter" class="letter-filter" aria-label="Filtrar destinos por letra"></div>
+
       <div id="chipsContainer" class="chips"></div>
 
       <div class="chips-actions">
@@ -842,7 +885,7 @@
 
   <footer class="footer">
     Curadoria Elite Travel · O seu mundo, bem indicado.<br>
-    São Paulo - SP · <a href="mailto:c<a href="mailto:uradoriaelitetravel@gmail.com" class="official-source-link">uradoriaelitetravel@gmail.com</a>">c<a href="mailto:uradoriaelitetravel@gmail.com" class="official-source-link">uradoriaelitetravel@gmail.com</a></a>
+    São Paulo - SP · <a href="mailto:curadoriaelitetravel@gmail.com">curadoriaelitetravel@gmail.com</a>
   </footer>
 
   <div id="detailModal" class="detail-modal" aria-hidden="true">
@@ -2155,6 +2198,7 @@
     }
 
     let visibleChipCount = 10;
+    let selectedChipLetter = '';
     const CHIP_BATCH_SIZE = 10;
 
     function getAvailableDestinationsForChips() {
@@ -2177,6 +2221,58 @@
       );
     }
 
+
+    function getFilteredDestinationsForChips() {
+      const destinations = getAvailableDestinationsForChips();
+
+      if (!selectedChipLetter) {
+        return destinations;
+      }
+
+      return destinations.filter(label =>
+        normalizeText(label).startsWith(normalizeText(selectedChipLetter))
+      );
+    }
+
+    function renderLetterFilter() {
+      const container = document.getElementById('letterFilter');
+      if (!container) return;
+
+      const destinations = getAvailableDestinationsForChips();
+      const letters = Array.from(new Set(
+        destinations
+          .map(label => normalizeText(label).charAt(0).toUpperCase())
+          .filter(Boolean)
+      )).sort((a, b) => a.localeCompare(b, 'pt-BR', { sensitivity: 'base' }));
+
+      container.innerHTML = '';
+
+      const allButton = document.createElement('button');
+      allButton.className = `letter-chip all${selectedChipLetter ? '' : ' active'}`;
+      allButton.type = 'button';
+      allButton.textContent = 'Todos';
+      allButton.addEventListener('click', () => {
+        selectedChipLetter = '';
+        visibleChipCount = CHIP_BATCH_SIZE;
+        renderDynamicChips();
+      });
+      container.appendChild(allButton);
+
+      letters.forEach(letter => {
+        const button = document.createElement('button');
+        button.className = `letter-chip${selectedChipLetter === letter ? ' active' : ''}`;
+        button.type = 'button';
+        button.textContent = letter;
+        button.setAttribute('aria-label', `Ver destinos com a letra ${letter}`);
+        button.addEventListener('click', () => {
+          selectedChipLetter = letter;
+          visibleChipCount = CHIP_BATCH_SIZE;
+          renderDynamicChips();
+        });
+        container.appendChild(button);
+      });
+    }
+
     function renderDynamicChips() {
       const container = document.getElementById('chipsContainer');
       const counter = document.getElementById('chipsCounter');
@@ -2184,12 +2280,20 @@
       const lessBtn = document.getElementById('showLessChipsBtn');
       if (!container) return;
 
-      const destinations = getAvailableDestinationsForChips();
+      renderLetterFilter();
+      const destinations = getFilteredDestinationsForChips();
       const totalDestinations = destinations.length;
       const currentVisibleCount = Math.min(visibleChipCount, totalDestinations);
       const visibleDestinations = destinations.slice(0, currentVisibleCount);
 
       container.innerHTML = '';
+
+      if (!visibleDestinations.length && selectedChipLetter) {
+        const emptyChip = document.createElement('span');
+        emptyChip.className = 'chips-counter';
+        emptyChip.textContent = `Nenhum destino encontrado com a letra ${selectedChipLetter}.`;
+        container.appendChild(emptyChip);
+      }
 
       visibleDestinations.forEach(label => {
         const button = document.createElement('button');
@@ -2205,7 +2309,8 @@
       });
 
       if (counter) {
-        counter.textContent = `Mostrando ${currentVisibleCount} de ${totalDestinations} destinos em ordem alfabética.`;
+        const letterText = selectedChipLetter ? ` com a letra ${selectedChipLetter}` : '';
+        counter.textContent = `Mostrando ${currentVisibleCount} de ${totalDestinations} destinos${letterText} em ordem alfabética.`;
       }
 
       if (moreBtn) {
