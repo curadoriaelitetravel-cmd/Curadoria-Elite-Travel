@@ -802,7 +802,7 @@
   <section class="hero">
     <div class="hero-inner">
       <div class="hero-kicker">curadoria • critério • excelência</div>
-      <h1>Documentação e informações de saúde para viagem</h1>
+      <h1>Documentação, entrada no destino e informações essenciais antes da viagem</h1>
       <p>
         Busque por país ou cidade turística e veja informações práticas sobre entrada no destino,
         documentos, apoio diplomático e saúde para viagem.
@@ -812,8 +812,8 @@
 
   <main class="tool-wrap">
     <section class="tool-panel">
-      <div class="breadcrumbs">Ferramentas &gt; Documentação e informações de saúde para viagem</div>
-      <h2 class="panel-title">Consulta inicial por destino</h2>
+      <div class="breadcrumbs">Ferramentas &gt; Documentação, entrada no destino e informações essenciais antes da viagem</div>
+      <h2 class="panel-title">Consulta por destino</h2>
       <p class="panel-sub">
         Digite um país ou cidade. A ferramenta identifica o país correto, carrega o conteúdo completo
         e personaliza o apoio diplomático conforme a cidade buscada.
@@ -826,7 +826,7 @@
       </div>
 
       <div class="helper-text">
-        A busca reconhece países e cidades turísticas. Para manter a navegação limpa, mostramos os destinos em ordem alfabética de 10 em 10.
+        A busca reconhece países e principais cidades turísticas. Para uma navegação mais organizada, os destinos são exibidos em ordem alfabética.
       </div>
 
       <div id="letterFilter" class="letter-filter" aria-label="Filtrar destinos por letra"></div>
@@ -840,7 +840,7 @@
       </div>
 
       <div class="destination-note">
-        Não encontrou seu destino? Estamos expandindo continuamente nossa base. Você também pode buscar pelo país para visualizar as informações disponíveis.
+        Não encontrou o destino desejado? Nossa base é atualizada continuamente. Você também pode buscar pelo país para visualizar as informações disponíveis.
       </div>
 
       <div id="status" class="status"></div>
@@ -2117,9 +2117,9 @@
 
       if (hasMaterial) {
         block.innerHTML = `
-          <h3>Vá além da informação básica</h3>
-          <p>Você já tem o essencial para entrada, documentos e apoio no destino.</p>
-          <p>Agora, na Curadoria Elite Travel, você acessa materiais organizados por categoria — gastronomia, atrações, experiências, compras e vida noturna — para tomar decisões com clareza e sem perda de tempo.</p>
+          <h3>Continue sua preparação para a viagem</h3>
+          <p>Além das informações de entrada e documentação, a Curadoria Elite Travel reúne materiais organizados por categoria para ajudar você a decidir melhor durante a viagem — com mais clareza, praticidade e menos desgaste ao planejar.</p>
+          <p>Explore materiais organizados por categoria, incluindo Gastronomia, Atrações Turísticas, Experiências, Vida Noturna, Endereços para Compras e Sugestão de Hotéis.</p>
           <div class="commercial-actions">
             <button id="commercialCta" class="btn" type="button">Explorar materiais de ${destinationName}</button>
           </div>
@@ -2310,7 +2310,9 @@
 
       if (counter) {
         const letterText = selectedChipLetter ? ` com a letra ${selectedChipLetter}` : '';
-        counter.textContent = `Mostrando ${currentVisibleCount} de ${totalDestinations} destinos${letterText} em ordem alfabética.`;
+        counter.textContent = selectedChipLetter
+          ? `Exibindo destinos${letterText} em ordem alfabética.`
+          : 'Exibindo destinos em ordem alfabética.';
       }
 
       if (moreBtn) {
@@ -2321,7 +2323,7 @@
           moreBtn.disabled = true;
         } else {
           const remaining = totalDestinations - currentVisibleCount;
-          moreBtn.textContent = `Ver mais ${Math.min(CHIP_BATCH_SIZE, remaining)} destinos`;
+          moreBtn.textContent = `Ver mais destinos`;
           moreBtn.disabled = false;
         }
       }
