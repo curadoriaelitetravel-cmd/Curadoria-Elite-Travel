@@ -694,6 +694,60 @@
       margin-bottom: 6px;
     }
 
+    .modal-intro {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--text);
+      margin: 4px 0 18px;
+    }
+
+    .modal-section {
+      border-top: 1px solid rgba(212,175,55,0.18);
+      padding-top: 16px;
+      margin-top: 18px;
+    }
+
+    .modal-section h4 {
+      color: var(--gold);
+      font-size: 19px;
+      margin: 0 0 8px;
+    }
+
+    .modal-section p {
+      margin: 8px 0;
+    }
+
+    .modal-soft-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .modal-soft-card {
+      border: 1px solid rgba(212,175,55,0.24);
+      background: rgba(255,255,255,0.025);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .modal-soft-card strong {
+      color: var(--gold);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .modal-signature {
+      margin-top: 20px;
+      padding: 14px 16px;
+      border-left: 3px solid var(--gold);
+      border-radius: 12px;
+      background: rgba(212,175,55,0.06);
+      color: var(--text);
+      font-weight: 600;
+      line-height: 1.65;
+    }
+
     @media (max-width: 760px) {
       .interactive-info-grid,
       .customs-subcards {
@@ -977,89 +1031,257 @@
     let CURRENT_INTERACTIVE_DETAILS = {};
 
     const US_INTERACTIVE_DETAILS = {
-      visa: { title: '1. Visto ou entrada nos Estados Unidos', body: `<p>Brasileiros precisam de visto B1/B2 para turismo, negócios ou trânsito, salvo casos específicos.</p><ul><li><strong>Tipo mais comum:</strong> B1/B2 para turismo e negócios.</li><li><strong>Entrevista:</strong> normalmente exigida para emissão inicial.</li><li><strong>Antecedência recomendada:</strong> iniciar o processo com folga.</li><li><strong>Atenção:</strong> visto válido não garante entrada; a decisão final é do agente de imigração.</li></ul><div class="modal-source">Fontes oficiais: <a href="https://www.gov.br/mre/pt-br/assuntos/portal-consular" target="_blank" rel="noopener noreferrer">GOV.BR Portal Consular</a> · <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer"><a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Governo dos EUA</a> — <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Travel.State.Gov</a></a></div>` },
-      documents: { title: '2. Documentos necessários', body: `<p>Além do visto, a entrada pode exigir coerência entre documentos, motivo da viagem e capacidade de permanência.</p><ul><li>Passaporte válido.</li><li>Visto americano compatível com o motivo da viagem.</li><li>Passagem de saída ou retorno.</li><li>Comprovante de hospedagem ou endereço de permanência.</li><li>Recursos financeiros compatíveis com o período da viagem.</li></ul><div class="modal-source">Fonte oficial: <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer"><a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Governo dos EUA</a> — <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Travel.State.Gov</a></a></div>` },
-      brazil: { title: '3. Onde resolver no Brasil', body: `<p>Solicitações de visto norte-americano devem seguir os canais oficiais da Embaixada e Consulados dos Estados Unidos no Brasil.</p><ul><li>Embaixada dos Estados Unidos em Brasília.</li><li>Consulados em São Paulo, Rio de Janeiro, Recife e Porto Alegre.</li><li>Agendamento, formulário e instruções devem seguir canais oficiais norte-americanos.</li></ul><div class="modal-source">Fonte oficial: <a href="https://br.usembassy.gov/pt/" target="_blank" rel="noopener noreferrer">Embaixada e Consulados dos EUA no Brasil</a></div>` },
-      support: { title: '4. Apoio no destino', body: `<p>O apoio consular brasileiro varia conforme a cidade buscada. A ferramenta identifica a cidade pesquisada e indica o posto brasileiro configurado na base.</p><ul><li>New York: Consulado-Geral do Brasil em Nova York.</li><li>Miami/Orlando: referência consular na Flórida.</li><li>Dallas: referência em Houston.</li><li>Las Vegas/San Diego: referência em Los Angeles.</li><li>Philadelphia: referência em Nova York.</li></ul><div class="modal-source">Fonte oficial: <a href="https://www.gov.br/mre/pt-br/assuntos/portal-consular" target="_blank" rel="noopener noreferrer">GOV.BR Portal Consular</a></div>` },
-      health: { title: '5. Informações de saúde', body: `<p>Não há exigência geral de vacina obrigatória para brasileiros em entrada direta nos Estados Unidos, mas recomenda-se manter a situação vacinal organizada.</p><ul><li>Seguro viagem não é obrigatório, mas é altamente recomendado pelo custo médico elevado.</li><li>Medicamentos controlados devem estar acompanhados de prescrição, preferencialmente em inglês.</li><li>Viagens com conexão podem exigir atenção adicional conforme o país de trânsito.</li></ul><div class="modal-source">Fontes oficiais: <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a> · <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Governo dos EUA</a></div>` },
-      important: { title: '6. Informações importantes', body: `<p>Mesmo com visto válido, a entrada pode ser negada se o agente migratório entender que as informações apresentadas não são compatíveis com a viagem.</p><ul><li>Esteja preparado para responder sobre motivo da viagem, hospedagem, tempo de permanência e recursos financeiros.</li><li>Evite informações inconsistentes entre passagem, hospedagem e declaração verbal.</li><li>Passagem de saída e reserva de hospedagem podem ser solicitadas.</li></ul><div class="modal-source">Fonte oficial: <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer"><a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Governo dos EUA</a> — <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Travel.State.Gov</a></a></div>` },
-      customs: { title: '7. Alfândega, bagagem e itens restritos', body: `<p>Este sessão reúne pontos práticos para evitar problemas tanto na entrada nos Estados Unidos quanto no retorno ao Brasil.</p><div class="customs-subcards"><div class="customs-subcard"><strong>Entrada nos EUA</strong><p>Alimentos, sementes, carnes, produtos agrícolas, medicamentos e dinheiro em espécie podem exigir declaração ou restrição específica.</p></div><div class="customs-subcard"><strong>Bagagem e transporte</strong><p>Líquidos, baterias, power banks e eletrônicos devem seguir regras de segurança aérea e inspeção.</p></div><div class="customs-subcard"><strong>Itens proibidos ou sensíveis</strong><p>Produtos com substâncias controladas, medicamentos sem prescrição, armas, alimentos e itens agrícolas podem gerar retenção.</p></div><div class="customs-subcard"><strong>Compras e retorno ao Brasil</strong><p>Compras acima da cota podem exigir declaração e tributação. Valores e regras devem ser consultados na Receita Federal.</p></div><div class="customs-subcard"><strong>Receita Federal</strong><p>Na volta ao Brasil, eletrônicos, bebidas, perfumes e produtos em quantidade comercial podem passar por fiscalização.</p></div></div><p><strong>Valor estimado:</strong> excedentes podem gerar tributação e multa conforme avaliação da Receita Federal. A ferramenta apresenta referência prática, não promessa de isenção.</p><div class="modal-source">Fontes oficiais:
-<a href="https://www.cbp.gov/travel" target="_blank" rel="noopener noreferrer">CBP/EUA</a> ·
-<a href="https://www.tsa.gov/travel" target="_blank" rel="noopener noreferrer">TSA/EUA</a> ·
-<a href="https://www.gov.br/receitafederal/pt-br/assuntos/aduana-e-comercio-exterior/viajantes" target="_blank" rel="noopener noreferrer">Receita Federal do Brasil</a> ·
-<a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a></div>` }
+      visa: {
+        title: '1. Visto e entrada no país',
+        body: `
+          <p class="modal-intro">A preparação da viagem começa antes do embarque. Ter clareza sobre entrada, permanência e documentação reduz desgaste e ajuda a tornar a chegada mais tranquila.</p>
+
+          <div class="modal-section">
+            <h4>Entrada nos Estados Unidos</h4>
+            <p>Para brasileiros, viagens aos Estados Unidos normalmente exigem visto válido, inclusive em casos de conexão internacional ou trânsito pelo país.</p>
+            <p>O visto mais comum para turismo e viagens pessoais é o <strong>B1/B2</strong>, utilizado em situações como turismo, compromissos profissionais, eventos, reuniões, trânsito internacional e viagens temporárias.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Processo de solicitação</h4>
+            <p>O processo costuma envolver preenchimento do formulário DS-160, pagamento da taxa consular, agendamento, coleta biométrica e entrevista presencial.</p>
+            <p>Mais do que reunir documentos, essa etapa faz parte da organização da viagem como um todo.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Durante a imigração</h4>
+            <p>Mesmo com visto aprovado, a entrada é definida no momento da chegada pelas autoridades migratórias.</p>
+            <p>Informações como motivo da viagem, duração da permanência, endereço de hospedagem, passagem de retorno e planejamento podem ser solicitadas. Ter tudo acessível torna a chegada mais fluida.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Passaporte, permanência e coerência da viagem</h4>
+            <p>Vale revisar validade do passaporte, páginas disponíveis e estado físico do documento antes do embarque.</p>
+            <p>Viagens com hospedagem definida, documentação acessível e informações coerentes costumam gerar menos desgaste em aeroportos e controles migratórios.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Conexões e trânsito internacional</h4>
+            <p>Algumas rotas podem incluir conexões com exigências próprias de entrada ou trânsito. Dependendo do país da escala, vistos adicionais, autorizações de trânsito ou exigências sanitárias podem fazer parte da viagem.</p>
+            <p>Em algumas situações, conexões internacionais podem envolver exigências de vacinação, como febre amarela, conforme origem, escala ou rota utilizada.</p>
+          </div>
+
+          <div class="modal-signature">Quando a preparação acontece antes do embarque, a viagem tende a começar com mais clareza e menos desgaste.</div>
+
+          <div class="modal-source">Fontes oficiais: <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Travel.State.Gov</a> · <a href="https://br.usembassy.gov/pt/" target="_blank" rel="noopener noreferrer">U.S. Embassy Brazil</a> · <a href="https://www.cbp.gov/travel" target="_blank" rel="noopener noreferrer">CBP/EUA</a></div>
+        `
+      },
+
+      documents: {
+        title: '2. Documentos necessários',
+        body: `
+          <p class="modal-intro">Viajar com a documentação organizada reduz desgaste ao longo da viagem e ajuda a tornar decisões importantes mais simples durante embarques, conexões e chegada ao destino.</p>
+
+          <div class="modal-section">
+            <h4>O que vale manter acessível</h4>
+            <p>Dependendo da rota e do tipo de viagem, é recomendável manter próximos passaporte válido, visto compatível, passagem de retorno, comprovante de hospedagem, itinerário, contatos importantes, comprovantes financeiros e seguro viagem.</p>
+            <p>Nem todos os documentos são solicitados ao mesmo tempo, mas tê-los organizados reduz desgaste caso alguma confirmação adicional seja necessária.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Organização antes do embarque</h4>
+            <p>Manter documentos físicos organizados, salvar versões digitais importantes, deixar reservas acessíveis offline e revisar nomes, datas e dados do passaporte antes do check-in ajuda a evitar correções de última hora.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Documentos digitais</h4>
+            <p>Cópias digitais do passaporte, visto, hospedagem, seguro e passagens podem facilitar situações como perda de conexão, troca de aparelho, extravio de bagagem ou necessidade rápida de confirmação.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Viagens com menores</h4>
+            <p>Menores de idade podem exigir autorização, comprovação de vínculo e documentação complementar. As regras variam conforme companhia aérea, país envolvido, tipo de embarque e conexão internacional.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Durante a imigração</h4>
+            <p>Em alguns casos, informações complementares podem ser solicitadas na chegada. Ter hospedagem, retorno, permanência e motivo da viagem claros e acessíveis torna esse momento mais tranquilo.</p>
+          </div>
+
+          <div class="modal-signature">Uma viagem mais tranquila começa quando as informações principais estão organizadas antes do embarque.</div>
+
+          <div class="modal-source">Fontes oficiais: <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Travel.State.Gov</a> · <a href="https://www.cbp.gov/travel" target="_blank" rel="noopener noreferrer">CBP/EUA</a> · <a href="https://br.usembassy.gov/pt/" target="_blank" rel="noopener noreferrer">U.S. Embassy Brazil</a></div>
+        `
+      },
+
+      brazil: {
+        title: '3. Onde resolver no Brasil',
+        body: `
+          <p class="modal-intro">Parte da preparação internacional acontece antes mesmo da viagem começar. Ter clareza sobre onde resolver cada etapa reduz desgaste e ajuda a organizar o processo com mais tranquilidade.</p>
+
+          <div class="modal-section">
+            <h4>Canais oficiais</h4>
+            <p>Questões relacionadas ao visto americano devem seguir os canais oficiais da Embaixada e dos Consulados dos Estados Unidos no Brasil.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Antes do agendamento</h4>
+            <p>A preparação costuma envolver preenchimento do DS-160, pagamento da taxa consular, criação de cadastro no sistema oficial, escolha da cidade de atendimento e agendamento da entrevista e biometria.</p>
+            <p>Fazer esse processo com antecedência costuma trazer mais flexibilidade para datas e planejamento da viagem.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Locais de atendimento</h4>
+            <p>Os principais atendimentos relacionados ao visto americano costumam acontecer em Brasília, São Paulo, Rio de Janeiro, Recife e Porto Alegre.</p>
+            <p>A disponibilidade pode variar conforme demanda, período do ano, categoria do visto e tipo de solicitação.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Antes da entrevista</h4>
+            <p>Revisar documentos principais, histórico da viagem, dados do passaporte, informações do formulário, datas, hospedagem e vínculos profissionais ou financeiros ajuda a reduzir ansiedade e evita ajustes de última hora.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Atenção aos canais utilizados</h4>
+            <p>Priorizar fontes oficiais ajuda a evitar informações desatualizadas, cobranças indevidas, etapas incorretas e orientações inconsistentes.</p>
+          </div>
+
+          <div class="modal-signature">Grande parte da tranquilidade da viagem começa quando prazos, etapas e documentação são organizados antes do embarque.</div>
+
+          <div class="modal-source">Fontes oficiais: <a href="https://br.usembassy.gov/pt/" target="_blank" rel="noopener noreferrer">U.S. Embassy Brazil</a> · <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Travel.State.Gov</a> · <a href="https://www.gov.br/mre/pt-br/assuntos/portal-consular" target="_blank" rel="noopener noreferrer">GOV.BR — Portal Consular</a></div>
+        `
+      },
+
+      support: {
+        title: '4. Apoio no destino',
+        body: `
+          <p class="modal-intro">Durante uma viagem internacional, ter clareza sobre onde buscar apoio também faz parte da preparação. Mesmo em viagens tranquilas, saber qual posto atende sua região traz mais segurança ao longo da jornada.</p>
+
+          <div class="modal-section">
+            <h4>Apoio consular durante a viagem</h4>
+            <p>Representações brasileiras no exterior podem auxiliar em situações como perda ou roubo de documentos, orientações consulares, contato emergencial, emissão de documentos provisórios e apoio em situações específicas envolvendo brasileiros no exterior.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Referência por cidade</h4>
+            <p>Cada cidade ou região pode estar vinculada a um posto diferente. Por isso, a ferramenta relaciona automaticamente o apoio consular conforme o destino pesquisado.</p>
+            <div class="modal-soft-grid">
+              <div class="modal-soft-card"><strong>New York</strong><p>Referência: Consulado-Geral do Brasil em Nova York.</p></div>
+              <div class="modal-soft-card"><strong>Dallas</strong><p>Referência consular em Houston.</p></div>
+              <div class="modal-soft-card"><strong>Las Vegas</strong><p>Referência consular em Los Angeles.</p></div>
+              <div class="modal-soft-card"><strong>Philadelphia</strong><p>Referência consular em Nova York.</p></div>
+            </div>
+          </div>
+
+          <div class="modal-section">
+            <h4>Antes da viagem</h4>
+            <p>Salvar endereço, telefone, e-mail, site oficial e localização no mapa pode facilitar decisões rápidas em situações inesperadas.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>O que o apoio consular não substitui</h4>
+            <p>Consulados e embaixadas podem auxiliar em determinadas situações, mas não costumam substituir seguro viagem, assistência médica, suporte jurídico privado, despesas pessoais ou alterações operacionais da viagem.</p>
+          </div>
+
+          <div class="modal-signature">Saber previamente onde buscar orientação ajuda a tornar a experiência internacional mais leve e organizada.</div>
+
+          <div class="modal-source">Fontes oficiais: <a href="https://www.gov.br/mre/pt-br/assuntos/portal-consular" target="_blank" rel="noopener noreferrer">GOV.BR — Portal Consular</a> · <a href="https://www.gov.br/mre/pt-br" target="_blank" rel="noopener noreferrer">Ministério das Relações Exteriores</a> · <a href="https://www.gov.br/mre/pt-br/embaixada-washington" target="_blank" rel="noopener noreferrer">Embaixada do Brasil nos Estados Unidos</a></div>
+        `
+      },
+
+      health: {
+        title: '5. Informações de saúde',
+        body: `
+          <p class="modal-intro">Parte da tranquilidade da viagem também passa pela preparação relacionada à saúde, medicamentos e exigências sanitárias do destino.</p>
+
+          <div class="modal-section">
+            <h4>Vacinação e exigências sanitárias</h4>
+            <p>Atualmente, os Estados Unidos normalmente não exigem vacina obrigatória geral para entrada de brasileiros em viagens convencionais de turismo.</p>
+            <p>Ainda assim, conexões internacionais podem envolver exigências específicas relacionadas a vacinação, comprovantes internacionais e regras sanitárias de trânsito.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Seguro viagem</h4>
+            <p>Embora não seja obrigatório nos Estados Unidos, o seguro viagem costuma trazer mais tranquilidade. O sistema de saúde norte-americano pode envolver custos elevados, cobrança imediata, atendimento particular e limitações sem cobertura médica.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Medicamentos</h4>
+            <p>Levar medicamentos organizados ajuda a tornar embarques, inspeções e conexões mais simples.</p>
+            <p>Sempre que possível, mantenha medicamentos na embalagem original, leve quantidades compatíveis com a viagem, mantenha receitas acessíveis e organize medicamentos essenciais na bagagem de mão.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Conexões e inspeções internacionais</h4>
+            <p>Algumas conexões podem possuir regras próprias relacionadas a medicamentos, substâncias controladas, transporte de líquidos, itens médicos e produtos específicos.</p>
+          </div>
+
+          <div class="modal-signature">Quando saúde, receitas e seguro estão organizados antes do embarque, a viagem tende a acontecer com mais leveza e menos desgaste.</div>
+
+          <div class="modal-source">Fontes oficiais: <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a> · <a href="https://wwwnc.cdc.gov/travel" target="_blank" rel="noopener noreferrer">CDC</a> · <a href="https://www.cbp.gov/travel" target="_blank" rel="noopener noreferrer">CBP/EUA</a> · <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Travel.State.Gov</a></div>
+        `
+      },
+
+      important: {
+        title: '6. Informações importantes',
+        body: `
+          <p class="modal-intro">Alguns detalhes da viagem costumam passar despercebidos durante o planejamento — e justamente por isso podem gerar desgaste no embarque, nas conexões ou na chegada ao destino.</p>
+
+          <div class="modal-section">
+            <h4>Conexões internacionais também fazem parte da viagem</h4>
+            <p>Em algumas rotas, a conexão internacional pode possuir regras próprias de entrada ou trânsito.</p>
+            <p>Dependendo do país da escala, a viagem pode envolver visto de trânsito, autorização específica, nova inspeção de bagagem, imigração intermediária, exigências sanitárias ou comprovantes de vacinação.</p>
+            <p>Em determinadas situações, conexões podem exigir comprovação de vacina contra febre amarela conforme origem, escala ou rota utilizada.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Escalas que exigem mais atenção</h4>
+            <p>Dependendo do aeroporto ou da companhia aérea, a bagagem pode precisar ser retirada e despachada novamente, uma nova inspeção de segurança pode acontecer, imigração intermediária pode fazer parte da conexão e mudanças de terminal podem exigir tempo adicional.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Informações coerentes tornam a chegada mais tranquila</h4>
+            <p>Durante a imigração, perguntas sobre hospedagem, duração da viagem, retorno ao país de origem, planejamento e recursos financeiros podem surgir. Quando a viagem está organizada, esse momento tende a acontecer de forma mais fluida.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Revisões antes do embarque</h4>
+            <p>Revisar documentos, conferir conexões, confirmar exigências sanitárias, revisar regras de bagagem, validar reservas e organizar comprovantes importantes evita decisões cansativas ao longo do caminho.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Regras podem mudar</h4>
+            <p>Exigências migratórias, sanitárias e operacionais podem mudar conforme país, período, contexto internacional, companhia aérea e rota utilizada. Revisar fontes oficiais próximas à data da viagem ajuda a manter a preparação atualizada.</p>
+          </div>
+
+          <div class="modal-signature">A viagem começa antes do embarque. Quando os detalhes são resolvidos antes, a experiência tende a acontecer com mais clareza e menos desgaste.</div>
+
+          <div class="modal-source">Fontes oficiais: <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Travel.State.Gov</a> · <a href="https://www.cbp.gov/travel" target="_blank" rel="noopener noreferrer">CBP/EUA</a> · <a href="https://www.tsa.gov/travel" target="_blank" rel="noopener noreferrer">TSA/EUA</a> · <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a> · <a href="https://wwwnc.cdc.gov/travel" target="_blank" rel="noopener noreferrer">CDC</a></div>
+        `
+      },
+
+      customs: {
+        title: '7. Alfândega, bagagem e itens restritos',
+        body: `
+          <p class="modal-intro">Parte da experiência internacional também envolve entender como funcionam regras de entrada, bagagem, compras e fiscalização durante a viagem.</p>
+
+          <div class="modal-soft-grid">
+            <div class="modal-soft-card"><strong>Entrada nos Estados Unidos</strong><p>Itens como alimentos, medicamentos, eletrônicos, valores em espécie e produtos em quantidade elevada podem passar por inspeção ou questionamentos adicionais.</p></div>
+            <div class="modal-soft-card"><strong>Alimentos e produtos agrícolas</strong><p>Carnes, sementes, frutas, vegetais, alimentos frescos e produtos artesanais podem exigir declaração ou sofrer restrições sanitárias.</p></div>
+            <div class="modal-soft-card"><strong>Medicamentos</strong><p>Medicamentos organizados, em embalagem original e com receita acessível reduzem desgaste durante inspeções e conexões.</p></div>
+            <div class="modal-soft-card"><strong>Bagagem de mão e eletrônicos</strong><p>Líquidos, baterias, power banks, cigarros eletrônicos, equipamentos eletrônicos e objetos cortantes seguem regras específicas de transporte aéreo.</p></div>
+            <div class="modal-soft-card"><strong>Power banks e baterias</strong><p>Baterias de lítio e power banks possuem regras próprias de transporte e costumam exigir atenção antes do embarque.</p></div>
+            <div class="modal-soft-card"><strong>Compras no exterior</strong><p>Na volta ao Brasil, compras podem exigir declaração ou tributação conforme valor, quantidade, frequência de viagens e tipo de produto.</p></div>
+            <div class="modal-soft-card"><strong>Receita Federal</strong><p>Eletrônicos, perfumes, bebidas, relógios, bolsas, equipamentos profissionais e produtos em quantidade elevada costumam gerar dúvidas no desembarque.</p></div>
+            <div class="modal-soft-card"><strong>Dinheiro em espécie</strong><p>Valores elevados podem exigir declaração formal na entrada ou saída do país, conforme regras aplicáveis.</p></div>
+          </div>
+
+          <div class="modal-section">
+            <h4>Retorno ao Brasil</h4>
+            <p>Produtos acima da cota de isenção podem gerar cobrança tributária, retenção ou multa em determinadas situações. A fiscalização pode considerar valor estimado, quantidade, finalidade aparente e natureza dos produtos transportados.</p>
+          </div>
+
+          <div class="modal-signature">Grande parte dos imprevistos de alfândega e bagagem pode ser evitada quando os itens transportados são revisados antes da viagem.</div>
+
+          <div class="modal-source">Fontes oficiais: <a href="https://www.cbp.gov/travel" target="_blank" rel="noopener noreferrer">CBP/EUA</a> · <a href="https://www.tsa.gov/travel" target="_blank" rel="noopener noreferrer">TSA/EUA</a> · <a href="https://www.gov.br/receitafederal/pt-br/assuntos/aduana-e-comercio-exterior/viajantes" target="_blank" rel="noopener noreferrer">Receita Federal do Brasil</a> · <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a> · <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Travel.State.Gov</a></div>
+        `
+      }
     };
-
-
-    function prepareInteractiveDetails(match, country, cityName, supportCards) {
-      const supportHtml = createLocationCards(supportCards);
-      const customsHtml = `
-        <p>Este sessão reúne o que costuma gerar dúvida, retenção, multa ou perda de tempo em viagens aos Estados Unidos e no retorno ao Brasil.</p>
-        <div class="customs-subcards">
-          <div class="customs-subcard">
-            <strong>Entrada nos Estados Unidos</strong>
-            <p>Alimentos, sementes, carnes, produtos agrícolas, medicamentos e dinheiro em espécie podem exigir declaração ou restrição. Itens não declarados podem ser retidos pela fiscalização.</p>
-          </div>
-          <div class="customs-subcard">
-            <strong>Medicamentos</strong>
-            <p>Leve medicamentos na embalagem original, em quantidade compatível com a viagem e, quando possível, com receita ou relatório médico em inglês. Medicamentos controlados merecem atenção extra.</p>
-          </div>
-          <div class="customs-subcard">
-            <strong>Bagagem e transporte</strong>
-            <p>Power banks e baterias de lítio normalmente devem ir na bagagem de mão. Líquidos na cabine seguem regras de segurança aérea. Itens cortantes ou inflamáveis podem ser barrados.</p>
-          </div>
-          <div class="customs-subcard">
-            <strong>Itens proibidos ou sensíveis</strong>
-            <p>Armas, substâncias controladas, produtos agrícolas, carnes, sementes, alguns alimentos e itens com aparência comercial podem gerar inspeção, retenção ou questionamento.</p>
-          </div>
-          <div class="customs-subcard">
-            <strong>Compras e retorno ao Brasil</strong>
-            <p>Na volta ao Brasil, compras acima da cota de isenção podem exigir declaração e tributação. Produtos em grande quantidade podem ser interpretados como finalidade comercial.</p>
-          </div>
-          <div class="customs-subcard">
-            <strong>Receita Federal</strong>
-            <p>Eletrônicos, bebidas, perfumes, roupas, acessórios e itens de alto valor podem passar por fiscalização. A ausência de declaração quando obrigatória pode gerar cobrança e multa.</p>
-          </div>
-        </div>
-        <p><strong>Valor estimado:</strong> no retorno ao Brasil, excedentes à cota podem gerar tributação e multa conforme a Receita Federal. Use esta informação como referência prática para evitar erro caro.</p>
-        <div class="modal-source">Fontes oficiais:
-<a href="https://www.cbp.gov/travel" target="_blank" rel="noopener noreferrer">CBP/EUA</a> ·
-<a href="https://www.tsa.gov/travel" target="_blank" rel="noopener noreferrer">TSA/EUA</a> ·
-<a href="https://www.gov.br/receitafederal/pt-br/assuntos/aduana-e-comercio-exterior/viajantes" target="_blank" rel="noopener noreferrer">Receita Federal do Brasil</a> ·
-<a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a></div>
-      `;
-
-      CURRENT_INTERACTIVE_DETAILS = {
-        visa: {
-          title: '1. Visto ou entrada no país',
-          body: country.blocks.block1 + `<div class="modal-source">Fontes oficiais: <a href="https://www.gov.br/mre/pt-br/assuntos/portal-consular" target="_blank" rel="noopener noreferrer">GOV.BR Portal Consular</a> · <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer"><a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Governo dos EUA</a> — <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Travel.State.Gov</a></a></div>`
-        },
-        documents: {
-          title: '2. Documentos necessários',
-          body: country.blocks.block2 + `<div class="modal-source">Fonte oficial: <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer"><a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Governo dos EUA</a> — <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Travel.State.Gov</a></a></div>`
-        },
-        brazil: {
-          title: '3. Onde resolver no Brasil',
-          body: country.blocks.block3 + `<div class="modal-source">Fonte oficial: <a href="https://br.usembassy.gov/pt/" target="_blank" rel="noopener noreferrer">Embaixada e Consulados dos EUA no Brasil</a></div>`
-        },
-        support: {
-          title: '4. Apoio no destino',
-          body: supportHtml + `<div class="modal-source">Fonte oficial: <a href="https://www.gov.br/mre/pt-br/assuntos/portal-consular" target="_blank" rel="noopener noreferrer">GOV.BR Portal Consular</a></div>`
-        },
-        health: {
-          title: '5. Informações de saúde',
-          body: country.blocks.block5 + `<div class="modal-source">Fontes oficiais: <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a> · <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Governo dos EUA</a></div>`
-        },
-        important: {
-          title: '6. Informações importantes',
-          body: country.blocks.block6 + `<div class="modal-source">Fonte oficial: <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer"><a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Governo dos EUA</a> — <a href="https://travel.state.gov/" target="_blank" rel="noopener noreferrer">Travel.State.Gov</a></a></div>`
-        },
-        customs: {
-          title: '7. Alfândega, bagagem e itens restritos',
-          body: customsHtml
-        }
-      };
-    }
 
     function openDetailModal(detailKey) {
       const detail = CURRENT_INTERACTIVE_DETAILS[detailKey] || US_INTERACTIVE_DETAILS[detailKey];
