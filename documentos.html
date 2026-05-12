@@ -2010,6 +2010,310 @@
       `
     });
 
+
+    function buildHubInteractiveDetails(config) {
+      return {
+        visa: {
+          title: '1. Visto e entrada no país',
+          body: `
+            <p class="modal-intro">${config.intro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Quem precisa</span><strong>${config.whoNeeds}</strong><p>${config.whoNeedsText}</p></div>
+              <div class="quick-info-card"><span>Tipo de entrada</span><strong>${config.entryType}</strong><p>${config.entryText}</p></div>
+              <div class="quick-info-card"><span>Valor</span><strong>${config.cost}</strong><p>${config.costText}</p></div>
+              <div class="quick-info-card"><span>Permanência</span><strong>${config.stay}</strong><p>${config.stayText}</p></div>
+              <div class="quick-info-card"><span>Fonte oficial</span><strong>${config.visaPortalLabel}</strong><p>Canal oficial para confirmar regras de visto, entrada ou autorização.</p><a class="official-action-link" href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">Abrir fonte oficial</a></div>
+              <div class="quick-info-card"><span>Trânsito</span><strong>${config.transitTitle}</strong><p>${config.transitText}</p></div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Entrada e controle migratório</h4>
+              <p>${config.entryControl}</p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Conexões e escalas</h4>
+              <p>${config.connections}</p>
+            </div>
+
+            <div class="modal-signature">${config.signatureVisa}</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a> · <a href="${config.embassyUrl}" target="_blank" rel="noopener noreferrer">${config.embassyLabel}</a> · <a href="https://www.gov.br/mre/pt-br/assuntos/portal-consular" target="_blank" rel="noopener noreferrer">GOV.BR — Portal Consular</a></div>
+          `
+        },
+
+        documents: {
+          title: '2. Documentos necessários',
+          body: `
+            <p class="modal-intro">Em viagens por hubs internacionais, documentação organizada evita ruído no check-in, na conexão e na chegada ao destino.</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Documento principal</span><strong>Passaporte válido</strong><p>${config.passportText}</p></div>
+              <div class="quick-info-card"><span>Entrada</span><strong>${config.entryDocument}</strong><p>${config.entryDocumentText}</p></div>
+              <div class="quick-info-card"><span>Hospedagem</span><strong>Endereço ou reserva</strong><p>Hotel, stopover, apartamento ou endereço de referência devem estar acessíveis.</p></div>
+              <div class="quick-info-card"><span>Saída</span><strong>Passagem de retorno ou continuação</strong><p>Em hubs, é comum a viagem seguir para outro país. Tenha o próximo trecho claro.</p></div>
+              <div class="quick-info-card"><span>Recursos</span><strong>Meios de pagamento</strong><p>Cartões, dinheiro e comprovantes podem apoiar a clareza da viagem.</p></div>
+              <div class="quick-info-card"><span>Seguro</span><strong>Recomendado</strong><p>Ajuda a reduzir desgaste com saúde, atrasos e imprevistos.</p></div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Documentos digitais</h4>
+              <p>Salve passaporte, passagens, hospedagem, seguro e contatos importantes no celular e em nuvem. Em conexões longas, isso facilita decisões rápidas.</p>
+            </div>
+
+            <div class="modal-signature">Em hubs internacionais, organização não é excesso: é o que torna a viagem mais fluida.</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a> · <a href="https://www.gov.br/mre/pt-br/assuntos/portal-consular" target="_blank" rel="noopener noreferrer">GOV.BR — Portal Consular</a></div>
+          `
+        },
+
+        brazil: {
+          title: '3. Onde resolver no Brasil',
+          body: `
+            <p class="modal-intro">${config.whereBrazilIntro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Embaixada</span><strong>Relação diplomática e orientação institucional</strong><p>A Embaixada representa oficialmente ${config.name} no Brasil e concentra informações institucionais.</p></div>
+              <div class="quick-info-card"><span>Consulado</span><strong>Atendimento e orientação prática</strong><p>Quando houver serviço consular, ele costuma orientar visto, documentação e dúvidas por região.</p></div>
+              <div class="quick-info-card"><span>Entrada</span><strong>${config.visaPortalLabel}</strong><p>Canal oficial para confirmar exigências de entrada.</p><a class="official-action-link" href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">Abrir fonte oficial</a></div>
+              <div class="quick-info-card"><span>Longa permanência</span><strong>Regras próprias</strong><p>Estudo, trabalho ou residência exigem consulta específica aos canais oficiais.</p></div>
+            </div>
+
+            ${config.brazilContacts}
+
+            <div class="modal-signature">Saber qual canal oficial consultar evita intermediários desnecessários e reduz desgaste antes do embarque.</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.embassyUrl}" target="_blank" rel="noopener noreferrer">${config.embassyLabel}</a> · <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a></div>
+          `
+        },
+
+        support: {
+          title: '4. Apoio no destino',
+          body: `
+            <p class="modal-intro">Em viagens com escala, stopover ou destino final em ${config.name}, saber o apoio brasileiro correto ajuda em situações inesperadas.</p>
+            <div id="dynamicSupportModalContent"></div>
+            <div class="modal-section"><h4>Quando procurar apoio consular</h4><p>Perda ou roubo de documentos, emergências, contato familiar, emissão de documentos provisórios e orientação consular são situações em que o posto brasileiro pode ajudar.</p></div>
+            <div class="modal-signature">Ter o contato certo salvo antes da viagem reduz desgaste quando a clareza mais importa.</div>
+            <div class="modal-source">Fontes oficiais: <a href="${config.brazilEmbassyUrl}" target="_blank" rel="noopener noreferrer">${config.brazilEmbassyLabel}</a> · <a href="https://econsular.itamaraty.gov.br/" target="_blank" rel="noopener noreferrer">e-Consular</a></div>
+          `
+        },
+
+        health: {
+          title: '5. Informações de saúde',
+          body: `
+            <p class="modal-intro">${config.healthIntro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Vacina obrigatória</span><strong>${config.vaccineTitle}</strong><p>${config.vaccineText}</p></div>
+              <div class="quick-info-card"><span>Medicamentos</span><strong>Receita e embalagem original</strong><p>${config.medicineText}</p></div>
+              <div class="quick-info-card"><span>Seguro</span><strong>Recomendado</strong><p>Ajuda a reduzir desgaste com atendimento médico, atrasos e imprevistos.</p></div>
+              <div class="quick-info-card"><span>Conexões</span><strong>Rota completa importa</strong><p>Escalas podem ter regras próprias, inclusive exigências sanitárias dependendo do país da conexão.</p></div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Atenção especial</h4>
+              <p>${config.healthAttention}</p>
+            </div>
+
+            <div class="modal-signature">Em hubs internacionais, saúde e medicamentos precisam ser pensados para a rota completa, não só para o destino final.</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a> · <a href="${config.healthUrl}" target="_blank" rel="noopener noreferrer">${config.healthLabel}</a></div>
+          `
+        },
+
+        important: {
+          title: '6. Informações importantes',
+          body: `
+            <p class="modal-intro">${config.importantIntro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Trânsito</span><strong>${config.transitTitle}</strong><p>${config.transitText}</p></div>
+              <div class="quick-info-card"><span>Stopover</span><strong>${config.stopoverTitle}</strong><p>${config.stopoverText}</p></div>
+              <div class="quick-info-card"><span>Conexão</span><strong>Tempo e documentação</strong><p>Conexões longas podem exigir saída do aeroporto, hospedagem ou nova inspeção.</p></div>
+              <div class="quick-info-card"><span>Regras locais</span><strong>${config.localRulesTitle}</strong><p>${config.localRulesText}</p></div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Escalas e exigências obrigatórias</h4>
+              <p>Escalas podem ter regras próprias, incluindo visto de trânsito, autorizações adicionais ou exigências sanitárias obrigatórias, dependendo do país da conexão.</p>
+            </div>
+
+            <div class="modal-signature">${config.signatureImportant}</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a> · <a href="${config.embassyUrl}" target="_blank" rel="noopener noreferrer">${config.embassyLabel}</a></div>
+          `
+        },
+
+        customs: {
+          title: '7. Alfândega, bagagem e itens restritos',
+          body: `
+            <p class="modal-intro">${config.customsIntro}</p>
+
+            <div class="modal-soft-grid">
+              <div class="modal-soft-card"><strong>Medicamentos</strong><p>${config.customsMedicine}</p></div>
+              <div class="modal-soft-card"><strong>Valores em espécie</strong><p>Valores elevados podem exigir declaração conforme regras locais de entrada e saída.</p></div>
+              <div class="modal-soft-card"><strong>Itens sensíveis</strong><p>${config.restrictedItems}</p></div>
+              <div class="modal-soft-card"><strong>Compras</strong><p>Compras de valor devem ser consideradas também no retorno ao Brasil.</p></div>
+              <div class="modal-soft-card"><strong>Bagagem e conexão</strong><p>Power banks, baterias, líquidos e itens eletrônicos podem seguir regras aeroportuárias específicas.</p></div>
+              <div class="modal-soft-card"><strong>Retorno ao Brasil</strong><p>Compras acima da cota podem exigir declaração e tributação pela Receita Federal.</p></div>
+            </div>
+
+            <div class="modal-signature">Alfândega e bagagem ficam mais simples quando o viajante entende antes o que pode gerar retenção, declaração ou questionamento.</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.customsUrl}" target="_blank" rel="noopener noreferrer">${config.customsLabel}</a> · <a href="https://www.gov.br/receitafederal/pt-br/assuntos/aduana-e-comercio-exterior/viajantes" target="_blank" rel="noopener noreferrer">Receita Federal do Brasil</a> · <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a></div>
+          `
+        }
+      };
+    }
+
+    const TURKEY_INTERACTIVE_DETAILS = buildHubInteractiveDetails({
+      name: 'Turquia',
+      intro: 'A Turquia é um destino e também um grande ponto de conexão entre Europa, Ásia e Oriente Médio. Para brasileiros em turismo curto, a entrada costuma ser simples, mas a rota precisa estar clara.',
+      whoNeeds: 'Brasileiros em turismo curto',
+      whoNeedsText: 'Portadores de passaporte brasileiro comum normalmente são isentos de visto para turismo e trânsito por até 90 dias em 180 dias.',
+      entryType: 'Isenção de visto',
+      entryText: 'Entrada sem visto para turismo e trânsito, dentro do limite informado pelas autoridades turcas.',
+      cost: 'Sem taxa de visto',
+      costText: 'Para turismo comum dentro da isenção, não há taxa de visto.',
+      stay: 'Até 90 dias em 180 dias',
+      stayText: 'O limite deve ser observado conforme a regra turca de permanência.',
+      transitTitle: 'Istanbul como hub',
+      transitText: 'Conexões em Istambul podem exigir atenção ao tempo de escala e ao eventual ingresso no país.',
+      visaPortalLabel: 'Ministério das Relações Exteriores da Turquia',
+      visaPortalUrl: 'https://www.mfa.gov.tr/visa-information-for-foreigners.en.mfa',
+      embassyLabel: 'Embaixada da Turquia no Brasil',
+      embassyUrl: 'https://brasilia-emb.mfa.gov.tr/',
+      entryControl: 'A imigração pode solicitar passaporte, motivo da viagem, hospedagem, passagem de saída e recursos compatíveis com a permanência.',
+      connections: 'Em conexões longas, verifique se haverá saída da área internacional, retirada de bagagem ou necessidade de pernoite.',
+      signatureVisa: 'Na Turquia, o essencial é entender se a viagem é destino final, conexão ou stopover.',
+      entryDocument: 'Isenção de visto',
+      entryDocumentText: 'Para turismo curto, brasileiros normalmente entram sem visto dentro do limite permitido.',
+      passportText: 'Recomenda-se viajar com passaporte em bom estado e validade compatível com todo o período da viagem.',
+      whereBrazilIntro: 'Para a Turquia, brasileiros em turismo curto normalmente não precisam de visto. Para outros perfis, consulte os canais oficiais turcos.',
+      brazilEmbassyLabel: 'Consulado do Brasil em Istambul',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br',
+      healthIntro: 'Na Turquia, saúde e medicamentos exigem organização, especialmente em viagens com conexão, stopover ou roteiros combinados.',
+      vaccineTitle: 'Sem exigência geral para turismo comum',
+      vaccineText: 'Não há exigência geral de vacina obrigatória para entrada turística comum nesta base.',
+      medicineText: 'Mantenha medicamentos na embalagem original e leve receita quando possível.',
+      healthAttention: 'Medicamentos controlados e produtos específicos podem gerar dúvidas em inspeções. Leve apenas quantidades compatíveis com a viagem.',
+      healthLabel: 'Ministry of Health Türkiye',
+      healthUrl: 'https://www.saglik.gov.tr/',
+      importantIntro: 'A Turquia funciona muitas vezes como ponte entre continentes. A conexão pode ser tão importante quanto o destino final.',
+      stopoverTitle: 'Stopover em Istambul',
+      stopoverText: 'Se sair do aeroporto durante a conexão, considere regras de entrada, hospedagem e tempo real de deslocamento.',
+      localRulesTitle: 'Cultura e documentação',
+      localRulesText: 'Regras locais, documentos e itens transportados devem estar coerentes com a viagem.',
+      signatureImportant: 'Quando a escala vira parte da viagem, ela também precisa ser planejada.',
+      customsIntro: 'Na Turquia, atenção especial a medicamentos, itens culturais/sensíveis, valores em espécie e compras ajuda a evitar desgaste.',
+      customsMedicine: 'Medicamentos devem estar organizados, em quantidade compatível e com receita quando possível.',
+      restrictedItems: 'Itens culturais, antiguidades, produtos sensíveis e substâncias controladas podem exigir atenção adicional.',
+      customsLabel: 'Ministério do Comércio da Turquia',
+      customsUrl: 'https://www.trade.gov.tr/',
+      brazilContacts: `
+        <div class="contact-card"><h5>Embaixada da Turquia — Brasília</h5><p><strong>Site:</strong> <a href="https://brasilia-emb.mfa.gov.tr/" target="_blank" rel="noopener noreferrer">brasilia-emb.mfa.gov.tr</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+da+Turquia+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>
+      `
+    });
+
+    const UAE_INTERACTIVE_DETAILS = buildHubInteractiveDetails({
+      name: 'Emirados Árabes Unidos',
+      intro: 'Os Emirados são um dos principais hubs globais, especialmente por Dubai e Abu Dhabi. Para brasileiros em turismo, a entrada costuma ser prática, mas medicamentos, conexões e regras locais merecem atenção.',
+      whoNeeds: 'Brasileiros em turismo curto',
+      whoNeedsText: 'Brasileiros com passaporte comum normalmente não precisam de visto prévio para turismo nos Emirados.',
+      entryType: 'Isenção de visto',
+      entryText: 'Acordo de isenção permite entrada turística sem visto prévio dentro do limite aplicável.',
+      cost: 'Sem taxa de visto prévio',
+      costText: 'Para a entrada turística comum dentro da isenção, não há taxa de visto prévio.',
+      stay: 'Até 90 dias a cada 12 meses',
+      stayText: 'Regra informada pela Embaixada dos Emirados no Brasil.',
+      transitTitle: 'Dubai e Abu Dhabi como hubs',
+      transitText: 'Conexões longas podem envolver saída do aeroporto, hotel, nova inspeção ou entrada no país.',
+      visaPortalLabel: 'UAE Embassy Brazil',
+      visaPortalUrl: 'https://www.mofa.gov.ae/en/missions/brasilia/services/visas',
+      embassyLabel: 'Embaixada dos Emirados no Brasil',
+      embassyUrl: 'https://www.mofa.gov.ae/en/missions/brasilia',
+      entryControl: 'A entrada pode exigir passaporte válido, hospedagem, passagem de saída e coerência entre motivo da viagem e tempo de permanência.',
+      connections: 'Dubai e Abu Dhabi recebem muitas conexões internacionais. Verifique se sua escala exige retirada de bagagem, hospedagem ou saída da área internacional.',
+      signatureVisa: 'Nos Emirados, a viagem costuma ser fluida quando visto, conexão e regras locais são entendidos antes do embarque.',
+      entryDocument: 'Isenção de visto',
+      entryDocumentText: 'Para turismo comum, brasileiros normalmente entram sem visto prévio.',
+      passportText: 'Recomenda-se passaporte em bom estado e validade compatível com a viagem.',
+      whereBrazilIntro: 'Para os Emirados, brasileiros em turismo curto normalmente não precisam de visto prévio. Para outros perfis, consulte os canais oficiais emiradenses.',
+      brazilEmbassyLabel: 'Consulado-Geral do Brasil em Dubai',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/consulado-dubai',
+      healthIntro: 'Nos Emirados, medicamentos e substâncias controladas merecem atenção especial. O que é comum em um país pode ter restrição em outro.',
+      vaccineTitle: 'Sem exigência geral para turismo comum',
+      vaccineText: 'Não há exigência geral de vacina obrigatória para entrada turística comum nesta base.',
+      medicineText: 'Medicamentos devem estar em embalagem original, com receita e quantidade compatível. Alguns remédios podem exigir atenção especial.',
+      healthAttention: 'Medicamentos controlados, substâncias específicas e produtos com composição sensível devem ser verificados antes da viagem.',
+      healthLabel: 'UAE Government Portal',
+      healthUrl: 'https://u.ae/en/information-and-services/health-and-fitness',
+      importantIntro: 'Dubai e Abu Dhabi são hubs eficientes, mas regras locais, medicamentos, conexão e comportamento em público devem ser entendidos com cuidado.',
+      stopoverTitle: 'Stopover nos Emirados',
+      stopoverText: 'Se sair do aeroporto, considere regras de entrada, hospedagem, roupas, medicamentos e tempo real de deslocamento.',
+      localRulesTitle: 'Regras culturais',
+      localRulesText: 'Conduta pública, álcool, medicamentos e itens sensíveis podem ter regras diferentes das do Brasil.',
+      signatureImportant: 'Nos Emirados, preparo discreto evita situações desconfortáveis em uma viagem que deveria ser fluida.',
+      customsIntro: 'Nos Emirados, alfândega e itens restritos merecem atenção especial, principalmente medicamentos, substâncias controladas e compras de valor.',
+      customsMedicine: 'Alguns medicamentos podem ter restrições. Leve receita, embalagem original e verifique regras oficiais antes do embarque.',
+      restrictedItems: 'Substâncias controladas, produtos ofensivos, itens religiosos/culturais sensíveis e determinados medicamentos podem gerar retenção.',
+      customsLabel: 'UAE Government Portal',
+      customsUrl: 'https://u.ae/en/information-and-services/visa-and-emirates-id',
+      brazilContacts: `
+        <div class="contact-card"><h5>Embaixada dos Emirados Árabes Unidos — Brasília</h5><p><strong>Site:</strong> <a href="https://www.mofa.gov.ae/en/missions/brasilia" target="_blank" rel="noopener noreferrer">mofa.gov.ae/en/missions/brasilia</a></p><p><strong>Telefone 24h:</strong> <a href="tel:+97180044444">+971 800 44444</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+dos+Emirados+Arabes+Unidos+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>
+      `
+    });
+
+    const QATAR_INTERACTIVE_DETAILS = buildHubInteractiveDetails({
+      name: 'Qatar',
+      intro: 'O Qatar é um hub importante por Doha e Hamad International Airport. Para brasileiros, a entrada pode ser facilitada, mas é essencial verificar as condições oficiais antes do embarque.',
+      whoNeeds: 'Brasileiros em turismo ou conexão',
+      whoNeedsText: 'O Qatar informa entrada facilitada para diversas nacionalidades e orienta verificar elegibilidade no portal Visit Qatar.',
+      entryType: 'Visa-free entry ou Hayya',
+      entryText: 'Dependendo do perfil, o viajante pode entrar sem visto ou usar a plataforma Hayya para autorização.',
+      cost: 'Pode variar',
+      costText: 'Quando houver visto Hayya, o custo indicado pelo portal oficial pode ser QAR 100 em alguns casos.',
+      stay: 'Conforme elegibilidade',
+      stayText: 'A permanência depende do resultado da verificação oficial de elegibilidade.',
+      transitTitle: 'Doha como hub',
+      transitText: 'Conexões longas em Doha podem envolver stopover, saída do aeroporto ou visto/autorizações conforme perfil.',
+      visaPortalLabel: 'Visit Qatar — Visa Check',
+      visaPortalUrl: 'https://visitqatar.com/intl-en/plan-your-trip/visas',
+      embassyLabel: 'Embaixada do Qatar no Brasil',
+      embassyUrl: 'https://brasilia.embassy.qa/en',
+      entryControl: 'O Qatar pode exigir passaporte válido, hotel confirmado, passagem de saída e comprovação de elegibilidade conforme o perfil do viajante.',
+      connections: 'Hamad International Airport é um hub global. Se houver stopover ou saída do aeroporto, confira elegibilidade, hospedagem e autorização de entrada.',
+      signatureVisa: 'No Qatar, a melhor preparação é confirmar a elegibilidade oficial antes de tratar a escala como simples conexão.',
+      entryDocument: 'Verificação oficial',
+      entryDocumentText: 'Use o Visa Check do Visit Qatar para confirmar se a entrada será visa-free, Hayya ou outra modalidade.',
+      passportText: 'O portal Visit Qatar informa exigência de passaporte válido por pelo menos três meses a partir da chegada em alguns casos.',
+      whereBrazilIntro: 'Para o Qatar, consulte o Visa Check oficial e a Embaixada do Qatar no Brasil para confirmar requisitos do perfil da viagem.',
+      brazilEmbassyLabel: 'Embaixada do Brasil em Doha',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/embaixada-doha',
+      healthIntro: 'No Qatar, seguro saúde e organização de medicamentos são pontos relevantes, especialmente em stopovers e conexões longas.',
+      vaccineTitle: 'Sem exigência geral nesta base',
+      vaccineText: 'Não há exigência geral de vacina obrigatória para entrada turística comum nesta base, mas a rota deve ser verificada.',
+      medicineText: 'Leve medicamentos em embalagem original, com receita quando possível e quantidade compatível com a viagem.',
+      healthAttention: 'O portal Visit Qatar recomenda seguro de saúde para viajantes. Conexões e perfil de viagem podem alterar exigências.',
+      healthLabel: 'Visit Qatar',
+      healthUrl: 'https://visitqatar.com/intl-en/plan-your-trip/visas',
+      importantIntro: 'No Qatar, o detalhe mais importante é diferenciar conexão aérea simples, stopover e entrada efetiva no país.',
+      stopoverTitle: 'Stopover em Doha',
+      stopoverText: 'Se sair do aeroporto, confira exigências de entrada, hospedagem e elegibilidade no portal oficial.',
+      localRulesTitle: 'Regras locais',
+      localRulesText: 'Conduta pública, álcool, medicamentos e itens sensíveis podem seguir regras específicas.',
+      signatureImportant: 'Em Doha, uma escala bem planejada pode virar parte elegante da viagem; uma escala mal verificada pode gerar desgaste.',
+      customsIntro: 'No Qatar, medicamentos, itens sensíveis, valores em espécie e regras culturais devem ser observados com atenção.',
+      customsMedicine: 'Medicamentos devem estar acompanhados de receita quando possível e em quantidade compatível com a viagem.',
+      restrictedItems: 'Álcool, substâncias controladas, produtos ofensivos e itens culturais sensíveis podem ter restrições.',
+      customsLabel: 'Visit Qatar',
+      customsUrl: 'https://visitqatar.com/intl-en/plan-your-trip/visas',
+      brazilContacts: `
+        <div class="contact-card"><h5>Embaixada do Qatar — Brasília</h5><p><strong>Site:</strong> <a href="https://brasilia.embassy.qa/en" target="_blank" rel="noopener noreferrer">brasilia.embassy.qa</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+do+Qatar+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>
+      `
+    });
+
     function openDetailModal(detailKey) {
       const detail = CURRENT_INTERACTIVE_DETAILS[detailKey] || US_INTERACTIVE_DETAILS[detailKey];
       const modal = document.getElementById('detailModal');
@@ -2605,6 +2909,29 @@
         }
       },
 
+      'qatar': {
+        name: 'Qatar',
+        aliases: ['qatar', 'catar', 'doha'],
+        lastUpdated: LAST_DATA_UPDATE,
+        sources: [
+          { label: 'GOV.BR — Portal Consular', url: 'https://www.gov.br/mre/pt-br/assuntos/portal-consular' },
+          { label: 'ANVISA', url: 'https://www.gov.br/anvisa/pt-br' },
+          { label: 'Visit Qatar', url: 'https://visitqatar.com/intl-en/plan-your-trip/visas' },
+        ],
+        summary: { entry: 'Entrada deve ser confirmada pelo Visa Check oficial do Visit Qatar.', health: 'Seguro saúde e medicamentos merecem atenção em conexões e stopovers.', support: 'Doha é o apoio principal desta base.' },
+        cities: {
+          'doha': [{ name: 'Embaixada do Brasil em Doha', highlight: 'Principal apoio brasileiro no Qatar.', address: 'Doha, Qatar', phone: 'Consultar portal oficial', email: '<a href="mailto:brasemb.doha@itamaraty.gov.br" class="official-source-link">brasemb.doha@itamaraty.gov.br</a>', site: 'https://www.gov.br/mre/pt-br/embaixada-doha', distance: '~ 5 a 15 km', car: '15 a 30 min' }]
+        },
+        defaultCity: 'doha',
+        blocks: {
+          block1: createParagraphs(['<strong>Entrada:</strong> verificar elegibilidade no Visa Check oficial do Visit Qatar.', '<strong>Trânsito:</strong> Doha é hub internacional e conexões podem exigir atenção conforme saída do aeroporto.', '<strong>Valor:</strong> pode variar conforme modalidade de entrada ou Hayya.']),
+          block2: `<h4>Documentos</h4>${createBulletList(['Passaporte válido.', 'Passagem de saída ou continuação.', 'Hospedagem quando aplicável.', 'Seguro saúde recomendado.'])}`,
+          block3: createLocationCards([{ name: 'Embaixada do Qatar – Brasília', site: 'https://brasilia.embassy.qa/en' }]),
+          block5: createParagraphs(['Seguro saúde e organização de medicamentos são recomendados para viagens ao Qatar.']),
+          block6: createParagraphs(['Diferencie conexão aérea, stopover e entrada efetiva no país antes do embarque.'])
+        }
+      },
+
       'turquia': {
         name: 'Turquia', aliases: ['turquia', 'turkey'],
         lastUpdated: LAST_DATA_UPDATE,
@@ -2995,7 +3322,10 @@
         'portugal': PORTUGAL_INTERACTIVE_DETAILS,
         'reino-unido': UK_INTERACTIVE_DETAILS,
         'alemanha': GERMANY_INTERACTIVE_DETAILS,
-        'paises-baixos': NETHERLANDS_INTERACTIVE_DETAILS
+        'paises-baixos': NETHERLANDS_INTERACTIVE_DETAILS,
+        'turquia': TURKEY_INTERACTIVE_DETAILS,
+        'emirados-arabes-unidos': UAE_INTERACTIVE_DETAILS,
+        'qatar': QATAR_INTERACTIVE_DETAILS
       };
       const activeInteractiveDetails = interactiveDetailsByCountry[match.countryKey] || null;
       const isInteractiveCountry = Boolean(activeInteractiveDetails);
