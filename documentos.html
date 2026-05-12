@@ -1536,6 +1536,296 @@
       }
     };
 
+
+    function buildSchengenInteractiveDetails(config) {
+      return {
+        visa: {
+          title: '1. Visto e entrada no país',
+          body: `
+            <p class="modal-intro">${config.intro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Quem precisa</span><strong>Brasileiros em turismo curto</strong><p>Brasileiros normalmente não precisam de visto para turismo de curta duração em ${config.name}.</p></div>
+              <div class="quick-info-card"><span>Permanência</span><strong>Até 90 dias em 180 dias</strong><p>Regra aplicada ao Espaço Schengen como um todo, não apenas a ${config.name}.</p></div>
+              <div class="quick-info-card"><span>Taxa de visto</span><strong>Sem taxa para turismo comum</strong><p>Para estadias curtas isentas de visto, não há taxa consular de visto.</p></div>
+              <div class="quick-info-card"><span>ETIAS</span><strong>Autorização futura</strong><p>O ETIAS será exigido para viajantes isentos de visto quando entrar em operação.</p><a class="official-action-link" href="https://travel-europe.europa.eu/en/etias" target="_blank" rel="noopener noreferrer">Ver ETIAS oficial</a></div>
+              <div class="quick-info-card"><span>Entrada</span><strong>Imigração Schengen</strong><p>A entrada pode acontecer em ${config.name} ou em outro país europeu da conexão.</p></div>
+              <div class="quick-info-card"><span>Fonte oficial</span><strong>${config.visaPortalLabel}</strong><p>Portal oficial para verificar necessidade de visto e regras de entrada.</p><a class="official-action-link" href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">Abrir fonte oficial</a></div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Entrada e permanência Schengen</h4>
+              <p>O limite de 90 dias em um período de 180 dias vale para o conjunto dos países Schengen. Se a viagem inclui mais de um país europeu, o tempo costuma ser contado de forma integrada.</p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Conexões dentro da Europa</h4>
+              <p>Em algumas rotas, a imigração ocorre no primeiro país Schengen de entrada, mesmo que ${config.name} seja o destino final. Documentos de hospedagem, saída e recursos devem estar acessíveis desde a primeira chegada à Europa.</p>
+            </div>
+
+            <div class="modal-signature">${config.signatureVisa}</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a> · <a href="https://travel-europe.europa.eu/en/etias" target="_blank" rel="noopener noreferrer">ETIAS União Europeia</a> · <a href="https://www.gov.br/mre/pt-br/assuntos/portal-consular" target="_blank" rel="noopener noreferrer">GOV.BR — Portal Consular</a></div>
+          `
+        },
+
+        documents: {
+          title: '2. Documentos necessários',
+          body: `
+            <p class="modal-intro">Mesmo quando não há visto para turismo curto, a entrada em ${config.name} exige uma viagem organizada. A documentação ajuda a demonstrar propósito, permanência e capacidade de seguir o itinerário.</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Documento principal</span><strong>Passaporte válido</strong><p>Revise validade, estado físico e páginas disponíveis antes da viagem.</p></div>
+              <div class="quick-info-card"><span>Hospedagem</span><strong>Reserva ou endereço</strong><p>Hotel, apartamento, carta-convite ou endereço de referência devem estar acessíveis.</p></div>
+              <div class="quick-info-card"><span>Saída do Schengen</span><strong>Passagem de retorno ou saída</strong><p>Pode ser solicitada para demonstrar permanência temporária.</p></div>
+              <div class="quick-info-card"><span>Recursos financeiros</span><strong>Comprovação compatível</strong><p>Cartões, extratos ou meios de pagamento podem apoiar a clareza da viagem.</p></div>
+              <div class="quick-info-card"><span>Seguro viagem</span><strong>Essencial para Europa</strong><p>Ajuda a reduzir desgaste em atendimento médico, urgências e imprevistos.</p></div>
+              <div class="quick-info-card"><span>Itinerário</span><strong>Viagem com múltiplos países</strong><p>Se houver mais de um país europeu, mantenha reservas e deslocamentos organizados.</p></div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Documentos digitais</h4>
+              <p>Salve passaporte, hospedagem, passagens, seguro, reservas de trem e contatos importantes no celular e em nuvem. Isso ajuda especialmente em conexões e deslocamentos entre países.</p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Viagens com menores</h4>
+              <p>Menores podem exigir autorização, comprovação de vínculo e documentos adicionais conforme companhia aérea, rota e eventual país de conexão.</p>
+            </div>
+
+            <div class="modal-signature">A viagem europeia fica mais leve quando chegada, estadia, deslocamento e saída estão organizados antes do embarque.</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a> · <a href="https://www.gov.br/mre/pt-br/assuntos/portal-consular" target="_blank" rel="noopener noreferrer">GOV.BR — Portal Consular</a> · <a href="https://travel-europe.europa.eu/" target="_blank" rel="noopener noreferrer">União Europeia</a></div>
+          `
+        },
+
+        brazil: {
+          title: '3. Onde resolver no Brasil',
+          body: `
+            <p class="modal-intro">${config.whereBrazilIntro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Embaixada</span><strong>Relação diplomática e orientação institucional</strong><p>A Embaixada representa oficialmente ${config.name} no Brasil e concentra informações institucionais.</p></div>
+              <div class="quick-info-card"><span>Consulados</span><strong>Atendimento por região</strong><p>Costumam orientar serviços consulares, vistos específicos e atendimento conforme jurisdição.</p></div>
+              <div class="quick-info-card"><span>Vistos</span><strong>${config.visaPortalLabel}</strong><p>Portal oficial para verificar se o perfil da viagem exige visto.</p><a class="official-action-link" href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">Abrir fonte oficial</a></div>
+              <div class="quick-info-card"><span>Quando aplicável</span><strong>Solicitação de visto</strong><p>Para estadias longas, estudo, trabalho ou perfis específicos, siga sempre o canal oficial indicado pelo país.</p></div>
+            </div>
+
+            ${config.brazilContacts}
+
+            <div class="modal-signature">Quando a viagem exige orientação oficial, saber onde consultar evita ruído e torna a preparação mais objetiva.</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.embassyUrl}" target="_blank" rel="noopener noreferrer">${config.embassyLabel}</a> · <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a></div>
+          `
+        },
+
+        support: {
+          title: '4. Apoio no destino',
+          body: `
+            <p class="modal-intro">O apoio no destino precisa responder uma pergunta simples: se algo acontecer durante a viagem, qual é a referência consular brasileira mais útil para a cidade pesquisada?</p>
+
+            <div class="modal-section">
+              <h4>Referência consular</h4>
+              <p>A ferramenta reconhece a cidade pesquisada e exibe o posto brasileiro configurado na base. Quando não há unidade na cidade, aparece a referência mais útil para orientação.</p>
+            </div>
+
+            <div id="dynamicSupportModalContent"></div>
+
+            <div class="modal-section">
+              <h4>Quando procurar apoio consular</h4>
+              <p>Representações brasileiras podem orientar em perda ou roubo de documentos, emergências, contato familiar, emissão de documentos provisórios e situações específicas envolvendo brasileiros no exterior.</p>
+            </div>
+
+            <div class="modal-signature">Saber o apoio correto antes da viagem reduz desgaste em momentos em que clareza faz diferença.</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.brazilEmbassyUrl}" target="_blank" rel="noopener noreferrer">${config.brazilEmbassyLabel}</a> · <a href="https://econsular.itamaraty.gov.br/" target="_blank" rel="noopener noreferrer">e-Consular</a></div>
+          `
+        },
+
+        health: {
+          title: '5. Informações de saúde',
+          body: `
+            <p class="modal-intro">Saúde na Europa envolve menos burocracia aparente e mais organização: seguro, medicamentos, conexões e acesso a atendimento.</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Vacina obrigatória</span><strong>Sem exigência geral para turismo comum</strong><p>Para entrada turística comum, não há exigência geral de vacina obrigatória para brasileiros.</p></div>
+              <div class="quick-info-card"><span>Seguro viagem</span><strong>Parte essencial da preparação Schengen</strong><p>Ajuda a reduzir desgaste em atendimento médico, urgências e imprevistos.</p></div>
+              <div class="quick-info-card"><span>Medicamentos</span><strong>Receita e embalagem original</strong><p>Leve quantidades compatíveis com a viagem e mantenha medicamentos essenciais na bagagem de mão.</p></div>
+              <div class="quick-info-card"><span>Conexões</span><strong>Rota completa importa</strong><p>Escalas podem ter regras próprias, inclusive exigências sanitárias dependendo do país da conexão.</p></div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Medicamentos e atendimento</h4>
+              <p>Medicamentos controlados, receitas brasileiras e atendimento médico fora do Brasil podem exigir atenção. Ter documentação médica organizada evita desgaste.</p>
+            </div>
+
+            <div class="modal-signature">Saúde organizada antes do embarque deixa a viagem mais leve durante deslocamentos, conexões e estadias longas.</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a> · <a href="${config.healthUrl}" target="_blank" rel="noopener noreferrer">${config.healthLabel}</a> · <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a></div>
+          `
+        },
+
+        important: {
+          title: '6. Informações importantes',
+          body: `
+            <p class="modal-intro">${config.name} muitas vezes faz parte de uma viagem maior pela Europa. Por isso, o ponto mais importante é entender a lógica da rota completa, não apenas do país final.</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Schengen</span><strong>90 dias em 180 dias</strong><p>O limite vale para o conjunto dos países Schengen.</p></div>
+              <div class="quick-info-card"><span>Entrada por outro país</span><strong>Imigração pode acontecer antes</strong><p>Se a conexão for em outro país Schengen, o controle migratório pode ocorrer lá.</p></div>
+              <div class="quick-info-card"><span>ETIAS</span><strong>Autorização futura</strong><p>Quando entrar em operação, será exigido para viajantes isentos de visto.</p></div>
+              <div class="quick-info-card"><span>Trens e múltiplos países</span><strong>Documentos sempre acessíveis</strong><p>Mesmo em deslocamentos internos na Europa, documentos e reservas devem estar organizados.</p></div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Conexões e escalas</h4>
+              <p>Escalas podem ter regras próprias, incluindo visto de trânsito, autorizações adicionais ou exigências sanitárias, dependendo do país da conexão.</p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Coerência da viagem</h4>
+              <p>Hospedagem, retorno, deslocamentos e recursos financeiros devem fazer sentido entre si. Essa organização reduz desgaste na imigração europeia.</p>
+            </div>
+
+            <div class="modal-signature">Na Europa, clareza sobre a rota é tão importante quanto clareza sobre o destino.</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a> · <a href="https://travel-europe.europa.eu/en/etias" target="_blank" rel="noopener noreferrer">ETIAS União Europeia</a> · <a href="https://taxation-customs.ec.europa.eu/" target="_blank" rel="noopener noreferrer">União Europeia — Customs</a></div>
+          `
+        },
+
+        customs: {
+          title: '7. Alfândega, bagagem e itens restritos',
+          body: `
+            <p class="modal-intro">Na Europa, alfândega, compras e retorno ao Brasil são pontos importantes — especialmente em viagens com compras, eletrônicos, perfumes, vinhos, medicamentos e deslocamentos por vários países.</p>
+
+            <div class="modal-soft-grid">
+              <div class="modal-soft-card"><strong>Entrada na União Europeia</strong><p>Alimentos, medicamentos, valores em espécie e produtos específicos podem exigir atenção alfandegária.</p></div>
+              <div class="modal-soft-card"><strong>Dinheiro em espécie</strong><p>Ao entrar ou sair da União Europeia com €10.000 ou mais, pode ser exigida declaração.</p></div>
+              <div class="modal-soft-card"><strong>VAT refund</strong><p>Compras elegíveis podem permitir reembolso de IVA, desde que regras, valores mínimos e validação sejam cumpridos.</p></div>
+              <div class="modal-soft-card"><strong>Compras de valor</strong><p>Bolsas, relógios, joias, perfumes, vinhos e eletrônicos devem ser considerados também no retorno ao Brasil.</p></div>
+              <div class="modal-soft-card"><strong>Medicamentos</strong><p>Mantenha embalagem original, receita e quantidade compatível com a viagem.</p></div>
+              <div class="modal-soft-card"><strong>Retorno ao Brasil</strong><p>Compras acima da cota podem exigir declaração e tributação pela Receita Federal.</p></div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Receita Federal no retorno</h4>
+              <p>Produtos acima da cota de isenção, itens em quantidade elevada ou bens com aparência comercial podem gerar fiscalização, cobrança tributária ou retenção.</p>
+            </div>
+
+            <div class="modal-signature">Compras fazem parte da viagem, mas entender alfândega antes do retorno evita surpresas no desembarque.</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="https://taxation-customs.ec.europa.eu/" target="_blank" rel="noopener noreferrer">União Europeia — Taxation and Customs</a> · <a href="${config.customsUrl}" target="_blank" rel="noopener noreferrer">${config.customsLabel}</a> · <a href="https://www.gov.br/receitafederal/pt-br/assuntos/aduana-e-comercio-exterior/viajantes" target="_blank" rel="noopener noreferrer">Receita Federal do Brasil</a> · <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a></div>
+          `
+        }
+      };
+    }
+
+    const ITALY_INTERACTIVE_DETAILS = buildSchengenInteractiveDetails({
+      name: 'Itália',
+      intro: 'A Itália segue a lógica Schengen. Para turismo curto, brasileiros normalmente entram sem visto, mas a viagem precisa estar organizada para imigração, deslocamentos e permanência.',
+      visaPortalLabel: 'Visto per Italia',
+      visaPortalUrl: 'https://vistoperitalia.esteri.it/',
+      embassyLabel: 'Embaixada da Itália no Brasil',
+      embassyUrl: 'https://ambbrasilia.esteri.it/pt/',
+      whereBrazilIntro: 'Para a Itália, viagens curtas de turismo normalmente são isentas de visto para brasileiros. Para outros perfis, os canais italianos no Brasil devem ser priorizados.',
+      brazilEmbassyLabel: 'Embaixada do Brasil em Roma',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/embaixada-roma',
+      healthLabel: 'Ministero della Salute',
+      healthUrl: 'https://www.salute.gov.it/',
+      customsLabel: 'Agenzia delle Dogane e dei Monopoli',
+      customsUrl: 'https://www.adm.gov.it/',
+      signatureVisa: 'Na Itália, entender a lógica Schengen antes da viagem ajuda a evitar confusão entre turismo, permanência e deslocamentos europeus.',
+      brazilContacts: `
+        <div class="contact-card">
+          <h5>Embaixada da Itália — Brasília</h5>
+          <p><strong>Endereço:</strong> SES Av. das Nações, Quadra 807, Lote 30, Brasília — DF</p>
+          <p><strong>Telefone:</strong> <a href="tel:+556134429900">+55 (61) 3442-9900</a></p>
+          <p><strong>Site:</strong> <a href="https://ambbrasilia.esteri.it/pt/" target="_blank" rel="noopener noreferrer">ambbrasilia.esteri.it</a></p>
+          <p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+da+Italia+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p>
+        </div>
+        <div class="contact-card">
+          <h5>Consulado Geral da Itália — São Paulo</h5>
+          <p><strong>Endereço:</strong> Av. Paulista, 1963, São Paulo — SP</p>
+          <p><strong>Site:</strong> <a href="https://conssanpaolo.esteri.it/pt/" target="_blank" rel="noopener noreferrer">conssanpaolo.esteri.it</a></p>
+          <p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Consulado+Geral+da+Italia+Sao+Paulo+Av+Paulista+1963" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p>
+        </div>
+        <div class="contact-card">
+          <h5>Consulado Geral da Itália — Rio de Janeiro</h5>
+          <p><strong>Endereço:</strong> Av. Presidente Antônio Carlos, 40, Rio de Janeiro — RJ</p>
+          <p><strong>Site:</strong> <a href="https://consriodejaneiro.esteri.it/pt/" target="_blank" rel="noopener noreferrer">consriodejaneiro.esteri.it</a></p>
+          <p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Consulado+Geral+da+Italia+Rio+de+Janeiro+Av+Presidente+Antonio+Carlos+40" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p>
+        </div>
+      `
+    });
+
+    const SPAIN_INTERACTIVE_DETAILS = buildSchengenInteractiveDetails({
+      name: 'Espanha',
+      intro: 'A Espanha é uma das principais portas de entrada de brasileiros na Europa. Para turismo curto, brasileiros normalmente entram sem visto, mas a organização da rota e dos documentos continua essencial.',
+      visaPortalLabel: 'Governo da Espanha',
+      visaPortalUrl: 'https://www.exteriores.gob.es/',
+      embassyLabel: 'Embaixada da Espanha no Brasil',
+      embassyUrl: 'https://www.exteriores.gob.es/Embajadas/brasilia/pt/Paginas/index.aspx',
+      whereBrazilIntro: 'Para a Espanha, viagens curtas de turismo normalmente são isentas de visto para brasileiros. Para outros perfis, consulte os canais oficiais espanhóis no Brasil.',
+      brazilEmbassyLabel: 'Embaixada do Brasil em Madrid',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/embaixada-madrid',
+      healthLabel: 'Ministerio de Sanidad',
+      healthUrl: 'https://www.sanidad.gob.es/',
+      customsLabel: 'Agencia Tributaria — Aduanas',
+      customsUrl: 'https://sede.agenciatributaria.gob.es/',
+      signatureVisa: 'Na Espanha, a preparação fica mais simples quando a entrada Schengen, a rota europeia e os documentos estão alinhados.',
+      brazilContacts: `
+        <div class="contact-card">
+          <h5>Embaixada da Espanha — Brasília</h5>
+          <p><strong>Endereço:</strong> SES Av. das Nações, Quadra 811, Lote 44, Brasília — DF</p>
+          <p><strong>Site:</strong> <a href="https://www.exteriores.gob.es/Embajadas/brasilia/pt/Paginas/index.aspx" target="_blank" rel="noopener noreferrer">exteriores.gob.es/Embajadas/brasilia</a></p>
+          <p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+da+Espanha+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p>
+        </div>
+        <div class="contact-card">
+          <h5>Consulado Geral da Espanha — São Paulo</h5>
+          <p><strong>Endereço:</strong> Av. Brasil, 948, Jardim América, São Paulo — SP</p>
+          <p><strong>Site:</strong> <a href="https://www.exteriores.gob.es/Consulados/saopaulo/pt/Paginas/index.aspx" target="_blank" rel="noopener noreferrer">Consulado da Espanha em São Paulo</a></p>
+          <p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Consulado+Geral+da+Espanha+Sao+Paulo+Av+Brasil+948" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p>
+        </div>
+      `
+    });
+
+    const PORTUGAL_INTERACTIVE_DETAILS = buildSchengenInteractiveDetails({
+      name: 'Portugal',
+      intro: 'Portugal costuma ser uma entrada frequente para brasileiros na Europa. Para visitas curtas, normalmente não há visto, mas documentos, permanência Schengen e finalidade da viagem precisam estar claros.',
+      visaPortalLabel: 'Portal Diplomático — Vistos Portugal',
+      visaPortalUrl: 'https://vistos.mne.gov.pt/pt/',
+      embassyLabel: 'Embaixada de Portugal no Brasil',
+      embassyUrl: 'https://brasilia.embaixadaportugal.mne.gov.pt/pt/',
+      whereBrazilIntro: 'Para Portugal, brasileiros não precisam de visto em visitas até 90 dias em 180 dias. Para estudo, trabalho ou permanência maior, o tipo correto deve ser consultado nos canais oficiais.',
+      brazilEmbassyLabel: 'Embaixada do Brasil em Lisboa',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/embaixada-lisboa',
+      healthLabel: 'SNS Portugal',
+      healthUrl: 'https://www.sns.gov.pt/',
+      customsLabel: 'Autoridade Tributária e Aduaneira',
+      customsUrl: 'https://www.portaldasfinancas.gov.pt/',
+      signatureVisa: 'Portugal pode parecer simples para brasileiros, mas clareza sobre permanência, documentos e motivo da viagem evita desgaste na chegada.',
+      brazilContacts: `
+        <div class="contact-card">
+          <h5>Embaixada de Portugal — Brasília</h5>
+          <p><strong>Endereço:</strong> SES Av. das Nações, Quadra 801, Lote 2, Brasília — DF</p>
+          <p><strong>Site:</strong> <a href="https://brasilia.embaixadaportugal.mne.gov.pt/pt/" target="_blank" rel="noopener noreferrer">brasilia.embaixadaportugal.mne.gov.pt</a></p>
+          <p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+de+Portugal+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p>
+        </div>
+        <div class="contact-card">
+          <h5>Consulado Geral de Portugal — São Paulo</h5>
+          <p><strong>Endereço:</strong> Rua Canadá, 324, Jardim América, São Paulo — SP</p>
+          <p><strong>Site:</strong> <a href="https://saopaulo.consuladoportugal.mne.gov.pt/pt/" target="_blank" rel="noopener noreferrer">saopaulo.consuladoportugal.mne.gov.pt</a></p>
+          <p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Consulado+Geral+de+Portugal+Sao+Paulo+Rua+Canada+324" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p>
+        </div>
+        <div class="contact-card">
+          <h5>Consulado Geral de Portugal — Rio de Janeiro</h5>
+          <p><strong>Endereço:</strong> Rua São Clemente, 424, Botafogo, Rio de Janeiro — RJ</p>
+          <p><strong>Site:</strong> <a href="https://riodejaneiro.consuladoportugal.mne.gov.pt/pt/" target="_blank" rel="noopener noreferrer">riodejaneiro.consuladoportugal.mne.gov.pt</a></p>
+          <p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Consulado+Geral+de+Portugal+Rio+de+Janeiro+Rua+Sao+Clemente+424" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p>
+        </div>
+      `
+    });
+
     function openDetailModal(detailKey) {
       const detail = CURRENT_INTERACTIVE_DETAILS[detailKey] || US_INTERACTIVE_DETAILS[detailKey];
       const modal = document.getElementById('detailModal');
@@ -2515,7 +2805,10 @@
       document.getElementById('summarySupport').textContent = `${country.summary.support}`;
       const interactiveDetailsByCountry = {
         'estados-unidos': US_INTERACTIVE_DETAILS,
-        'franca': FRANCE_INTERACTIVE_DETAILS
+        'franca': FRANCE_INTERACTIVE_DETAILS,
+        'italia': ITALY_INTERACTIVE_DETAILS,
+        'espanha': SPAIN_INTERACTIVE_DETAILS,
+        'portugal': PORTUGAL_INTERACTIVE_DETAILS
       };
       const activeInteractiveDetails = interactiveDetailsByCountry[match.countryKey] || null;
       const isInteractiveCountry = Boolean(activeInteractiveDetails);
