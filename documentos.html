@@ -1095,7 +1095,7 @@
     };
 
 
-    const LAST_DATA_UPDATE = '07/05/2026 às 06:00';
+    const LAST_DATA_UPDATE = 'Monitoramento ativo • Informações revisadas regularmente';
     const DEFAULT_INFO_SOURCES = [
       { label: 'GOV.BR', url: 'https://www.gov.br/pt-br' },
       { label: 'ANVISA', url: 'https://www.gov.br/anvisa/pt-br' },
@@ -1113,7 +1113,7 @@
         return `<a class="official-source-link" href="${source.url}" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:underline;text-underline-offset:3px;">${source.label}</a>`;
       });
 
-      updateEl.innerHTML = `Monitoramento ativo • <span style="color:#ffffff;font-weight:700;">Informações revisadas regularmente</span>`;
+      updateEl.innerHTML = `<span style="color:#ffffff;font-weight:700;">${LAST_DATA_UPDATE}</span>`;
       sourcesEl.innerHTML = `Fontes oficiais da síntese: <span style="color:#ffffff;font-weight:700;">${sourceLinks.join(' · ')}</span>`;
     }
 
