@@ -2634,6 +2634,515 @@
       `
     });
 
+
+    function buildAmericasInteractiveDetails(config) {
+      return {
+        visa: {
+          title: '1. Visto e entrada no país',
+          body: `
+            <p class="modal-intro">${config.intro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Quem precisa</span><strong>${config.whoNeeds}</strong><p>${config.whoNeedsText}</p></div>
+              <div class="quick-info-card"><span>Tipo de entrada</span><strong>${config.entryType}</strong><p>${config.entryText}</p></div>
+              <div class="quick-info-card"><span>Valor</span><strong>${config.cost}</strong><p>${config.costText}</p></div>
+              <div class="quick-info-card"><span>Permanência</span><strong>${config.stay}</strong><p>${config.stayText}</p></div>
+              <div class="quick-info-card"><span>Fonte oficial</span><strong>${config.visaPortalLabel}</strong><p>Canal oficial para confirmar regra de entrada, visto ou autorização.</p><a class="official-action-link" href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">Abrir fonte oficial</a></div>
+              <div class="quick-info-card"><span>Atenção</span><strong>${config.attentionTitle}</strong><p>${config.attentionText}</p></div>
+            </div>
+
+            <div class="modal-section"><h4>Chegada e imigração</h4><p>${config.arrivalText}</p></div>
+            <div class="modal-section"><h4>Conexões e rota</h4><p>${config.connections}</p></div>
+            <div class="modal-signature">${config.signatureVisa}</div>
+            <div class="modal-source">Fontes oficiais: <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a> · <a href="${config.embassyUrl}" target="_blank" rel="noopener noreferrer">${config.embassyLabel}</a> · <a href="https://www.gov.br/mre/pt-br/assuntos/portal-consular" target="_blank" rel="noopener noreferrer">GOV.BR — Portal Consular</a></div>
+          `
+        },
+
+        documents: {
+          title: '2. Documentos necessários',
+          body: `
+            <p class="modal-intro">${config.documentsIntro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Documento principal</span><strong>${config.mainDocument}</strong><p>${config.mainDocumentText}</p></div>
+              <div class="quick-info-card"><span>Entrada</span><strong>${config.entryDocument}</strong><p>${config.entryDocumentText}</p></div>
+              <div class="quick-info-card"><span>Hospedagem</span><strong>Endereço ou reserva</strong><p>Hotel, apartamento, casa de familiar ou endereço de referência devem estar acessíveis.</p></div>
+              <div class="quick-info-card"><span>Saída</span><strong>Passagem de retorno ou continuação</strong><p>Ter o próximo trecho claro reduz questionamentos na chegada.</p></div>
+              <div class="quick-info-card"><span>Recursos</span><strong>Meios de pagamento</strong><p>Cartões, dinheiro e comprovantes podem apoiar a clareza da viagem.</p></div>
+              <div class="quick-info-card"><span>Seguro</span><strong>${config.insuranceTitle}</strong><p>${config.insuranceText}</p></div>
+            </div>
+
+            <div class="modal-section"><h4>Documentos digitais</h4><p>Salve documentos, reservas, seguro, passagens e contatos importantes no celular e em nuvem.</p></div>
+            <div class="modal-signature">${config.signatureDocuments}</div>
+            <div class="modal-source">Fontes oficiais: <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a> · <a href="https://www.gov.br/mre/pt-br/assuntos/portal-consular" target="_blank" rel="noopener noreferrer">GOV.BR — Portal Consular</a></div>
+          `
+        },
+
+        brazil: {
+          title: '3. Onde resolver no Brasil',
+          body: `
+            <p class="modal-intro">${config.whereBrazilIntro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Embaixada</span><strong>Relação diplomática e orientação institucional</strong><p>A Embaixada representa oficialmente ${config.name} no Brasil e concentra informações institucionais.</p></div>
+              <div class="quick-info-card"><span>Consulado</span><strong>Atendimento e orientação prática</strong><p>Quando houver serviço consular, ele pode orientar vistos, documentação e dúvidas por região.</p></div>
+              <div class="quick-info-card"><span>Entrada</span><strong>${config.visaPortalLabel}</strong><p>Canal oficial para confirmar exigências de entrada.</p><a class="official-action-link" href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">Abrir fonte oficial</a></div>
+              <div class="quick-info-card"><span>Viagens longas</span><strong>Regras próprias</strong><p>Estudo, trabalho, residência ou permanência estendida exigem consulta específica aos canais oficiais.</p></div>
+            </div>
+
+            ${config.brazilContacts}
+
+            <div class="modal-signature">Saber qual canal oficial consultar evita ruído e torna a preparação mais objetiva.</div>
+            <div class="modal-source">Fontes oficiais: <a href="${config.embassyUrl}" target="_blank" rel="noopener noreferrer">${config.embassyLabel}</a> · <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a></div>
+          `
+        },
+
+        support: {
+          title: '4. Apoio no destino',
+          body: `
+            <p class="modal-intro">O apoio consular no destino ajuda em situações práticas: perda de documentos, emergências, orientação e contato com o Brasil.</p>
+            <div id="dynamicSupportModalContent"></div>
+            <div class="modal-section"><h4>Quando procurar apoio consular</h4><p>Perda ou roubo de documentos, emergências, contato familiar, emissão de documentos provisórios e orientação consular são situações em que o posto brasileiro pode ajudar.</p></div>
+            <div class="modal-signature">Ter o contato certo salvo antes da viagem reduz desgaste quando a clareza mais importa.</div>
+            <div class="modal-source">Fontes oficiais: <a href="${config.brazilEmbassyUrl}" target="_blank" rel="noopener noreferrer">${config.brazilEmbassyLabel}</a> · <a href="https://econsular.itamaraty.gov.br/" target="_blank" rel="noopener noreferrer">e-Consular</a></div>
+          `
+        },
+
+        health: {
+          title: '5. Informações de saúde',
+          body: `
+            <p class="modal-intro">${config.healthIntro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Vacina</span><strong>${config.vaccineTitle}</strong><p>${config.vaccineText}</p></div>
+              <div class="quick-info-card"><span>Medicamentos</span><strong>Receita e embalagem original</strong><p>${config.medicineText}</p></div>
+              <div class="quick-info-card"><span>Seguro</span><strong>${config.insuranceTitle}</strong><p>${config.insuranceText}</p></div>
+              <div class="quick-info-card"><span>Rota completa</span><strong>Escalas importam</strong><p>Escalas podem ter regras próprias, inclusive exigências sanitárias dependendo do país da conexão.</p></div>
+            </div>
+
+            <div class="modal-section"><h4>Atenção especial</h4><p>${config.healthAttention}</p></div>
+            <div class="modal-signature">${config.signatureHealth}</div>
+            <div class="modal-source">Fontes oficiais: <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a> · <a href="${config.healthUrl}" target="_blank" rel="noopener noreferrer">${config.healthLabel}</a></div>
+          `
+        },
+
+        important: {
+          title: '6. Informações importantes',
+          body: `
+            <p class="modal-intro">${config.importantIntro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Entrada</span><strong>${config.importantCard1Title}</strong><p>${config.importantCard1Text}</p></div>
+              <div class="quick-info-card"><span>Fronteira</span><strong>${config.borderTitle}</strong><p>${config.borderText}</p></div>
+              <div class="quick-info-card"><span>Conexão</span><strong>Tempo e documentação</strong><p>Conexões podem exigir nova inspeção, retirada de bagagem ou autorização própria.</p></div>
+              <div class="quick-info-card"><span>Regras locais</span><strong>${config.localRulesTitle}</strong><p>${config.localRulesText}</p></div>
+            </div>
+
+            <div class="modal-section"><h4>Escalas e exigências obrigatórias</h4><p>Escalas podem ter regras próprias, incluindo visto de trânsito, autorizações adicionais ou exigências sanitárias obrigatórias, dependendo do país da conexão.</p></div>
+            <div class="modal-signature">${config.signatureImportant}</div>
+            <div class="modal-source">Fontes oficiais: <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a> · <a href="${config.embassyUrl}" target="_blank" rel="noopener noreferrer">${config.embassyLabel}</a></div>
+          `
+        },
+
+        customs: {
+          title: '7. Alfândega, bagagem e itens restritos',
+          body: `
+            <p class="modal-intro">${config.customsIntro}</p>
+
+            <div class="modal-soft-grid">
+              <div class="modal-soft-card"><strong>Medicamentos</strong><p>${config.customsMedicine}</p></div>
+              <div class="modal-soft-card"><strong>Alimentos</strong><p>${config.foodText}</p></div>
+              <div class="modal-soft-card"><strong>Valores em espécie</strong><p>Valores elevados podem exigir declaração conforme regras locais de entrada e saída.</p></div>
+              <div class="modal-soft-card"><strong>Compras</strong><p>Compras de valor devem ser consideradas também no retorno ao Brasil.</p></div>
+              <div class="modal-soft-card"><strong>Bagagem e conexão</strong><p>Power banks, baterias, líquidos e itens eletrônicos podem seguir regras aeroportuárias específicas.</p></div>
+              <div class="modal-soft-card"><strong>Retorno ao Brasil</strong><p>Compras acima da cota podem exigir declaração e tributação pela Receita Federal.</p></div>
+            </div>
+
+            <div class="modal-signature">Alfândega e bagagem ficam mais simples quando o viajante entende antes o que pode gerar retenção, declaração ou questionamento.</div>
+            <div class="modal-source">Fontes oficiais: <a href="${config.customsUrl}" target="_blank" rel="noopener noreferrer">${config.customsLabel}</a> · <a href="https://www.gov.br/receitafederal/pt-br/assuntos/aduana-e-comercio-exterior/viajantes" target="_blank" rel="noopener noreferrer">Receita Federal do Brasil</a> · <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a></div>
+          `
+        }
+      };
+    }
+
+    const CANADA_INTERACTIVE_DETAILS = buildAmericasInteractiveDetails({
+      name: 'Canadá',
+      intro: 'O Canadá exige atenção ao perfil do viajante. Brasileiros podem precisar de visto ou eTA, e a diferença depende principalmente de elegibilidade e forma de entrada.',
+      whoNeeds: 'Brasileiros conforme perfil',
+      whoNeedsText: 'Alguns brasileiros são elegíveis ao eTA para entrada aérea; outros precisam de visto de visitante.',
+      entryType: 'eTA ou visto',
+      entryText: 'O eTA vale para entrada aérea quando o viajante é elegível. Entrada por terra ou mar pode exigir visto.',
+      cost: 'eTA: CAD 7',
+      costText: 'O visto de visitante tem outro custo; confirme no portal oficial do Canadá.',
+      stay: 'Até 6 meses em geral',
+      stayText: 'O período final é definido na entrada pelas autoridades canadenses.',
+      attentionTitle: 'Aéreo x terrestre',
+      attentionText: 'eTA é para entrada por via aérea; viagens por carro, ônibus, trem ou cruzeiro exigem atenção diferente.',
+      visaPortalLabel: 'Government of Canada',
+      visaPortalUrl: 'https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/check-visa-eta.html',
+      embassyLabel: 'Embaixada do Canadá no Brasil',
+      embassyUrl: 'https://www.international.gc.ca/country-pays/brazil-bresil/brasilia.aspx',
+      arrivalText: 'Tenha passaporte, eTA ou visto, hospedagem, passagem de saída e recursos acessíveis. A decisão final é feita na chegada.',
+      connections: 'Conexões nos Estados Unidos podem exigir visto americano ou autorização própria, mesmo quando o destino final é o Canadá.',
+      signatureVisa: 'No Canadá, o detalhe que evita desgaste é confirmar se o seu caso é eTA ou visto antes de comprar a rota.',
+      documentsIntro: 'A documentação para o Canadá deve estar alinhada ao tipo de autorização: eTA, visto ou trânsito.',
+      mainDocument: 'Passaporte válido',
+      mainDocumentText: 'O eTA, quando aplicável, fica vinculado ao passaporte usado na solicitação.',
+      entryDocument: 'eTA ou visto',
+      entryDocumentText: 'Confirme elegibilidade no site oficial antes da viagem.',
+      insuranceTitle: 'Recomendado',
+      insuranceText: 'Atendimento médico no Canadá pode ser caro para visitantes.',
+      signatureDocuments: 'Quando autorização, rota e documentos contam a mesma história, a chegada tende a ser mais tranquila.',
+      whereBrazilIntro: 'Para o Canadá, a consulta oficial deve começar no portal de imigração canadense. Vistos e eTA seguem fluxos digitais próprios.',
+      brazilEmbassyLabel: 'Consulado-Geral do Brasil em Toronto',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/consulado-toronto',
+      healthIntro: 'No Canadá, saúde envolve seguro, medicamentos e preparação para clima, neve e deslocamentos longos.',
+      vaccineTitle: 'Sem exigência geral para entrada comum',
+      vaccineText: 'Não há exigência geral de vacina obrigatória para entrada turística comum nesta base.',
+      medicineText: 'Leve medicamentos em embalagem original, receita quando possível e quantidade compatível.',
+      healthAttention: 'Viagens de inverno exigem atenção adicional a seguro, medicamentos e condições climáticas.',
+      healthLabel: 'Government of Canada — Travel Health',
+      healthUrl: 'https://travel.gc.ca/travelling/health-safety',
+      importantIntro: 'O Canadá exige leitura cuidadosa da autorização correta, especialmente em viagens com conexão nos EUA ou entrada terrestre.',
+      importantCard1Title: 'eTA ou visto',
+      importantCard1Text: 'A autorização correta depende do perfil do viajante e da forma de entrada.',
+      borderTitle: 'Entrada terrestre',
+      borderText: 'eTA não cobre entrada por carro, trem, ônibus ou barco.',
+      localRulesTitle: 'Clima e distância',
+      localRulesText: 'Neve, conexões longas e distâncias internas podem afetar a viagem.',
+      signatureImportant: 'No Canadá, a rota é tão importante quanto a autorização.',
+      customsIntro: 'O Canadá tem controle rigoroso de alimentos, medicamentos, valores e itens de origem vegetal ou animal.',
+      customsMedicine: 'Medicamentos devem estar na embalagem original e com receita quando possível.',
+      foodText: 'Alimentos, carnes, vegetais, sementes e produtos agrícolas podem ter restrições.',
+      customsLabel: 'Canada Border Services Agency',
+      customsUrl: 'https://www.cbsa-asfc.gc.ca/travel-voyage/menu-eng.html',
+      brazilContacts: `<div class="contact-card"><h5>Embaixada do Canadá — Brasília</h5><p><strong>Site:</strong> <a href="https://www.international.gc.ca/country-pays/brazil-bresil/brasilia.aspx" target="_blank" rel="noopener noreferrer">international.gc.ca</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+do+Canada+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>`
+    });
+
+    const MEXICO_INTERACTIVE_DETAILS = buildAmericasInteractiveDetails({
+      name: 'México',
+      intro: 'O México exige atenção especial porque a entrada de brasileiros passou por mudanças recentes. A preparação correta evita desgaste na imigração.',
+      whoNeeds: 'Brasileiros em turismo',
+      whoNeedsText: 'Brasileiros devem verificar a modalidade eletrônica ou visto aplicável no canal oficial mexicano.',
+      entryType: 'Autorização eletrônica / visto',
+      entryText: 'O México reativou sistema eletrônico para brasileiros em determinados cenários; outros perfis podem exigir visto.',
+      cost: 'Confirmar no canal oficial',
+      costText: 'Custos e modalidade variam conforme perfil e sistema utilizado.',
+      stay: 'Até 180 dias, se autorizado',
+      stayText: 'O período é definido pela autoridade migratória na entrada.',
+      attentionTitle: 'Imigração sensível',
+      attentionText: 'Hospedagem, retorno e recursos devem estar muito claros, especialmente em Cancún e Cidade do México.',
+      visaPortalLabel: 'Gobierno de México / SRE',
+      visaPortalUrl: 'https://www.gob.mx/sre/prensa/electronic-visa-for-brazilian-nationals?idiom=en',
+      embassyLabel: 'Embaixada do México no Brasil',
+      embassyUrl: 'https://embamex.sre.gob.mx/brasil/',
+      arrivalText: 'A imigração mexicana pode solicitar motivo da viagem, hospedagem, passagem de saída e recursos. Tenha tudo acessível.',
+      connections: 'Conexões pelos EUA podem exigir visto americano. Conexões internas no México podem exigir retirada de bagagem.',
+      signatureVisa: 'No México, a clareza documental é o que transforma a chegada em algo mais previsível.',
+      documentsIntro: 'A documentação para o México deve ser objetiva e forte: autorização/visto, hospedagem, retorno e recursos.',
+      mainDocument: 'Passaporte válido',
+      mainDocumentText: 'Recomendável viajar com passaporte em bom estado e validade compatível com toda a viagem.',
+      entryDocument: 'Autorização/visto aplicável',
+      entryDocumentText: 'Confirme a modalidade oficial antes do embarque.',
+      insuranceTitle: 'Recomendado',
+      insuranceText: 'Especialmente para praia, resorts, mergulho, deslocamentos e imprevistos.',
+      signatureDocuments: 'No México, documentos claros reduzem perguntas e ajudam a chegada a fluir.',
+      whereBrazilIntro: 'Para o México, consulte sempre os canais oficiais mexicanos, especialmente após mudanças recentes para brasileiros.',
+      brazilEmbassyLabel: 'Embaixada do Brasil no México',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/embaixada-mexico',
+      healthIntro: 'No México, saúde envolve seguro, alimentação, deslocamentos e atenção a atividades como mergulho e passeios.',
+      vaccineTitle: 'Sem exigência geral nesta base',
+      vaccineText: 'Não há exigência geral de vacina obrigatória para entrada turística comum nesta base.',
+      medicineText: 'Leve medicamentos em embalagem original e receita quando possível.',
+      healthAttention: 'Seguro é especialmente útil em resorts, passeios aquáticos, deslocamentos e eventual atendimento privado.',
+      healthLabel: 'Secretaría de Salud México',
+      healthUrl: 'https://www.gob.mx/salud',
+      importantIntro: 'O México exige atenção documental real. Mesmo em viagem de lazer, a imigração pode ser criteriosa.',
+      importantCard1Title: 'Comprovantes fortes',
+      importantCard1Text: 'Hospedagem, retorno e recursos devem estar acessíveis.',
+      borderTitle: 'Conexão nos EUA',
+      borderText: 'Rotas via Estados Unidos podem exigir visto americano.',
+      localRulesTitle: 'Resorts e deslocamentos',
+      localRulesText: 'Tenha endereço do hotel, traslado e datas claras.',
+      signatureImportant: 'No México, preparação documental reduz desgaste na imigração.',
+      customsIntro: 'No México, alfândega e bagagem exigem atenção com alimentos, medicamentos, dinheiro e compras.',
+      customsMedicine: 'Medicamentos devem estar organizados e com receita quando possível.',
+      foodText: 'Alimentos e produtos agrícolas podem ter restrições.',
+      customsLabel: 'Aduanas México',
+      customsUrl: 'https://anam.gob.mx/',
+      brazilContacts: `<div class="contact-card"><h5>Embaixada do México — Brasília</h5><p><strong>Site:</strong> <a href="https://embamex.sre.gob.mx/brasil/" target="_blank" rel="noopener noreferrer">embamex.sre.gob.mx/brasil</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+do+Mexico+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>`
+    });
+
+    const ARGENTINA_INTERACTIVE_DETAILS = buildAmericasInteractiveDetails({
+      name: 'Argentina',
+      intro: 'A Argentina é uma viagem próxima, mas ainda exige organização. Brasileiros podem entrar com RG válido ou passaporte, e viagens terrestres pedem atenção adicional.',
+      whoNeeds: 'Brasileiros em turismo',
+      whoNeedsText: 'Brasileiros não precisam de visto para turismo.',
+      entryType: 'RG válido ou passaporte',
+      entryText: 'RG em bom estado e com foto atualizada costuma ser aceito; passaporte também é aceito.',
+      cost: 'Sem taxa de visto',
+      costText: 'Não há taxa de visto para turismo comum.',
+      stay: 'Até 90 dias',
+      stayText: 'Permanência turística usual, conforme controle migratório.',
+      attentionTitle: 'Fronteira terrestre',
+      attentionText: 'Viagens de carro podem exigir documentos do veículo, autorização e seguro Carta Verde.',
+      visaPortalLabel: 'Migraciones Argentina',
+      visaPortalUrl: 'https://www.argentina.gob.ar/interior/migraciones',
+      embassyLabel: 'Embaixada da Argentina no Brasil',
+      embassyUrl: 'https://ebrsl.cancilleria.gob.ar/',
+      arrivalText: 'Tenha RG/passaporte, hospedagem e passagem de retorno ou continuação acessíveis.',
+      connections: 'Fronteiras terrestres e viagens de carro exigem mais atenção do que voos diretos.',
+      signatureVisa: 'Na Argentina, a viagem parece simples — e fica ainda melhor quando documentos e fronteira estão organizados.',
+      documentsIntro: 'A documentação para Argentina deve considerar avião, carro, fronteira terrestre e menores de idade.',
+      mainDocument: 'RG válido ou passaporte',
+      mainDocumentText: 'Use RG em bom estado, com foto atual e dados legíveis; CNH não substitui documento de viagem.',
+      entryDocument: 'Sem visto',
+      entryDocumentText: 'Brasileiros não precisam de visto para turismo comum.',
+      insuranceTitle: 'Recomendado / Carta Verde se carro',
+      insuranceText: 'Seguro viagem é recomendado; Carta Verde é essencial em viagens de carro no Mercosul.',
+      signatureDocuments: 'Viagem regional também merece preparo — principalmente quando há fronteira terrestre.',
+      whereBrazilIntro: 'Para a Argentina, turismo comum não exige visto, mas a Embaixada e consulados podem orientar situações específicas.',
+      brazilEmbassyLabel: 'Embaixada do Brasil em Buenos Aires',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/embaixada-buenos-aires',
+      healthIntro: 'Na Argentina, saúde envolve seguro, medicamentos e atenção a deslocamentos por estrada ou regiões de neve.',
+      vaccineTitle: 'Sem exigência geral',
+      vaccineText: 'Não há exigência geral de vacina obrigatória para entrada turística comum nesta base.',
+      medicineText: 'Leve medicamentos em embalagem original e receita quando possível.',
+      healthAttention: 'Seguro é útil em viagens de neve, estrada, Patagônia e deslocamentos longos.',
+      healthLabel: 'Ministerio de Salud Argentina',
+      healthUrl: 'https://www.argentina.gob.ar/salud',
+      importantIntro: 'Na Argentina, o ponto mais importante é não confundir facilidade regional com ausência de preparo.',
+      importantCard1Title: 'RG precisa estar bom',
+      importantCard1Text: 'Documento danificado ou foto muito antiga pode gerar problema.',
+      borderTitle: 'Carro e fronteira',
+      borderText: 'Verifique Carta Verde, documento do veículo e autorização se o carro não estiver no nome do condutor.',
+      localRulesTitle: 'Câmbio e deslocamentos',
+      localRulesText: 'Organize meios de pagamento e reservas antes de sair do Brasil.',
+      signatureImportant: 'Viagem simples não significa viagem improvisada.',
+      customsIntro: 'Na Argentina, compras, vinhos, eletrônicos, medicamentos e retorno ao Brasil merecem atenção.',
+      customsMedicine: 'Medicamentos devem estar organizados e com receita quando possível.',
+      foodText: 'Alimentos e produtos agropecuários podem ter controle em fronteiras.',
+      customsLabel: 'AFIP / Aduana Argentina',
+      customsUrl: 'https://www.afip.gob.ar/',
+      brazilContacts: `<div class="contact-card"><h5>Embaixada da Argentina — Brasília</h5><p><strong>Site:</strong> <a href="https://ebrsl.cancilleria.gob.ar/" target="_blank" rel="noopener noreferrer">ebrsl.cancilleria.gob.ar</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+da+Argentina+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>`
+    });
+
+    const CHILE_INTERACTIVE_DETAILS = buildAmericasInteractiveDetails({
+      name: 'Chile',
+      intro: 'O Chile é uma viagem regional, mas com características próprias: neve, Atacama, fronteiras, altitude e deslocamentos longos exigem preparo.',
+      whoNeeds: 'Brasileiros em turismo',
+      whoNeedsText: 'Brasileiros não precisam de visto para turismo.',
+      entryType: 'RG válido ou passaporte',
+      entryText: 'RG em bom estado e com foto atualizada costuma ser aceito; passaporte também é aceito.',
+      cost: 'Sem taxa de visto',
+      costText: 'Não há taxa de visto para turismo comum.',
+      stay: 'Até 90 dias',
+      stayText: 'Permanência turística usual, conforme controle migratório.',
+      attentionTitle: 'Neve e fronteira',
+      attentionText: 'Viagens para neve, Atacama ou travessias terrestres pedem seguro e documentos bem organizados.',
+      visaPortalLabel: 'Servicios Consulares Chile',
+      visaPortalUrl: 'https://serviciosconsulares.cl/',
+      embassyLabel: 'Embaixada do Chile no Brasil',
+      embassyUrl: 'https://www.chile.gob.cl/brasil/',
+      arrivalText: 'Tenha RG/passaporte, hospedagem, retorno e meios de pagamento acessíveis.',
+      connections: 'Travessias terrestres, neve e Atacama podem exigir atenção a documentos, clima e seguro.',
+      signatureVisa: 'No Chile, o preparo faz diferença principalmente fora da capital.',
+      documentsIntro: 'A documentação para o Chile deve considerar cidade, neve, deserto, fronteiras e deslocamentos internos.',
+      mainDocument: 'RG válido ou passaporte',
+      mainDocumentText: 'Use RG em bom estado, com foto atual e dados legíveis.',
+      entryDocument: 'Sem visto',
+      entryDocumentText: 'Brasileiros não precisam de visto para turismo comum.',
+      insuranceTitle: 'Recomendado',
+      insuranceText: 'Muito recomendado para neve, estrada, altitude e Atacama.',
+      signatureDocuments: 'No Chile, o destino escolhido muda o nível de preparo necessário.',
+      whereBrazilIntro: 'Para o Chile, turismo comum não exige visto para brasileiros. Canais oficiais orientam situações específicas.',
+      brazilEmbassyLabel: 'Consulado-Geral do Brasil em Santiago',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/consulado-santiago',
+      healthIntro: 'No Chile, saúde envolve seguro, altitude, clima seco, neve e deslocamentos longos.',
+      vaccineTitle: 'Sem exigência geral',
+      vaccineText: 'Não há exigência geral de vacina obrigatória para entrada turística comum nesta base.',
+      medicineText: 'Leve medicamentos em embalagem original e receita quando possível.',
+      healthAttention: 'Atacama e altitude podem exigir preparo físico, hidratação e atenção médica prévia.',
+      healthLabel: 'Ministerio de Salud Chile',
+      healthUrl: 'https://www.minsal.cl/',
+      importantIntro: 'No Chile, o roteiro importa muito: Santiago, neve, Atacama e Patagônia têm necessidades diferentes.',
+      importantCard1Title: 'Roteiro define preparo',
+      importantCard1Text: 'Neve, deserto e estrada exigem mais cuidado que uma viagem urbana.',
+      borderTitle: 'Fronteiras terrestres',
+      borderText: 'Travessias por estrada exigem documentos do veículo e atenção ao clima.',
+      localRulesTitle: 'Clima extremo',
+      localRulesText: 'Altitude, frio, calor seco e vento podem afetar a viagem.',
+      signatureImportant: 'No Chile, antecipar clima e deslocamento evita desgaste no destino.',
+      customsIntro: 'O Chile possui controle sanitário rigoroso para alimentos e produtos agropecuários.',
+      customsMedicine: 'Medicamentos devem estar organizados e com receita quando possível.',
+      foodText: 'Alimentos, frutas, sementes e produtos de origem animal/vegetal podem ser restringidos.',
+      customsLabel: 'Aduanas Chile',
+      customsUrl: 'https://www.aduana.cl/',
+      brazilContacts: `<div class="contact-card"><h5>Embaixada do Chile — Brasília</h5><p><strong>Site:</strong> <a href="https://www.chile.gob.cl/brasil/" target="_blank" rel="noopener noreferrer">chile.gob.cl/brasil</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+do+Chile+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>`
+    });
+
+    const PERU_INTERACTIVE_DETAILS = buildAmericasInteractiveDetails({
+      name: 'Peru',
+      intro: 'O Peru é uma viagem relativamente simples em entrada, mas exige atenção a altitude, Machu Picchu, deslocamentos internos e saúde.',
+      whoNeeds: 'Brasileiros em turismo',
+      whoNeedsText: 'Brasileiros não precisam de visto para turismo.',
+      entryType: 'RG válido ou passaporte',
+      entryText: 'RG em bom estado ou passaporte são usados em viagens de turismo.',
+      cost: 'Sem taxa de visto',
+      costText: 'Não há taxa de visto para turismo comum.',
+      stay: 'Conforme autoridade migratória',
+      stayText: 'O período é definido na entrada, respeitando regras migratórias peruanas.',
+      attentionTitle: 'Altitude',
+      attentionText: 'Cusco, Vale Sagrado e Machu Picchu exigem atenção a aclimatação e saúde.',
+      visaPortalLabel: 'Migraciones Perú',
+      visaPortalUrl: 'https://www.gob.pe/migraciones',
+      embassyLabel: 'Embaixada do Peru no Brasil',
+      embassyUrl: 'https://www.gob.pe/embajada-del-peru-en-brasil',
+      arrivalText: 'Tenha RG/passaporte, hospedagem, retorno, reservas internas e recursos acessíveis.',
+      connections: 'Voos para Cusco e deslocamentos a Machu Picchu devem ser organizados com antecedência.',
+      signatureVisa: 'No Peru, entrada simples não elimina a necessidade de planejar altitude e deslocamentos.',
+      documentsIntro: 'A documentação para o Peru deve considerar entrada, deslocamentos internos, altitude e reservas de atrações.',
+      mainDocument: 'RG válido ou passaporte',
+      mainDocumentText: 'Use documento em bom estado e com dados legíveis.',
+      entryDocument: 'Sem visto',
+      entryDocumentText: 'Brasileiros não precisam de visto para turismo comum.',
+      insuranceTitle: 'Muito recomendado',
+      insuranceText: 'Especialmente para altitude, trilhas, Machu Picchu e deslocamentos internos.',
+      signatureDocuments: 'No Peru, a experiência melhora quando entrada, saúde e deslocamentos estão no mesmo plano.',
+      whereBrazilIntro: 'Para o Peru, turismo comum não exige visto para brasileiros. Canais oficiais orientam casos específicos.',
+      brazilEmbassyLabel: 'Embaixada do Brasil em Lima',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/embaixada-lima',
+      healthIntro: 'No Peru, altitude e deslocamentos são os principais pontos de saúde da viagem.',
+      vaccineTitle: 'Pode depender da rota',
+      vaccineText: 'Febre amarela pode ser recomendada ou exigida conforme áreas visitadas e conexões.',
+      medicineText: 'Leve medicamentos em embalagem original e receita quando possível.',
+      healthAttention: 'Cusco, Vale Sagrado e Machu Picchu exigem aclimatação. Consulte orientação médica se houver condição prévia.',
+      healthLabel: 'Ministerio de Salud Perú',
+      healthUrl: 'https://www.gob.pe/minsa',
+      importantIntro: 'No Peru, a logística importa: Lima, Cusco, trem, ingressos e altitude devem estar organizados.',
+      importantCard1Title: 'Machu Picchu',
+      importantCard1Text: 'Ingressos, horários e deslocamentos devem ser planejados com antecedência.',
+      borderTitle: 'Altitudes e conexões',
+      borderText: 'Conexões internas e altitude podem impactar ritmo da viagem.',
+      localRulesTitle: 'Reservas e trilhas',
+      localRulesText: 'Algumas atrações exigem reservas e horários rígidos.',
+      signatureImportant: 'No Peru, preparar o corpo e a logística evita desgaste no destino.',
+      customsIntro: 'No Peru, alfândega, medicamentos, compras e itens culturais merecem atenção.',
+      customsMedicine: 'Medicamentos devem estar organizados e com receita quando possível.',
+      foodText: 'Alimentos, plantas e produtos agrícolas podem ter controle sanitário.',
+      customsLabel: 'SUNAT Aduanas',
+      customsUrl: 'https://www.sunat.gob.pe/',
+      brazilContacts: `<div class="contact-card"><h5>Embaixada do Peru — Brasília</h5><p><strong>Site:</strong> <a href="https://www.gob.pe/embajada-del-peru-en-brasil" target="_blank" rel="noopener noreferrer">gob.pe/embajada-del-peru-en-brasil</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+do+Peru+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>`
+    });
+
+    const COLOMBIA_INTERACTIVE_DETAILS = buildAmericasInteractiveDetails({
+      name: 'Colômbia',
+      intro: 'A Colômbia exige atenção ao Check-Mig, entrada, conexões e saúde. É uma viagem próxima, mas com formulário digital importante.',
+      whoNeeds: 'Brasileiros em turismo',
+      whoNeedsText: 'Brasileiros não precisam de visto para turismo.',
+      entryType: 'Sem visto + Check-Mig',
+      entryText: 'O Check-Mig permite pré-carregar informações da viagem antes da entrada ou saída.',
+      cost: 'Sem taxa de visto',
+      costText: 'Não há taxa de visto para turismo comum.',
+      stay: 'Conforme autoridade migratória',
+      stayText: 'O período é definido na entrada, respeitando regras colombianas.',
+      attentionTitle: 'Check-Mig',
+      attentionText: 'Preencha o formulário oficial antes da viagem para tornar o controle migratório mais fluido.',
+      visaPortalLabel: 'Migración Colombia — Check-Mig',
+      visaPortalUrl: 'https://apps.migracioncolombia.gov.co/pre-registro/en',
+      embassyLabel: 'Embaixada da Colômbia no Brasil',
+      embassyUrl: 'https://brasil.embajada.gov.co/',
+      arrivalText: 'Tenha Check-Mig, RG/passaporte, hospedagem, retorno e recursos acessíveis.',
+      connections: 'Conexões via Panamá, EUA ou outros países podem exigir regras próprias de trânsito.',
+      signatureVisa: 'Na Colômbia, o formulário certo antes do voo reduz ruído na chegada.',
+      documentsIntro: 'A documentação para Colômbia deve considerar Check-Mig, hospedagem, retorno e eventuais conexões.',
+      mainDocument: 'RG válido ou passaporte',
+      mainDocumentText: 'Use documento em bom estado e com dados legíveis.',
+      entryDocument: 'Check-Mig preenchido',
+      entryDocumentText: 'Formulário oficial de pré-registro migratório.',
+      insuranceTitle: 'Recomendado',
+      insuranceText: 'Útil para Cartagena, San Andrés, Medellín, deslocamentos e imprevistos.',
+      signatureDocuments: 'Quando o Check-Mig e os comprovantes estão organizados, a chegada tende a ser mais simples.',
+      whereBrazilIntro: 'Para a Colômbia, turismo comum não exige visto, mas Check-Mig e canais oficiais devem ser consultados.',
+      brazilEmbassyLabel: 'Embaixada do Brasil em Bogotá',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/embaixada-bogota',
+      healthIntro: 'Na Colômbia, saúde pode envolver febre amarela conforme rota, seguro e deslocamentos internos.',
+      vaccineTitle: 'Pode depender da rota',
+      vaccineText: 'Febre amarela pode ser recomendada ou exigida conforme áreas visitadas e conexões.',
+      medicineText: 'Leve medicamentos em embalagem original e receita quando possível.',
+      healthAttention: 'Atenção a Cartagena, Amazônia, San Andrés e conexões internacionais. Verifique orientação sanitária da rota completa.',
+      healthLabel: 'Ministerio de Salud Colombia',
+      healthUrl: 'https://www.minsalud.gov.co/',
+      importantIntro: 'Na Colômbia, a viagem fica mais organizada quando Check-Mig, hospedagem e saída estão claros.',
+      importantCard1Title: 'Check-Mig',
+      importantCard1Text: 'Pré-registro migratório para entrada e saída do país.',
+      borderTitle: 'Conexões',
+      borderText: 'Rotas via Panamá ou EUA podem exigir regras de trânsito próprias.',
+      localRulesTitle: 'Rota interna',
+      localRulesText: 'Cartagena, Bogotá, Medellín e ilhas têm dinâmicas diferentes.',
+      signatureImportant: 'Na Colômbia, formulário digital e rota clara reduzem desgaste.',
+      customsIntro: 'Na Colômbia, medicamentos, alimentos, compras e dinheiro em espécie merecem atenção.',
+      customsMedicine: 'Medicamentos devem estar em quantidade compatível e com receita quando possível.',
+      foodText: 'Alimentos e produtos agrícolas podem ter restrições.',
+      customsLabel: 'DIAN Colombia',
+      customsUrl: 'https://www.dian.gov.co/',
+      brazilContacts: `<div class="contact-card"><h5>Embaixada da Colômbia — Brasília</h5><p><strong>Site:</strong> <a href="https://brasil.embajada.gov.co/" target="_blank" rel="noopener noreferrer">brasil.embajada.gov.co</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+da+Colombia+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>`
+    });
+
+    const URUGUAY_INTERACTIVE_DETAILS = buildAmericasInteractiveDetails({
+      name: 'Uruguai',
+      intro: 'O Uruguai é uma viagem regional simples, mas fronteira terrestre, carro, documentos e retorno ao Brasil pedem organização.',
+      whoNeeds: 'Brasileiros em turismo',
+      whoNeedsText: 'Brasileiros não precisam de visto para turismo.',
+      entryType: 'RG válido ou passaporte',
+      entryText: 'RG em bom estado e com foto atualizada costuma ser aceito; passaporte também é aceito.',
+      cost: 'Sem taxa de visto',
+      costText: 'Não há taxa de visto para turismo comum.',
+      stay: 'Até 90 dias',
+      stayText: 'Permanência turística usual, conforme controle migratório.',
+      attentionTitle: 'Viagem de carro',
+      attentionText: 'Verifique Carta Verde, documentos do veículo e autorização se o carro não estiver no nome do condutor.',
+      visaPortalLabel: 'MRREE Uruguay',
+      visaPortalUrl: 'https://www.gub.uy/ministerio-relaciones-exteriores/',
+      embassyLabel: 'Embaixada do Uruguai no Brasil',
+      embassyUrl: 'https://www.gub.uy/ministerio-relaciones-exteriores/',
+      arrivalText: 'Tenha RG/passaporte, hospedagem, passagem ou rota de saída e meios de pagamento acessíveis.',
+      connections: 'Travessias terrestres, balsas e rotas por Argentina exigem atenção documental.',
+      signatureVisa: 'No Uruguai, a simplicidade da entrada não elimina a importância de organizar fronteira e veículo.',
+      documentsIntro: 'A documentação para Uruguai deve considerar avião, carro, balsa, fronteira e menores de idade.',
+      mainDocument: 'RG válido ou passaporte',
+      mainDocumentText: 'Use RG em bom estado, com foto atual e dados legíveis; CNH não substitui documento de viagem.',
+      entryDocument: 'Sem visto',
+      entryDocumentText: 'Brasileiros não precisam de visto para turismo comum.',
+      insuranceTitle: 'Carta Verde se carro',
+      insuranceText: 'Seguro viagem é recomendado; Carta Verde é essencial em viagens de carro.',
+      signatureDocuments: 'Viagens regionais ficam mais leves quando fronteira e documentos do veículo estão prontos.',
+      whereBrazilIntro: 'Para o Uruguai, turismo comum não exige visto, mas canais oficiais orientam situações específicas.',
+      brazilEmbassyLabel: 'Consulado-Geral do Brasil em Montevidéu',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/assuntos/portal-consular/reparticoes-consulares-do-brasil/regiao/uruguai/uruguai',
+      healthIntro: 'No Uruguai, saúde envolve seguro, medicamentos e atenção a deslocamentos por estrada.',
+      vaccineTitle: 'Sem exigência geral',
+      vaccineText: 'Não há exigência geral de vacina obrigatória para entrada turística comum nesta base.',
+      medicineText: 'Leve medicamentos em embalagem original e receita quando possível.',
+      healthAttention: 'Seguro é útil em deslocamentos rodoviários, fronteira e viagens com crianças ou idosos.',
+      healthLabel: 'Ministerio de Salud Pública Uruguay',
+      healthUrl: 'https://www.gub.uy/ministerio-salud-publica/',
+      importantIntro: 'No Uruguai, o ponto mais importante costuma ser a forma de entrada: avião, carro, balsa ou rota combinada.',
+      importantCard1Title: 'Documento em bom estado',
+      importantCard1Text: 'RG danificado ou antigo pode gerar questionamentos.',
+      borderTitle: 'Carro e fronteira',
+      borderText: 'Carta Verde e documentos do veículo devem estar prontos.',
+      localRulesTitle: 'Rota combinada',
+      localRulesText: 'Viagens via Argentina ou balsa exigem atenção adicional.',
+      signatureImportant: 'No Uruguai, entrada simples e fronteira organizada tornam a viagem muito mais leve.',
+      customsIntro: 'No Uruguai, compras, medicamentos, alimentos e retorno ao Brasil merecem atenção.',
+      customsMedicine: 'Medicamentos devem estar organizados e com receita quando possível.',
+      foodText: 'Alimentos e produtos agropecuários podem ter controle em fronteiras.',
+      customsLabel: 'Dirección Nacional de Aduanas Uruguay',
+      customsUrl: 'https://www.aduanas.gub.uy/',
+      brazilContacts: `<div class="contact-card"><h5>Embaixada do Uruguai — Brasília</h5><p><strong>Site:</strong> <a href="https://www.gub.uy/ministerio-relaciones-exteriores/" target="_blank" rel="noopener noreferrer">gub.uy/ministerio-relaciones-exteriores</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+do+Uruguai+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>`
+    });
+
     function openDetailModal(detailKey) {
       const detail = CURRENT_INTERACTIVE_DETAILS[detailKey] || US_INTERACTIVE_DETAILS[detailKey];
       const modal = document.getElementById('detailModal');
@@ -3671,7 +4180,14 @@
         'qatar': QATAR_INTERACTIVE_DETAILS,
         'japao': JAPAN_INTERACTIVE_DETAILS,
         'tailandia': THAILAND_INTERACTIVE_DETAILS,
-        'singapura': SINGAPORE_INTERACTIVE_DETAILS
+        'singapura': SINGAPORE_INTERACTIVE_DETAILS,
+        'canada': CANADA_INTERACTIVE_DETAILS,
+        'mexico': MEXICO_INTERACTIVE_DETAILS,
+        'argentina': ARGENTINA_INTERACTIVE_DETAILS,
+        'chile': CHILE_INTERACTIVE_DETAILS,
+        'peru': PERU_INTERACTIVE_DETAILS,
+        'colombia': COLOMBIA_INTERACTIVE_DETAILS,
+        'uruguai': URUGUAY_INTERACTIVE_DETAILS
       };
       const activeInteractiveDetails = interactiveDetailsByCountry[match.countryKey] || null;
       const isInteractiveCountry = Boolean(activeInteractiveDetails);
