@@ -2314,6 +2314,326 @@
       `
     });
 
+
+    function buildAsiaInteractiveDetails(config) {
+      return {
+        visa: {
+          title: '1. Visto e entrada no país',
+          body: `
+            <p class="modal-intro">${config.intro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Quem precisa</span><strong>${config.whoNeeds}</strong><p>${config.whoNeedsText}</p></div>
+              <div class="quick-info-card"><span>Tipo de entrada</span><strong>${config.entryType}</strong><p>${config.entryText}</p></div>
+              <div class="quick-info-card"><span>Valor</span><strong>${config.cost}</strong><p>${config.costText}</p></div>
+              <div class="quick-info-card"><span>Permanência</span><strong>${config.stay}</strong><p>${config.stayText}</p></div>
+              <div class="quick-info-card"><span>Formulário / sistema</span><strong>${config.systemTitle}</strong><p>${config.systemText}</p><a class="official-action-link" href="${config.systemUrl}" target="_blank" rel="noopener noreferrer">Abrir sistema oficial</a></div>
+              <div class="quick-info-card"><span>Entrada</span><strong>${config.entryControlTitle}</strong><p>${config.entryControlText}</p></div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Chegada e imigração</h4>
+              <p>${config.arrivalText}</p>
+            </div>
+
+            <div class="modal-section">
+              <h4>Conexões e escalas</h4>
+              <p>${config.connections}</p>
+            </div>
+
+            <div class="modal-signature">${config.signatureVisa}</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a> · <a href="${config.systemUrl}" target="_blank" rel="noopener noreferrer">${config.systemTitle}</a> · <a href="https://www.gov.br/mre/pt-br/assuntos/portal-consular" target="_blank" rel="noopener noreferrer">GOV.BR — Portal Consular</a></div>
+          `
+        },
+
+        documents: {
+          title: '2. Documentos necessários',
+          body: `
+            <p class="modal-intro">${config.documentsIntro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Documento principal</span><strong>Passaporte válido</strong><p>${config.passportText}</p></div>
+              <div class="quick-info-card"><span>Entrada</span><strong>${config.entryDocument}</strong><p>${config.entryDocumentText}</p></div>
+              <div class="quick-info-card"><span>Hospedagem</span><strong>Endereço ou reserva</strong><p>Hotel, apartamento ou endereço de referência devem estar acessíveis.</p></div>
+              <div class="quick-info-card"><span>Saída</span><strong>Passagem de retorno ou continuação</strong><p>Tenha o próximo trecho claro, especialmente em viagens pela Ásia.</p></div>
+              <div class="quick-info-card"><span>Recursos</span><strong>Meios de pagamento</strong><p>Cartões, dinheiro e comprovantes podem apoiar a clareza da viagem.</p></div>
+              <div class="quick-info-card"><span>Seguro</span><strong>Recomendado</strong><p>Ajuda a reduzir desgaste com saúde, atrasos e imprevistos.</p></div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Documentos digitais</h4>
+              <p>Salve passaporte, passagens, hospedagem, seguro, formulários de chegada e contatos importantes no celular e em nuvem.</p>
+            </div>
+
+            <div class="modal-signature">${config.signatureDocuments}</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a> · <a href="${config.systemUrl}" target="_blank" rel="noopener noreferrer">${config.systemTitle}</a></div>
+          `
+        },
+
+        brazil: {
+          title: '3. Onde resolver no Brasil',
+          body: `
+            <p class="modal-intro">${config.whereBrazilIntro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Embaixada</span><strong>Relação diplomática e orientação institucional</strong><p>A Embaixada representa oficialmente ${config.name} no Brasil e concentra informações institucionais.</p></div>
+              <div class="quick-info-card"><span>Consulado</span><strong>Atendimento e orientação prática</strong><p>Quando houver serviço consular, ele pode orientar visto, documentação e dúvidas por região.</p></div>
+              <div class="quick-info-card"><span>Entrada</span><strong>${config.visaPortalLabel}</strong><p>Canal oficial para confirmar exigências de entrada.</p><a class="official-action-link" href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">Abrir fonte oficial</a></div>
+              <div class="quick-info-card"><span>Formulário</span><strong>${config.systemTitle}</strong><p>${config.systemText}</p><a class="official-action-link" href="${config.systemUrl}" target="_blank" rel="noopener noreferrer">Abrir sistema oficial</a></div>
+            </div>
+
+            ${config.brazilContacts}
+
+            <div class="modal-signature">Saber qual canal oficial consultar evita ruído, intermediários desnecessários e decisões de última hora.</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.embassyUrl}" target="_blank" rel="noopener noreferrer">${config.embassyLabel}</a> · <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a></div>
+          `
+        },
+
+        support: {
+          title: '4. Apoio no destino',
+          body: `
+            <p class="modal-intro">Na Ásia, distância e deslocamento importam. Saber qual posto brasileiro atende a cidade da viagem evita desgaste em situações inesperadas.</p>
+            <div id="dynamicSupportModalContent"></div>
+            <div class="modal-section"><h4>Quando procurar apoio consular</h4><p>Perda ou roubo de documentos, emergências, contato familiar, emissão de documentos provisórios e orientação consular são situações em que o posto brasileiro pode ajudar.</p></div>
+            <div class="modal-signature">Ter o contato certo salvo antes da viagem traz mais clareza quando a viagem está longe de casa.</div>
+            <div class="modal-source">Fontes oficiais: <a href="${config.brazilEmbassyUrl}" target="_blank" rel="noopener noreferrer">${config.brazilEmbassyLabel}</a> · <a href="https://econsular.itamaraty.gov.br/" target="_blank" rel="noopener noreferrer">e-Consular</a></div>
+          `
+        },
+
+        health: {
+          title: '5. Informações de saúde',
+          body: `
+            <p class="modal-intro">${config.healthIntro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Vacina obrigatória</span><strong>${config.vaccineTitle}</strong><p>${config.vaccineText}</p></div>
+              <div class="quick-info-card"><span>Medicamentos</span><strong>Receita e embalagem original</strong><p>${config.medicineText}</p></div>
+              <div class="quick-info-card"><span>Seguro</span><strong>Recomendado</strong><p>Ajuda a reduzir desgaste com atendimento médico, atrasos e imprevistos.</p></div>
+              <div class="quick-info-card"><span>Conexões</span><strong>Rota completa importa</strong><p>Escalas podem ter regras próprias, inclusive exigências sanitárias dependendo do país da conexão.</p></div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Atenção especial</h4>
+              <p>${config.healthAttention}</p>
+            </div>
+
+            <div class="modal-signature">${config.signatureHealth}</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a> · <a href="${config.healthUrl}" target="_blank" rel="noopener noreferrer">${config.healthLabel}</a></div>
+          `
+        },
+
+        important: {
+          title: '6. Informações importantes',
+          body: `
+            <p class="modal-intro">${config.importantIntro}</p>
+
+            <div class="quick-info-grid">
+              <div class="quick-info-card"><span>Chegada</span><strong>${config.importantCard1Title}</strong><p>${config.importantCard1Text}</p></div>
+              <div class="quick-info-card"><span>Formulário</span><strong>${config.systemTitle}</strong><p>${config.systemText}</p></div>
+              <div class="quick-info-card"><span>Conexão</span><strong>Tempo e documentação</strong><p>Conexões longas podem exigir saída do aeroporto, hospedagem ou nova inspeção.</p></div>
+              <div class="quick-info-card"><span>Regras locais</span><strong>${config.localRulesTitle}</strong><p>${config.localRulesText}</p></div>
+            </div>
+
+            <div class="modal-section">
+              <h4>Escalas e exigências obrigatórias</h4>
+              <p>Escalas podem ter regras próprias, incluindo visto de trânsito, autorizações adicionais ou exigências sanitárias obrigatórias, dependendo do país da conexão.</p>
+            </div>
+
+            <div class="modal-signature">${config.signatureImportant}</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.visaPortalUrl}" target="_blank" rel="noopener noreferrer">${config.visaPortalLabel}</a> · <a href="${config.systemUrl}" target="_blank" rel="noopener noreferrer">${config.systemTitle}</a></div>
+          `
+        },
+
+        customs: {
+          title: '7. Alfândega, bagagem e itens restritos',
+          body: `
+            <p class="modal-intro">${config.customsIntro}</p>
+
+            <div class="modal-soft-grid">
+              <div class="modal-soft-card"><strong>Medicamentos</strong><p>${config.customsMedicine}</p></div>
+              <div class="modal-soft-card"><strong>Alimentos</strong><p>${config.foodText}</p></div>
+              <div class="modal-soft-card"><strong>Valores em espécie</strong><p>Valores elevados podem exigir declaração conforme regras locais de entrada e saída.</p></div>
+              <div class="modal-soft-card"><strong>Compras</strong><p>Compras de valor devem ser consideradas também no retorno ao Brasil.</p></div>
+              <div class="modal-soft-card"><strong>Bagagem e conexão</strong><p>Power banks, baterias, líquidos e itens eletrônicos podem seguir regras aeroportuárias específicas.</p></div>
+              <div class="modal-soft-card"><strong>Retorno ao Brasil</strong><p>Compras acima da cota podem exigir declaração e tributação pela Receita Federal.</p></div>
+            </div>
+
+            <div class="modal-signature">Alfândega e bagagem ficam mais simples quando o viajante entende antes o que pode gerar retenção, declaração ou questionamento.</div>
+
+            <div class="modal-source">Fontes oficiais: <a href="${config.customsUrl}" target="_blank" rel="noopener noreferrer">${config.customsLabel}</a> · <a href="https://www.gov.br/receitafederal/pt-br/assuntos/aduana-e-comercio-exterior/viajantes" target="_blank" rel="noopener noreferrer">Receita Federal do Brasil</a> · <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a></div>
+          `
+        }
+      };
+    }
+
+    const JAPAN_INTERACTIVE_DETAILS = buildAsiaInteractiveDetails({
+      name: 'Japão',
+      intro: 'O Japão combina entrada relativamente organizada com processos digitais de chegada. Para brasileiros em turismo curto, o foco é passaporte, permanência, Visit Japan Web e alfândega.',
+      whoNeeds: 'Brasileiros em turismo curto',
+      whoNeedsText: 'Brasileiros normalmente não precisam de visto para curta permanência no Japão.',
+      entryType: 'Isenção de visto',
+      entryText: 'Entrada sem visto para curta permanência, dentro do limite permitido.',
+      cost: 'Sem taxa de visto',
+      costText: 'Para turismo comum dentro da isenção, não há taxa de visto.',
+      stay: 'Até 90 dias',
+      stayText: 'Permanência de curta duração, conforme regra japonesa.',
+      systemTitle: 'Visit Japan Web',
+      systemText: 'Sistema oficial para procedimentos de imigração, alfândega e tax-free.',
+      systemUrl: 'https://services.digital.go.jp/en/visit-japan-web/',
+      visaPortalLabel: 'MOFA Japan',
+      visaPortalUrl: 'https://www.mofa.go.jp/j_info/visit/visa/short/novisa.html',
+      entryControlTitle: 'Chegada digital',
+      entryControlText: 'Visit Japan Web ajuda a organizar imigração e alfândega antes da chegada.',
+      arrivalText: 'Na chegada, mantenha passaporte, hospedagem, passagem de saída e QR codes do Visit Japan Web acessíveis.',
+      connections: 'Conexões por Tóquio, Osaka ou outros aeroportos japoneses podem exigir nova inspeção ou deslocamento entre terminais.',
+      signatureVisa: 'No Japão, a experiência de chegada fica muito mais fluida quando o digital já está organizado antes do voo.',
+      documentsIntro: 'A documentação para o Japão deve estar organizada para entrada, hospedagem, deslocamentos internos e alfândega.',
+      passportText: 'Passaporte em bom estado e válido durante a permanência.',
+      entryDocument: 'Isenção + Visit Japan Web',
+      entryDocumentText: 'A isenção dispensa visto; o Visit Japan Web organiza procedimentos de chegada.',
+      signatureDocuments: 'No Japão, ordem e previsibilidade fazem parte da experiência desde a chegada.',
+      whereBrazilIntro: 'Para o Japão, brasileiros em turismo curto normalmente não precisam de visto. Para outros perfis, consulte os canais oficiais japoneses.',
+      embassyLabel: 'Embaixada do Japão no Brasil',
+      embassyUrl: 'https://www.br.emb-japan.go.jp/itprtop_pt/index.html',
+      brazilEmbassyLabel: 'Embaixada do Brasil em Tóquio',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/embaixada-toquio',
+      healthIntro: 'No Japão, saúde e medicamentos exigem atenção, especialmente para remédios controlados e quantidades transportadas.',
+      vaccineTitle: 'Sem exigência geral para turismo comum',
+      vaccineText: 'Não há exigência geral de vacina obrigatória para entrada turística comum de brasileiros nesta base.',
+      medicineText: 'Medicamentos devem estar em embalagem original e com receita quando possível; alguns podem exigir autorização prévia.',
+      healthAttention: 'Certos medicamentos comuns em outros países podem ter controle mais rigoroso no Japão. Verifique antes de viajar.',
+      healthLabel: 'Ministry of Health, Labour and Welfare Japan',
+      healthUrl: 'https://www.mhlw.go.jp/english/',
+      importantIntro: 'O Japão valoriza organização, formulários corretos e coerência na chegada. Pequenos preparos reduzem muito o desgaste.',
+      importantCard1Title: 'QR codes e chegada',
+      importantCard1Text: 'Organize QR codes do Visit Japan Web, hospedagem e passagem de saída antes do desembarque.',
+      localRulesTitle: 'Etiqueta e organização',
+      localRulesText: 'Pontualidade, silêncio em transportes e respeito às normas locais fazem parte da experiência.',
+      signatureImportant: 'No Japão, a viagem fica mais leve quando os detalhes são resolvidos antes da chegada.',
+      customsIntro: 'No Japão, alfândega e medicamentos merecem atenção especial. O Visit Japan Web também ajuda nessa etapa.',
+      customsMedicine: 'Alguns medicamentos podem exigir autorização prévia; leve receita, embalagem original e quantidade compatível.',
+      foodText: 'Alimentos, carnes, plantas e produtos agrícolas podem ter restrições.',
+      customsLabel: 'Japan Customs',
+      customsUrl: 'https://www.customs.go.jp/english/',
+      brazilContacts: `
+        <div class="contact-card"><h5>Embaixada do Japão — Brasília</h5><p><strong>Site:</strong> <a href="https://www.br.emb-japan.go.jp/itprtop_pt/index.html" target="_blank" rel="noopener noreferrer">br.emb-japan.go.jp</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+do+Japao+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>
+        <div class="contact-card"><h5>Consulado Geral do Japão — São Paulo</h5><p><strong>Site:</strong> <a href="https://www.sp.br.emb-japan.go.jp/itprtop_pt/index.html" target="_blank" rel="noopener noreferrer">sp.br.emb-japan.go.jp</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Consulado+Geral+do+Japao+Sao+Paulo" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>
+      `
+    });
+
+    const THAILAND_INTERACTIVE_DETAILS = buildAsiaInteractiveDetails({
+      name: 'Tailândia',
+      intro: 'A Tailândia combina turismo sem visto para brasileiros com exigência digital de chegada. O ponto central é organizar TDAC, rota, hospedagem e eventuais exigências sanitárias.',
+      whoNeeds: 'Brasileiros em turismo',
+      whoNeedsText: 'Brasileiros podem entrar sem visto para turismo por até 90 dias, conforme informação oficial da Embaixada da Tailândia.',
+      entryType: 'Isenção de visto + TDAC',
+      entryText: 'A isenção não elimina a obrigação de preencher o Thailand Digital Arrival Card.',
+      cost: 'Sem taxa de visto',
+      costText: 'Para turismo dentro da isenção, não há taxa de visto; o TDAC é um formulário digital de chegada.',
+      stay: 'Até 90 dias',
+      stayText: 'Entrada sem visto para brasileiros em turismo, conforme regra indicada pela Embaixada da Tailândia.',
+      systemTitle: 'TDAC',
+      systemText: 'Thailand Digital Arrival Card obrigatório para viajantes antes da entrada.',
+      systemUrl: 'https://tdac.immigration.go.th/',
+      visaPortalLabel: 'Royal Thai Embassy Brasília',
+      visaPortalUrl: 'https://brasilia.thaiembassy.org/en/content-category/thailand-digital-arrival-card-tdac-requirement-%E2%80%93-effective-may-1st-2025',
+      entryControlTitle: 'Chegada digital',
+      entryControlText: 'O TDAC deve ser preenchido antes da chegada, dentro do prazo indicado oficialmente.',
+      arrivalText: 'Na chegada, mantenha TDAC, passaporte, hospedagem e passagem de saída acessíveis.',
+      connections: 'Bangkok é um hub regional. Conexões para ilhas, Vietnã, Camboja ou outros destinos podem exigir atenção a bagagem e imigração.',
+      signatureVisa: 'Na Tailândia, a entrada fica mais tranquila quando o TDAC e a rota estão organizados antes do voo.',
+      documentsIntro: 'A documentação para a Tailândia deve deixar clara a entrada, hospedagem e saída, especialmente em viagens com ilhas ou múltiplos países.',
+      passportText: 'Passaporte válido e em bom estado; confirme exigências de validade conforme companhia aérea e rota.',
+      entryDocument: 'TDAC preenchido',
+      entryDocumentText: 'O formulário digital de chegada é obrigatório para entrada.',
+      signatureDocuments: 'A Tailândia parece simples, mas o formulário digital e a rota precisam estar claros.',
+      whereBrazilIntro: 'Para a Tailândia, brasileiros em turismo normalmente não precisam de visto, mas o TDAC é obrigatório. Para outros perfis, consulte a Embaixada da Tailândia.',
+      embassyLabel: 'Embaixada da Tailândia no Brasil',
+      embassyUrl: 'https://brasilia.thaiembassy.org/',
+      brazilEmbassyLabel: 'Embaixada do Brasil em Bangkok',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/embaixada-bangkok',
+      healthIntro: 'Na Tailândia, saúde envolve medicamentos, seguro, calor, alimentação e eventuais exigências sanitárias conforme rota.',
+      vaccineTitle: 'Febre amarela pode ser relevante',
+      vaccineText: 'Viajantes brasileiros devem informar vacinação contra febre amarela no TDAC conforme orientação oficial.',
+      medicineText: 'Leve medicamentos em embalagem original, receita quando possível e quantidade compatível.',
+      healthAttention: 'Viagens por ilhas, áreas tropicais ou múltiplos países exigem atenção maior a seguro, medicamentos e vacinação.',
+      healthLabel: 'Royal Thai Embassy Brasília',
+      healthUrl: 'https://brasilia.thaiembassy.org/',
+      importantIntro: 'Na Tailândia, a combinação entre TDAC, ilhas, conexões e exigências sanitárias precisa estar organizada antes da viagem.',
+      importantCard1Title: 'TDAC antes da chegada',
+      importantCard1Text: 'O formulário deve ser preenchido dentro do prazo oficial antes da entrada no país.',
+      localRulesTitle: 'Cultura local',
+      localRulesText: 'Templos, roupas, conduta pública e respeito à monarquia exigem atenção cultural.',
+      signatureImportant: 'Na Tailândia, o preparo reduz desgaste e permite que a viagem aconteça com mais leveza.',
+      customsIntro: 'Na Tailândia, alfândega, medicamentos, eletrônicos, alimentos e itens culturais devem ser observados com atenção.',
+      customsMedicine: 'Medicamentos devem estar em quantidade compatível e com receita quando possível.',
+      foodText: 'Alimentos, plantas e produtos agrícolas podem ter restrições conforme controle sanitário.',
+      customsLabel: 'Thai Customs',
+      customsUrl: 'https://www.customs.go.th/',
+      brazilContacts: `
+        <div class="contact-card"><h5>Embaixada da Tailândia — Brasília</h5><p><strong>Site:</strong> <a href="https://brasilia.thaiembassy.org/" target="_blank" rel="noopener noreferrer">brasilia.thaiembassy.org</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+da+Tailandia+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>
+      `
+    });
+
+    const SINGAPORE_INTERACTIVE_DETAILS = buildAsiaInteractiveDetails({
+      name: 'Singapura',
+      intro: 'Singapura é um hub extremamente organizado. Para brasileiros, a entrada é sem visto por curta permanência, mas o SG Arrival Card é obrigatório antes da chegada.',
+      whoNeeds: 'Brasileiros em visita curta',
+      whoNeedsText: 'Brasileiros podem entrar sem visto por até 30 dias, sujeitos aos requisitos de entrada.',
+      entryType: 'Isenção de visto + SG Arrival Card',
+      entryText: 'A isenção não dispensa o envio do SG Arrival Card antes da chegada.',
+      cost: 'Sem taxa de visto',
+      costText: 'Para entrada curta sem visto, não há taxa consular de visto.',
+      stay: 'Até 30 dias',
+      stayText: 'Conforme informação oficial da representação de Singapura no Brasil.',
+      systemTitle: 'SG Arrival Card',
+      systemText: 'Cartão de chegada eletrônico obrigatório para visitantes.',
+      systemUrl: 'https://www.ica.gov.sg/enter-transit-depart/entering-singapore/sg-arrival-card',
+      visaPortalLabel: 'MFA Singapore Brasília',
+      visaPortalUrl: 'https://brasilia.mfa.gov.sg/important-information/visa-free-entry-for-brazilians/',
+      entryControlTitle: 'Entrada eficiente',
+      entryControlText: 'Singapura exige formulário eletrônico e documentação coerente de entrada.',
+      arrivalText: 'Tenha SG Arrival Card, passaporte, hospedagem, passagem de saída e prova de entrada no próximo destino quando aplicável.',
+      connections: 'Changi é um hub global. Conexões longas podem envolver saída do aeroporto, imigração e nova inspeção.',
+      signatureVisa: 'Em Singapura, a experiência fica mais fluida quando tudo está preenchido antes da chegada.',
+      documentsIntro: 'A documentação para Singapura deve ser objetiva: passaporte, SG Arrival Card, saída, hospedagem e recursos.',
+      passportText: 'A representação de Singapura informa necessidade de passaporte com pelo menos 6 meses de validade.',
+      entryDocument: 'SG Arrival Card enviado',
+      entryDocumentText: 'Obrigatório para visitantes antes da chegada.',
+      signatureDocuments: 'Singapura recompensa organização: quando o formulário está pronto, a chegada tende a ser objetiva.',
+      whereBrazilIntro: 'Para Singapura, brasileiros em visitas curtas normalmente não precisam de visto. O SG Arrival Card é o ponto digital essencial.',
+      embassyLabel: 'Embaixada de Singapura no Brasil',
+      embassyUrl: 'https://brasilia.mfa.gov.sg/',
+      brazilEmbassyLabel: 'Embaixada do Brasil em Singapura',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/embaixada-singapura',
+      healthIntro: 'Em Singapura, saúde e entrada digital caminham juntas: o SG Arrival Card inclui declaração eletrônica de saúde.',
+      vaccineTitle: 'Febre amarela se aplicável',
+      vaccineText: 'Certificado de vacinação contra febre amarela pode ser exigido se aplicável à rota.',
+      medicineText: 'Leve medicamentos em embalagem original, receita quando possível e quantidade compatível.',
+      healthAttention: 'O SG Arrival Card inclui declaração de saúde. Verifique a rota completa e eventuais países de conexão.',
+      healthLabel: 'ICA Singapore',
+      healthUrl: 'https://www.ica.gov.sg/enter-transit-depart/entering-singapore/sg-arrival-card',
+      importantIntro: 'Singapura é eficiente, mas rigorosa. Formulário, documentos e regras locais precisam estar claros.',
+      importantCard1Title: 'SG Arrival Card',
+      importantCard1Text: 'Deve ser enviado dentro do prazo oficial antes da chegada.',
+      localRulesTitle: 'Regras locais',
+      localRulesText: 'Singapura tem regras rígidas sobre conduta pública, itens proibidos e alfândega.',
+      signatureImportant: 'Em Singapura, organização antes do embarque evita ruído em uma chegada que pode ser muito eficiente.',
+      customsIntro: 'Singapura possui controle rigoroso de alfândega e itens proibidos. Medicamentos, alimentos, tabaco e produtos restritos exigem atenção.',
+      customsMedicine: 'Medicamentos devem estar organizados e acompanhados de receita quando possível.',
+      foodText: 'Alimentos e produtos de origem animal/vegetal podem ter restrições.',
+      customsLabel: 'Singapore Customs',
+      customsUrl: 'https://www.customs.gov.sg/',
+      brazilContacts: `
+        <div class="contact-card"><h5>Embaixada de Singapura — Brasília</h5><p><strong>Site:</strong> <a href="https://brasilia.mfa.gov.sg/" target="_blank" rel="noopener noreferrer">brasilia.mfa.gov.sg</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+de+Singapura+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>
+      `
+    });
+
     function openDetailModal(detailKey) {
       const detail = CURRENT_INTERACTIVE_DETAILS[detailKey] || US_INTERACTIVE_DETAILS[detailKey];
       const modal = document.getElementById('detailModal');
@@ -2840,6 +3160,29 @@
         }
       },
 
+      'singapura': {
+        name: 'Singapura',
+        aliases: ['singapura', 'singapore', 'changi'],
+        lastUpdated: LAST_DATA_UPDATE,
+        sources: [
+          { label: 'GOV.BR — Portal Consular', url: 'https://www.gov.br/mre/pt-br/assuntos/portal-consular' },
+          { label: 'ANVISA', url: 'https://www.gov.br/anvisa/pt-br' },
+          { label: 'ICA Singapore', url: 'https://www.ica.gov.sg/enter-transit-depart/entering-singapore' },
+        ],
+        summary: { entry: 'Brasileiros podem entrar sem visto por até 30 dias, com SG Arrival Card obrigatório.', health: 'SG Arrival Card inclui declaração de saúde; febre amarela pode ser aplicável conforme rota.', support: 'Singapura é o apoio principal desta base.' },
+        cities: {
+          'singapura': [{ name: 'Embaixada do Brasil em Singapura', highlight: 'Principal apoio brasileiro em Singapura.', address: 'Singapura', phone: 'Consultar portal oficial', email: '<a href="mailto:brasemb.singapura@itamaraty.gov.br" class="official-source-link">brasemb.singapura@itamaraty.gov.br</a>', site: 'https://www.gov.br/mre/pt-br/embaixada-singapura', distance: '~ 5 a 15 km', car: '15 a 30 min' }]
+        },
+        defaultCity: 'singapura',
+        blocks: {
+          block1: createParagraphs(['<strong>Entrada:</strong> brasileiros podem entrar sem visto por curta permanência, com SG Arrival Card obrigatório.', '<strong>Permanência:</strong> até 30 dias.', '<strong>Formulário:</strong> SG Arrival Card antes da chegada.']),
+          block2: `<h4>Documentos</h4>${createBulletList(['Passaporte válido.', 'SG Arrival Card.', 'Passagem de saída.', 'Hospedagem.', 'Comprovação financeira.'])}`,
+          block3: createLocationCards([{ name: 'Embaixada de Singapura – Brasília', site: 'https://brasilia.mfa.gov.sg/' }]),
+          block5: createParagraphs(['O SG Arrival Card inclui declaração eletrônica de saúde.']),
+          block6: createParagraphs(['Singapura possui regras rígidas de entrada, alfândega e conduta pública.'])
+        }
+      },
+
       'japao': {
         name: 'Japão', aliases: ['japao', 'japão', 'japan'],
         lastUpdated: LAST_DATA_UPDATE,
@@ -3325,7 +3668,10 @@
         'paises-baixos': NETHERLANDS_INTERACTIVE_DETAILS,
         'turquia': TURKEY_INTERACTIVE_DETAILS,
         'emirados-arabes-unidos': UAE_INTERACTIVE_DETAILS,
-        'qatar': QATAR_INTERACTIVE_DETAILS
+        'qatar': QATAR_INTERACTIVE_DETAILS,
+        'japao': JAPAN_INTERACTIVE_DETAILS,
+        'tailandia': THAILAND_INTERACTIVE_DETAILS,
+        'singapura': SINGAPORE_INTERACTIVE_DETAILS
       };
       const activeInteractiveDetails = interactiveDetailsByCountry[match.countryKey] || null;
       const isInteractiveCountry = Boolean(activeInteractiveDetails);
