@@ -3265,6 +3265,60 @@
       `
     });
 
+
+
+    const CHINA_INTERACTIVE_DETAILS = buildAsiaInteractiveDetails({
+      name: 'China',
+      intro: 'A China exige preparação diferente da maior parte dos destinos internacionais. Além do visto, aplicativos, internet, pagamentos e comunicação fazem parte da organização da viagem.',
+      whoNeeds: 'Brasileiros conforme finalidade',
+      whoNeedsText: 'Brasileiros devem verificar necessidade de visto conforme motivo e duração da viagem.',
+      entryType: 'Visto e regras próprias',
+      entryText: 'A China possui regras próprias de entrada, formulários e controle migratório.',
+      cost: 'Conforme categoria',
+      costText: 'Valores variam conforme tipo de visto e local de solicitação.',
+      stay: 'Conforme autorização',
+      stayText: 'O período é definido conforme o visto concedido.',
+      systemTitle: 'Chinese Visa Application Service Center',
+      systemText: 'Canal oficial de solicitação e orientação consular.',
+      systemUrl: 'https://bio.visaforchina.cn/',
+      visaPortalLabel: 'Embassy of China in Brazil',
+      visaPortalUrl: 'http://br.china-embassy.gov.cn/por/',
+      entryControlTitle: 'Entrada organizada',
+      entryControlText: 'Passaporte, visto, hospedagem e formulários devem estar acessíveis.',
+      arrivalText: 'Na chegada, imigração, endereço da hospedagem e dados da viagem podem ser confirmados pelas autoridades.',
+      connections: 'Conexões pela China podem seguir regras próprias de trânsito e controle migratório.',
+      signatureVisa: 'Na China, a preparação digital e documental reduz grande parte do desgaste da viagem.',
+      documentsIntro: 'A China exige organização documental e também preparação digital para comunicação, pagamento e deslocamento.',
+      passportText: 'Passaporte válido e em bom estado.',
+      entryDocument: 'Visto e formulários aplicáveis',
+      entryDocumentText: 'Confirme categoria correta antes do embarque.',
+      signatureDocuments: 'Na China, organização digital e documental caminham juntas.',
+      whereBrazilIntro: 'Para a China, a consulta oficial deve começar pelos canais da Embaixada e dos centros de visto autorizados.',
+      embassyLabel: 'Embaixada da China no Brasil',
+      embassyUrl: 'http://br.china-embassy.gov.cn/por/',
+      brazilEmbassyLabel: 'Embaixada do Brasil em Pequim',
+      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/embaixada-pequim',
+      healthIntro: 'Na China, saúde envolve medicamentos, aplicativos, tradução e deslocamentos longos.',
+      vaccineTitle: 'Pode depender da rota',
+      vaccineText: 'Exigências sanitárias podem variar conforme origem, conexões e região visitada.',
+      medicineText: 'Medicamentos devem estar em embalagem original e com receita quando possível.',
+      healthAttention: 'Aplicativos internacionais podem não funcionar normalmente sem preparação prévia.',
+      healthLabel: 'National Health Commission of China',
+      healthUrl: 'http://en.nhc.gov.cn/',
+      importantIntro: 'Na China, internet, pagamentos, tradução e aplicativos fazem parte da logística da viagem.',
+      importantCard1Title: 'Apps e pagamentos',
+      importantCard1Text: 'Aplicativos locais e meios digitais de pagamento podem ser necessários durante a viagem.',
+      localRulesTitle: 'Internet e comunicação',
+      localRulesText: 'Alguns serviços internacionais podem possuir restrições de funcionamento.',
+      signatureImportant: 'Na China, antecipar a parte digital torna a experiência muito mais fluida.',
+      customsIntro: 'Na China, eletrônicos, medicamentos, drones e itens tecnológicos exigem atenção adicional.',
+      customsMedicine: 'Medicamentos devem estar organizados e acompanhados de receita quando possível.',
+      foodText: 'Produtos alimentícios e agrícolas podem possuir restrições.',
+      customsLabel: 'China Customs',
+      customsUrl: 'http://english.customs.gov.cn/',
+      brazilContacts: `<div class="contact-card"><h5>Embaixada da China — Brasília</h5><p><strong>Site:</strong> <a href="http://br.china-embassy.gov.cn/por/" target="_blank" rel="noopener noreferrer">china-embassy.gov.cn</a></p></div>`
+    });
+
     function openDetailModal(detailKey) {
       const detail = CURRENT_INTERACTIVE_DETAILS[detailKey] || US_INTERACTIVE_DETAILS[detailKey];
       const modal = document.getElementById('detailModal');
@@ -4340,7 +4394,8 @@
         'belgica': BELGIUM_INTERACTIVE_DETAILS,
         'republica-tcheca': CZECHIA_INTERACTIVE_DETAILS,
         'noruega': NORWAY_INTERACTIVE_DETAILS,
-        'finlandia': FINLAND_INTERACTIVE_DETAILS
+        'finlandia': FINLAND_INTERACTIVE_DETAILS,
+        'china': CHINA_INTERACTIVE_DETAILS
       };
       const activeInteractiveDetails = interactiveDetailsByCountry[match.countryKey] || null;
       const isInteractiveCountry = Boolean(activeInteractiveDetails);
