@@ -1113,7 +1113,7 @@
         return `<a class="official-source-link" href="${source.url}" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:underline;text-underline-offset:3px;">${source.label}</a>`;
       });
 
-      updateEl.innerHTML = `Última atualização na ferramenta: <span style="color:#ffffff;font-weight:700;">${country.lastUpdated || LAST_DATA_UPDATE}</span>`;
+      updateEl.innerHTML = `Monitoramento ativo • <span style="color:#ffffff;font-weight:700;">Informações revisadas regularmente</span>`;
       sourcesEl.innerHTML = `Fontes oficiais da síntese: <span style="color:#ffffff;font-weight:700;">${sourceLinks.join(' · ')}</span>`;
     }
 
