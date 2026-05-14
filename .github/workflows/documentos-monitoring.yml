@@ -1,12 +1,20 @@
 name: Documentos Monitoring
 
 on:
+  schedule:
+    - cron: '0 9 * * *'
+  workflow_dispatch:
   push:
     paths:
       - 'documentos.html'
       - 'data/documentos-status.json'
+      - 'data/documentos-data.json'
       - 'scripts/check-documentos.js'
+      - 'scripts/update-documentos.js'
       - 'package.json'
+
+permissions:
+  contents: write
 
 jobs:
   monitor-documentos:
@@ -24,5 +32,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run documentos monitoring
+      - name: Run documentos data update
+        run: node scripts/update-documentos.js
+
+      - name: Run documentos validation
         run: npm run check-documentos
+
+      - name: Commit updated documentos data
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update documentos monitoring data"
+          file_pattern: data/documentos-data.json
