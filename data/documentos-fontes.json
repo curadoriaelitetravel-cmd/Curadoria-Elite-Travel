@@ -2,9 +2,57 @@
   "sources": [
     {
       "country": "Estados Unidos",
-      "entrySources": [],
-      "healthSources": [],
-      "diplomaticSources": []
+
+      "entrySources": [
+        "https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html",
+        "https://br.usembassy.gov/pt/visas-pt/"
+      ],
+
+      "healthSources": [
+        "https://wwwnc.cdc.gov/travel",
+        "https://www.gov.br/anvisa/pt-br"
+      ],
+
+      "diplomaticSources": [
+        "https://www.gov.br/mre/pt-br",
+        "https://br.usembassy.gov/pt/"
+      ]
+    },
+
+    {
+      "country": "Alemanha",
+
+      "entrySources": [
+        "https://www.auswaertiges-amt.de/",
+        "https://www.germany.info/us-en"
+      ],
+
+      "healthSources": [
+        "https://www.rki.de/",
+        "https://www.gov.br/anvisa/pt-br"
+      ],
+
+      "diplomaticSources": [
+        "https://www.gov.br/mre/pt-br"
+      ]
+    },
+
+    {
+      "country": "França",
+
+      "entrySources": [
+        "https://france-visas.gouv.fr/",
+        "https://www.diplomatie.gouv.fr/"
+      ],
+
+      "healthSources": [
+        "https://www.santepubliquefrance.fr/",
+        "https://www.gov.br/anvisa/pt-br"
+      ],
+
+      "diplomaticSources": [
+        "https://www.gov.br/mre/pt-br"
+      ]
     }
   ]
 }
