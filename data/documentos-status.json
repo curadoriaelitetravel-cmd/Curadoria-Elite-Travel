@@ -1,4 +1,8 @@
 {
+  "monitoring": {
+    "status": "active",
+    "message": "Monitoramento ativo • Informações revisadas regularmente"
+  },
   "lastInternalCheck": "2026-05-14",
   "items": [
     {
