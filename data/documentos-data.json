@@ -1,0 +1,106 @@
+{
+  "updatedAt": null,
+  "monitoring": {
+    "enabled": true,
+    "frequency": "daily",
+    "timezone": "America/Sao_Paulo",
+    "message": "Monitoramento ativo • Informações revisadas regularmente"
+  },
+  "countries": [
+    {
+      "id": "estados-unidos",
+      "country": "Estados Unidos",
+      "aliases": [
+        "Estados Unidos",
+        "EUA",
+        "USA",
+        "New York",
+        "Nova York",
+        "Miami",
+        "Orlando",
+        "Las Vegas",
+        "Los Angeles",
+        "San Francisco",
+        "Chicago"
+      ],
+
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros precisam de visto B1/B2 para turismo.",
+        "details": "Brasileiros normalmente precisam de visto válido para turismo, negócios ou trânsito internacional pelos Estados Unidos."
+      },
+
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Sem exigência geral de vacina obrigatória na entrada direta.",
+        "details": "Conexões internacionais podem exigir verificações adicionais conforme rota e origem da viagem."
+      },
+
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "O apoio varia conforme a cidade buscada.",
+        "details": "A ferramenta identifica automaticamente a referência diplomática mais adequada conforme a cidade pesquisada."
+      },
+
+      "sources": [
+        {
+          "name": "Travel.State.Gov",
+          "url": "https://travel.state.gov/"
+        },
+        {
+          "name": "U.S. Embassy Brazil",
+          "url": "https://br.usembassy.gov/pt/"
+        },
+        {
+          "name": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        }
+      ]
+    },
+
+    {
+      "id": "franca",
+      "country": "França",
+      "aliases": [
+        "Paris",
+        "Nice",
+        "Lyon",
+        "Marselha",
+        "França"
+      ],
+
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros não precisam de visto para turismo de curta duração.",
+        "details": "A França segue as regras do Espaço Schengen para permanências curtas."
+      },
+
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Sem exigência geral de vacina obrigatória.",
+        "details": "Seguro viagem e documentação seguem recomendados para entrada na Europa."
+      },
+
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "Paris concentra os principais serviços diplomáticos.",
+        "details": "A ferramenta direciona o apoio conforme a cidade pesquisada."
+      },
+
+      "sources": [
+        {
+          "name": "France Visas",
+          "url": "https://france-visas.gouv.fr/"
+        },
+        {
+          "name": "União Europeia",
+          "url": "https://travel-europe.europa.eu/"
+        },
+        {
+          "name": "GOV.BR",
+          "url": "https://www.gov.br/mre/pt-br"
+        }
+      ]
+    }
+  ]
+}
