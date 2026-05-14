@@ -9,6 +9,11 @@
       "destino": "Paris",
       "categoria": "Gastronomia",
       "status": "ativo"
+    },
+    {
+      "destino": "Roma",
+      "categoria": "City Guide",
+      "status": "ativo"
     }
   ]
 }
