@@ -4,7 +4,9 @@
   "private": true,
   "description": "Curadoria Elite Travel - pagamento e liberação de material digital",
   "scripts": {
-    "check-documentos": "node scripts/check-documentos.js"
+    "check-documentos": "node scripts/check-documentos.js",
+    "update-documentos": "node scripts/update-documentos.js",
+    "extract-documentos": "node scripts/extract-documentos-data.js"
   },
   "dependencies": {
     "stripe": "^16.0.0",
