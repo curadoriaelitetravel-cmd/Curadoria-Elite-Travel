@@ -4,8 +4,6 @@ const path = require("path");
 const DATA_PATH = path.join(__dirname, "../data/documentos-data.json");
 const SOURCES_PATH = path.join(__dirname, "../data/documentos-fontes.json");
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
@@ -29,7 +27,7 @@ async function fetchSource(url) {
     });
 
     if (!response.ok) {
-      return `Fonte indisponível no momento: ${url}`;
+      return "";
     }
 
     const text = await response.text();
@@ -39,77 +37,52 @@ async function fetchSource(url) {
       .replace(/<style[\s\S]*?<\/style>/gi, "")
       .replace(/<[^>]+>/g, " ")
       .replace(/\s+/g, " ")
-      .slice(0, 12000);
+      .slice(0, 10000)
+      .toLowerCase();
+
   } catch (error) {
-    return `Erro ao consultar fonte: ${url}`;
+    return "";
   }
 }
 
-async function askOpenAI(country, currentData, sourceTexts) {
-  if (!OPENAI_API_KEY) {
-    throw new Error("OPENAI_API_KEY não encontrada nos GitHub Secrets.");
+function detectEntryChanges(text) {
+  if (
+    text.includes("visa required") ||
+    text.includes("visitor visa")
+  ) {
+    return "Brasileiros precisam de visto para turismo.";
   }
 
-  const prompt = `
-Você é o motor de atualização da ferramenta Documentação e Informações de Saúde para Viagem da Curadoria Elite Travel.
+  if (
+    text.includes("visa-free") ||
+    text.includes("no visa required")
+  ) {
+    return "Brasileiros não precisam de visto para turismo de curta duração.";
+  }
 
-País analisado: ${country}
-
-Conteúdo atual exibido:
-Entrada: ${currentData.entry.summary}
-Saúde: ${currentData.health.summary}
-Apoio diplomático: ${currentData.diplomaticSupport.summary}
-
-Fontes oficiais consultadas:
-${sourceTexts}
-
-Tarefa:
-1. Verifique se houve mudança relevante sobre visto, entrada, vacina, saúde ou apoio diplomático.
-2. Se não houve mudança, mantenha exatamente os textos atuais.
-3. Se houve mudança, reescreva em português do Brasil, com linguagem objetiva, elegante e compatível com a Curadoria Elite Travel.
-4. Não invente informação.
-5. Não use tom alarmista.
-6. Responda SOMENTE em JSON válido.
-
-Formato obrigatório:
-{
-  "changed": true ou false,
-  "entrySummary": "...",
-  "healthSummary": "...",
-  "diplomaticSupportSummary": "...",
-  "internalNote": "resumo curto do que foi verificado"
+  return null;
 }
-`;
 
-  const response = await fetch("https://api.openai.com/v1/responses", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${OPENAI_API_KEY}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      model: "gpt-4.1-mini",
-      input: prompt
-    })
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Erro na OpenAI: ${errorText}`);
+function detectHealthChanges(text) {
+  if (
+    text.includes("vaccination required") ||
+    text.includes("yellow fever")
+  ) {
+    return "Existe exigência sanitária ou vacinal para determinados viajantes.";
   }
 
-  const result = await response.json();
-  const output = result.output_text;
+  return "Sem exigência geral de vacina obrigatória na entrada direta.";
+}
 
-  return JSON.parse(output);
+function detectDiplomaticChanges(country) {
+  return `O apoio diplomático varia conforme a cidade e a região consultada em ${country}.`;
 }
 
 async function updateCountry(countryData, sourceConfig) {
   console.log(`\n🌍 Verificando ${countryData.country}...`);
 
   if (!sourceConfig) {
-    console.log(`⚠️ Nenhuma fonte configurada para ${countryData.country}`);
-    countryData.lastChecked = getBrazilTimestamp();
+    console.log(`⚠️ Nenhuma fonte configurada.`);
     return countryData;
   }
 
@@ -119,39 +92,61 @@ async function updateCountry(countryData, sourceConfig) {
     ...(sourceConfig.diplomaticSources || [])
   ];
 
-  const sourceTexts = [];
+  let combinedText = "";
 
   for (const url of urls) {
     console.log(`🔎 Consultando: ${url}`);
-    const text = await fetchSource(url);
-    sourceTexts.push(`\nFonte: ${url}\n${text}`);
+
+    const sourceText = await fetchSource(url);
+
+    combinedText += ` ${sourceText}`;
   }
 
-  const analysis = await askOpenAI(
-    countryData.country,
-    countryData,
-    sourceTexts.join("\n\n")
-  );
+  const detectedEntry = detectEntryChanges(combinedText);
+  const detectedHealth = detectHealthChanges(combinedText);
+  const detectedDiplomatic = detectDiplomaticChanges(countryData.country);
 
-  countryData.entry.summary = analysis.entrySummary;
-  countryData.health.summary = analysis.healthSummary;
-  countryData.diplomaticSupport.summary = analysis.diplomaticSupportSummary;
+  let changed = false;
+
+  if (
+    detectedEntry &&
+    detectedEntry !== countryData.entry.summary
+  ) {
+    countryData.entry.summary = detectedEntry;
+    changed = true;
+  }
+
+  if (
+    detectedHealth &&
+    detectedHealth !== countryData.health.summary
+  ) {
+    countryData.health.summary = detectedHealth;
+    changed = true;
+  }
+
+  if (
+    detectedDiplomatic &&
+    detectedDiplomatic !== countryData.diplomaticSupport.summary
+  ) {
+    countryData.diplomaticSupport.summary = detectedDiplomatic;
+    changed = true;
+  }
 
   countryData.lastChecked = getBrazilTimestamp();
-  countryData.lastInternalNote = analysis.internalNote || "";
 
-  if (analysis.changed) {
+  if (changed) {
     countryData.lastAutomaticUpdate = getBrazilTimestamp();
-    console.log(`⚠️ Mudança detectada e aplicada em ${countryData.country}`);
+
+    console.log(`⚠️ Mudanças detectadas em ${countryData.country}`);
   } else {
-    console.log(`✅ Sem mudança relevante em ${countryData.country}`);
+    console.log(`✅ Nenhuma mudança relevante.`);
   }
 
   return countryData;
 }
 
 async function main() {
-  console.log("\n🚀 Iniciando atualização inteligente de documentos...\n");
+  console.log("\n🚀 Iniciando monitoramento automático...\n");
 
   const data = readJson(DATA_PATH);
   const sources = readJson(SOURCES_PATH);
@@ -160,26 +155,30 @@ async function main() {
     sources.sources.map(item => [item.country, item])
   );
 
-  data.updatedAt = getBrazilTimestamp();
-
   const updatedCountries = [];
 
   for (const country of data.countries) {
     const sourceConfig = sourceMap.get(country.country);
-    const updated = await updateCountry(country, sourceConfig);
-    updatedCountries.push(updated);
+
+    const updatedCountry = await updateCountry(
+      country,
+      sourceConfig
+    );
+
+    updatedCountries.push(updatedCountry);
   }
 
+  data.updatedAt = getBrazilTimestamp();
   data.countries = updatedCountries;
 
   writeJson(DATA_PATH, data);
 
-  console.log("\n✅ Atualização inteligente concluída.");
-  console.log(`🕒 Última execução: ${data.updatedAt}\n`);
+  console.log("\n✅ Monitoramento concluído.");
+  console.log(`🕒 Última atualização: ${data.updatedAt}\n`);
 }
 
 main().catch(error => {
-  console.error("❌ Erro na atualização inteligente:");
+  console.error("❌ Erro:");
   console.error(error);
   process.exit(1);
 });
