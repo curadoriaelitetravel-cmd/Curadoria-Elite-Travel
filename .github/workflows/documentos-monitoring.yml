@@ -12,6 +12,7 @@ on:
       - 'data/documentos-fontes.json'
       - 'scripts/check-documentos.js'
       - 'scripts/update-documentos.js'
+      - 'scripts/extract-documentos-data.js'
       - 'package.json'
 
 permissions:
@@ -33,10 +34,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Extract documentos data
+        run: npm run extract-documentos
+
       - name: Run documentos data update
-        run: node scripts/update-documentos.js
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npm run update-documentos
 
       - name: Run documentos validation
         run: npm run check-documentos
@@ -44,5 +46,5 @@ jobs:
       - name: Commit updated documentos data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Update documentos monitoring data"
-          file_pattern: data/documentos-data.json
+          commit_message: "Update documentos extracted data"
+          file_pattern: data/documentos-data.json data/documentos-extracted.json
