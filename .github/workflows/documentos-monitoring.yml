@@ -9,6 +9,7 @@ on:
       - 'documentos.html'
       - 'data/documentos-status.json'
       - 'data/documentos-data.json'
+      - 'data/documentos-fontes.json'
       - 'scripts/check-documentos.js'
       - 'scripts/update-documentos.js'
       - 'package.json'
@@ -34,6 +35,8 @@ jobs:
 
       - name: Run documentos data update
         run: node scripts/update-documentos.js
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
       - name: Run documentos validation
         run: npm run check-documentos
