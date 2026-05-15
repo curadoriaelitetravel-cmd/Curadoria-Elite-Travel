@@ -4342,6 +4342,108 @@
       'olimpia': { countryKey: 'grecia', cityKey: 'atenas', displayName: 'Olimpia' }
     };
 
+
+
+    let DOCUMENTOS_JSON_READY = false;
+
+    function createJsonCountryStructure(item) {
+      const citiesObject = {};
+
+      (item.cities || []).forEach(cityKey => {
+        citiesObject[cityKey] = [];
+      });
+
+      return {
+        slug: item.id,
+        name: item.country,
+        aliases: item.aliases || [],
+        defaultCity: (item.cities || [])[0] || '',
+        sources: item.sources || [],
+        summary: {
+          entry: item.entry?.summary || '',
+          health: item.health?.summary || '',
+          support: item.diplomaticSupport?.summary || ''
+        },
+        cities: citiesObject,
+        jsonBacked: true
+      };
+    }
+
+    function mergeJsonCountry(item) {
+      if (!item || !item.id) return;
+
+      const existingCountry = countries[item.id] || {};
+      const jsonCountry = createJsonCountryStructure(item);
+
+      const mergedCities = {
+        ...(jsonCountry.cities || {}),
+        ...(existingCountry.cities || {})
+      };
+
+      countries[item.id] = {
+        ...existingCountry,
+        ...jsonCountry,
+        aliases: Array.from(new Set([
+          ...(existingCountry.aliases || []),
+          ...(jsonCountry.aliases || [])
+        ])),
+        sources: item.sources || existingCountry.sources || [],
+        summary: {
+          entry: item.entry?.summary || existingCountry.summary?.entry || '',
+          health: item.health?.summary || existingCountry.summary?.health || '',
+          support: item.diplomaticSupport?.summary || existingCountry.summary?.support || ''
+        },
+        cities: mergedCities
+      };
+
+      Object.keys(mergedCities).forEach(cityKey => {
+        cityMap[normalizeText(cityKey)] = item.id;
+      });
+
+      (item.cityRedirects || []).forEach(redirect => {
+        if (!redirect.alias || !redirect.cityKey) return;
+
+        cityRedirects[normalizeText(redirect.alias)] = {
+          countryKey: item.id,
+          cityKey: redirect.cityKey,
+          displayName: redirect.displayName || redirect.alias
+        };
+      });
+    }
+
+    async function loadDocumentosDataJson() {
+      try {
+        const response = await fetch('data/documentos-data.json', {
+          cache: 'no-store'
+        });
+
+        if (!response.ok) {
+          throw new Error('documentos-data.json indisponível');
+        }
+
+        const data = await response.json();
+
+        if (!data || !Array.isArray(data.countries)) {
+          throw new Error('Estrutura inválida em documentos-data.json');
+        }
+
+        data.countries.forEach(mergeJsonCountry);
+
+        DOCUMENTOS_JSON_READY = true;
+
+        console.log('Documentos JSON carregado com sucesso.');
+      } catch (error) {
+        DOCUMENTOS_JSON_READY = false;
+
+        console.warn('Usando dados internos do documentos.html como fallback.', error);
+      }
+    }
+
+    async function initializeDocumentosData() {
+      await loadDocumentosDataJson();
+      renderDynamicChips();
+    }
+
     function findDestination(queryRaw) {
       const query = normalizeText(queryRaw);
       if (!query) return null;
@@ -4753,7 +4855,7 @@
     document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') search(e.target.value); });
     setupDetailModalEvents();
     startSceneryCarousel();
-    renderDynamicChips();
+    initializeDocumentosData();
   </script>
 </body>
 </html>
