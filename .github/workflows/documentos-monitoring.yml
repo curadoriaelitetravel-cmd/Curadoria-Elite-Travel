@@ -10,9 +10,11 @@ on:
       - 'data/documentos-status.json'
       - 'data/documentos-data.json'
       - 'data/documentos-fontes.json'
+      - 'data/documentos-extracted.json'
       - 'scripts/check-documentos.js'
       - 'scripts/update-documentos.js'
       - 'scripts/extract-documentos-data.js'
+      - 'scripts/build-documentos-data.js'
       - 'package.json'
 
 permissions:
@@ -37,6 +39,9 @@ jobs:
       - name: Extract documentos data
         run: npm run extract-documentos
 
+      - name: Build documentos data
+        run: npm run build-documentos
+
       - name: Run documentos data update
         run: npm run update-documentos
 
@@ -46,5 +51,5 @@ jobs:
       - name: Commit updated documentos data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Update documentos extracted data"
+          commit_message: "Update documentos structured data"
           file_pattern: data/documentos-data.json data/documentos-extracted.json
