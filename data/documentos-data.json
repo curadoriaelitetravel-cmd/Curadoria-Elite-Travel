@@ -1,5 +1,5 @@
 {
-  "updatedAt": "15/05/2026, 12:27:05",
+  "updatedAt": "15/05/2026, 12:39:34",
   "monitoring": {
     "enabled": true,
     "frequency": "daily",
@@ -52,7 +52,7 @@
           "url": "https://www.gov.br/anvisa/pt-br"
         }
       ],
-      "lastChecked": "15/05/2026, 12:27:02",
+      "lastChecked": "15/05/2026, 12:39:30",
       "lastAutomaticUpdate": "14/05/2026, 19:24:08"
     },
     {
@@ -94,7 +94,7 @@
           "url": "https://www.gov.br/mre/pt-br"
         }
       ],
-      "lastChecked": "15/05/2026, 12:27:05",
+      "lastChecked": "15/05/2026, 12:39:34",
       "lastAutomaticUpdate": "14/05/2026, 19:24:11"
     }
   ]
