@@ -6,7 +6,8 @@
   "scripts": {
     "check-documentos": "node scripts/check-documentos.js",
     "update-documentos": "node scripts/update-documentos.js",
-    "extract-documentos": "node scripts/extract-documentos-data.js"
+    "extract-documentos": "node scripts/extract-documentos-data.js",
+    "build-documentos": "node scripts/build-documentos-data.js"
   },
   "dependencies": {
     "stripe": "^16.0.0",
