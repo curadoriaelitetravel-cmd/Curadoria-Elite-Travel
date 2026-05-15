@@ -1,174 +1,2597 @@
 {
-  "extractedAt": "2026-05-15T11:21:36.706Z",
-  "totalCountriesDetected": 3,
-  "totalSourcesDetected": 146,
+  "extractedAt": "2026-05-15T15:27:00.537Z",
+  "totalCountriesDetected": 28,
+  "totalCityRedirectsDetected": 228,
+  "totalInteractiveDetailBlocksDetected": 3,
+  "totalSourcesDetected": 284,
   "countries": [
     {
-      "variable": "US",
-      "country": "Us"
+      "id": "estados-unidos",
+      "country": "Estados Unidos",
+      "aliases": [
+        "estados unidos",
+        "eua",
+        "usa",
+        "united states",
+        "america"
+      ],
+      "summary": {
+        "entry": "Brasileiros precisam de visto B1/B2 para turismo.",
+        "health": "Sem exigência geral de vacina obrigatória na entrada direta.",
+        "support": "O apoio varia conforme a cidade buscada."
+      },
+      "cities": [
+        "atlanta",
+        "boston",
+        "chicago",
+        "hartford",
+        "houston",
+        "las vegas",
+        "los angeles",
+        "miami",
+        "new york",
+        "orlando",
+        "san francisco",
+        "washington dc"
+      ],
+      "totalCities": 12,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo dos EUA — Travel.State.Gov",
+          "url": "https://travel.state.gov/"
+        }
+      ]
     },
     {
-      "variable": "FRANCE",
-      "country": "France"
+      "id": "franca",
+      "country": "França",
+      "aliases": [
+        "franca",
+        "frança"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para turismo de curta duração.",
+        "health": "Sem exigência geral de vacina obrigatória; seguro e documentação seguem essenciais.",
+        "support": "Paris é o apoio principal desta base; Nice e Lyon usam referência francesa principal."
+      },
+      "cities": [
+        "lyon",
+        "marseille",
+        "nice",
+        "paris"
+      ],
+      "totalCities": 4,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "France-Visas",
+          "url": "https://france-visas.gouv.fr/"
+        }
+      ]
     },
     {
-      "variable": "UK",
-      "country": "Uk"
+      "id": "espanha",
+      "country": "Espanha",
+      "aliases": [
+        "espanha",
+        "spain"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para turismo de curta duração.",
+        "health": "Sem exigência geral de vacina obrigatória; seguro e documentos seguem essenciais.",
+        "support": "Madrid e Barcelona têm apoio principal; demais cidades usam o posto mais adequado."
+      },
+      "cities": [
+        "barcelona",
+        "madrid"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Espanha",
+          "url": "https://www.exteriores.gob.es/"
+        }
+      ]
+    },
+    {
+      "id": "reino-unido",
+      "country": "Reino Unido",
+      "aliases": [
+        "reino unido",
+        "uk",
+        "united kingdom",
+        "inglaterra",
+        "escocia",
+        "escócia"
+      ],
+      "summary": {
+        "entry": "Brasileiros precisam de ETA para turismo.",
+        "health": "Sem exigência geral de vacina obrigatória na entrada comum.",
+        "support": "Londres e Edimburgo são os apoios principais desta base."
+      },
+      "cities": [
+        "edimburgo",
+        "glasgow",
+        "londres",
+        "manchester"
+      ],
+      "totalCities": 4,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo do Reino Unido",
+          "url": "https://www.gov.uk/check-uk-visa"
+        }
+      ]
+    },
+    {
+      "id": "italia",
+      "country": "Itália",
+      "aliases": [
+        "italia",
+        "itália",
+        "italy"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para turismo de curta duração.",
+        "health": "Sem exigência geral de vacina obrigatória; seguro e documentos seguem essenciais.",
+        "support": "Roma e Milão têm apoio direto; outras cidades usam o posto mais adequado."
+      },
+      "cities": [
+        "florenca",
+        "milao",
+        "roma"
+      ],
+      "totalCities": 3,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Itália",
+          "url": "https://vistoperitalia.esteri.it/"
+        }
+      ]
+    },
+    {
+      "id": "mexico",
+      "country": "México",
+      "aliases": [
+        "mexico",
+        "méxico"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto em alguns cenários, mas a imigração é sensível.",
+        "health": "Sem exigência geral de vacina obrigatória na entrada comum.",
+        "support": "Cidade do México e Cancún são os apoios principais desta base."
+      },
+      "cities": [
+        "cancun",
+        "cidade do mexico"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo do México",
+          "url": "https://www.gob.mx/inm"
+        }
+      ]
+    },
+    {
+      "id": "argentina",
+      "country": "Argentina",
+      "aliases": [
+        "argentina"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto e podem entrar com RG válido ou passaporte.",
+        "health": "Sem exigência geral de vacina obrigatória para entrada comum.",
+        "support": "Buenos Aires é o apoio principal desta base."
+      },
+      "cities": [
+        "buenos aires"
+      ],
+      "totalCities": 1,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Argentina — Migraciones",
+          "url": "https://www.argentina.gob.ar/interior/migraciones"
+        }
+      ]
+    },
+    {
+      "id": "portugal",
+      "country": "Portugal",
+      "aliases": [
+        "portugal"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para turismo de curta duração.",
+        "health": "Sem exigência geral de vacina obrigatória; seguro e comprovação seguem essenciais.",
+        "support": "Lisboa e Porto têm apoio direto nesta base."
+      },
+      "cities": [
+        "lisboa",
+        "porto"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo de Portugal",
+          "url": "https://vistos.mne.gov.pt/"
+        }
+      ]
+    },
+    {
+      "id": "alemanha",
+      "country": "Alemanha",
+      "aliases": [
+        "alemanha",
+        "germany"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para turismo de curta duração.",
+        "health": "Sem exigência geral de vacina obrigatória; seguro e documentação seguem essenciais.",
+        "support": "Berlim e Munique são os apoios principais desta base."
+      },
+      "cities": [
+        "berlim",
+        "munique"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Alemanha",
+          "url": "https://www.auswaertiges-amt.de/en/visa-service"
+        }
+      ]
+    },
+    {
+      "id": "paises-baixos",
+      "country": "Países Baixos",
+      "aliases": [
+        "paises baixos",
+        "países baixos",
+        "holanda",
+        "netherlands"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para turismo de curta duração.",
+        "health": "Sem exigência geral de vacina obrigatória; seguro e documentação seguem essenciais.",
+        "support": "Amsterdã usa apoio principal em Haia nesta base."
+      },
+      "cities": [
+        "amsterda"
+      ],
+      "totalCities": 1,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo dos Países Baixos",
+          "url": "https://www.netherlandsworldwide.nl/visa-the-netherlands"
+        }
+      ]
+    },
+    {
+      "id": "republica-tcheca",
+      "country": "República Tcheca",
+      "aliases": [
+        "republica tcheca",
+        "república tcheca",
+        "tchequia",
+        "praga"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para turismo de curta duração.",
+        "health": "Sem exigência geral de vacina obrigatória; seguro e documentação seguem essenciais.",
+        "support": "Praga é o apoio principal desta base."
+      },
+      "cities": [
+        "praga"
+      ],
+      "totalCities": 1,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da República Tcheca — MFA",
+          "url": "https://mzv.gov.cz/jnp/en/information_for_aliens/short_stay_visa/index.html"
+        }
+      ]
+    },
+    {
+      "id": "canada",
+      "country": "Canadá",
+      "aliases": [
+        "canada",
+        "canadá"
+      ],
+      "summary": {
+        "entry": "Brasileiros precisam de eTA ou visto, conforme o perfil.",
+        "health": "Sem exigência geral de vacina obrigatória na entrada comum.",
+        "support": "Toronto, Vancouver e Montreal têm apoio configurado nesta base."
+      },
+      "cities": [
+        "montreal",
+        "toronto",
+        "vancouver"
+      ],
+      "totalCities": 3,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo do Canadá",
+          "url": "https://www.canada.ca/en/immigration-refugees-citizenship.html"
+        }
+      ]
+    },
+    {
+      "id": "peru",
+      "country": "Peru",
+      "aliases": [
+        "peru"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para turismo.",
+        "health": "Sem exigência geral de vacina obrigatória na entrada turística comum.",
+        "support": "Lima é o principal apoio; Cusco usa referência de Lima."
+      },
+      "cities": [
+        "cusco",
+        "lima"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo do Peru — Migraciones",
+          "url": "https://www.gob.pe/migraciones"
+        }
+      ]
+    },
+    {
+      "id": "chile",
+      "country": "Chile",
+      "aliases": [
+        "chile"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para turismo.",
+        "health": "Sem exigência geral de vacina obrigatória na entrada comum.",
+        "support": "Santiago tem apoio direto; Atacama usa apoio central em Santiago."
+      },
+      "cities": [
+        "atacama",
+        "santiago"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo do Chile",
+          "url": "https://serviciosconsulares.cl/"
+        }
+      ]
+    },
+    {
+      "id": "uruguai",
+      "country": "Uruguai",
+      "aliases": [
+        "uruguai",
+        "uruguay"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto e podem entrar com RG válido ou passaporte.",
+        "health": "Sem exigência geral de vacina obrigatória para a entrada comum.",
+        "support": "Montevidéu é o apoio principal; Punta del Este usa referência de Montevidéu."
+      },
+      "cities": [
+        "montevideu",
+        "punta del este"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo do Uruguai",
+          "url": "https://www.gub.uy/ministerio-relaciones-exteriores/"
+        }
+      ]
+    },
+    {
+      "id": "belgica",
+      "country": "Bélgica",
+      "aliases": [
+        "belgica",
+        "bélgica",
+        "belgium"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para curta duração Schengen.",
+        "health": "Sem exigência geral de vacina obrigatória; seguro e comprovação seguem importantes.",
+        "support": "Bruxelas é o apoio principal; Bruges usa referência de Bruxelas."
+      },
+      "cities": [
+        "bruges",
+        "bruxelas"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Bélgica",
+          "url": "https://diplomatie.belgium.be/en/travel-belgium/visa-belgium"
+        }
+      ]
+    },
+    {
+      "id": "noruega",
+      "country": "Noruega",
+      "aliases": [
+        "noruega",
+        "norway",
+        "oslo",
+        "bergen",
+        "tromso",
+        "tromsø"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para curta duração Schengen.",
+        "health": "Sem exigência geral de vacina obrigatória; clima e deslocamentos exigem preparo.",
+        "support": "Oslo é o apoio principal; Bergen e Tromsø usam referência de Oslo."
+      },
+      "cities": [
+        "bergen",
+        "oslo",
+        "tromso"
+      ],
+      "totalCities": 3,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "UDI Norway",
+          "url": "https://www.udi.no/en/want-to-apply/visit-and-holiday/"
+        }
+      ]
+    },
+    {
+      "id": "suica",
+      "country": "Suíça",
+      "aliases": [
+        "suica",
+        "suíça",
+        "switzerland"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para curta duração.",
+        "health": "Sem exigência geral de vacina obrigatória na entrada comum.",
+        "support": "Zurique e Genebra têm apoio próprio."
+      },
+      "cities": [
+        "genebra",
+        "zurique"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Suíça",
+          "url": "https://www.eda.admin.ch/eda/en/fdfa/entry-switzerland-residence/visa-requirements-application-form.html"
+        }
+      ]
+    },
+    {
+      "id": "colombia",
+      "country": "Colômbia",
+      "aliases": [
+        "colombia",
+        "colômbia"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para turismo.",
+        "health": "Seguro saúde é fortemente recomendado nesta base.",
+        "support": "Bogotá é o apoio principal; Cartagena usa referência de Bogotá."
+      },
+      "cities": [
+        "bogota",
+        "cartagena"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Colômbia",
+          "url": "https://www.cancilleria.gov.co/tramites_servicios/visa"
+        }
+      ]
+    },
+    {
+      "id": "finlandia",
+      "country": "Finlândia",
+      "aliases": [
+        "finlandia",
+        "finlândia",
+        "finland"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para curta duração Schengen.",
+        "health": "Sem exigência geral de vacina obrigatória; documentação e coerência da viagem são essenciais.",
+        "support": "Helsinque é o apoio principal; Rovaniemi usa referência de Helsinque."
+      },
+      "cities": [
+        "helsinque",
+        "rovaniemi"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Finlândia — Ministry for Foreign Affairs",
+          "url": "https://um.fi/visa-to-visit-finland"
+        }
+      ]
+    },
+    {
+      "id": "singapura",
+      "country": "Singapura",
+      "aliases": [
+        "singapura",
+        "singapore",
+        "changi"
+      ],
+      "summary": {
+        "entry": "Brasileiros podem entrar sem visto por até 30 dias, com SG Arrival Card obrigatório.",
+        "health": "SG Arrival Card inclui declaração de saúde; febre amarela pode ser aplicável conforme rota.",
+        "support": "Singapura é o apoio principal desta base."
+      },
+      "cities": [
+        "singapura"
+      ],
+      "totalCities": 1,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "ICA Singapore",
+          "url": "https://www.ica.gov.sg/enter-transit-depart/entering-singapore"
+        }
+      ]
+    },
+    {
+      "id": "japao",
+      "country": "Japão",
+      "aliases": [
+        "japao",
+        "japão",
+        "japan"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para turismo de curta duração.",
+        "health": "Sem exigência geral de vacina obrigatória na entrada comum.",
+        "support": "Tóquio é o apoio principal; Osaka usa referência de Tóquio nesta base."
+      },
+      "cities": [
+        "osaka",
+        "toquio"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo do Japão",
+          "url": "https://www.mofa.go.jp/j_info/visit/visa/index.html"
+        }
+      ]
+    },
+    {
+      "id": "china",
+      "country": "China",
+      "aliases": [
+        "china"
+      ],
+      "summary": {
+        "entry": "Brasileiros precisam de visto para turismo.",
+        "health": "As regras sanitárias devem ser verificadas com atenção conforme o momento da viagem.",
+        "support": "Pequim e Xangai são os pontos principais desta base."
+      },
+      "cities": [
+        "pequim",
+        "xangai"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da China",
+          "url": "https://cova.mfa.gov.cn/"
+        }
+      ]
+    },
+    {
+      "id": "tailandia",
+      "country": "Tailândia",
+      "aliases": [
+        "tailandia",
+        "tailândia",
+        "thailand"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para turismo na lógica desta base.",
+        "health": "A atenção sanitária depende do itinerário e do tipo de viagem.",
+        "support": "Bangkok é o apoio principal; Phuket usa referência de Bangkok."
+      },
+      "cities": [
+        "bangkok",
+        "phuket"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Tailândia — Thai e-Visa",
+          "url": "https://www.thaievisa.go.th/"
+        }
+      ]
+    },
+    {
+      "id": "qatar",
+      "country": "Qatar",
+      "aliases": [
+        "qatar",
+        "catar",
+        "doha"
+      ],
+      "summary": {
+        "entry": "Entrada deve ser confirmada pelo Visa Check oficial do Visit Qatar.",
+        "health": "Seguro saúde e medicamentos merecem atenção em conexões e stopovers.",
+        "support": "Doha é o apoio principal desta base."
+      },
+      "cities": [
+        "doha"
+      ],
+      "totalCities": 1,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Visit Qatar",
+          "url": "https://visitqatar.com/intl-en/plan-your-trip/visas"
+        }
+      ]
+    },
+    {
+      "id": "turquia",
+      "country": "Turquia",
+      "aliases": [
+        "turquia",
+        "turkey"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para turismo de curta duração.",
+        "health": "Sem exigência geral de vacina obrigatória na entrada comum nesta base.",
+        "support": "Istambul é o apoio principal; Capadócia usa referência de Istambul."
+      },
+      "cities": [
+        "capadocia",
+        "istambul"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Turquia",
+          "url": "https://www.mfa.gov.tr/visa-information-for-foreigners.en.mfa"
+        }
+      ]
+    },
+    {
+      "id": "emirados-arabes-unidos",
+      "country": "Emirados Árabes Unidos",
+      "aliases": [
+        "emirados arabes unidos",
+        "emirados árabes unidos",
+        "eau",
+        "uae"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto prévio para turismo e recebem entrada na chegada.",
+        "health": "Sem exigência geral de vacina obrigatória na entrada comum.",
+        "support": "Dubai e Abu Dhabi são os apoios principais desta base."
+      },
+      "cities": [
+        "abu dhabi",
+        "dubai"
+      ],
+      "totalCities": 2,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo dos Emirados Árabes Unidos",
+          "url": "https://u.ae/en/information-and-services/visa-and-emirates-id"
+        }
+      ]
+    },
+    {
+      "id": "grecia",
+      "country": "Grécia",
+      "aliases": [
+        "grecia",
+        "grécia",
+        "greece"
+      ],
+      "summary": {
+        "entry": "Brasileiros não precisam de visto para curta duração Schengen.",
+        "health": "Sem exigência geral de vacina obrigatória; documentação e lógica Schengen seguem essenciais.",
+        "support": "Atenas é o apoio principal desta base."
+      },
+      "cities": [
+        "atenas"
+      ],
+      "totalCities": 1,
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Grécia",
+          "url": "https://www.mfa.gr/en/visas/"
+        }
+      ]
     }
   ],
-  "aliases": [
-    "Orlando",
-    "Paris",
-    "Montevidéu",
-    "Toronto",
-    "Tóquio",
-    "Buenos Aires..."
+  "cityRedirects": [
+    {
+      "alias": "dallas",
+      "countryKey": "estados-unidos",
+      "cityKey": "houston",
+      "displayName": "Dallas"
+    },
+    {
+      "alias": "san diego",
+      "countryKey": "estados-unidos",
+      "cityKey": "los angeles",
+      "displayName": "San Diego"
+    },
+    {
+      "alias": "philadelphia",
+      "countryKey": "estados-unidos",
+      "cityKey": "new york",
+      "displayName": "Philadelphia"
+    },
+    {
+      "alias": "chicago",
+      "countryKey": "estados-unidos",
+      "cityKey": "new york",
+      "displayName": "Chicago"
+    },
+    {
+      "alias": "new orleans",
+      "countryKey": "estados-unidos",
+      "cityKey": "miami",
+      "displayName": "New Orleans"
+    },
+    {
+      "alias": "seattle",
+      "countryKey": "estados-unidos",
+      "cityKey": "san francisco",
+      "displayName": "Seattle"
+    },
+    {
+      "alias": "quebec",
+      "countryKey": "canada",
+      "cityKey": "montreal",
+      "displayName": "Quebec"
+    },
+    {
+      "alias": "banff",
+      "countryKey": "canada",
+      "cityKey": "vancouver",
+      "displayName": "Banff"
+    },
+    {
+      "alias": "ottawa",
+      "countryKey": "canada",
+      "cityKey": "toronto",
+      "displayName": "Ottawa"
+    },
+    {
+      "alias": "calgary",
+      "countryKey": "canada",
+      "cityKey": "vancouver",
+      "displayName": "Calgary"
+    },
+    {
+      "alias": "halifax",
+      "countryKey": "canada",
+      "cityKey": "montreal",
+      "displayName": "Halifax"
+    },
+    {
+      "alias": "victoria",
+      "countryKey": "canada",
+      "cityKey": "vancouver",
+      "displayName": "Victoria"
+    },
+    {
+      "alias": "whistler",
+      "countryKey": "canada",
+      "cityKey": "vancouver",
+      "displayName": "Whistler"
+    },
+    {
+      "alias": "playa del carmen",
+      "countryKey": "mexico",
+      "cityKey": "cancun",
+      "displayName": "Playa del Carmen"
+    },
+    {
+      "alias": "tulum",
+      "countryKey": "mexico",
+      "cityKey": "cancun",
+      "displayName": "Tulum"
+    },
+    {
+      "alias": "puerto vallarta",
+      "countryKey": "mexico",
+      "cityKey": "cidade do mexico",
+      "displayName": "Puerto Vallarta"
+    },
+    {
+      "alias": "cabo san lucas",
+      "countryKey": "mexico",
+      "cityKey": "cidade do mexico",
+      "displayName": "Cabo San Lucas"
+    },
+    {
+      "alias": "oaxaca",
+      "countryKey": "mexico",
+      "cityKey": "cidade do mexico",
+      "displayName": "Oaxaca"
+    },
+    {
+      "alias": "merida",
+      "countryKey": "mexico",
+      "cityKey": "cidade do mexico",
+      "displayName": "Mérida"
+    },
+    {
+      "alias": "mérida",
+      "countryKey": "mexico",
+      "cityKey": "cidade do mexico",
+      "displayName": "Mérida"
+    },
+    {
+      "alias": "guadalajara",
+      "countryKey": "mexico",
+      "cityKey": "cidade do mexico",
+      "displayName": "Guadalajara"
+    },
+    {
+      "alias": "san miguel de allende",
+      "countryKey": "mexico",
+      "cityKey": "cidade do mexico",
+      "displayName": "San Miguel de Allende"
+    },
+    {
+      "alias": "arequipa",
+      "countryKey": "peru",
+      "cityKey": "lima",
+      "displayName": "Arequipa"
+    },
+    {
+      "alias": "puno",
+      "countryKey": "peru",
+      "cityKey": "cusco",
+      "displayName": "Puno"
+    },
+    {
+      "alias": "aguas calientes",
+      "countryKey": "peru",
+      "cityKey": "cusco",
+      "displayName": "Aguas Calientes"
+    },
+    {
+      "alias": "machu picchu",
+      "countryKey": "peru",
+      "cityKey": "cusco",
+      "displayName": "Machu Picchu"
+    },
+    {
+      "alias": "iquitos",
+      "countryKey": "peru",
+      "cityKey": "lima",
+      "displayName": "Iquitos"
+    },
+    {
+      "alias": "trujillo",
+      "countryKey": "peru",
+      "cityKey": "lima",
+      "displayName": "Trujillo"
+    },
+    {
+      "alias": "huaraz",
+      "countryKey": "peru",
+      "cityKey": "lima",
+      "displayName": "Huaraz"
+    },
+    {
+      "alias": "paracas",
+      "countryKey": "peru",
+      "cityKey": "lima",
+      "displayName": "Paracas"
+    },
+    {
+      "alias": "nazca",
+      "countryKey": "peru",
+      "cityKey": "lima",
+      "displayName": "Nazca"
+    },
+    {
+      "alias": "san pedro de atacama",
+      "countryKey": "chile",
+      "cityKey": "atacama",
+      "displayName": "San Pedro de Atacama"
+    },
+    {
+      "alias": "torres del paine",
+      "countryKey": "chile",
+      "cityKey": "santiago",
+      "displayName": "Torres del Paine"
+    },
+    {
+      "alias": "puerto natales",
+      "countryKey": "chile",
+      "cityKey": "santiago",
+      "displayName": "Puerto Natales"
+    },
+    {
+      "alias": "valparaiso",
+      "countryKey": "chile",
+      "cityKey": "santiago",
+      "displayName": "Valparaíso"
+    },
+    {
+      "alias": "valparaíso",
+      "countryKey": "chile",
+      "cityKey": "santiago",
+      "displayName": "Valparaíso"
+    },
+    {
+      "alias": "fiordes chilenos",
+      "countryKey": "chile",
+      "cityKey": "santiago",
+      "displayName": "Fiordes Chilenos"
+    },
+    {
+      "alias": "ilha de pascoa",
+      "countryKey": "chile",
+      "cityKey": "santiago",
+      "displayName": "Ilha de Páscoa"
+    },
+    {
+      "alias": "ilha de páscoa",
+      "countryKey": "chile",
+      "cityKey": "santiago",
+      "displayName": "Ilha de Páscoa"
+    },
+    {
+      "alias": "puerto varas",
+      "countryKey": "chile",
+      "cityKey": "santiago",
+      "displayName": "Puerto Varas"
+    },
+    {
+      "alias": "la serena",
+      "countryKey": "chile",
+      "cityKey": "santiago",
+      "displayName": "La Serena"
+    },
+    {
+      "alias": "pucon",
+      "countryKey": "chile",
+      "cityKey": "santiago",
+      "displayName": "Pucón"
+    },
+    {
+      "alias": "pucón",
+      "countryKey": "chile",
+      "cityKey": "santiago",
+      "displayName": "Pucón"
+    },
+    {
+      "alias": "vina del mar",
+      "countryKey": "chile",
+      "cityKey": "santiago",
+      "displayName": "Viña del Mar"
+    },
+    {
+      "alias": "viña del mar",
+      "countryKey": "chile",
+      "cityKey": "santiago",
+      "displayName": "Viña del Mar"
+    },
+    {
+      "alias": "colonia do sacramento",
+      "countryKey": "uruguai",
+      "cityKey": "montevideu",
+      "displayName": "Colônia do Sacramento"
+    },
+    {
+      "alias": "colonia del sacramento",
+      "countryKey": "uruguai",
+      "cityKey": "montevideu",
+      "displayName": "Colônia do Sacramento"
+    },
+    {
+      "alias": "jose ignacio",
+      "countryKey": "uruguai",
+      "cityKey": "punta del este",
+      "displayName": "José Ignacio"
+    },
+    {
+      "alias": "josé ignacio",
+      "countryKey": "uruguai",
+      "cityKey": "punta del este",
+      "displayName": "José Ignacio"
+    },
+    {
+      "alias": "piriapolis",
+      "countryKey": "uruguai",
+      "cityKey": "montevideu",
+      "displayName": "Piriápolis"
+    },
+    {
+      "alias": "piriápolis",
+      "countryKey": "uruguai",
+      "cityKey": "montevideu",
+      "displayName": "Piriápolis"
+    },
+    {
+      "alias": "cabo polonio",
+      "countryKey": "uruguai",
+      "cityKey": "montevideu",
+      "displayName": "Cabo Polonio"
+    },
+    {
+      "alias": "rocha",
+      "countryKey": "uruguai",
+      "cityKey": "montevideu",
+      "displayName": "Rocha"
+    },
+    {
+      "alias": "salto",
+      "countryKey": "uruguai",
+      "cityKey": "montevideu",
+      "displayName": "Salto"
+    },
+    {
+      "alias": "carmelo",
+      "countryKey": "uruguai",
+      "cityKey": "montevideu",
+      "displayName": "Carmelo"
+    },
+    {
+      "alias": "atlantida",
+      "countryKey": "uruguai",
+      "cityKey": "montevideu",
+      "displayName": "Atlântida"
+    },
+    {
+      "alias": "atlântida",
+      "countryKey": "uruguai",
+      "cityKey": "montevideu",
+      "displayName": "Atlântida"
+    },
+    {
+      "alias": "medellin",
+      "countryKey": "colombia",
+      "cityKey": "bogota",
+      "displayName": "Medellín"
+    },
+    {
+      "alias": "medellín",
+      "countryKey": "colombia",
+      "cityKey": "bogota",
+      "displayName": "Medellín"
+    },
+    {
+      "alias": "cali",
+      "countryKey": "colombia",
+      "cityKey": "bogota",
+      "displayName": "Cali"
+    },
+    {
+      "alias": "san andres",
+      "countryKey": "colombia",
+      "cityKey": "bogota",
+      "displayName": "San Andrés"
+    },
+    {
+      "alias": "san andrés",
+      "countryKey": "colombia",
+      "cityKey": "bogota",
+      "displayName": "San Andrés"
+    },
+    {
+      "alias": "santa marta",
+      "countryKey": "colombia",
+      "cityKey": "bogota",
+      "displayName": "Santa Marta"
+    },
+    {
+      "alias": "cartagena das indias",
+      "countryKey": "colombia",
+      "cityKey": "cartagena",
+      "displayName": "Cartagena das Índias"
+    },
+    {
+      "alias": "cartagena das índias",
+      "countryKey": "colombia",
+      "cityKey": "cartagena",
+      "displayName": "Cartagena das Índias"
+    },
+    {
+      "alias": "salento",
+      "countryKey": "colombia",
+      "cityKey": "bogota",
+      "displayName": "Salento"
+    },
+    {
+      "alias": "villa de leyva",
+      "countryKey": "colombia",
+      "cityKey": "bogota",
+      "displayName": "Villa de Leyva"
+    },
+    {
+      "alias": "tayrona park",
+      "countryKey": "colombia",
+      "cityKey": "bogota",
+      "displayName": "Tayrona Park"
+    },
+    {
+      "alias": "bariloche",
+      "countryKey": "argentina",
+      "cityKey": "buenos aires",
+      "displayName": "Bariloche"
+    },
+    {
+      "alias": "mendoza",
+      "countryKey": "argentina",
+      "cityKey": "buenos aires",
+      "displayName": "Mendoza"
+    },
+    {
+      "alias": "ushuaia",
+      "countryKey": "argentina",
+      "cityKey": "buenos aires",
+      "displayName": "Ushuaia"
+    },
+    {
+      "alias": "el calafate",
+      "countryKey": "argentina",
+      "cityKey": "buenos aires",
+      "displayName": "El Calafate"
+    },
+    {
+      "alias": "iguazu",
+      "countryKey": "argentina",
+      "cityKey": "buenos aires",
+      "displayName": "Iguazú"
+    },
+    {
+      "alias": "iguazú",
+      "countryKey": "argentina",
+      "cityKey": "buenos aires",
+      "displayName": "Iguazú"
+    },
+    {
+      "alias": "salta",
+      "countryKey": "argentina",
+      "cityKey": "buenos aires",
+      "displayName": "Salta"
+    },
+    {
+      "alias": "cordoba",
+      "countryKey": "argentina",
+      "cityKey": "buenos aires",
+      "displayName": "Córdoba"
+    },
+    {
+      "alias": "córdoba",
+      "countryKey": "argentina",
+      "cityKey": "buenos aires",
+      "displayName": "Córdoba"
+    },
+    {
+      "alias": "san martin de los andes",
+      "countryKey": "argentina",
+      "cityKey": "buenos aires",
+      "displayName": "San Martín de los Andes"
+    },
+    {
+      "alias": "san martín de los andes",
+      "countryKey": "argentina",
+      "cityKey": "buenos aires",
+      "displayName": "San Martín de los Andes"
+    },
+    {
+      "alias": "bordeaux",
+      "countryKey": "franca",
+      "cityKey": "paris",
+      "displayName": "Bordeaux"
+    },
+    {
+      "alias": "estrasburgo",
+      "countryKey": "franca",
+      "cityKey": "paris",
+      "displayName": "Estrasburgo"
+    },
+    {
+      "alias": "marseille",
+      "countryKey": "franca",
+      "cityKey": "paris",
+      "displayName": "Marseille"
+    },
+    {
+      "alias": "cannes",
+      "countryKey": "franca",
+      "cityKey": "nice",
+      "displayName": "Cannes"
+    },
+    {
+      "alias": "mont saint michel",
+      "countryKey": "franca",
+      "cityKey": "paris",
+      "displayName": "Mont Saint-Michel"
+    },
+    {
+      "alias": "annecy",
+      "countryKey": "franca",
+      "cityKey": "lyon",
+      "displayName": "Annecy"
+    },
+    {
+      "alias": "biarritz",
+      "countryKey": "franca",
+      "cityKey": "paris",
+      "displayName": "Biarritz"
+    },
+    {
+      "alias": "veneza",
+      "countryKey": "italia",
+      "cityKey": "milao",
+      "displayName": "Veneza"
+    },
+    {
+      "alias": "venezia",
+      "countryKey": "italia",
+      "cityKey": "milao",
+      "displayName": "Veneza"
+    },
+    {
+      "alias": "napoles",
+      "countryKey": "italia",
+      "cityKey": "roma",
+      "displayName": "Nápoles"
+    },
+    {
+      "alias": "nápoles",
+      "countryKey": "italia",
+      "cityKey": "roma",
+      "displayName": "Nápoles"
+    },
+    {
+      "alias": "bolonha",
+      "countryKey": "italia",
+      "cityKey": "milao",
+      "displayName": "Bolonha"
+    },
+    {
+      "alias": "bolonia",
+      "countryKey": "italia",
+      "cityKey": "milao",
+      "displayName": "Bolonha"
+    },
+    {
+      "alias": "verona",
+      "countryKey": "italia",
+      "cityKey": "milao",
+      "displayName": "Verona"
+    },
+    {
+      "alias": "cinque terre",
+      "countryKey": "italia",
+      "cityKey": "milao",
+      "displayName": "Cinque Terre"
+    },
+    {
+      "alias": "amalfi",
+      "countryKey": "italia",
+      "cityKey": "roma",
+      "displayName": "Amalfi"
+    },
+    {
+      "alias": "turim",
+      "countryKey": "italia",
+      "cityKey": "milao",
+      "displayName": "Turim"
+    },
+    {
+      "alias": "torino",
+      "countryKey": "italia",
+      "cityKey": "milao",
+      "displayName": "Turim"
+    },
+    {
+      "alias": "sevilha",
+      "countryKey": "espanha",
+      "cityKey": "madrid",
+      "displayName": "Sevilha"
+    },
+    {
+      "alias": "sevilla",
+      "countryKey": "espanha",
+      "cityKey": "madrid",
+      "displayName": "Sevilha"
+    },
+    {
+      "alias": "valencia",
+      "countryKey": "espanha",
+      "cityKey": "barcelona",
+      "displayName": "Valência"
+    },
+    {
+      "alias": "valência",
+      "countryKey": "espanha",
+      "cityKey": "barcelona",
+      "displayName": "Valência"
+    },
+    {
+      "alias": "granada",
+      "countryKey": "espanha",
+      "cityKey": "madrid",
+      "displayName": "Granada"
+    },
+    {
+      "alias": "palma de mallorca",
+      "countryKey": "espanha",
+      "cityKey": "barcelona",
+      "displayName": "Palma de Mallorca"
+    },
+    {
+      "alias": "san sebastian",
+      "countryKey": "espanha",
+      "cityKey": "madrid",
+      "displayName": "San Sebastián"
+    },
+    {
+      "alias": "san sebastián",
+      "countryKey": "espanha",
+      "cityKey": "madrid",
+      "displayName": "San Sebastián"
+    },
+    {
+      "alias": "salamanca",
+      "countryKey": "espanha",
+      "cityKey": "madrid",
+      "displayName": "Salamanca"
+    },
+    {
+      "alias": "bilbao",
+      "countryKey": "espanha",
+      "cityKey": "madrid",
+      "displayName": "Bilbao"
+    },
+    {
+      "alias": "cordoba espanha",
+      "countryKey": "espanha",
+      "cityKey": "madrid",
+      "displayName": "Córdoba"
+    },
+    {
+      "alias": "cordoba",
+      "countryKey": "espanha",
+      "cityKey": "madrid",
+      "displayName": "Córdoba"
+    },
+    {
+      "alias": "córdoba",
+      "countryKey": "espanha",
+      "cityKey": "madrid",
+      "displayName": "Córdoba"
+    },
+    {
+      "alias": "funchal",
+      "countryKey": "portugal",
+      "cityKey": "lisboa",
+      "displayName": "Funchal"
+    },
+    {
+      "alias": "sintra",
+      "countryKey": "portugal",
+      "cityKey": "lisboa",
+      "displayName": "Sintra"
+    },
+    {
+      "alias": "faro",
+      "countryKey": "portugal",
+      "cityKey": "lisboa",
+      "displayName": "Faro"
+    },
+    {
+      "alias": "lagos",
+      "countryKey": "portugal",
+      "cityKey": "lisboa",
+      "displayName": "Lagos"
+    },
+    {
+      "alias": "coimbra",
+      "countryKey": "portugal",
+      "cityKey": "porto",
+      "displayName": "Coimbra"
+    },
+    {
+      "alias": "evora",
+      "countryKey": "portugal",
+      "cityKey": "lisboa",
+      "displayName": "Évora"
+    },
+    {
+      "alias": "évora",
+      "countryKey": "portugal",
+      "cityKey": "lisboa",
+      "displayName": "Évora"
+    },
+    {
+      "alias": "braga",
+      "countryKey": "portugal",
+      "cityKey": "porto",
+      "displayName": "Braga"
+    },
+    {
+      "alias": "aveiro",
+      "countryKey": "portugal",
+      "cityKey": "porto",
+      "displayName": "Aveiro"
+    },
+    {
+      "alias": "liverpool",
+      "countryKey": "reino-unido",
+      "cityKey": "manchester",
+      "displayName": "Liverpool"
+    },
+    {
+      "alias": "oxford",
+      "countryKey": "reino-unido",
+      "cityKey": "londres",
+      "displayName": "Oxford"
+    },
+    {
+      "alias": "cambridge",
+      "countryKey": "reino-unido",
+      "cityKey": "londres",
+      "displayName": "Cambridge"
+    },
+    {
+      "alias": "bristol",
+      "countryKey": "reino-unido",
+      "cityKey": "londres",
+      "displayName": "Bristol"
+    },
+    {
+      "alias": "bath",
+      "countryKey": "reino-unido",
+      "cityKey": "londres",
+      "displayName": "Bath"
+    },
+    {
+      "alias": "york",
+      "countryKey": "reino-unido",
+      "cityKey": "manchester",
+      "displayName": "York"
+    },
+    {
+      "alias": "hamburgo",
+      "countryKey": "alemanha",
+      "cityKey": "berlim",
+      "displayName": "Hamburgo"
+    },
+    {
+      "alias": "frankfurt",
+      "countryKey": "alemanha",
+      "cityKey": "munique",
+      "displayName": "Frankfurt"
+    },
+    {
+      "alias": "colonia",
+      "countryKey": "alemanha",
+      "cityKey": "munique",
+      "displayName": "Colônia"
+    },
+    {
+      "alias": "colônia",
+      "countryKey": "alemanha",
+      "cityKey": "munique",
+      "displayName": "Colônia"
+    },
+    {
+      "alias": "heidelberg",
+      "countryKey": "alemanha",
+      "cityKey": "munique",
+      "displayName": "Heidelberg"
+    },
+    {
+      "alias": "dresden",
+      "countryKey": "alemanha",
+      "cityKey": "berlim",
+      "displayName": "Dresden"
+    },
+    {
+      "alias": "rothenburg ob der tauber",
+      "countryKey": "alemanha",
+      "cityKey": "munique",
+      "displayName": "Rothenburg ob der Tauber"
+    },
+    {
+      "alias": "nuremberg",
+      "countryKey": "alemanha",
+      "cityKey": "munique",
+      "displayName": "Nuremberg"
+    },
+    {
+      "alias": "stuttgart",
+      "countryKey": "alemanha",
+      "cityKey": "munique",
+      "displayName": "Stuttgart"
+    },
+    {
+      "alias": "rotterdam",
+      "countryKey": "paises-baixos",
+      "cityKey": "amsterda",
+      "displayName": "Roterdã"
+    },
+    {
+      "alias": "roterda",
+      "countryKey": "paises-baixos",
+      "cityKey": "amsterda",
+      "displayName": "Roterdã"
+    },
+    {
+      "alias": "roterdã",
+      "countryKey": "paises-baixos",
+      "cityKey": "amsterda",
+      "displayName": "Roterdã"
+    },
+    {
+      "alias": "haia",
+      "countryKey": "paises-baixos",
+      "cityKey": "amsterda",
+      "displayName": "Haia"
+    },
+    {
+      "alias": "utrecht",
+      "countryKey": "paises-baixos",
+      "cityKey": "amsterda",
+      "displayName": "Utrecht"
+    },
+    {
+      "alias": "maastricht",
+      "countryKey": "paises-baixos",
+      "cityKey": "amsterda",
+      "displayName": "Maastricht"
+    },
+    {
+      "alias": "delft",
+      "countryKey": "paises-baixos",
+      "cityKey": "amsterda",
+      "displayName": "Delft"
+    },
+    {
+      "alias": "leiden",
+      "countryKey": "paises-baixos",
+      "cityKey": "amsterda",
+      "displayName": "Leiden"
+    },
+    {
+      "alias": "haarlem",
+      "countryKey": "paises-baixos",
+      "cityKey": "amsterda",
+      "displayName": "Haarlem"
+    },
+    {
+      "alias": "eindhoven",
+      "countryKey": "paises-baixos",
+      "cityKey": "amsterda",
+      "displayName": "Eindhoven"
+    },
+    {
+      "alias": "keukenhof",
+      "countryKey": "paises-baixos",
+      "cityKey": "amsterda",
+      "displayName": "Keukenhof (Lisse)"
+    },
+    {
+      "alias": "lisse",
+      "countryKey": "paises-baixos",
+      "cityKey": "amsterda",
+      "displayName": "Lisse"
+    },
+    {
+      "alias": "gante",
+      "countryKey": "belgica",
+      "cityKey": "bruxelas",
+      "displayName": "Gante"
+    },
+    {
+      "alias": "gent",
+      "countryKey": "belgica",
+      "cityKey": "bruxelas",
+      "displayName": "Gante"
+    },
+    {
+      "alias": "antuerpia",
+      "countryKey": "belgica",
+      "cityKey": "bruxelas",
+      "displayName": "Antuérpia"
+    },
+    {
+      "alias": "antuérpia",
+      "countryKey": "belgica",
+      "cityKey": "bruxelas",
+      "displayName": "Antuérpia"
+    },
+    {
+      "alias": "antwerp",
+      "countryKey": "belgica",
+      "cityKey": "bruxelas",
+      "displayName": "Antuérpia"
+    },
+    {
+      "alias": "liege",
+      "countryKey": "belgica",
+      "cityKey": "bruxelas",
+      "displayName": "Liège"
+    },
+    {
+      "alias": "liège",
+      "countryKey": "belgica",
+      "cityKey": "bruxelas",
+      "displayName": "Liège"
+    },
+    {
+      "alias": "namur",
+      "countryKey": "belgica",
+      "cityKey": "bruxelas",
+      "displayName": "Namur"
+    },
+    {
+      "alias": "leuven",
+      "countryKey": "belgica",
+      "cityKey": "bruxelas",
+      "displayName": "Leuven"
+    },
+    {
+      "alias": "ostend",
+      "countryKey": "belgica",
+      "cityKey": "bruxelas",
+      "displayName": "Ostend"
+    },
+    {
+      "alias": "mechelen",
+      "countryKey": "belgica",
+      "cityKey": "bruxelas",
+      "displayName": "Mechelen"
+    },
+    {
+      "alias": "ypres",
+      "countryKey": "belgica",
+      "cityKey": "bruxelas",
+      "displayName": "Ypres"
+    },
+    {
+      "alias": "lucerna",
+      "countryKey": "suica",
+      "cityKey": "zurique",
+      "displayName": "Lucerna"
+    },
+    {
+      "alias": "berna",
+      "countryKey": "suica",
+      "cityKey": "zurique",
+      "displayName": "Berna"
+    },
+    {
+      "alias": "interlaken",
+      "countryKey": "suica",
+      "cityKey": "zurique",
+      "displayName": "Interlaken"
+    },
+    {
+      "alias": "zermatt",
+      "countryKey": "suica",
+      "cityKey": "genebra",
+      "displayName": "Zermatt"
+    },
+    {
+      "alias": "lausanne",
+      "countryKey": "suica",
+      "cityKey": "genebra",
+      "displayName": "Lausanne"
+    },
+    {
+      "alias": "basileia",
+      "countryKey": "suica",
+      "cityKey": "zurique",
+      "displayName": "Basileia"
+    },
+    {
+      "alias": "basel",
+      "countryKey": "suica",
+      "cityKey": "zurique",
+      "displayName": "Basileia"
+    },
+    {
+      "alias": "lugano",
+      "countryKey": "suica",
+      "cityKey": "zurique",
+      "displayName": "Lugano"
+    },
+    {
+      "alias": "st moritz",
+      "countryKey": "suica",
+      "cityKey": "zurique",
+      "displayName": "St. Moritz"
+    },
+    {
+      "alias": "cesky krumlov",
+      "countryKey": "republica-tcheca",
+      "cityKey": "praga",
+      "displayName": "Český Krumlov"
+    },
+    {
+      "alias": "český krumlov",
+      "countryKey": "republica-tcheca",
+      "cityKey": "praga",
+      "displayName": "Český Krumlov"
+    },
+    {
+      "alias": "karlovy vary",
+      "countryKey": "republica-tcheca",
+      "cityKey": "praga",
+      "displayName": "Karlovy Vary"
+    },
+    {
+      "alias": "brno",
+      "countryKey": "republica-tcheca",
+      "cityKey": "praga",
+      "displayName": "Brno"
+    },
+    {
+      "alias": "pilsen",
+      "countryKey": "republica-tcheca",
+      "cityKey": "praga",
+      "displayName": "Pilsen"
+    },
+    {
+      "alias": "kutna hora",
+      "countryKey": "republica-tcheca",
+      "cityKey": "praga",
+      "displayName": "Kutná Hora"
+    },
+    {
+      "alias": "kutná hora",
+      "countryKey": "republica-tcheca",
+      "cityKey": "praga",
+      "displayName": "Kutná Hora"
+    },
+    {
+      "alias": "olomouc",
+      "countryKey": "republica-tcheca",
+      "cityKey": "praga",
+      "displayName": "Olomouc"
+    },
+    {
+      "alias": "liberec",
+      "countryKey": "republica-tcheca",
+      "cityKey": "praga",
+      "displayName": "Liberec"
+    },
+    {
+      "alias": "ostrava",
+      "countryKey": "republica-tcheca",
+      "cityKey": "praga",
+      "displayName": "Ostrava"
+    },
+    {
+      "alias": "telc",
+      "countryKey": "republica-tcheca",
+      "cityKey": "praga",
+      "displayName": "Telč"
+    },
+    {
+      "alias": "telč",
+      "countryKey": "republica-tcheca",
+      "cityKey": "praga",
+      "displayName": "Telč"
+    },
+    {
+      "alias": "quioto",
+      "countryKey": "japao",
+      "cityKey": "toquio",
+      "displayName": "Quioto"
+    },
+    {
+      "alias": "kyoto",
+      "countryKey": "japao",
+      "cityKey": "toquio",
+      "displayName": "Quioto"
+    },
+    {
+      "alias": "hiroshima",
+      "countryKey": "japao",
+      "cityKey": "osaka",
+      "displayName": "Hiroshima"
+    },
+    {
+      "alias": "nara",
+      "countryKey": "japao",
+      "cityKey": "osaka",
+      "displayName": "Nara"
+    },
+    {
+      "alias": "sapporo",
+      "countryKey": "japao",
+      "cityKey": "toquio",
+      "displayName": "Sapporo"
+    },
+    {
+      "alias": "kanazawa",
+      "countryKey": "japao",
+      "cityKey": "toquio",
+      "displayName": "Kanazawa"
+    },
+    {
+      "alias": "hakone",
+      "countryKey": "japao",
+      "cityKey": "toquio",
+      "displayName": "Hakone"
+    },
+    {
+      "alias": "fukuoka",
+      "countryKey": "japao",
+      "cityKey": "osaka",
+      "displayName": "Fukuoka"
+    },
+    {
+      "alias": "okinawa",
+      "countryKey": "japao",
+      "cityKey": "toquio",
+      "displayName": "Okinawa"
+    },
+    {
+      "alias": "beijing",
+      "countryKey": "china",
+      "cityKey": "pequim",
+      "displayName": "Pequim"
+    },
+    {
+      "alias": "hong kong",
+      "countryKey": "china",
+      "cityKey": "xangai",
+      "displayName": "Hong Kong"
+    },
+    {
+      "alias": "xian",
+      "countryKey": "china",
+      "cityKey": "pequim",
+      "displayName": "Xi"
+    },
+    {
+      "alias": "xi an",
+      "countryKey": "china",
+      "cityKey": "pequim",
+      "displayName": "Xi"
+    },
+    {
+      "alias": "guilin",
+      "countryKey": "china",
+      "cityKey": "xangai",
+      "displayName": "Guilin"
+    },
+    {
+      "alias": "chengdu",
+      "countryKey": "china",
+      "cityKey": "xangai",
+      "displayName": "Chengdu"
+    },
+    {
+      "alias": "hangzhou",
+      "countryKey": "china",
+      "cityKey": "xangai",
+      "displayName": "Hangzhou"
+    },
+    {
+      "alias": "suzhou",
+      "countryKey": "china",
+      "cityKey": "xangai",
+      "displayName": "Suzhou"
+    },
+    {
+      "alias": "shenzhen",
+      "countryKey": "china",
+      "cityKey": "xangai",
+      "displayName": "Shenzhen"
+    },
+    {
+      "alias": "guangzhou",
+      "countryKey": "china",
+      "cityKey": "xangai",
+      "displayName": "Guangzhou"
+    },
+    {
+      "alias": "antalya",
+      "countryKey": "turquia",
+      "cityKey": "istambul",
+      "displayName": "Antalya"
+    },
+    {
+      "alias": "goreme",
+      "countryKey": "turquia",
+      "cityKey": "capadocia",
+      "displayName": "Capadócia"
+    },
+    {
+      "alias": "göreme",
+      "countryKey": "turquia",
+      "cityKey": "capadocia",
+      "displayName": "Capadócia"
+    },
+    {
+      "alias": "bodrum",
+      "countryKey": "turquia",
+      "cityKey": "istambul",
+      "displayName": "Bodrum"
+    },
+    {
+      "alias": "ankara",
+      "countryKey": "turquia",
+      "cityKey": "istambul",
+      "displayName": "Ankara"
+    },
+    {
+      "alias": "pamukkale",
+      "countryKey": "turquia",
+      "cityKey": "istambul",
+      "displayName": "Pamukkale"
+    },
+    {
+      "alias": "efeso",
+      "countryKey": "turquia",
+      "cityKey": "istambul",
+      "displayName": "Éfeso"
+    },
+    {
+      "alias": "éfeso",
+      "countryKey": "turquia",
+      "cityKey": "istambul",
+      "displayName": "Éfeso"
+    },
+    {
+      "alias": "selcuk",
+      "countryKey": "turquia",
+      "cityKey": "istambul",
+      "displayName": "Selçuk"
+    },
+    {
+      "alias": "selçuk",
+      "countryKey": "turquia",
+      "cityKey": "istambul",
+      "displayName": "Selçuk"
+    },
+    {
+      "alias": "fethiye",
+      "countryKey": "turquia",
+      "cityKey": "istambul",
+      "displayName": "Fethiye"
+    },
+    {
+      "alias": "marmaris",
+      "countryKey": "turquia",
+      "cityKey": "istambul",
+      "displayName": "Marmaris"
+    },
+    {
+      "alias": "bursa",
+      "countryKey": "turquia",
+      "cityKey": "istambul",
+      "displayName": "Bursa"
+    },
+    {
+      "alias": "sharjah",
+      "countryKey": "emirados-arabes-unidos",
+      "cityKey": "dubai",
+      "displayName": "Sharjah"
+    },
+    {
+      "alias": "al ain",
+      "countryKey": "emirados-arabes-unidos",
+      "cityKey": "abu dhabi",
+      "displayName": "Al Ain"
+    },
+    {
+      "alias": "ajman",
+      "countryKey": "emirados-arabes-unidos",
+      "cityKey": "dubai",
+      "displayName": "Ajman"
+    },
+    {
+      "alias": "fujairah",
+      "countryKey": "emirados-arabes-unidos",
+      "cityKey": "dubai",
+      "displayName": "Fujairah"
+    },
+    {
+      "alias": "ras al khaimah",
+      "countryKey": "emirados-arabes-unidos",
+      "cityKey": "dubai",
+      "displayName": "Ras Al Khaimah"
+    },
+    {
+      "alias": "umm al quwain",
+      "countryKey": "emirados-arabes-unidos",
+      "cityKey": "dubai",
+      "displayName": "Umm Al Quwain"
+    },
+    {
+      "alias": "khor fakkan",
+      "countryKey": "emirados-arabes-unidos",
+      "cityKey": "dubai",
+      "displayName": "Khor Fakkan"
+    },
+    {
+      "alias": "dibba",
+      "countryKey": "emirados-arabes-unidos",
+      "cityKey": "dubai",
+      "displayName": "Dibba"
+    },
+    {
+      "alias": "mykonos",
+      "countryKey": "grecia",
+      "cityKey": "atenas",
+      "displayName": "Mykonos"
+    },
+    {
+      "alias": "santorine",
+      "countryKey": "grecia",
+      "cityKey": "atenas",
+      "displayName": "Santorini"
+    },
+    {
+      "alias": "santorini",
+      "countryKey": "grecia",
+      "cityKey": "atenas",
+      "displayName": "Santorini"
+    },
+    {
+      "alias": "creta",
+      "countryKey": "grecia",
+      "cityKey": "atenas",
+      "displayName": "Creta"
+    },
+    {
+      "alias": "rodes",
+      "countryKey": "grecia",
+      "cityKey": "atenas",
+      "displayName": "Rodes"
+    },
+    {
+      "alias": "milos",
+      "countryKey": "grecia",
+      "cityKey": "atenas",
+      "displayName": "Milos"
+    },
+    {
+      "alias": "tessalonica",
+      "countryKey": "grecia",
+      "cityKey": "atenas",
+      "displayName": "Tessalônica"
+    },
+    {
+      "alias": "tessalônica",
+      "countryKey": "grecia",
+      "cityKey": "atenas",
+      "displayName": "Tessalônica"
+    },
+    {
+      "alias": "olimpia",
+      "countryKey": "grecia",
+      "cityKey": "atenas",
+      "displayName": "Olimpia"
+    }
+  ],
+  "interactiveDetails": [
+    "US",
+    "FRANCE",
+    "UK"
   ],
   "sources": [
-    "https://ai",
-    "https://ambbra",
+    "http://br.china-embassy.gov.cn/por/",
+    "http://en.nhc.gov.cn/",
+    "http://english.customs.gov.cn/",
+    "https://ais.usvisa-info.com/pt-br/niv",
+    "https://ambbrasilia.esteri.it",
+    "https://ambbrasilia.esteri.it/pt/",
     "https://anam.gob.mx/",
-    "https://app",
-    "https://bio.vi",
+    "https://apps.migracioncolombia.gov.co/pre-registro/en",
+    "https://bio.visaforchina.cn/",
     "https://br.ambafrance.org",
     "https://br.ambafrance.org/",
-    "https://br.china-emba",
-    "https://br.u",
-    "https://bra",
+    "https://br.china-embassy.gov.cn/por/",
+    "https://br.usembassy.gov/pt/",
+    "https://br.usembassy.gov/pt/embassy-consulates-pt/brasilia-pt/",
+    "https://br.usembassy.gov/pt/embassy-consulates-pt/porto-alegre-pt/",
+    "https://br.usembassy.gov/pt/embassy-consulates-pt/recife-pt/",
+    "https://br.usembassy.gov/pt/embassy-consulates-pt/rio-de-janeiro-pt/",
+    "https://br.usembassy.gov/pt/embassy-consulates-pt/sao-paulo-pt/",
+    "https://br.usembassy.gov/pt/embassy-consulates/rio-de-janeiro/",
+    "https://br.usembassy.gov/pt/embassy-consulates/sao-paulo/",
+    "https://br.usembassy.gov/pt/visas-pt/",
+    "https://brasil.diplo.de",
+    "https://brasil.diplo.de/br-pt",
+    "https://brasil.diplo.de/br-pt/vertretungen/generalkonsulat2",
+    "https://brasil.embajada.gov.co/",
+    "https://brasilia-emb.mfa.gov.tr/",
+    "https://brasilia.emb.mfa.gov.tr/",
+    "https://brasilia.embaixadaportugal.mne.gov.pt",
+    "https://brasilia.embaixadaportugal.mne.gov.pt/pt/",
+    "https://brasilia.embassy.qa/en",
+    "https://brasilia.mfa.gov.sg/",
+    "https://brasilia.mfa.gov.sg/important-information/visa-free-entry-for-brazilians/",
+    "https://brasilia.thaiembassy.org/",
+    "https://brasilia.thaiembassy.org/en/content-category/thailand-digital-arrival-card-tdac-requirement-%E2%80%93-effective-may-1st-2025",
     "https://brazil.diplomatie.belgium.be",
     "https://brazil.diplomatie.belgium.be/",
-    "https://ceac.",
-    "https://chile.gob.cl/",
-    "https://chile.gob.cl/bra",
-    "https://con",
+    "https://ceac.state.gov/genniv/",
+    "https://chile.gob.cl/brasil",
+    "https://chile.gob.cl/sao-paulo",
+    "https://consriodejaneiro.esteri.it/pt/",
+    "https://conssanpaolo.esteri.it",
+    "https://conssanpaolo.esteri.it/pt/",
     "https://cova.mfa.gov.cn/",
     "https://curadoria-elite-travel.vercel.app/#curadoria",
-    "https://diplomatie.belgium.be/en/travel-belgium/vi",
-    "https://dofi.ibz.be/en/theme",
-    "https://ebr",
-    "https://ebra",
-    "https://econ",
-    "https://embamex.",
+    "https://diplomatie.belgium.be/en/travel-belgium/visa-belgium",
+    "https://dofi.ibz.be/en/themes/third-country-nationals/short-stay/visa-c",
+    "https://ebrasi.cancilleria.gob.ar",
+    "https://ebrsl.cancilleria.gob.ar/",
+    "https://econsular.itamaraty.gov.br/",
+    "https://embamex.sre.gob.mx/brasil",
+    "https://embamex.sre.gob.mx/brasil/",
     "https://eody.gov.gr/en/",
-    "https://finance",
-    "https://finlandabroad.fi/web/bra/con",
+    "https://finances.belgium.be/en/customs_excises",
+    "https://finlandabroad.fi/web/bra/consulado-da-finlandia-sao-paulo",
     "https://finlandabroad.fi/web/bra/embaixada",
     "https://finlandabroad.fi/web/bra/frontpage",
-    "https://france-vi",
-    "https://homeofficemedia.blog.gov.uk/electronic-travel-authori",
-    "https://image",
-    "https://mapacon",
+    "https://france-visas.gouv.fr/",
+    "https://homeofficemedia.blog.gov.uk/electronic-travel-authorisation-eta-factsheet-april-2026/",
+    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1800&q=80",
+    "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1800&q=80",
+    "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=80",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80",
+    "https://mapaconsular.mrree.gub.uy",
     "https://mzd.gov.cz/",
-    "https://mzv.gov.cz/bra",
-    "https://mzv.gov.cz/jnp/en/information_for_alien",
-    "https://riodejaneiro.con",
-    "https://taxation-cu",
+    "https://mzv.gov.cz/brasilia",
+    "https://mzv.gov.cz/jnp/en/information_for_aliens/short_stay_visa/index.html",
+    "https://riodejaneiro.consuladoportugal.mne.gov.pt/pt/",
+    "https://riodejaneiro.consulfrance.org",
+    "https://riodejaneiro.consulfrance.org/",
+    "https://saopaulo.consuladoportugal.mne.gov.pt/pt/",
+    "https://saopaulo.consulfrance.org",
+    "https://saopaulo.consulfrance.org/",
+    "https://sede.agenciatributaria.gob.es/",
+    "https://services.digital.go.jp/en/visit-japan-web/",
+    "https://serviciosconsulares.cl/",
+    "https://taxation-customs.ec.europa.eu/",
     "https://tdac.immigration.go.th/",
     "https://thl.fi/en",
     "https://travel-europe.europa.eu/",
-    "https://travel-europe.europa.eu/en/etia",
-    "https://travel.",
-    "https://travel.gc.ca/a",
-    "https://travel.gc.ca/travelling/health-",
+    "https://travel-europe.europa.eu/en/etias",
+    "https://travel.gc.ca/assistance/embassies-consulates/brazil",
+    "https://travel.gc.ca/travelling/health-safety",
+    "https://travel.state.gov/",
     "https://tulli.fi/en/frontpage",
-    "https://u.ae/en/information-and-",
-    "https://um.fi/vi",
-    "https://vi",
-    "https://www.",
+    "https://u.ae/en/information-and-services/health-and-fitness",
+    "https://u.ae/en/information-and-services/visa-and-emirates-id",
+    "https://um.fi/visa-to-visit-finland",
+    "https://visa.vfsglobal.com/bra/pt/fra/",
+    "https://visitqatar.com/intl-en/plan-your-trip/visas",
+    "https://vistoperitalia.esteri.it/",
+    "https://vistos.mne.gov.pt/",
+    "https://vistos.mne.gov.pt/pt/",
     "https://www.aade.gr/en",
     "https://www.adm.gov.it/",
-    "https://www.aduana",
     "https://www.aduana.cl/",
+    "https://www.aduanas.gub.uy/",
     "https://www.afip.gob.ar/",
-    "https://www.argentina.gob.ar/",
-    "https://www.argentina.gob.ar/interior/migracione",
-    "https://www.au",
+    "https://www.argentina.gob.ar/interior/migraciones",
+    "https://www.argentina.gob.ar/salud",
+    "https://www.auswaertiges-amt.de/en/visa-service",
     "https://www.bag.admin.ch/",
     "https://www.bazg.admin.ch/",
-    "https://www.bela",
+    "https://www.belastingdienst.nl/wps/wcm/connect/en/customs/customs",
     "https://www.br.emb-japan.go.jp",
     "https://www.br.emb-japan.go.jp/itprtop_pt/index.html",
-    "https://www.canada.ca/en/immigration-refugee",
+    "https://www.canada.ca/en/immigration-refugees-citizenship.html",
+    "https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/check-visa-eta.html",
     "https://www.canadainternational.gc.ca",
-    "https://www.cancilleria.gov.co/embajada-colombia-bra",
-    "https://www.cancilleria.gov.co/tramite",
-    "https://www.cb",
+    "https://www.cancilleria.gov.co/embajada-colombia-brasil",
+    "https://www.cancilleria.gov.co/tramites_servicios/visa",
     "https://www.cbp.gov/travel",
-    "https://www.celni",
-    "https://www.chile.gob.cl/bra",
-    "https://www.cu",
+    "https://www.cbsa-asfc.gc.ca/travel-voyage/menu-eng.html",
+    "https://www.celnisprava.cz/en/Pages/default.aspx",
+    "https://www.chile.gob.cl/brasil/",
+    "https://www.customs.go.jp/english/",
+    "https://www.customs.go.th/",
+    "https://www.customs.gov.sg/",
     "https://www.dian.gov.co/",
     "https://www.douane.gouv.fr/",
-    "https://www.eda.admin.ch/",
-    "https://www.eda.admin.ch/bra",
-    "https://www.eda.admin.ch/countrie",
-    "https://www.eda.admin.ch/eda/en/fdfa/entry-",
-    "https://www.exteriore",
+    "https://www.eda.admin.ch/brasilia",
+    "https://www.eda.admin.ch/countries/brazil",
+    "https://www.eda.admin.ch/eda/en/fdfa/entry-switzerland-residence/visa-requirements-application-form.html",
+    "https://www.eda.admin.ch/saopaulo",
+    "https://www.exteriores.gob.es/",
+    "https://www.exteriores.gob.es/Consulados/saopaulo/pt/Paginas/index.aspx",
+    "https://www.exteriores.gob.es/Embajadas/brasilia/pt/Paginas/index.aspx",
+    "https://www.exteriores.gob.es/consulados/riodejaneiro",
+    "https://www.exteriores.gob.es/consulados/saopaulo",
+    "https://www.exteriores.gob.es/embajadas/brasilia",
     "https://www.fhi.no/en/",
-    "https://www.gob.mx/",
     "https://www.gob.mx/inm",
-    "https://www.gob.pe/embajada-del-peru-en-bra",
-    "https://www.gob.pe/in",
-    "https://www.gob.pe/migracione",
-    "https://www.gob.pe/min",
-    "https://www.google.com/map",
-    "https://www.gov.br/anvi",
+    "https://www.gob.mx/salud",
+    "https://www.gob.mx/sre/prensa/electronic-visa-for-brazilian-nationals?idiom=en",
+    "https://www.gob.pe/embajada-del-peru-en-brasil",
+    "https://www.gob.pe/institucion/consulado-del-peru-en-san-pablo",
+    "https://www.gob.pe/migraciones",
+    "https://www.gob.pe/minsa",
+    "https://www.google.com/maps/search/?api=1&query=British+Consulate+General+Sao+Paulo+Rua+Ferreira+de+Araujo+741",
+    "https://www.google.com/maps/search/?api=1&query=British+Embassy+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+Geral+da+Alemanha+Sao+Paulo+Faria+Lima+2092",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+Geral+da+Espanha+Sao+Paulo+Av+Brasil+948",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+Geral+da+Franca+Rio+de+Janeiro+Av+Presidente+Antonio+Carlos+58",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+Geral+da+Franca+Sao+Paulo+Av+Paulista+1842",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+Geral+da+Italia+Rio+de+Janeiro+Av+Presidente+Antonio+Carlos+40",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+Geral+da+Italia+Sao+Paulo+Av+Paulista+1963",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+Geral+da+Suica+Sao+Paulo",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+Geral+de+Portugal+Rio+de+Janeiro+Rua+Sao+Clemente+424",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+Geral+de+Portugal+Sao+Paulo+Rua+Canada+324",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+Geral+do+Japao+Sao+Paulo",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+Geral+dos+Paises+Baixos+Sao+Paulo",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+dos+Estados+Unidos+Porto+Alegre+Av+Assis+Brasil+1889",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+dos+Estados+Unidos+Recife+Rua+Goncalves+Maia+163",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+dos+Estados+Unidos+Rio+de+Janeiro+Av+Presidente+Wilson+147",
+    "https://www.google.com/maps/search/?api=1&query=Consulado+dos+Estados+Unidos+Sao+Paulo+Rua+Henri+Dunant+500",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Alemanha+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Argentina+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Belgica+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Colombia+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Espanha+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Finlandia+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Franca+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Grecia+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Italia+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Noruega+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Republica+Tcheca+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Suica+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Tailandia+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Turquia+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+de+Portugal+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+de+Singapura+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+do+Canada+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+do+Chile+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+do+Japao+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+do+Mexico+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+do+Peru+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+do+Qatar+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+do+Uruguai+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+dos+Emirados+Arabes+Unidos+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+dos+Estados+Unidos+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+dos+Paises+Baixos+Brasilia",
+    "https://www.gov.br/anvisa/pt-br",
+    "https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes",
     "https://www.gov.br/mre/pt-br",
-    "https://www.gov.br/mre/pt-br/a",
-    "https://www.gov.br/mre/pt-br/con",
-    "https://www.gov.br/mre/pt-br/embaixada-",
+    "https://www.gov.br/mre/pt-br/assuntos/portal-consular",
+    "https://www.gov.br/mre/pt-br/assuntos/portal-consular/alertas%20e%20noticias/noticias/reino-unido-eta-autorizacao-de-viagem-eletronica",
+    "https://www.gov.br/mre/pt-br/assuntos/portal-consular/reparticoes-consulares-do-brasil/regiao/canada/canada",
+    "https://www.gov.br/mre/pt-br/assuntos/portal-consular/reparticoes-consulares-do-brasil/regiao/uruguai/uruguai",
+    "https://www.gov.br/mre/pt-br/consulado-atlanta",
+    "https://www.gov.br/mre/pt-br/consulado-barcelona",
+    "https://www.gov.br/mre/pt-br/consulado-boston",
+    "https://www.gov.br/mre/pt-br/consulado-chicago",
+    "https://www.gov.br/mre/pt-br/consulado-dubai",
+    "https://www.gov.br/mre/pt-br/consulado-edimburgo",
+    "https://www.gov.br/mre/pt-br/consulado-genebra",
+    "https://www.gov.br/mre/pt-br/consulado-hartford",
+    "https://www.gov.br/mre/pt-br/consulado-houston",
+    "https://www.gov.br/mre/pt-br/consulado-londres",
+    "https://www.gov.br/mre/pt-br/consulado-los-angeles",
+    "https://www.gov.br/mre/pt-br/consulado-miami",
+    "https://www.gov.br/mre/pt-br/consulado-milao",
+    "https://www.gov.br/mre/pt-br/consulado-munique",
+    "https://www.gov.br/mre/pt-br/consulado-nova-york",
+    "https://www.gov.br/mre/pt-br/consulado-orlando",
+    "https://www.gov.br/mre/pt-br/consulado-porto",
+    "https://www.gov.br/mre/pt-br/consulado-santiago",
+    "https://www.gov.br/mre/pt-br/consulado-sao-francisco",
+    "https://www.gov.br/mre/pt-br/consulado-toronto",
+    "https://www.gov.br/mre/pt-br/consulado-xangai",
+    "https://www.gov.br/mre/pt-br/consulado-zurique",
     "https://www.gov.br/mre/pt-br/embaixada-abu-dhabi",
-    "https://www.gov.br/mre/pt-br/embaixada-atena",
+    "https://www.gov.br/mre/pt-br/embaixada-atenas",
     "https://www.gov.br/mre/pt-br/embaixada-bangkok",
     "https://www.gov.br/mre/pt-br/embaixada-berlim",
     "https://www.gov.br/mre/pt-br/embaixada-bogota",
-    "https://www.gov.br/mre/pt-br/embaixada-bruxela",
-    "https://www.gov.br/mre/pt-br/embaixada-bueno",
+    "https://www.gov.br/mre/pt-br/embaixada-bruxelas",
+    "https://www.gov.br/mre/pt-br/embaixada-buenos-aires",
     "https://www.gov.br/mre/pt-br/embaixada-doha",
     "https://www.gov.br/mre/pt-br/embaixada-haia",
-    "https://www.gov.br/mre/pt-br/embaixada-hel",
-    "https://www.gov.br/mre/pt-br/embaixada-li",
+    "https://www.gov.br/mre/pt-br/embaixada-helsinque",
     "https://www.gov.br/mre/pt-br/embaixada-lima",
+    "https://www.gov.br/mre/pt-br/embaixada-lisboa",
     "https://www.gov.br/mre/pt-br/embaixada-madrid",
     "https://www.gov.br/mre/pt-br/embaixada-mexico",
-    "https://www.gov.br/mre/pt-br/embaixada-o",
-    "https://www.gov.br/mre/pt-br/embaixada-pari",
+    "https://www.gov.br/mre/pt-br/embaixada-oslo",
+    "https://www.gov.br/mre/pt-br/embaixada-paris",
     "https://www.gov.br/mre/pt-br/embaixada-pequim",
     "https://www.gov.br/mre/pt-br/embaixada-praga",
     "https://www.gov.br/mre/pt-br/embaixada-roma",
+    "https://www.gov.br/mre/pt-br/embaixada-singapura",
     "https://www.gov.br/mre/pt-br/embaixada-toquio",
-    "https://www.gov.br/mre/pt-br/embaixada-wa",
+    "https://www.gov.br/mre/pt-br/embaixada-washington",
     "https://www.gov.br/pt-br",
-    "https://www.gov.br/receitafederal/pt-br/a",
-    "https://www.gov.uk/bringing-good",
-    "https://www.gov.uk/brow",
-    "https://www.gov.uk/check-uk-vi",
+    "https://www.gov.br/receitafederal/pt-br/assuntos/aduana-e-comercio-exterior/viajantes",
+    "https://www.gov.uk/bringing-goods-into-uk-personal-use",
+    "https://www.gov.uk/browse/abroad/travel-abroad",
+    "https://www.gov.uk/check-uk-visa",
     "https://www.gov.uk/eta",
-    "https://www.gov.uk/world/organi",
-    "https://www.government.nl/topic",
-    "https://www.gub.uy/mini",
+    "https://www.gov.uk/world/organisations/british-consulate-general-sao-paulo",
+    "https://www.gov.uk/world/organisations/british-embassy-brazil",
+    "https://www.gov.uk/world/organisations/british-embassy-brazil.pt",
+    "https://www.gov.uk/world/organisations/british-embassy-brazil/office/british-consulate-general-rio-de-janeiro",
+    "https://www.gov.uk/world/organisations/british-embassy-brazil/office/british-consulate-general-sao-paulo",
+    "https://www.government.nl/topics/health",
+    "https://www.gub.uy/ministerio-relaciones-exteriores",
+    "https://www.gub.uy/ministerio-relaciones-exteriores/",
+    "https://www.gub.uy/ministerio-salud-publica/",
     "https://www.health.belgium.be/",
-    "https://www.ica.gov.",
-    "https://www.international.gc.ca/country-pay",
-    "https://www.mfa.gov.tr/vi",
+    "https://www.ica.gov.sg/enter-transit-depart/entering-singapore",
+    "https://www.ica.gov.sg/enter-transit-depart/entering-singapore/sg-arrival-card",
+    "https://www.international.gc.ca/country-pays/brazil-bresil/brasilia.aspx",
+    "https://www.mfa.gov.tr/visa-information-for-foreigners.en.mfa",
     "https://www.mfa.gr/brazil",
-    "https://www.mfa.gr/en/vi",
-    "https://www.mfa.gr/mi",
-    "https://www.mhlw.go.jp/engli",
-    "https://www.min",
-    "https://www.mofa.go.jp/j_info/vi",
+    "https://www.mfa.gr/en/visas/",
+    "https://www.mfa.gr/missionsabroad/en/brazil-en",
+    "https://www.mhlw.go.jp/english/",
+    "https://www.minsal.cl/",
+    "https://www.minsalud.gov.co/",
+    "https://www.mofa.go.jp/j_info/visit/visa/index.html",
+    "https://www.mofa.go.jp/j_info/visit/visa/short/novisa.html",
     "https://www.mofa.gov.ae",
-    "https://www.mofa.gov.ae/en/mi",
-    "https://www.mzv.cz/bra",
-    "https://www.netherland",
+    "https://www.mofa.gov.ae/en/missions/brasilia",
+    "https://www.mofa.gov.ae/en/missions/brasilia/services/visas",
+    "https://www.mzv.cz/brasilia",
+    "https://www.netherlandsandyou.nl",
+    "https://www.netherlandsandyou.nl/web/brazil",
+    "https://www.netherlandsandyou.nl/web/brazil/about-us/consulate-general-in-sao-paulo",
+    "https://www.netherlandsworldwide.nl/visa-the-netherlands",
     "https://www.norway.no/en/brazil/",
-    "https://www.portalda",
+    "https://www.portaldasfinancas.gov.pt/",
     "https://www.rki.de/",
-    "https://www.t",
-    "https://www.thaievi",
+    "https://www.saglik.gov.tr/",
+    "https://www.salute.gov.it/",
+    "https://www.sanidad.gob.es/",
+    "https://www.sante.fr/",
+    "https://www.sns.gov.pt/",
+    "https://www.sp.br.emb-japan.go.jp/itprtop_pt/index.html",
+    "https://www.sunat.gob.pe/",
+    "https://www.thaievisa.go.th/",
     "https://www.toll.no/en/",
     "https://www.trade.gov.tr/",
-    "https://www.udi.no/en/want-to-apply/vi",
+    "https://www.tsa.gov/travel",
+    "https://www.udi.no/en/want-to-apply/visit-and-holiday/",
     "https://www.zoll.de/EN/Home/home_node.html",
     "https://wwwnc.cdc.gov/travel"
   ]
