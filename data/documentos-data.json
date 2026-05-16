@@ -1,5 +1,5 @@
 {
-  "updatedAt": "15/05/2026, 14:09:04",
+  "updatedAt": "16/05/2026, 07:15:36",
   "monitoring": {
     "enabled": true,
     "frequency": "daily",
@@ -69,7 +69,7 @@
       },
       "health": {
         "title": "Informações de saúde",
-        "summary": "Existe exigência sanitária ou vacinal para determinados viajantes."
+        "summary": "Sem exigência geral de vacina obrigatória na entrada direta."
       },
       "diplomaticSupport": {
         "title": "Apoio diplomático",
@@ -89,8 +89,8 @@
           "url": "https://travel.state.gov/"
         }
       ],
-      "lastChecked": "15/05/2026, 14:08:57",
-      "lastAutomaticUpdate": "15/05/2026, 14:08:57"
+      "lastChecked": "16/05/2026, 07:15:27",
+      "lastAutomaticUpdate": "16/05/2026, 07:15:27"
     },
     {
       "id": "franca",
@@ -168,8 +168,8 @@
           "url": "https://france-visas.gouv.fr/"
         }
       ],
-      "lastChecked": "15/05/2026, 14:09:00",
-      "lastAutomaticUpdate": "15/05/2026, 14:09:00"
+      "lastChecked": "16/05/2026, 07:15:32",
+      "lastAutomaticUpdate": "16/05/2026, 07:15:32"
     },
     {
       "id": "espanha",
@@ -807,8 +807,8 @@
           "url": "https://www.auswaertiges-amt.de/en/visa-service"
         }
       ],
-      "lastChecked": "15/05/2026, 14:09:04",
-      "lastAutomaticUpdate": "15/05/2026, 14:09:04"
+      "lastChecked": "16/05/2026, 07:15:36",
+      "lastAutomaticUpdate": "16/05/2026, 07:15:36"
     },
     {
       "id": "paises-baixos",
