@@ -1,5 +1,5 @@
 {
-  "updatedAt": "17/05/2026, 07:22:33",
+  "updatedAt": "18/05/2026, 09:31:03",
   "monitoring": {
     "enabled": true,
     "frequency": "daily",
@@ -89,8 +89,8 @@
           "url": "https://travel.state.gov/"
         }
       ],
-      "lastChecked": "17/05/2026, 07:22:25",
-      "lastAutomaticUpdate": "17/05/2026, 07:22:25"
+      "lastChecked": "18/05/2026, 09:30:58",
+      "lastAutomaticUpdate": "18/05/2026, 09:30:58"
     },
     {
       "id": "franca",
@@ -168,8 +168,8 @@
           "url": "https://france-visas.gouv.fr/"
         }
       ],
-      "lastChecked": "17/05/2026, 07:22:29",
-      "lastAutomaticUpdate": "17/05/2026, 07:22:29"
+      "lastChecked": "18/05/2026, 09:31:01",
+      "lastAutomaticUpdate": "18/05/2026, 09:31:01"
     },
     {
       "id": "espanha",
@@ -807,8 +807,8 @@
           "url": "https://www.auswaertiges-amt.de/en/visa-service"
         }
       ],
-      "lastChecked": "17/05/2026, 07:22:33",
-      "lastAutomaticUpdate": "17/05/2026, 07:22:33"
+      "lastChecked": "18/05/2026, 09:31:03",
+      "lastAutomaticUpdate": "18/05/2026, 09:31:03"
     },
     {
       "id": "paises-baixos",
