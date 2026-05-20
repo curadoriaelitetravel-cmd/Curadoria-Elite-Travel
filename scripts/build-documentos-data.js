@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const extractedPath = path.join(__dirname, "../data/documentos-extracted.json");
+const customPath = path.join(__dirname, "../data/documentos-custom.json");
 const outputPath = path.join(__dirname, "../data/documentos-data.json");
 
 function readJson(filePath) {
@@ -18,33 +19,35 @@ function getBrazilTimestamp() {
   });
 }
 
-function buildCountry(country) {
+function normalizeCountry(country) {
   return {
     id: country.id,
     country: country.country,
     aliases: country.aliases || [],
     cities: country.cities || [],
-    cityRedirects: [],
+    cityRedirects: country.cityRedirects || [],
 
     entry: {
-      title: "Visto e entrada no país",
-      summary: country.summary?.entry || ""
+      title: country.entry?.title || "Visto e entrada no país",
+      summary: country.entry?.summary || country.summary?.entry || ""
     },
 
     health: {
-      title: "Informações de saúde",
-      summary: country.summary?.health || ""
+      title: country.health?.title || "Informações de saúde",
+      summary: country.health?.summary || country.summary?.health || ""
     },
 
     diplomaticSupport: {
-      title: "Apoio diplomático",
-      summary: country.summary?.support || ""
+      title: country.diplomaticSupport?.title || "Apoio diplomático",
+      summary: country.diplomaticSupport?.summary || country.summary?.support || ""
     },
 
     sources: country.sources || [],
 
-    lastChecked: null,
-    lastAutomaticUpdate: null
+    lastChecked: country.lastChecked || null,
+    lastAutomaticUpdate: country.lastAutomaticUpdate || null,
+
+    origin: country.origin || "extracted"
   };
 }
 
@@ -70,8 +73,30 @@ function attachCityRedirects(countries, redirects) {
   return countries;
 }
 
+function mergeCountries(extractedCountries, customCountries) {
+  const map = new Map();
+
+  extractedCountries.forEach(country => {
+    map.set(country.id, normalizeCountry({
+      ...country,
+      origin: "extracted"
+    }));
+  });
+
+  customCountries.forEach(country => {
+    map.set(country.id, normalizeCountry({
+      ...country,
+      origin: "custom"
+    }));
+  });
+
+  return Array.from(map.values()).sort((a, b) =>
+    a.country.localeCompare(b.country, "pt-BR", { sensitivity: "base" })
+  );
+}
+
 function main() {
-  console.log("\n🚀 Construindo documentos-data.json a partir do arquivo extraído...\n");
+  console.log("\n🚀 Construindo documentos-data.json...\n");
 
   if (!fs.existsSync(extractedPath)) {
     throw new Error("Arquivo data/documentos-extracted.json não encontrado.");
@@ -79,13 +104,26 @@ function main() {
 
   const extracted = readJson(extractedPath);
 
-  if (!Array.isArray(extracted.countries)) {
-    throw new Error("Estrutura inválida: countries não encontrado.");
+  const extractedCountries = Array.isArray(extracted.countries)
+    ? extracted.countries
+    : [];
+
+  let customCountries = [];
+
+  if (fs.existsSync(customPath)) {
+    const custom = readJson(customPath);
+
+    customCountries = Array.isArray(custom.countries)
+      ? custom.countries
+      : [];
   }
 
-  const countries = extracted.countries.map(buildCountry);
+  let countries = mergeCountries(
+    extractedCountries,
+    customCountries
+  );
 
-  const countriesWithRedirects = attachCityRedirects(
+  countries = attachCityRedirects(
     countries,
     extracted.cityRedirects || []
   );
@@ -100,13 +138,15 @@ function main() {
       message: "Monitoramento ativo • Informações revisadas regularmente"
     },
 
-    countries: countriesWithRedirects
+    countries
   };
 
   writeJson(outputPath, output);
 
   console.log("✅ documentos-data.json atualizado com sucesso.");
-  console.log(`🌍 Países incluídos: ${output.countries.length}`);
+  console.log(`🌍 Países extraídos: ${extractedCountries.length}`);
+  console.log(`➕ Países customizados: ${customCountries.length}`);
+  console.log(`📦 Total final: ${output.countries.length}`);
   console.log(`📄 Arquivo atualizado: ${outputPath}\n`);
 }
 
