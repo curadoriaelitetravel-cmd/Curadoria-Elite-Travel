@@ -1,5 +1,5 @@
 {
-  "updatedAt": "20/05/2026, 08:49:38",
+  "updatedAt": "20/05/2026, 18:52:25",
   "monitoring": {
     "enabled": true,
     "frequency": "daily",
@@ -8,138 +8,61 @@
   },
   "countries": [
     {
-      "id": "estados-unidos",
-      "country": "Estados Unidos",
+      "id": "alemanha",
+      "country": "Alemanha",
       "aliases": [
-        "estados unidos",
-        "eua",
-        "usa",
-        "united states",
-        "america"
+        "alemanha",
+        "germany"
       ],
       "cities": [
-        "atlanta",
-        "boston",
-        "chicago",
-        "hartford",
-        "houston",
-        "las vegas",
-        "los angeles",
-        "miami",
-        "new york",
-        "orlando",
-        "san francisco",
-        "washington dc"
+        "berlim",
+        "munique"
       ],
       "cityRedirects": [
         {
-          "alias": "dallas",
-          "cityKey": "houston",
-          "displayName": "Dallas"
+          "alias": "hamburgo",
+          "cityKey": "berlim",
+          "displayName": "Hamburgo"
         },
         {
-          "alias": "san diego",
-          "cityKey": "los angeles",
-          "displayName": "San Diego"
+          "alias": "frankfurt",
+          "cityKey": "munique",
+          "displayName": "Frankfurt"
         },
         {
-          "alias": "philadelphia",
-          "cityKey": "new york",
-          "displayName": "Philadelphia"
+          "alias": "colonia",
+          "cityKey": "munique",
+          "displayName": "Colônia"
         },
         {
-          "alias": "chicago",
-          "cityKey": "new york",
-          "displayName": "Chicago"
+          "alias": "colônia",
+          "cityKey": "munique",
+          "displayName": "Colônia"
         },
         {
-          "alias": "new orleans",
-          "cityKey": "miami",
-          "displayName": "New Orleans"
+          "alias": "heidelberg",
+          "cityKey": "munique",
+          "displayName": "Heidelberg"
         },
         {
-          "alias": "seattle",
-          "cityKey": "san francisco",
-          "displayName": "Seattle"
-        }
-      ],
-      "entry": {
-        "title": "Visto e entrada no país",
-        "summary": "Brasileiros precisam de visto para turismo."
-      },
-      "health": {
-        "title": "Informações de saúde",
-        "summary": "Existe exigência sanitária ou vacinal para determinados viajantes."
-      },
-      "diplomaticSupport": {
-        "title": "Apoio diplomático",
-        "summary": "O apoio diplomático varia conforme a cidade e a região consultada em Estados Unidos."
-      },
-      "sources": [
-        {
-          "label": "GOV.BR — Portal Consular",
-          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+          "alias": "dresden",
+          "cityKey": "berlim",
+          "displayName": "Dresden"
         },
         {
-          "label": "ANVISA",
-          "url": "https://www.gov.br/anvisa/pt-br"
+          "alias": "rothenburg ob der tauber",
+          "cityKey": "munique",
+          "displayName": "Rothenburg ob der Tauber"
         },
         {
-          "label": "Governo dos EUA — Travel.State.Gov",
-          "url": "https://travel.state.gov/"
-        }
-      ],
-      "lastChecked": "20/05/2026, 08:49:24",
-      "lastAutomaticUpdate": "20/05/2026, 08:49:24"
-    },
-    {
-      "id": "franca",
-      "country": "França",
-      "aliases": [
-        "franca",
-        "frança"
-      ],
-      "cities": [
-        "lyon",
-        "marseille",
-        "nice",
-        "paris"
-      ],
-      "cityRedirects": [
-        {
-          "alias": "bordeaux",
-          "cityKey": "paris",
-          "displayName": "Bordeaux"
+          "alias": "nuremberg",
+          "cityKey": "munique",
+          "displayName": "Nuremberg"
         },
         {
-          "alias": "estrasburgo",
-          "cityKey": "paris",
-          "displayName": "Estrasburgo"
-        },
-        {
-          "alias": "marseille",
-          "cityKey": "paris",
-          "displayName": "Marseille"
-        },
-        {
-          "alias": "cannes",
-          "cityKey": "nice",
-          "displayName": "Cannes"
-        },
-        {
-          "alias": "mont saint michel",
-          "cityKey": "paris",
-          "displayName": "Mont Saint-Michel"
-        },
-        {
-          "alias": "annecy",
-          "cityKey": "lyon",
-          "displayName": "Annecy"
-        },
-        {
-          "alias": "biarritz",
-          "cityKey": "paris",
-          "displayName": "Biarritz"
+          "alias": "stuttgart",
+          "cityKey": "munique",
+          "displayName": "Stuttgart"
         }
       ],
       "entry": {
@@ -152,7 +75,7 @@
       },
       "diplomaticSupport": {
         "title": "Apoio diplomático",
-        "summary": "O apoio diplomático varia conforme a cidade e a região consultada em França."
+        "summary": "O apoio diplomático varia conforme a cidade e a região consultada em Alemanha."
       },
       "sources": [
         {
@@ -164,383 +87,13 @@
           "url": "https://www.gov.br/anvisa/pt-br"
         },
         {
-          "label": "France-Visas",
-          "url": "https://france-visas.gouv.fr/"
+          "label": "Governo da Alemanha",
+          "url": "https://www.auswaertiges-amt.de/en/visa-service"
         }
       ],
-      "lastChecked": "20/05/2026, 08:49:32",
-      "lastAutomaticUpdate": "20/05/2026, 08:49:32"
-    },
-    {
-      "id": "espanha",
-      "country": "Espanha",
-      "aliases": [
-        "espanha",
-        "spain"
-      ],
-      "cities": [
-        "barcelona",
-        "madrid"
-      ],
-      "cityRedirects": [
-        {
-          "alias": "sevilha",
-          "cityKey": "madrid",
-          "displayName": "Sevilha"
-        },
-        {
-          "alias": "sevilla",
-          "cityKey": "madrid",
-          "displayName": "Sevilha"
-        },
-        {
-          "alias": "valencia",
-          "cityKey": "barcelona",
-          "displayName": "Valência"
-        },
-        {
-          "alias": "valência",
-          "cityKey": "barcelona",
-          "displayName": "Valência"
-        },
-        {
-          "alias": "granada",
-          "cityKey": "madrid",
-          "displayName": "Granada"
-        },
-        {
-          "alias": "palma de mallorca",
-          "cityKey": "barcelona",
-          "displayName": "Palma de Mallorca"
-        },
-        {
-          "alias": "san sebastian",
-          "cityKey": "madrid",
-          "displayName": "San Sebastián"
-        },
-        {
-          "alias": "san sebastián",
-          "cityKey": "madrid",
-          "displayName": "San Sebastián"
-        },
-        {
-          "alias": "salamanca",
-          "cityKey": "madrid",
-          "displayName": "Salamanca"
-        },
-        {
-          "alias": "bilbao",
-          "cityKey": "madrid",
-          "displayName": "Bilbao"
-        },
-        {
-          "alias": "cordoba espanha",
-          "cityKey": "madrid",
-          "displayName": "Córdoba"
-        },
-        {
-          "alias": "cordoba",
-          "cityKey": "madrid",
-          "displayName": "Córdoba"
-        },
-        {
-          "alias": "córdoba",
-          "cityKey": "madrid",
-          "displayName": "Córdoba"
-        }
-      ],
-      "entry": {
-        "title": "Visto e entrada no país",
-        "summary": "Brasileiros não precisam de visto para turismo de curta duração."
-      },
-      "health": {
-        "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória; seguro e documentos seguem essenciais."
-      },
-      "diplomaticSupport": {
-        "title": "Apoio diplomático",
-        "summary": "Madrid e Barcelona têm apoio principal; demais cidades usam o posto mais adequado."
-      },
-      "sources": [
-        {
-          "label": "GOV.BR — Portal Consular",
-          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
-        },
-        {
-          "label": "ANVISA",
-          "url": "https://www.gov.br/anvisa/pt-br"
-        },
-        {
-          "label": "Governo da Espanha",
-          "url": "https://www.exteriores.gob.es/"
-        }
-      ],
-      "lastChecked": null,
-      "lastAutomaticUpdate": null
-    },
-    {
-      "id": "reino-unido",
-      "country": "Reino Unido",
-      "aliases": [
-        "reino unido",
-        "uk",
-        "united kingdom",
-        "inglaterra",
-        "escocia",
-        "escócia"
-      ],
-      "cities": [
-        "edimburgo",
-        "glasgow",
-        "londres",
-        "manchester"
-      ],
-      "cityRedirects": [
-        {
-          "alias": "liverpool",
-          "cityKey": "manchester",
-          "displayName": "Liverpool"
-        },
-        {
-          "alias": "oxford",
-          "cityKey": "londres",
-          "displayName": "Oxford"
-        },
-        {
-          "alias": "cambridge",
-          "cityKey": "londres",
-          "displayName": "Cambridge"
-        },
-        {
-          "alias": "bristol",
-          "cityKey": "londres",
-          "displayName": "Bristol"
-        },
-        {
-          "alias": "bath",
-          "cityKey": "londres",
-          "displayName": "Bath"
-        },
-        {
-          "alias": "york",
-          "cityKey": "manchester",
-          "displayName": "York"
-        }
-      ],
-      "entry": {
-        "title": "Visto e entrada no país",
-        "summary": "Brasileiros precisam de ETA para turismo."
-      },
-      "health": {
-        "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória na entrada comum."
-      },
-      "diplomaticSupport": {
-        "title": "Apoio diplomático",
-        "summary": "Londres e Edimburgo são os apoios principais desta base."
-      },
-      "sources": [
-        {
-          "label": "GOV.BR — Portal Consular",
-          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
-        },
-        {
-          "label": "ANVISA",
-          "url": "https://www.gov.br/anvisa/pt-br"
-        },
-        {
-          "label": "Governo do Reino Unido",
-          "url": "https://www.gov.uk/check-uk-visa"
-        }
-      ],
-      "lastChecked": null,
-      "lastAutomaticUpdate": null
-    },
-    {
-      "id": "italia",
-      "country": "Itália",
-      "aliases": [
-        "italia",
-        "itália",
-        "italy"
-      ],
-      "cities": [
-        "florenca",
-        "milao",
-        "roma"
-      ],
-      "cityRedirects": [
-        {
-          "alias": "veneza",
-          "cityKey": "milao",
-          "displayName": "Veneza"
-        },
-        {
-          "alias": "venezia",
-          "cityKey": "milao",
-          "displayName": "Veneza"
-        },
-        {
-          "alias": "napoles",
-          "cityKey": "roma",
-          "displayName": "Nápoles"
-        },
-        {
-          "alias": "nápoles",
-          "cityKey": "roma",
-          "displayName": "Nápoles"
-        },
-        {
-          "alias": "bolonha",
-          "cityKey": "milao",
-          "displayName": "Bolonha"
-        },
-        {
-          "alias": "bolonia",
-          "cityKey": "milao",
-          "displayName": "Bolonha"
-        },
-        {
-          "alias": "verona",
-          "cityKey": "milao",
-          "displayName": "Verona"
-        },
-        {
-          "alias": "cinque terre",
-          "cityKey": "milao",
-          "displayName": "Cinque Terre"
-        },
-        {
-          "alias": "amalfi",
-          "cityKey": "roma",
-          "displayName": "Amalfi"
-        },
-        {
-          "alias": "turim",
-          "cityKey": "milao",
-          "displayName": "Turim"
-        },
-        {
-          "alias": "torino",
-          "cityKey": "milao",
-          "displayName": "Turim"
-        }
-      ],
-      "entry": {
-        "title": "Visto e entrada no país",
-        "summary": "Brasileiros não precisam de visto para turismo de curta duração."
-      },
-      "health": {
-        "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória; seguro e documentos seguem essenciais."
-      },
-      "diplomaticSupport": {
-        "title": "Apoio diplomático",
-        "summary": "Roma e Milão têm apoio direto; outras cidades usam o posto mais adequado."
-      },
-      "sources": [
-        {
-          "label": "GOV.BR — Portal Consular",
-          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
-        },
-        {
-          "label": "ANVISA",
-          "url": "https://www.gov.br/anvisa/pt-br"
-        },
-        {
-          "label": "Governo da Itália",
-          "url": "https://vistoperitalia.esteri.it/"
-        }
-      ],
-      "lastChecked": null,
-      "lastAutomaticUpdate": null
-    },
-    {
-      "id": "mexico",
-      "country": "México",
-      "aliases": [
-        "mexico",
-        "méxico"
-      ],
-      "cities": [
-        "cancun",
-        "cidade do mexico"
-      ],
-      "cityRedirects": [
-        {
-          "alias": "playa del carmen",
-          "cityKey": "cancun",
-          "displayName": "Playa del Carmen"
-        },
-        {
-          "alias": "tulum",
-          "cityKey": "cancun",
-          "displayName": "Tulum"
-        },
-        {
-          "alias": "puerto vallarta",
-          "cityKey": "cidade do mexico",
-          "displayName": "Puerto Vallarta"
-        },
-        {
-          "alias": "cabo san lucas",
-          "cityKey": "cidade do mexico",
-          "displayName": "Cabo San Lucas"
-        },
-        {
-          "alias": "oaxaca",
-          "cityKey": "cidade do mexico",
-          "displayName": "Oaxaca"
-        },
-        {
-          "alias": "merida",
-          "cityKey": "cidade do mexico",
-          "displayName": "Mérida"
-        },
-        {
-          "alias": "mérida",
-          "cityKey": "cidade do mexico",
-          "displayName": "Mérida"
-        },
-        {
-          "alias": "guadalajara",
-          "cityKey": "cidade do mexico",
-          "displayName": "Guadalajara"
-        },
-        {
-          "alias": "san miguel de allende",
-          "cityKey": "cidade do mexico",
-          "displayName": "San Miguel de Allende"
-        }
-      ],
-      "entry": {
-        "title": "Visto e entrada no país",
-        "summary": "Brasileiros não precisam de visto em alguns cenários, mas a imigração é sensível."
-      },
-      "health": {
-        "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória na entrada comum."
-      },
-      "diplomaticSupport": {
-        "title": "Apoio diplomático",
-        "summary": "Cidade do México e Cancún são os apoios principais desta base."
-      },
-      "sources": [
-        {
-          "label": "GOV.BR — Portal Consular",
-          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
-        },
-        {
-          "label": "ANVISA",
-          "url": "https://www.gov.br/anvisa/pt-br"
-        },
-        {
-          "label": "Governo do México",
-          "url": "https://www.gob.mx/inm"
-        }
-      ],
-      "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastChecked": "20/05/2026, 18:52:21",
+      "lastAutomaticUpdate": "20/05/2026, 18:52:21",
+      "origin": "extracted"
     },
     {
       "id": "argentina",
@@ -635,76 +188,94 @@
         }
       ],
       "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
     },
     {
-      "id": "portugal",
-      "country": "Portugal",
+      "id": "belgica",
+      "country": "Bélgica",
       "aliases": [
-        "portugal"
+        "belgica",
+        "bélgica",
+        "belgium"
       ],
       "cities": [
-        "lisboa",
-        "porto"
+        "bruges",
+        "bruxelas"
       ],
       "cityRedirects": [
         {
-          "alias": "funchal",
-          "cityKey": "lisboa",
-          "displayName": "Funchal"
+          "alias": "gante",
+          "cityKey": "bruxelas",
+          "displayName": "Gante"
         },
         {
-          "alias": "sintra",
-          "cityKey": "lisboa",
-          "displayName": "Sintra"
+          "alias": "gent",
+          "cityKey": "bruxelas",
+          "displayName": "Gante"
         },
         {
-          "alias": "faro",
-          "cityKey": "lisboa",
-          "displayName": "Faro"
+          "alias": "antuerpia",
+          "cityKey": "bruxelas",
+          "displayName": "Antuérpia"
         },
         {
-          "alias": "lagos",
-          "cityKey": "lisboa",
-          "displayName": "Lagos"
+          "alias": "antuérpia",
+          "cityKey": "bruxelas",
+          "displayName": "Antuérpia"
         },
         {
-          "alias": "coimbra",
-          "cityKey": "porto",
-          "displayName": "Coimbra"
+          "alias": "antwerp",
+          "cityKey": "bruxelas",
+          "displayName": "Antuérpia"
         },
         {
-          "alias": "evora",
-          "cityKey": "lisboa",
-          "displayName": "Évora"
+          "alias": "liege",
+          "cityKey": "bruxelas",
+          "displayName": "Liège"
         },
         {
-          "alias": "évora",
-          "cityKey": "lisboa",
-          "displayName": "Évora"
+          "alias": "liège",
+          "cityKey": "bruxelas",
+          "displayName": "Liège"
         },
         {
-          "alias": "braga",
-          "cityKey": "porto",
-          "displayName": "Braga"
+          "alias": "namur",
+          "cityKey": "bruxelas",
+          "displayName": "Namur"
         },
         {
-          "alias": "aveiro",
-          "cityKey": "porto",
-          "displayName": "Aveiro"
+          "alias": "leuven",
+          "cityKey": "bruxelas",
+          "displayName": "Leuven"
+        },
+        {
+          "alias": "ostend",
+          "cityKey": "bruxelas",
+          "displayName": "Ostend"
+        },
+        {
+          "alias": "mechelen",
+          "cityKey": "bruxelas",
+          "displayName": "Mechelen"
+        },
+        {
+          "alias": "ypres",
+          "cityKey": "bruxelas",
+          "displayName": "Ypres"
         }
       ],
       "entry": {
         "title": "Visto e entrada no país",
-        "summary": "Brasileiros não precisam de visto para turismo de curta duração."
+        "summary": "Brasileiros não precisam de visto para curta duração Schengen."
       },
       "health": {
         "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória; seguro e comprovação seguem essenciais."
+        "summary": "Sem exigência geral de vacina obrigatória; seguro e comprovação seguem importantes."
       },
       "diplomaticSupport": {
         "title": "Apoio diplomático",
-        "summary": "Lisboa e Porto têm apoio direto nesta base."
+        "summary": "Bruxelas é o apoio principal; Bruges usa referência de Bruxelas."
       },
       "sources": [
         {
@@ -716,305 +287,13 @@
           "url": "https://www.gov.br/anvisa/pt-br"
         },
         {
-          "label": "Governo de Portugal",
-          "url": "https://vistos.mne.gov.pt/"
+          "label": "Governo da Bélgica",
+          "url": "https://diplomatie.belgium.be/en/travel-belgium/visa-belgium"
         }
       ],
       "lastChecked": null,
-      "lastAutomaticUpdate": null
-    },
-    {
-      "id": "alemanha",
-      "country": "Alemanha",
-      "aliases": [
-        "alemanha",
-        "germany"
-      ],
-      "cities": [
-        "berlim",
-        "munique"
-      ],
-      "cityRedirects": [
-        {
-          "alias": "hamburgo",
-          "cityKey": "berlim",
-          "displayName": "Hamburgo"
-        },
-        {
-          "alias": "frankfurt",
-          "cityKey": "munique",
-          "displayName": "Frankfurt"
-        },
-        {
-          "alias": "colonia",
-          "cityKey": "munique",
-          "displayName": "Colônia"
-        },
-        {
-          "alias": "colônia",
-          "cityKey": "munique",
-          "displayName": "Colônia"
-        },
-        {
-          "alias": "heidelberg",
-          "cityKey": "munique",
-          "displayName": "Heidelberg"
-        },
-        {
-          "alias": "dresden",
-          "cityKey": "berlim",
-          "displayName": "Dresden"
-        },
-        {
-          "alias": "rothenburg ob der tauber",
-          "cityKey": "munique",
-          "displayName": "Rothenburg ob der Tauber"
-        },
-        {
-          "alias": "nuremberg",
-          "cityKey": "munique",
-          "displayName": "Nuremberg"
-        },
-        {
-          "alias": "stuttgart",
-          "cityKey": "munique",
-          "displayName": "Stuttgart"
-        }
-      ],
-      "entry": {
-        "title": "Visto e entrada no país",
-        "summary": "Brasileiros não precisam de visto para turismo de curta duração."
-      },
-      "health": {
-        "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória na entrada direta."
-      },
-      "diplomaticSupport": {
-        "title": "Apoio diplomático",
-        "summary": "O apoio diplomático varia conforme a cidade e a região consultada em Alemanha."
-      },
-      "sources": [
-        {
-          "label": "GOV.BR — Portal Consular",
-          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
-        },
-        {
-          "label": "ANVISA",
-          "url": "https://www.gov.br/anvisa/pt-br"
-        },
-        {
-          "label": "Governo da Alemanha",
-          "url": "https://www.auswaertiges-amt.de/en/visa-service"
-        }
-      ],
-      "lastChecked": "20/05/2026, 08:49:38",
-      "lastAutomaticUpdate": "20/05/2026, 08:49:38"
-    },
-    {
-      "id": "paises-baixos",
-      "country": "Países Baixos",
-      "aliases": [
-        "paises baixos",
-        "países baixos",
-        "holanda",
-        "netherlands"
-      ],
-      "cities": [
-        "amsterda"
-      ],
-      "cityRedirects": [
-        {
-          "alias": "rotterdam",
-          "cityKey": "amsterda",
-          "displayName": "Roterdã"
-        },
-        {
-          "alias": "roterda",
-          "cityKey": "amsterda",
-          "displayName": "Roterdã"
-        },
-        {
-          "alias": "roterdã",
-          "cityKey": "amsterda",
-          "displayName": "Roterdã"
-        },
-        {
-          "alias": "haia",
-          "cityKey": "amsterda",
-          "displayName": "Haia"
-        },
-        {
-          "alias": "utrecht",
-          "cityKey": "amsterda",
-          "displayName": "Utrecht"
-        },
-        {
-          "alias": "maastricht",
-          "cityKey": "amsterda",
-          "displayName": "Maastricht"
-        },
-        {
-          "alias": "delft",
-          "cityKey": "amsterda",
-          "displayName": "Delft"
-        },
-        {
-          "alias": "leiden",
-          "cityKey": "amsterda",
-          "displayName": "Leiden"
-        },
-        {
-          "alias": "haarlem",
-          "cityKey": "amsterda",
-          "displayName": "Haarlem"
-        },
-        {
-          "alias": "eindhoven",
-          "cityKey": "amsterda",
-          "displayName": "Eindhoven"
-        },
-        {
-          "alias": "keukenhof",
-          "cityKey": "amsterda",
-          "displayName": "Keukenhof (Lisse)"
-        },
-        {
-          "alias": "lisse",
-          "cityKey": "amsterda",
-          "displayName": "Lisse"
-        }
-      ],
-      "entry": {
-        "title": "Visto e entrada no país",
-        "summary": "Brasileiros não precisam de visto para turismo de curta duração."
-      },
-      "health": {
-        "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória; seguro e documentação seguem essenciais."
-      },
-      "diplomaticSupport": {
-        "title": "Apoio diplomático",
-        "summary": "Amsterdã usa apoio principal em Haia nesta base."
-      },
-      "sources": [
-        {
-          "label": "GOV.BR — Portal Consular",
-          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
-        },
-        {
-          "label": "ANVISA",
-          "url": "https://www.gov.br/anvisa/pt-br"
-        },
-        {
-          "label": "Governo dos Países Baixos",
-          "url": "https://www.netherlandsworldwide.nl/visa-the-netherlands"
-        }
-      ],
-      "lastChecked": null,
-      "lastAutomaticUpdate": null
-    },
-    {
-      "id": "republica-tcheca",
-      "country": "República Tcheca",
-      "aliases": [
-        "republica tcheca",
-        "república tcheca",
-        "tchequia",
-        "praga"
-      ],
-      "cities": [
-        "praga"
-      ],
-      "cityRedirects": [
-        {
-          "alias": "cesky krumlov",
-          "cityKey": "praga",
-          "displayName": "Český Krumlov"
-        },
-        {
-          "alias": "český krumlov",
-          "cityKey": "praga",
-          "displayName": "Český Krumlov"
-        },
-        {
-          "alias": "karlovy vary",
-          "cityKey": "praga",
-          "displayName": "Karlovy Vary"
-        },
-        {
-          "alias": "brno",
-          "cityKey": "praga",
-          "displayName": "Brno"
-        },
-        {
-          "alias": "pilsen",
-          "cityKey": "praga",
-          "displayName": "Pilsen"
-        },
-        {
-          "alias": "kutna hora",
-          "cityKey": "praga",
-          "displayName": "Kutná Hora"
-        },
-        {
-          "alias": "kutná hora",
-          "cityKey": "praga",
-          "displayName": "Kutná Hora"
-        },
-        {
-          "alias": "olomouc",
-          "cityKey": "praga",
-          "displayName": "Olomouc"
-        },
-        {
-          "alias": "liberec",
-          "cityKey": "praga",
-          "displayName": "Liberec"
-        },
-        {
-          "alias": "ostrava",
-          "cityKey": "praga",
-          "displayName": "Ostrava"
-        },
-        {
-          "alias": "telc",
-          "cityKey": "praga",
-          "displayName": "Telč"
-        },
-        {
-          "alias": "telč",
-          "cityKey": "praga",
-          "displayName": "Telč"
-        }
-      ],
-      "entry": {
-        "title": "Visto e entrada no país",
-        "summary": "Brasileiros não precisam de visto para turismo de curta duração."
-      },
-      "health": {
-        "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória; seguro e documentação seguem essenciais."
-      },
-      "diplomaticSupport": {
-        "title": "Apoio diplomático",
-        "summary": "Praga é o apoio principal desta base."
-      },
-      "sources": [
-        {
-          "label": "GOV.BR — Portal Consular",
-          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
-        },
-        {
-          "label": "ANVISA",
-          "url": "https://www.gov.br/anvisa/pt-br"
-        },
-        {
-          "label": "Governo da República Tcheca — MFA",
-          "url": "https://mzv.gov.cz/jnp/en/information_for_aliens/short_stay_visa/index.html"
-        }
-      ],
-      "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
     },
     {
       "id": "canada",
@@ -1092,93 +371,8 @@
         }
       ],
       "lastChecked": null,
-      "lastAutomaticUpdate": null
-    },
-    {
-      "id": "peru",
-      "country": "Peru",
-      "aliases": [
-        "peru"
-      ],
-      "cities": [
-        "cusco",
-        "lima"
-      ],
-      "cityRedirects": [
-        {
-          "alias": "arequipa",
-          "cityKey": "lima",
-          "displayName": "Arequipa"
-        },
-        {
-          "alias": "puno",
-          "cityKey": "cusco",
-          "displayName": "Puno"
-        },
-        {
-          "alias": "aguas calientes",
-          "cityKey": "cusco",
-          "displayName": "Aguas Calientes"
-        },
-        {
-          "alias": "machu picchu",
-          "cityKey": "cusco",
-          "displayName": "Machu Picchu"
-        },
-        {
-          "alias": "iquitos",
-          "cityKey": "lima",
-          "displayName": "Iquitos"
-        },
-        {
-          "alias": "trujillo",
-          "cityKey": "lima",
-          "displayName": "Trujillo"
-        },
-        {
-          "alias": "huaraz",
-          "cityKey": "lima",
-          "displayName": "Huaraz"
-        },
-        {
-          "alias": "paracas",
-          "cityKey": "lima",
-          "displayName": "Paracas"
-        },
-        {
-          "alias": "nazca",
-          "cityKey": "lima",
-          "displayName": "Nazca"
-        }
-      ],
-      "entry": {
-        "title": "Visto e entrada no país",
-        "summary": "Brasileiros não precisam de visto para turismo."
-      },
-      "health": {
-        "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória na entrada turística comum."
-      },
-      "diplomaticSupport": {
-        "title": "Apoio diplomático",
-        "summary": "Lima é o principal apoio; Cusco usa referência de Lima."
-      },
-      "sources": [
-        {
-          "label": "GOV.BR — Portal Consular",
-          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
-        },
-        {
-          "label": "ANVISA",
-          "url": "https://www.gov.br/anvisa/pt-br"
-        },
-        {
-          "label": "Governo do Peru — Migraciones",
-          "url": "https://www.gob.pe/migraciones"
-        }
-      ],
-      "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
     },
     {
       "id": "chile",
@@ -1289,92 +483,82 @@
         }
       ],
       "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
     },
     {
-      "id": "uruguai",
-      "country": "Uruguai",
+      "id": "china",
+      "country": "China",
       "aliases": [
-        "uruguai",
-        "uruguay"
+        "china"
       ],
       "cities": [
-        "montevideu",
-        "punta del este"
+        "pequim",
+        "xangai"
       ],
       "cityRedirects": [
         {
-          "alias": "colonia do sacramento",
-          "cityKey": "montevideu",
-          "displayName": "Colônia do Sacramento"
+          "alias": "beijing",
+          "cityKey": "pequim",
+          "displayName": "Pequim"
         },
         {
-          "alias": "colonia del sacramento",
-          "cityKey": "montevideu",
-          "displayName": "Colônia do Sacramento"
+          "alias": "hong kong",
+          "cityKey": "xangai",
+          "displayName": "Hong Kong"
         },
         {
-          "alias": "jose ignacio",
-          "cityKey": "punta del este",
-          "displayName": "José Ignacio"
+          "alias": "xian",
+          "cityKey": "pequim",
+          "displayName": "Xi"
         },
         {
-          "alias": "josé ignacio",
-          "cityKey": "punta del este",
-          "displayName": "José Ignacio"
+          "alias": "xi an",
+          "cityKey": "pequim",
+          "displayName": "Xi"
         },
         {
-          "alias": "piriapolis",
-          "cityKey": "montevideu",
-          "displayName": "Piriápolis"
+          "alias": "guilin",
+          "cityKey": "xangai",
+          "displayName": "Guilin"
         },
         {
-          "alias": "piriápolis",
-          "cityKey": "montevideu",
-          "displayName": "Piriápolis"
+          "alias": "chengdu",
+          "cityKey": "xangai",
+          "displayName": "Chengdu"
         },
         {
-          "alias": "cabo polonio",
-          "cityKey": "montevideu",
-          "displayName": "Cabo Polonio"
+          "alias": "hangzhou",
+          "cityKey": "xangai",
+          "displayName": "Hangzhou"
         },
         {
-          "alias": "rocha",
-          "cityKey": "montevideu",
-          "displayName": "Rocha"
+          "alias": "suzhou",
+          "cityKey": "xangai",
+          "displayName": "Suzhou"
         },
         {
-          "alias": "salto",
-          "cityKey": "montevideu",
-          "displayName": "Salto"
+          "alias": "shenzhen",
+          "cityKey": "xangai",
+          "displayName": "Shenzhen"
         },
         {
-          "alias": "carmelo",
-          "cityKey": "montevideu",
-          "displayName": "Carmelo"
-        },
-        {
-          "alias": "atlantida",
-          "cityKey": "montevideu",
-          "displayName": "Atlântida"
-        },
-        {
-          "alias": "atlântida",
-          "cityKey": "montevideu",
-          "displayName": "Atlântida"
+          "alias": "guangzhou",
+          "cityKey": "xangai",
+          "displayName": "Guangzhou"
         }
       ],
       "entry": {
         "title": "Visto e entrada no país",
-        "summary": "Brasileiros não precisam de visto e podem entrar com RG válido ou passaporte."
+        "summary": "Brasileiros precisam de visto para turismo."
       },
       "health": {
         "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória para a entrada comum."
+        "summary": "As regras sanitárias devem ser verificadas com atenção conforme o momento da viagem."
       },
       "diplomaticSupport": {
         "title": "Apoio diplomático",
-        "summary": "Montevidéu é o apoio principal; Punta del Este usa referência de Montevidéu."
+        "summary": "Pequim e Xangai são os pontos principais desta base."
       },
       "sources": [
         {
@@ -1386,249 +570,13 @@
           "url": "https://www.gov.br/anvisa/pt-br"
         },
         {
-          "label": "Governo do Uruguai",
-          "url": "https://www.gub.uy/ministerio-relaciones-exteriores/"
+          "label": "Governo da China",
+          "url": "https://cova.mfa.gov.cn/"
         }
       ],
       "lastChecked": null,
-      "lastAutomaticUpdate": null
-    },
-    {
-      "id": "belgica",
-      "country": "Bélgica",
-      "aliases": [
-        "belgica",
-        "bélgica",
-        "belgium"
-      ],
-      "cities": [
-        "bruges",
-        "bruxelas"
-      ],
-      "cityRedirects": [
-        {
-          "alias": "gante",
-          "cityKey": "bruxelas",
-          "displayName": "Gante"
-        },
-        {
-          "alias": "gent",
-          "cityKey": "bruxelas",
-          "displayName": "Gante"
-        },
-        {
-          "alias": "antuerpia",
-          "cityKey": "bruxelas",
-          "displayName": "Antuérpia"
-        },
-        {
-          "alias": "antuérpia",
-          "cityKey": "bruxelas",
-          "displayName": "Antuérpia"
-        },
-        {
-          "alias": "antwerp",
-          "cityKey": "bruxelas",
-          "displayName": "Antuérpia"
-        },
-        {
-          "alias": "liege",
-          "cityKey": "bruxelas",
-          "displayName": "Liège"
-        },
-        {
-          "alias": "liège",
-          "cityKey": "bruxelas",
-          "displayName": "Liège"
-        },
-        {
-          "alias": "namur",
-          "cityKey": "bruxelas",
-          "displayName": "Namur"
-        },
-        {
-          "alias": "leuven",
-          "cityKey": "bruxelas",
-          "displayName": "Leuven"
-        },
-        {
-          "alias": "ostend",
-          "cityKey": "bruxelas",
-          "displayName": "Ostend"
-        },
-        {
-          "alias": "mechelen",
-          "cityKey": "bruxelas",
-          "displayName": "Mechelen"
-        },
-        {
-          "alias": "ypres",
-          "cityKey": "bruxelas",
-          "displayName": "Ypres"
-        }
-      ],
-      "entry": {
-        "title": "Visto e entrada no país",
-        "summary": "Brasileiros não precisam de visto para curta duração Schengen."
-      },
-      "health": {
-        "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória; seguro e comprovação seguem importantes."
-      },
-      "diplomaticSupport": {
-        "title": "Apoio diplomático",
-        "summary": "Bruxelas é o apoio principal; Bruges usa referência de Bruxelas."
-      },
-      "sources": [
-        {
-          "label": "GOV.BR — Portal Consular",
-          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
-        },
-        {
-          "label": "ANVISA",
-          "url": "https://www.gov.br/anvisa/pt-br"
-        },
-        {
-          "label": "Governo da Bélgica",
-          "url": "https://diplomatie.belgium.be/en/travel-belgium/visa-belgium"
-        }
-      ],
-      "lastChecked": null,
-      "lastAutomaticUpdate": null
-    },
-    {
-      "id": "noruega",
-      "country": "Noruega",
-      "aliases": [
-        "noruega",
-        "norway",
-        "oslo",
-        "bergen",
-        "tromso",
-        "tromsø"
-      ],
-      "cities": [
-        "bergen",
-        "oslo",
-        "tromso"
-      ],
-      "cityRedirects": [],
-      "entry": {
-        "title": "Visto e entrada no país",
-        "summary": "Brasileiros não precisam de visto para curta duração Schengen."
-      },
-      "health": {
-        "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória; clima e deslocamentos exigem preparo."
-      },
-      "diplomaticSupport": {
-        "title": "Apoio diplomático",
-        "summary": "Oslo é o apoio principal; Bergen e Tromsø usam referência de Oslo."
-      },
-      "sources": [
-        {
-          "label": "GOV.BR — Portal Consular",
-          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
-        },
-        {
-          "label": "ANVISA",
-          "url": "https://www.gov.br/anvisa/pt-br"
-        },
-        {
-          "label": "UDI Norway",
-          "url": "https://www.udi.no/en/want-to-apply/visit-and-holiday/"
-        }
-      ],
-      "lastChecked": null,
-      "lastAutomaticUpdate": null
-    },
-    {
-      "id": "suica",
-      "country": "Suíça",
-      "aliases": [
-        "suica",
-        "suíça",
-        "switzerland"
-      ],
-      "cities": [
-        "genebra",
-        "zurique"
-      ],
-      "cityRedirects": [
-        {
-          "alias": "lucerna",
-          "cityKey": "zurique",
-          "displayName": "Lucerna"
-        },
-        {
-          "alias": "berna",
-          "cityKey": "zurique",
-          "displayName": "Berna"
-        },
-        {
-          "alias": "interlaken",
-          "cityKey": "zurique",
-          "displayName": "Interlaken"
-        },
-        {
-          "alias": "zermatt",
-          "cityKey": "genebra",
-          "displayName": "Zermatt"
-        },
-        {
-          "alias": "lausanne",
-          "cityKey": "genebra",
-          "displayName": "Lausanne"
-        },
-        {
-          "alias": "basileia",
-          "cityKey": "zurique",
-          "displayName": "Basileia"
-        },
-        {
-          "alias": "basel",
-          "cityKey": "zurique",
-          "displayName": "Basileia"
-        },
-        {
-          "alias": "lugano",
-          "cityKey": "zurique",
-          "displayName": "Lugano"
-        },
-        {
-          "alias": "st moritz",
-          "cityKey": "zurique",
-          "displayName": "St. Moritz"
-        }
-      ],
-      "entry": {
-        "title": "Visto e entrada no país",
-        "summary": "Brasileiros não precisam de visto para curta duração."
-      },
-      "health": {
-        "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória na entrada comum."
-      },
-      "diplomaticSupport": {
-        "title": "Apoio diplomático",
-        "summary": "Zurique e Genebra têm apoio próprio."
-      },
-      "sources": [
-        {
-          "label": "GOV.BR — Portal Consular",
-          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
-        },
-        {
-          "label": "ANVISA",
-          "url": "https://www.gov.br/anvisa/pt-br"
-        },
-        {
-          "label": "Governo da Suíça",
-          "url": "https://www.eda.admin.ch/eda/en/fdfa/entry-switzerland-residence/visa-requirements-application-form.html"
-        }
-      ],
-      "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
     },
     {
       "id": "colombia",
@@ -1725,7 +673,287 @@
         }
       ],
       "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
+    },
+    {
+      "id": "emirados-arabes-unidos",
+      "country": "Emirados Árabes Unidos",
+      "aliases": [
+        "emirados arabes unidos",
+        "emirados árabes unidos",
+        "eau",
+        "uae"
+      ],
+      "cities": [
+        "abu dhabi",
+        "dubai"
+      ],
+      "cityRedirects": [
+        {
+          "alias": "sharjah",
+          "cityKey": "dubai",
+          "displayName": "Sharjah"
+        },
+        {
+          "alias": "al ain",
+          "cityKey": "abu dhabi",
+          "displayName": "Al Ain"
+        },
+        {
+          "alias": "ajman",
+          "cityKey": "dubai",
+          "displayName": "Ajman"
+        },
+        {
+          "alias": "fujairah",
+          "cityKey": "dubai",
+          "displayName": "Fujairah"
+        },
+        {
+          "alias": "ras al khaimah",
+          "cityKey": "dubai",
+          "displayName": "Ras Al Khaimah"
+        },
+        {
+          "alias": "umm al quwain",
+          "cityKey": "dubai",
+          "displayName": "Umm Al Quwain"
+        },
+        {
+          "alias": "khor fakkan",
+          "cityKey": "dubai",
+          "displayName": "Khor Fakkan"
+        },
+        {
+          "alias": "dibba",
+          "cityKey": "dubai",
+          "displayName": "Dibba"
+        }
+      ],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros não precisam de visto prévio para turismo e recebem entrada na chegada."
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Sem exigência geral de vacina obrigatória na entrada comum."
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "Dubai e Abu Dhabi são os apoios principais desta base."
+      },
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo dos Emirados Árabes Unidos",
+          "url": "https://u.ae/en/information-and-services/visa-and-emirates-id"
+        }
+      ],
+      "lastChecked": null,
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
+    },
+    {
+      "id": "espanha",
+      "country": "Espanha",
+      "aliases": [
+        "espanha",
+        "spain"
+      ],
+      "cities": [
+        "barcelona",
+        "madrid"
+      ],
+      "cityRedirects": [
+        {
+          "alias": "sevilha",
+          "cityKey": "madrid",
+          "displayName": "Sevilha"
+        },
+        {
+          "alias": "sevilla",
+          "cityKey": "madrid",
+          "displayName": "Sevilha"
+        },
+        {
+          "alias": "valencia",
+          "cityKey": "barcelona",
+          "displayName": "Valência"
+        },
+        {
+          "alias": "valência",
+          "cityKey": "barcelona",
+          "displayName": "Valência"
+        },
+        {
+          "alias": "granada",
+          "cityKey": "madrid",
+          "displayName": "Granada"
+        },
+        {
+          "alias": "palma de mallorca",
+          "cityKey": "barcelona",
+          "displayName": "Palma de Mallorca"
+        },
+        {
+          "alias": "san sebastian",
+          "cityKey": "madrid",
+          "displayName": "San Sebastián"
+        },
+        {
+          "alias": "san sebastián",
+          "cityKey": "madrid",
+          "displayName": "San Sebastián"
+        },
+        {
+          "alias": "salamanca",
+          "cityKey": "madrid",
+          "displayName": "Salamanca"
+        },
+        {
+          "alias": "bilbao",
+          "cityKey": "madrid",
+          "displayName": "Bilbao"
+        },
+        {
+          "alias": "cordoba espanha",
+          "cityKey": "madrid",
+          "displayName": "Córdoba"
+        },
+        {
+          "alias": "cordoba",
+          "cityKey": "madrid",
+          "displayName": "Córdoba"
+        },
+        {
+          "alias": "córdoba",
+          "cityKey": "madrid",
+          "displayName": "Córdoba"
+        }
+      ],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros não precisam de visto para turismo de curta duração."
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Sem exigência geral de vacina obrigatória; seguro e documentos seguem essenciais."
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "Madrid e Barcelona têm apoio principal; demais cidades usam o posto mais adequado."
+      },
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Espanha",
+          "url": "https://www.exteriores.gob.es/"
+        }
+      ],
+      "lastChecked": null,
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
+    },
+    {
+      "id": "estados-unidos",
+      "country": "Estados Unidos",
+      "aliases": [
+        "estados unidos",
+        "eua",
+        "usa",
+        "united states",
+        "america"
+      ],
+      "cities": [
+        "atlanta",
+        "boston",
+        "chicago",
+        "hartford",
+        "houston",
+        "las vegas",
+        "los angeles",
+        "miami",
+        "new york",
+        "orlando",
+        "san francisco",
+        "washington dc"
+      ],
+      "cityRedirects": [
+        {
+          "alias": "dallas",
+          "cityKey": "houston",
+          "displayName": "Dallas"
+        },
+        {
+          "alias": "san diego",
+          "cityKey": "los angeles",
+          "displayName": "San Diego"
+        },
+        {
+          "alias": "philadelphia",
+          "cityKey": "new york",
+          "displayName": "Philadelphia"
+        },
+        {
+          "alias": "chicago",
+          "cityKey": "new york",
+          "displayName": "Chicago"
+        },
+        {
+          "alias": "new orleans",
+          "cityKey": "miami",
+          "displayName": "New Orleans"
+        },
+        {
+          "alias": "seattle",
+          "cityKey": "san francisco",
+          "displayName": "Seattle"
+        }
+      ],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros precisam de visto para turismo."
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Existe exigência sanitária ou vacinal para determinados viajantes."
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "O apoio diplomático varia conforme a cidade e a região consultada em Estados Unidos."
+      },
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo dos EUA — Travel.State.Gov",
+          "url": "https://travel.state.gov/"
+        }
+      ],
+      "lastChecked": "20/05/2026, 18:52:22",
+      "lastAutomaticUpdate": "20/05/2026, 18:52:22",
+      "origin": "extracted"
     },
     {
       "id": "finlandia",
@@ -1767,31 +995,70 @@
         }
       ],
       "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
     },
     {
-      "id": "singapura",
-      "country": "Singapura",
+      "id": "franca",
+      "country": "França",
       "aliases": [
-        "singapura",
-        "singapore",
-        "changi"
+        "franca",
+        "frança"
       ],
       "cities": [
-        "singapura"
+        "lyon",
+        "marseille",
+        "nice",
+        "paris"
       ],
-      "cityRedirects": [],
+      "cityRedirects": [
+        {
+          "alias": "bordeaux",
+          "cityKey": "paris",
+          "displayName": "Bordeaux"
+        },
+        {
+          "alias": "estrasburgo",
+          "cityKey": "paris",
+          "displayName": "Estrasburgo"
+        },
+        {
+          "alias": "marseille",
+          "cityKey": "paris",
+          "displayName": "Marseille"
+        },
+        {
+          "alias": "cannes",
+          "cityKey": "nice",
+          "displayName": "Cannes"
+        },
+        {
+          "alias": "mont saint michel",
+          "cityKey": "paris",
+          "displayName": "Mont Saint-Michel"
+        },
+        {
+          "alias": "annecy",
+          "cityKey": "lyon",
+          "displayName": "Annecy"
+        },
+        {
+          "alias": "biarritz",
+          "cityKey": "paris",
+          "displayName": "Biarritz"
+        }
+      ],
       "entry": {
         "title": "Visto e entrada no país",
-        "summary": "Brasileiros podem entrar sem visto por até 30 dias, com SG Arrival Card obrigatório."
+        "summary": "Brasileiros não precisam de visto para turismo de curta duração."
       },
       "health": {
         "title": "Informações de saúde",
-        "summary": "SG Arrival Card inclui declaração de saúde; febre amarela pode ser aplicável conforme rota."
+        "summary": "Sem exigência geral de vacina obrigatória na entrada direta."
       },
       "diplomaticSupport": {
         "title": "Apoio diplomático",
-        "summary": "Singapura é o apoio principal desta base."
+        "summary": "O apoio diplomático varia conforme a cidade e a região consultada em França."
       },
       "sources": [
         {
@@ -1803,12 +1070,201 @@
           "url": "https://www.gov.br/anvisa/pt-br"
         },
         {
-          "label": "ICA Singapore",
-          "url": "https://www.ica.gov.sg/enter-transit-depart/entering-singapore"
+          "label": "France-Visas",
+          "url": "https://france-visas.gouv.fr/"
+        }
+      ],
+      "lastChecked": "20/05/2026, 18:52:25",
+      "lastAutomaticUpdate": "20/05/2026, 18:52:25",
+      "origin": "extracted"
+    },
+    {
+      "id": "grecia",
+      "country": "Grécia",
+      "aliases": [
+        "grecia",
+        "grécia",
+        "greece"
+      ],
+      "cities": [
+        "atenas"
+      ],
+      "cityRedirects": [
+        {
+          "alias": "mykonos",
+          "cityKey": "atenas",
+          "displayName": "Mykonos"
+        },
+        {
+          "alias": "santorine",
+          "cityKey": "atenas",
+          "displayName": "Santorini"
+        },
+        {
+          "alias": "santorini",
+          "cityKey": "atenas",
+          "displayName": "Santorini"
+        },
+        {
+          "alias": "creta",
+          "cityKey": "atenas",
+          "displayName": "Creta"
+        },
+        {
+          "alias": "rodes",
+          "cityKey": "atenas",
+          "displayName": "Rodes"
+        },
+        {
+          "alias": "milos",
+          "cityKey": "atenas",
+          "displayName": "Milos"
+        },
+        {
+          "alias": "tessalonica",
+          "cityKey": "atenas",
+          "displayName": "Tessalônica"
+        },
+        {
+          "alias": "tessalônica",
+          "cityKey": "atenas",
+          "displayName": "Tessalônica"
+        },
+        {
+          "alias": "olimpia",
+          "cityKey": "atenas",
+          "displayName": "Olimpia"
+        }
+      ],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros não precisam de visto para curta duração Schengen."
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Sem exigência geral de vacina obrigatória; documentação e lógica Schengen seguem essenciais."
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "Atenas é o apoio principal desta base."
+      },
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Grécia",
+          "url": "https://www.mfa.gr/en/visas/"
         }
       ],
       "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
+    },
+    {
+      "id": "italia",
+      "country": "Itália",
+      "aliases": [
+        "italia",
+        "itália",
+        "italy"
+      ],
+      "cities": [
+        "florenca",
+        "milao",
+        "roma"
+      ],
+      "cityRedirects": [
+        {
+          "alias": "veneza",
+          "cityKey": "milao",
+          "displayName": "Veneza"
+        },
+        {
+          "alias": "venezia",
+          "cityKey": "milao",
+          "displayName": "Veneza"
+        },
+        {
+          "alias": "napoles",
+          "cityKey": "roma",
+          "displayName": "Nápoles"
+        },
+        {
+          "alias": "nápoles",
+          "cityKey": "roma",
+          "displayName": "Nápoles"
+        },
+        {
+          "alias": "bolonha",
+          "cityKey": "milao",
+          "displayName": "Bolonha"
+        },
+        {
+          "alias": "bolonia",
+          "cityKey": "milao",
+          "displayName": "Bolonha"
+        },
+        {
+          "alias": "verona",
+          "cityKey": "milao",
+          "displayName": "Verona"
+        },
+        {
+          "alias": "cinque terre",
+          "cityKey": "milao",
+          "displayName": "Cinque Terre"
+        },
+        {
+          "alias": "amalfi",
+          "cityKey": "roma",
+          "displayName": "Amalfi"
+        },
+        {
+          "alias": "turim",
+          "cityKey": "milao",
+          "displayName": "Turim"
+        },
+        {
+          "alias": "torino",
+          "cityKey": "milao",
+          "displayName": "Turim"
+        }
+      ],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros não precisam de visto para turismo de curta duração."
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Sem exigência geral de vacina obrigatória; seguro e documentos seguem essenciais."
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "Roma e Milão têm apoio direto; outras cidades usam o posto mais adequado."
+      },
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Itália",
+          "url": "https://vistoperitalia.esteri.it/"
+        }
+      ],
+      "lastChecked": null,
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
     },
     {
       "id": "japao",
@@ -1896,81 +1352,78 @@
         }
       ],
       "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
     },
     {
-      "id": "china",
-      "country": "China",
+      "id": "mexico",
+      "country": "México",
       "aliases": [
-        "china"
+        "mexico",
+        "méxico"
       ],
       "cities": [
-        "pequim",
-        "xangai"
+        "cancun",
+        "cidade do mexico"
       ],
       "cityRedirects": [
         {
-          "alias": "beijing",
-          "cityKey": "pequim",
-          "displayName": "Pequim"
+          "alias": "playa del carmen",
+          "cityKey": "cancun",
+          "displayName": "Playa del Carmen"
         },
         {
-          "alias": "hong kong",
-          "cityKey": "xangai",
-          "displayName": "Hong Kong"
+          "alias": "tulum",
+          "cityKey": "cancun",
+          "displayName": "Tulum"
         },
         {
-          "alias": "xian",
-          "cityKey": "pequim",
-          "displayName": "Xi"
+          "alias": "puerto vallarta",
+          "cityKey": "cidade do mexico",
+          "displayName": "Puerto Vallarta"
         },
         {
-          "alias": "xi an",
-          "cityKey": "pequim",
-          "displayName": "Xi"
+          "alias": "cabo san lucas",
+          "cityKey": "cidade do mexico",
+          "displayName": "Cabo San Lucas"
         },
         {
-          "alias": "guilin",
-          "cityKey": "xangai",
-          "displayName": "Guilin"
+          "alias": "oaxaca",
+          "cityKey": "cidade do mexico",
+          "displayName": "Oaxaca"
         },
         {
-          "alias": "chengdu",
-          "cityKey": "xangai",
-          "displayName": "Chengdu"
+          "alias": "merida",
+          "cityKey": "cidade do mexico",
+          "displayName": "Mérida"
         },
         {
-          "alias": "hangzhou",
-          "cityKey": "xangai",
-          "displayName": "Hangzhou"
+          "alias": "mérida",
+          "cityKey": "cidade do mexico",
+          "displayName": "Mérida"
         },
         {
-          "alias": "suzhou",
-          "cityKey": "xangai",
-          "displayName": "Suzhou"
+          "alias": "guadalajara",
+          "cityKey": "cidade do mexico",
+          "displayName": "Guadalajara"
         },
         {
-          "alias": "shenzhen",
-          "cityKey": "xangai",
-          "displayName": "Shenzhen"
-        },
-        {
-          "alias": "guangzhou",
-          "cityKey": "xangai",
-          "displayName": "Guangzhou"
+          "alias": "san miguel de allende",
+          "cityKey": "cidade do mexico",
+          "displayName": "San Miguel de Allende"
         }
       ],
       "entry": {
         "title": "Visto e entrada no país",
-        "summary": "Brasileiros precisam de visto para turismo."
+        "summary": "Brasileiros não precisam de visto em alguns cenários, mas a imigração é sensível."
       },
       "health": {
         "title": "Informações de saúde",
-        "summary": "As regras sanitárias devem ser verificadas com atenção conforme o momento da viagem."
+        "summary": "Sem exigência geral de vacina obrigatória na entrada comum."
       },
       "diplomaticSupport": {
         "title": "Apoio diplomático",
-        "summary": "Pequim e Xangai são os pontos principais desta base."
+        "summary": "Cidade do México e Cancún são os apoios principais desta base."
       },
       "sources": [
         {
@@ -1982,12 +1435,694 @@
           "url": "https://www.gov.br/anvisa/pt-br"
         },
         {
-          "label": "Governo da China",
-          "url": "https://cova.mfa.gov.cn/"
+          "label": "Governo do México",
+          "url": "https://www.gob.mx/inm"
         }
       ],
       "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
+    },
+    {
+      "id": "noruega",
+      "country": "Noruega",
+      "aliases": [
+        "noruega",
+        "norway",
+        "oslo",
+        "bergen",
+        "tromso",
+        "tromsø"
+      ],
+      "cities": [
+        "bergen",
+        "oslo",
+        "tromso"
+      ],
+      "cityRedirects": [],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros não precisam de visto para curta duração Schengen."
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Sem exigência geral de vacina obrigatória; clima e deslocamentos exigem preparo."
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "Oslo é o apoio principal; Bergen e Tromsø usam referência de Oslo."
+      },
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "UDI Norway",
+          "url": "https://www.udi.no/en/want-to-apply/visit-and-holiday/"
+        }
+      ],
+      "lastChecked": null,
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
+    },
+    {
+      "id": "paises-baixos",
+      "country": "Países Baixos",
+      "aliases": [
+        "paises baixos",
+        "países baixos",
+        "holanda",
+        "netherlands"
+      ],
+      "cities": [
+        "amsterda"
+      ],
+      "cityRedirects": [
+        {
+          "alias": "rotterdam",
+          "cityKey": "amsterda",
+          "displayName": "Roterdã"
+        },
+        {
+          "alias": "roterda",
+          "cityKey": "amsterda",
+          "displayName": "Roterdã"
+        },
+        {
+          "alias": "roterdã",
+          "cityKey": "amsterda",
+          "displayName": "Roterdã"
+        },
+        {
+          "alias": "haia",
+          "cityKey": "amsterda",
+          "displayName": "Haia"
+        },
+        {
+          "alias": "utrecht",
+          "cityKey": "amsterda",
+          "displayName": "Utrecht"
+        },
+        {
+          "alias": "maastricht",
+          "cityKey": "amsterda",
+          "displayName": "Maastricht"
+        },
+        {
+          "alias": "delft",
+          "cityKey": "amsterda",
+          "displayName": "Delft"
+        },
+        {
+          "alias": "leiden",
+          "cityKey": "amsterda",
+          "displayName": "Leiden"
+        },
+        {
+          "alias": "haarlem",
+          "cityKey": "amsterda",
+          "displayName": "Haarlem"
+        },
+        {
+          "alias": "eindhoven",
+          "cityKey": "amsterda",
+          "displayName": "Eindhoven"
+        },
+        {
+          "alias": "keukenhof",
+          "cityKey": "amsterda",
+          "displayName": "Keukenhof (Lisse)"
+        },
+        {
+          "alias": "lisse",
+          "cityKey": "amsterda",
+          "displayName": "Lisse"
+        }
+      ],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros não precisam de visto para turismo de curta duração."
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Sem exigência geral de vacina obrigatória; seguro e documentação seguem essenciais."
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "Amsterdã usa apoio principal em Haia nesta base."
+      },
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo dos Países Baixos",
+          "url": "https://www.netherlandsworldwide.nl/visa-the-netherlands"
+        }
+      ],
+      "lastChecked": null,
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
+    },
+    {
+      "id": "peru",
+      "country": "Peru",
+      "aliases": [
+        "peru"
+      ],
+      "cities": [
+        "cusco",
+        "lima"
+      ],
+      "cityRedirects": [
+        {
+          "alias": "arequipa",
+          "cityKey": "lima",
+          "displayName": "Arequipa"
+        },
+        {
+          "alias": "puno",
+          "cityKey": "cusco",
+          "displayName": "Puno"
+        },
+        {
+          "alias": "aguas calientes",
+          "cityKey": "cusco",
+          "displayName": "Aguas Calientes"
+        },
+        {
+          "alias": "machu picchu",
+          "cityKey": "cusco",
+          "displayName": "Machu Picchu"
+        },
+        {
+          "alias": "iquitos",
+          "cityKey": "lima",
+          "displayName": "Iquitos"
+        },
+        {
+          "alias": "trujillo",
+          "cityKey": "lima",
+          "displayName": "Trujillo"
+        },
+        {
+          "alias": "huaraz",
+          "cityKey": "lima",
+          "displayName": "Huaraz"
+        },
+        {
+          "alias": "paracas",
+          "cityKey": "lima",
+          "displayName": "Paracas"
+        },
+        {
+          "alias": "nazca",
+          "cityKey": "lima",
+          "displayName": "Nazca"
+        }
+      ],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros não precisam de visto para turismo."
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Sem exigência geral de vacina obrigatória na entrada turística comum."
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "Lima é o principal apoio; Cusco usa referência de Lima."
+      },
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo do Peru — Migraciones",
+          "url": "https://www.gob.pe/migraciones"
+        }
+      ],
+      "lastChecked": null,
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
+    },
+    {
+      "id": "portugal",
+      "country": "Portugal",
+      "aliases": [
+        "portugal"
+      ],
+      "cities": [
+        "lisboa",
+        "porto"
+      ],
+      "cityRedirects": [
+        {
+          "alias": "funchal",
+          "cityKey": "lisboa",
+          "displayName": "Funchal"
+        },
+        {
+          "alias": "sintra",
+          "cityKey": "lisboa",
+          "displayName": "Sintra"
+        },
+        {
+          "alias": "faro",
+          "cityKey": "lisboa",
+          "displayName": "Faro"
+        },
+        {
+          "alias": "lagos",
+          "cityKey": "lisboa",
+          "displayName": "Lagos"
+        },
+        {
+          "alias": "coimbra",
+          "cityKey": "porto",
+          "displayName": "Coimbra"
+        },
+        {
+          "alias": "evora",
+          "cityKey": "lisboa",
+          "displayName": "Évora"
+        },
+        {
+          "alias": "évora",
+          "cityKey": "lisboa",
+          "displayName": "Évora"
+        },
+        {
+          "alias": "braga",
+          "cityKey": "porto",
+          "displayName": "Braga"
+        },
+        {
+          "alias": "aveiro",
+          "cityKey": "porto",
+          "displayName": "Aveiro"
+        }
+      ],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros não precisam de visto para turismo de curta duração."
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Sem exigência geral de vacina obrigatória; seguro e comprovação seguem essenciais."
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "Lisboa e Porto têm apoio direto nesta base."
+      },
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo de Portugal",
+          "url": "https://vistos.mne.gov.pt/"
+        }
+      ],
+      "lastChecked": null,
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
+    },
+    {
+      "id": "qatar",
+      "country": "Qatar",
+      "aliases": [
+        "qatar",
+        "catar",
+        "doha"
+      ],
+      "cities": [
+        "doha"
+      ],
+      "cityRedirects": [],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Entrada deve ser confirmada pelo Visa Check oficial do Visit Qatar."
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Seguro saúde e medicamentos merecem atenção em conexões e stopovers."
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "Doha é o apoio principal desta base."
+      },
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Visit Qatar",
+          "url": "https://visitqatar.com/intl-en/plan-your-trip/visas"
+        }
+      ],
+      "lastChecked": null,
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
+    },
+    {
+      "id": "reino-unido",
+      "country": "Reino Unido",
+      "aliases": [
+        "reino unido",
+        "uk",
+        "united kingdom",
+        "inglaterra",
+        "escocia",
+        "escócia"
+      ],
+      "cities": [
+        "edimburgo",
+        "glasgow",
+        "londres",
+        "manchester"
+      ],
+      "cityRedirects": [
+        {
+          "alias": "liverpool",
+          "cityKey": "manchester",
+          "displayName": "Liverpool"
+        },
+        {
+          "alias": "oxford",
+          "cityKey": "londres",
+          "displayName": "Oxford"
+        },
+        {
+          "alias": "cambridge",
+          "cityKey": "londres",
+          "displayName": "Cambridge"
+        },
+        {
+          "alias": "bristol",
+          "cityKey": "londres",
+          "displayName": "Bristol"
+        },
+        {
+          "alias": "bath",
+          "cityKey": "londres",
+          "displayName": "Bath"
+        },
+        {
+          "alias": "york",
+          "cityKey": "manchester",
+          "displayName": "York"
+        }
+      ],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros precisam de ETA para turismo."
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Sem exigência geral de vacina obrigatória na entrada comum."
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "Londres e Edimburgo são os apoios principais desta base."
+      },
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo do Reino Unido",
+          "url": "https://www.gov.uk/check-uk-visa"
+        }
+      ],
+      "lastChecked": null,
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
+    },
+    {
+      "id": "republica-tcheca",
+      "country": "República Tcheca",
+      "aliases": [
+        "republica tcheca",
+        "república tcheca",
+        "tchequia",
+        "praga"
+      ],
+      "cities": [
+        "praga"
+      ],
+      "cityRedirects": [
+        {
+          "alias": "cesky krumlov",
+          "cityKey": "praga",
+          "displayName": "Český Krumlov"
+        },
+        {
+          "alias": "český krumlov",
+          "cityKey": "praga",
+          "displayName": "Český Krumlov"
+        },
+        {
+          "alias": "karlovy vary",
+          "cityKey": "praga",
+          "displayName": "Karlovy Vary"
+        },
+        {
+          "alias": "brno",
+          "cityKey": "praga",
+          "displayName": "Brno"
+        },
+        {
+          "alias": "pilsen",
+          "cityKey": "praga",
+          "displayName": "Pilsen"
+        },
+        {
+          "alias": "kutna hora",
+          "cityKey": "praga",
+          "displayName": "Kutná Hora"
+        },
+        {
+          "alias": "kutná hora",
+          "cityKey": "praga",
+          "displayName": "Kutná Hora"
+        },
+        {
+          "alias": "olomouc",
+          "cityKey": "praga",
+          "displayName": "Olomouc"
+        },
+        {
+          "alias": "liberec",
+          "cityKey": "praga",
+          "displayName": "Liberec"
+        },
+        {
+          "alias": "ostrava",
+          "cityKey": "praga",
+          "displayName": "Ostrava"
+        },
+        {
+          "alias": "telc",
+          "cityKey": "praga",
+          "displayName": "Telč"
+        },
+        {
+          "alias": "telč",
+          "cityKey": "praga",
+          "displayName": "Telč"
+        }
+      ],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros não precisam de visto para turismo de curta duração."
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Sem exigência geral de vacina obrigatória; seguro e documentação seguem essenciais."
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "Praga é o apoio principal desta base."
+      },
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da República Tcheca — MFA",
+          "url": "https://mzv.gov.cz/jnp/en/information_for_aliens/short_stay_visa/index.html"
+        }
+      ],
+      "lastChecked": null,
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
+    },
+    {
+      "id": "singapura",
+      "country": "Singapura",
+      "aliases": [
+        "singapura",
+        "singapore",
+        "changi"
+      ],
+      "cities": [
+        "singapura"
+      ],
+      "cityRedirects": [],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros podem entrar sem visto por até 30 dias, com SG Arrival Card obrigatório."
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "SG Arrival Card inclui declaração de saúde; febre amarela pode ser aplicável conforme rota."
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "Singapura é o apoio principal desta base."
+      },
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "ICA Singapore",
+          "url": "https://www.ica.gov.sg/enter-transit-depart/entering-singapore"
+        }
+      ],
+      "lastChecked": null,
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
+    },
+    {
+      "id": "suica",
+      "country": "Suíça",
+      "aliases": [
+        "suica",
+        "suíça",
+        "switzerland"
+      ],
+      "cities": [
+        "genebra",
+        "zurique"
+      ],
+      "cityRedirects": [
+        {
+          "alias": "lucerna",
+          "cityKey": "zurique",
+          "displayName": "Lucerna"
+        },
+        {
+          "alias": "berna",
+          "cityKey": "zurique",
+          "displayName": "Berna"
+        },
+        {
+          "alias": "interlaken",
+          "cityKey": "zurique",
+          "displayName": "Interlaken"
+        },
+        {
+          "alias": "zermatt",
+          "cityKey": "genebra",
+          "displayName": "Zermatt"
+        },
+        {
+          "alias": "lausanne",
+          "cityKey": "genebra",
+          "displayName": "Lausanne"
+        },
+        {
+          "alias": "basileia",
+          "cityKey": "zurique",
+          "displayName": "Basileia"
+        },
+        {
+          "alias": "basel",
+          "cityKey": "zurique",
+          "displayName": "Basileia"
+        },
+        {
+          "alias": "lugano",
+          "cityKey": "zurique",
+          "displayName": "Lugano"
+        },
+        {
+          "alias": "st moritz",
+          "cityKey": "zurique",
+          "displayName": "St. Moritz"
+        }
+      ],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": "Brasileiros não precisam de visto para curta duração."
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": "Sem exigência geral de vacina obrigatória na entrada comum."
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": "Zurique e Genebra têm apoio próprio."
+      },
+      "sources": [
+        {
+          "label": "GOV.BR — Portal Consular",
+          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
+        },
+        {
+          "label": "ANVISA",
+          "url": "https://www.gov.br/anvisa/pt-br"
+        },
+        {
+          "label": "Governo da Suíça",
+          "url": "https://www.eda.admin.ch/eda/en/fdfa/entry-switzerland-residence/visa-requirements-application-form.html"
+        }
+      ],
+      "lastChecked": null,
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
     },
     {
       "id": "tailandia",
@@ -2029,48 +2164,8 @@
         }
       ],
       "lastChecked": null,
-      "lastAutomaticUpdate": null
-    },
-    {
-      "id": "qatar",
-      "country": "Qatar",
-      "aliases": [
-        "qatar",
-        "catar",
-        "doha"
-      ],
-      "cities": [
-        "doha"
-      ],
-      "cityRedirects": [],
-      "entry": {
-        "title": "Visto e entrada no país",
-        "summary": "Entrada deve ser confirmada pelo Visa Check oficial do Visit Qatar."
-      },
-      "health": {
-        "title": "Informações de saúde",
-        "summary": "Seguro saúde e medicamentos merecem atenção em conexões e stopovers."
-      },
-      "diplomaticSupport": {
-        "title": "Apoio diplomático",
-        "summary": "Doha é o apoio principal desta base."
-      },
-      "sources": [
-        {
-          "label": "GOV.BR — Portal Consular",
-          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
-        },
-        {
-          "label": "ANVISA",
-          "url": "https://www.gov.br/anvisa/pt-br"
-        },
-        {
-          "label": "Visit Qatar",
-          "url": "https://visitqatar.com/intl-en/plan-your-trip/visas"
-        }
-      ],
-      "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
     },
     {
       "id": "turquia",
@@ -2177,74 +2272,93 @@
         }
       ],
       "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
     },
     {
-      "id": "emirados-arabes-unidos",
-      "country": "Emirados Árabes Unidos",
+      "id": "uruguai",
+      "country": "Uruguai",
       "aliases": [
-        "emirados arabes unidos",
-        "emirados árabes unidos",
-        "eau",
-        "uae"
+        "uruguai",
+        "uruguay"
       ],
       "cities": [
-        "abu dhabi",
-        "dubai"
+        "montevideu",
+        "punta del este"
       ],
       "cityRedirects": [
         {
-          "alias": "sharjah",
-          "cityKey": "dubai",
-          "displayName": "Sharjah"
+          "alias": "colonia do sacramento",
+          "cityKey": "montevideu",
+          "displayName": "Colônia do Sacramento"
         },
         {
-          "alias": "al ain",
-          "cityKey": "abu dhabi",
-          "displayName": "Al Ain"
+          "alias": "colonia del sacramento",
+          "cityKey": "montevideu",
+          "displayName": "Colônia do Sacramento"
         },
         {
-          "alias": "ajman",
-          "cityKey": "dubai",
-          "displayName": "Ajman"
+          "alias": "jose ignacio",
+          "cityKey": "punta del este",
+          "displayName": "José Ignacio"
         },
         {
-          "alias": "fujairah",
-          "cityKey": "dubai",
-          "displayName": "Fujairah"
+          "alias": "josé ignacio",
+          "cityKey": "punta del este",
+          "displayName": "José Ignacio"
         },
         {
-          "alias": "ras al khaimah",
-          "cityKey": "dubai",
-          "displayName": "Ras Al Khaimah"
+          "alias": "piriapolis",
+          "cityKey": "montevideu",
+          "displayName": "Piriápolis"
         },
         {
-          "alias": "umm al quwain",
-          "cityKey": "dubai",
-          "displayName": "Umm Al Quwain"
+          "alias": "piriápolis",
+          "cityKey": "montevideu",
+          "displayName": "Piriápolis"
         },
         {
-          "alias": "khor fakkan",
-          "cityKey": "dubai",
-          "displayName": "Khor Fakkan"
+          "alias": "cabo polonio",
+          "cityKey": "montevideu",
+          "displayName": "Cabo Polonio"
         },
         {
-          "alias": "dibba",
-          "cityKey": "dubai",
-          "displayName": "Dibba"
+          "alias": "rocha",
+          "cityKey": "montevideu",
+          "displayName": "Rocha"
+        },
+        {
+          "alias": "salto",
+          "cityKey": "montevideu",
+          "displayName": "Salto"
+        },
+        {
+          "alias": "carmelo",
+          "cityKey": "montevideu",
+          "displayName": "Carmelo"
+        },
+        {
+          "alias": "atlantida",
+          "cityKey": "montevideu",
+          "displayName": "Atlântida"
+        },
+        {
+          "alias": "atlântida",
+          "cityKey": "montevideu",
+          "displayName": "Atlântida"
         }
       ],
       "entry": {
         "title": "Visto e entrada no país",
-        "summary": "Brasileiros não precisam de visto prévio para turismo e recebem entrada na chegada."
+        "summary": "Brasileiros não precisam de visto e podem entrar com RG válido ou passaporte."
       },
       "health": {
         "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória na entrada comum."
+        "summary": "Sem exigência geral de vacina obrigatória para a entrada comum."
       },
       "diplomaticSupport": {
         "title": "Apoio diplomático",
-        "summary": "Dubai e Abu Dhabi são os apoios principais desta base."
+        "summary": "Montevidéu é o apoio principal; Punta del Este usa referência de Montevidéu."
       },
       "sources": [
         {
@@ -2256,82 +2370,60 @@
           "url": "https://www.gov.br/anvisa/pt-br"
         },
         {
-          "label": "Governo dos Emirados Árabes Unidos",
-          "url": "https://u.ae/en/information-and-services/visa-and-emirates-id"
+          "label": "Governo do Uruguai",
+          "url": "https://www.gub.uy/ministerio-relaciones-exteriores/"
         }
       ],
       "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastAutomaticUpdate": null,
+      "origin": "extracted"
     },
     {
-      "id": "grecia",
-      "country": "Grécia",
+      "id": "vietna",
+      "country": "Vietnã",
       "aliases": [
-        "grecia",
-        "grécia",
-        "greece"
+        "vietna",
+        "vietnã",
+        "vietnam"
       ],
       "cities": [
-        "atenas"
+        "hanoi",
+        "ho chi minh",
+        "da nang"
       ],
       "cityRedirects": [
         {
-          "alias": "mykonos",
-          "cityKey": "atenas",
-          "displayName": "Mykonos"
+          "alias": "saigon",
+          "cityKey": "ho chi minh",
+          "displayName": "Saigon"
         },
         {
-          "alias": "santorine",
-          "cityKey": "atenas",
-          "displayName": "Santorini"
+          "alias": "sai gon",
+          "cityKey": "ho chi minh",
+          "displayName": "Saigon"
         },
         {
-          "alias": "santorini",
-          "cityKey": "atenas",
-          "displayName": "Santorini"
+          "alias": "hoi an",
+          "cityKey": "da nang",
+          "displayName": "Hoi An"
         },
         {
-          "alias": "creta",
-          "cityKey": "atenas",
-          "displayName": "Creta"
-        },
-        {
-          "alias": "rodes",
-          "cityKey": "atenas",
-          "displayName": "Rodes"
-        },
-        {
-          "alias": "milos",
-          "cityKey": "atenas",
-          "displayName": "Milos"
-        },
-        {
-          "alias": "tessalonica",
-          "cityKey": "atenas",
-          "displayName": "Tessalônica"
-        },
-        {
-          "alias": "tessalônica",
-          "cityKey": "atenas",
-          "displayName": "Tessalônica"
-        },
-        {
-          "alias": "olimpia",
-          "cityKey": "atenas",
-          "displayName": "Olimpia"
+          "alias": "ha long",
+          "cityKey": "hanoi",
+          "displayName": "Ha Long"
         }
       ],
       "entry": {
         "title": "Visto e entrada no país",
-        "summary": "Brasileiros não precisam de visto para curta duração Schengen."
+        "summary": "Brasileiros precisam verificar a exigência de visto conforme o tipo e a duração da viagem."
       },
       "health": {
         "title": "Informações de saúde",
-        "summary": "Sem exigência geral de vacina obrigatória; documentação e lógica Schengen seguem essenciais."
+        "summary": "Atenção sanitária recomendada conforme roteiro, temporada e regiões visitadas."
       },
       "diplomaticSupport": {
         "title": "Apoio diplomático",
-        "summary": "Atenas é o apoio principal desta base."
+        "summary": "Hanói é a principal referência diplomática; outras cidades usam apoio conforme a região."
       },
       "sources": [
         {
@@ -2343,12 +2435,13 @@
           "url": "https://www.gov.br/anvisa/pt-br"
         },
         {
-          "label": "Governo da Grécia",
-          "url": "https://www.mfa.gr/en/visas/"
+          "label": "Vietnam Immigration",
+          "url": "https://evisa.gov.vn/"
         }
       ],
       "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "lastAutomaticUpdate": null,
+      "origin": "custom"
     }
   ]
 }
