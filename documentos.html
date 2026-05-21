@@ -4343,6 +4343,58 @@
     };
 
 
+    const VIETNAM_FALLBACK_COUNTRY = {
+      id: 'vietna',
+      country: 'Vietnã',
+      aliases: ['vietna', 'vietnã', 'vietnam', 'viet nam'],
+      cities: ['hanoi', 'ho chi minh', 'da nang'],
+      cityRedirects: [
+        { alias: 'hanói', cityKey: 'hanoi', displayName: 'Hanói' },
+        { alias: 'ha noi', cityKey: 'hanoi', displayName: 'Hanói' },
+        { alias: 'hà nội', cityKey: 'hanoi', displayName: 'Hanói' },
+        { alias: 'saigon', cityKey: 'ho chi minh', displayName: 'Saigon' },
+        { alias: 'sai gon', cityKey: 'ho chi minh', displayName: 'Saigon' },
+        { alias: 'hoi an', cityKey: 'da nang', displayName: 'Hoi An' },
+        { alias: 'ha long', cityKey: 'hanoi', displayName: 'Ha Long' }
+      ],
+      summary: {
+        entry: 'Brasileiros precisam de e-Visa para entrada no Vietnã.',
+        health: 'Seguro viagem, medicamentos identificados e atenção à rota de conexão são altamente recomendados.',
+        support: 'Hanói concentra o principal apoio diplomático brasileiro no Vietnã.'
+      },
+      blocks: {
+        block1: "<p>Brasileiros precisam de e-Visa para entrar no Vietnã em viagens turísticas comuns.</p><p>O pedido deve ser realizado online antes do embarque através do portal oficial do governo vietnamita.</p><p>O e-Visa normalmente pode permitir entrada única ou múltipla, conforme a autorização emitida.</p><p>O passaporte deve possuir validade mínima recomendada de 6 meses.</p><div class='official-links'><a href='https://evisa.gov.vn/' target='_blank' rel='noopener noreferrer'>Solicitar e-Visa oficial</a></div>",
+        block2: "<p>Documentos normalmente exigidos pela imigração vietnamita:</p><ul class='documents-checklist'><li>Passaporte válido e em bom estado</li><li>e-Visa aprovado antes do embarque</li><li>Passagem de saída do Vietnã</li><li>Reserva de hospedagem ou endereço de estadia</li><li>Comprovantes financeiros compatíveis com a viagem</li></ul><p>O e-Visa aprovado deve ser conferido com atenção: nome, número do passaporte, data de nascimento, nacionalidade, validade, tipo de entrada e ponto de chegada precisam estar corretos.</p>",
+        block3: "<p><strong>Embaixada do Vietnã no Brasil</strong></p><p><strong>Cidade:</strong> Brasília — DF</p><p><strong>Telefone:</strong> +55 (61) 3364-5876</p><p><strong>Uso prático:</strong> canal para dúvidas consulares, vistos específicos, autenticações e orientações oficiais relacionadas ao Vietnã.</p><div class='official-links'><a href='https://vnembassy-brasilia.mofa.gov.vn/' target='_blank' rel='noopener noreferrer'>Portal oficial da Embaixada do Vietnã</a></div><p>Antes de se deslocar, confirme horário, atendimento e canal de contato no site oficial.</p>",
+        block4: "<p><strong>Embaixada do Brasil em Hanói</strong></p><p><strong>Cidade:</strong> Hanói — Vietnã</p><p><strong>Uso prático:</strong> apoio consular a brasileiros em perda de documentos, emergências, orientações locais e situações excepcionais durante a viagem.</p><div class='official-links'><a href='https://www.gov.br/mre/pt-br/embaixada-hanoi' target='_blank' rel='noopener noreferrer'>Portal oficial GOV.BR — Embaixada em Hanói</a></div><p>O consulado não substitui seguro viagem, assistência médica privada, despesas pessoais ou decisões da imigração vietnamita.</p>",
+        block5: "<p>Não há uma exigência sanitária geral para brasileiros em viagens turísticas usuais ao Vietnã, mas isso não significa ausência de preparo.</p><ul class='documents-checklist'><li>Seguro viagem é altamente recomendado</li><li>Medicamentos devem estar identificados e, quando possível, acompanhados de receita</li><li>Conexões internacionais podem gerar exigências próprias</li><li>Viagens por áreas rurais, praias, ilhas ou longas distâncias exigem atenção adicional</li><li>Confira ANVISA e orientações oficiais perto do embarque</li></ul>",
+        block6: "<p>Pontos de atenção para evitar erro antes do embarque:</p><ul class='documents-checklist'><li>Solicitar o e-Visa apenas no portal oficial</li><li>Conferir se o nome no e-Visa está exatamente como no passaporte</li><li>Verificar se o número do passaporte foi digitado corretamente</li><li>Confirmar se o aeroporto, porto ou fronteira de entrada aceita e-Visa</li><li>Ter passagem de saída e hospedagem acessíveis no celular</li><li>Evitar comprar passagem com escala que exija visto de trânsito não previsto</li><li>Levar cópias digitais do passaporte, e-Visa, seguro e reservas</li></ul><p>Regras migratórias podem mudar sem aviso prévio.</p>",
+        block7: "<p>Orientações importantes sobre alfândega, bagagem e itens restritos:</p><ul class='documents-checklist'><li>Medicamentos devem permanecer identificados e em quantidade compatível com a viagem</li><li>Alimentos, plantas, sementes e produtos de origem animal ou vegetal podem sofrer restrição</li><li>Itens eletrônicos e baterias podem seguir regras específicas da companhia aérea</li><li>Grandes valores em dinheiro podem exigir declaração</li><li>Produtos proibidos ou restritos podem gerar retenção, multa ou impedimento de entrada</li><li>Na volta ao Brasil, compras devem respeitar as regras da Receita Federal</li></ul><div class='official-links'><a href='https://www.customs.gov.vn/' target='_blank' rel='noopener noreferrer'>Alfândega do Vietnã</a></div>"
+      },
+      interactiveDetails: {
+        visaType: 'e-Visa obrigatório',
+        maxStay: 'Conforme autorização emitida',
+        entries: 'Entrada única ou múltipla',
+        passportValidity: 'Mínimo recomendado de 6 meses'
+      },
+      sources: [
+        { label: 'Vietnam eVisa', url: 'https://evisa.gov.vn/' },
+        { label: 'Embaixada do Vietnã no Brasil', url: 'https://vnembassy-brasilia.mofa.gov.vn/' },
+        { label: 'Embaixada do Brasil em Hanói', url: 'https://www.gov.br/mre/pt-br/embaixada-hanoi' },
+        { label: 'ANVISA', url: 'https://www.gov.br/anvisa/pt-br' },
+        { label: 'Alfândega do Vietnã', url: 'https://www.customs.gov.vn/' }
+      ]
+    };
+
+    function ensureVietnamFallback() {
+      if (!countries.vietna) {
+        mergeJsonCountry(VIETNAM_FALLBACK_COUNTRY);
+      } else {
+        mergeJsonCountry({ ...VIETNAM_FALLBACK_COUNTRY, ...countries.vietna });
+      }
+    }
+
+
 
     let DOCUMENTOS_JSON_READY = false;
 
@@ -4444,7 +4496,9 @@
     }
 
     async function initializeDocumentosData() {
+      ensureVietnamFallback();
       await loadDocumentosDataJson();
+      ensureVietnamFallback();
       renderDynamicChips();
     }
 
@@ -4792,7 +4846,11 @@
         'amsterdã': 'Amsterdã',
         'zurique': 'Zurique',
         'bogotá': 'Bogotá',
-        'cancún': 'Cancún'
+        'cancún': 'Cancún',
+        'hanoi': 'Hanói',
+        'ha noi': 'Hanói',
+        'ho chi minh': 'Ho Chi Minh',
+        'da nang': 'Da Nang'
       };
       const normalized = normalizeText(cityKey);
       if (manual[normalized]) return manual[normalized];
@@ -4983,6 +5041,7 @@
     document.getElementById('searchBtn').addEventListener('click', () => search(document.getElementById('searchInput').value));
     document.getElementById('clearBtn').addEventListener('click', clearResult);
     document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') search(e.target.value); });
+    ensureVietnamFallback();
     setupDetailModalEvents();
     startSceneryCarousel();
     initializeDocumentosData();
