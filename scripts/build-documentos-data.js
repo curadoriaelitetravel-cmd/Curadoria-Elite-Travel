@@ -42,6 +42,9 @@ function normalizeCountry(country) {
       summary: country.diplomaticSupport?.summary || country.summary?.support || ""
     },
 
+    blocks: country.blocks || null,
+    interactiveDetails: country.interactiveDetails || null,
+
     sources: country.sources || [],
 
     lastChecked: country.lastChecked || null,
@@ -62,6 +65,13 @@ function attachCityRedirects(countries, redirects) {
     const country = countryMap.get(redirect.countryKey);
 
     if (!country) return;
+
+    const exists = country.cityRedirects.some(item =>
+      item.alias === redirect.alias &&
+      item.cityKey === redirect.cityKey
+    );
+
+    if (exists) return;
 
     country.cityRedirects.push({
       alias: redirect.alias,
