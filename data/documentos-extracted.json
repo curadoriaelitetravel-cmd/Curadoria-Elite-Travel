@@ -1,9 +1,9 @@
 {
-  "extractedAt": "2026-05-21T18:38:23.925Z",
+  "extractedAt": "2026-05-21T18:56:41.252Z",
   "totalCountriesDetected": 28,
   "totalCityRedirectsDetected": 228,
   "totalInteractiveDetailBlocksDetected": 3,
-  "totalSourcesDetected": 284,
+  "totalSourcesDetected": 288,
   "countries": [
     {
       "id": "estados-unidos",
@@ -2362,6 +2362,7 @@
     "https://embamex.sre.gob.mx/brasil",
     "https://embamex.sre.gob.mx/brasil/",
     "https://eody.gov.gr/en/",
+    "https://evisa.gov.vn/",
     "https://finances.belgium.be/en/customs_excises",
     "https://finlandabroad.fi/web/bra/consulado-da-finlandia-sao-paulo",
     "https://finlandabroad.fi/web/bra/embaixada",
@@ -2402,6 +2403,7 @@
     "https://vistoperitalia.esteri.it/",
     "https://vistos.mne.gov.pt/",
     "https://vistos.mne.gov.pt/pt/",
+    "https://vnembassy-brasilia.mofa.gov.vn/",
     "https://www.aade.gr/en",
     "https://www.adm.gov.it/",
     "https://www.aduana.cl/",
@@ -2427,6 +2429,7 @@
     "https://www.customs.go.jp/english/",
     "https://www.customs.go.th/",
     "https://www.customs.gov.sg/",
+    "https://www.customs.gov.vn/",
     "https://www.dian.gov.co/",
     "https://www.douane.gouv.fr/",
     "https://www.eda.admin.ch/brasilia",
@@ -2528,6 +2531,7 @@
     "https://www.gov.br/mre/pt-br/embaixada-buenos-aires",
     "https://www.gov.br/mre/pt-br/embaixada-doha",
     "https://www.gov.br/mre/pt-br/embaixada-haia",
+    "https://www.gov.br/mre/pt-br/embaixada-hanoi",
     "https://www.gov.br/mre/pt-br/embaixada-helsinque",
     "https://www.gov.br/mre/pt-br/embaixada-lima",
     "https://www.gov.br/mre/pt-br/embaixada-lisboa",
