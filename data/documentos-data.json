@@ -1,5 +1,5 @@
 {
-  "updatedAt": "21/05/2026, 16:05:12",
+  "updatedAt": "21/05/2026, 16:35:52",
   "monitoring": {
     "enabled": true,
     "frequency": "daily",
@@ -93,8 +93,8 @@
           "url": "https://www.auswaertiges-amt.de/en/visa-service"
         }
       ],
-      "lastChecked": "21/05/2026, 16:05:08",
-      "lastAutomaticUpdate": "21/05/2026, 16:05:08",
+      "lastChecked": "21/05/2026, 16:35:47",
+      "lastAutomaticUpdate": "21/05/2026, 16:35:47",
       "origin": "extracted"
     },
     {
@@ -971,8 +971,8 @@
           "url": "https://travel.state.gov/"
         }
       ],
-      "lastChecked": "21/05/2026, 16:05:09",
-      "lastAutomaticUpdate": "21/05/2026, 16:05:09",
+      "lastChecked": "21/05/2026, 16:35:49",
+      "lastAutomaticUpdate": "21/05/2026, 16:35:49",
       "origin": "extracted"
     },
     {
@@ -1098,8 +1098,8 @@
           "url": "https://france-visas.gouv.fr/"
         }
       ],
-      "lastChecked": "21/05/2026, 16:05:12",
-      "lastAutomaticUpdate": "21/05/2026, 16:05:12",
+      "lastChecked": "21/05/2026, 16:35:52",
+      "lastAutomaticUpdate": "21/05/2026, 16:35:52",
       "origin": "extracted"
     },
     {
@@ -2433,6 +2433,47 @@
       "lastChecked": null,
       "lastAutomaticUpdate": null,
       "origin": "extracted"
+    },
+    {
+      "id": "vietna",
+      "country": "Vietnã",
+      "aliases": [
+        "vietna",
+        "vietnã",
+        "vietnam",
+        "ha noi",
+        "hanoi",
+        "ho chi minh",
+        "da nang"
+      ],
+      "cities": [],
+      "cityRedirects": [],
+      "entry": {
+        "title": "Visto e entrada no país",
+        "summary": ""
+      },
+      "health": {
+        "title": "Informações de saúde",
+        "summary": ""
+      },
+      "diplomaticSupport": {
+        "title": "Apoio diplomático",
+        "summary": ""
+      },
+      "blocks": {
+        "block1": "<p>Esta sessão reúne o essencial sobre o processo de entrada no Vietnã: necessidade de visto, valores, prazo recomendado e funcionamento do e-Visa oficial.</p><div class='quick-info-grid'><div class='quick-info-card'><span class='quick-info-label'>QUEM PRECISA</span><h4>Brasileiros em turismo</h4><p>Brasileiros precisam de e-Visa válido para entrada turística no Vietnã.</p></div><div class='quick-info-card'><span class='quick-info-label'>TIPO MAIS COMUM</span><h4>e-Visa</h4><p>Processo eletrônico realizado online antes do embarque.</p></div><div class='quick-info-card'><span class='quick-info-label'>TAXA CONSULAR</span><h4>US$ 25 a US$ 50</h4><p>US$ 25 entrada única e US$ 50 múltiplas entradas.</p></div><div class='quick-info-card'><span class='quick-info-label'>ENTREVISTA</span><h4>Não obrigatória</h4><p>O e-Visa normalmente é emitido online sem entrevista presencial.</p></div><div class='quick-info-card'><span class='quick-info-label'>QUANDO SOLICITAR</span><h4>10 a 15 dias antes</h4><p>Embora o prazo oficial seja menor, a Curadoria recomenda margem de segurança.</p></div><div class='quick-info-card'><span class='quick-info-label'>SOLICITAÇÃO OFICIAL</span><h4>Portal do Governo</h4><p>O pedido deve ser realizado no sistema oficial vietnamita.</p><a href='https://evisa.gov.vn/' target='_blank' class='official-action-button'>Solicitar e-Visa</a></div></div><div class='modal-section'><h3>Entrada no país</h3><p>Mesmo com o e-Visa aprovado, a entrada final é definida pela imigração vietnamita no desembarque.</p></div><div class='modal-section'><h3>Validade do passaporte</h3><p>O passaporte deve possuir validade mínima recomendada de 6 meses.</p></div><div class='modal-section'><h3>Conexões internacionais</h3><p>Conexões podem exigir documentos adicionais dependendo da rota e do país da escala.</p></div>",
+        "block2": "<p>Esta sessão reúne os documentos normalmente utilizados para entrada turística no Vietnã.</p><div class='quick-info-grid'><div class='quick-info-card'><span class='quick-info-label'>PASSAPORTE</span><h4>Obrigatório</h4><p>Deve possuir validade mínima recomendada de 6 meses.</p></div><div class='quick-info-card'><span class='quick-info-label'>E-VISA</span><h4>Obrigatório</h4><p>Leve a aprovação salva digitalmente e impressa.</p></div><div class='quick-info-card'><span class='quick-info-label'>PASSAGEM</span><h4>Saída do país</h4><p>Autoridades podem solicitar comprovante de saída do Vietnã.</p></div><div class='quick-info-card'><span class='quick-info-label'>HOSPEDAGEM</span><h4>Reserva recomendada</h4><p>Tenha os dados da hospedagem acessíveis no embarque e imigração.</p></div><div class='quick-info-card'><span class='quick-info-label'>COMPROVANTES</span><h4>Financeiros</h4><p>Pode existir solicitação de comprovação compatível com a estadia.</p></div><div class='quick-info-card'><span class='quick-info-label'>ATENÇÃO</span><h4>Nome idêntico</h4><p>O nome do e-Visa deve coincidir exatamente com o passaporte.</p></div></div>",
+        "block3": "<p>Esta sessão reúne os principais contatos diplomáticos do Vietnã no Brasil.</p><div class='quick-info-grid'><div class='quick-info-card contact-card'><span class='quick-info-label'>EMBAIXADA</span><h4>Embaixada do Vietnã</h4><p>SHIS QI 09 Conjunto 10 Casa 01<br>Lago Sul — Brasília/DF</p><p>Telefone:<br><a href='tel:+556133645876'>+55 61 3364-5876</a></p><p>E-mail:<br><a href='mailto:vnemb.br@mofa.gov.vn'>vnemb.br@mofa.gov.vn</a></p><a href='https://vnembassy-brasilia.mofa.gov.vn/' target='_blank' class='official-action-button'>Abrir portal oficial</a></div></div>",
+        "block4": "<p>Esta sessão reúne os principais contatos diplomáticos brasileiros no Vietnã.</p><div class='quick-info-grid'><div class='quick-info-card contact-card'><span class='quick-info-label'>EMBAIXADA DO BRASIL</span><h4>Hanói</h4><p>44B Ly Thuong Kiet<br>Hoan Kiem — Hanói</p><p>Telefone:<br><a href='tel:+842438432544'>+84 24 3843-2544</a></p><p>E-mail:<br><a href='mailto:brasemb.hanoi@itamaraty.gov.br'>brasemb.hanoi@itamaraty.gov.br</a></p><a href='https://www.gov.br/mre/pt-br/embaixada-hanoi' target='_blank' class='official-action-button'>Abrir portal oficial</a></div></div>",
+        "block5": "<p>Esta sessão reúne orientações sanitárias e recomendações práticas para o Vietnã.</p><div class='quick-info-grid'><div class='quick-info-card'><span class='quick-info-label'>SEGURO VIAGEM</span><h4>Altamente recomendado</h4><p>Atendimento médico internacional pode gerar custos elevados.</p></div><div class='quick-info-card'><span class='quick-info-label'>VACINAS</span><h4>Conforme rota</h4><p>Conexões internacionais podem gerar exigências específicas.</p></div><div class='quick-info-card'><span class='quick-info-label'>MEDICAMENTOS</span><h4>Leve identificados</h4><p>Medicamentos devem permanecer identificados durante a viagem.</p></div><div class='quick-info-card'><span class='quick-info-label'>ATENÇÃO</span><h4>Regras sanitárias mudam</h4><p>Verifique atualizações antes do embarque internacional.</p></div></div>",
+        "block6": "<p>Esta sessão reúne os principais pontos de atenção para evitar problemas antes do embarque.</p><div class='quick-info-grid'><div class='quick-info-card'><span class='quick-info-label'>E-VISA</span><h4>Conferência obrigatória</h4><p>Erros no nome ou passaporte podem impedir o embarque.</p></div><div class='quick-info-card'><span class='quick-info-label'>PASSAPORTE</span><h4>Validade mínima</h4><p>Confirme validade e estado físico do documento.</p></div><div class='quick-info-card'><span class='quick-info-label'>CONEXÕES</span><h4>Atenção internacional</h4><p>Escalas podem exigir regras migratórias próprias.</p></div><div class='quick-info-card'><span class='quick-info-label'>IMIGRAÇÃO</span><h4>Documentos acessíveis</h4><p>Hospedagem e passagem devem estar fáceis de apresentar.</p></div></div>",
+        "block7": "<p>Esta sessão reúne orientações sobre alfândega, bagagem e itens restritos.</p><div class='quick-info-grid'><div class='quick-info-card'><span class='quick-info-label'>MEDICAMENTOS</span><h4>Leve identificados</h4><p>Evite transportar medicamentos sem identificação.</p></div><div class='quick-info-card'><span class='quick-info-label'>ELETRÔNICOS</span><h4>Podem ser inspecionados</h4><p>Itens eletrônicos podem passar por fiscalização adicional.</p></div><div class='quick-info-card'><span class='quick-info-label'>DINHEIRO</span><h4>Grandes valores</h4><p>Valores elevados podem exigir declaração.</p></div><div class='quick-info-card'><span class='quick-info-label'>RETORNO AO BRASIL</span><h4>Regras da Receita</h4><p>Compras internacionais seguem regras brasileiras de retorno.</p></div></div><a href='https://www.customs.gov.vn/' target='_blank' class='official-action-button'>Abrir alfândega oficial</a>"
+      },
+      "interactiveDetails": null,
+      "sources": [],
+      "lastChecked": null,
+      "lastAutomaticUpdate": null,
+      "origin": "custom"
     }
   ]
 }
