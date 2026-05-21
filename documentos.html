@@ -4398,10 +4398,17 @@
 
     let DOCUMENTOS_JSON_READY = false;
 
+    function normalizeCitiesList(cities) {
+      if (Array.isArray(cities)) return cities;
+      if (cities && typeof cities === 'object') return Object.keys(cities);
+      return [];
+    }
+
     function createJsonCountryStructure(item) {
       const citiesObject = {};
+      const citiesList = normalizeCitiesList(item.cities);
 
-      (item.cities || []).forEach(cityKey => {
+      citiesList.forEach(cityKey => {
         citiesObject[cityKey] = [];
       });
 
@@ -4409,7 +4416,7 @@
         slug: item.id,
         name: item.country,
         aliases: item.aliases || [],
-        defaultCity: (item.cities || [])[0] || '',
+        defaultCity: normalizeCitiesList(item.cities)[0] || '',
         sources: item.sources || [],
         summary: {
           entry: item.entry?.summary || item.summary?.entry || '',
