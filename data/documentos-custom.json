@@ -3,6 +3,7 @@
     {
       "id": "vietna",
       "country": "Vietnã",
+
       "aliases": [
         "vietna",
         "vietnã",
@@ -45,83 +46,19 @@
       },
 
       "blocks": {
-        "block1": "
-          <p>
-            Brasileiros precisam de e-Visa para entrar no Vietnã.
-          </p>
+        "block1": "<p>Brasileiros precisam de e-Visa para entrar no Vietnã.</p><p>O visto eletrônico deve ser solicitado antecipadamente através do portal oficial do Departamento de Imigração do Vietnã.</p><p>O e-Visa pode permitir entrada única ou múltipla, conforme a autorização emitida.</p>",
 
-          <p>
-            O visto eletrônico deve ser solicitado antecipadamente
-            através do portal oficial do Departamento de Imigração do Vietnã.
-          </p>
+        "block2": "<ul class='documents-checklist'><li>Passaporte válido</li><li>Passagem de saída do país</li><li>Comprovantes financeiros</li><li>Reserva de hospedagem</li><li>e-Visa aprovado</li></ul>",
 
-          <p>
-            O e-Visa pode permitir entrada única ou múltipla,
-            conforme a autorização emitida.
-          </p>
-        ",
+        "block3": "<p>O Vietnã realiza controle migratório na chegada.</p><p>As autoridades podem solicitar documentação complementar compatível com o período da viagem.</p>",
 
-        "block2": "
-          <ul class='documents-checklist'>
-            <li>Passaporte válido</li>
-            <li>Passagem de saída do país</li>
-            <li>Comprovantes financeiros</li>
-            <li>Reserva de hospedagem</li>
-            <li>e-Visa aprovado</li>
-          </ul>
-        ",
+        "block4": "<p>Hanói concentra os principais serviços diplomáticos relacionados ao Brasil.</p>",
 
-        "block3": "
-          <p>
-            O Vietnã realiza controle migratório na chegada.
-            As autoridades podem solicitar documentação complementar
-            compatível com o período da viagem.
-          </p>
-        ",
+        "block5": "<p>Atualmente não existem exigências sanitárias obrigatórias para brasileiros em viagens turísticas usuais.</p><p>Recomenda-se atenção às regras de conexão internacional e atualizações sanitárias oficiais antes do embarque.</p>",
 
-        "block4": "
-          <p>
-            Hanói concentra os principais serviços diplomáticos relacionados ao Brasil.
-          </p>
-        ",
+        "block6": "<p>Regras migratórias podem sofrer alterações sem aviso prévio.</p><p>Consulte sempre os canais oficiais antes da viagem.</p>",
 
-        "block5": "
-          <p>
-            Atualmente não existem exigências sanitárias obrigatórias
-            para brasileiros em viagens turísticas usuais.
-          </p>
-
-          <p>
-            Recomenda-se atenção às regras de conexão internacional
-            e atualizações sanitárias oficiais antes do embarque.
-          </p>
-        ",
-
-        "block6": "
-          <p>
-            Regras migratórias podem sofrer alterações sem aviso prévio.
-          </p>
-
-          <p>
-            Consulte sempre os canais oficiais antes da viagem.
-          </p>
-        ",
-
-        "block7": "
-          <div class='official-links'>
-            <a href='https://evisa.gov.vn/' target='_blank'>
-              Vietnam eVisa
-            </a>
-
-            <a href='https://www.gov.br/mre/pt-br/assuntos/portal-consular' target='_blank'>
-              GOV.BR Portal Consular
-            </a>
-
-            <a href='https://www.gov.br/anvisa/pt-br' target='_blank'>
-              ANVISA
-            </a>
-          </div>
-        "
+        "block7": "<div class='official-links'><a href='https://evisa.gov.vn/' target='_blank'>Vietnam eVisa</a><a href='https://www.gov.br/mre/pt-br/assuntos/portal-consular' target='_blank'>GOV.BR Portal Consular</a><a href='https://www.gov.br/anvisa/pt-br' target='_blank'>ANVISA</a></div>"
       },
 
       "interactiveDetails": {
