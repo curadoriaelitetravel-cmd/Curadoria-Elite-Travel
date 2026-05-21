@@ -4459,6 +4459,121 @@
       return null;
     }
 
+
+    function buildJsonInteractiveDetails(country) {
+      if (!country || !country.blocks) return null;
+
+      const blocks = country.blocks || {};
+      const details = country.interactiveDetails || {};
+      const sources = Array.isArray(country.sources) ? country.sources : [];
+
+      const sourceLinks = sources
+        .map(source => {
+          if (!source) return '';
+          if (typeof source === 'string') return source;
+          if (!source.url) return source.label || '';
+          return `<a href="${source.url}" target="_blank" rel="noopener noreferrer">${source.label || source.url}</a>`;
+        })
+        .filter(Boolean)
+        .join(' · ');
+
+      const sourceFooter = sourceLinks
+        ? `<div class="modal-source">Fontes oficiais: ${sourceLinks}</div>`
+        : '';
+
+      const visaQuickCards = details && Object.keys(details).length
+        ? `
+          <div class="quick-info-grid">
+            ${details.visaType ? `<div class="quick-info-card"><span>Tipo de entrada</span><strong>${details.visaType}</strong><p>Informação principal para a entrada no país.</p></div>` : ''}
+            ${details.maxStay ? `<div class="quick-info-card"><span>Permanência</span><strong>${details.maxStay}</strong><p>O período final depende da autorização emitida e da autoridade migratória.</p></div>` : ''}
+            ${details.entries ? `<div class="quick-info-card"><span>Entrada</span><strong>${details.entries}</strong><p>Verifique a autorização antes do embarque.</p></div>` : ''}
+            ${details.passportValidity ? `<div class="quick-info-card"><span>Passaporte</span><strong>${details.passportValidity}</strong><p>Confira a validade e o estado físico do documento antes da viagem.</p></div>` : ''}
+          </div>
+        `
+        : '';
+
+      return {
+        visa: {
+          title: '1. Visto e entrada no país',
+          body: `
+            <p class="modal-intro">${country.summary?.entry || 'Informações de entrada em monitoramento.'}</p>
+            ${visaQuickCards}
+            <div class="modal-section">
+              ${blocks.block1 || '<p>Informações de entrada em monitoramento.</p>'}
+            </div>
+            ${sourceFooter}
+          `
+        },
+
+        documents: {
+          title: '2. Documentos necessários',
+          body: `
+            <p class="modal-intro">Documentos e comprovantes que ajudam a sustentar a entrada e a permanência no destino.</p>
+            <div class="modal-section">
+              ${blocks.block2 || '<p>Documentos em monitoramento.</p>'}
+            </div>
+            ${sourceFooter}
+          `
+        },
+
+        brazil: {
+          title: '3. Onde resolver no Brasil',
+          body: `
+            <p class="modal-intro">Canais oficiais e orientações relacionadas ao destino antes da viagem.</p>
+            <div class="modal-section">
+              ${blocks.block3 || '<p>Canais oficiais em monitoramento.</p>'}
+            </div>
+            ${sourceFooter}
+          `
+        },
+
+        support: {
+          title: '4. Apoio no destino',
+          body: `
+            <p class="modal-intro">${country.summary?.support || 'Referência de apoio diplomático em monitoramento.'}</p>
+            <div id="dynamicSupportModalContent"></div>
+            <div class="modal-section">
+              ${blocks.block4 || '<p>Apoio diplomático em monitoramento.</p>'}
+            </div>
+            ${sourceFooter}
+          `
+        },
+
+        health: {
+          title: '5. Informações de saúde',
+          body: `
+            <p class="modal-intro">${country.summary?.health || 'Informações de saúde em monitoramento.'}</p>
+            <div class="modal-section">
+              ${blocks.block5 || '<p>Informações de saúde em monitoramento.</p>'}
+            </div>
+            ${sourceFooter}
+          `
+        },
+
+        important: {
+          title: '6. Informações importantes',
+          body: `
+            <p class="modal-intro">Pontos de atenção para evitar erro antes do embarque, na conexão e na chegada.</p>
+            <div class="modal-section">
+              ${blocks.block6 || '<p>Informações importantes em monitoramento.</p>'}
+            </div>
+            ${sourceFooter}
+          `
+        },
+
+        customs: {
+          title: '7. Alfândega, bagagem e itens restritos',
+          body: `
+            <p class="modal-intro">Orientações sobre bagagem, itens sensíveis, retorno ao Brasil e fontes oficiais.</p>
+            <div class="modal-section">
+              ${blocks.block7 || '<p>Informações de alfândega, bagagem e itens restritos em monitoramento.</p>'}
+            </div>
+            ${sourceFooter}
+          `
+        }
+      };
+    }
+
     function render(match, raw) {
       const country = countries[match.countryKey];
       const cityKey = match.cityKey || country.defaultCity || Object.keys(country.cities)[0];
@@ -4503,64 +4618,20 @@
         'finlandia': FINLAND_INTERACTIVE_DETAILS,
         'china': CHINA_INTERACTIVE_DETAILS
       };
-      const activeInteractiveDetails = interactiveDetailsByCountry[match.countryKey] || null;
+      const jsonInteractiveDetails = buildJsonInteractiveDetails(country);
+      const activeInteractiveDetails = interactiveDetailsByCountry[match.countryKey] || jsonInteractiveDetails || null;
       const isInteractiveCountry = Boolean(activeInteractiveDetails);
       const interactiveArea = document.getElementById('interactiveInfoArea');
       if (interactiveArea) {
         interactiveArea.style.display = isInteractiveCountry ? 'block' : 'none';
       }
 
-      const safeBlocks = country.blocks || {
-        block1: `
-          <p>
-            ${country.summary?.entry || 'Informações de entrada em monitoramento.'}
-          </p>
-        `,
-
-        block2: `
-          <p>
-            Documentos normalmente recomendados para viagens internacionais:
-            passaporte válido, comprovantes da viagem, hospedagem,
-            passagem de saída e meios financeiros compatíveis com a estadia.
-          </p>
-        `,
-
-        block3: `
-          <p>
-            Consulte sempre os canais oficiais indicados nas fontes desta síntese
-            para orientações consulares, exigências migratórias e serviços relacionados ao destino.
-          </p>
-        `,
-
-        block5: `
-          <p>
-            ${country.summary?.health || 'Informações de saúde em monitoramento.'}
-          </p>
-        `,
-
-        block6: `
-          <p>
-            Regras de entrada, saúde, conexão, bagagem e documentação podem mudar.
-            Consulte sempre as fontes oficiais antes do embarque.
-          </p>
-        `
-      };
-
-      document.getElementById('block1').innerHTML = safeBlocks.block1;
-      document.getElementById('block2').innerHTML = safeBlocks.block2;
-      document.getElementById('block3').innerHTML = safeBlocks.block3;
-
-      document.getElementById('block4').innerHTML =
-        supportCards && supportCards.length
-          ? createLocationCards(supportCards)
-          : `
-            <p>
-              ${country.summary?.support || 'Apoio diplomático em monitoramento.'}
-            </p>
-          `;
-
-      document.getElementById('block5').innerHTML = safeBlocks.block5;
-      document.getElementById('block6').innerHTML = safeBlocks.block6;
+      document.getElementById('block1').innerHTML = country.blocks.block1;
+      document.getElementById('block2').innerHTML = country.blocks.block2;
+      document.getElementById('block3').innerHTML = country.blocks.block3;
+      document.getElementById('block4').innerHTML = createLocationCards(supportCards);
+      document.getElementById('block5').innerHTML = country.blocks.block5;
+      document.getElementById('block6').innerHTML = country.blocks.block6;
 
       ['block1', 'block2', 'block3', 'block4', 'block5', 'block6'].forEach(id => {
         const section = document.getElementById(id)?.closest('.block');
