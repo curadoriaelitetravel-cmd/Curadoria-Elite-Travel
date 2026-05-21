@@ -4360,10 +4360,12 @@
         defaultCity: (item.cities || [])[0] || '',
         sources: item.sources || [],
         summary: {
-          entry: item.entry?.summary || '',
-          health: item.health?.summary || '',
-          support: item.diplomaticSupport?.summary || ''
+          entry: item.entry?.summary || item.summary?.entry || '',
+          health: item.health?.summary || item.summary?.health || '',
+          support: item.diplomaticSupport?.summary || item.summary?.support || ''
         },
+        blocks: item.blocks || null,
+        interactiveDetails: item.interactiveDetails || null,
         cities: citiesObject,
         jsonBacked: true
       };
@@ -4389,10 +4391,12 @@
         ])),
         sources: item.sources || existingCountry.sources || [],
         summary: {
-          entry: item.entry?.summary || existingCountry.summary?.entry || '',
-          health: item.health?.summary || existingCountry.summary?.health || '',
-          support: item.diplomaticSupport?.summary || existingCountry.summary?.support || ''
+          entry: item.entry?.summary || item.summary?.entry || existingCountry.summary?.entry || '',
+          health: item.health?.summary || item.summary?.health || existingCountry.summary?.health || '',
+          support: item.diplomaticSupport?.summary || item.summary?.support || existingCountry.summary?.support || ''
         },
+        blocks: item.blocks || existingCountry.blocks || null,
+        interactiveDetails: item.interactiveDetails || existingCountry.interactiveDetails || null,
         cities: mergedCities
       };
 
@@ -4626,12 +4630,22 @@
         interactiveArea.style.display = isInteractiveCountry ? 'block' : 'none';
       }
 
-      document.getElementById('block1').innerHTML = country.blocks.block1;
-      document.getElementById('block2').innerHTML = country.blocks.block2;
-      document.getElementById('block3').innerHTML = country.blocks.block3;
-      document.getElementById('block4').innerHTML = createLocationCards(supportCards);
-      document.getElementById('block5').innerHTML = country.blocks.block5;
-      document.getElementById('block6').innerHTML = country.blocks.block6;
+      const safeBlocks = country.blocks || {
+        block1: `<p>${country.summary?.entry || 'Informações de entrada em monitoramento.'}</p>`,
+        block2: `<p>Documentos normalmente recomendados para viagens internacionais: passaporte válido, comprovantes da viagem, hospedagem, passagem de saída e meios financeiros compatíveis com a estadia.</p>`,
+        block3: `<p>Consulte sempre os canais oficiais indicados nas fontes desta síntese para orientações consulares, exigências migratórias e serviços relacionados ao destino.</p>`,
+        block5: `<p>${country.summary?.health || 'Informações de saúde em monitoramento.'}</p>`,
+        block6: `<p>Regras de entrada, saúde, conexão, bagagem e documentação podem mudar. Consulte sempre as fontes oficiais antes do embarque.</p>`
+      };
+
+      document.getElementById('block1').innerHTML = safeBlocks.block1 || '';
+      document.getElementById('block2').innerHTML = safeBlocks.block2 || '';
+      document.getElementById('block3').innerHTML = safeBlocks.block3 || '';
+      document.getElementById('block4').innerHTML = supportCards && supportCards.length
+        ? createLocationCards(supportCards)
+        : (safeBlocks.block4 || `<p>${country.summary?.support || 'Apoio diplomático em monitoramento.'}</p>`);
+      document.getElementById('block5').innerHTML = safeBlocks.block5 || '';
+      document.getElementById('block6').innerHTML = safeBlocks.block6 || '';
 
       ['block1', 'block2', 'block3', 'block4', 'block5', 'block6'].forEach(id => {
         const section = document.getElementById(id)?.closest('.block');
