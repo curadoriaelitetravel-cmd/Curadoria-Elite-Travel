@@ -1,5 +1,5 @@
 {
-  "updatedAt": "21/05/2026, 09:14:42",
+  "updatedAt": "21/05/2026, 15:02:25",
   "monitoring": {
     "enabled": true,
     "frequency": "daily",
@@ -77,6 +77,8 @@
         "title": "Apoio diplomático",
         "summary": "O apoio diplomático varia conforme a cidade e a região consultada em Alemanha."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -91,8 +93,8 @@
           "url": "https://www.auswaertiges-amt.de/en/visa-service"
         }
       ],
-      "lastChecked": "21/05/2026, 09:14:36",
-      "lastAutomaticUpdate": "21/05/2026, 09:14:36",
+      "lastChecked": "21/05/2026, 15:02:18",
+      "lastAutomaticUpdate": "21/05/2026, 15:02:18",
       "origin": "extracted"
     },
     {
@@ -173,6 +175,8 @@
         "title": "Apoio diplomático",
         "summary": "Buenos Aires é o apoio principal desta base."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -277,6 +281,8 @@
         "title": "Apoio diplomático",
         "summary": "Bruxelas é o apoio principal; Bruges usa referência de Bruxelas."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -356,6 +362,8 @@
         "title": "Apoio diplomático",
         "summary": "Toronto, Vancouver e Montreal têm apoio configurado nesta base."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -468,6 +476,8 @@
         "title": "Apoio diplomático",
         "summary": "Santiago tem apoio direto; Atacama usa apoio central em Santiago."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -560,6 +570,8 @@
         "title": "Apoio diplomático",
         "summary": "Pequim e Xangai são os pontos principais desta base."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -658,6 +670,8 @@
         "title": "Apoio diplomático",
         "summary": "Bogotá é o apoio principal; Cartagena usa referência de Bogotá."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -743,6 +757,8 @@
         "title": "Apoio diplomático",
         "summary": "Dubai e Abu Dhabi são os apoios principais desta base."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -851,6 +867,8 @@
         "title": "Apoio diplomático",
         "summary": "Madrid e Barcelona têm apoio principal; demais cidades usam o posto mais adequado."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -937,6 +955,8 @@
         "title": "Apoio diplomático",
         "summary": "O apoio diplomático varia conforme a cidade e a região consultada em Estados Unidos."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -951,8 +971,8 @@
           "url": "https://travel.state.gov/"
         }
       ],
-      "lastChecked": "21/05/2026, 09:14:38",
-      "lastAutomaticUpdate": "21/05/2026, 09:14:38",
+      "lastChecked": "21/05/2026, 15:02:20",
+      "lastAutomaticUpdate": "21/05/2026, 15:02:20",
       "origin": "extracted"
     },
     {
@@ -980,6 +1000,8 @@
         "title": "Apoio diplomático",
         "summary": "Helsinque é o apoio principal; Rovaniemi usa referência de Helsinque."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -1060,6 +1082,8 @@
         "title": "Apoio diplomático",
         "summary": "O apoio diplomático varia conforme a cidade e a região consultada em França."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -1074,8 +1098,8 @@
           "url": "https://france-visas.gouv.fr/"
         }
       ],
-      "lastChecked": "21/05/2026, 09:14:42",
-      "lastAutomaticUpdate": "21/05/2026, 09:14:42",
+      "lastChecked": "21/05/2026, 15:02:25",
+      "lastAutomaticUpdate": "21/05/2026, 15:02:25",
       "origin": "extracted"
     },
     {
@@ -1148,6 +1172,8 @@
         "title": "Apoio diplomático",
         "summary": "Atenas é o apoio principal desta base."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -1248,6 +1274,8 @@
         "title": "Apoio diplomático",
         "summary": "Roma e Milão têm apoio direto; outras cidades usam o posto mais adequado."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -1337,6 +1365,8 @@
         "title": "Apoio diplomático",
         "summary": "Tóquio é o apoio principal; Osaka usa referência de Tóquio nesta base."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -1425,6 +1455,8 @@
         "title": "Apoio diplomático",
         "summary": "Cidade do México e Cancún são os apoios principais desta base."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -1472,6 +1504,8 @@
         "title": "Apoio diplomático",
         "summary": "Oslo é o apoio principal; Bergen e Tromsø usam referência de Oslo."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -1576,6 +1610,8 @@
         "title": "Apoio diplomático",
         "summary": "Amsterdã usa apoio principal em Haia nesta base."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -1663,6 +1699,8 @@
         "title": "Apoio diplomático",
         "summary": "Lima é o principal apoio; Cusco usa referência de Lima."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -1750,6 +1788,8 @@
         "title": "Apoio diplomático",
         "summary": "Lisboa e Porto têm apoio direto nesta base."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -1792,6 +1832,8 @@
         "title": "Apoio diplomático",
         "summary": "Doha é o apoio principal desta base."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -1871,6 +1913,8 @@
         "title": "Apoio diplomático",
         "summary": "Londres e Edimburgo são os apoios principais desta base."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -1975,6 +2019,8 @@
         "title": "Apoio diplomático",
         "summary": "Praga é o apoio principal desta base."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -2017,6 +2063,8 @@
         "title": "Apoio diplomático",
         "summary": "Singapura é o apoio principal desta base."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -2106,6 +2154,8 @@
         "title": "Apoio diplomático",
         "summary": "Zurique e Genebra têm apoio próprio."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -2149,6 +2199,8 @@
         "title": "Apoio diplomático",
         "summary": "Bangkok é o apoio principal; Phuket usa referência de Bangkok."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -2257,6 +2309,8 @@
         "title": "Apoio diplomático",
         "summary": "Istambul é o apoio principal; Capadócia usa referência de Istambul."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -2360,6 +2414,8 @@
         "title": "Apoio diplomático",
         "summary": "Montevidéu é o apoio principal; Punta del Este usa referência de Montevidéu."
       },
+      "blocks": null,
+      "interactiveDetails": null,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -2415,17 +2471,36 @@
       ],
       "entry": {
         "title": "Visto e entrada no país",
-        "summary": "Brasileiros precisam verificar a exigência de visto conforme o tipo e a duração da viagem."
+        "summary": "Brasileiros precisam de e-Visa para entrada no Vietnã."
       },
       "health": {
         "title": "Informações de saúde",
-        "summary": "Atenção sanitária recomendada conforme roteiro, temporada e regiões visitadas."
+        "summary": "Não há exigência sanitária obrigatória para brasileiros em voos diretos usuais."
       },
       "diplomaticSupport": {
         "title": "Apoio diplomático",
-        "summary": "Hanói é a principal referência diplomática; outras cidades usam apoio conforme a região."
+        "summary": "Hanói é a principal referência diplomática para apoio consular."
+      },
+      "blocks": {
+        "block1": "<p>Brasileiros precisam de e-Visa para entrar no Vietnã.</p><p>O visto eletrônico deve ser solicitado antecipadamente através do portal oficial do Departamento de Imigração do Vietnã.</p><p>O e-Visa pode permitir entrada única ou múltipla, conforme a autorização emitida.</p>",
+        "block2": "<ul class='documents-checklist'><li>Passaporte válido</li><li>Passagem de saída do país</li><li>Comprovantes financeiros</li><li>Reserva de hospedagem</li><li>e-Visa aprovado</li></ul>",
+        "block3": "<p>O Vietnã realiza controle migratório na chegada.</p><p>As autoridades podem solicitar documentação complementar compatível com o período da viagem.</p>",
+        "block4": "<p>Hanói concentra os principais serviços diplomáticos relacionados ao Brasil.</p>",
+        "block5": "<p>Atualmente não existem exigências sanitárias obrigatórias para brasileiros em viagens turísticas usuais.</p><p>Recomenda-se atenção às regras de conexão internacional e atualizações sanitárias oficiais antes do embarque.</p>",
+        "block6": "<p>Regras migratórias podem sofrer alterações sem aviso prévio.</p><p>Consulte sempre os canais oficiais antes da viagem.</p>",
+        "block7": "<div class='official-links'><a href='https://evisa.gov.vn/' target='_blank'>Vietnam eVisa</a><a href='https://www.gov.br/mre/pt-br/assuntos/portal-consular' target='_blank'>GOV.BR Portal Consular</a><a href='https://www.gov.br/anvisa/pt-br' target='_blank'>ANVISA</a></div>"
+      },
+      "interactiveDetails": {
+        "visaType": "e-Visa obrigatório",
+        "maxStay": "Conforme autorização emitida",
+        "entries": "Entrada única ou múltipla",
+        "passportValidity": "Mínimo recomendado de 6 meses"
       },
       "sources": [
+        {
+          "label": "Vietnam Immigration",
+          "url": "https://evisa.gov.vn/"
+        },
         {
           "label": "GOV.BR — Portal Consular",
           "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
@@ -2433,10 +2508,6 @@
         {
           "label": "ANVISA",
           "url": "https://www.gov.br/anvisa/pt-br"
-        },
-        {
-          "label": "Vietnam Immigration",
-          "url": "https://evisa.gov.vn/"
         }
       ],
       "lastChecked": null,
