@@ -1,90 +1,91 @@
 {
-  "countries": [
+  "id": "vietna",
+  "country": "Vietnã",
+
+  "aliases": [
+    "vietna",
+    "vietnã",
+    "vietnam"
+  ],
+
+  "cities": [
+    "hanoi",
+    "ho chi minh",
+    "da nang"
+  ],
+
+  "cityRedirects": [
     {
-      "id": "vietna",
-      "country": "Vietnã",
-
-      "aliases": [
-        "vietna",
-        "vietnã",
-        "vietnam"
-      ],
-
-      "cities": [
-        "hanoi",
-        "ho chi minh",
-        "da nang"
-      ],
-
-      "cityRedirects": [
-        {
-          "alias": "saigon",
-          "cityKey": "ho chi minh",
-          "displayName": "Saigon"
-        },
-        {
-          "alias": "sai gon",
-          "cityKey": "ho chi minh",
-          "displayName": "Saigon"
-        },
-        {
-          "alias": "hoi an",
-          "cityKey": "da nang",
-          "displayName": "Hoi An"
-        },
-        {
-          "alias": "ha long",
-          "cityKey": "hanoi",
-          "displayName": "Ha Long"
-        }
-      ],
-
-      "summary": {
-        "entry": "Brasileiros precisam de e-Visa para entrada no Vietnã.",
-        "health": "Não há exigência sanitária obrigatória para brasileiros em voos diretos usuais.",
-        "support": "Hanói é a principal referência diplomática para apoio consular."
-      },
-
-      "blocks": {
-        "block1": "<p>Brasileiros precisam de e-Visa para entrar no Vietnã.</p><p>O visto eletrônico deve ser solicitado antecipadamente através do portal oficial do Departamento de Imigração do Vietnã.</p><p>O e-Visa pode permitir entrada única ou múltipla, conforme a autorização emitida.</p>",
-
-        "block2": "<ul class='documents-checklist'><li>Passaporte válido</li><li>Passagem de saída do país</li><li>Comprovantes financeiros</li><li>Reserva de hospedagem</li><li>e-Visa aprovado</li></ul>",
-
-        "block3": "<p>O Vietnã realiza controle migratório na chegada.</p><p>As autoridades podem solicitar documentação complementar compatível com o período da viagem.</p>",
-
-        "block4": "<p>Hanói concentra os principais serviços diplomáticos relacionados ao Brasil.</p>",
-
-        "block5": "<p>Atualmente não existem exigências sanitárias obrigatórias para brasileiros em viagens turísticas usuais.</p><p>Recomenda-se atenção às regras de conexão internacional e atualizações sanitárias oficiais antes do embarque.</p>",
-
-        "block6": "<p>Regras migratórias podem sofrer alterações sem aviso prévio.</p><p>Consulte sempre os canais oficiais antes da viagem.</p>",
-
-        "block7": "<div class='official-links'><a href='https://evisa.gov.vn/' target='_blank'>Vietnam eVisa</a><a href='https://www.gov.br/mre/pt-br/assuntos/portal-consular' target='_blank'>GOV.BR Portal Consular</a><a href='https://www.gov.br/anvisa/pt-br' target='_blank'>ANVISA</a></div>"
-      },
-
-      "interactiveDetails": {
-        "visaType": "e-Visa obrigatório",
-        "maxStay": "Conforme autorização emitida",
-        "entries": "Entrada única ou múltipla",
-        "passportValidity": "Mínimo recomendado de 6 meses"
-      },
-
-      "sources": [
-        {
-          "label": "Vietnam Immigration",
-          "url": "https://evisa.gov.vn/"
-        },
-        {
-          "label": "GOV.BR — Portal Consular",
-          "url": "https://www.gov.br/mre/pt-br/assuntos/portal-consular"
-        },
-        {
-          "label": "ANVISA",
-          "url": "https://www.gov.br/anvisa/pt-br"
-        }
-      ],
-
-      "lastChecked": null,
-      "lastAutomaticUpdate": null
+      "alias": "saigon",
+      "cityKey": "ho chi minh",
+      "displayName": "Saigon"
+    },
+    {
+      "alias": "sai gon",
+      "cityKey": "ho chi minh",
+      "displayName": "Saigon"
+    },
+    {
+      "alias": "hoi an",
+      "cityKey": "da nang",
+      "displayName": "Hoi An"
+    },
+    {
+      "alias": "ha long",
+      "cityKey": "hanoi",
+      "displayName": "Ha Long"
     }
-  ]
+  ],
+
+  "summary": {
+    "entry": "Brasileiros precisam de e-Visa para entrada no Vietnã.",
+    "health": "Seguro viagem e atenção às conexões internacionais são altamente recomendados.",
+    "support": "Hanói concentra o principal apoio diplomático brasileiro."
+  },
+
+  "blocks": {
+
+    "block1": "<p>Brasileiros precisam de e-Visa para entrar no Vietnã em viagens turísticas comuns.</p><p>O pedido deve ser realizado online antes do embarque através do portal oficial do governo vietnamita.</p><p>O e-Visa normalmente pode permitir entrada única ou múltipla, conforme a autorização emitida.</p><p>O passaporte deve possuir validade mínima recomendada de 6 meses.</p><div class='official-links'><a href='https://evisa.gov.vn/' target='_blank'>Solicitar e-Visa oficial</a></div>",
+
+    "block2": "<p>Documentos normalmente exigidos pela imigração vietnamita:</p><ul class='documents-checklist'><li>Passaporte válido</li><li>e-Visa aprovado</li><li>Passagem de saída do Vietnã</li><li>Reserva de hospedagem</li><li>Comprovantes financeiros compatíveis com a estadia</li></ul><p>Em algumas situações, autoridades podem solicitar documentação complementar na chegada.</p>",
+
+    "block3": "<p><strong>Embaixada do Vietnã no Brasil</strong></p><p>Localização: Brasília — DF</p><p>Telefone: +55 (61) 3364-5876</p><p>Atendimento consular sujeito a alterações.</p><div class='official-links'><a href='https://vnembassy-brasilia.mofa.gov.vn/' target='_blank'>Portal oficial da Embaixada</a></div>",
+
+    "block4": "<p><strong>Embaixada do Brasil em Hanói</strong></p><p>Endereço: Hanói — Vietnã</p><p>Atendimento consular para brasileiros em viagem.</p><p>Consulte canais oficiais antes do deslocamento.</p><div class='official-links'><a href='https://www.gov.br/mre/pt-br/embaixada-hanoi' target='_blank'>Portal oficial GOV.BR</a></div>",
+
+    "block5": "<p>Não existem exigências sanitárias obrigatórias usuais para brasileiros em voos diretos comuns.</p><p>Entretanto:</p><ul class='documents-checklist'><li>Seguro viagem é altamente recomendado</li><li>Conexões internacionais podem gerar exigências adicionais</li><li>Medicamentos devem permanecer identificados</li><li>Rotas específicas podem exigir atenção sanitária extra</li></ul><p>Consulte sempre ANVISA e autoridades locais antes do embarque.</p>",
+
+    "block6": "<p>Pontos importantes para evitar problemas no embarque:</p><ul class='documents-checklist'><li>Nome do e-Visa deve coincidir exatamente com o passaporte</li><li>Confirme validade do passaporte antes da viagem</li><li>Verifique se o ponto de entrada aceita e-Visa</li><li>Tenha hospedagem e passagem de saída acessíveis</li><li>Chegue com antecedência em conexões internacionais</li></ul><p>Regras migratórias podem mudar sem aviso prévio.</p>",
+
+    "block7": "<p>Orientações importantes sobre alfândega e bagagem:</p><ul class='documents-checklist'><li>Medicamentos devem permanecer identificados</li><li>Itens eletrônicos podem ser inspecionados</li><li>Produtos proibidos ou restritos podem gerar retenção</li><li>Grandes valores em dinheiro podem exigir declaração</li><li>Respeite regras brasileiras no retorno ao Brasil</li></ul><div class='official-links'><a href='https://www.customs.gov.vn/' target='_blank'>Alfândega do Vietnã</a></div>"
+  },
+
+  "interactiveDetails": {
+    "visaType": "e-Visa obrigatório",
+    "maxStay": "Conforme autorização emitida",
+    "entries": "Entrada única ou múltipla",
+    "passportValidity": "Mínimo recomendado de 6 meses"
+  },
+
+  "sources": [
+    {
+      "label": "Vietnam eVisa",
+      "url": "https://evisa.gov.vn/"
+    },
+    {
+      "label": "Embaixada do Brasil em Hanói",
+      "url": "https://www.gov.br/mre/pt-br/embaixada-hanoi"
+    },
+    {
+      "label": "ANVISA",
+      "url": "https://www.gov.br/anvisa/pt-br"
+    },
+    {
+      "label": "Alfândega do Vietnã",
+      "url": "https://www.customs.gov.vn/"
+    }
+  ],
+
+  "lastChecked": null,
+  "lastAutomaticUpdate": null
 }
