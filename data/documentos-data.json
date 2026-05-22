@@ -1,5 +1,5 @@
 {
-  "updatedAt": "22/05/2026, 17:00:09",
+  "updatedAt": "22/05/2026, 18:06:10",
   "monitoring": {
     "enabled": true,
     "frequency": "daily",
@@ -93,8 +93,8 @@
           "url": "https://www.auswaertiges-amt.de/en/visa-service"
         }
       ],
-      "lastChecked": "22/05/2026, 17:00:03",
-      "lastAutomaticUpdate": "22/05/2026, 17:00:03",
+      "lastChecked": "22/05/2026, 18:06:04",
+      "lastAutomaticUpdate": "22/05/2026, 18:06:04",
       "origin": "extracted"
     },
     {
@@ -310,6 +310,7 @@
       ],
       "cities": [
         "montreal",
+        "ottawa",
         "toronto",
         "vancouver"
       ],
@@ -326,7 +327,7 @@
         },
         {
           "alias": "ottawa",
-          "cityKey": "toronto",
+          "cityKey": "ottawa",
           "displayName": "Ottawa"
         },
         {
@@ -360,7 +361,7 @@
       },
       "diplomaticSupport": {
         "title": "Apoio diplomático",
-        "summary": "Toronto, Vancouver e Montreal têm apoio configurado nesta base."
+        "summary": "Ottawa, Toronto, Vancouver e Montreal têm apoio configurado nesta base."
       },
       "blocks": null,
       "interactiveDetails": null,
@@ -971,8 +972,8 @@
           "url": "https://travel.state.gov/"
         }
       ],
-      "lastChecked": "22/05/2026, 17:00:05",
-      "lastAutomaticUpdate": "22/05/2026, 17:00:05",
+      "lastChecked": "22/05/2026, 18:06:06",
+      "lastAutomaticUpdate": "22/05/2026, 18:06:06",
       "origin": "extracted"
     },
     {
@@ -1098,8 +1099,8 @@
           "url": "https://france-visas.gouv.fr/"
         }
       ],
-      "lastChecked": "22/05/2026, 17:00:09",
-      "lastAutomaticUpdate": "22/05/2026, 17:00:09",
+      "lastChecked": "22/05/2026, 18:06:10",
+      "lastAutomaticUpdate": "22/05/2026, 18:06:10",
       "origin": "extracted"
     },
     {

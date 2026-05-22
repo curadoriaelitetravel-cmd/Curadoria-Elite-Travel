@@ -1,9 +1,9 @@
 {
-  "extractedAt": "2026-05-22T19:59:57.092Z",
+  "extractedAt": "2026-05-22T21:05:58.272Z",
   "totalCountriesDetected": 28,
   "totalCityRedirectsDetected": 228,
   "totalInteractiveDetailBlocksDetected": 4,
-  "totalSourcesDetected": 300,
+  "totalSourcesDetected": 305,
   "countries": [
     {
       "id": "estados-unidos",
@@ -389,14 +389,15 @@
       "summary": {
         "entry": "Brasileiros precisam de eTA ou visto, conforme o perfil.",
         "health": "Sem exigência geral de vacina obrigatória na entrada comum.",
-        "support": "Toronto, Vancouver e Montreal têm apoio configurado nesta base."
+        "support": "Ottawa, Toronto, Vancouver e Montreal têm apoio configurado nesta base."
       },
       "cities": [
         "montreal",
+        "ottawa",
         "toronto",
         "vancouver"
       ],
-      "totalCities": 3,
+      "totalCities": 4,
       "sources": [
         {
           "label": "GOV.BR — Portal Consular",
@@ -986,7 +987,7 @@
     {
       "alias": "ottawa",
       "countryKey": "canada",
-      "cityKey": "toronto",
+      "cityKey": "ottawa",
       "displayName": "Ottawa"
     },
     {
@@ -2426,7 +2427,6 @@
     "https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/eligibility.html",
     "https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/eta.html",
     "https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/visitor-visa.html",
-    "https://www.canadainternational.gc.ca",
     "https://www.cancilleria.gov.co/embajada-colombia-brasil",
     "https://www.cancilleria.gov.co/tramites_servicios/visa",
     "https://www.cbp.gov/travel",
@@ -2474,6 +2474,9 @@
     "https://www.google.com/maps/search/?api=1&query=Consulado+dos+Estados+Unidos+Recife+Rua+Goncalves+Maia+163",
     "https://www.google.com/maps/search/?api=1&query=Consulado+dos+Estados+Unidos+Rio+de+Janeiro+Av+Presidente+Wilson+147",
     "https://www.google.com/maps/search/?api=1&query=Consulado+dos+Estados+Unidos+Sao+Paulo+Rua+Henri+Dunant+500",
+    "https://www.google.com/maps/search/?api=1&query=Consulado-Geral+do+Brasil+em+Montreal+1+Westmount+Square+Suite+1700",
+    "https://www.google.com/maps/search/?api=1&query=Consulado-Geral+do+Brasil+em+Toronto+77+Bloor+Street+West+Suite+1109",
+    "https://www.google.com/maps/search/?api=1&query=Consulado-Geral+do+Brasil+em+Vancouver+1111+Melville+Street+Suite+1050",
     "https://www.google.com/maps/search/?api=1&query=Consulate+General+of+Canada+Rio+de+Janeiro+Av+Atlantica+1130",
     "https://www.google.com/maps/search/?api=1&query=Consulate+General+of+Canada+Sao+Paulo+Av+das+Nacoes+Unidas+12901",
     "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Alemanha+Brasilia",
@@ -2492,6 +2495,7 @@
     "https://www.google.com/maps/search/?api=1&query=Embaixada+da+Turquia+Brasilia",
     "https://www.google.com/maps/search/?api=1&query=Embaixada+de+Portugal+Brasilia",
     "https://www.google.com/maps/search/?api=1&query=Embaixada+de+Singapura+Brasilia",
+    "https://www.google.com/maps/search/?api=1&query=Embaixada+do+Brasil+em+Ottawa+450+Wilbrod+Street",
     "https://www.google.com/maps/search/?api=1&query=Embaixada+do+Chile+Brasilia",
     "https://www.google.com/maps/search/?api=1&query=Embaixada+do+Japao+Brasilia",
     "https://www.google.com/maps/search/?api=1&query=Embaixada+do+Mexico+Brasilia",
@@ -2522,6 +2526,7 @@
     "https://www.gov.br/mre/pt-br/consulado-los-angeles",
     "https://www.gov.br/mre/pt-br/consulado-miami",
     "https://www.gov.br/mre/pt-br/consulado-milao",
+    "https://www.gov.br/mre/pt-br/consulado-montreal",
     "https://www.gov.br/mre/pt-br/consulado-munique",
     "https://www.gov.br/mre/pt-br/consulado-nova-york",
     "https://www.gov.br/mre/pt-br/consulado-orlando",
@@ -2529,6 +2534,7 @@
     "https://www.gov.br/mre/pt-br/consulado-santiago",
     "https://www.gov.br/mre/pt-br/consulado-sao-francisco",
     "https://www.gov.br/mre/pt-br/consulado-toronto",
+    "https://www.gov.br/mre/pt-br/consulado-vancouver",
     "https://www.gov.br/mre/pt-br/consulado-xangai",
     "https://www.gov.br/mre/pt-br/consulado-zurique",
     "https://www.gov.br/mre/pt-br/embaixada-abu-dhabi",
