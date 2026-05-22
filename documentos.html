@@ -2769,60 +2769,235 @@
       };
     }
 
-    const CANADA_INTERACTIVE_DETAILS = buildAmericasInteractiveDetails({
-      name: 'Canadá',
-      intro: 'O Canadá exige atenção ao perfil do viajante. Brasileiros podem precisar de visto ou eTA, e a diferença depende principalmente de elegibilidade e forma de entrada.',
-      whoNeeds: 'Brasileiros conforme perfil',
-      whoNeedsText: 'Alguns brasileiros são elegíveis ao eTA para entrada aérea; outros precisam de visto de visitante.',
-      entryType: 'eTA ou visto',
-      entryText: 'O eTA vale para entrada aérea quando o viajante é elegível. Entrada por terra ou mar pode exigir visto.',
-      cost: 'eTA: CAD 7',
-      costText: 'O visto de visitante tem outro custo; confirme no portal oficial do Canadá.',
-      stay: 'Até 6 meses em geral',
-      stayText: 'O período final é definido na entrada pelas autoridades canadenses.',
-      attentionTitle: 'Aéreo x terrestre',
-      attentionText: 'eTA é para entrada por via aérea; viagens por carro, ônibus, trem ou cruzeiro exigem atenção diferente.',
-      visaPortalLabel: 'Government of Canada',
-      visaPortalUrl: 'https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/check-visa-eta.html',
-      embassyLabel: 'Embaixada do Canadá no Brasil',
-      embassyUrl: 'https://www.international.gc.ca/country-pays/brazil-bresil/brasilia.aspx',
-      arrivalText: 'Tenha passaporte, eTA ou visto, hospedagem, passagem de saída e recursos acessíveis. A decisão final é feita na chegada.',
-      connections: 'Conexões nos Estados Unidos podem exigir visto americano ou autorização própria, mesmo quando o destino final é o Canadá.',
-      signatureVisa: 'No Canadá, o detalhe que evita desgaste é confirmar se o seu caso é eTA ou visto antes de comprar a rota.',
-      documentsIntro: 'A documentação para o Canadá deve estar alinhada ao tipo de autorização: eTA, visto ou trânsito.',
-      mainDocument: 'Passaporte válido',
-      mainDocumentText: 'O eTA, quando aplicável, fica vinculado ao passaporte usado na solicitação.',
-      entryDocument: 'eTA ou visto',
-      entryDocumentText: 'Confirme elegibilidade no site oficial antes da viagem.',
-      insuranceTitle: 'Recomendado',
-      insuranceText: 'Atendimento médico no Canadá pode ser caro para visitantes.',
-      signatureDocuments: 'Quando autorização, rota e documentos contam a mesma história, a chegada tende a ser mais tranquila.',
-      whereBrazilIntro: 'Para o Canadá, a consulta oficial deve começar no portal de imigração canadense. Vistos e eTA seguem fluxos digitais próprios.',
-      brazilEmbassyLabel: 'Consulado-Geral do Brasil em Toronto',
-      brazilEmbassyUrl: 'https://www.gov.br/mre/pt-br/consulado-toronto',
-      healthIntro: 'No Canadá, saúde envolve seguro, medicamentos e preparação para clima, neve e deslocamentos longos.',
-      vaccineTitle: 'Sem exigência geral para entrada comum',
-      vaccineText: 'Não há exigência geral de vacina obrigatória para entrada turística comum nesta base.',
-      medicineText: 'Leve medicamentos em embalagem original, receita quando possível e quantidade compatível.',
-      healthAttention: 'Viagens de inverno exigem atenção adicional a seguro, medicamentos e condições climáticas.',
-      healthLabel: 'Government of Canada — Travel Health',
-      healthUrl: 'https://travel.gc.ca/travelling/health-safety',
-      importantIntro: 'O Canadá exige leitura cuidadosa da autorização correta, especialmente em viagens com conexão nos EUA ou entrada terrestre.',
-      importantCard1Title: 'eTA ou visto',
-      importantCard1Text: 'A autorização correta depende do perfil do viajante e da forma de entrada.',
-      borderTitle: 'Entrada terrestre',
-      borderText: 'eTA não cobre entrada por carro, trem, ônibus ou barco.',
-      localRulesTitle: 'Clima e distância',
-      localRulesText: 'Neve, conexões longas e distâncias internas podem afetar a viagem.',
-      signatureImportant: 'No Canadá, a rota é tão importante quanto a autorização.',
-      customsIntro: 'O Canadá tem controle rigoroso de alimentos, medicamentos, valores e itens de origem vegetal ou animal.',
-      customsMedicine: 'Medicamentos devem estar na embalagem original e com receita quando possível.',
-      foodText: 'Alimentos, carnes, vegetais, sementes e produtos agrícolas podem ter restrições.',
-      customsLabel: 'Canada Border Services Agency',
-      customsUrl: 'https://www.cbsa-asfc.gc.ca/travel-voyage/menu-eng.html',
-      brazilContacts: `<div class="contact-card"><h5>Embaixada do Canadá — Brasília</h5><p><strong>Site:</strong> <a href="https://www.international.gc.ca/country-pays/brazil-bresil/brasilia.aspx" target="_blank" rel="noopener noreferrer">international.gc.ca</a></p><p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embaixada+do+Canada+Brasilia" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p></div>`
-    });
+    const CANADA_INTERACTIVE_DETAILS = {
+      visa: {
+        title: '1. Visto e entrada no país',
+        body: `
+          <p class="modal-intro">Esta sessão organiza o essencial para brasileiros que viajam ao Canadá: visto, eTA, forma de entrada, permanência e pontos de atenção antes da compra da rota.</p>
 
+          <div class="quick-info-grid">
+            <div class="quick-info-card"><span>Quem precisa</span><strong>Brasileiros conforme perfil</strong><p>Brasileiros podem precisar de visto de visitante ou, em casos específicos, ser elegíveis ao eTA para entrada aérea ou trânsito por aeroporto canadense.</p></div>
+            <div class="quick-info-card"><span>Entrada aérea</span><strong>eTA quando elegível</strong><p>O eTA é eletrônico, vinculado ao passaporte e usado para voar ao Canadá ou transitar por aeroporto canadense quando o viajante se enquadra nas regras.</p><a class="official-action-link" href="https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/eta.html" target="_blank" rel="noopener noreferrer">Ver eTA oficial</a></div>
+            <div class="quick-info-card"><span>Custo do eTA</span><strong>CAD 7</strong><p>Valor informado pelo Governo do Canadá para solicitação oficial do eTA.</p></div>
+            <div class="quick-info-card"><span>Visto de visitante</span><strong>A partir de CAD 100</strong><p>Quando o viajante não é elegível ao eTA, o caminho costuma ser o visto de visitante, com solicitação pelo portal oficial canadense.</p><a class="official-action-link" href="https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/visitor-visa.html" target="_blank" rel="noopener noreferrer">Ver visto oficial</a></div>
+            <div class="quick-info-card"><span>Entrada terrestre ou marítima</span><strong>Atenção redobrada</strong><p>O eTA se aplica a viagens aéreas. Entrada por carro, ônibus, trem, barco ou cruzeiro pode exigir visto de visitante.</p></div>
+            <div class="quick-info-card"><span>Permanência</span><strong>Até 6 meses em geral</strong><p>O período final autorizado é definido na entrada pelas autoridades canadenses.</p></div>
+          </div>
+
+          <div class="modal-section">
+            <h4>Entrada no país</h4>
+            <p>Mesmo com visto ou eTA aprovado, a entrada é decidida pela autoridade de fronteira. O viajante pode ser questionado sobre motivo da viagem, hospedagem, recursos, duração da permanência e passagem de saída.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Conexões pelos Estados Unidos</h4>
+            <p>Rotas com conexão nos Estados Unidos podem exigir visto americano ou autorização específica, mesmo quando o destino final é o Canadá. A rota deve ser conferida antes da emissão da passagem.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Validade do passaporte</h4>
+            <p>O eTA fica vinculado ao passaporte usado na solicitação. Se o passaporte mudar, a autorização precisa ser revista antes do embarque.</p>
+          </div>
+
+          <div class="modal-signature">No Canadá, o ponto que evita desgaste é confirmar primeiro se o seu caso é eTA ou visto — e só depois fechar a rota.</div>
+
+          <div class="modal-source">Fontes oficiais: <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/eta.html" target="_blank" rel="noopener noreferrer">Government of Canada — eTA</a> · <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/visitor-visa.html" target="_blank" rel="noopener noreferrer">Government of Canada — Visitor Visa</a> · <a href="https://travel.gc.ca/returning/customs/entering-canada" target="_blank" rel="noopener noreferrer">Travel.gc.ca</a></div>
+        `
+      },
+
+      documents: {
+        title: '2. Documentos necessários',
+        body: `
+          <p class="modal-intro">A documentação para o Canadá precisa estar alinhada ao tipo de autorização, à rota escolhida e ao motivo da viagem.</p>
+
+          <div class="quick-info-grid">
+            <div class="quick-info-card"><span>Documento principal</span><strong>Passaporte válido</strong><p>Revise validade, estado físico e dados do passaporte antes de solicitar visto ou eTA.</p></div>
+            <div class="quick-info-card"><span>Autorização de entrada</span><strong>eTA ou visto válido</strong><p>A autorização correta depende do perfil do viajante e da forma de entrada no Canadá.</p></div>
+            <div class="quick-info-card"><span>Hospedagem</span><strong>Endereço da estadia</strong><p>Hotel, apartamento, casa de familiar ou endereço de referência devem estar acessíveis.</p></div>
+            <div class="quick-info-card"><span>Saída do país</span><strong>Passagem de retorno ou saída</strong><p>Pode ser solicitada para demonstrar permanência temporária.</p></div>
+            <div class="quick-info-card"><span>Recursos financeiros</span><strong>Comprovação compatível</strong><p>Cartões, extratos, limite disponível ou outros comprovantes podem ajudar a explicar a viagem.</p></div>
+            <div class="quick-info-card"><span>Seguro viagem</span><strong>Altamente recomendado</strong><p>O atendimento médico para visitantes pode ter custo elevado e não substitui seguro viagem.</p></div>
+          </div>
+
+          <div class="modal-section">
+            <h4>Documentos digitais</h4>
+            <p>Salve cópias do passaporte, visto ou eTA, hospedagem, passagem, seguro e contatos importantes no celular e em nuvem.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Viagens com menores</h4>
+            <p>Menores podem exigir autorização de viagem, comprovação de vínculo, documentos complementares e regras específicas da companhia aérea ou país de conexão.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Coerência da viagem</h4>
+            <p>Autorização, passagens, hospedagem, recursos e duração da estadia devem contar a mesma história. Isso reduz ruído em check-in, conexão e chegada.</p>
+          </div>
+
+          <div class="modal-signature">Documentação organizada não deixa a viagem mais burocrática. Ela deixa a chegada mais clara.</div>
+
+          <div class="modal-source">Fontes oficiais: <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/eligibility.html" target="_blank" rel="noopener noreferrer">Government of Canada — Eligibility</a> · <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/apply-visitor-visa.html" target="_blank" rel="noopener noreferrer">Government of Canada — Apply Visitor Visa</a> · <a href="https://travel.gc.ca/" target="_blank" rel="noopener noreferrer">Travel.gc.ca</a></div>
+        `
+      },
+
+      brazil: {
+        title: '3. Onde resolver no Brasil',
+        body: `
+          <p class="modal-intro">Para o Canadá, visto e eTA devem ser conferidos nos canais oficiais do Governo do Canadá. As representações canadenses no Brasil são referência institucional e consular.</p>
+
+          <div class="quick-info-grid">
+            <div class="quick-info-card"><span>Portal oficial</span><strong>Government of Canada</strong><p>Use o portal oficial para verificar se o perfil da viagem exige visto ou eTA.</p><a class="official-action-link" href="https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada.html" target="_blank" rel="noopener noreferrer">Abrir portal</a></div>
+            <div class="quick-info-card"><span>eTA</span><strong>Solicitação eletrônica</strong><p>Para viajantes elegíveis que voam ao Canadá ou transitam por aeroporto canadense.</p><a class="official-action-link" href="https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/eta.html" target="_blank" rel="noopener noreferrer">Solicitar eTA</a></div>
+            <div class="quick-info-card"><span>Visto</span><strong>Visitor Visa</strong><p>Para viajantes que não se enquadram no eTA ou que precisam de maior flexibilidade de entrada.</p><a class="official-action-link" href="https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada/visitor-visa.html" target="_blank" rel="noopener noreferrer">Ver visto</a></div>
+            <div class="quick-info-card"><span>Atendimento</span><strong>Com agendamento e canais oficiais</strong><p>Serviços presenciais, quando aplicáveis, devem ser confirmados diretamente nos canais oficiais.</p></div>
+          </div>
+
+          <div class="contact-card">
+            <h5>Embaixada do Canadá — Brasília</h5>
+            <p><strong>Endereço:</strong> SES — Av. das Nações, Quadra 803, Lote 16, 70410-900, Brasília — DF</p>
+            <p><strong>Telefone:</strong> <a href="tel:+551155094321">+55 (11) 5509-4321</a></p>
+            <p><strong>E-mail:</strong> <a href="mailto:SPALOConsular-Consulaire@international.gc.ca">SPALOConsular-Consulaire@international.gc.ca</a></p>
+            <p><strong>Site:</strong> <a href="https://www.international.gc.ca/country-pays/brazil-bresil/brasilia.aspx?lang=eng" target="_blank" rel="noopener noreferrer">international.gc.ca/country-pays/brazil-bresil/brasilia.aspx</a></p>
+            <p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Embassy+of+Canada+Brasilia+SES+Av+das+Nacoes+Quadra+803+Lote+16" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p>
+          </div>
+
+          <div class="contact-card">
+            <h5>Consulado-Geral do Canadá — São Paulo</h5>
+            <p><strong>Endereço:</strong> Centro Empresarial Nações Unidas — Torre Norte, Av. das Nações Unidas, 12901, 16º andar, São Paulo — SP</p>
+            <p><strong>Telefone:</strong> <a href="tel:+551155094321">+55 (11) 5509-4321</a></p>
+            <p><strong>E-mail consular:</strong> <a href="mailto:spaloconsular-consulaire@international.gc.ca">spaloconsular-consulaire@international.gc.ca</a></p>
+            <p><strong>E-mail de imigração:</strong> <a href="mailto:spalo-immigration@international.gc.ca">spalo-immigration@international.gc.ca</a></p>
+            <p><strong>Site:</strong> <a href="https://www.international.gc.ca/country-pays/brazil-bresil/sao_paulo.aspx?lang=eng" target="_blank" rel="noopener noreferrer">international.gc.ca/country-pays/brazil-bresil/sao_paulo.aspx</a></p>
+            <p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Consulate+General+of+Canada+Sao+Paulo+Av+das+Nacoes+Unidas+12901" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p>
+          </div>
+
+          <div class="contact-card">
+            <h5>Consulado-Geral do Canadá — Rio de Janeiro</h5>
+            <p><strong>Endereço:</strong> Av. Atlântica, 1130, 13º andar, Copacabana, 22021-000, Rio de Janeiro — RJ</p>
+            <p><strong>Telefone:</strong> <a href="tel:+552125433004">+55 (21) 2543-3004</a></p>
+            <p><strong>E-mail:</strong> <a href="mailto:rio@international.gc.ca">rio@international.gc.ca</a></p>
+            <p><strong>E-mail consular:</strong> <a href="mailto:rio-cs@international.gc.ca">rio-cs@international.gc.ca</a></p>
+            <p><strong>Site:</strong> <a href="https://www.international.gc.ca/country-pays/brazil-bresil/rio_de_janeiro.aspx?lang=eng" target="_blank" rel="noopener noreferrer">international.gc.ca/country-pays/brazil-bresil/rio_de_janeiro.aspx</a></p>
+            <p><strong>Mapa:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Consulate+General+of+Canada+Rio+de+Janeiro+Av+Atlantica+1130" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p>
+          </div>
+
+          <div class="modal-signature">O viajante ganha clareza quando separa a consulta migratória oficial, feita pelo portal canadense, do apoio institucional das representações no Brasil.</div>
+
+          <div class="modal-source">Fontes oficiais: <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada.html" target="_blank" rel="noopener noreferrer">Government of Canada — Visit Canada</a> · <a href="https://travel.gc.ca/assistance/embassies-consulates/brazil" target="_blank" rel="noopener noreferrer">Travel.gc.ca — Brazil</a> · <a href="https://www.international.gc.ca/country-pays/brazil-bresil/index.aspx?lang=eng" target="_blank" rel="noopener noreferrer">Canada and Brazil</a></div>
+        `
+      },
+
+      support: {
+        title: '4. Apoio no destino',
+        body: `
+          <p class="modal-intro">O apoio no destino precisa indicar qual representação brasileira atende melhor a cidade pesquisada no Canadá.</p>
+
+          <div class="modal-section">
+            <h4>Como esta sessão funciona</h4>
+            <p>A ferramenta usa a cidade pesquisada para exibir a referência consular configurada. Quando a cidade não possui posto próprio, a referência indicada deve ser a mais adequada conforme a jurisdição.</p>
+          </div>
+
+          <div id="dynamicSupportModalContent"></div>
+
+          <div class="modal-section">
+            <h4>Principais referências brasileiras no Canadá</h4>
+            <p>O Brasil mantém representação em Ottawa e consulados em Toronto, Vancouver e Montreal. A escolha do posto deve considerar cidade, província e tipo de atendimento necessário.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Quando procurar apoio consular</h4>
+            <p>Representações brasileiras podem orientar em perda ou roubo de documentos, emergências, falecimento, hospitalização, localização de brasileiro, emissão de documentos e situações específicas envolvendo brasileiros no exterior.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>O que o consulado não substitui</h4>
+            <p>O consulado não substitui seguro viagem, assistência médica, despesas pessoais, suporte jurídico privado, decisões migratórias canadenses ou serviços de emergência locais.</p>
+          </div>
+
+          <div class="modal-signature">Saber previamente qual posto atende sua região reduz desgaste e traz mais segurança silenciosa para a viagem.</div>
+
+          <div class="modal-source">Fontes oficiais: <a href="https://www.gov.br/mre/pt-br/assuntos/portal-consular/reparticoes-consulares-do-brasil/regiao/canada/canada" target="_blank" rel="noopener noreferrer">GOV.BR — Repartições no Canadá</a> · <a href="https://www.gov.br/mre/pt-br/embaixada-ottawa" target="_blank" rel="noopener noreferrer">Embaixada do Brasil em Ottawa</a> · <a href="https://www.gov.br/mre/pt-br/consulado-toronto" target="_blank" rel="noopener noreferrer">Consulado-Geral do Brasil em Toronto</a></div>
+        `
+      },
+
+      health: {
+        title: '5. Informações de saúde',
+        body: `
+          <p class="modal-intro">Saúde no Canadá envolve seguro, medicamentos, clima, deslocamentos e preparação para diferenças de temperatura ao longo do ano.</p>
+
+          <div class="quick-info-grid">
+            <div class="quick-info-card"><span>Vacina obrigatória</span><strong>Sem exigência geral para turismo comum</strong><p>Não há exigência geral de vacina obrigatória para a entrada turística comum nesta base, mas a rota completa deve ser conferida.</p></div>
+            <div class="quick-info-card"><span>Seguro viagem</span><strong>Altamente recomendado</strong><p>Visitantes podem enfrentar custos elevados em atendimento médico, exames, hospitalização e medicamentos.</p></div>
+            <div class="quick-info-card"><span>Medicamentos</span><strong>Receita e embalagem original</strong><p>Leve quantidade compatível com a viagem, mantenha itens essenciais na bagagem de mão e preserve receitas quando possível.</p></div>
+            <div class="quick-info-card"><span>Clima</span><strong>Frio, neve e deslocamentos</strong><p>Viagens de inverno exigem atenção a roupas adequadas, locomoção, atrasos e acesso a medicamentos.</p></div>
+          </div>
+
+          <div class="modal-section">
+            <h4>Conexões e rota completa</h4>
+            <p>Conexões internacionais podem ter regras sanitárias, migratórias ou operacionais próprias. A rota completa deve ser revisada antes do embarque.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Atendimento médico</h4>
+            <p>O sistema de saúde canadense não funciona para visitantes como para residentes. Seguro viagem adequado reduz risco financeiro e operacional.</p>
+          </div>
+
+          <div class="modal-signature">Quando saúde, clima e seguro estão resolvidos antes do embarque, a viagem fica mais leve e previsível.</div>
+
+          <div class="modal-source">Fontes oficiais: <a href="https://travel.gc.ca/travelling/health-safety" target="_blank" rel="noopener noreferrer">Government of Canada — Travel Health</a> · <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA — Viajantes</a> · <a href="https://travel.gc.ca/" target="_blank" rel="noopener noreferrer">Travel.gc.ca</a></div>
+        `
+      },
+
+      important: {
+        title: '6. Informações importantes',
+        body: `
+          <p class="modal-intro">Alguns detalhes fazem diferença no Canadá: tipo de autorização, forma de entrada, conexão nos Estados Unidos, clima e regras de fronteira.</p>
+
+          <div class="quick-info-grid">
+            <div class="quick-info-card"><span>eTA ou visto</span><strong>Não escolha por aproximação</strong><p>A autorização correta depende do perfil do viajante, histórico de vistos e forma de chegada ao Canadá.</p></div>
+            <div class="quick-info-card"><span>Entrada terrestre</span><strong>eTA não cobre tudo</strong><p>Viagens por carro, trem, ônibus, barco ou cruzeiro exigem atenção diferente da entrada aérea.</p></div>
+            <div class="quick-info-card"><span>Conexão nos EUA</span><strong>Risco de erro na rota</strong><p>Mesmo com destino final no Canadá, a conexão pelos Estados Unidos pode exigir visto americano ou autorização própria.</p></div>
+            <div class="quick-info-card"><span>Fronteira</span><strong>Decisão na chegada</strong><p>Visto ou eTA não garantem entrada. A decisão final é da autoridade de fronteira.</p></div>
+          </div>
+
+          <div class="modal-section">
+            <h4>Clima e logística</h4>
+            <p>Neve, tempestades, grandes distâncias e conexões longas podem afetar horários, deslocamentos e custos. Em viagens de inverno, revise margem de conexão e plano de transporte.</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Revisão próxima ao embarque</h4>
+            <p>Regras migratórias, sanitárias e operacionais podem mudar. Conferir fontes oficiais perto da viagem reduz risco de surpresa.</p>
+          </div>
+
+          <div class="modal-signature">No Canadá, a rota é tão importante quanto a autorização. O erro costuma nascer quando a passagem é comprada antes da checagem correta.</div>
+
+          <div class="modal-source">Fontes oficiais: <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/visit-canada.html" target="_blank" rel="noopener noreferrer">Government of Canada — Visit Canada</a> · <a href="https://travel.gc.ca/returning/customs/entering-canada" target="_blank" rel="noopener noreferrer">Travel.gc.ca — Entering Canada</a> · <a href="https://www.cbsa-asfc.gc.ca/travel-voyage/menu-eng.html" target="_blank" rel="noopener noreferrer">Canada Border Services Agency</a></div>
+        `
+      },
+
+      customs: {
+        title: '7. Alfândega, bagagem e itens restritos',
+        body: `
+          <p class="modal-intro">A fronteira canadense exige atenção a alimentos, medicamentos, valores, itens de origem animal ou vegetal e compras no exterior.</p>
+
+          <div class="modal-soft-grid">
+            <div class="modal-soft-card"><strong>Entrada no Canadá</strong><p>Alimentos, medicamentos, dinheiro em espécie, produtos agrícolas e itens em quantidade elevada podem passar por inspeção.</p></div>
+            <div class="modal-soft-card"><strong>Alimentos</strong><p>Carnes, frutas, vegetais, sementes, plantas, laticínios e produtos de origem animal ou vegetal podem ter restrições.</p></div>
+            <div class="modal-soft-card"><strong>Medicamentos</strong><p>Leve em embalagem original, com receita quando possível, e em quantidade compatível com o período da viagem.</p></div>
+            <div class="modal-soft-card"><strong>Valores e declaração</strong><p>Valores em espécie ou instrumentos monetários podem exigir declaração conforme regras da fronteira canadense.</p></div>
+            <div class="modal-soft-card"><strong>Compras no exterior</strong><p>Na volta ao Brasil, compras podem exigir declaração e tributação conforme valor, quantidade e finalidade aparente.</p></div>
+            <div class="modal-soft-card"><strong>Receita Federal</strong><p>Eletrônicos, perfumes, relógios, bolsas, bebidas e itens em quantidade elevada costumam gerar dúvidas no desembarque.</p></div>
+          </div>
+
+          <div class="modal-section"><h4>Retorno ao Brasil</h4><p>A fiscalização brasileira pode considerar valor estimado, quantidade, frequência de viagens e natureza dos produtos. Itens acima da cota podem gerar imposto, retenção ou multa.</p></div>
+
+          <div class="modal-signature">Grande parte dos imprevistos de alfândega nasce de itens pequenos, alimentos esquecidos ou compras sem organização prévia.</div>
+
+          <div class="modal-source">Fontes oficiais: <a href="https://www.cbsa-asfc.gc.ca/travel-voyage/menu-eng.html" target="_blank" rel="noopener noreferrer">Canada Border Services Agency</a> · <a href="https://travel.gc.ca/returning/customs/entering-canada" target="_blank" rel="noopener noreferrer">Travel.gc.ca — Customs</a> · <a href="https://www.gov.br/receitafederal/pt-br/assuntos/aduana-e-comercio-exterior/viajantes" target="_blank" rel="noopener noreferrer">Receita Federal do Brasil</a> · <a href="https://www.gov.br/anvisa/pt-br/assuntos/paf/viajantes" target="_blank" rel="noopener noreferrer">ANVISA</a></div>
+        `
+      }
+    };
     const MEXICO_INTERACTIVE_DETAILS = buildAmericasInteractiveDetails({
       name: 'México',
       intro: 'O México exige atenção especial porque a entrada de brasileiros passou por mudanças recentes. A preparação correta evita desgaste na imigração.',
