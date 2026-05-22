@@ -1072,6 +1072,7 @@
           ${loc.phone ? `<p><strong>Telefone:</strong> ${loc.phone}</p>` : ''}
           ${loc.email ? `<p><strong>E-mail:</strong> ${loc.email}</p>` : ''}
           ${loc.site ? `<p><strong>Site oficial:</strong> <a class="official-source-link" href="${loc.site}" target="_blank" rel="noopener noreferrer">${loc.site}</a></p>` : ''}
+          ${loc.map ? `<p><strong>Mapa:</strong> <a class="official-source-link" href="${loc.map}" target="_blank" rel="noopener noreferrer">abrir no Google Maps</a></p>` : ''}
           ${loc.distance ? `<p><strong>Distância:</strong> ${loc.distance}</p>` : ''}
           ${loc.car ? `<p><strong>Tempo de carro:</strong> ${loc.car}</p>` : ''}
           ${loc.flight ? `<p><strong>Tempo de voo:</strong> ${loc.flight}</p>` : ''}
@@ -3847,17 +3848,18 @@
           { label: 'ANVISA', url: 'https://www.gov.br/anvisa/pt-br' },
           { label: 'Governo do Canadá', url: 'https://www.canada.ca/en/immigration-refugees-citizenship.html' },
         ],
-        summary: { entry: 'Brasileiros precisam de eTA ou visto, conforme o perfil.', health: 'Sem exigência geral de vacina obrigatória na entrada comum.', support: 'Toronto, Vancouver e Montreal têm apoio configurado nesta base.' },
+        summary: { entry: 'Brasileiros precisam de eTA ou visto, conforme o perfil.', health: 'Sem exigência geral de vacina obrigatória na entrada comum.', support: 'Ottawa, Toronto, Vancouver e Montreal têm apoio configurado nesta base.' },
         cities: {
-          'toronto': [{ name: 'Consulado-Geral do Brasil em Toronto', highlight: 'Principal apoio consular brasileiro em Toronto.', address: '77 Bloor Street West, Suite 1109, Toronto, ON', phone: '+1 416 922 2503', email: '<a href="mailto:cg.toronto@itamaraty.gov.br" class="official-source-link">cg.toronto@itamaraty.gov.br</a>', site: 'https://www.gov.br/mre/pt-br/consulado-toronto', distance: '~ 5 km', car: '10 a 20 min' }],
-          'vancouver': [{ name: 'Consulado-Geral do Brasil em Vancouver', highlight: 'Principal apoio consular brasileiro em Vancouver.', address: '1111 Melville St, Suite 1050, Vancouver, BC', phone: '+1 604 696-5311', email: 'Consultar canais oficiais do posto', site: 'https://www.gov.br/mre/pt-br/assuntos/portal-consular/reparticoes-consulares-do-brasil/regiao/canada/canada', distance: '~ 3 km', car: '10 min' }],
-          'montreal': [{ name: 'Consulado-Geral do Brasil em Montreal', highlight: 'Principal apoio brasileiro na região de Quebec.', address: '1 Westmount Square, Suite 1700, Westmount, QC H3Z 2P9', phone: 'Consultar portal oficial', email: 'Consultar portal oficial', site: 'https://www.gov.br/mre/pt-br/assuntos/portal-consular/reparticoes-consulares-do-brasil/regiao/canada/canada', distance: '~ 5 km', car: '15 min' }]
+          'ottawa': [{ name: 'Embaixada do Brasil em Ottawa — Setor Consular', highlight: 'Apoio consular brasileiro direto em Ottawa.', address: '450 Wilbrod Street, Ottawa, ON K1N 6M8', phone: '+1 613 237-1090', email: '<a href="mailto:consular.ottawa@itamaraty.gov.br" class="official-source-link">consular.ottawa@itamaraty.gov.br</a>', site: 'https://www.gov.br/mre/pt-br/embaixada-ottawa', map: 'https://www.google.com/maps/search/?api=1&query=Embaixada+do+Brasil+em+Ottawa+450+Wilbrod+Street', distance: '~ 2 a 5 km', car: '10 a 20 min' }],
+          'toronto': [{ name: 'Consulado-Geral do Brasil em Toronto', highlight: 'Apoio consular brasileiro direto em Toronto.', address: '77 Bloor Street West, Suite 1109, Toronto, ON M5S 1M2', phone: '+1 416 922 2503', email: '<a href="mailto:cg.toronto@itamaraty.gov.br" class="official-source-link">cg.toronto@itamaraty.gov.br</a>', site: 'https://www.gov.br/mre/pt-br/consulado-toronto', map: 'https://www.google.com/maps/search/?api=1&query=Consulado-Geral+do+Brasil+em+Toronto+77+Bloor+Street+West+Suite+1109', distance: '~ 5 km', car: '10 a 20 min' }],
+          'vancouver': [{ name: 'Consulado-Geral do Brasil em Vancouver', highlight: 'Apoio consular brasileiro direto em Vancouver.', address: '1111 Melville Street, Suite 1050, Vancouver, BC V6E 3V6', phone: '+1 604 696-5311', email: '<a href="mailto:consular.vancouver@itamaraty.gov.br" class="official-source-link">consular.vancouver@itamaraty.gov.br</a>', site: 'https://www.gov.br/mre/pt-br/consulado-vancouver', map: 'https://www.google.com/maps/search/?api=1&query=Consulado-Geral+do+Brasil+em+Vancouver+1111+Melville+Street+Suite+1050', distance: '~ 3 km', car: '10 min' }],
+          'montreal': [{ name: 'Consulado-Geral do Brasil em Montreal', highlight: 'Apoio consular brasileiro direto em Montreal e referência para Quebec.', address: '1 Westmount Square, Suite 1700, Westmount, QC H3Z 2P9', phone: '+1 514 499-0968', email: '<a href="mailto:cg.montreal@itamaraty.gov.br" class="official-source-link">cg.montreal@itamaraty.gov.br</a>', site: 'https://www.gov.br/mre/pt-br/consulado-montreal', map: 'https://www.google.com/maps/search/?api=1&query=Consulado-Geral+do+Brasil+em+Montreal+1+Westmount+Square+Suite+1700', distance: '~ 5 km', car: '15 min' }]
         },
         defaultCity: 'toronto',
         blocks: {
           block1: createParagraphs(['<strong>Quem precisa:</strong> brasileiros precisam de autorização obrigatória para entrar no Canadá.', '<strong>Formas de entrada:</strong> eTA para quem se enquadra nos critérios oficiais; visto de visitante para quem não se enquadra.', '<strong>Valor do eTA:</strong> CAD 7, com estimativa média de aproximadamente R$ 30 a R$ 40.', '<strong>Valor do visto:</strong> CAD 100, com estimativa média aproximada de R$ 380 a R$ 420.', '<strong>Entrevista:</strong> normalmente não para eTA; pode existir exigência adicional em processos de visto.', '<strong>Biometria:</strong> pode ser necessária para o visto.', '<strong>Antecedência recomendada:</strong> eTA com pelo menos 1 a 3 semanas; visto com pelo menos 2 a 3 meses.']),
           block2: `<h4>Para eTA</h4>${createBulletList(['Passaporte válido.', 'E-mail.', 'Cartão para pagamento da taxa.', 'Dados pessoais e do passaporte.'])}<h4>Para visto</h4>${createBulletList(['Passaporte válido.', 'Formulários do processo.', 'Comprovante financeiro.', 'Comprovação de vínculo com o Brasil.', 'Histórico de viagens, quando houver.', 'Biometria, quando exigida.'])}<h4>Na entrada</h4>${createBulletList(['Passaporte.', 'Hospedagem.', 'Passagem de saída.', 'Prova de recursos financeiros compatíveis com a viagem.'])}`,
-          block3: createLocationCards([{ name: 'Embaixada do Canadá – Brasília', address: 'SES, Av. das Nações, Quadra 803, Lote 16, Brasília – DF', phone: '+55 (61) 3424-5400', email: 'Consultar canais oficiais do governo do Canadá no Brasil', site: 'https://www.canadainternational.gc.ca' }, { name: 'Consulado-Geral do Canadá – São Paulo', address: 'Rede consular oficial do Canadá em São Paulo', phone: 'Consultar canais oficiais', email: 'Consultar canais oficiais', site: 'https://travel.gc.ca/assistance/embassies-consulates/brazil' }]),
+          block3: createLocationCards([{ name: 'Embaixada do Canadá — Brasília', address: 'SES — Av. das Nações, Quadra 803, Lote 16, 70410-900, Brasília — DF', phone: '+55 11 5509 4321', email: '<a href="mailto:SPALOConsular-Consulaire@international.gc.ca" class="official-source-link">SPALOConsular-Consulaire@international.gc.ca</a>', site: 'https://www.international.gc.ca/country-pays/brazil-bresil/brasilia.aspx?lang=eng', map: 'https://www.google.com/maps/search/?api=1&query=Embassy+of+Canada+Brasilia+SES+Av+das+Nacoes+Quadra+803+Lote+16' }, { name: 'Consulado-Geral do Canadá — São Paulo', address: 'Centro Empresarial Nações Unidas — Torre Norte, Av. das Nações Unidas, 12901, 16º andar, São Paulo — SP', phone: '+55 11 5509 4321', email: '<a href="mailto:spaloconsular-consulaire@international.gc.ca" class="official-source-link">spaloconsular-consulaire@international.gc.ca</a>', site: 'https://www.international.gc.ca/country-pays/brazil-bresil/sao_paulo.aspx?lang=eng', map: 'https://www.google.com/maps/search/?api=1&query=Consulate+General+of+Canada+Sao+Paulo+Av+das+Nacoes+Unidas+12901' }]),
           block5: createParagraphs(['<strong>Vacinas obrigatórias:</strong> não há exigência geral de vacina obrigatória para entrada turística comum.', '<strong>Regra prática:</strong> se o itinerário exigir CIVP por conexão ou situação específica, aplicar a lógica de 10 dias para febre amarela.']),
           block6: createParagraphs(['O Canadá tem controle migratório organizado e rigoroso.', 'O eTA ou o visto não garantem entrada automática.', 'A imigração pode questionar motivo da viagem, hospedagem, recursos financeiros e retorno.', 'Seguro viagem não é obrigatório por regra geral de entrada, mas é altamente recomendável.'])
         }
@@ -4272,13 +4274,71 @@
       'new orleans': { countryKey: 'estados-unidos', cityKey: 'miami', displayName: 'New Orleans' },
       'seattle': { countryKey: 'estados-unidos', cityKey: 'san francisco', displayName: 'Seattle' },
 
-      'quebec': { countryKey: 'canada', cityKey: 'montreal', displayName: 'Quebec' },
-      'banff': { countryKey: 'canada', cityKey: 'vancouver', displayName: 'Banff' },
-      'ottawa': { countryKey: 'canada', cityKey: 'toronto', displayName: 'Ottawa' },
-      'calgary': { countryKey: 'canada', cityKey: 'vancouver', displayName: 'Calgary' },
-      'halifax': { countryKey: 'canada', cityKey: 'montreal', displayName: 'Halifax' },
-      'victoria': { countryKey: 'canada', cityKey: 'vancouver', displayName: 'Victoria' },
-      'whistler': { countryKey: 'canada', cityKey: 'vancouver', displayName: 'Whistler' },
+      'quebec': {
+        countryKey: 'canada',
+        cityKey: 'montreal',
+        displayName: 'Quebec',
+        nearestConsularCity: 'Montreal',
+        distance: '~ 255 km',
+        car: '2h45 a 3h15',
+        flight: '50 min a 1h15',
+        train: '3h a 3h30',
+        consularNote: 'Quebec não possui posto consular brasileiro próprio nesta base. A referência indicada é o Consulado-Geral do Brasil em Montreal.'
+      },
+      'banff': {
+        countryKey: 'canada',
+        cityKey: 'vancouver',
+        displayName: 'Banff',
+        nearestConsularCity: 'Vancouver',
+        distance: '~ 850 km',
+        car: '9h a 10h30',
+        flight: '1h30 a 1h45 até Vancouver a partir de Calgary, além do deslocamento terrestre Banff–Calgary',
+        consularNote: 'Banff não possui posto consular brasileiro próprio nesta base. A referência indicada é o Consulado-Geral do Brasil em Vancouver.'
+      },
+      'ottawa': {
+        countryKey: 'canada',
+        cityKey: 'ottawa',
+        displayName: 'Ottawa'
+      },
+      'calgary': {
+        countryKey: 'canada',
+        cityKey: 'vancouver',
+        displayName: 'Calgary',
+        nearestConsularCity: 'Vancouver',
+        distance: '~ 970 km',
+        car: '10h30 a 12h',
+        flight: '1h30 a 1h45',
+        consularNote: 'Calgary não possui posto consular brasileiro próprio nesta base. A referência indicada é o Consulado-Geral do Brasil em Vancouver.'
+      },
+      'halifax': {
+        countryKey: 'canada',
+        cityKey: 'montreal',
+        displayName: 'Halifax',
+        nearestConsularCity: 'Montreal',
+        distance: '~ 1.250 km',
+        car: '12h30 a 14h',
+        flight: '1h50 a 2h10',
+        consularNote: 'Halifax não possui posto consular brasileiro próprio nesta base. A referência indicada é o Consulado-Geral do Brasil em Montreal.'
+      },
+      'victoria': {
+        countryKey: 'canada',
+        cityKey: 'vancouver',
+        displayName: 'Victoria',
+        nearestConsularCity: 'Vancouver',
+        distance: '~ 115 km',
+        car: '3h a 4h, incluindo travessia de ferry',
+        flight: '30 a 40 min',
+        consularNote: 'Victoria não possui posto consular brasileiro próprio nesta base. A referência indicada é o Consulado-Geral do Brasil em Vancouver.'
+      },
+      'whistler': {
+        countryKey: 'canada',
+        cityKey: 'vancouver',
+        displayName: 'Whistler',
+        nearestConsularCity: 'Vancouver',
+        distance: '~ 125 km',
+        car: '1h45 a 2h15',
+        consularNote: 'Whistler não possui posto consular brasileiro próprio nesta base. A referência indicada é o Consulado-Geral do Brasil em Vancouver.'
+      },
 
       'playa del carmen': { countryKey: 'mexico', cityKey: 'cancun', displayName: 'Playa del Carmen' },
       'tulum': { countryKey: 'mexico', cityKey: 'cancun', displayName: 'Tulum' },
@@ -4914,15 +4974,16 @@
 
       return [{
         ...primary,
-        name: `Apoio consular mais próximo: ${nearestCity}`,
-        highlight: match.consularNote || `${searchedName} não possui posto consular brasileiro próprio nesta base. A referência indicada é ${nearestCity}.`,
+        name: primary.name || `Apoio consular responsável: ${nearestCity}`,
+        highlight: match.consularNote || `Referência consular responsável pela região de ${searchedName}.`,
         distance: match.distance || primary.distance,
         car: match.car || primary.car,
         flight: match.flight || primary.flight,
         train: match.train || primary.train,
-        note: `As informações de visto, documentos e saúde exibidas acima são de ${country.name}, porque essas regras são por país. A referência consular foi ajustada conforme a cidade pesquisada: ${searchedName}, com link para a fonte oficial do posto indicado.`
+        note: `As informações de visto, documentos e saúde exibidas acima são de ${country.name}, porque essas regras são por país. O apoio consular exibido corresponde ao posto responsável pela região pesquisada: ${searchedName}.`
       }];
     }
+
 
     const publishedCommercialDestinations = new Set([
       'new york', 'orlando', 'miami',
