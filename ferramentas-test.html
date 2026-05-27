@@ -14,42 +14,49 @@
 
     body {
       font-family: Arial, sans-serif;
-      background: #05070b;
+      background:
+        radial-gradient(circle at 25% 10%, rgba(214, 173, 50, 0.08), transparent 28%),
+        radial-gradient(circle at 85% 45%, rgba(214, 173, 50, 0.05), transparent 30%),
+        #03060b;
       color: #ffffff;
       min-height: 100vh;
     }
 
     header {
-      height: 72px;
+      height: 74px;
       border-bottom: 1px solid rgba(255,255,255,0.08);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 32px;
-      background: rgba(0,0,0,0.92);
+      background: rgba(0,0,0,0.94);
+      position: sticky;
+      top: 0;
+      z-index: 20;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .brand-symbol {
       color: #d6ad32;
-      font-size: 28px;
+      font-size: 27px;
     }
 
     .brand h1 {
       font-size: 18px;
       color: #d6ad32;
-      letter-spacing: .5px;
+      letter-spacing: 0.5px;
+      line-height: 1;
     }
 
     .brand p {
       font-size: 12px;
-      color: #ddd;
-      margin-top: 2px;
+      color: #ffffff;
+      margin-top: 5px;
     }
 
     .top-actions {
@@ -59,81 +66,123 @@
 
     .btn {
       border: 1px solid rgba(214,173,50,.45);
-      background: transparent;
+      background: rgba(0,0,0,.16);
       color: #fff;
-      padding: 11px 18px;
-      border-radius: 12px;
-      font-weight: 700;
+      padding: 13px 22px;
+      border-radius: 14px;
+      font-weight: 800;
       cursor: pointer;
+      transition: 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      border-color: rgba(214,173,50,.85);
+      transform: translateY(-1px);
     }
 
     .btn.gold {
-      background: linear-gradient(135deg, #d6ad32, #b98b18);
-      color: #080808;
+      background: linear-gradient(135deg, #e3bd43, #b88712);
+      color: #060606;
       border: none;
+      box-shadow: 0 12px 26px rgba(214,173,50,.18);
     }
 
     main {
-      max-width: 1280px;
+      max-width: 1360px;
       margin: 0 auto;
-      padding: 38px 24px 60px;
+      padding: 44px 24px 70px;
     }
 
     .hero {
-      border: 1px solid rgba(214,173,50,.28);
-      background: linear-gradient(180deg, rgba(13,18,30,.96), rgba(6,8,13,.98));
-      border-radius: 22px;
-      padding: 38px;
-      margin-bottom: 24px;
+      width: min(980px, 100%);
+      margin: 0 auto 28px;
+      border: 1px solid rgba(214,173,50,.34);
+      background:
+        linear-gradient(180deg, rgba(11,17,29,.98), rgba(5,8,15,.98));
+      border-radius: 24px;
+      padding: 46px 44px;
       text-align: center;
+      box-shadow: 0 24px 70px rgba(0,0,0,.32);
     }
 
     .eyebrow {
       color: #d6ad32;
-      letter-spacing: 3px;
+      letter-spacing: 5px;
       font-size: 12px;
       text-transform: uppercase;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
+      font-weight: 800;
     }
 
     .hero h2 {
-      font-size: 42px;
+      font-size: 46px;
       color: #d6ad32;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
+      line-height: 1.1;
     }
 
     .hero p {
-      color: #ddd;
+      color: #eef2f7;
       max-width: 760px;
       margin: 0 auto;
-      line-height: 1.7;
+      line-height: 1.8;
       font-size: 16px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: 380px 1fr;
+      grid-template-columns: 360px 1fr;
       gap: 22px;
     }
 
     .card {
-      background: #08101f;
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 20px;
+      background: linear-gradient(180deg, #071020, #060b15);
+      border: 1px solid rgba(255,255,255,0.11);
+      border-radius: 22px;
       padding: 24px;
+      box-shadow: 0 22px 55px rgba(0,0,0,.22);
     }
 
     .card h3 {
-      color: #fff;
-      font-size: 21px;
-      margin-bottom: 8px;
+      color: #ffffff;
+      font-size: 22px;
+      margin-bottom: 9px;
     }
 
     .card .sub {
-      color: #b8c1d1;
+      color: #c8d3e4;
       font-size: 14px;
       margin-bottom: 22px;
-      line-height: 1.6;
+      line-height: 1.7;
+    }
+
+    .logo-preview {
+      border: 1px dashed rgba(214,173,50,.55);
+      border-radius: 18px;
+      padding: 20px;
+      text-align: center;
+      min-height: 148px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d6ad32;
+      margin-bottom: 14px;
+      background:
+        linear-gradient(135deg, rgba(214,173,50,.08), rgba(255,255,255,.02));
+      font-weight: 800;
+    }
+
+    .logo-preview img {
+      max-width: 210px;
+      max-height: 105px;
+      object-fit: contain;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      color: #cbd6e6;
+      margin-bottom: 20px;
     }
 
     .company-box {
@@ -142,46 +191,22 @@
     }
 
     .field {
-      border: 1px solid rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.11);
       background: #050b16;
-      border-radius: 14px;
-      padding: 14px;
+      border-radius: 15px;
+      padding: 15px;
     }
 
     .field small {
       display: block;
       color: #9fb0c7;
-      margin-bottom: 6px;
+      margin-bottom: 7px;
       font-size: 12px;
     }
 
     .field strong {
       font-size: 14px;
-    }
-
-    .logo-preview {
-      border: 1px dashed rgba(214,173,50,.45);
-      border-radius: 16px;
-      padding: 18px;
-      text-align: center;
-      min-height: 130px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #d6ad32;
-      margin-bottom: 14px;
-      background: rgba(214,173,50,.04);
-    }
-
-    .logo-preview img {
-      max-width: 180px;
-      max-height: 90px;
-      object-fit: contain;
-    }
-
-    input[type="file"] {
-      width: 100%;
-      color: #b8c1d1;
+      color: #fff;
     }
 
     .categories {
@@ -192,22 +217,45 @@
     }
 
     .category {
-      border: 1px solid rgba(214,173,50,.24);
+      border: 1px solid rgba(214,173,50,.25);
       border-radius: 18px;
       overflow: hidden;
-      background: #070b12;
+      background: #060a12;
       cursor: pointer;
-      transition: .2s;
+      transition: 0.25s ease;
     }
 
-    .category:hover {
+    .category:hover,
+    .category.active {
       transform: translateY(-3px);
-      border-color: rgba(214,173,50,.65);
+      border-color: rgba(214,173,50,.78);
+      box-shadow: 0 16px 34px rgba(214,173,50,.08);
     }
 
     .category-img {
-      height: 110px;
-      background: linear-gradient(135deg, #333, #111);
+      height: 118px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .category-img::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.52));
+    }
+
+    .cat-gastronomia {
+      background-image: url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80");
+    }
+
+    .cat-vida {
+      background-image: url("https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=900&q=80");
+    }
+
+    .cat-city {
+      background-image: url("https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=900&q=80");
     }
 
     .category-body {
@@ -221,9 +269,9 @@
     }
 
     .category p {
-      color: #cfd6e3;
+      color: #d6dfef;
       font-size: 13px;
-      line-height: 1.5;
+      line-height: 1.55;
     }
 
     .workspace {
@@ -233,19 +281,32 @@
       margin-top: 12px;
     }
 
-    .list-item {
-      padding: 15px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      cursor: pointer;
+    .destinations-card {
+      padding: 0;
+      overflow: hidden;
     }
 
-    .list-item:hover {
-      background: rgba(214,173,50,.07);
+    .destinations-head {
+      padding: 20px 20px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .list-item {
+      padding: 17px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .list-item:hover,
+    .list-item.active {
+      background: rgba(214,173,50,.08);
     }
 
     .list-item strong {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
+      color: #fff;
     }
 
     .list-item span {
@@ -253,73 +314,154 @@
       font-size: 13px;
     }
 
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #d6ad32;
+      font-weight: 800;
+    }
+
+    .status::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #d6ad32;
+      display: inline-block;
+    }
+
+    .preview-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     .viewer {
-      min-height: 430px;
-      background: #f7f3eb;
+      width: min(520px, 100%);
+      min-height: 600px;
+      background: #f8f6f1;
       color: #111;
-      border-radius: 16px;
+      border-radius: 18px;
       overflow: hidden;
-      padding: 36px;
+      padding: 38px 36px;
       position: relative;
+      box-shadow: 0 26px 70px rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.55);
+    }
+
+    .viewer::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(214,173,50,.18);
+      border-radius: 14px;
+      pointer-events: none;
     }
 
     .doc-top {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
       align-items: center;
       border-bottom: 2px solid #d6ad32;
-      padding-bottom: 18px;
-      margin-bottom: 28px;
+      padding-bottom: 20px;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
     }
 
     .partner-logo-space {
-      font-weight: 800;
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-weight: 900;
       color: #111;
+      font-size: 18px;
+      line-height: 1.1;
+    }
+
+    .partner-logo-space img {
+      max-width: 170px;
+      max-height: 82px;
+      object-fit: contain;
     }
 
     .doc-brand {
       text-align: right;
       font-size: 12px;
-      color: #333;
+      color: #292929;
+      line-height: 1.35;
+    }
+
+    .doc-brand strong {
+      display: inline-block;
+      margin-top: 5px;
+      font-size: 13px;
     }
 
     .doc-title {
-      font-size: 38px;
-      font-weight: 900;
-      margin-bottom: 8px;
+      font-size: 48px;
+      font-weight: 950;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      line-height: 1;
+      position: relative;
+      z-index: 1;
     }
 
     .doc-subtitle {
-      color: #555;
-      margin-bottom: 28px;
+      color: #444;
+      margin-bottom: 30px;
+      font-size: 17px;
+      position: relative;
+      z-index: 1;
     }
 
     .doc-block {
-      border: 1px solid #ddd0b5;
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 14px;
-      background: #fffaf1;
+      border: 1px solid #dfcfaa;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      background: rgba(255,255,255,.52);
+      position: relative;
+      z-index: 1;
     }
 
     .doc-block h5 {
-      font-size: 18px;
-      margin-bottom: 8px;
+      font-size: 19px;
+      margin-bottom: 9px;
     }
 
     .doc-block p {
-      font-size: 14px;
-      color: #444;
-      line-height: 1.5;
+      font-size: 15px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .doc-footer {
+      margin-top: 28px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(214,173,50,.35);
+      color: #555;
+      font-size: 12px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
     }
 
     .download-row {
       display: flex;
+      justify-content: center;
       gap: 12px;
-      margin-top: 18px;
+      margin-top: 20px;
+      width: 100%;
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1100px) {
       .grid,
       .workspace {
         grid-template-columns: 1fr;
@@ -329,12 +471,63 @@
         grid-template-columns: 1fr;
       }
 
-      .hero h2 {
-        font-size: 32px;
+      .viewer {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 680px) {
+      header {
+        padding: 0 16px;
       }
 
-      header {
-        padding: 0 18px;
+      .brand h1 {
+        font-size: 15px;
+      }
+
+      .brand p {
+        font-size: 11px;
+      }
+
+      .top-actions {
+        gap: 8px;
+      }
+
+      .btn {
+        padding: 11px 14px;
+        font-size: 13px;
+      }
+
+      main {
+        padding: 28px 14px 48px;
+      }
+
+      .hero {
+        padding: 34px 22px;
+      }
+
+      .hero h2 {
+        font-size: 34px;
+      }
+
+      .eyebrow {
+        letter-spacing: 3px;
+      }
+
+      .doc-top {
+        grid-template-columns: 1fr;
+      }
+
+      .doc-brand {
+        text-align: left;
+      }
+
+      .doc-title {
+        font-size: 38px;
+      }
+
+      .download-row {
+        flex-direction: column;
       }
     }
   </style>
@@ -359,7 +552,7 @@
   <main>
     <section class="hero">
       <div class="eyebrow">Curadoria • Parceria • Excelência</div>
-      <h2>Área Partner</h2>
+      <h2>Curadoria Elite Travel Partner</h2>
       <p>
         Materiais business personalizados para empresas de turismo, hotelaria e experiências de viagem.
         Selecione uma categoria, escolha o destino e gere uma versão pronta para encaminhar ao cliente,
@@ -378,7 +571,7 @@
 
         <input type="file" id="logoInput" accept="image/*" />
 
-        <div class="company-box" style="margin-top:20px;">
+        <div class="company-box">
           <div class="field">
             <small>Empresa</small>
             <strong>Agência Parceira</strong>
@@ -406,24 +599,24 @@
         <p class="sub">Escolha uma categoria para visualizar os destinos disponíveis.</p>
 
         <div class="categories">
-          <div class="category" onclick="selectCategory('Gastronomia')">
-            <div class="category-img"></div>
+          <div class="category" id="catGastronomia" onclick="selectCategory('Gastronomia', 'catGastronomia')">
+            <div class="category-img cat-gastronomia"></div>
             <div class="category-body">
               <h4>Gastronomia</h4>
               <p>Seleções organizadas para diferentes perfis de viajantes.</p>
             </div>
           </div>
 
-          <div class="category" onclick="selectCategory('Vida Noturna')">
-            <div class="category-img"></div>
+          <div class="category" id="catVida" onclick="selectCategory('Vida Noturna', 'catVida')">
+            <div class="category-img cat-vida"></div>
             <div class="category-body">
               <h4>Vida Noturna</h4>
               <p>Experiências noturnas em versão business premium.</p>
             </div>
           </div>
 
-          <div class="category" onclick="selectCategory('City Guide')">
-            <div class="category-img"></div>
+          <div class="category active" id="catCity" onclick="selectCategory('City Guide', 'catCity')">
+            <div class="category-img cat-city"></div>
             <div class="category-body">
               <h4>City Guide</h4>
               <p>Orientação clara e objetiva para o destino.</p>
@@ -432,44 +625,50 @@
         </div>
 
         <div class="workspace">
-          <div class="card" style="padding:0;">
-            <div style="padding:18px;">
-              <h3 id="categoryTitle">Gastronomia</h3>
+          <div class="card destinations-card">
+            <div class="destinations-head">
+              <h3 id="categoryTitle">City Guide</h3>
               <p class="sub">Destinos disponíveis</p>
             </div>
 
-            <div class="list-item" onclick="selectDestination('New York - USA')">
+            <div class="list-item active" onclick="selectDestination('New York - USA', this)">
               <strong>New York - USA</strong>
               <span>Disponível para personalização</span>
+              <div class="status">Atualizado</div>
             </div>
 
-            <div class="list-item" onclick="selectDestination('Paris - França')">
+            <div class="list-item" onclick="selectDestination('Paris - França', this)">
               <strong>Paris - França</strong>
               <span>Disponível para personalização</span>
+              <div class="status">Premium</div>
             </div>
 
-            <div class="list-item" onclick="selectDestination('Cidade do México - México')">
+            <div class="list-item" onclick="selectDestination('Cidade do México - México', this)">
               <strong>Cidade do México - México</strong>
               <span>Disponível para personalização</span>
+              <div class="status">Novo</div>
             </div>
 
-            <div class="list-item" onclick="selectDestination('Orlando - USA')">
+            <div class="list-item" onclick="selectDestination('Orlando - USA', this)">
               <strong>Orlando - USA</strong>
               <span>Em preparação</span>
             </div>
           </div>
 
-          <div>
+          <div class="preview-area">
             <div class="viewer">
               <div class="doc-top">
-                <div class="partner-logo-space" id="docLogoText">LOGO DA EMPRESA</div>
+                <div class="partner-logo-space" id="docLogoText">
+                  LOGO DA<br>EMPRESA
+                </div>
+
                 <div class="doc-brand">
                   Curadoria desenvolvida em parceria com<br>
                   <strong>Curadoria Elite Travel</strong>
                 </div>
               </div>
 
-              <div class="doc-title" id="docTitle">GASTRONOMIA</div>
+              <div class="doc-title" id="docTitle">CITY GUIDE</div>
               <div class="doc-subtitle" id="docSubtitle">New York - USA • Versão Business Partner</div>
 
               <div class="doc-block">
@@ -494,6 +693,10 @@
                   da Curadoria Elite Travel.
                 </p>
               </div>
+
+              <div class="doc-footer">
+                Material Partner • Uso autorizado para clientes da empresa parceira
+              </div>
             </div>
 
             <div class="download-row">
@@ -507,18 +710,33 @@
   </main>
 
   <script>
-    let selectedCategory = "Gastronomia";
+    let selectedCategory = "City Guide";
     let selectedDestination = "New York - USA";
 
-    function selectCategory(category) {
+    function selectCategory(category, cardId) {
       selectedCategory = category;
+
+      document.querySelectorAll(".category").forEach(function(card) {
+        card.classList.remove("active");
+      });
+
+      document.getElementById(cardId).classList.add("active");
+
       document.getElementById("categoryTitle").innerText = category;
       document.getElementById("docTitle").innerText = category.toUpperCase();
+
       updateSubtitle();
     }
 
-    function selectDestination(destination) {
+    function selectDestination(destination, element) {
       selectedDestination = destination;
+
+      document.querySelectorAll(".list-item").forEach(function(item) {
+        item.classList.remove("active");
+      });
+
+      element.classList.add("active");
+
       updateSubtitle();
     }
 
@@ -529,7 +747,10 @@
 
     document.getElementById("logoInput").addEventListener("change", function(event) {
       const file = event.target.files[0];
-      if (!file) return;
+
+      if (!file) {
+        return;
+      }
 
       const reader = new FileReader();
 
@@ -538,7 +759,7 @@
           '<img src="' + e.target.result + '" alt="Logo da empresa">';
 
         document.getElementById("docLogoText").innerHTML =
-          '<img src="' + e.target.result + '" alt="Logo da empresa" style="max-width:150px; max-height:70px; object-fit:contain;">';
+          '<img src="' + e.target.result + '" alt="Logo da empresa">';
       };
 
       reader.readAsDataURL(file);
