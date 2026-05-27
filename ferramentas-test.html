@@ -129,22 +129,12 @@
       font-size: 16px;
     }
 
-  .grid {
-  display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 22px;
-  align-items: start;
-}
-
-aside.card {
-  align-self: start;
-  position: sticky;
-  top: 96px;
-}
-
-aside.card {
-  align-self: start;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
 
     .card {
       background: linear-gradient(180deg, #071020, #060b15);
@@ -152,6 +142,12 @@ aside.card {
       border-radius: 22px;
       padding: 24px;
       box-shadow: 0 22px 55px rgba(0,0,0,.22);
+    }
+
+    aside.card {
+      align-self: start;
+      position: sticky;
+      top: 96px;
     }
 
     .card h3 {
@@ -255,12 +251,9 @@ aside.card {
       background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.56));
     }
 
-   .cat-city {
-  background-image: url("https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=900&q=80");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+    .cat-city {
+      background-image: url("https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=900&q=80");
+    }
 
     .cat-gastronomia {
       background-image: url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80");
@@ -485,9 +478,134 @@ aside.card {
       width: 100%;
     }
 
+    .pricing-section {
+      margin-top: 30px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 28px;
+    }
+
+    .pricing-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .pricing-header h3 {
+      font-size: 24px;
+      color: #fff;
+    }
+
+    .pricing-header p {
+      color: #c8d3e4;
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 620px;
+    }
+
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .plan {
+      border: 1px solid rgba(255,255,255,.12);
+      background: #050b16;
+      border-radius: 20px;
+      padding: 24px;
+      position: relative;
+    }
+
+    .plan.featured {
+      border-color: rgba(214,173,50,.72);
+      background:
+        radial-gradient(circle at top right, rgba(214,173,50,.16), transparent 32%),
+        #060b15;
+      box-shadow: 0 22px 50px rgba(214,173,50,.10);
+    }
+
+    .badge {
+      display: inline-block;
+      color: #070707;
+      background: linear-gradient(135deg, #e3bd43, #b88712);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .plan h4 {
+      color: #fff;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      color: #d6ad32;
+      font-size: 36px;
+      font-weight: 950;
+      margin-bottom: 5px;
+    }
+
+    .price-note {
+      color: #b9c5d8;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .economy {
+      border: 1px solid rgba(214,173,50,.28);
+      background: rgba(214,173,50,.07);
+      color: #f3d678;
+      border-radius: 14px;
+      padding: 12px;
+      font-weight: 800;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .plan ul {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .plan li {
+      color: #d8e1ee;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .plan li::before {
+      content: "✓";
+      color: #d6ad32;
+      font-weight: 900;
+      margin-right: 8px;
+    }
+
+    .fair-use {
+      margin-top: 18px;
+      border: 1px solid rgba(214,173,50,.22);
+      background: rgba(0,0,0,.18);
+      border-radius: 18px;
+      padding: 18px;
+      color: #c8d3e4;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .fair-use strong {
+      color: #d6ad32;
+    }
+
     @media (max-width: 1100px) {
       .grid,
-      .workspace {
+      .workspace,
+      .plans {
         grid-template-columns: 1fr;
       }
 
@@ -495,8 +613,17 @@ aside.card {
         grid-template-columns: 1fr;
       }
 
+      aside.card {
+        position: static;
+      }
+
       .viewer {
         width: 100%;
+      }
+
+      .pricing-header {
+        align-items: flex-start;
+        flex-direction: column;
       }
     }
 
@@ -552,6 +679,10 @@ aside.card {
 
       .download-row {
         flex-direction: column;
+      }
+
+      .price {
+        font-size: 30px;
       }
     }
   </style>
@@ -753,6 +884,62 @@ aside.card {
             </div>
           </div>
         </div>
+
+        <section class="pricing-section">
+          <div class="pricing-header">
+            <div>
+              <h3>Plano & Assinatura</h3>
+              <p>
+                Acesso empresarial aos materiais Partner com personalização da marca,
+                biblioteca organizada por categorias e geração de versões business para envio aos clientes.
+              </p>
+            </div>
+          </div>
+
+          <div class="plans">
+            <div class="plan">
+              <h4>Partner Mensal</h4>
+              <div class="price">R$ 317</div>
+              <div class="price-note">por mês</div>
+
+              <ul>
+                <li>Acesso à biblioteca Partner</li>
+                <li>Materiais business personalizados</li>
+                <li>Logo da empresa no documento</li>
+                <li>Uso profissional com clientes da empresa</li>
+              </ul>
+
+              <button class="btn">Plano mensal</button>
+            </div>
+
+            <div class="plan featured">
+              <div class="badge">2 MESES INCLUSOS</div>
+
+              <h4>Partner Anual</h4>
+              <div class="price">R$ 2.990</div>
+              <div class="price-note">equivalente a R$ 249,16/mês</div>
+
+              <div class="economy">
+                Economia anual de R$ 814 em relação ao plano mensal.
+              </div>
+
+              <ul>
+                <li>Acesso anual à Área Partner</li>
+                <li>Personalização business com logo da empresa</li>
+                <li>Materiais organizados por destino e categoria</li>
+                <li>Ideal para empresas que usam materiais com frequência</li>
+              </ul>
+
+              <button class="btn gold">Escolher plano anual</button>
+            </div>
+          </div>
+
+          <div class="fair-use">
+            <strong>Política de uso profissional:</strong>
+            para garantir estabilidade e qualidade operacional da plataforma Partner,
+            o plano contempla uma capacidade mensal compatível com o uso profissional da empresa parceira.
+          </div>
+        </section>
       </section>
     </section>
   </main>
