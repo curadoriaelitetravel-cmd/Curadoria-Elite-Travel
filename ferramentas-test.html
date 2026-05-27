@@ -130,10 +130,15 @@
     }
 
     .grid {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 22px;
-    }
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+aside.card {
+  align-self: start;
+}
 
     .card {
       background: linear-gradient(180deg, #071020, #060b15);
