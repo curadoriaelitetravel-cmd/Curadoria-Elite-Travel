@@ -89,7 +89,7 @@
     }
 
     main {
-      max-width: 1360px;
+      max-width: 1420px;
       margin: 0 auto;
       padding: 44px 24px 70px;
     }
@@ -98,12 +98,11 @@
       width: min(980px, 100%);
       margin: 0 auto 28px;
       border: 1px solid rgba(214,173,50,.34);
-      background:
-        linear-gradient(180deg, rgba(11,17,29,.98), rgba(5,8,15,.98));
+      background: linear-gradient(180deg, rgba(11,17,29,.98), rgba(5,8,15,.98));
       border-radius: 24px;
       padding: 46px 44px;
       text-align: center;
-      box-shadow: 0 24px 70px rgba(0,0,0,.32);
+      box-shadow: 0 0 80px rgba(214,173,50,.08), 0 24px 70px rgba(0,0,0,.32);
     }
 
     .eyebrow {
@@ -168,8 +167,7 @@
       justify-content: center;
       color: #d6ad32;
       margin-bottom: 14px;
-      background:
-        linear-gradient(135deg, rgba(214,173,50,.08), rgba(255,255,255,.02));
+      background: linear-gradient(135deg, rgba(214,173,50,.08), rgba(255,255,255,.02));
       font-weight: 800;
     }
 
@@ -243,19 +241,31 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.52));
+      background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.56));
+    }
+
+    .cat-city {
+      background-image: url("https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=900&q=80");
     }
 
     .cat-gastronomia {
       background-image: url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80");
     }
 
+    .cat-atracoes {
+      background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80");
+    }
+
     .cat-vida {
       background-image: url("https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=900&q=80");
     }
 
-    .cat-city {
-      background-image: url("https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=900&q=80");
+    .cat-compras {
+      background-image: url("https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80");
+    }
+
+    .cat-presentes {
+      background-image: url("https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=900&q=80");
     }
 
     .category-body {
@@ -340,7 +350,7 @@
     }
 
     .viewer {
-      width: min(520px, 100%);
+      width: min(500px, 100%);
       min-height: 600px;
       background: #f8f6f1;
       color: #111;
@@ -404,7 +414,7 @@
     }
 
     .doc-title {
-      font-size: 48px;
+      font-size: 45px;
       font-weight: 950;
       letter-spacing: 1px;
       margin-bottom: 10px;
@@ -523,7 +533,7 @@
       }
 
       .doc-title {
-        font-size: 38px;
+        font-size: 36px;
       }
 
       .download-row {
@@ -599,11 +609,27 @@
         <p class="sub">Escolha uma categoria para visualizar os destinos disponíveis.</p>
 
         <div class="categories">
+          <div class="category active" id="catCity" onclick="selectCategory('City Guide', 'catCity')">
+            <div class="category-img cat-city"></div>
+            <div class="category-body">
+              <h4>City Guide</h4>
+              <p>Orientação clara e objetiva para apresentar o destino.</p>
+            </div>
+          </div>
+
           <div class="category" id="catGastronomia" onclick="selectCategory('Gastronomia', 'catGastronomia')">
             <div class="category-img cat-gastronomia"></div>
             <div class="category-body">
               <h4>Gastronomia</h4>
               <p>Seleções organizadas para diferentes perfis de viajantes.</p>
+            </div>
+          </div>
+
+          <div class="category" id="catAtracoes" onclick="selectCategory('Atrações Turísticas', 'catAtracoes')">
+            <div class="category-img cat-atracoes"></div>
+            <div class="category-body">
+              <h4>Atrações Turísticas</h4>
+              <p>Pontos essenciais organizados com critério e contexto.</p>
             </div>
           </div>
 
@@ -615,11 +641,19 @@
             </div>
           </div>
 
-          <div class="category active" id="catCity" onclick="selectCategory('City Guide', 'catCity')">
-            <div class="category-img cat-city"></div>
+          <div class="category" id="catCompras" onclick="selectCategory('Endereços para Compras', 'catCompras')">
+            <div class="category-img cat-compras"></div>
             <div class="category-body">
-              <h4>City Guide</h4>
-              <p>Orientação clara e objetiva para o destino.</p>
+              <h4>Endereços para Compras</h4>
+              <p>Regiões e endereços selecionados para compras no destino.</p>
+            </div>
+          </div>
+
+          <div class="category" id="catPresentes" onclick="selectCategory('Sugestão de Presentes', 'catPresentes')">
+            <div class="category-img cat-presentes"></div>
+            <div class="category-body">
+              <h4>Sugestão de Presentes</h4>
+              <p>Ideias refinadas para escolhas práticas e elegantes.</p>
             </div>
           </div>
         </div>
