@@ -432,33 +432,67 @@
     }
 
 
-    .pdf-preview-shell {
-      margin-top: 24px;
+    .business-preview-card {
       border: 1px solid rgba(214,173,50,.24);
-      border-radius: 16px;
-      overflow: hidden;
-      background: #ffffff;
+      border-radius: 18px;
+      background: rgba(255,255,255,.46);
+      padding: 22px;
+      margin: 22px 0;
       position: relative;
       z-index: 1;
-      display: none;
-      box-shadow: 0 16px 32px rgba(0,0,0,.12);
     }
 
-    .pdf-preview-shell iframe {
-      width: 100%;
-      height: 520px;
-      border: 0;
-      display: block;
-      background: #ffffff;
-    }
-
-    .pdf-preview-note {
-      padding: 10px 12px;
+    .business-preview-label {
+      color: #9b7a19;
       font-size: 12px;
-      color: #555;
-      border-top: 1px solid rgba(214,173,50,.18);
-      background: #f8f6f1;
-      text-align: center;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .business-preview-title {
+      color: #111;
+      font-size: 22px;
+      font-weight: 950;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+
+    .business-preview-text {
+      color: #333;
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .business-preview-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .business-preview-meta div {
+      border: 1px solid rgba(214,173,50,.20);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,.38);
+    }
+
+    .business-preview-meta small {
+      display: block;
+      color: #8a7a58;
+      font-size: 11px;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      font-weight: 800;
+    }
+
+    .business-preview-meta strong {
+      color: #111;
+      font-size: 13px;
+      line-height: 1.25;
     }
 
     .doc-top {
@@ -763,7 +797,70 @@
         letter-spacing: 3px;
       }
 
-      .doc-top {
+      .business-preview-card {
+      border: 1px solid rgba(214,173,50,.24);
+      border-radius: 18px;
+      background: rgba(255,255,255,.46);
+      padding: 22px;
+      margin: 22px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .business-preview-label {
+      color: #9b7a19;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .business-preview-title {
+      color: #111;
+      font-size: 22px;
+      font-weight: 950;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+
+    .business-preview-text {
+      color: #333;
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .business-preview-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .business-preview-meta div {
+      border: 1px solid rgba(214,173,50,.20);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,.38);
+    }
+
+    .business-preview-meta small {
+      display: block;
+      color: #8a7a58;
+      font-size: 11px;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      font-weight: 800;
+    }
+
+    .business-preview-meta strong {
+      color: #111;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .doc-top {
         grid-template-columns: 1fr;
       }
 
@@ -907,9 +1004,22 @@
               <div class="doc-title" id="docTitle">MATERIAL</div>
               <div class="doc-subtitle" id="docSubtitle">Selecione uma categoria e destino</div>
 
-              <div class="pdf-preview-shell" id="pdfPreviewShell">
-                <iframe id="pdfPreviewFrame" title="Prévia do material selecionado"></iframe>
-                <div class="pdf-preview-note">Prévia do material identificado no Supabase</div>
+              <div class="business-preview-card">
+                <div class="business-preview-label">Versão Business Partner</div>
+                <div class="business-preview-title" id="businessPreviewTitle">Material identificado no acervo</div>
+                <p class="business-preview-text" id="businessPreviewText">
+                  Selecione um destino para gerar uma apresentação business limpa, objetiva e personalizada para uso profissional da empresa parceira.
+                </p>
+                <div class="business-preview-meta">
+                  <div>
+                    <small>Formato</small>
+                    <strong>Business clean</strong>
+                  </div>
+                  <div>
+                    <small>Origem</small>
+                    <strong>Acervo Curadoria</strong>
+                  </div>
+                </div>
               </div>
 
               <div class="doc-block">
@@ -1027,6 +1137,7 @@
     let filteredMaterials = [];
     let currentPage = 1;
     let selectedMaterial = null;
+    let partnerLogoDataUrl = "";
 
     const categoryVisuals = {
       "City Guide": {
@@ -1367,26 +1478,257 @@
         docSubtitle.innerText = `${material.city_label} • Versão Business Partner${material.year ? " • " + material.year : ""}`;
       }
 
-      const pdfPreviewShell = document.getElementById("pdfPreviewShell");
-      const pdfPreviewFrame = document.getElementById("pdfPreviewFrame");
+      const businessPreviewTitle = document.getElementById("businessPreviewTitle");
+      const businessPreviewText = document.getElementById("businessPreviewText");
 
-      if (pdfPreviewShell && pdfPreviewFrame && material.pdf_url) {
-        pdfPreviewShell.style.display = "block";
-        pdfPreviewFrame.src = material.pdf_url;
+      if (businessPreviewTitle) {
+        businessPreviewTitle.innerText = `${category} • ${material.city_label}`;
+      }
+
+      if (businessPreviewText) {
+        businessPreviewText.innerText = `Material identificado no acervo da Curadoria Elite Travel e pronto para ser apresentado em uma versão business clean, com identidade da empresa parceira e assinatura discreta da Curadoria.`;
       }
     }
 
-    function openSelectedMaterial() {
-      if (!selectedMaterial || !selectedMaterial.pdf_url) {
+    function buildBusinessDocumentHtml(autoPrint) {
+      const category = normalizeCategoryName(selectedMaterial.category);
+      const city = selectedMaterial.city_label || "Destino selecionado";
+      const year = selectedMaterial.year || "";
+      const logoHtml = partnerLogoDataUrl
+        ? `<img src="${partnerLogoDataUrl}" alt="Logo da empresa" />`
+        : `<div class="logo-placeholder">LOGO DA EMPRESA</div>`;
+
+      return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${category} • ${city} | Partner</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #ece7dc;
+      color: #111;
+      padding: 40px 18px;
+    }
+    .page {
+      max-width: 820px;
+      min-height: 1080px;
+      margin: 0 auto;
+      background: #f8f6f1;
+      border-radius: 26px;
+      padding: 54px;
+      border: 1px solid #d8c691;
+      box-shadow: 0 24px 70px rgba(0,0,0,.18);
+      position: relative;
+      overflow: hidden;
+    }
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border: 1px solid rgba(214,173,50,.25);
+      border-radius: 20px;
+      pointer-events: none;
+    }
+    .top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+      border-bottom: 3px solid #d6ad32;
+      padding-bottom: 26px;
+      margin-bottom: 44px;
+      position: relative;
+      z-index: 1;
+    }
+    .partner-logo img {
+      max-width: 220px;
+      max-height: 110px;
+      object-fit: contain;
+    }
+    .logo-placeholder {
+      font-size: 23px;
+      line-height: 1.05;
+      font-weight: 950;
+      letter-spacing: .5px;
+    }
+    .signature {
+      text-align: right;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #222;
+    }
+    .signature strong { display: block; margin-top: 6px; }
+    .eyebrow {
+      color: #9a7617;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 62px;
+      line-height: .95;
+      letter-spacing: 1px;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+    .subtitle {
+      font-size: 22px;
+      color: #444;
+      margin-bottom: 38px;
+      position: relative;
+      z-index: 1;
+    }
+    .panel {
+      border: 1px solid #dfcfaa;
+      border-radius: 20px;
+      padding: 26px;
+      margin-bottom: 20px;
+      background: rgba(255,255,255,.54);
+      position: relative;
+      z-index: 1;
+    }
+    .panel h2 {
+      font-size: 25px;
+      margin-bottom: 12px;
+    }
+    .panel p, .panel li {
+      color: #333;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+    ul { padding-left: 20px; }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 28px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .meta div {
+      border: 1px solid #dfcfaa;
+      border-radius: 16px;
+      padding: 18px;
+      background: rgba(255,255,255,.44);
+    }
+    .meta small {
+      display: block;
+      text-transform: uppercase;
+      color: #8a7a58;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 7px;
+    }
+    .meta strong { font-size: 16px; }
+    .footer {
+      margin-top: 44px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(214,173,50,.45);
+      text-align: center;
+      color: #555;
+      font-size: 13px;
+      position: relative;
+      z-index: 1;
+    }
+    .actions { text-align:center; margin:24px auto 0; max-width:820px; }
+    .print-btn {
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #e3bd43, #b88712);
+      color: #090909;
+      padding: 14px 24px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .page { box-shadow: none; border-radius: 0; max-width: none; min-height: auto; }
+      .actions { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="top">
+      <div class="partner-logo">${logoHtml}</div>
+      <div class="signature">Curadoria desenvolvida em parceria com<strong>Curadoria Elite Travel</strong></div>
+    </div>
+
+    <div class="eyebrow">Versão Business Partner</div>
+    <h1>${category.toUpperCase()}</h1>
+    <div class="subtitle">${city} • Material business${year ? " • " + year : ""}</div>
+
+    <div class="meta">
+      <div><small>Categoria</small><strong>${category}</strong></div>
+      <div><small>Destino</small><strong>${city}</strong></div>
+      <div><small>Formato</small><strong>Business clean</strong></div>
+    </div>
+
+    <div class="panel">
+      <h2>Seleção premium organizada</h2>
+      <p>Material estruturado para apresentação profissional ao cliente, com linguagem objetiva, visual limpo e organização pensada para empresas parceiras.</p>
+    </div>
+
+    <div class="panel">
+      <h2>Uso profissional</h2>
+      <ul>
+        <li>Versão adaptada para envio ao cliente da empresa parceira.</li>
+        <li>Identidade da empresa aplicada no documento.</li>
+        <li>Assinatura discreta da Curadoria Elite Travel como parceira de curadoria.</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h2>Observação</h2>
+      <p>Esta versão business não exibe o material premium B2C original. Ela funciona como uma apresentação corporativa limpa, vinculada ao acervo identificado no Supabase.</p>
+    </div>
+
+    <div class="footer">Material Partner • Uso autorizado para clientes da empresa parceira • Curadoria Elite Travel</div>
+  </div>
+
+  <div class="actions">
+    <button class="print-btn" onclick="window.print()">Salvar ou imprimir versão business</button>
+  </div>
+
+  ${autoPrint ? '<script>window.addEventListener("load", function(){ setTimeout(function(){ window.print(); }, 500); });<\/script>' : ''}
+</body>
+</html>`;
+    }
+
+    function openBusinessMaterial(autoPrint) {
+      if (!selectedMaterial) {
         alert("Selecione um material disponível.");
         return;
       }
 
-      window.open(selectedMaterial.pdf_url, "_blank");
+      const businessWindow = window.open("", "_blank");
+
+      if (!businessWindow) {
+        alert("Permita pop-ups para visualizar a versão business.");
+        return;
+      }
+
+      businessWindow.document.open();
+      businessWindow.document.write(buildBusinessDocumentHtml(autoPrint));
+      businessWindow.document.close();
     }
 
-    document.getElementById("previewButton").addEventListener("click", openSelectedMaterial);
-    document.getElementById("downloadButton").addEventListener("click", openSelectedMaterial);
+    document.getElementById("previewButton").addEventListener("click", function() {
+      openBusinessMaterial(false);
+    });
+
+    document.getElementById("downloadButton").addEventListener("click", function() {
+      openBusinessMaterial(true);
+    });
     document.getElementById("destinationSearchInput").addEventListener("input", filterDestinations);
     document.getElementById("prevPageButton").addEventListener("click", function() { changePage(-1); });
     document.getElementById("nextPageButton").addEventListener("click", function() { changePage(1); });
@@ -1401,6 +1743,8 @@
       const reader = new FileReader();
 
       reader.onload = function(e) {
+        partnerLogoDataUrl = e.target.result;
+
         document.getElementById("logoPreview").innerHTML =
           '<img src="' + e.target.result + '" alt="Logo da empresa">';
 
