@@ -251,30 +251,6 @@
       background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.56));
     }
 
-    .cat-city {
-      background-image: url("https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=900&q=80");
-    }
-
-    .cat-gastronomia {
-      background-image: url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80");
-    }
-
-    .cat-atracoes {
-      background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80");
-    }
-
-    .cat-vida {
-      background-image: url("https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=900&q=80");
-    }
-
-    .cat-compras {
-      background-image: url("https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80");
-    }
-
-    .cat-presentes {
-      background-image: url("https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=900&q=80");
-    }
-
     .category-body {
       padding: 16px;
     }
@@ -602,6 +578,24 @@
       color: #d6ad32;
     }
 
+    .empty-state {
+      padding: 20px;
+      color: #c8d3e4;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .loading-state {
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      padding: 18px;
+      color: #c8d3e4;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
     @media (max-width: 1100px) {
       .grid,
       .workspace,
@@ -748,89 +742,27 @@
           </div>
         </div>
       </aside>
-
-      <section class="card">
+            <section class="card">
         <h3>Materiais Partner</h3>
         <p class="sub">Escolha uma categoria para visualizar os destinos disponíveis.</p>
 
-        <div class="categories">
-          <div class="category active" id="catCity" onclick="selectCategory('City Guide', 'catCity')">
-            <div class="category-img cat-city"></div>
-            <div class="category-body">
-              <h4>City Guide</h4>
-              <p>Orientação clara e objetiva para apresentar o destino.</p>
-            </div>
-          </div>
-
-          <div class="category" id="catGastronomia" onclick="selectCategory('Gastronomia', 'catGastronomia')">
-            <div class="category-img cat-gastronomia"></div>
-            <div class="category-body">
-              <h4>Gastronomia</h4>
-              <p>Seleções organizadas para diferentes perfis de viajantes.</p>
-            </div>
-          </div>
-
-          <div class="category" id="catAtracoes" onclick="selectCategory('Atrações Turísticas', 'catAtracoes')">
-            <div class="category-img cat-atracoes"></div>
-            <div class="category-body">
-              <h4>Atrações Turísticas</h4>
-              <p>Pontos essenciais organizados com critério e contexto.</p>
-            </div>
-          </div>
-
-          <div class="category" id="catVida" onclick="selectCategory('Vida Noturna', 'catVida')">
-            <div class="category-img cat-vida"></div>
-            <div class="category-body">
-              <h4>Vida Noturna</h4>
-              <p>Experiências noturnas em versão business premium.</p>
-            </div>
-          </div>
-
-          <div class="category" id="catCompras" onclick="selectCategory('Endereços para Compras', 'catCompras')">
-            <div class="category-img cat-compras"></div>
-            <div class="category-body">
-              <h4>Endereços para Compras</h4>
-              <p>Regiões e endereços selecionados para compras no destino.</p>
-            </div>
-          </div>
-
-          <div class="category" id="catPresentes" onclick="selectCategory('Sugestão de Presentes', 'catPresentes')">
-            <div class="category-img cat-presentes"></div>
-            <div class="category-body">
-              <h4>Sugestão de Presentes</h4>
-              <p>Ideias refinadas para escolhas práticas e elegantes.</p>
-            </div>
-          </div>
+        <div id="materialsLoading" class="loading-state">
+          Carregando materiais Partner do Supabase...
         </div>
+
+        <div class="categories" id="categoriesContainer"></div>
 
         <div class="workspace">
           <div class="card destinations-card">
             <div class="destinations-head">
-              <h3 id="categoryTitle">City Guide</h3>
+              <h3 id="categoryTitle">Materiais</h3>
               <p class="sub">Destinos disponíveis</p>
             </div>
 
-            <div class="list-item active" onclick="selectDestination('New York - USA', this)">
-              <strong>New York - USA</strong>
-              <span>Disponível para personalização</span>
-              <div class="status">Atualizado</div>
-            </div>
-
-            <div class="list-item" onclick="selectDestination('Paris - França', this)">
-              <strong>Paris - França</strong>
-              <span>Disponível para personalização</span>
-              <div class="status">Premium</div>
-            </div>
-
-            <div class="list-item" onclick="selectDestination('Cidade do México - México', this)">
-              <strong>Cidade do México - México</strong>
-              <span>Disponível para personalização</span>
-              <div class="status">Novo</div>
-            </div>
-
-            <div class="list-item" onclick="selectDestination('Orlando - USA', this)">
-              <strong>Orlando - USA</strong>
-              <span>Em preparação</span>
+            <div id="destinationsContainer">
+              <div class="empty-state">
+                Selecione uma categoria para visualizar os destinos disponíveis.
+              </div>
             </div>
           </div>
 
@@ -847,8 +779,8 @@
                 </div>
               </div>
 
-              <div class="doc-title" id="docTitle">CITY GUIDE</div>
-              <div class="doc-subtitle" id="docSubtitle">New York - USA • Versão Business Partner</div>
+              <div class="doc-title" id="docTitle">MATERIAL</div>
+              <div class="doc-subtitle" id="docSubtitle">Selecione uma categoria e destino</div>
 
               <div class="doc-block">
                 <h5>Seleção premium organizada</h5>
@@ -879,8 +811,13 @@
             </div>
 
             <div class="download-row">
-              <button class="btn gold">Baixar versão personalizada</button>
-              <button class="btn">Visualizar material</button>
+              <button class="btn gold" id="downloadButton" type="button">
+                Baixar versão personalizada
+              </button>
+
+              <button class="btn" id="previewButton" type="button">
+                Visualizar material
+              </button>
             </div>
           </div>
         </div>
@@ -944,41 +881,260 @@
     </section>
   </main>
 
-  <script>
-    let selectedCategory = "City Guide";
-    let selectedDestination = "New York - USA";
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    function selectCategory(category, cardId) {
-      selectedCategory = category;
+  <script>
+    const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
+
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let allMaterials = [];
+    let selectedMaterial = null;
+
+    const categoryVisuals = {
+      "City Guide": {
+        image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=900&q=80",
+        description: "Orientação clara e objetiva para apresentar o destino."
+      },
+      "Gastronomia": {
+        image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80",
+        description: "Seleções organizadas para diferentes perfis de viajantes."
+      },
+      "Atrações Turísticas": {
+        image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+        description: "Pontos essenciais organizados com critério e contexto."
+      },
+      "Vida Noturna": {
+        image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=900&q=80",
+        description: "Experiências noturnas em versão business premium."
+      },
+      "Endereços para Compras": {
+        image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80",
+        description: "Regiões e endereços selecionados para compras no destino."
+      },
+      "Sugestão de Presentes": {
+        image: "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=900&q=80",
+        description: "Ideias refinadas para escolhas práticas e elegantes."
+      }
+    };
+
+    function normalizeCategoryName(category) {
+      if (!category) return "Material";
+
+      const categoryMap = {
+        "city-guide": "City Guide",
+        "city guide": "City Guide",
+        "gastronomia": "Gastronomia",
+        "atracoes-turisticas": "Atrações Turísticas",
+        "atrações turísticas": "Atrações Turísticas",
+        "atracoes turisticas": "Atrações Turísticas",
+        "vida-noturna": "Vida Noturna",
+        "vida noturna": "Vida Noturna",
+        "enderecos-para-compras": "Endereços para Compras",
+        "endereços para compras": "Endereços para Compras",
+        "enderecos para compras": "Endereços para Compras",
+        "sugestao-de-presentes": "Sugestão de Presentes",
+        "sugestão de presentes": "Sugestão de Presentes",
+        "sugestao de presentes": "Sugestão de Presentes"
+      };
+
+      const normalizedKey = String(category).trim().toLowerCase();
+
+      return categoryMap[normalizedKey] || category;
+    }
+
+    function getCategoryVisual(category) {
+      const normalized = normalizeCategoryName(category);
+
+      return categoryVisuals[normalized] || {
+        image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=900&q=80",
+        description: "Material business disponível para personalização."
+      };
+    }
+
+    function setLoadingState(isLoading, message) {
+      const loading = document.getElementById("materialsLoading");
+
+      if (!loading) return;
+
+      if (isLoading) {
+        loading.style.display = "block";
+        loading.textContent = message || "Carregando materiais Partner do Supabase...";
+      } else {
+        loading.style.display = "none";
+      }
+    }
+
+    async function loadMaterialsFromSupabase() {
+      setLoadingState(true, "Carregando materiais Partner do Supabase...");
+
+      const { data, error } = await supabaseClient
+        .from("curadoria_materials")
+        .select("id, category, city_label, pdf_url, year")
+        .order("category", { ascending: true })
+        .order("city_label", { ascending: true });
+
+      if (error) {
+        console.error("Erro ao carregar materiais:", error);
+        setLoadingState(true, "Não foi possível carregar os materiais. Verifique as permissões da tabela no Supabase.");
+        return;
+      }
+
+      allMaterials = (data || []).filter(function(item) {
+        return item.category && item.city_label && item.pdf_url;
+      });
+
+      if (!allMaterials.length) {
+        setLoadingState(true, "Nenhum material encontrado na tabela curadoria_materials.");
+        return;
+      }
+
+      setLoadingState(false);
+      renderCategories();
+
+      const firstCategory = normalizeCategoryName(allMaterials[0].category);
+      selectCategory(firstCategory);
+    }
+
+    function getUniqueCategories() {
+      const categories = allMaterials.map(function(item) {
+        return normalizeCategoryName(item.category);
+      });
+
+      return [...new Set(categories)];
+    }
+
+    function renderCategories() {
+      const container = document.getElementById("categoriesContainer");
+
+      if (!container) return;
+
+      container.innerHTML = "";
+
+      const categories = getUniqueCategories();
+
+      categories.forEach(function(category, index) {
+        const visual = getCategoryVisual(category);
+
+        const card = document.createElement("div");
+        card.className = "category" + (index === 0 ? " active" : "");
+        card.dataset.category = category;
+
+        card.innerHTML = `
+          <div class="category-img" style="background-image: url('${visual.image}');"></div>
+          <div class="category-body">
+            <h4>${category}</h4>
+            <p>${visual.description}</p>
+          </div>
+        `;
+
+        card.addEventListener("click", function() {
+          selectCategory(category);
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    function selectCategory(category) {
+      const normalizedCategory = normalizeCategoryName(category);
 
       document.querySelectorAll(".category").forEach(function(card) {
         card.classList.remove("active");
+
+        if (card.dataset.category === normalizedCategory) {
+          card.classList.add("active");
+        }
       });
 
-      document.getElementById(cardId).classList.add("active");
+      const categoryTitle = document.getElementById("categoryTitle");
 
-      document.getElementById("categoryTitle").innerText = category;
-      document.getElementById("docTitle").innerText = category.toUpperCase();
+      if (categoryTitle) {
+        categoryTitle.innerText = normalizedCategory;
+      }
 
-      updateSubtitle();
-    }
-
-    function selectDestination(destination, element) {
-      selectedDestination = destination;
-
-      document.querySelectorAll(".list-item").forEach(function(item) {
-        item.classList.remove("active");
+      const materialsByCategory = allMaterials.filter(function(item) {
+        return normalizeCategoryName(item.category) === normalizedCategory;
       });
 
-      element.classList.add("active");
+      renderDestinations(materialsByCategory);
 
-      updateSubtitle();
+      if (materialsByCategory.length) {
+        selectMaterial(materialsByCategory[0]);
+      }
     }
 
-    function updateSubtitle() {
-      document.getElementById("docSubtitle").innerText =
-        selectedDestination + " • Versão Business Partner";
+    function renderDestinations(materials) {
+      const container = document.getElementById("destinationsContainer");
+
+      if (!container) return;
+
+      container.innerHTML = "";
+
+      if (!materials.length) {
+        container.innerHTML = `
+          <div class="empty-state">
+            Nenhum destino disponível nesta categoria.
+          </div>
+        `;
+        return;
+      }
+
+      materials.forEach(function(material, index) {
+        const item = document.createElement("div");
+        item.className = "list-item" + (index === 0 ? " active" : "");
+        item.dataset.materialId = material.id || `${material.category}-${material.city_label}`;
+
+        item.innerHTML = `
+          <strong>${material.city_label}</strong>
+          <span>Disponível para personalização${material.year ? " • " + material.year : ""}</span>
+          <div class="status">${index === 0 ? "Atualizado" : "Disponível"}</div>
+        `;
+
+        item.addEventListener("click", function() {
+          document.querySelectorAll(".list-item").forEach(function(destinationItem) {
+            destinationItem.classList.remove("active");
+          });
+
+          item.classList.add("active");
+          selectMaterial(material);
+        });
+
+        container.appendChild(item);
+      });
     }
+
+    function selectMaterial(material) {
+      selectedMaterial = material;
+
+      const category = normalizeCategoryName(material.category);
+
+      const docTitle = document.getElementById("docTitle");
+      const docSubtitle = document.getElementById("docSubtitle");
+
+      if (docTitle) {
+        docTitle.innerText = category.toUpperCase();
+      }
+
+      if (docSubtitle) {
+        docSubtitle.innerText =
+          `${material.city_label} • Versão Business Partner${material.year ? " • " + material.year : ""}`;
+      }
+    }
+
+    function openSelectedMaterial() {
+      if (!selectedMaterial || !selectedMaterial.pdf_url) {
+        alert("Selecione um material disponível.");
+        return;
+      }
+
+      window.open(selectedMaterial.pdf_url, "_blank");
+    }
+
+    document.getElementById("previewButton").addEventListener("click", openSelectedMaterial);
+    document.getElementById("downloadButton").addEventListener("click", openSelectedMaterial);
 
     document.getElementById("logoInput").addEventListener("change", function(event) {
       const file = event.target.files[0];
@@ -999,6 +1155,8 @@
 
       reader.readAsDataURL(file);
     });
+
+    loadMaterialsFromSupabase();
   </script>
 </body>
 </html>
