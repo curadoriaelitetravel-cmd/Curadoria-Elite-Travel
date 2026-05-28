@@ -1449,28 +1449,29 @@
       "Sugestão de Presentes"
     ];
 
+    function normalizeTextKey(value) {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/ç/g, "c")
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+    }
+
     function normalizeCategoryName(category) {
       if (!category) return "Material";
 
-      const categoryMap = {
-        "city-guide": "City Guide",
-        "city guide": "City Guide",
-        "gastronomia": "Gastronomia",
-        "atracoes-turisticas": "Atrações Turísticas",
-        "atrações turísticas": "Atrações Turísticas",
-        "atracoes turisticas": "Atrações Turísticas",
-        "vida-noturna": "Vida Noturna",
-        "vida noturna": "Vida Noturna",
-        "enderecos-para-compras": "Endereços para Compras",
-        "endereços para compras": "Endereços para Compras",
-        "enderecos para compras": "Endereços para Compras",
-        "sugestao-de-presentes": "Sugestão de Presentes",
-        "sugestão de presentes": "Sugestão de Presentes",
-        "sugestao de presentes": "Sugestão de Presentes"
-      };
+      const key = normalizeTextKey(category);
 
-      const normalizedKey = String(category).trim().toLowerCase();
-      return categoryMap[normalizedKey] || category;
+      if (key.includes("city") && key.includes("guide")) return "City Guide";
+      if (key.includes("gastronomia")) return "Gastronomia";
+      if (key.includes("atrac") && key.includes("turistic")) return "Atrações Turísticas";
+      if (key.includes("vida") && key.includes("noturna")) return "Vida Noturna";
+      if (key.includes("endereco") && key.includes("compra")) return "Endereços para Compras";
+      if (key.includes("sugest") && key.includes("presente")) return "Sugestão de Presentes";
+
+      return String(category).trim();
     }
 
     function getCategoryVisual(category) {
@@ -1738,106 +1739,176 @@
     }
 
 
+    function getCityBusinessPanorama(city, category) {
+      const cityName = city || "O destino selecionado";
+      const key = normalizeTextKey(cityName);
+
+      if (key.includes("new york")) {
+        return "Nova York não dorme, mas ela sabe como sonhar acordada — e convida você a fazer o mesmo. Para além das luzes ofuscantes da Times Square, existe uma metrópole de detalhes silenciosos: o eco do jazz em porões escondidos, o reflexo do skyline em águas calmas no Central Park e a alma cosmopolita gravada nos tijolos avermelhados do Village. Aqui, a pressa do mundo encontra a pausa da arte; o asfalto rústico dá lugar a jardins secretos que flutuam sobre a história da cidade. Nós atravessamos as avenidas icônicas para revelar uma Nova York que pulsa em um ritmo só dela, elegante e inesquecível. Porque conhecer a Capital do Mundo não é apenas percorrer distâncias — é habitar momentos. E nós sabemos exatamente em qual esquina o extraordinário está à sua espera.";
+      }
+
+      if (key.includes("paris")) {
+        return "Paris combina patrimônio, arte, gastronomia e elegância urbana em uma experiência que permanece relevante para diferentes perfis de viajantes. A versão business organiza o destino de forma objetiva para apoiar empresas parceiras na apresentação de escolhas claras, úteis e visualmente refinadas aos seus clientes.";
+      }
+
+      if (key.includes("sao paulo") || key.includes("são paulo")) {
+        return "São Paulo reúne cultura, gastronomia, compras e experiências urbanas em uma escala intensa e sofisticada. A versão business estrutura as informações essenciais para facilitar recomendações profissionais, com foco em praticidade, clareza e uso direto no atendimento ao cliente.";
+      }
+
+      if (key.includes("rio de janeiro")) {
+        return "Rio de Janeiro combina paisagem natural, energia urbana e referências culturais marcantes. A versão business organiza o destino em uma leitura prática para empresas parceiras, preservando o valor da curadoria e facilitando a apresentação das melhores escolhas ao cliente.";
+      }
+
+      if (key.includes("miami")) {
+        return "Miami une praia, compras, gastronomia e vida urbana com forte apelo internacional. A versão business reorganiza o destino em uma apresentação clara, objetiva e pronta para apoiar empresas parceiras no atendimento de diferentes perfis de clientes.";
+      }
+
+      if (key.includes("orlando")) {
+        return "Orlando exige organização, clareza e boas escolhas para que a experiência do viajante seja mais fluida. A versão business estrutura o destino com foco em orientação profissional, facilitando o uso pelas empresas parceiras antes e durante o atendimento ao cliente.";
+      }
+
+      if (key.includes("barcelona")) {
+        return "Barcelona combina arquitetura, gastronomia, praia e vida cultural em uma experiência mediterrânea de forte personalidade. A versão business apresenta o destino de forma limpa e prática, facilitando recomendações profissionais para clientes que buscam boas escolhas com contexto.";
+      }
+
+      if (key.includes("madrid")) {
+        return "Madrid reúne museus, gastronomia, compras e vida urbana em uma capital elegante e acessível. A versão business organiza as informações do destino em formato objetivo para apoiar empresas parceiras na entrega de recomendações claras e profissionais.";
+      }
+
+      if (key.includes("buenos aires")) {
+        return "Buenos Aires combina tradição, gastronomia, cultura e bairros com identidades muito marcadas. A versão business transforma o destino em uma apresentação prática, ajudando empresas parceiras a orientar clientes com clareza e sofisticação.";
+      }
+
+      if (key.includes("gramado")) {
+        return "Gramado concentra experiências de lazer, gastronomia, compras e hotelaria em uma atmosfera organizada e acolhedora. A versão business reúne as informações essenciais em formato limpo para facilitar o atendimento profissional ao cliente.";
+      }
+
+      if (key.includes("salvador")) {
+        return "Salvador combina história, cultura, gastronomia e paisagens litorâneas em um destino de forte identidade. A versão business organiza as informações de forma objetiva para apoiar empresas parceiras em recomendações claras e úteis ao cliente.";
+      }
+
+      return `${cityName} reúne experiências selecionadas com foco em praticidade, clareza e orientação profissional para apoiar empresas parceiras no atendimento aos seus clientes.`;
+    }
+
+    function getBusinessPendingItems(material) {
+      const category = normalizeCategoryName(material.category);
+      const city = String(material.city_label || "destino selecionado");
+
+      return [
+        {
+          name: "CONTEÚDO BUSINESS EM CONVERSÃO",
+          description: `O material de ${category} para ${city} já foi identificado no Supabase. As indicações internas desta cidade serão exibidas nesta mesma estrutura assim que a conversão B2B do acervo for processada.`,
+          address: "Fonte: Acervo Curadoria Elite Travel",
+          site: "Versão Partner vinculada ao material original",
+          price: "Disponível após conversão das indicações"
+        }
+      ];
+    }
+
+    function getNewYorkAttractionsContent() {
+      return {
+        panorama: getCityBusinessPanorama("New York - USA", "Atrações Turísticas"),
+        items: [
+          {
+            name: "EMPIRE STATE BUILDING",
+            description: "O observatório mais famoso do mundo oferece uma vista de 360 graus que define o horizonte de Manhattan. Este ícone art déco é um marco da engenharia e proporciona uma experiência inesquecível, onde cada andar revela a grandiosidade de Nova York.",
+            address: "20 West 34th Street, New York, NY 10001",
+            site: "https://www.esbnyc.com/",
+            price: "A partir de US$ 44,00"
+          },
+          {
+            name: "ESTÁTUA DA LIBERDADE",
+            description: "Símbolo máximo de liberdade e esperança, o monumento na Ilha da Liberdade é uma parada obrigatória. O passeio de balsa oferece ângulos únicos da cidade, permitindo uma imersão profunda na história dos imigrantes que moldaram a alma dos EUA.",
+            address: "Liberty Island, New York, NY 10004",
+            site: "https://www.statuecitycruises.com",
+            price: "A partir de US$ 25,00 (inclui ferry)"
+          },
+          {
+            name: "METROPOLITAN MUSEUM OF ART (THE MET)",
+            description: "Com mais de cinco mil anos de arte mundial, o Met é um dos maiores e melhores museus do planeta. Suas galerias grandiosas transportam o visitante do Egito Antigo ao design moderno, criando uma jornada cultural sem paralelos no coração da ilha.",
+            address: "1000 Fifth Avenue, New York, NY 10028",
+            site: "https://www.metmuseum.org/",
+            price: "A partir de US$ 30,00"
+          },
+          {
+            name: "TOP OF THE ROCK",
+            description: "Localizado no Rockefeller Center, este observatório é amado por oferecer a melhor vista do Central Park e do Empire State. Com três níveis de terraços ao ar livre, o espaço garante fotos perfeitas da metrópole em um ambiente elegante e histórico.",
+            address: "30 Rockefeller Plaza, New York, NY 10112",
+            site: "https://www.rockefellercenter.com/",
+            price: "A partir de US$ 40,00"
+          },
+          {
+            name: "CENTRAL PARK ZOO",
+            description: "Situado em meio ao pulmão verde de Manhattan, este zoológico charmoso é um refúgio para diversas espécies exóticas. É o destino ideal para famílias, unindo educação ambiental e lazer em um cenário icônico que parece saído de um filme clássico.",
+            address: "Brooklyn Bridge, New York, NY 10038",
+            site: "https://centralparkzoo.com/",
+            price: "A partir de US$ 19,95"
+          },
+          {
+            name: "BROOKLYN BRIDGE",
+            description: "Atravessar esta ponte histórica a pé é um dos rituais mais autênticos de quem visita a cidade. Sua arquitetura de cabos de aço e arcos de pedra oferece o cenário ideal para apreciar o pôr do sol, conectando Manhattan ao pulsar do Brooklyn.",
+            address: "Brooklyn Bridge, New York, NY 10038",
+            site: "https://www.nyc.gov/",
+            price: "Gratuita"
+          },
+          {
+            name: "SUMMIT ONE VANDERBILT",
+            description: "Esta experiência imersiva usa espelhos e tecnologia para transformar a forma como você vê Nova York. Muito além de um mirante, o local desafia os sentidos e a gravidade, criando um espetáculo visual de luzes e reflexos no topo de um arranha-céu.",
+            address: "45 East 42nd Street, New York, NY 10017",
+            site: "https://summitov.com/pt/",
+            price: "A partir de US$ 43,00"
+          },
+          {
+            name: "LITTLE ISLAND",
+            description: "Este parque flutuante sobre o Rio Hudson parece flutuar em estruturas que lembram tulipas de concreto. Com jardins exuberantes e anfiteatros, o espaço é um prodígio do design moderno, oferecendo um respiro de paz e arte longe do asfalto comum.",
+            address: "Pier 55 at Hudson River Park, New York, NY 10014",
+            site: "https://littleisland.org/",
+            price: "Gratuita"
+          },
+          {
+            name: "THE MET CLOISTERS",
+            description: "Localizado ao norte de Manhattan, este museu é dedicado à arte e arquitetura medieval europeia. Seus claustros e jardins tranquilos fazem o visitante esquecer que está em uma metrópole, oferecendo uma imersão rara em um castelo reconstruído.",
+            address: "99 Margaret Corbin Drive, New York, NY 10040",
+            site: "https://www.metmuseum.org/plan-your-visit/met-cloisters",
+            price: "A partir de US$ 30,00"
+          },
+          {
+            name: "THE VESSEL",
+            description: "Esta estrutura escultural em Hudson Yards é composta por lances de escada interconectados que formam uma colmeia gigante. O design arrojado convida à exploração vertical, proporcionando novas perspectivas urbanas e uma estética futurista única.",
+            address: "20 Hudson Yards, New York, NY 10001",
+            site: "https://www.hudsonyardsnewyork.com/discover/vessel",
+            price: "A partir de US$ 10,00"
+          },
+          {
+            name: "ROOSEVELT ISLAND TRAMWAY",
+            description: "Este teleférico atravessa o East River e oferece uma das viagens mais cênicas e baratas da cidade. O trajeto conecta Manhattan à Ilha Roosevelt, permitindo visualizar as ruas e os prédios de um ângulo aéreo que poucos turistas costumam ver.",
+            address: "59th Street & Second Avenue, New York, NY 10022",
+            site: "https://rioc.ny.gov/302/Tram",
+            price: "A partir de US$ 2,90"
+          },
+          {
+            name: "THE HIGH LINE",
+            description: "Uma antiga linha ferroviária suspensa foi transformada em um parque linear cheio de arte e plantas nativas. Caminhar por este jardim elevado permite observar a arquitetura do Chelsea de cima, unindo renovação urbana e natureza de forma genial.",
+            address: "Gansevoort St. to West 30th St., New York, NY 10014",
+            site: "https://www.thehighline.org/",
+            price: "Gratuita"
+          }
+        ]
+      };
+    }
+
     function getBusinessContentTemplate(material) {
       const category = normalizeCategoryName(material.category);
       const city = String(material.city_label || "");
-      const cityLower = city.toLowerCase();
+      const cityKey = normalizeTextKey(city);
 
-      if (cityLower.includes("new york")) {
-        return {
-          panorama: "Nova York não dorme, mas ela sabe como sonhar acordada — e convida você a fazer o mesmo. Para além das luzes ofuscantes da Times Square, existe uma metrópole de detalhes silenciosos: o eco do jazz em porões escondidos, o reflexo do skyline em águas calmas no Central Park e a alma cosmopolita gravada nos tijolos avermelhados do Village. Aqui, a pressa do mundo encontra a pausa da arte; o asfalto rústico dá lugar a jardins secretos que flutuam sobre a história da cidade. Nós atravessamos as avenidas icônicas para revelar uma Nova York que pulsa em um ritmo só dela, elegante e inesquecível. Porque conhecer a Capital do Mundo não é apenas percorrer distâncias — é habitar momentos. E nós sabemos exatamente em qual esquina o extraordinário está à sua espera.",
-          items: [
-            {
-              name: "EMPIRE STATE BUILDING",
-              description: "O observatório mais famoso do mundo oferece uma vista de 360 graus que define o horizonte de Manhattan. Este ícone art déco é um marco da engenharia e proporciona uma experiência inesquecível, onde cada andar revela a grandiosidade de Nova York.",
-              address: "20 West 34th Street, New York, NY 10001",
-              site: "https://www.esbnyc.com/",
-              price: "A partir de US$ 44,00"
-            },
-            {
-              name: "ESTÁTUA DA LIBERDADE",
-              description: "Símbolo máximo de liberdade e esperança, o monumento na Ilha da Liberdade é uma parada obrigatória. O passeio de balsa oferece ângulos únicos da cidade, permitindo uma imersão profunda na história dos imigrantes que moldaram a alma dos EUA.",
-              address: "Liberty Island, New York, NY 10004",
-              site: "https://www.statuecitycruises.com",
-              price: "A partir de US$ 25,00 (inclui ferry)"
-            },
-            {
-              name: "METROPOLITAN MUSEUM OF ART (THE MET)",
-              description: "Com mais de cinco mil anos de arte mundial, o Met é um dos maiores e melhores museus do planeta. Suas galerias grandiosas transportam o visitante do Egito Antigo ao design moderno, criando uma jornada cultural sem paralelos no coração da ilha.",
-              address: "1000 Fifth Avenue, New York, NY 10028",
-              site: "https://www.metmuseum.org/",
-              price: "A partir de US$ 30,00"
-            },
-            {
-              name: "TOP OF THE ROCK",
-              description: "Localizado no Rockefeller Center, este observatório é amado por oferecer a melhor vista do Central Park e do Empire State. Com três níveis de terraços ao ar livre, o espaço garante fotos perfeitas da metrópole em um ambiente elegante e histórico.",
-              address: "30 Rockefeller Plaza, New York, NY 10112",
-              site: "https://www.rockefellercenter.com/",
-              price: "A partir de US$ 40,00"
-            },
-            {
-              name: "CENTRAL PARK ZOO",
-              description: "Situado em meio ao pulmão verde de Manhattan, este zoológico charmoso é um refúgio para diversas espécies exóticas. É o destino ideal para famílias, unindo educação ambiental e lazer em um cenário icônico que parece saído de um filme clássico.",
-              address: "Brooklyn Bridge, New York, NY 10038",
-              site: "https://centralparkzoo.com/",
-              price: "A partir de US$ 19,95"
-            },
-            {
-              name: "BROOKLYN BRIDGE",
-              description: "Atravessar esta ponte histórica a pé é um dos rituais mais autênticos de quem visita a cidade. Sua arquitetura de cabos de aço e arcos de pedra oferece o cenário ideal para apreciar o pôr do sol, conectando Manhattan ao pulsar do Brooklyn.",
-              address: "Brooklyn Bridge, New York, NY 10038",
-              site: "https://www.nyc.gov/",
-              price: "Gratuita"
-            },
-            {
-              name: "SUMMIT ONE VANDERBILT",
-              description: "Esta experiência imersiva usa espelhos e tecnologia para transformar a forma como você vê Nova York. Muito além de um mirante, o local desafia os sentidos e a gravidade, criando um espetáculo visual de luzes e reflexos no topo de um arranha-céu.",
-              address: "45 East 42nd Street, New York, NY 10017",
-              site: "https://summitov.com/pt/",
-              price: "A partir de US$ 43,00"
-            },
-            {
-              name: "LITTLE ISLAND",
-              description: "Este parque flutuante sobre o Rio Hudson parece flutuar em estruturas que lembram tulipas de concreto. Com jardins exuberantes e anfiteatros, o espaço é um prodígio do design moderno, oferecendo um respiro de paz e arte longe do asfalto comum.",
-              address: "Pier 55 at Hudson River Park, New York, NY 10014",
-              site: "https://littleisland.org/",
-              price: "Gratuita"
-            },
-            {
-              name: "THE MET CLOISTERS",
-              description: "Localizado ao norte de Manhattan, este museu é dedicado à arte e arquitetura medieval europeia. Seus claustros e jardins tranquilos fazem o visitante esquecer que está em uma metrópole, oferecendo uma imersão rara em um castelo reconstruído.",
-              address: "99 Margaret Corbin Drive, New York, NY 10040",
-              site: "https://www.metmuseum.org/plan-your-visit/met-cloisters",
-              price: "A partir de US$ 30,00"
-            },
-            {
-              name: "THE VESSEL",
-              description: "Esta estrutura escultural em Hudson Yards é composta por lances de escada interconectados que formam uma colmeia gigante. O design arrojado convida à exploração vertical, proporcionando novas perspectivas urbanas e uma estética futurista única.",
-              address: "20 Hudson Yards, New York, NY 10001",
-              site: "https://www.hudsonyardsnewyork.com/discover/vessel",
-              price: "A partir de US$ 10,00"
-            },
-            {
-              name: "ROOSEVELT ISLAND TRAMWAY",
-              description: "Este teleférico atravessa o East River e oferece uma das viagens mais cênicas e baratas da cidade. O trajeto conecta Manhattan à Ilha Roosevelt, permitindo visualizar as ruas e os prédios de um ângulo aéreo que poucos turistas costumam ver.",
-              address: "59th Street & Second Avenue, New York, NY 10022",
-              site: "https://rioc.ny.gov/302/Tram",
-              price: "A partir de US$ 2,90"
-            },
-            {
-              name: "THE HIGH LINE",
-              description: "Uma antiga linha ferroviária suspensa foi transformada em um parque linear cheio de arte e plantas nativas. Caminhar por este jardim elevado permite observar a arquitetura do Chelsea de cima, unindo renovação urbana e natureza de forma genial.",
-              address: "Gansevoort St. to West 30th St., New York, NY 10014",
-              site: "https://www.thehighline.org/",
-              price: "Gratuita"
-            }
-          ]
-        };
+      if (cityKey.includes("new york")) {
+        return getNewYorkAttractionsContent();
       }
 
       return {
-        panorama: `${city || "O destino selecionado"} reúne experiências selecionadas com foco em praticidade, clareza e orientação profissional para apoiar empresas parceiras no atendimento aos seus clientes.`,
-        items: []
+        panorama: getCityBusinessPanorama(city, category),
+        items: getBusinessPendingItems(material)
       };
     }
 
