@@ -1902,7 +1902,14 @@
       const city = String(material.city_label || "");
       const cityKey = normalizeTextKey(city);
 
-      if (cityKey.includes("new york")) {
+      /*
+        Regra correta da Área Partner:
+        - TODOS os materiais usam o mesmo MODELO VISUAL business criado para Atrações Turísticas:
+          capa + panorama + páginas A4 + indicações numeradas.
+        - O CONTEÚDO específico só aparece quando já existe conversão B2B daquele material.
+        - O conteúdo de Atrações Turísticas New York NÃO é reaproveitado em City Guide/Gastronomia/etc.
+      */
+      if (category === "Atrações Turísticas" && cityKey.includes("new york")) {
         return getNewYorkAttractionsContent();
       }
 
