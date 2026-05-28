@@ -432,6 +432,274 @@
     }
 
 
+    .pdf-preview-shell {
+      margin-top: 24px;
+      border: 1px solid rgba(214,173,50,.24);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #ffffff;
+      position: relative;
+      z-index: 1;
+      display: none;
+      box-shadow: 0 16px 32px rgba(0,0,0,.12);
+    }
+
+    .pdf-preview-shell iframe {
+      width: 100%;
+      height: 520px;
+      border: 0;
+      display: block;
+      background: #ffffff;
+    }
+
+    .pdf-preview-note {
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #555;
+      border-top: 1px solid rgba(214,173,50,.18);
+      background: #f8f6f1;
+      text-align: center;
+    }
+
+    .doc-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: center;
+      border-bottom: 2px solid #d6ad32;
+      padding-bottom: 20px;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .partner-logo-space {
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-weight: 900;
+      color: #111;
+      font-size: 18px;
+      line-height: 1.1;
+    }
+
+    .partner-logo-space img {
+      max-width: 170px;
+      max-height: 82px;
+      object-fit: contain;
+    }
+
+    .doc-brand {
+      text-align: right;
+      font-size: 12px;
+      color: #292929;
+      line-height: 1.35;
+    }
+
+    .doc-brand strong {
+      display: inline-block;
+      margin-top: 5px;
+      font-size: 13px;
+    }
+
+    .doc-title {
+      font-size: 45px;
+      font-weight: 950;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .doc-subtitle {
+      color: #444;
+      margin-bottom: 30px;
+      font-size: 17px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .doc-block {
+      border: 1px solid #dfcfaa;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      background: rgba(255,255,255,.52);
+      position: relative;
+      z-index: 1;
+    }
+
+    .doc-block h5 {
+      font-size: 19px;
+      margin-bottom: 9px;
+    }
+
+    .doc-block p {
+      font-size: 15px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .doc-footer {
+      margin-top: 28px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(214,173,50,.35);
+      color: #555;
+      font-size: 12px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .download-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .pricing-section {
+      margin-top: 30px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 28px;
+    }
+
+    .pricing-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .pricing-header h3 {
+      font-size: 24px;
+      color: #fff;
+    }
+
+    .pricing-header p {
+      color: #c8d3e4;
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 620px;
+    }
+
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .plan {
+      border: 1px solid rgba(255,255,255,.12);
+      background: #050b16;
+      border-radius: 20px;
+      padding: 24px;
+      position: relative;
+    }
+
+    .plan.featured {
+      border-color: rgba(214,173,50,.72);
+      background:
+        radial-gradient(circle at top right, rgba(214,173,50,.16), transparent 32%),
+        #060b15;
+      box-shadow: 0 22px 50px rgba(214,173,50,.10);
+    }
+
+    .badge {
+      display: inline-block;
+      color: #070707;
+      background: linear-gradient(135deg, #e3bd43, #b88712);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .plan h4 {
+      color: #fff;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      color: #d6ad32;
+      font-size: 36px;
+      font-weight: 950;
+      margin-bottom: 5px;
+    }
+
+    .price-note {
+      color: #b9c5d8;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .economy {
+      border: 1px solid rgba(214,173,50,.28);
+      background: rgba(214,173,50,.07);
+      color: #f3d678;
+      border-radius: 14px;
+      padding: 12px;
+      font-weight: 800;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .plan ul {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .plan li {
+      color: #d8e1ee;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .plan li::before {
+      content: "✓";
+      color: #d6ad32;
+      font-weight: 900;
+      margin-right: 8px;
+    }
+
+    .fair-use {
+      margin-top: 18px;
+      border: 1px solid rgba(214,173,50,.22);
+      background: rgba(0,0,0,.18);
+      border-radius: 18px;
+      padding: 18px;
+      color: #c8d3e4;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .fair-use strong {
+      color: #d6ad32;
+    }
+
+    .empty-state,
+    .loading-state {
+      padding: 20px;
+      color: #c8d3e4;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .loading-state {
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      margin-bottom: 22px;
+    }
+
     @media (max-width: 1100px) {
       .grid,
       .workspace,
@@ -638,6 +906,11 @@
 
               <div class="doc-title" id="docTitle">MATERIAL</div>
               <div class="doc-subtitle" id="docSubtitle">Selecione uma categoria e destino</div>
+
+              <div class="pdf-preview-shell" id="pdfPreviewShell">
+                <iframe id="pdfPreviewFrame" title="Prévia do material selecionado"></iframe>
+                <div class="pdf-preview-note">Prévia do material identificado no Supabase</div>
+              </div>
 
               <div class="doc-block">
                 <h5>Seleção premium organizada</h5>
@@ -1092,6 +1365,14 @@
 
       if (docSubtitle) {
         docSubtitle.innerText = `${material.city_label} • Versão Business Partner${material.year ? " • " + material.year : ""}`;
+      }
+
+      const pdfPreviewShell = document.getElementById("pdfPreviewShell");
+      const pdfPreviewFrame = document.getElementById("pdfPreviewFrame");
+
+      if (pdfPreviewShell && pdfPreviewFrame && material.pdf_url) {
+        pdfPreviewShell.style.display = "block";
+        pdfPreviewFrame.src = material.pdf_url;
       }
     }
 
