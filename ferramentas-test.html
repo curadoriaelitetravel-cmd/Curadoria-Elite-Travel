@@ -1610,9 +1610,9 @@
       const city = String(material.city_label || "");
       const cityLower = city.toLowerCase();
 
-      if (category === "Atrações Turísticas" && cityLower.includes("new york")) {
+      if (cityLower.includes("new york")) {
         return {
-          panorama: "New York reúne atrações icônicas, bairros com identidades distintas e experiências urbanas que ajudam o viajante a entender a cidade além dos pontos óbvios. A cidade combina mobilidade, cultura, arquitetura, parques, museus e mirantes em uma seleção que funciona bem para diferentes perfis de viajantes.",
+          panorama: "Nova York não dorme, mas ela sabe como sonhar acordada — e convida você a fazer o mesmo. Para além das luzes ofuscantes da Times Square, existe uma metrópole de detalhes silenciosos: o eco do jazz em porões escondidos, o reflexo do skyline em águas calmas no Central Park e a alma cosmopolita gravada nos tijolos avermelhados do Village. Aqui, a pressa do mundo encontra a pausa da arte; o asfalto rústico dá lugar a jardins secretos que flutuam sobre a história da cidade. Nós atravessamos as avenidas icônicas para revelar uma Nova York que pulsa em um ritmo só dela, elegante e inesquecível. Porque conhecer a Capital do Mundo não é apenas percorrer distâncias — é habitar momentos. E nós sabemos exatamente em qual esquina o extraordinário está à sua espera.",
           items: [
             {
               name: "EMPIRE STATE BUILDING",
@@ -1623,49 +1623,49 @@
             },
             {
               name: "ESTÁTUA DA LIBERDADE",
-              description: "Símbolo máximo de liberdade e esperança, o monumento na Ilha da Liberdade é uma parada obrigatória. O passeio de balsa oferece ângulos únicos da cidade e uma imersão na história dos imigrantes que moldaram a alma dos EUA.",
+              description: "Símbolo máximo de liberdade e esperança, o monumento na Ilha da Liberdade é uma parada obrigatória. O passeio de balsa oferece ângulos únicos da cidade, permitindo uma imersão profunda na história dos imigrantes que moldaram a alma dos EUA.",
               address: "Liberty Island, New York, NY 10004",
               site: "https://www.statuecitycruises.com",
               price: "A partir de US$ 25,00 (inclui ferry)"
             },
             {
               name: "METROPOLITAN MUSEUM OF ART (THE MET)",
-              description: "Com mais de cinco mil anos de arte mundial, o Met é um dos maiores e melhores museus do planeta. Suas galerias transportam o visitante do Egito Antigo ao design moderno, criando uma jornada cultural sem paralelos no coração da ilha.",
+              description: "Com mais de cinco mil anos de arte mundial, o Met é um dos maiores e melhores museus do planeta. Suas galerias grandiosas transportam o visitante do Egito Antigo ao design moderno, criando uma jornada cultural sem paralelos no coração da ilha.",
               address: "1000 Fifth Avenue, New York, NY 10028",
               site: "https://www.metmuseum.org/",
               price: "A partir de US$ 30,00"
             },
             {
               name: "TOP OF THE ROCK",
-              description: "Localizado no Rockefeller Center, este observatório é amado por oferecer uma das melhores vistas do Central Park e do Empire State. Com três níveis de terraços ao ar livre, garante fotos perfeitas da metrópole em um ambiente elegante e histórico.",
+              description: "Localizado no Rockefeller Center, este observatório é amado por oferecer a melhor vista do Central Park e do Empire State. Com três níveis de terraços ao ar livre, o espaço garante fotos perfeitas da metrópole em um ambiente elegante e histórico.",
               address: "30 Rockefeller Plaza, New York, NY 10112",
               site: "https://www.rockefellercenter.com/",
               price: "A partir de US$ 40,00"
             },
             {
               name: "CENTRAL PARK ZOO",
-              description: "Situado em meio ao pulmão verde de Manhattan, este zoológico charmoso é um refúgio para diversas espécies exóticas. É ideal para famílias, unindo educação ambiental e lazer em um cenário icônico que parece saído de um filme clássico.",
-              address: "Central Park, New York, NY 10021",
+              description: "Situado em meio ao pulmão verde de Manhattan, este zoológico charmoso é um refúgio para diversas espécies exóticas. É o destino ideal para famílias, unindo educação ambiental e lazer em um cenário icônico que parece saído de um filme clássico.",
+              address: "Brooklyn Bridge, New York, NY 10038",
               site: "https://centralparkzoo.com/",
               price: "A partir de US$ 19,95"
             },
             {
               name: "BROOKLYN BRIDGE",
-              description: "Atravessar esta ponte histórica a pé é um dos rituais mais autênticos de quem visita a cidade. Sua arquitetura de cabos de aço e arcos de pedra oferece cenário ideal para apreciar o pôr do sol, conectando Manhattan ao pulsar do Brooklyn.",
+              description: "Atravessar esta ponte histórica a pé é um dos rituais mais autênticos de quem visita a cidade. Sua arquitetura de cabos de aço e arcos de pedra oferece o cenário ideal para apreciar o pôr do sol, conectando Manhattan ao pulsar do Brooklyn.",
               address: "Brooklyn Bridge, New York, NY 10038",
               site: "https://www.nyc.gov/",
               price: "Gratuita"
             },
             {
               name: "SUMMIT ONE VANDERBILT",
-              description: "Esta experiência imersiva usa espelhos e tecnologia para transformar a forma como se vê Nova York. Muito além de um mirante, o local desafia os sentidos e a gravidade, criando um espetáculo visual de luzes e reflexos no topo de um arranha-céu.",
+              description: "Esta experiência imersiva usa espelhos e tecnologia para transformar a forma como você vê Nova York. Muito além de um mirante, o local desafia os sentidos e a gravidade, criando um espetáculo visual de luzes e reflexos no topo de um arranha-céu.",
               address: "45 East 42nd Street, New York, NY 10017",
               site: "https://summitov.com/pt/",
               price: "A partir de US$ 43,00"
             },
             {
               name: "LITTLE ISLAND",
-              description: "Este parque flutuante sobre o Rio Hudson parece suspenso em estruturas que lembram tulipas de concreto. Com jardins exuberantes e anfiteatros, oferece um respiro de paz, arte e design moderno longe do asfalto comum.",
+              description: "Este parque flutuante sobre o Rio Hudson parece flutuar em estruturas que lembram tulipas de concreto. Com jardins exuberantes e anfiteatros, o espaço é um prodígio do design moderno, oferecendo um respiro de paz e arte longe do asfalto comum.",
               address: "Pier 55 at Hudson River Park, New York, NY 10014",
               site: "https://littleisland.org/",
               price: "Gratuita"
@@ -1679,14 +1679,14 @@
             },
             {
               name: "THE VESSEL",
-              description: "Esta estrutura escultural em Hudson Yards é composta por lances de escada interconectados que formam uma colmeia gigante. O design arrojado convida à exploração vertical e oferece novas perspectivas urbanas com estética futurista.",
+              description: "Esta estrutura escultural em Hudson Yards é composta por lances de escada interconectados que formam uma colmeia gigante. O design arrojado convida à exploração vertical, proporcionando novas perspectivas urbanas e uma estética futurista única.",
               address: "20 Hudson Yards, New York, NY 10001",
               site: "https://www.hudsonyardsnewyork.com/discover/vessel",
               price: "A partir de US$ 10,00"
             },
             {
               name: "ROOSEVELT ISLAND TRAMWAY",
-              description: "Este teleférico atravessa o East River e oferece uma das viagens mais cênicas e acessíveis da cidade. O trajeto conecta Manhattan à Ilha Roosevelt, permitindo visualizar as ruas e os prédios de um ângulo aéreo que poucos turistas costumam ver.",
+              description: "Este teleférico atravessa o East River e oferece uma das viagens mais cênicas e baratas da cidade. O trajeto conecta Manhattan à Ilha Roosevelt, permitindo visualizar as ruas e os prédios de um ângulo aéreo que poucos turistas costumam ver.",
               address: "59th Street & Second Avenue, New York, NY 10022",
               site: "https://rioc.ny.gov/302/Tram",
               price: "A partir de US$ 2,90"
@@ -2002,7 +2002,7 @@
 
     <div class="panel">
       <h2>Indicações selecionadas</h2>
-      <p>Conteúdo reorganizado em formato business a partir do material identificado no acervo.</p>
+      <p>Conteúdo reorganizado em formato business a partir das indicações selecionadas no material original.</p>
     </div>
 
     ${indicationsHtml}
