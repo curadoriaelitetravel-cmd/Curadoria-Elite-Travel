@@ -495,6 +495,69 @@
       line-height: 1.25;
     }
 
+
+    .business-content-preview {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 14px;
+      margin: 18px 0 18px;
+    }
+
+    .business-section-title {
+      color: #9b7a19;
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin: 8px 0 2px;
+    }
+
+    .business-city-text {
+      border: 1px solid rgba(214,173,50,.22);
+      border-radius: 16px;
+      padding: 18px;
+      background: rgba(255,255,255,.44);
+      color: #333;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .business-item-card {
+      border: 1px solid rgba(214,173,50,.24);
+      border-radius: 16px;
+      padding: 18px;
+      background: rgba(255,255,255,.50);
+    }
+
+    .business-item-card h6 {
+      font-size: 17px;
+      line-height: 1.25;
+      color: #111;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    .business-item-card p {
+      color: #333;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .business-item-detail {
+      color: #333;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 7px;
+    }
+
+    .business-item-detail strong {
+      color: #111;
+    }
+
+
     .doc-top {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -860,6 +923,69 @@
       line-height: 1.25;
     }
 
+
+    .business-content-preview {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 14px;
+      margin: 18px 0 18px;
+    }
+
+    .business-section-title {
+      color: #9b7a19;
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin: 8px 0 2px;
+    }
+
+    .business-city-text {
+      border: 1px solid rgba(214,173,50,.22);
+      border-radius: 16px;
+      padding: 18px;
+      background: rgba(255,255,255,.44);
+      color: #333;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .business-item-card {
+      border: 1px solid rgba(214,173,50,.24);
+      border-radius: 16px;
+      padding: 18px;
+      background: rgba(255,255,255,.50);
+    }
+
+    .business-item-card h6 {
+      font-size: 17px;
+      line-height: 1.25;
+      color: #111;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    .business-item-card p {
+      color: #333;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .business-item-detail {
+      color: #333;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 7px;
+    }
+
+    .business-item-detail strong {
+      color: #111;
+    }
+
+
     .doc-top {
         grid-template-columns: 1fr;
       }
@@ -1018,6 +1144,21 @@
                   <div>
                     <small>Origem</small>
                     <strong>Acervo Curadoria</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="business-content-preview" id="businessContentPreview">
+                <div class="business-section-title">Panorama da cidade</div>
+                <div class="business-city-text" id="businessCityPanorama">
+                  Selecione um destino para visualizar o panorama business e as indicações selecionadas.
+                </div>
+
+                <div class="business-section-title">Indicações selecionadas</div>
+                <div id="businessSelectedItems">
+                  <div class="business-item-card">
+                    <h6>Material aguardando seleção</h6>
+                    <p>As indicações extraídas do conteúdo original serão reorganizadas aqui em formato business.</p>
                   </div>
                 </div>
               </div>
@@ -1463,6 +1604,67 @@
       }
     }
 
+
+    function getBusinessContentTemplate(material) {
+      const category = normalizeCategoryName(material.category);
+      const city = String(material.city_label || "");
+      const cityLower = city.toLowerCase();
+
+      if (category === "Atrações Turísticas" && cityLower.includes("new york")) {
+        return {
+          panorama: "New York reúne atrações icônicas, bairros com identidades distintas e experiências urbanas que ajudam o viajante a entender a cidade além dos pontos óbvios. A cidade combina mobilidade, cultura, arquitetura, parques e mirantes em uma seleção que funciona bem para diferentes perfis de viajantes.",
+          items: [
+            {
+              name: "ROOSEVELT ISLAND TRAMWAY",
+              description: "Este teleférico atravessa o East River e oferece uma das viagens mais cênicas e acessíveis da cidade. O trajeto conecta Manhattan à Ilha Roosevelt, permitindo visualizar as ruas e os prédios de um ângulo aéreo que poucos turistas costumam ver.",
+              address: "59th Street & Second Avenue, New York, NY 10022",
+              site: "https://rioc.ny.gov/302/Tram",
+              price: "A partir de US$ 2,90"
+            }
+          ]
+        };
+      }
+
+      return {
+        panorama: `${city || "O destino selecionado"} reúne experiências selecionadas com foco em praticidade, clareza e orientação profissional para apoiar empresas parceiras no atendimento aos seus clientes.`,
+        items: []
+      };
+    }
+
+    function renderBusinessContentPreview(material) {
+      const panoramaEl = document.getElementById("businessCityPanorama");
+      const itemsEl = document.getElementById("businessSelectedItems");
+      const content = getBusinessContentTemplate(material);
+
+      if (panoramaEl) {
+        panoramaEl.innerText = content.panorama;
+      }
+
+      if (!itemsEl) return;
+
+      if (!content.items.length) {
+        itemsEl.innerHTML = `
+          <div class="business-item-card">
+            <h6>Indicações em preparação</h6>
+            <p>Este material já foi identificado no Supabase. As indicações internas serão exibidas aqui quando a conversão B2B estiver preenchida para esta categoria e destino.</p>
+          </div>
+        `;
+        return;
+      }
+
+      itemsEl.innerHTML = content.items.map(function(item) {
+        return `
+          <div class="business-item-card">
+            <h6>${item.name}</h6>
+            <p>${item.description}</p>
+            ${item.address ? `<div class="business-item-detail"><strong>Endereço:</strong> ${item.address}</div>` : ""}
+            ${item.site ? `<div class="business-item-detail"><strong>Site:</strong> ${item.site}</div>` : ""}
+            ${item.price ? `<div class="business-item-detail"><strong>Entrada:</strong> ${item.price}</div>` : ""}
+          </div>
+        `;
+      }).join("");
+    }
+
     function selectMaterial(material) {
       selectedMaterial = material;
 
@@ -1488,6 +1690,8 @@
       if (businessPreviewText) {
         businessPreviewText.innerText = `Material identificado no acervo da Curadoria Elite Travel e pronto para ser apresentado em uma versão business clean, com identidade da empresa parceira e assinatura discreta da Curadoria.`;
       }
+
+      renderBusinessContentPreview(material);
     }
 
     function buildBusinessDocumentHtml(autoPrint) {
@@ -1497,6 +1701,20 @@
       const logoHtml = partnerLogoDataUrl
         ? `<img src="${partnerLogoDataUrl}" alt="Logo da empresa" />`
         : `<div class="logo-placeholder">LOGO DA EMPRESA</div>`;
+      const businessContent = getBusinessContentTemplate(selectedMaterial);
+      const indicationsHtml = businessContent.items.length
+        ? businessContent.items.map(function(item) {
+            return `
+              <div class="item-card">
+                <h3>${item.name}</h3>
+                <p>${item.description}</p>
+                ${item.address ? `<div class="detail"><strong>Endereço:</strong> ${item.address}</div>` : ""}
+                ${item.site ? `<div class="detail"><strong>Site:</strong> ${item.site}</div>` : ""}
+                ${item.price ? `<div class="detail"><strong>Entrada:</strong> ${item.price}</div>` : ""}
+              </div>
+            `;
+          }).join("")
+        : `<div class="item-card"><h3>Indicações em preparação</h3><p>Este material já foi identificado no Supabase. As indicações internas serão exibidas aqui quando a conversão B2B estiver preenchida para esta categoria e destino.</p></div>`;
 
       return `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -1604,6 +1822,33 @@
       font-size: 17px;
       line-height: 1.65;
     }
+    .item-card {
+      border: 1px solid #dfcfaa;
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 18px;
+      background: rgba(255,255,255,.54);
+      position: relative;
+      z-index: 1;
+    }
+    .item-card h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+    .item-card p {
+      color: #333;
+      font-size: 17px;
+      line-height: 1.65;
+      margin-bottom: 12px;
+    }
+    .detail {
+      color: #333;
+      font-size: 15px;
+      line-height: 1.5;
+      margin-top: 7px;
+    }
     ul { padding-left: 20px; }
     .meta {
       display: grid;
@@ -1674,6 +1919,18 @@
     </div>
 
     <div class="panel">
+      <h2>Panorama da cidade</h2>
+      <p>${businessContent.panorama}</p>
+    </div>
+
+    <div class="panel">
+      <h2>Indicações selecionadas</h2>
+      <p>Conteúdo reorganizado em formato business a partir do material identificado no acervo.</p>
+    </div>
+
+    ${indicationsHtml}
+
+    <div class="panel">
       <h2>Seleção premium organizada</h2>
       <p>Material estruturado para apresentação profissional ao cliente, com linguagem objetiva, visual limpo e organização pensada para empresas parceiras.</p>
     </div>
@@ -1685,11 +1942,6 @@
         <li>Identidade da empresa aplicada no documento.</li>
         <li>Assinatura discreta da Curadoria Elite Travel como parceira de curadoria.</li>
       </ul>
-    </div>
-
-    <div class="panel">
-      <h2>Observação</h2>
-      <p>Esta versão business não exibe o material premium B2C original. Ela funciona como uma apresentação corporativa limpa, vinculada ao acervo identificado no Supabase.</p>
     </div>
 
     <div class="footer">Material Partner • Uso autorizado para clientes da empresa parceira • Curadoria Elite Travel</div>
