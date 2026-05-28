@@ -81,6 +81,12 @@
       transform: translateY(-1px);
     }
 
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .btn.gold {
       background: linear-gradient(135deg, #e3bd43, #b88712);
       color: #060606;
@@ -269,9 +275,10 @@
 
     .workspace {
       display: grid;
-      grid-template-columns: 330px 1fr;
+      grid-template-columns: 360px 1fr;
       gap: 18px;
       margin-top: 12px;
+      align-items: start;
     }
 
     .destinations-card {
@@ -282,6 +289,52 @@
     .destinations-head {
       padding: 20px 20px 14px;
       border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .destinations-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0 14px;
+    }
+
+    .pill {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+      color: #d8e1ee;
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .pill.gold {
+      border-color: rgba(214,173,50,.45);
+      color: #d6ad32;
+      background: rgba(214,173,50,.07);
+    }
+
+    .destination-search {
+      width: 100%;
+      border: 1px solid rgba(214,173,50,.28);
+      background: #050b16;
+      color: #fff;
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .destination-search::placeholder {
+      color: #8792a5;
+    }
+
+    .destination-search:focus {
+      border-color: rgba(214,173,50,.75);
+      box-shadow: 0 0 0 3px rgba(214,173,50,.08);
     }
 
     .list-item {
@@ -324,6 +377,30 @@
       border-radius: 50%;
       background: #d6ad32;
       display: inline-block;
+    }
+
+    .pagination-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.12);
+    }
+
+    .pagination-row .btn {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .page-info {
+      color: #c8d3e4;
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+      min-width: 90px;
     }
 
     .preview-area {
@@ -578,7 +655,8 @@
       color: #d6ad32;
     }
 
-    .empty-state {
+    .empty-state,
+    .loading-state {
       padding: 20px;
       color: #c8d3e4;
       font-size: 14px;
@@ -589,10 +667,6 @@
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.03);
       border-radius: 16px;
-      padding: 18px;
-      color: #c8d3e4;
-      font-size: 14px;
-      line-height: 1.6;
       margin-bottom: 22px;
     }
 
@@ -671,7 +745,8 @@
         font-size: 36px;
       }
 
-      .download-row {
+      .download-row,
+      .pagination-row {
         flex-direction: column;
       }
 
@@ -693,8 +768,8 @@
     </div>
 
     <div class="top-actions">
-      <button class="btn">Voltar ao site</button>
-      <button class="btn gold">Sair</button>
+      <button class="btn" type="button">Voltar ao site</button>
+      <button class="btn gold" type="button">Sair</button>
     </div>
   </header>
 
@@ -742,7 +817,8 @@
           </div>
         </div>
       </aside>
-            <section class="card">
+
+      <section class="card">
         <h3>Materiais Partner</h3>
         <p class="sub">Escolha uma categoria para visualizar os destinos disponíveis.</p>
 
@@ -757,12 +833,31 @@
             <div class="destinations-head">
               <h3 id="categoryTitle">Materiais</h3>
               <p class="sub">Destinos disponíveis</p>
+
+              <div class="destinations-meta">
+                <span class="pill gold" id="totalDestinationsPill">0 destinos</span>
+                <span class="pill" id="showingDestinationsPill">Mostrando 0</span>
+              </div>
+
+              <input
+                class="destination-search"
+                id="destinationSearchInput"
+                type="search"
+                placeholder="Buscar destino..."
+                autocomplete="off"
+              />
             </div>
 
             <div id="destinationsContainer">
               <div class="empty-state">
                 Selecione uma categoria para visualizar os destinos disponíveis.
               </div>
+            </div>
+
+            <div class="pagination-row" id="paginationRow" style="display:none;">
+              <button class="btn" id="prevPageButton" type="button">← Anterior</button>
+              <div class="page-info" id="pageInfo">Página 1 de 1</div>
+              <button class="btn" id="nextPageButton" type="button">Próxima →</button>
             </div>
           </div>
 
@@ -846,7 +941,7 @@
                 <li>Uso profissional com clientes da empresa</li>
               </ul>
 
-              <button class="btn">Plano mensal</button>
+              <button class="btn" type="button">Continuar mensal</button>
             </div>
 
             <div class="plan featured">
@@ -867,7 +962,7 @@
                 <li>Ideal para empresas que usam materiais com frequência</li>
               </ul>
 
-              <button class="btn gold">Escolher plano anual</button>
+              <button class="btn gold" type="button">Escolher plano anual</button>
             </div>
           </div>
 
@@ -885,12 +980,17 @@
 
   <script>
     const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    const ITEMS_PER_PAGE = 10;
+
     let allMaterials = [];
+    let currentCategory = "";
+    let currentCategoryMaterials = [];
+    let filteredMaterials = [];
+    let currentPage = 1;
     let selectedMaterial = null;
 
     const categoryVisuals = {
@@ -920,6 +1020,15 @@
       }
     };
 
+    const categoryOrder = [
+      "City Guide",
+      "Gastronomia",
+      "Atrações Turísticas",
+      "Vida Noturna",
+      "Endereços para Compras",
+      "Sugestão de Presentes"
+    ];
+
     function normalizeCategoryName(category) {
       if (!category) return "Material";
 
@@ -941,7 +1050,6 @@
       };
 
       const normalizedKey = String(category).trim().toLowerCase();
-
       return categoryMap[normalizedKey] || category;
     }
 
@@ -952,6 +1060,10 @@
         image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=900&q=80",
         description: "Material business disponível para personalização."
       };
+    }
+
+    function getMaterialKey(material) {
+      return String(material.id || `${material.category}-${material.city_label}-${material.pdf_url}`);
     }
 
     function setLoadingState(isLoading, message) {
@@ -994,7 +1106,7 @@
       setLoadingState(false);
       renderCategories();
 
-      const firstCategory = normalizeCategoryName(allMaterials[0].category);
+      const firstCategory = getUniqueCategories()[0];
       selectCategory(firstCategory);
     }
 
@@ -1003,7 +1115,20 @@
         return normalizeCategoryName(item.category);
       });
 
-      return [...new Set(categories)];
+      const uniqueCategories = [...new Set(categories)];
+
+      uniqueCategories.sort(function(a, b) {
+        const indexA = categoryOrder.indexOf(a);
+        const indexB = categoryOrder.indexOf(b);
+
+        if (indexA === -1 && indexB === -1) return a.localeCompare(b);
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+
+        return indexA - indexB;
+      });
+
+      return uniqueCategories;
     }
 
     function renderCategories() {
@@ -1040,6 +1165,14 @@
 
     function selectCategory(category) {
       const normalizedCategory = normalizeCategoryName(category);
+      currentCategory = normalizedCategory;
+      currentPage = 1;
+
+      const searchInput = document.getElementById("destinationSearchInput");
+
+      if (searchInput) {
+        searchInput.value = "";
+      }
 
       document.querySelectorAll(".category").forEach(function(card) {
         card.classList.remove("active");
@@ -1055,62 +1188,139 @@
         categoryTitle.innerText = normalizedCategory;
       }
 
-      const materialsByCategory = allMaterials.filter(function(item) {
+      currentCategoryMaterials = allMaterials.filter(function(item) {
         return normalizeCategoryName(item.category) === normalizedCategory;
       });
 
-      renderDestinations(materialsByCategory);
+      filteredMaterials = currentCategoryMaterials.slice();
+      renderDestinationsPage();
 
-      if (materialsByCategory.length) {
-        selectMaterial(materialsByCategory[0]);
+      if (filteredMaterials.length) {
+        selectMaterial(filteredMaterials[0]);
       }
     }
 
-    function renderDestinations(materials) {
+    function filterDestinations() {
+      const searchInput = document.getElementById("destinationSearchInput");
+      const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+      currentPage = 1;
+
+      filteredMaterials = currentCategoryMaterials.filter(function(material) {
+        return String(material.city_label || "").toLowerCase().includes(query);
+      });
+
+      renderDestinationsPage();
+
+      if (filteredMaterials.length) {
+        selectMaterial(filteredMaterials[0]);
+      }
+    }
+
+    function renderDestinationsPage() {
       const container = document.getElementById("destinationsContainer");
+      const paginationRow = document.getElementById("paginationRow");
+      const totalPill = document.getElementById("totalDestinationsPill");
+      const showingPill = document.getElementById("showingDestinationsPill");
+      const pageInfo = document.getElementById("pageInfo");
+      const prevButton = document.getElementById("prevPageButton");
+      const nextButton = document.getElementById("nextPageButton");
 
       if (!container) return;
 
       container.innerHTML = "";
 
-      if (!materials.length) {
-        container.innerHTML = `
-          <div class="empty-state">
-            Nenhum destino disponível nesta categoria.
-          </div>
-        `;
-        return;
+      const totalItems = filteredMaterials.length;
+      const totalPages = Math.max(1, Math.ceil(totalItems / ITEMS_PER_PAGE));
+
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      const endIndex = startIndex + ITEMS_PER_PAGE;
+      const pageMaterials = filteredMaterials.slice(startIndex, endIndex);
+
+      if (totalPill) {
+        totalPill.textContent = `${currentCategoryMaterials.length} destino${currentCategoryMaterials.length === 1 ? "" : "s"}`;
       }
 
-      materials.forEach(function(material, index) {
-        const item = document.createElement("div");
-        item.className = "list-item" + (index === 0 ? " active" : "");
-        item.dataset.materialId = material.id || `${material.category}-${material.city_label}`;
+      if (showingPill) {
+        showingPill.textContent = totalItems
+          ? `Mostrando ${startIndex + 1}-${Math.min(endIndex, totalItems)} de ${totalItems}`
+          : "Mostrando 0";
+      }
 
-        item.innerHTML = `
-          <strong>${material.city_label}</strong>
-          <span>Disponível para personalização${material.year ? " • " + material.year : ""}</span>
-          <div class="status">${index === 0 ? "Atualizado" : "Disponível"}</div>
+      if (!pageMaterials.length) {
+        container.innerHTML = `
+          <div class="empty-state">
+            Nenhum destino encontrado nesta categoria.
+          </div>
         `;
+      } else {
+        pageMaterials.forEach(function(material, index) {
+          const item = document.createElement("div");
+          const materialKey = getMaterialKey(material);
+          const selectedKey = selectedMaterial ? getMaterialKey(selectedMaterial) : "";
 
-        item.addEventListener("click", function() {
-          document.querySelectorAll(".list-item").forEach(function(destinationItem) {
-            destinationItem.classList.remove("active");
+          item.className = "list-item" + (materialKey === selectedKey || index === 0 ? " active" : "");
+          item.dataset.materialKey = materialKey;
+
+          item.innerHTML = `
+            <strong>${material.city_label}</strong>
+            <span>Disponível para personalização${material.year ? " • " + material.year : ""}</span>
+            <div class="status">Disponível</div>
+          `;
+
+          item.addEventListener("click", function() {
+            document.querySelectorAll(".list-item").forEach(function(destinationItem) {
+              destinationItem.classList.remove("active");
+            });
+
+            item.classList.add("active");
+            selectMaterial(material);
           });
 
-          item.classList.add("active");
-          selectMaterial(material);
+          container.appendChild(item);
         });
+      }
 
-        container.appendChild(item);
-      });
+      if (paginationRow) {
+        paginationRow.style.display = totalItems > ITEMS_PER_PAGE ? "flex" : "none";
+      }
+
+      if (pageInfo) {
+        pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+      }
+
+      if (prevButton) {
+        prevButton.disabled = currentPage <= 1;
+      }
+
+      if (nextButton) {
+        nextButton.disabled = currentPage >= totalPages;
+      }
+    }
+
+    function changePage(direction) {
+      const totalPages = Math.max(1, Math.ceil(filteredMaterials.length / ITEMS_PER_PAGE));
+      currentPage = currentPage + direction;
+
+      if (currentPage < 1) currentPage = 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      renderDestinationsPage();
+
+      const firstVisible = document.querySelector(".list-item");
+
+      if (firstVisible) {
+        firstVisible.click();
+      }
     }
 
     function selectMaterial(material) {
       selectedMaterial = material;
 
       const category = normalizeCategoryName(material.category);
-
       const docTitle = document.getElementById("docTitle");
       const docSubtitle = document.getElementById("docSubtitle");
 
@@ -1119,8 +1329,7 @@
       }
 
       if (docSubtitle) {
-        docSubtitle.innerText =
-          `${material.city_label} • Versão Business Partner${material.year ? " • " + material.year : ""}`;
+        docSubtitle.innerText = `${material.city_label} • Versão Business Partner${material.year ? " • " + material.year : ""}`;
       }
     }
 
@@ -1135,6 +1344,9 @@
 
     document.getElementById("previewButton").addEventListener("click", openSelectedMaterial);
     document.getElementById("downloadButton").addEventListener("click", openSelectedMaterial);
+    document.getElementById("destinationSearchInput").addEventListener("input", filterDestinations);
+    document.getElementById("prevPageButton").addEventListener("click", function() { changePage(-1); });
+    document.getElementById("nextPageButton").addEventListener("click", function() { changePage(1); });
 
     document.getElementById("logoInput").addEventListener("change", function(event) {
       const file = event.target.files[0];
