@@ -499,9 +499,44 @@
     .business-content-preview {
       position: relative;
       z-index: 1;
-      display: grid;
-      gap: 18px;
-      margin: 18px 0 18px;
+      display: block;
+      margin: 18px 0 14px;
+    }
+
+    .business-preview-controls {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 12px 0 20px;
+      padding: 12px;
+      border: 1px solid rgba(214,173,50,.22);
+      border-radius: 14px;
+      background: rgba(255,255,255,.38);
+    }
+
+    .business-preview-controls .btn {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      color: #111;
+      border-color: rgba(214,173,50,.38);
+      background: rgba(255,255,255,.58);
+    }
+
+    .business-preview-controls .btn:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+    }
+
+    .business-preview-page-label {
+      color: #7d6731;
+      font-size: 12px;
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.35;
     }
 
     .business-a4-page {
@@ -718,6 +753,10 @@
       text-align: center;
       position: relative;
       z-index: 1;
+    }
+
+    .partner-summary-block {
+      display: none;
     }
 
     .download-row {
@@ -1219,21 +1258,23 @@
               </div>
 
               <div class="business-content-preview" id="businessContentPreview">
-                <div class="business-section-title">Panorama da cidade</div>
-                <div class="business-city-text" id="businessCityPanorama">
-                  Selecione um destino para visualizar o panorama business e as indicações selecionadas.
-                </div>
-
-                <div class="business-section-title">Indicações selecionadas</div>
-                <div id="businessSelectedItems">
-                  <div class="business-item-card">
-                    <h6>Material aguardando seleção</h6>
-                    <p>As indicações extraídas do conteúdo original serão reorganizadas aqui em formato business.</p>
+                <section class="business-a4-page">
+                  <div class="business-page-kicker">Prévia Business Partner</div>
+                  <h5 class="business-page-title">Material aguardando seleção</h5>
+                  <div class="business-city-text">
+                    Selecione um destino para visualizar a versão business em páginas organizadas.
                   </div>
-                </div>
+                  <div class="business-page-footer">Curadoria Elite Travel Partner</div>
+                </section>
               </div>
 
-              <div class="doc-block">
+              <div class="business-preview-controls" id="businessPreviewControls" style="display:none;">
+                <button class="btn" id="businessPreviewPrev" type="button">← Página anterior</button>
+                <div class="business-preview-page-label" id="businessPreviewPageLabel">Página 1 de 1</div>
+                <button class="btn" id="businessPreviewNext" type="button">Próxima página →</button>
+              </div>
+
+              <div class="doc-block partner-summary-block">
                 <h5>Seleção premium organizada</h5>
                 <p>
                   Material estruturado para envio direto ao cliente, com informações objetivas,
@@ -1241,14 +1282,14 @@
                 </p>
               </div>
 
-              <div class="doc-block">
+              <div class="doc-block partner-summary-block">
                 <h5>Formato business</h5>
                 <p>
                   Versão mais limpa, prática e funcional, mantendo a curadoria como diferencial principal.
                 </p>
               </div>
 
-              <div class="doc-block">
+              <div class="doc-block partner-summary-block">
                 <h5>Parceria</h5>
                 <p>
                   Documento personalizado com a identidade da empresa parceira e assinatura discreta
@@ -1348,6 +1389,8 @@
     let filteredMaterials = [];
     let currentPage = 1;
     let selectedMaterial = null;
+    let businessPreviewPages = [];
+    let businessPreviewPageIndex = 0;
     let partnerLogoDataUrl = "";
 
     const categoryVisuals = {
@@ -1809,13 +1852,59 @@
       `;
     }
 
-    function renderBusinessContentPreview(material) {
+    function renderBusinessPreviewCurrentPage() {
       const contentEl = document.getElementById("businessContentPreview");
+      const controls = document.getElementById("businessPreviewControls");
+      const label = document.getElementById("businessPreviewPageLabel");
+      const prevButton = document.getElementById("businessPreviewPrev");
+      const nextButton = document.getElementById("businessPreviewNext");
+
+      if (!contentEl) return;
+
+      if (!businessPreviewPages.length) {
+        contentEl.innerHTML = `
+          <section class="business-a4-page">
+            <div class="business-page-kicker">Prévia Business Partner</div>
+            <h5 class="business-page-title">Material aguardando seleção</h5>
+            <div class="business-city-text">Selecione um destino para visualizar a versão business em páginas organizadas.</div>
+            <div class="business-page-footer">Curadoria Elite Travel Partner</div>
+          </section>
+        `;
+        if (controls) controls.style.display = "none";
+        return;
+      }
+
+      if (businessPreviewPageIndex < 0) businessPreviewPageIndex = 0;
+      if (businessPreviewPageIndex > businessPreviewPages.length - 1) businessPreviewPageIndex = businessPreviewPages.length - 1;
+
+      contentEl.innerHTML = businessPreviewPages[businessPreviewPageIndex];
+
+      if (controls) {
+        controls.style.display = businessPreviewPages.length > 1 ? "flex" : "none";
+      }
+
+      if (label) {
+        label.textContent = `Página ${businessPreviewPageIndex + 1} de ${businessPreviewPages.length}`;
+      }
+
+      if (prevButton) {
+        prevButton.disabled = businessPreviewPageIndex <= 0;
+      }
+
+      if (nextButton) {
+        nextButton.disabled = businessPreviewPageIndex >= businessPreviewPages.length - 1;
+      }
+    }
+
+    function changeBusinessPreviewPage(direction) {
+      businessPreviewPageIndex = businessPreviewPageIndex + direction;
+      renderBusinessPreviewCurrentPage();
+    }
+
+    function renderBusinessContentPreview(material) {
       const content = getBusinessContentTemplate(material);
       const category = normalizeCategoryName(material.category);
       const city = material.city_label || "Destino selecionado";
-
-      if (!contentEl) return;
 
       const panoramaPage = `
         <section class="business-a4-page">
@@ -1827,19 +1916,23 @@
       `;
 
       if (!content.items.length) {
-        contentEl.innerHTML = `
-          ${panoramaPage}
+        businessPreviewPages = [
+          panoramaPage,
+          `
           <section class="business-a4-page">
             <div class="business-page-kicker">Página 03 • Indicações selecionadas</div>
             <h5 class="business-page-title">Indicações em preparação</h5>
             <div class="business-city-text">Este material já foi identificado no Supabase. As indicações internas serão exibidas aqui quando a conversão B2B estiver preenchida para esta categoria e destino.</div>
             <div class="business-page-footer">Material Partner • ${city}</div>
           </section>
-        `;
+          `
+        ];
+        businessPreviewPageIndex = 0;
+        renderBusinessPreviewCurrentPage();
         return;
       }
 
-      const pages = chunkItems(content.items, 3).map(function(itemsChunk, chunkIndex) {
+      const indicationPages = chunkItems(content.items, 3).map(function(itemsChunk, chunkIndex) {
         const firstItemIndex = chunkIndex * 3;
         const pageNumber = String(chunkIndex + 3).padStart(2, "0");
 
@@ -1855,9 +1948,11 @@
             <div class="business-page-footer">${firstItemIndex + 1}–${firstItemIndex + itemsChunk.length} de ${content.items.length} indicações</div>
           </section>
         `;
-      }).join("");
+      });
 
-      contentEl.innerHTML = panoramaPage + pages;
+      businessPreviewPages = [panoramaPage].concat(indicationPages);
+      businessPreviewPageIndex = 0;
+      renderBusinessPreviewCurrentPage();
     }
 
 
@@ -2199,6 +2294,8 @@
     document.getElementById("destinationSearchInput").addEventListener("input", filterDestinations);
     document.getElementById("prevPageButton").addEventListener("click", function() { changePage(-1); });
     document.getElementById("nextPageButton").addEventListener("click", function() { changePage(1); });
+    document.getElementById("businessPreviewPrev").addEventListener("click", function() { changeBusinessPreviewPage(-1); });
+    document.getElementById("businessPreviewNext").addEventListener("click", function() { changeBusinessPreviewPage(1); });
 
     document.getElementById("logoInput").addEventListener("change", function(event) {
       const file = event.target.files[0];
