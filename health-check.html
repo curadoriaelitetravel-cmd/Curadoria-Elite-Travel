@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
+<title>Health Check</title>
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#111;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  margin:0;
+}
+.card{
+  text-align:center;
+}
+h1{
+  color:#d4af37;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Curadoria Elite Travel</h1>
+  <p>Health Check OK</p>
+  <p id="time"></p>
+</div>
+
+<script>
+document.getElementById("time").innerText =
+"Última verificação: " + new Date().toISOString();
+</script>
+
+</body>
+</html>
