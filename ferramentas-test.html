@@ -293,6 +293,33 @@
       font-size: 13px;
     }
 
+    .client-delivery-box {
+      margin-top: 14px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 14px;
+    }
+
+    .client-delivery-note {
+      color: #9fb0c7;
+      font-size: 12px;
+      line-height: 1.55;
+      margin: 8px 0 12px;
+    }
+
+    .client-delivery-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .client-delivery-actions .btn {
+      width: 100%;
+      justify-content: center;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
     .partner-dashboard-section {
       margin-top: 30px;
       border-top: 1px solid rgba(255,255,255,.08);
@@ -315,7 +342,7 @@
 
     .partner-dashboard-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 14px;
     }
 
@@ -1382,6 +1409,21 @@
               <button class="btn gold" id="applyClientPersonalization" type="button">Aplicar</button>
               <button class="btn" id="clearClientPersonalization" type="button">Limpar</button>
             </div>
+
+            <div class="client-delivery-box">
+              <div class="form-group">
+                <label for="clientEmailInput">E-mail do cliente</label>
+                <input class="partner-input" id="clientEmailInput" type="email" placeholder="cliente@email.com" autocomplete="email" />
+              </div>
+
+              <p class="client-delivery-note">
+                Envie a versão business personalizada diretamente para o cliente, sem precisar baixar o arquivo.
+              </p>
+
+              <div class="client-delivery-actions">
+                <button class="btn gold" id="sendClientEmailButton" type="button">Enviar por e-mail</button>
+              </div>
+            </div>
           </div>
         </div>
       </aside>
@@ -1524,7 +1566,7 @@
           <div class="partner-dashboard-header">
             <h3>Dashboard Partner</h3>
             <p>
-              Acompanhe o uso da empresa, o limite mensal de exportações e o status do plano ativo.
+              Acompanhe o uso da empresa, os limites mensais de downloads e envios por e-mail, além do status do plano ativo.
               Os valores de assinatura ficam na tela de contratação; aqui aparece apenas a operação da empresa logada.
             </p>
           </div>
@@ -1537,9 +1579,15 @@
             </div>
 
             <div class="partner-dashboard-card">
-              <small>Exportações do mês</small>
-              <strong>12 de 30</strong>
-              <span>Uso profissional</span>
+              <small>Downloads do mês</small>
+              <strong id="dashboardDownloadsCount">12 de 30</strong>
+              <span>Materiais baixados</span>
+            </div>
+
+            <div class="partner-dashboard-card">
+              <small>Envios por e-mail</small>
+              <strong id="dashboardEmailsCount">0 de 100</strong>
+              <span>Envio ao cliente</span>
             </div>
 
             <div class="partner-dashboard-card">
@@ -1575,6 +1623,11 @@
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const ITEMS_PER_PAGE = 10;
+    const MONTHLY_DOWNLOAD_LIMIT = 30;
+    const MONTHLY_EMAIL_LIMIT = 100;
+
+    let monthlyDownloads = Number(localStorage.getItem("partnerMonthlyDownloads") || "12");
+    let monthlyEmailSends = Number(localStorage.getItem("partnerMonthlyEmailSends") || "0");
 
     let allMaterials = [];
     let currentCategory = "";
@@ -1591,6 +1644,47 @@
       name: "",
       message: ""
     };
+
+    function updatePartnerUsageDashboard() {
+      const downloadsCount = document.getElementById("dashboardDownloadsCount");
+      const emailsCount = document.getElementById("dashboardEmailsCount");
+
+      if (downloadsCount) {
+        downloadsCount.textContent = `${monthlyDownloads} de ${MONTHLY_DOWNLOAD_LIMIT}`;
+      }
+
+      if (emailsCount) {
+        emailsCount.textContent = `${monthlyEmailSends} de ${MONTHLY_EMAIL_LIMIT}`;
+      }
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function registerPartnerDownload() {
+      if (monthlyDownloads >= MONTHLY_DOWNLOAD_LIMIT) {
+        alert("O limite mensal de downloads foi atingido para este ciclo.");
+        return false;
+      }
+
+      monthlyDownloads += 1;
+      localStorage.setItem("partnerMonthlyDownloads", String(monthlyDownloads));
+      updatePartnerUsageDashboard();
+      return true;
+    }
+
+    function registerPartnerEmailSend() {
+      if (monthlyEmailSends >= MONTHLY_EMAIL_LIMIT) {
+        alert("O limite mensal de envios por e-mail foi atingido para este ciclo.");
+        return false;
+      }
+
+      monthlyEmailSends += 1;
+      localStorage.setItem("partnerMonthlyEmailSends", String(monthlyEmailSends));
+      updatePartnerUsageDashboard();
+      return true;
+    }
 
     const categoryVisuals = {
       "City Guide": {
@@ -2531,9 +2625,22 @@
       font-weight: 900;
       cursor: pointer;
     }
+    @page { size: A4; margin: 0; }
     @media print {
-      body { background: #fff; padding: 0; }
-      .paper-page { box-shadow: none; border-radius: 0; width: 100%; min-height: 100vh; margin: 0; page-break-after: always; }
+      html, body { background: #fff; padding: 0; margin: 0; }
+      .paper-page {
+        box-shadow: none;
+        border-radius: 0;
+        width: 100%;
+        min-height: 100vh;
+        margin: 0;
+        break-after: page;
+        page-break-after: always;
+      }
+      .paper-page:last-of-type {
+        break-after: auto;
+        page-break-after: auto;
+      }
       .actions { display: none; }
     }
   </style>
@@ -2588,6 +2695,29 @@
     }
 
 
+    function sendBusinessMaterialByEmail() {
+      if (!selectedMaterial) {
+        alert("Selecione um material disponível antes de enviar.");
+        return;
+      }
+
+      const emailInput = document.getElementById("clientEmailInput");
+      const clientEmail = emailInput ? emailInput.value.trim() : "";
+
+      if (!isValidEmail(clientEmail)) {
+        alert("Informe um e-mail válido do cliente.");
+        return;
+      }
+
+      applyClientPersonalization();
+
+      if (!registerPartnerEmailSend()) {
+        return;
+      }
+
+      alert(`Envio registrado para ${clientEmail}. Nesta versão de teste, o disparo é simulado; em produção, este botão chamará a função de e-mail para enviar a versão business sem baixar.`);
+    }
+
     function openBusinessMaterial(autoPrint) {
       if (!selectedMaterial) {
         alert("Selecione um material disponível.");
@@ -2611,7 +2741,9 @@
     });
 
     document.getElementById("downloadButton").addEventListener("click", function() {
-      openBusinessMaterial(true);
+      if (registerPartnerDownload()) {
+        openBusinessMaterial(true);
+      }
     });
     document.getElementById("destinationSearchInput").addEventListener("input", filterDestinations);
     document.getElementById("prevPageButton").addEventListener("click", function() { changePage(-1); });
@@ -2628,6 +2760,9 @@
     document.getElementById("clientMessageInput").addEventListener("input", renderClientPreviewText);
     document.getElementById("applyClientPersonalization").addEventListener("click", applyClientPersonalization);
     document.getElementById("clearClientPersonalization").addEventListener("click", clearClientPersonalization);
+    document.getElementById("sendClientEmailButton").addEventListener("click", sendBusinessMaterialByEmail);
+
+    updatePartnerUsageDashboard();
 
     document.getElementById("logoInput").addEventListener("change", function(event) {
       const file = event.target.files[0];
