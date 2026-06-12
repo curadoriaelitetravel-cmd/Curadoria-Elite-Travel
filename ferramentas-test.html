@@ -342,8 +342,9 @@
 
     .partner-dashboard-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 14px;
+      margin-bottom: 18px;
     }
 
     .partner-dashboard-card {
@@ -374,6 +375,71 @@
       font-size: 12px;
       font-weight: 800;
       margin-top: 8px;
+    }
+
+    .partner-dashboard-panel {
+      border: 1px solid rgba(255,255,255,.12);
+      background: #050b16;
+      border-radius: 20px;
+      padding: 20px;
+      margin-top: 16px;
+    }
+
+    .partner-dashboard-panel h4 {
+      color: #fff;
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+
+    .partner-status-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      list-style: none;
+    }
+
+    .partner-status-list li {
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.035);
+      border-radius: 14px;
+      padding: 12px;
+      color: #d8e1ee;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .partner-status-list li::before {
+      content: "✓";
+      color: #d6ad32;
+      font-weight: 950;
+      margin-right: 7px;
+    }
+
+    .latest-clients-list {
+      display: grid;
+      gap: 10px;
+      list-style: none;
+    }
+
+    .latest-clients-list li {
+      border: 1px solid rgba(214,173,50,.18);
+      background: rgba(214,173,50,.05);
+      border-radius: 14px;
+      padding: 12px;
+      color: #d8e1ee;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .latest-clients-list strong {
+      display: block;
+      color: #fff;
+      margin-bottom: 3px;
+    }
+
+    .latest-clients-list span {
+      color: #9fb0c7;
+      font-size: 12px;
     }
 
     .field {
@@ -1105,7 +1171,8 @@
       .grid,
       .workspace,
       .plans,
-      .partner-dashboard-grid {
+      .partner-dashboard-grid,
+      .partner-status-list {
         grid-template-columns: 1fr;
       }
 
@@ -1566,47 +1633,70 @@
           <div class="partner-dashboard-header">
             <h3>Dashboard Partner</h3>
             <p>
-              Acompanhe o uso da empresa, os limites mensais de downloads e envios por e-mail, além do status do plano ativo.
-              Os valores de assinatura ficam na tela de contratação; aqui aparece apenas a operação da empresa logada.
+              Acompanhe a operação da empresa na Área Partner: clientes atendidos, materiais enviados,
+              materiais baixados e destinos utilizados no mês. Os valores de assinatura ficam apenas na tela de contratação.
             </p>
           </div>
 
           <div class="partner-dashboard-grid">
             <div class="partner-dashboard-card">
-              <small>Plano ativo</small>
-              <strong>Partner Access</strong>
-              <span>Status ativo</span>
+              <small>Clientes atendidos</small>
+              <strong id="dashboardClientsServed">18</strong>
+              <span>Este mês</span>
             </div>
 
             <div class="partner-dashboard-card">
-              <small>Downloads do mês</small>
-              <strong id="dashboardDownloadsCount">12 de 30</strong>
-              <span>Materiais baixados</span>
+              <small>Materiais enviados</small>
+              <strong id="dashboardMaterialsSent">42</strong>
+              <span>Envios ao cliente</span>
             </div>
 
             <div class="partner-dashboard-card">
-              <small>Envios por e-mail</small>
-              <strong id="dashboardEmailsCount">0 de 100</strong>
-              <span>Envio ao cliente</span>
+              <small>Materiais baixados</small>
+              <strong id="dashboardMaterialsDownloaded">11</strong>
+              <span>Versões business</span>
             </div>
 
             <div class="partner-dashboard-card">
-              <small>Renovação</small>
-              <strong>12/08/2026</strong>
-              <span>Ciclo mensal</span>
+              <small>Destinos utilizados</small>
+              <strong id="dashboardDestinationsUsed">7</strong>
+              <span>Este mês</span>
             </div>
+          </div>
 
-            <div class="partner-dashboard-card">
-              <small>Acervo disponível</small>
-              <strong id="dashboardMaterialsCount">--</strong>
-              <span>Materiais Partner</span>
-            </div>
+          <div class="partner-dashboard-panel">
+            <h4>Conta</h4>
+            <ul class="partner-status-list">
+              <li>Partner Access</li>
+              <li>Assinatura ativa</li>
+              <li>Empresa verificada</li>
+              <li>Biblioteca Partner disponível</li>
+            </ul>
+          </div>
+
+          <div class="partner-dashboard-panel">
+            <h4>Ferramentas disponíveis</h4>
+            <ul class="partner-status-list">
+              <li>Personalizar para cliente</li>
+              <li>Enviar por e-mail</li>
+              <li>Baixar versão business</li>
+              <li>Histórico de envios em preparação</li>
+            </ul>
+          </div>
+
+          <div class="partner-dashboard-panel">
+            <h4>Últimos clientes atendidos</h4>
+            <ul class="latest-clients-list" id="latestClientsList">
+              <li><strong>Thamirys Pimentel</strong><span>New York - USA • Material business</span></li>
+              <li><strong>Carlos Eduardo</strong><span>New York - USA • Material business</span></li>
+              <li><strong>Fernanda Almeida</strong><span>New York - USA • Material business</span></li>
+            </ul>
           </div>
 
           <div class="fair-use">
             <strong>Política de uso profissional:</strong>
-            para garantir estabilidade e qualidade operacional da plataforma Partner,
-            o plano contempla uma capacidade mensal compatível com o uso profissional da empresa parceira.
+            a plataforma acompanha o uso operacional da empresa para manter estabilidade,
+            qualidade de entrega e proteção do acervo Partner.
           </div>
         </section>
         </section>
@@ -1623,11 +1713,12 @@
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const ITEMS_PER_PAGE = 10;
-    const MONTHLY_DOWNLOAD_LIMIT = 30;
-    const MONTHLY_EMAIL_LIMIT = 100;
-
-    let monthlyDownloads = Number(localStorage.getItem("partnerMonthlyDownloads") || "12");
-    let monthlyEmailSends = Number(localStorage.getItem("partnerMonthlyEmailSends") || "0");
+    let partnerClientsServed = Number(localStorage.getItem("partnerClientsServed") || "18");
+    let partnerMaterialsSent = Number(localStorage.getItem("partnerMaterialsSent") || "42");
+    let partnerMaterialsDownloaded = Number(localStorage.getItem("partnerMaterialsDownloaded") || "11");
+    let partnerDestinationsUsed = Number(localStorage.getItem("partnerDestinationsUsed") || "7");
+    let partnerUsedDestinations = JSON.parse(localStorage.getItem("partnerUsedDestinations") || "[]");
+    let latestClients = JSON.parse(localStorage.getItem("partnerLatestClients") || "[]");
 
     let allMaterials = [];
     let currentCategory = "";
@@ -1646,16 +1737,62 @@
     };
 
     function updatePartnerUsageDashboard() {
-      const downloadsCount = document.getElementById("dashboardDownloadsCount");
-      const emailsCount = document.getElementById("dashboardEmailsCount");
+      const clientsServed = document.getElementById("dashboardClientsServed");
+      const materialsSent = document.getElementById("dashboardMaterialsSent");
+      const materialsDownloaded = document.getElementById("dashboardMaterialsDownloaded");
+      const destinationsUsed = document.getElementById("dashboardDestinationsUsed");
 
-      if (downloadsCount) {
-        downloadsCount.textContent = `${monthlyDownloads} de ${MONTHLY_DOWNLOAD_LIMIT}`;
-      }
+      if (clientsServed) clientsServed.textContent = String(partnerClientsServed);
+      if (materialsSent) materialsSent.textContent = String(partnerMaterialsSent);
+      if (materialsDownloaded) materialsDownloaded.textContent = String(partnerMaterialsDownloaded);
+      if (destinationsUsed) destinationsUsed.textContent = String(partnerDestinationsUsed);
 
-      if (emailsCount) {
-        emailsCount.textContent = `${monthlyEmailSends} de ${MONTHLY_EMAIL_LIMIT}`;
+      renderLatestClients();
+    }
+
+    function registerDestinationUsage() {
+      if (!selectedMaterial || !selectedMaterial.city_label) return;
+
+      const destinationName = selectedMaterial.city_label;
+
+      if (!partnerUsedDestinations.includes(destinationName)) {
+        partnerUsedDestinations.unshift(destinationName);
+        partnerUsedDestinations = partnerUsedDestinations.slice(0, 30);
+        partnerDestinationsUsed = Math.max(partnerDestinationsUsed, partnerUsedDestinations.length);
+
+        localStorage.setItem("partnerUsedDestinations", JSON.stringify(partnerUsedDestinations));
+        localStorage.setItem("partnerDestinationsUsed", String(partnerDestinationsUsed));
       }
+    }
+
+    function registerLatestClient(email) {
+      const clientName = clientPersonalization.name.trim() || "Cliente informado";
+      const destination = selectedMaterial && selectedMaterial.city_label ? selectedMaterial.city_label : "Destino selecionado";
+
+      latestClients.unshift({
+        name: clientName,
+        details: `${destination} • Material business${email ? " • " + email : ""}`
+      });
+
+      latestClients = latestClients.slice(0, 3);
+      localStorage.setItem("partnerLatestClients", JSON.stringify(latestClients));
+    }
+
+    function renderLatestClients() {
+      const list = document.getElementById("latestClientsList");
+      if (!list) return;
+
+      const fallbackClients = [
+        { name: "Thamirys Pimentel", details: "New York - USA • Material business" },
+        { name: "Carlos Eduardo", details: "New York - USA • Material business" },
+        { name: "Fernanda Almeida", details: "New York - USA • Material business" }
+      ];
+
+      const clientsToRender = latestClients.length ? latestClients : fallbackClients;
+
+      list.innerHTML = clientsToRender.map(function(client) {
+        return `<li><strong>${client.name}</strong><span>${client.details}</span></li>`;
+      }).join("");
     }
 
     function isValidEmail(email) {
@@ -1663,26 +1800,26 @@
     }
 
     function registerPartnerDownload() {
-      if (monthlyDownloads >= MONTHLY_DOWNLOAD_LIMIT) {
-        alert("O limite mensal de downloads foi atingido para este ciclo.");
-        return false;
-      }
+      partnerMaterialsDownloaded += 1;
+      localStorage.setItem("partnerMaterialsDownloaded", String(partnerMaterialsDownloaded));
 
-      monthlyDownloads += 1;
-      localStorage.setItem("partnerMonthlyDownloads", String(monthlyDownloads));
+      registerDestinationUsage();
       updatePartnerUsageDashboard();
+
       return true;
     }
 
-    function registerPartnerEmailSend() {
-      if (monthlyEmailSends >= MONTHLY_EMAIL_LIMIT) {
-        alert("O limite mensal de envios por e-mail foi atingido para este ciclo.");
-        return false;
-      }
+    function registerPartnerEmailSend(clientEmail) {
+      partnerMaterialsSent += 1;
+      partnerClientsServed += 1;
 
-      monthlyEmailSends += 1;
-      localStorage.setItem("partnerMonthlyEmailSends", String(monthlyEmailSends));
+      localStorage.setItem("partnerMaterialsSent", String(partnerMaterialsSent));
+      localStorage.setItem("partnerClientsServed", String(partnerClientsServed));
+
+      registerDestinationUsage();
+      registerLatestClient(clientEmail);
       updatePartnerUsageDashboard();
+
       return true;
     }
 
@@ -1795,12 +1932,6 @@
         setLoadingState(true, "Nenhum material encontrado na tabela curadoria_materials.");
         return;
       }
-
-      const dashboardMaterialsCount = document.getElementById("dashboardMaterialsCount");
-      if (dashboardMaterialsCount) {
-        dashboardMaterialsCount.textContent = String(allMaterials.length);
-      }
-
       setLoadingState(false);
       renderCategories();
 
@@ -2711,9 +2842,7 @@
 
       applyClientPersonalization();
 
-      if (!registerPartnerEmailSend()) {
-        return;
-      }
+      registerPartnerEmailSend(clientEmail);
 
       alert(`Envio registrado para ${clientEmail}. Nesta versão de teste, o disparo é simulado; em produção, este botão chamará a função de e-mail para enviar a versão business sem baixar.`);
     }
