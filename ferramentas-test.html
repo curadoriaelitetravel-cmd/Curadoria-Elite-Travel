@@ -2209,7 +2209,7 @@
           </div>
           <div class="business-client-card">
             <h6>${category} • ${city}</h6>
-            <p>Material preparado em versão business clean, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
+            <p>Material preparado em versão business clean por ${brandName}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
           </div>
           <div class="business-page-footer">Material personalizado • Curadoria Elite Travel Partner</div>
         </section>
@@ -2388,21 +2388,23 @@
       const category = normalizeCategoryName(selectedMaterial.category);
       const city = selectedMaterial.city_label || "Destino selecionado";
       const year = selectedMaterial.year || "";
+      const brandName = getClientBrandName();
+      const partnerName = getPartnerCompanyName();
       const logoHtml = partnerLogoDataUrl
-        ? `<img src="${partnerLogoDataUrl}" alt="Logo da empresa" />`
-        : `<div class="logo-placeholder">LOGO DA EMPRESA</div>`;
+        ? `<img src="${partnerLogoDataUrl}" alt="Logo da marca apresentada" />`
+        : `<div class="logo-placeholder">LOGO DA MARCA</div>`;
       const businessContent = getBusinessContentTemplate(selectedMaterial);
       const clientPageHtml = hasClientPersonalization()
         ? `<section class="paper-page">
             <div class="page-kicker">Atendimento personalizado</div>
             <h2>${getClientGreetingLine()}</h2>
             <div class="panel client-panel-print">
-              <h2>Mensagem da empresa parceira</h2>
+              <h2>Mensagem da marca apresentada</h2>
               <p>${getClientMessageText()}</p>
             </div>
             <div class="panel client-panel-print">
               <h2>${category} • ${city}</h2>
-              <p>Material preparado em versão business clean, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
+              <p>Material preparado em versão business clean por ${brandName}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
             </div>
             <div class="page-footer">Material personalizado • Curadoria Elite Travel Partner</div>
           </section>`
