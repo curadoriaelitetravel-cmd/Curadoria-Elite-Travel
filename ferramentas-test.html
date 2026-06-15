@@ -848,6 +848,27 @@
     }
 
 
+
+    .business-closing-exclusive {
+      color: #555;
+      font-size: 12px;
+      line-height: 1.55;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(214,173,50,.28);
+    }
+
+    .business-closing-exclusive p {
+      margin: 4px 0;
+    }
+
+    .business-closing-exclusive strong {
+      color: #222;
+    }
+
     .doc-top {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1348,15 +1369,20 @@
         <p class="sub">Dados usados para personalizar os materiais Partner.</p>
 
         <div class="logo-preview" id="logoPreview">
-          Logo da empresa
+          Logo da marca apresentada ao cliente
         </div>
 
         <input type="file" id="logoInput" accept="image/*" />
 
         <div class="company-box">
-          <div class="field">
-            <small>Empresa</small>
-            <strong>Agência Parceira</strong>
+          <div class="form-group">
+            <label for="partnerCompanyInput">Empresa parceira</label>
+            <input class="partner-input" id="partnerCompanyInput" type="text" value="Ten Group Brasil" placeholder="Ex.: Ten Group Brasil" />
+          </div>
+
+          <div class="form-group">
+            <label for="clientBrandInput">Marca apresentada ao cliente</label>
+            <input class="partner-input" id="clientBrandInput" type="text" value="Mastercard Concierge" placeholder="Ex.: Mastercard Concierge" />
           </div>
 
           <div class="field">
@@ -1638,6 +1664,8 @@
     let businessPreviewPages = [];
     let businessPreviewPageIndex = 0;
     let partnerLogoDataUrl = "";
+    let partnerCompanyName = "Ten Group Brasil";
+    let clientBrandName = "Mastercard Concierge";
     let clientPersonalization = {
       enabled: false,
       greetingType: "neutral",
@@ -2120,6 +2148,49 @@
     }
 
 
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function getPartnerCompanyName() {
+      const input = document.getElementById("partnerCompanyInput");
+      const value = input ? input.value.trim() : partnerCompanyName;
+      return value || "Empresa Parceira";
+    }
+
+    function getClientBrandName() {
+      const input = document.getElementById("clientBrandInput");
+      const value = input ? input.value.trim() : clientBrandName;
+      return value || getPartnerCompanyName();
+    }
+
+    function getBrandLogoHtml(context) {
+      if (partnerLogoDataUrl) {
+        return `<img src="${partnerLogoDataUrl}" alt="Logo da marca apresentada">`;
+      }
+
+      if (context === "inline") {
+        return `<div class="business-closing-logo-placeholder">LOGO DA<br>MARCA</div>`;
+      }
+
+      return `<div class="logo-placeholder">LOGO DA MARCA</div>`;
+    }
+
+    function syncPartnerBrandData() {
+      partnerCompanyName = getPartnerCompanyName();
+      clientBrandName = getClientBrandName();
+
+      if (selectedMaterial) {
+        renderBusinessContentPreview(selectedMaterial);
+      }
+    }
+
     function getGreetingPrefix(type) {
       if (type === "male") return "Prezado Sr.";
       if (type === "female") return "Prezada Sra.";
@@ -2204,14 +2275,43 @@
           <div class="business-page-kicker">Atendimento personalizado</div>
           <h5 class="business-page-title">${getClientGreetingLine()}</h5>
           <div class="business-client-card">
-            <h6>Mensagem da empresa parceira</h6>
+            <h6>Mensagem da marca apresentada</h6>
             <p>${getClientMessageText()}</p>
           </div>
           <div class="business-client-card">
             <h6>${category} • ${city}</h6>
-            <p>Material preparado em versão business clean por ${brandName}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
+            <p>Material preparado em versão business clean por ${escapeHtml(getClientBrandName())}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
           </div>
           <div class="business-page-footer">Material personalizado • Curadoria Elite Travel Partner</div>
+        </section>
+      `;
+    }
+
+
+    function renderInlineClosingPage() {
+      const brandName = escapeHtml(getClientBrandName());
+      const partnerName = escapeHtml(getPartnerCompanyName());
+
+      return `
+        <section class="business-a4-page">
+          <div class="business-page-kicker">Encerramento</div>
+          <div class="business-closing-logo">${getBrandLogoHtml("inline")}</div>
+          <h5 class="business-page-title" style="text-align:center;">${brandName}</h5>
+          <div class="business-closing-text">
+            A melhor viagem é aquela que permite viver o destino com mais tranquilidade e menos dúvidas.<br><br>
+            <strong>Tenha uma excelente experiência.</strong>
+          </div>
+          <div class="business-closing-partner">
+            Material disponibilizado por<br>
+            <strong>${brandName}</strong><br><br>
+            em parceria com<br>
+            <strong>Curadoria Elite Travel</strong>
+          </div>
+          <div class="business-closing-exclusive">
+            <p><strong>Documento disponibilizado para clientes da ${brandName}.</strong></p>
+            <p>Uso destinado ao apoio e orientação durante a viagem.</p>
+          </div>
+          <div class="business-page-footer">© 2026 • ${brandName} • Curadoria Elite Travel Partner • Conta: ${partnerName}</div>
         </section>
       `;
     }
@@ -2323,7 +2423,8 @@
             <div class="business-city-text">Este material já foi identificado no Supabase. Para esta etapa, o template de indicações reais está ativo apenas para Atrações Turísticas • New York - USA. As demais categorias seguem preparadas para receber seus próprios conteúdos B2B sem exibir o PDF B2C.</div>
             <div class="business-page-footer">Material Partner • ${city}</div>
           </section>
-          `
+          `,
+          renderInlineClosingPage()
         ].filter(Boolean);
         businessPreviewPageIndex = 0;
         renderBusinessPreviewCurrentPage();
@@ -2349,7 +2450,7 @@
       });
 
       const clientPage = renderInlineClientPage(category, city);
-      businessPreviewPages = [clientPage, panoramaPage].concat(indicationPages).filter(Boolean);
+      businessPreviewPages = [clientPage, panoramaPage].concat(indicationPages).concat([renderInlineClosingPage()]).filter(Boolean);
       businessPreviewPageIndex = 0;
       renderBusinessPreviewCurrentPage();
     }
@@ -2378,7 +2479,7 @@
       }
 
       if (businessPreviewText) {
-        businessPreviewText.innerText = `Material identificado no acervo da Curadoria Elite Travel e pronto para ser apresentado em uma versão business clean, com identidade da empresa parceira e assinatura discreta da Curadoria.`;
+        businessPreviewText.innerText = `Material identificado no acervo da Curadoria Elite Travel e pronto para ser apresentado em uma versão business clean, com identidade da marca apresentada ao cliente e assinatura discreta da Curadoria.`;
       }
 
       renderBusinessContentPreview(material);
@@ -2390,9 +2491,7 @@
       const year = selectedMaterial.year || "";
       const brandName = getClientBrandName();
       const partnerName = getPartnerCompanyName();
-      const logoHtml = partnerLogoDataUrl
-        ? `<img src="${partnerLogoDataUrl}" alt="Logo da marca apresentada" />`
-        : `<div class="logo-placeholder">LOGO DA MARCA</div>`;
+      const logoHtml = getBrandLogoHtml("print");
       const businessContent = getBusinessContentTemplate(selectedMaterial);
       const clientPageHtml = hasClientPersonalization()
         ? `<section class="paper-page">
@@ -2466,7 +2565,7 @@
             <p>Uso destinado ao apoio e orientação durante a viagem.</p>
           </div>
 
-          <div class="page-footer">© 2026 • ${brandName} • Curadoria Elite Travel Partner</div>
+          <div class="page-footer">© 2026 • ${brandName} • Curadoria Elite Travel Partner • Conta: ${partnerName}</div>
         </section>
       `;
 
@@ -2862,6 +2961,19 @@
 
     updatePartnerUsageDashboard();
 
+    const partnerCompanyInput = document.getElementById("partnerCompanyInput");
+    const clientBrandInput = document.getElementById("clientBrandInput");
+
+    if (partnerCompanyInput) {
+      partnerCompanyInput.addEventListener("input", syncPartnerBrandData);
+    }
+
+    if (clientBrandInput) {
+      clientBrandInput.addEventListener("input", syncPartnerBrandData);
+    }
+
+    syncPartnerBrandData();
+
     document.getElementById("logoInput").addEventListener("change", function(event) {
       const file = event.target.files[0];
 
@@ -2875,10 +2987,14 @@
         partnerLogoDataUrl = e.target.result;
 
         document.getElementById("logoPreview").innerHTML =
-          '<img src="' + e.target.result + '" alt="Logo da empresa">';
+          '<img src="' + e.target.result + '" alt="Logo da marca apresentada">';
 
         document.getElementById("docLogoText").innerHTML =
-          '<img src="' + e.target.result + '" alt="Logo da empresa">';
+          '<img src="' + e.target.result + '" alt="Logo da marca apresentada">';
+
+        if (selectedMaterial) {
+          renderBusinessContentPreview(selectedMaterial);
+        }
       };
 
       reader.readAsDataURL(file);
