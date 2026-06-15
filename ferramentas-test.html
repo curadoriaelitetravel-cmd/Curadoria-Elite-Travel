@@ -2053,6 +2053,45 @@
         .trim();
     }
 
+    function groupPdfTextItemsByRows(textItems) {
+      const rows = [];
+
+      textItems
+        .filter(function(item) {
+          return item && String(item.str || "").trim();
+        })
+        .map(function(item) {
+          const transform = item.transform || [1, 0, 0, 1, 0, 0];
+          return {
+            text: String(item.str || "").trim(),
+            x: transform[4] || 0,
+            y: transform[5] || 0
+          };
+        })
+        .sort(function(a, b) {
+          if (Math.abs(b.y - a.y) > 4) return b.y - a.y;
+          return a.x - b.x;
+        })
+        .forEach(function(item) {
+          const lastRow = rows[rows.length - 1];
+
+          if (!lastRow || Math.abs(lastRow.y - item.y) > 4) {
+            rows.push({ y: item.y, items: [item] });
+          } else {
+            lastRow.items.push(item);
+          }
+        });
+
+      return rows.map(function(row) {
+        return row.items
+          .sort(function(a, b) { return a.x - b.x; })
+          .map(function(item) { return item.text; })
+          .join(" ")
+          .replace(/\s+/g, " ")
+          .trim();
+      }).filter(Boolean);
+    }
+
     async function extractPdfTextFromUrl(pdfUrl, pageStart, pageEnd) {
       if (!window.pdfjsLib) {
         throw new Error("PDF.js não foi carregado.");
@@ -2073,11 +2112,8 @@
       for (let pageNumber = firstPage; pageNumber <= lastPage; pageNumber += 1) {
         const page = await pdf.getPage(pageNumber);
         const textContent = await page.getTextContent();
-        const pageText = textContent.items
-          .map(function(item) { return item.str || ""; })
-          .join("\n");
-
-        pages.push(pageText);
+        const rows = groupPdfTextItemsByRows(textContent.items || []);
+        pages.push(rows.join("\n"));
       }
 
       return normalizeExtractedPdfText(pages.join("\n\n"));
@@ -2103,32 +2139,140 @@
       return paragraphs[0] || `${city || "O destino selecionado"} reúne experiências selecionadas com foco em praticidade, clareza e orientação profissional para apoiar empresas parceiras no atendimento aos seus clientes.`;
     }
 
-    function parseAttractionItemsFromText(text) {
-      const cleaned = normalizeExtractedPdfText(text);
-      const compact = cleaned
-        .replace(/\n+/g, "\n")
-        .replace(/\s*:\s*/g, ": ")
+    function isLikelyAttractionName(line) {
+      const value = cleanExtractedValue(line)
+        .replace(/^(nome\s*:\s*)/i, "")
         .trim();
 
+      if (!value || value.length < 4 || value.length > 80) return false;
+      if (/^(descri[cç][aã]o|endere[cç]o|site|entrada|p[áa]gina|curadoria|pontos tur[ií]sticos|atra[cç][õo]es tur[ií]sticas|porque|mais que|cada p[áa]gina|by curadoria|www\.|https?:)/i.test(value)) return false;
+      if (/\d{2,}|@|\.com|curadoriaelitetravel|instagram|linkedin/i.test(value)) return false;
+
+      const letters = value.replace(/[^A-Za-zÀ-ÿ]/g, "");
+      if (!letters) return false;
+
+      const upperLetters = letters.replace(/[a-zà-ÿ]/g, "").length;
+      return upperLetters / letters.length > 0.62;
+    }
+
+    function cleanAttractionsExtractionText(text) {
+      return normalizeExtractedPdfText(text)
+        .split("\n")
+        .map(cleanExtractedValue)
+        .filter(function(line) {
+          return line &&
+            !/curadoria elite travel/i.test(line) &&
+            !/@curadoriaelitetravel/i.test(line) &&
+            !/^o seu mundo/i.test(line) &&
+            !/^pontos tur[ií]sticos$/i.test(line) &&
+            !/^atra[cç][õo]es tur[ií]sticas$/i.test(line) &&
+            !/^by curadoria/i.test(line) &&
+            !/^www\.?\s*curadoria/i.test(line) &&
+            !/porque o verdadeiro destino/i.test(line) &&
+            !/mais que paisagens/i.test(line) &&
+            !/cada p[áa]gina foi pensada/i.test(line) &&
+            !/agrade[cç]o sua confian[cç]a/i.test(line) &&
+            !/que nossos caminhos/i.test(line);
+        })
+        .join("\n");
+    }
+
+    function parseAttractionItemsFromText(text) {
+      const cleaned = cleanAttractionsExtractionText(text)
+        .replace(/\s*:\s*/g, ": ")
+        .replace(/https:\s*\/\//gi, "https://")
+        .replace(/http:\s*\/\//gi, "http://")
+        .trim();
+
+      const lines = cleaned.split("\n").map(cleanExtractedValue).filter(Boolean);
       const items = [];
-      const explicitPattern = /(?:Nome\s*:\s*)?([A-ZÀ-Ú0-9][A-ZÀ-Ú0-9\s\-–—&().,'’]{3,})\s*\n+\s*Descri[cç][aã]o\s*:\s*([\s\S]*?)\s*Endere[cç]o\s*:\s*([\s\S]*?)\s*Site\s*:\s*([\s\S]*?)\s*Entrada\s*:\s*([\s\S]*?)(?=\n\s*(?:Nome\s*:\s*)?[A-ZÀ-Ú0-9][A-ZÀ-Ú0-9\s\-–—&().,'’]{3,}\s*\n+\s*Descri[cç][aã]o\s*:|$)/gi;
+      let current = null;
+      let mode = "description";
+      let pendingName = "";
 
-      let match;
-      while ((match = explicitPattern.exec(compact)) !== null) {
-        const name = cleanExtractedValue(match[1]);
-        const description = cleanExtractedValue(match[2]);
-        const address = cleanExtractedValue(match[3]);
-        const site = cleanExtractedValue(match[4]);
-        const price = cleanExtractedValue(match[5]);
+      function finishCurrent() {
+        if (!current) return;
 
-        if (name && description && !/^(panorama|indicações|curadoria)/i.test(name)) {
-          items.push({ name, description, address, site, price });
+        current.name = cleanExtractedValue(current.name);
+        current.description = cleanExtractedValue(current.description);
+        current.address = cleanExtractedValue(current.address);
+        current.site = cleanExtractedValue(current.site).replace(/\s+/g, "");
+        current.price = cleanExtractedValue(current.price);
+
+        if (current.name && current.description && !items.some(function(item) { return item.name === current.name; })) {
+          items.push(current);
         }
+
+        current = null;
+        mode = "description";
       }
 
+      lines.forEach(function(line) {
+        const value = cleanExtractedValue(line);
+        if (!value) return;
+
+        if (isLikelyAttractionName(value)) {
+          finishCurrent();
+          current = {
+            name: value.replace(/^nome\s*:\s*/i, ""),
+            description: "",
+            address: "",
+            site: "",
+            price: ""
+          };
+          mode = "description";
+          pendingName = "";
+          return;
+        }
+
+        if (/^descri[cç][aã]o\s*:/i.test(value)) {
+          if (!current && pendingName) {
+            current = { name: pendingName, description: "", address: "", site: "", price: "" };
+            pendingName = "";
+          }
+          if (current) {
+            current.description += " " + value.replace(/^descri[cç][aã]o\s*:\s*/i, "");
+            mode = "description";
+          }
+          return;
+        }
+
+        if (/^endere[cç]o\s*:/i.test(value)) {
+          if (current) current.address += " " + value.replace(/^endere[cç]o\s*:\s*/i, "");
+          mode = "address";
+          return;
+        }
+
+        if (/^site\s*:/i.test(value)) {
+          if (current) current.site += " " + value.replace(/^site\s*:\s*/i, "");
+          mode = "site";
+          return;
+        }
+
+        if (/^entrada\s*:/i.test(value)) {
+          if (current) current.price += " " + value.replace(/^entrada\s*:\s*/i, "");
+          mode = "price";
+          return;
+        }
+
+        if (!current) return;
+
+        if (mode === "address" && !/^site\b|^entrada\b/i.test(value)) {
+          current.address += " " + value;
+        } else if (mode === "site" && !/^entrada\b/i.test(value)) {
+          current.site += " " + value;
+        } else if (mode === "price") {
+          if (!isLikelyAttractionName(value)) current.price += " " + value;
+        } else {
+          current.description += " " + value;
+        }
+      });
+
+      finishCurrent();
+
       return items
-        .filter(function(item, index, array) {
-          return array.findIndex(function(other) { return other.name === item.name; }) === index;
+        .filter(function(item) {
+          return item.name && item.description && item.description.length > 40;
         })
         .slice(0, 24);
     }
@@ -2160,7 +2304,7 @@
 
       businessContentLoading[cacheKey] = (async function() {
         try {
-          const fullText = await extractPdfTextFromUrl(material.pdf_url, 1, 12);
+          const fullText = await extractPdfTextFromUrl(material.pdf_url, 5, 9);
           const extracted = parseAttractionsBusinessContent(fullText, material.city_label);
 
           if (extracted.items && extracted.items.length) {
