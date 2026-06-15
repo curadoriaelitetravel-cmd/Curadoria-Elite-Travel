@@ -342,9 +342,8 @@
 
     .partner-dashboard-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 14px;
-      margin-bottom: 18px;
     }
 
     .partner-dashboard-card {
@@ -375,71 +374,6 @@
       font-size: 12px;
       font-weight: 800;
       margin-top: 8px;
-    }
-
-    .partner-dashboard-panel {
-      border: 1px solid rgba(255,255,255,.12);
-      background: #050b16;
-      border-radius: 20px;
-      padding: 20px;
-      margin-top: 16px;
-    }
-
-    .partner-dashboard-panel h4 {
-      color: #fff;
-      font-size: 18px;
-      margin-bottom: 14px;
-    }
-
-    .partner-status-list {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      list-style: none;
-    }
-
-    .partner-status-list li {
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.035);
-      border-radius: 14px;
-      padding: 12px;
-      color: #d8e1ee;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .partner-status-list li::before {
-      content: "✓";
-      color: #d6ad32;
-      font-weight: 950;
-      margin-right: 7px;
-    }
-
-    .latest-clients-list {
-      display: grid;
-      gap: 10px;
-      list-style: none;
-    }
-
-    .latest-clients-list li {
-      border: 1px solid rgba(214,173,50,.18);
-      background: rgba(214,173,50,.05);
-      border-radius: 14px;
-      padding: 12px;
-      color: #d8e1ee;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .latest-clients-list strong {
-      display: block;
-      color: #fff;
-      margin-bottom: 3px;
-    }
-
-    .latest-clients-list span {
-      color: #9fb0c7;
-      font-size: 12px;
     }
 
     .field {
@@ -914,67 +848,32 @@
     }
 
 
-    .business-closing-logo {
-      width: 92px;
-      height: 92px;
-      margin: 14px auto 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      z-index: 1;
-    }
 
-    .business-closing-logo img {
-      max-width: 92px;
-      max-height: 92px;
-      object-fit: contain;
-    }
 
-    .business-closing-logo-placeholder {
-      width: 92px;
-      height: 92px;
-      border: 1px dashed rgba(214,173,50,.45);
-      border-radius: 18px;
-      color: #9b7a19;
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: .8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      line-height: 1.3;
-    }
-
-    .business-closing-text {
+    .business-closing-exclusive {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(214,173,50,.26);
       color: #333;
-      font-size: 15px;
-      line-height: 1.75;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      margin: 18px 0;
-    }
-
-    .business-closing-brand {
-      color: #111;
-      font-size: 21px;
-      font-weight: 950;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      margin-top: 12px;
-    }
-
-    .business-closing-partner {
-      color: #555;
-      font-size: 13px;
+      font-size: 12px;
       line-height: 1.55;
       text-align: center;
       position: relative;
       z-index: 1;
-      margin-top: 20px;
+    }
+
+    .business-closing-exclusive strong {
+      color: #111;
+    }
+
+    .business-closing-footer {
+      margin-top: 16px;
+      color: #777;
+      font-size: 10px;
+      letter-spacing: .05em;
+      text-align: center;
+      position: relative;
+      z-index: 1;
     }
 
 
@@ -1235,8 +1134,7 @@
       .grid,
       .workspace,
       .plans,
-      .partner-dashboard-grid,
-      .partner-status-list {
+      .partner-dashboard-grid {
         grid-template-columns: 1fr;
       }
 
@@ -1419,70 +1317,6 @@
 
     .business-item-detail strong {
       color: #111;
-    }
-
-
-    .business-closing-logo {
-      width: 92px;
-      height: 92px;
-      margin: 14px auto 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .business-closing-logo img {
-      max-width: 92px;
-      max-height: 92px;
-      object-fit: contain;
-    }
-
-    .business-closing-logo-placeholder {
-      width: 92px;
-      height: 92px;
-      border: 1px dashed rgba(214,173,50,.45);
-      border-radius: 18px;
-      color: #9b7a19;
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: .8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      line-height: 1.3;
-    }
-
-    .business-closing-text {
-      color: #333;
-      font-size: 15px;
-      line-height: 1.75;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      margin: 18px 0;
-    }
-
-    .business-closing-brand {
-      color: #111;
-      font-size: 21px;
-      font-weight: 950;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      margin-top: 12px;
-    }
-
-    .business-closing-partner {
-      color: #555;
-      font-size: 13px;
-      line-height: 1.55;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      margin-top: 20px;
     }
 
 
@@ -1766,70 +1600,47 @@
           <div class="partner-dashboard-header">
             <h3>Dashboard Partner</h3>
             <p>
-              Acompanhe a operação da empresa na Área Partner: clientes atendidos, materiais enviados,
-              materiais baixados e destinos utilizados no mês. Os valores de assinatura ficam apenas na tela de contratação.
+              Acompanhe o uso da empresa, os limites mensais de downloads e envios por e-mail, além do status do plano ativo.
+              Os valores de assinatura ficam na tela de contratação; aqui aparece apenas a operação da empresa logada.
             </p>
           </div>
 
           <div class="partner-dashboard-grid">
             <div class="partner-dashboard-card">
-              <small>Clientes atendidos</small>
-              <strong id="dashboardClientsServed">18</strong>
-              <span>Este mês</span>
+              <small>Plano ativo</small>
+              <strong>Partner Access</strong>
+              <span>Status ativo</span>
             </div>
 
             <div class="partner-dashboard-card">
-              <small>Materiais enviados</small>
-              <strong id="dashboardMaterialsSent">42</strong>
-              <span>Envios ao cliente</span>
+              <small>Downloads do mês</small>
+              <strong id="dashboardDownloadsCount">12 de 30</strong>
+              <span>Materiais baixados</span>
             </div>
 
             <div class="partner-dashboard-card">
-              <small>Materiais baixados</small>
-              <strong id="dashboardMaterialsDownloaded">11</strong>
-              <span>Versões business</span>
+              <small>Envios por e-mail</small>
+              <strong id="dashboardEmailsCount">0 de 100</strong>
+              <span>Envio ao cliente</span>
             </div>
 
             <div class="partner-dashboard-card">
-              <small>Destinos utilizados</small>
-              <strong id="dashboardDestinationsUsed">7</strong>
-              <span>Este mês</span>
+              <small>Renovação</small>
+              <strong>12/08/2026</strong>
+              <span>Ciclo mensal</span>
             </div>
-          </div>
 
-          <div class="partner-dashboard-panel">
-            <h4>Conta</h4>
-            <ul class="partner-status-list">
-              <li>Partner Access</li>
-              <li>Assinatura ativa</li>
-              <li>Empresa parceira verificada</li>
-              <li>Marca apresentada ao cliente configurável</li>
-            </ul>
-          </div>
-
-          <div class="partner-dashboard-panel">
-            <h4>Ferramentas disponíveis</h4>
-            <ul class="partner-status-list">
-              <li>Personalizar para cliente</li>
-              <li>Enviar por e-mail</li>
-              <li>Baixar versão business</li>
-              <li>Histórico de envios em preparação</li>
-            </ul>
-          </div>
-
-          <div class="partner-dashboard-panel">
-            <h4>Últimos clientes atendidos</h4>
-            <ul class="latest-clients-list" id="latestClientsList">
-              <li><strong>Thamirys Pimentel</strong><span>New York - USA • Material business</span></li>
-              <li><strong>Carlos Eduardo</strong><span>New York - USA • Material business</span></li>
-              <li><strong>Fernanda Almeida</strong><span>New York - USA • Material business</span></li>
-            </ul>
+            <div class="partner-dashboard-card">
+              <small>Acervo disponível</small>
+              <strong id="dashboardMaterialsCount">--</strong>
+              <span>Materiais Partner</span>
+            </div>
           </div>
 
           <div class="fair-use">
             <strong>Política de uso profissional:</strong>
-            a plataforma acompanha o uso operacional da empresa para manter estabilidade,
-            qualidade de entrega e proteção do acervo Partner.
+            para garantir estabilidade e qualidade operacional da plataforma Partner,
+            o plano contempla uma capacidade mensal compatível com o uso profissional da empresa parceira.
           </div>
         </section>
         </section>
@@ -1846,12 +1657,11 @@
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const ITEMS_PER_PAGE = 10;
-    let partnerClientsServed = Number(localStorage.getItem("partnerClientsServed") || "18");
-    let partnerMaterialsSent = Number(localStorage.getItem("partnerMaterialsSent") || "42");
-    let partnerMaterialsDownloaded = Number(localStorage.getItem("partnerMaterialsDownloaded") || "11");
-    let partnerDestinationsUsed = Number(localStorage.getItem("partnerDestinationsUsed") || "7");
-    let partnerUsedDestinations = JSON.parse(localStorage.getItem("partnerUsedDestinations") || "[]");
-    let latestClients = JSON.parse(localStorage.getItem("partnerLatestClients") || "[]");
+    const MONTHLY_DOWNLOAD_LIMIT = 30;
+    const MONTHLY_EMAIL_LIMIT = 100;
+
+    let monthlyDownloads = Number(localStorage.getItem("partnerMonthlyDownloads") || "12");
+    let monthlyEmailSends = Number(localStorage.getItem("partnerMonthlyEmailSends") || "0");
 
     let allMaterials = [];
     let currentCategory = "";
@@ -1872,62 +1682,16 @@
     };
 
     function updatePartnerUsageDashboard() {
-      const clientsServed = document.getElementById("dashboardClientsServed");
-      const materialsSent = document.getElementById("dashboardMaterialsSent");
-      const materialsDownloaded = document.getElementById("dashboardMaterialsDownloaded");
-      const destinationsUsed = document.getElementById("dashboardDestinationsUsed");
+      const downloadsCount = document.getElementById("dashboardDownloadsCount");
+      const emailsCount = document.getElementById("dashboardEmailsCount");
 
-      if (clientsServed) clientsServed.textContent = String(partnerClientsServed);
-      if (materialsSent) materialsSent.textContent = String(partnerMaterialsSent);
-      if (materialsDownloaded) materialsDownloaded.textContent = String(partnerMaterialsDownloaded);
-      if (destinationsUsed) destinationsUsed.textContent = String(partnerDestinationsUsed);
-
-      renderLatestClients();
-    }
-
-    function registerDestinationUsage() {
-      if (!selectedMaterial || !selectedMaterial.city_label) return;
-
-      const destinationName = selectedMaterial.city_label;
-
-      if (!partnerUsedDestinations.includes(destinationName)) {
-        partnerUsedDestinations.unshift(destinationName);
-        partnerUsedDestinations = partnerUsedDestinations.slice(0, 30);
-        partnerDestinationsUsed = Math.max(partnerDestinationsUsed, partnerUsedDestinations.length);
-
-        localStorage.setItem("partnerUsedDestinations", JSON.stringify(partnerUsedDestinations));
-        localStorage.setItem("partnerDestinationsUsed", String(partnerDestinationsUsed));
+      if (downloadsCount) {
+        downloadsCount.textContent = `${monthlyDownloads} de ${MONTHLY_DOWNLOAD_LIMIT}`;
       }
-    }
 
-    function registerLatestClient(email) {
-      const clientName = clientPersonalization.name.trim() || "Cliente informado";
-      const destination = selectedMaterial && selectedMaterial.city_label ? selectedMaterial.city_label : "Destino selecionado";
-
-      latestClients.unshift({
-        name: clientName,
-        details: `${destination} • Material business${email ? " • " + email : ""}`
-      });
-
-      latestClients = latestClients.slice(0, 3);
-      localStorage.setItem("partnerLatestClients", JSON.stringify(latestClients));
-    }
-
-    function renderLatestClients() {
-      const list = document.getElementById("latestClientsList");
-      if (!list) return;
-
-      const fallbackClients = [
-        { name: "Thamirys Pimentel", details: "New York - USA • Material business" },
-        { name: "Carlos Eduardo", details: "New York - USA • Material business" },
-        { name: "Fernanda Almeida", details: "New York - USA • Material business" }
-      ];
-
-      const clientsToRender = latestClients.length ? latestClients : fallbackClients;
-
-      list.innerHTML = clientsToRender.map(function(client) {
-        return `<li><strong>${client.name}</strong><span>${client.details}</span></li>`;
-      }).join("");
+      if (emailsCount) {
+        emailsCount.textContent = `${monthlyEmailSends} de ${MONTHLY_EMAIL_LIMIT}`;
+      }
     }
 
     function isValidEmail(email) {
@@ -1935,26 +1699,26 @@
     }
 
     function registerPartnerDownload() {
-      partnerMaterialsDownloaded += 1;
-      localStorage.setItem("partnerMaterialsDownloaded", String(partnerMaterialsDownloaded));
+      if (monthlyDownloads >= MONTHLY_DOWNLOAD_LIMIT) {
+        alert("O limite mensal de downloads foi atingido para este ciclo.");
+        return false;
+      }
 
-      registerDestinationUsage();
+      monthlyDownloads += 1;
+      localStorage.setItem("partnerMonthlyDownloads", String(monthlyDownloads));
       updatePartnerUsageDashboard();
-
       return true;
     }
 
-    function registerPartnerEmailSend(clientEmail) {
-      partnerMaterialsSent += 1;
-      partnerClientsServed += 1;
+    function registerPartnerEmailSend() {
+      if (monthlyEmailSends >= MONTHLY_EMAIL_LIMIT) {
+        alert("O limite mensal de envios por e-mail foi atingido para este ciclo.");
+        return false;
+      }
 
-      localStorage.setItem("partnerMaterialsSent", String(partnerMaterialsSent));
-      localStorage.setItem("partnerClientsServed", String(partnerClientsServed));
-
-      registerDestinationUsage();
-      registerLatestClient(clientEmail);
+      monthlyEmailSends += 1;
+      localStorage.setItem("partnerMonthlyEmailSends", String(monthlyEmailSends));
       updatePartnerUsageDashboard();
-
       return true;
     }
 
@@ -2067,6 +1831,12 @@
         setLoadingState(true, "Nenhum material encontrado na tabela curadoria_materials.");
         return;
       }
+
+      const dashboardMaterialsCount = document.getElementById("dashboardMaterialsCount");
+      if (dashboardMaterialsCount) {
+        dashboardMaterialsCount.textContent = String(allMaterials.length);
+      }
+
       setLoadingState(false);
       renderCategories();
 
@@ -2386,6 +2156,7 @@
     }
 
 
+
     function escapeHtml(value) {
       return String(value || "")
         .replace(/&/g, "&amp;")
@@ -2540,6 +2311,11 @@
             em parceria com<br>
             <strong>Curadoria Elite Travel</strong>
           </div>
+          <div class="business-closing-exclusive">
+            Documento disponibilizado para clientes da <strong>${escapeHtml(getClientBrandName())}</strong>.<br>
+            Uso destinado ao apoio e orientação durante a viagem.
+          </div>
+          <div class="business-closing-footer">© 2026 • ${escapeHtml(getClientBrandName())} • Curadoria Elite Travel Partner</div>
           <div class="business-page-footer">Curadoria Elite Travel Partner • ${escapeHtml(getPartnerCompanyName())}</div>
         </section>
       `;
@@ -2708,7 +2484,7 @@
       }
 
       if (businessPreviewText) {
-        businessPreviewText.innerText = `Material identificado no acervo da Curadoria Elite Travel e pronto para ser apresentado em uma versão business clean, com identidade da marca apresentada ao cliente e assinatura discreta da Curadoria.`;
+        businessPreviewText.innerText = `Material identificado no acervo da Curadoria Elite Travel e pronto para ser apresentado em uma versão business clean, com identidade da empresa parceira e assinatura discreta da Curadoria.`;
       }
 
       renderBusinessContentPreview(material);
@@ -2718,9 +2494,9 @@
       const category = normalizeCategoryName(selectedMaterial.category);
       const city = selectedMaterial.city_label || "Destino selecionado";
       const year = selectedMaterial.year || "";
-      const logoHtml = getBrandLogoHtml("print");
-      const brandName = getClientBrandName();
-      const partnerName = getPartnerCompanyName();
+      const logoHtml = partnerLogoDataUrl
+        ? `<img src="${partnerLogoDataUrl}" alt="Logo da marca apresentada" />`
+        : `<div class="logo-placeholder">LOGO DA EMPRESA</div>`;
       const businessContent = getBusinessContentTemplate(selectedMaterial);
       const clientPageHtml = hasClientPersonalization()
         ? `<section class="paper-page">
@@ -2732,7 +2508,7 @@
             </div>
             <div class="panel client-panel-print">
               <h2>${category} • ${city}</h2>
-              <p>Material preparado em versão business clean por ${brandName}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
+              <p>Material preparado em versão business clean por ${escapeHtml(getClientBrandName())}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
             </div>
             <div class="page-footer">Material personalizado • Curadoria Elite Travel Partner</div>
           </section>`
@@ -2785,6 +2561,11 @@
             em parceria com<br>
             <strong>Curadoria Elite Travel</strong>
           </div>
+          <div class="closing-exclusive">
+            <p>Documento disponibilizado para clientes da <strong>${brandName}</strong>.</p>
+            <p>Uso destinado ao apoio e orientação durante a viagem.</p>
+          </div>
+          <div class="closing-footer">© 2026 • ${brandName} • Curadoria Elite Travel Partner</div>
           <div class="page-footer">Curadoria Elite Travel Partner • ${partnerName}</div>
         </section>
       `;
@@ -2964,6 +2745,7 @@
       font-size: 12px;
       z-index: 1;
     }
+
     .closing-page {
       display: flex;
       flex-direction: column;
@@ -2994,7 +2776,7 @@
       color: #111;
       font-size: 25px;
       font-weight: 900;
-      margin: 18px auto 46px;
+      margin: 18px auto 42px;
       position: relative;
       z-index: 1;
     }
@@ -3006,7 +2788,24 @@
       font-size: 17px;
       line-height: 1.55;
       max-width: 500px;
-      margin: 0 auto;
+      margin: 0 auto 26px;
+      position: relative;
+      z-index: 1;
+    }
+    .closing-exclusive {
+      color: #333;
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 560px;
+      margin: 0 auto 30px;
+      position: relative;
+      z-index: 1;
+    }
+    .closing-exclusive strong { color: #111; }
+    .closing-footer {
+      color: #666;
+      font-size: 13px;
+      letter-spacing: .05em;
       position: relative;
       z-index: 1;
     }
@@ -3110,7 +2909,9 @@
 
       applyClientPersonalization();
 
-      registerPartnerEmailSend(clientEmail);
+      if (!registerPartnerEmailSend()) {
+        return;
+      }
 
       alert(`Envio registrado para ${clientEmail}. Nesta versão de teste, o disparo é simulado; em produção, este botão chamará a função de e-mail para enviar a versão business sem baixar.`);
     }
