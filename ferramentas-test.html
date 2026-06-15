@@ -848,27 +848,6 @@
     }
 
 
-
-    .business-closing-exclusive {
-      color: #555;
-      font-size: 12px;
-      line-height: 1.55;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      margin-top: 18px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(214,173,50,.28);
-    }
-
-    .business-closing-exclusive p {
-      margin: 4px 0;
-    }
-
-    .business-closing-exclusive strong {
-      color: #222;
-    }
-
     .doc-top {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1640,6 +1619,7 @@
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
@@ -1647,6 +1627,10 @@
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    if (window.pdfjsLib) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+    }
 
     const ITEMS_PER_PAGE = 10;
     const MONTHLY_DOWNLOAD_LIMIT = 30;
@@ -1661,6 +1645,8 @@
     let filteredMaterials = [];
     let currentPage = 1;
     let selectedMaterial = null;
+    const businessContentCache = {};
+    const businessContentLoading = {};
     let businessPreviewPages = [];
     let businessPreviewPageIndex = 0;
     let partnerLogoDataUrl = "";
@@ -2044,10 +2030,189 @@
     }
 
 
+    function isAttractionsMaterial(material) {
+      return normalizeCategoryName(material && material.category) === "Atrações Turísticas";
+    }
+
+    function getBusinessContentCacheKey(material) {
+      return String(material && (material.id || `${material.category}-${material.city_label}-${material.pdf_url}`));
+    }
+
+    function normalizeExtractedPdfText(text) {
+      return String(text || "")
+        .replace(/\r/g, "\n")
+        .replace(/[ \t]+/g, " ")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+    }
+
+    function cleanExtractedValue(value) {
+      return String(value || "")
+        .replace(/\s+/g, " ")
+        .replace(/\s+([,.;:])/g, "$1")
+        .trim();
+    }
+
+    async function extractPdfTextFromUrl(pdfUrl, pageStart, pageEnd) {
+      if (!window.pdfjsLib) {
+        throw new Error("PDF.js não foi carregado.");
+      }
+
+      const loadingTask = pdfjsLib.getDocument({
+        url: pdfUrl,
+        withCredentials: false,
+        disableAutoFetch: false,
+        disableStream: false
+      });
+
+      const pdf = await loadingTask.promise;
+      const firstPage = Math.max(1, pageStart || 1);
+      const lastPage = Math.min(pdf.numPages, pageEnd || pdf.numPages);
+      const pages = [];
+
+      for (let pageNumber = firstPage; pageNumber <= lastPage; pageNumber += 1) {
+        const page = await pdf.getPage(pageNumber);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items
+          .map(function(item) { return item.str || ""; })
+          .join("\n");
+
+        pages.push(pageText);
+      }
+
+      return normalizeExtractedPdfText(pages.join("\n\n"));
+    }
+
+    function extractPanoramaFromText(text, city) {
+      const cleaned = normalizeExtractedPdfText(text);
+      const panoramaMatch = cleaned.match(/(?:panorama(?: da cidade)?|intro|introdução)\s*\n+([\s\S]{120,1200}?)(?=\n\s*(?:indicações|nome\s*:|descrição\s*:|endere[cç]o\s*:|site\s*:|entrada\s*:|[A-ZÀ-Ú0-9][A-ZÀ-Ú0-9\s\-–—&().,'’]{6,}\n))/i);
+
+      if (panoramaMatch && panoramaMatch[1]) {
+        return cleanExtractedValue(panoramaMatch[1]);
+      }
+
+      const paragraphs = cleaned
+        .split(/\n{2,}/)
+        .map(cleanExtractedValue)
+        .filter(function(paragraph) {
+          return paragraph.length > 160 &&
+            !/^(nome|descrição|endereço|site|entrada|indicações|www\.|https?:\/\/)/i.test(paragraph) &&
+            !/curadoria elite travel/i.test(paragraph);
+        });
+
+      return paragraphs[0] || `${city || "O destino selecionado"} reúne experiências selecionadas com foco em praticidade, clareza e orientação profissional para apoiar empresas parceiras no atendimento aos seus clientes.`;
+    }
+
+    function parseAttractionItemsFromText(text) {
+      const cleaned = normalizeExtractedPdfText(text);
+      const compact = cleaned
+        .replace(/\n+/g, "\n")
+        .replace(/\s*:\s*/g, ": ")
+        .trim();
+
+      const items = [];
+      const explicitPattern = /(?:Nome\s*:\s*)?([A-ZÀ-Ú0-9][A-ZÀ-Ú0-9\s\-–—&().,'’]{3,})\s*\n+\s*Descri[cç][aã]o\s*:\s*([\s\S]*?)\s*Endere[cç]o\s*:\s*([\s\S]*?)\s*Site\s*:\s*([\s\S]*?)\s*Entrada\s*:\s*([\s\S]*?)(?=\n\s*(?:Nome\s*:\s*)?[A-ZÀ-Ú0-9][A-ZÀ-Ú0-9\s\-–—&().,'’]{3,}\s*\n+\s*Descri[cç][aã]o\s*:|$)/gi;
+
+      let match;
+      while ((match = explicitPattern.exec(compact)) !== null) {
+        const name = cleanExtractedValue(match[1]);
+        const description = cleanExtractedValue(match[2]);
+        const address = cleanExtractedValue(match[3]);
+        const site = cleanExtractedValue(match[4]);
+        const price = cleanExtractedValue(match[5]);
+
+        if (name && description && !/^(panorama|indicações|curadoria)/i.test(name)) {
+          items.push({ name, description, address, site, price });
+        }
+      }
+
+      return items
+        .filter(function(item, index, array) {
+          return array.findIndex(function(other) { return other.name === item.name; }) === index;
+        })
+        .slice(0, 24);
+    }
+
+    function parseAttractionsBusinessContent(text, city) {
+      const panorama = extractPanoramaFromText(text, city);
+      const items = parseAttractionItemsFromText(text);
+
+      return {
+        panorama,
+        items
+      };
+    }
+
+    async function ensureBusinessContentLoaded(material) {
+      if (!material || !isAttractionsMaterial(material) || !material.pdf_url) {
+        return getBusinessContentTemplate(material);
+      }
+
+      const cacheKey = getBusinessContentCacheKey(material);
+
+      if (businessContentCache[cacheKey]) {
+        return businessContentCache[cacheKey];
+      }
+
+      if (businessContentLoading[cacheKey]) {
+        return businessContentLoading[cacheKey];
+      }
+
+      businessContentLoading[cacheKey] = (async function() {
+        try {
+          const fullText = await extractPdfTextFromUrl(material.pdf_url, 1, 12);
+          const extracted = parseAttractionsBusinessContent(fullText, material.city_label);
+
+          if (extracted.items && extracted.items.length) {
+            businessContentCache[cacheKey] = extracted;
+            return extracted;
+          }
+        } catch (error) {
+          console.warn("Não foi possível extrair o PDF automaticamente:", error);
+        }
+
+        const fallback = getBusinessContentTemplate(material);
+        businessContentCache[cacheKey] = fallback;
+        return fallback;
+      })();
+
+      return businessContentLoading[cacheKey];
+    }
+
+    async function loadAndRenderBusinessContent(material) {
+      if (!material || !isAttractionsMaterial(material)) return;
+
+      const cacheKey = getBusinessContentCacheKey(material);
+      if (businessContentCache[cacheKey]) return;
+
+      const contentEl = document.getElementById("businessContentPreview");
+      if (contentEl) {
+        contentEl.innerHTML = `
+          <section class="business-a4-page">
+            <div class="business-page-kicker">Leitura automática do acervo</div>
+            <h5 class="business-page-title">Convertendo material para versão business</h5>
+            <div class="business-city-text">Estamos lendo o PDF identificado no Supabase e reorganizando as informações no modelo B2B, sem exibir o material B2C original.</div>
+            <div class="business-page-footer">Curadoria Elite Travel Partner</div>
+          </section>
+        `;
+      }
+
+      await ensureBusinessContentLoaded(material);
+
+      if (selectedMaterial && getBusinessContentCacheKey(selectedMaterial) === cacheKey) {
+        renderBusinessContentPreview(selectedMaterial);
+      }
+    }
+
     function getBusinessContentTemplate(material) {
       const category = normalizeCategoryName(material.category);
       const city = String(material.city_label || "");
       const cityLower = city.toLowerCase();
+      const cacheKey = getBusinessContentCacheKey(material);
+
+      if (businessContentCache[cacheKey]) {
+        return businessContentCache[cacheKey];
+      }
 
       if (category === "Atrações Turísticas" && cityLower.includes("new york")) {
         return {
@@ -2420,7 +2585,7 @@
           <section class="business-a4-page">
             <div class="business-page-kicker">Página 03 • Indicações selecionadas</div>
             <h5 class="business-page-title">Indicações em preparação</h5>
-            <div class="business-city-text">Este material já foi identificado no Supabase. Para esta etapa, o template de indicações reais está ativo apenas para Atrações Turísticas • New York - USA. As demais categorias seguem preparadas para receber seus próprios conteúdos B2B sem exibir o PDF B2C.</div>
+            <div class="business-city-text">Este material já foi identificado no Supabase. A leitura automática tentará converter o PDF em indicações estruturadas para esta categoria e destino. Se o texto do PDF não estiver em padrão legível, será necessário revisar a conversão.</div>
             <div class="business-page-footer">Material Partner • ${city}</div>
           </section>
           `,
@@ -2483,6 +2648,7 @@
       }
 
       renderBusinessContentPreview(material);
+      loadAndRenderBusinessContent(material);
     }
 
     function buildBusinessDocumentHtml(autoPrint) {
@@ -2539,7 +2705,7 @@
               </section>
             `;
           }).join("")
-        : `<section class="paper-page"><div class="page-kicker">Página 03 • Indicações selecionadas</div><h2>Indicações em preparação</h2><p class="lead">Este material já foi identificado no Supabase. Para esta etapa, o template de indicações reais está ativo apenas para Atrações Turísticas • New York - USA. As demais categorias seguem preparadas para receber seus próprios conteúdos B2B sem exibir o PDF B2C.</p><div class="page-footer">Curadoria Elite Travel Partner</div></section>`;
+        : `<section class="paper-page"><div class="page-kicker">Página 03 • Indicações selecionadas</div><h2>Indicações em preparação</h2><p class="lead">Este material já foi identificado no Supabase. A leitura automática tentará converter o PDF em indicações estruturadas para esta categoria e destino. Se o texto do PDF não estiver em padrão legível, será necessário revisar a conversão.</p><div class="page-footer">Curadoria Elite Travel Partner</div></section>`;
 
       const closingPageHtml = `
         <section class="paper-page closing-page">
@@ -2565,7 +2731,7 @@
             <p>Uso destinado ao apoio e orientação durante a viagem.</p>
           </div>
 
-          <div class="page-footer">© 2026 • ${brandName} • Curadoria Elite Travel Partner • Conta: ${partnerName}</div>
+          <div class="page-footer">© 2026 • ${brandName} • Curadoria Elite Travel Partner</div>
         </section>
       `;
 
@@ -2884,7 +3050,7 @@
     }
 
 
-    function sendBusinessMaterialByEmail() {
+    async function sendBusinessMaterialByEmail() {
       if (!selectedMaterial) {
         alert("Selecione um material disponível antes de enviar.");
         return;
@@ -2899,6 +3065,7 @@
       }
 
       applyClientPersonalization();
+      await ensureBusinessContentLoaded(selectedMaterial);
 
       if (!registerPartnerEmailSend()) {
         return;
@@ -2907,7 +3074,7 @@
       alert(`Envio registrado para ${clientEmail}. Nesta versão de teste, o disparo é simulado; em produção, este botão chamará a função de e-mail para enviar a versão business sem baixar.`);
     }
 
-    function openBusinessMaterial(autoPrint) {
+    async function openBusinessMaterial(autoPrint) {
       if (!selectedMaterial) {
         alert("Selecione um material disponível.");
         return;
@@ -2921,6 +3088,7 @@
       }
 
       try {
+        await ensureBusinessContentLoaded(selectedMaterial);
         const documentHtml = buildBusinessDocumentHtml(autoPrint);
         businessWindow.document.open();
         businessWindow.document.write(documentHtml);
@@ -2933,13 +3101,13 @@
       }
     }
 
-    document.getElementById("previewButton").addEventListener("click", function() {
-      openBusinessMaterial(false);
+    document.getElementById("previewButton").addEventListener("click", async function() {
+      await openBusinessMaterial(false);
     });
 
-    document.getElementById("downloadButton").addEventListener("click", function() {
+    document.getElementById("downloadButton").addEventListener("click", async function() {
       if (registerPartnerDownload()) {
-        openBusinessMaterial(true);
+        await openBusinessMaterial(true);
       }
     });
     document.getElementById("destinationSearchInput").addEventListener("input", filterDestinations);
@@ -2957,7 +3125,7 @@
     document.getElementById("clientMessageInput").addEventListener("input", renderClientPreviewText);
     document.getElementById("applyClientPersonalization").addEventListener("click", applyClientPersonalization);
     document.getElementById("clearClientPersonalization").addEventListener("click", clearClientPersonalization);
-    document.getElementById("sendClientEmailButton").addEventListener("click", sendBusinessMaterialByEmail);
+    document.getElementById("sendClientEmailButton").addEventListener("click", async function() { await sendBusinessMaterialByEmail(); });
 
     updatePartnerUsageDashboard();
 
