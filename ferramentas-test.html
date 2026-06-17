@@ -2295,6 +2295,23 @@
         ];
       }
 
+      if (normalizedCity.includes("PARIS")) {
+        return [
+          "TORRE EIFFEL",
+          "MUSEU DO LOUVRE",
+          "ARCO DO TRIUNFO",
+          "SACRÉ-CŒUR",
+          "CATEDRAL DE NOTRE-DAME",
+          "JARDIM DE LUXEMBURGO",
+          "SAINTE-CHAPELLE",
+          "PANTEÃO",
+          "ATELIER DES LUMIÈRES",
+          "MUSEU D'ORSAY",
+          "PALAIS GARNIER",
+          "GALERIES LAFAYETTE"
+        ];
+      }
+
       return [];
     }
 
@@ -2404,18 +2421,71 @@
       };
     }
 
+    function findKnownAttractionNameInSegment(segment, knownNames, usedNames) {
+      const normalizedSegment = normalizeForSearch(segment);
+      const used = usedNames || [];
+
+      const matches = (knownNames || [])
+        .filter(function(name) {
+          return normalizedSegment.includes(normalizeForSearch(name)) && !used.includes(name);
+        })
+        .sort(function(a, b) {
+          return normalizedSegment.indexOf(normalizeForSearch(a)) - normalizedSegment.indexOf(normalizeForSearch(b));
+        });
+
+      return matches[0] || "";
+    }
+
+    function findCandidateNameInSegment(segment, candidateNames, usedNames) {
+      const normalizedSegment = normalizeForSearch(segment);
+      const used = usedNames || [];
+
+      return (candidateNames || []).find(function(name) {
+        return !used.includes(name) && normalizedSegment.includes(normalizeForSearch(name));
+      }) || "";
+    }
+
+    function getNextUnusedName(names, usedNames) {
+      return (names || []).find(function(name) {
+        return name && !(usedNames || []).includes(name);
+      }) || "";
+    }
+
     function parseAttractionItemsFromText(text, city) {
       const cleaned = cleanAttractionsExtractionText(text);
       const descriptionSegments = parseDescriptionSegments(cleaned);
-      const knownNames = extractKnownNamesInConfiguredOrder(cleaned, city);
+      const configuredNames = getKnownAttractionNamesForCity(city);
+      const knownNamesInPdf = extractKnownNamesInConfiguredOrder(cleaned, city);
       const fallbackNames = extractCandidateNamesInTextOrder(cleaned);
-      const names = knownNames.length >= descriptionSegments.length ? knownNames : fallbackNames;
+      const removalNames = configuredNames.concat(fallbackNames).filter(function(name, index, array) {
+        return name && array.indexOf(name) === index;
+      });
+      const usedNames = [];
 
       const items = descriptionSegments.map(function(segment, index) {
-        const details = parseAttractionDetailsFromSegment(segment, knownNames.length ? knownNames : names);
+        const details = parseAttractionDetailsFromSegment(segment, removalNames);
+        let name = findKnownAttractionNameInSegment(segment, configuredNames, usedNames);
+
+        if (!name) {
+          name = findCandidateNameInSegment(segment, fallbackNames, usedNames);
+        }
+
+        if (!name && knownNamesInPdf.length >= descriptionSegments.length) {
+          name = knownNamesInPdf[index] || "";
+        }
+
+        if (!name) {
+          name = getNextUnusedName(fallbackNames, usedNames);
+        }
+
+        if (!name) {
+          name = `Indicação ${index + 1}`;
+        }
+
+        usedNames.push(name);
 
         return {
-          name: cleanExtractedValue(names[index] || `Indicação ${index + 1}`),
+          name: cleanExtractedValue(name),
           description: details.description,
           address: details.address,
           site: details.site,
@@ -2462,7 +2532,16 @@
       businessContentLoading[cacheKey] = (async function() {
         try {
           const fullText = await extractPdfTextFromUrl(material.pdf_url, 5, 9);
-          const extracted = parseAttractionsBusinessContent(fullText, material.city_label);
+          let extracted = parseAttractionsBusinessContent(fullText, material.city_label);
+
+          if (!extracted.items || extracted.items.length < 2) {
+            const broadText = await extractPdfTextFromUrl(material.pdf_url, 1, 20);
+            const broadExtracted = parseAttractionsBusinessContent(broadText, material.city_label);
+
+            if (broadExtracted.items && broadExtracted.items.length > (extracted.items || []).length) {
+              extracted = broadExtracted;
+            }
+          }
 
           if (extracted.items && extracted.items.length) {
             businessContentCache[cacheKey] = extracted;
