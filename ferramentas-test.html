@@ -1101,92 +1101,6 @@
       margin-bottom: 22px;
     }
 
-
-
-    .business-client-card {
-      border: 1px solid rgba(214,173,50,.22);
-      border-radius: 16px;
-      background: rgba(255,255,255,.48);
-      padding: 16px;
-      margin-top: 12px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .business-client-card h6 {
-      color: #8a6f19;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-      font-weight: 900;
-    }
-
-    .business-client-card p {
-      color: #333;
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    .business-closing-logo {
-      min-height: 92px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 16px auto 18px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .business-closing-logo img {
-      max-width: 190px;
-      max-height: 92px;
-      object-fit: contain;
-    }
-
-    .business-closing-logo-placeholder {
-      color: #111;
-      font-weight: 950;
-      text-align: center;
-      line-height: 1.05;
-      font-size: 18px;
-    }
-
-    .business-closing-text {
-      color: #333;
-      font-size: 16px;
-      line-height: 1.7;
-      text-align: center;
-      max-width: 420px;
-      margin: 18px auto 22px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .business-closing-text strong {
-      color: #111;
-      font-size: 18px;
-    }
-
-    .business-closing-partner,
-    .business-closing-exclusive {
-      color: #444;
-      text-align: center;
-      font-size: 13px;
-      line-height: 1.55;
-      max-width: 390px;
-      margin: 18px auto 0;
-      padding-top: 16px;
-      border-top: 1px solid rgba(214,173,50,.28);
-      position: relative;
-      z-index: 1;
-    }
-
-    .business-closing-partner strong,
-    .business-closing-exclusive strong {
-      color: #222;
-    }
-
     @media (max-width: 1100px) {
       .grid,
       .workspace,
@@ -1566,7 +1480,7 @@
             <div class="viewer">
               <div class="doc-top">
                 <div class="partner-logo-space" id="docLogoText">
-                  LOGO DA<br>MARCA
+                  LOGO DA<br>EMPRESA
                 </div>
 
                 <div class="doc-brand">
@@ -1595,6 +1509,8 @@
                   </div>
                 </div>
               </div>
+
+              <div id="personalizedCoverPreviewBlock"></div>
 
               <div class="business-content-preview" id="businessContentPreview">
                 <section class="business-a4-page">
@@ -2116,7 +2032,6 @@
     }
 
 
-
     function isAttractionsMaterial(material) {
       return normalizeCategoryName(material && material.category) === "Atrações Turísticas";
     }
@@ -2129,7 +2044,6 @@
       return String(text || "")
         .replace(/\r/g, "\n")
         .replace(/[ \t]+/g, " ")
-        .replace(/\n[ \t]+/g, "\n")
         .replace(/\n{3,}/g, "\n\n")
         .trim();
     }
@@ -2138,9 +2052,46 @@
       return String(value || "")
         .replace(/\s+/g, " ")
         .replace(/\s+([,.;:])/g, "$1")
-        .replace(/https:\s*\/\//gi, "https://")
-        .replace(/http:\s*\/\//gi, "http://")
         .trim();
+    }
+
+    function groupPdfTextItemsByRows(textItems) {
+      const rows = [];
+
+      textItems
+        .filter(function(item) {
+          return item && String(item.str || "").trim();
+        })
+        .map(function(item) {
+          const transform = item.transform || [1, 0, 0, 1, 0, 0];
+          return {
+            text: String(item.str || "").trim(),
+            x: transform[4] || 0,
+            y: transform[5] || 0
+          };
+        })
+        .sort(function(a, b) {
+          if (Math.abs(b.y - a.y) > 4) return b.y - a.y;
+          return a.x - b.x;
+        })
+        .forEach(function(item) {
+          const lastRow = rows[rows.length - 1];
+
+          if (!lastRow || Math.abs(lastRow.y - item.y) > 4) {
+            rows.push({ y: item.y, items: [item] });
+          } else {
+            lastRow.items.push(item);
+          }
+        });
+
+      return rows.map(function(row) {
+        return row.items
+          .sort(function(a, b) { return a.x - b.x; })
+          .map(function(item) { return item.text; })
+          .join(" ")
+          .replace(/\s+/g, " ")
+          .trim();
+      }).filter(Boolean);
     }
 
     async function extractPdfTextFromUrl(pdfUrl, pageStart, pageEnd) {
@@ -2163,297 +2114,178 @@
       for (let pageNumber = firstPage; pageNumber <= lastPage; pageNumber += 1) {
         const page = await pdf.getPage(pageNumber);
         const textContent = await page.getTextContent();
-
-        /*
-          Importante:
-          Não ordenamos por coordenada visual aqui.
-          PDFs criados no Canva costumam ter colunas e blocos decorativos.
-          Ordenar por posição mistura nomes, descrições e rodapés.
-          A ordem natural de textContent se aproxima mais do CTRL+A/CTRL+C
-          que você testou manualmente no PDF.
-        */
-        const pageText = (textContent.items || [])
-          .map(function(item) { return String(item.str || "").trim(); })
-          .filter(Boolean)
-          .join("\n");
-
-        pages.push(pageText);
+        const rows = groupPdfTextItemsByRows(textContent.items || []);
+        pages.push(rows.join("\n"));
       }
 
       return normalizeExtractedPdfText(pages.join("\n\n"));
     }
 
-    function removeB2CDecorativeLines(text) {
-      const blocked = [
-        /curadoria\s*elite\s*travel/i,
-        /^o seu mundo/i,
-        /^pontos tur[ií]sticos$/i,
-        /^pontos tur[ií]stiicos$/i,
-        /^atra[cç][õo]es tur[ií]sticas$/i,
-        /^www\./i,
-        /^by curadoria/i,
-        /instagram\.com/i,
-        /linkedin\.com/i,
-        /curadoriaelitetravel/i,
-        /^lugares que inspiram/i,
-        /^olhares, momentos/i,
-        /^conquistam cora[cç][õo]es/i,
-        /^porque o verdadeiro destino/i,
-        /^mais que paisagens/i,
-        /^cada p[aá]gina foi pensada/i,
-        /^é um prazer/i,
-        /^agrade[cç]o sua confian[cç]a/i,
-        /^que nossos caminhos/i,
-        /^porque acreditamos/i,
-        /^cart[aã]o postal vivo$/i,
-        /^a arte dos destinos$/i,
-        /^tips$/i,
-        /^index$/i,
-        /^intro$/i
-      ];
-
-      return normalizeExtractedPdfText(text)
-        .split("\n")
-        .map(function(line) { return cleanExtractedValue(line); })
-        .filter(function(line) {
-          if (!line) return false;
-          return !blocked.some(function(regex) { return regex.test(line); });
-        })
-        .join("\n");
-    }
-
     function extractPanoramaFromText(text, city) {
       const cleaned = normalizeExtractedPdfText(text);
+      const panoramaMatch = cleaned.match(/(?:panorama(?: da cidade)?|intro|introdução)\s*\n+([\s\S]{120,1200}?)(?=\n\s*(?:indicações|nome\s*:|descrição\s*:|endere[cç]o\s*:|site\s*:|entrada\s*:|[A-ZÀ-Ú0-9][A-ZÀ-Ú0-9\s\-–—&().,'’]{6,}\n))/i);
 
-      const directMatch = cleaned.match(/Cart[aã]o Postal Vivo\s+([\s\S]*?)(?=\n\s*(?:Lugares que inspiram|CURADORIA\s+ELITE|PONTOS TURISTICOS|PONTOS TURÍSTICOS|Descri[cç][aã]o\s*:))/i);
-      if (directMatch && directMatch[1]) {
-        return cleanExtractedValue(directMatch[1]);
+      if (panoramaMatch && panoramaMatch[1]) {
+        return cleanExtractedValue(panoramaMatch[1]);
       }
 
-      const beforeFirstDescription = cleaned.split(/Descri[cç][aã]o\s*:/i)[0] || cleaned;
-      const paragraphs = beforeFirstDescription
-        .split(/\n{2,}|\n(?=[A-ZÀ-Ú][a-zà-ú])/)
+      const paragraphs = cleaned
+        .split(/\n{2,}/)
         .map(cleanExtractedValue)
         .filter(function(paragraph) {
           return paragraph.length > 160 &&
-            !/curadoria elite travel/i.test(paragraph) &&
-            !/^um brinde/i.test(paragraph) &&
-            !/^seu guia/i.test(paragraph) &&
-            !/^acredite/i.test(paragraph) &&
-            !/^combinamos/i.test(paragraph) &&
-            !/^agora,/i.test(paragraph);
+            !/^(nome|descrição|endereço|site|entrada|indicações|www\.|https?:\/\/)/i.test(paragraph) &&
+            !/curadoria elite travel/i.test(paragraph);
         });
 
       return paragraphs[0] || `${city || "O destino selecionado"} reúne experiências selecionadas com foco em praticidade, clareza e orientação profissional para apoiar empresas parceiras no atendimento aos seus clientes.`;
     }
 
     function isLikelyAttractionName(line) {
-      const value = cleanExtractedValue(line).replace(/^nome\s*:\s*/i, "");
-      if (!value || value.length < 4 || value.length > 90) return false;
+      const value = cleanExtractedValue(line)
+        .replace(/^(nome\s*:\s*)/i, "")
+        .trim();
 
-      const blocked = [
-        /^(descri[cç][aã]o|endere[cç]o|site|entrada|p[áa]gina|curadoria|pontos|atra[cç][õo]es|porque|mais que|cada p[áa]gina|by|www|https?)/i,
-        /^elite\s*travel$/i,
-        /^travel$/i,
-        /^elitte?\s*travel$/i,
-        /^o seu mundo/i,
-        /^um brinde/i,
-        /^seu guia/i,
-        /^a arte/i,
-        /^cart[aã]o postal/i,
-        /^lugares que inspiram/i,
-        /^olhares/i,
-        /^momentos/i,
-        /^conquistam/i
-      ];
-
-      if (blocked.some(function(regex) { return regex.test(value); })) return false;
-      if (/@|\.com|curadoriaelitetravel|instagram|linkedin/i.test(value)) return false;
-      if (/[.!?]{1}$/.test(value)) return false;
+      if (!value || value.length < 4 || value.length > 80) return false;
+      if (/^(descri[cç][aã]o|endere[cç]o|site|entrada|p[áa]gina|curadoria|pontos tur[ií]sticos|atra[cç][õo]es tur[ií]sticas|porque|mais que|cada p[áa]gina|by curadoria|www\.|https?:)/i.test(value)) return false;
+      if (/\d{2,}|@|\.com|curadoriaelitetravel|instagram|linkedin/i.test(value)) return false;
 
       const letters = value.replace(/[^A-Za-zÀ-ÿ]/g, "");
       if (!letters) return false;
 
       const upperLetters = letters.replace(/[a-zà-ÿ]/g, "").length;
-      const upperRatio = upperLetters / letters.length;
-
-      return upperRatio > 0.68;
+      return upperLetters / letters.length > 0.62;
     }
 
-    function splitPossibleJoinedNames(value) {
-      const text = cleanExtractedValue(value);
-      if (!text) return [];
-
-      const knownNameTokens = [
-        "SAGRADA FAMÍLIA",
-        "PARK GÜELL",
-        "CASA BATLLÓ",
-        "LA PEDRERA (CASA MILÀ)",
-        "BAIRRO GÓTICO",
-        "MERCADO DE LA BOQUERIA",
-        "MUSEU PICASSO",
-        "FONTE MÁGICA DE MONTJUÏC",
-        "BUNKERS DEL CARMEL",
-        "RECINTO MODERNISTA DE SANT PAU",
-        "LABERINT D'HORTA",
-        "FABRA I COATS"
-      ];
-
-      const matches = knownNameTokens.filter(function(name) {
-        return text.toUpperCase().includes(name.toUpperCase());
-      });
-
-      if (matches.length) {
-        return matches;
-      }
-
-      return isLikelyAttractionName(text) ? [text] : [];
+    function cleanAttractionsExtractionText(text) {
+      return normalizeExtractedPdfText(text)
+        .split("\n")
+        .map(cleanExtractedValue)
+        .filter(function(line) {
+          return line &&
+            !/curadoria elite travel/i.test(line) &&
+            !/@curadoriaelitetravel/i.test(line) &&
+            !/^o seu mundo/i.test(line) &&
+            !/^pontos tur[ií]sticos$/i.test(line) &&
+            !/^atra[cç][õo]es tur[ií]sticas$/i.test(line) &&
+            !/^by curadoria/i.test(line) &&
+            !/^www\.?\s*curadoria/i.test(line) &&
+            !/porque o verdadeiro destino/i.test(line) &&
+            !/mais que paisagens/i.test(line) &&
+            !/cada p[áa]gina foi pensada/i.test(line) &&
+            !/agrade[cç]o sua confian[cç]a/i.test(line) &&
+            !/que nossos caminhos/i.test(line);
+        })
+        .join("\n");
     }
 
-    function extractAttractionNames(text) {
-      const cleaned = removeB2CDecorativeLines(text)
+    function parseAttractionItemsFromText(text) {
+      const cleaned = cleanAttractionsExtractionText(text)
+        .replace(/\s*:\s*/g, ": ")
         .replace(/https:\s*\/\//gi, "https://")
-        .replace(/http:\s*\/\//gi, "http://");
+        .replace(/http:\s*\/\//gi, "http://")
+        .trim();
 
       const lines = cleaned.split("\n").map(cleanExtractedValue).filter(Boolean);
-      const names = [];
+      const items = [];
+      let current = null;
+      let mode = "description";
+      let pendingName = "";
 
-      function addName(name) {
-        splitPossibleJoinedNames(name).forEach(function(candidate) {
-          const cleanName = cleanExtractedValue(candidate);
-          if (cleanName && !names.includes(cleanName)) {
-            names.push(cleanName);
-          }
-        });
+      function finishCurrent() {
+        if (!current) return;
+
+        current.name = cleanExtractedValue(current.name);
+        current.description = cleanExtractedValue(current.description);
+        current.address = cleanExtractedValue(current.address);
+        current.site = cleanExtractedValue(current.site).replace(/\s+/g, "");
+        current.price = cleanExtractedValue(current.price);
+
+        if (current.name && current.description && !items.some(function(item) { return item.name === current.name; })) {
+          items.push(current);
+        }
+
+        current = null;
+        mode = "description";
       }
 
       lines.forEach(function(line) {
-        /*
-          Alguns PDFs do Canva entregam os nomes das atrações depois do bloco de
-          entrada, ou até grudados no fim do preço:
-          "Entrada: a partir de €26 SAGRADA FAMÍLIA PARK GÜELL".
-          Por isso também procuramos nomes dentro do trecho após Entrada.
-        */
-        if (/^Entrada\s*:/i.test(line)) {
-          const entryParts = splitEntryPriceAndTrailingText(line.replace(/^Entrada\s*:\s*/i, ""));
-          if (entryParts.trailingText) {
-            addName(entryParts.trailingText);
+        const value = cleanExtractedValue(line);
+        if (!value) return;
+
+        if (isLikelyAttractionName(value)) {
+          finishCurrent();
+          current = {
+            name: value.replace(/^nome\s*:\s*/i, ""),
+            description: "",
+            address: "",
+            site: "",
+            price: ""
+          };
+          mode = "description";
+          pendingName = "";
+          return;
+        }
+
+        if (/^descri[cç][aã]o\s*:/i.test(value)) {
+          if (!current && pendingName) {
+            current = { name: pendingName, description: "", address: "", site: "", price: "" };
+            pendingName = "";
+          }
+          if (current) {
+            current.description += " " + value.replace(/^descri[cç][aã]o\s*:\s*/i, "");
+            mode = "description";
           }
           return;
         }
 
-        addName(line);
-      });
+        if (/^endere[cç]o\s*:/i.test(value)) {
+          if (current) current.address += " " + value.replace(/^endere[cç]o\s*:\s*/i, "");
+          mode = "address";
+          return;
+        }
 
-      return names;
-    }
+        if (/^site\s*:/i.test(value)) {
+          if (current) current.site += " " + value.replace(/^site\s*:\s*/i, "");
+          mode = "site";
+          return;
+        }
 
-    function splitEntryPriceAndTrailingText(value) {
-      const text = cleanExtractedValue(value);
-      if (!text) return { price: "", trailingText: "" };
+        if (/^entrada\s*:/i.test(value)) {
+          if (current) current.price += " " + value.replace(/^entrada\s*:\s*/i, "");
+          mode = "price";
+          return;
+        }
 
-      const pricePattern = /(a partir de\s*(?:US\$|R\$|€)?\s*[\d.,]+(?:\s*\([^)]*\))?|gratuita?|entrada gratuita|sob consulta)/i;
-      const match = text.match(pricePattern);
+        if (!current) return;
 
-      if (!match) {
-        return { price: text, trailingText: "" };
-      }
-
-      const price = cleanExtractedValue(match[1]);
-      const trailingText = cleanExtractedValue(text.slice(match.index + match[1].length));
-
-      return { price, trailingText };
-    }
-
-    function cleanFieldUntilNextLabel(value) {
-      return cleanExtractedValue(String(value || "")
-        .replace(/\n(?=\s*(?:Descri[cç][aã]o|Endere[cç]o|Site|Entrada)\s*:)/gi, "\n")
-        .replace(/\s+/g, " "));
-    }
-
-    function parseDetailBlockFromDescriptionSegment(segment) {
-      const block = normalizeExtractedPdfText(segment)
-        .replace(/https:\s*\/\//gi, "https://")
-        .replace(/http:\s*\/\//gi, "http://");
-
-      const descriptionMatch = block.match(/Descri[cç][aã]o\s*:\s*([\s\S]*?)(?=\n\s*Endere[cç]o\s*:|$)/i);
-      const addressMatch = block.match(/Endere[cç]o\s*:\s*([\s\S]*?)(?=\n\s*Site\s*:|\n\s*Entrada\s*:|$)/i);
-      const siteMatch = block.match(/Site\s*:\s*([\s\S]*?)(?=\n\s*Entrada\s*:|$)/i);
-      const entryMatch = block.match(/Entrada\s*:\s*([\s\S]*?)$/i);
-
-      const entryParts = splitEntryPriceAndTrailingText(entryMatch ? entryMatch[1] : "");
-
-      return {
-        description: cleanFieldUntilNextLabel(descriptionMatch ? descriptionMatch[1] : ""),
-        address: cleanFieldUntilNextLabel(addressMatch ? addressMatch[1] : ""),
-        site: cleanExtractedValue(siteMatch ? siteMatch[1] : "").replace(/\s+/g, ""),
-        price: entryParts.price,
-        trailingNameText: entryParts.trailingText
-      };
-    }
-
-    function parseAttractionItemsFromText(text) {
-      const cleaned = removeB2CDecorativeLines(text)
-        .replace(/https:\s*\/\//gi, "https://")
-        .replace(/http:\s*\/\//gi, "http://");
-
-      const descriptionSegments = cleaned
-        .split(/(?=Descri[cç][aã]o\s*:)/i)
-        .filter(function(segment) {
-          return /^Descri[cç][aã]o\s*:/i.test(segment.trim());
-        })
-        .map(function(segment) {
-          /*
-            Corta o segmento antes de textos de encerramento ou antes de uma nova
-            área institucional do PDF B2C.
-          */
-          return segment
-            .split(/(?=\n\s*(?:Cada p[aá]gina|É um prazer|Agrade[cç]o|Porque acreditamos|By Curadoria|ATRAÇÕES TURÍSTICAS))/i)[0];
-        });
-
-      let names = extractAttractionNames(cleaned);
-
-      /*
-        Se o PDF vier com os nomes grudados no campo Entrada, reforçamos a lista
-        de nomes na mesma ordem em que aparecem nos blocos de descrição.
-      */
-      descriptionSegments.forEach(function(segment) {
-        const details = parseDetailBlockFromDescriptionSegment(segment);
-        if (details.trailingNameText) {
-          splitPossibleJoinedNames(details.trailingNameText).forEach(function(name) {
-            if (!names.includes(name)) names.push(name);
-          });
+        if (mode === "address" && !/^site\b|^entrada\b/i.test(value)) {
+          current.address += " " + value;
+        } else if (mode === "site" && !/^entrada\b/i.test(value)) {
+          current.site += " " + value;
+        } else if (mode === "price") {
+          if (!isLikelyAttractionName(value)) current.price += " " + value;
+        } else {
+          current.description += " " + value;
         }
       });
 
-      const items = descriptionSegments.map(function(segment, index) {
-        const details = parseDetailBlockFromDescriptionSegment(segment);
-        const name = names[index] || `Indicação ${index + 1}`;
-
-        return {
-          name: cleanExtractedValue(name),
-          description: details.description,
-          address: details.address,
-          site: details.site,
-          price: details.price
-        };
-      });
+      finishCurrent();
 
       return items
         .filter(function(item) {
-          return item.name &&
-            item.description &&
-            item.description.length > 35 &&
-            !/^elite\s*travel$/i.test(item.name) &&
-            !/^travel$/i.test(item.name);
+          return item.name && item.description && item.description.length > 40;
         })
         .slice(0, 24);
     }
 
     function parseAttractionsBusinessContent(text, city) {
+      const panorama = extractPanoramaFromText(text, city);
+      const items = parseAttractionItemsFromText(text);
+
       return {
-        panorama: extractPanoramaFromText(text, city),
-        items: parseAttractionItemsFromText(text)
+        panorama,
+        items
       };
     }
 
@@ -2504,8 +2336,8 @@
         contentEl.innerHTML = `
           <section class="business-a4-page">
             <div class="business-page-kicker">Leitura automática do acervo</div>
-            <h5 class="business-page-title">Preparando versão business</h5>
-            <div class="business-city-text">Estamos lendo as páginas 5 a 9 do PDF original no Supabase e reorganizando o conteúdo no modelo Partner, sem exibir o PDF B2C.</div>
+            <h5 class="business-page-title">Convertendo material para versão business</h5>
+            <div class="business-city-text">Estamos lendo o PDF identificado no Supabase e reorganizando as informações no modelo B2B, sem exibir o material B2C original.</div>
             <div class="business-page-footer">Curadoria Elite Travel Partner</div>
           </section>
         `;
@@ -2517,7 +2349,6 @@
         renderBusinessContentPreview(selectedMaterial);
       }
     }
-
 
     function getBusinessContentTemplate(material) {
       const category = normalizeCategoryName(material.category);
@@ -2747,23 +2578,19 @@
       }
     }
 
-    function renderInlineClientPage(category, city) {
+    function renderPersonalizedCoverBlock(category, city) {
       if (!hasClientPersonalization()) return "";
 
       return `
-        <section class="business-a4-page">
-          <div class="business-page-kicker">Atendimento personalizado</div>
-          <h5 class="business-page-title">${getClientGreetingLine()}</h5>
-          <div class="business-client-card">
-            <h6>Mensagem da marca apresentada</h6>
-            <p>${getClientMessageText()}</p>
-          </div>
-          <div class="business-client-card">
-            <h6>${category} • ${city}</h6>
-            <p>Material preparado em versão business clean por ${escapeHtml(getClientBrandName())}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
-          </div>
-          <div class="business-page-footer">Material personalizado • Curadoria Elite Travel Partner</div>
-        </section>
+        <div class="business-client-card personalized-cover-preview">
+          <h6>Atendimento personalizado</h6>
+          <p><strong>${getClientGreetingLine()}</strong></p>
+          <p>${getClientMessageText()}</p>
+        </div>
+        <div class="business-client-card personalized-cover-preview">
+          <h6>${category} • ${city}</h6>
+          <p>Material preparado em versão business clean por ${escapeHtml(getClientBrandName())}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
+        </div>
       `;
     }
 
@@ -2876,7 +2703,24 @@
       renderBusinessPreviewCurrentPage();
     }
 
+    function updatePersonalizedCoverPreviewBlock(material) {
+      const block = document.getElementById("personalizedCoverPreviewBlock");
+      if (!block) return;
+
+      if (!material || !hasClientPersonalization()) {
+        block.innerHTML = "";
+        return;
+      }
+
+      const category = normalizeCategoryName(material.category);
+      const city = material.city_label || "Destino selecionado";
+
+      block.innerHTML = renderPersonalizedCoverBlock(category, city);
+    }
+
     function renderBusinessContentPreview(material) {
+      updatePersonalizedCoverPreviewBlock(material);
+
       const content = getBusinessContentTemplate(material);
       const category = normalizeCategoryName(material.category);
       const city = material.city_label || "Destino selecionado";
@@ -2891,16 +2735,13 @@
       `;
 
       if (!content.items.length) {
-        const clientPage = renderInlineClientPage(category, city);
-
         businessPreviewPages = [
-          clientPage,
           panoramaPage,
           `
           <section class="business-a4-page">
             <div class="business-page-kicker">Página 03 • Indicações selecionadas</div>
             <h5 class="business-page-title">Indicações em preparação</h5>
-            <div class="business-city-text">Este material já foi identificado no Supabase. A leitura automática tentará converter o PDF em indicações estruturadas para esta categoria e destino.</div>
+            <div class="business-city-text">Este material já foi identificado no Supabase. A leitura automática tentará converter o PDF em indicações estruturadas para esta categoria e destino. Se o texto do PDF não estiver em padrão legível, será necessário revisar a conversão.</div>
             <div class="business-page-footer">Material Partner • ${city}</div>
           </section>
           `,
@@ -2929,8 +2770,7 @@
         `;
       });
 
-      const clientPage = renderInlineClientPage(category, city);
-      businessPreviewPages = [clientPage, panoramaPage].concat(indicationPages).concat([renderInlineClosingPage()]).filter(Boolean);
+      businessPreviewPages = [panoramaPage].concat(indicationPages).concat([renderInlineClosingPage()]).filter(Boolean);
       businessPreviewPageIndex = 0;
       renderBusinessPreviewCurrentPage();
     }
@@ -2974,21 +2814,24 @@
       const partnerName = getPartnerCompanyName();
       const logoHtml = getBrandLogoHtml("print");
       const businessContent = getBusinessContentTemplate(selectedMaterial);
-      const clientPageHtml = hasClientPersonalization()
-        ? `<section class="paper-page">
+      const personalizedCoverHtml = hasClientPersonalization()
+        ? `<div class="panel personalized-cover-panel">
             <div class="page-kicker">Atendimento personalizado</div>
             <h2>${getClientGreetingLine()}</h2>
-            <div class="panel client-panel-print">
-              <h2>Mensagem da marca apresentada</h2>
-              <p>${getClientMessageText()}</p>
-            </div>
-            <div class="panel client-panel-print">
-              <h2>${category} • ${city}</h2>
-              <p>Material preparado em versão business clean por ${brandName}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
-            </div>
-            <div class="page-footer">Material personalizado • Curadoria Elite Travel Partner</div>
-          </section>`
-        : "";
+            <p>${getClientMessageText()}</p>
+          </div>
+          <div class="panel personalized-cover-panel">
+            <h2>${category} • ${city}</h2>
+            <p>Material preparado em versão business clean por ${brandName}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
+          </div>`
+        : `<div class="panel">
+            <h2>Uso profissional</h2>
+            <ul>
+              <li>Versão adaptada para envio ao cliente da empresa parceira.</li>
+              <li>Identidade da empresa aplicada ao documento.</li>
+              <li>Assinatura discreta da Curadoria Elite Travel como parceira de curadoria.</li>
+            </ul>
+          </div>`;
 
       const indicationPages = businessContent.items.length
         ? chunkItems(businessContent.items, 3).map(function(itemsChunk, chunkIndex) {
@@ -3020,9 +2863,7 @@
               </section>
             `;
           }).join("")
-        : `<section class="paper-page"><div class="page-kicker">Página 03 • Indicações selecionadas</div><h2>Indicações em preparação</h2><p class="lead">Este material já foi identificado no Supabase. As indicações internas serão exibidas aqui quando a conversão B2B estiver preenchida para esta categoria e destino.</p><div class="page-footer">Curadoria Elite Travel Partner</div></section>`;
-
-
+        : `<section class="paper-page"><div class="page-kicker">Página 03 • Indicações selecionadas</div><h2>Indicações em preparação</h2><p class="lead">Este material já foi identificado no Supabase. A leitura automática tentará converter o PDF em indicações estruturadas para esta categoria e destino. Se o texto do PDF não estiver em padrão legível, será necessário revisar a conversão.</p><div class="page-footer">Curadoria Elite Travel Partner</div></section>`;
 
       const closingPageHtml = `
         <section class="paper-page closing-page">
@@ -3048,7 +2889,7 @@
             <p>Uso destinado ao apoio e orientação durante a viagem.</p>
           </div>
 
-          <div class="page-footer">© 2026 • ${brandName} • Curadoria Elite Travel Partner • Conta: ${partnerName}</div>
+          <div class="page-footer">© 2026 • ${brandName} • Curadoria Elite Travel Partner</div>
         </section>
       `;
 
@@ -3175,6 +3016,10 @@
     }
     .panel h2 { font-size: 26px; margin-bottom: 12px; }
     .panel p, .panel li { color: #333; font-size: 17px; line-height: 1.65; }
+    .personalized-cover-panel .page-kicker { margin-bottom: 14px; }
+    .personalized-cover-panel h2 { font-size: 28px; margin-bottom: 14px; }
+    .personalized-cover-panel p { font-size: 18px; line-height: 1.7; }
+
     .items-grid { display: grid; gap: 18px; position: relative; z-index: 1; }
     .printed-item-card {
       border: 1px solid #dfcfaa;
@@ -3332,19 +3177,10 @@
       <div><small>Formato</small><strong>Business clean</strong></div>
     </div>
 
-    <div class="panel">
-      <h2>Uso profissional</h2>
-      <ul>
-        <li>Versão adaptada para envio ao cliente da empresa parceira.</li>
-        <li>Identidade da empresa aplicada ao documento.</li>
-        <li>Assinatura discreta da Curadoria Elite Travel como parceira de curadoria.</li>
-      </ul>
-    </div>
+    ${personalizedCoverHtml}
 
     <div class="page-footer">Página 01 • Material Partner • Uso autorizado para clientes da empresa parceira</div>
   </section>
-
-  ${clientPageHtml}
 
   <section class="paper-page">
     <div class="page-kicker">Panorama da cidade</div>
@@ -3406,13 +3242,14 @@
 
       try {
         await ensureBusinessContentLoaded(selectedMaterial);
+        const documentHtml = buildBusinessDocumentHtml(autoPrint);
         businessWindow.document.open();
-        businessWindow.document.write(buildBusinessDocumentHtml(autoPrint));
+        businessWindow.document.write(documentHtml);
         businessWindow.document.close();
       } catch (error) {
         console.error("Erro ao gerar material business:", error);
         businessWindow.document.open();
-        businessWindow.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Erro ao gerar material</title></head><body style="font-family:Arial,sans-serif;padding:40px;color:#111;"><h1>Não foi possível gerar este material.</h1><p>Verifique se o PDF está acessível no Supabase e tente novamente.</p><pre style="white-space:pre-wrap;background:#f4f4f4;padding:16px;border-radius:12px;">${String(error && error.message ? error.message : error)}</pre></body></html>`);
+        businessWindow.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Erro ao gerar material</title></head><body style="font-family:Arial,sans-serif;padding:40px;color:#111;"><h1>Não foi possível gerar este material.</h1><p>Verifique se a categoria e o destino estão selecionados corretamente.</p><pre style="white-space:pre-wrap;background:#f4f4f4;padding:16px;border-radius:12px;">${String(error && error.message ? error.message : error)}</pre></body></html>`);
         businessWindow.document.close();
       }
     }
@@ -3475,6 +3312,10 @@
 
         document.getElementById("docLogoText").innerHTML =
           '<img src="' + e.target.result + '" alt="Logo da marca apresentada">';
+
+        if (selectedMaterial) {
+          renderBusinessContentPreview(selectedMaterial);
+        }
       };
 
       reader.readAsDataURL(file);
