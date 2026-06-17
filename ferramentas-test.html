@@ -2123,19 +2123,86 @@
 
     function extractPanoramaFromText(text, city) {
       const cleaned = normalizeExtractedPdfText(text);
-      const panoramaMatch = cleaned.match(/(?:panorama(?: da cidade)?|intro|introdução)\s*\n+([\s\S]{120,1200}?)(?=\n\s*(?:indicações|nome\s*:|descrição\s*:|endere[cç]o\s*:|site\s*:|entrada\s*:|[A-ZÀ-Ú0-9][A-ZÀ-Ú0-9\s\-–—&().,'’]{6,}\n))/i);
+      const cityName = cleanExtractedValue(String(city || "").split(" - ")[0]);
+
+      function cleanPanoramaCandidate(candidate) {
+        let value = cleanExtractedValue(candidate)
+          .replace(/Cart[aã]o Postal Vivo/gi, "")
+          .replace(/A Arte dos Destinos/gi, "")
+          .replace(/Lugares que inspiram\s+olhares,?\s+momentos que\s+conquistam cora[cç][õo]es/gi, "")
+          .replace(/Lugares que inspiram/gi, "")
+          .replace(/olhares,?\s+momentos que/gi, "")
+          .replace(/conquistam cora[cç][õo]es/gi, "")
+          .trim();
+
+        if (cityName) {
+          const cityIndex = value.toLowerCase().indexOf(cityName.toLowerCase());
+          if (cityIndex >= 0) {
+            value = value.slice(cityIndex).trim();
+          }
+        }
+
+        value = value
+          .split(/\b(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:|SAGRADA FAM[IÍ]LIA|PARK G[ÜU]ELL|CASA BATLL[ÓO]|LA PEDRERA|BAIRRO G[ÓO]TICO)\b/i)[0]
+          .trim();
+
+        return cleanExtractedValue(value);
+      }
+
+      const beforeFirstDescription = cleaned.split(/Descri[cç][aã]o\s*:/i)[0] || cleaned;
+      const lines = beforeFirstDescription
+        .split("\n")
+        .map(cleanExtractedValue)
+        .filter(Boolean);
+
+      if (cityName) {
+        const startIndex = lines.findIndex(function(line) {
+          return line.toLowerCase().includes(cityName.toLowerCase()) &&
+            !/^\s*(?:categoria|destino|material|www|atra[cç][õo]es|pontos)/i.test(line);
+        });
+
+        if (startIndex >= 0) {
+          const collected = [];
+
+          for (let index = startIndex; index < lines.length; index += 1) {
+            const line = lines[index];
+
+            if (/^\s*(?:CURADORIA|ELITE TRAVEL|PONTOS TUR|Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:)/i.test(line)) {
+              break;
+            }
+
+            if (/^(?:Lugares que inspiram|olhares,? momentos|conquistam cora[cç][õo]es)$/i.test(line)) {
+              continue;
+            }
+
+            collected.push(line);
+          }
+
+          const panorama = cleanPanoramaCandidate(collected.join(" "));
+          if (panorama.length > 120) {
+            return panorama;
+          }
+        }
+      }
+
+      const panoramaMatch = cleaned.match(/(?:Cart[aã]o Postal Vivo|A Arte dos Destinos|panorama(?: da cidade)?|intro|introdução)\s+([\s\S]{120,1600}?)(?=\n\s*(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:))/i);
 
       if (panoramaMatch && panoramaMatch[1]) {
-        return cleanExtractedValue(panoramaMatch[1]);
+        const panorama = cleanPanoramaCandidate(panoramaMatch[1]);
+        if (panorama.length > 120) {
+          return panorama;
+        }
       }
 
       const paragraphs = cleaned
         .split(/\n{2,}/)
-        .map(cleanExtractedValue)
+        .map(function(paragraph) { return cleanPanoramaCandidate(paragraph); })
         .filter(function(paragraph) {
           return paragraph.length > 160 &&
             !/^(nome|descrição|endereço|site|entrada|indicações|www\.|https?:\/\/)/i.test(paragraph) &&
-            !/curadoria elite travel/i.test(paragraph);
+            !/curadoria elite travel/i.test(paragraph) &&
+            !/^um brinde/i.test(paragraph) &&
+            !/^seu guia/i.test(paragraph);
         });
 
       return paragraphs[0] || `${city || "O destino selecionado"} reúne experiências selecionadas com foco em praticidade, clareza e orientação profissional para apoiar empresas parceiras no atendimento aos seus clientes.`;
