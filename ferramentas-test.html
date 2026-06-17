@@ -2143,7 +2143,7 @@
         }
 
         value = value
-          .split(/\b(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:|SAGRADA FAM[IÍ]LIA|PARK G[ÜU]ELL|CASA BATLL[ÓO]|LA PEDRERA|BAIRRO G[ÓO]TICO)\b/i)[0]
+          .split(/(?:\b(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:|SAGRADA FAM[IÍ]LIA|PARK G[ÜU]ELL|CASA BATLL[ÓO]|LA PEDRERA|BAIRRO G[ÓO]TICO)\b|PONTOS\s+TUR[IÍ]STICOS?|PONTOS\s+TURISTICOS?|CURADORIA\s+ELITE\s+TRAVEL|Mais que paisagens|Porque o verdadeiro destino|Lugares que inspiram)/i)[0]
           .trim();
 
         return cleanExtractedValue(value);
