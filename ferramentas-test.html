@@ -2158,10 +2158,23 @@
       const value = cleanExtractedValue(line).replace(/^nome\s*:\s*/i, "");
       if (!value || value.length < 4 || value.length > 90) return false;
 
-      if (/^(descri[cç][aã]o|endere[cç]o|site|entrada|p[áa]gina|curadoria|pontos|atra[cç][õo]es|porque|mais que|cada p[áa]gina|by|www|https?)/i.test(value)) {
-        return false;
-      }
+      const blocked = [
+        /^(descri[cç][aã]o|endere[cç]o|site|entrada|p[áa]gina|curadoria|pontos|atra[cç][õo]es|porque|mais que|cada p[áa]gina|by|www|https?)/i,
+        /^elite\s*travel$/i,
+        /^travel$/i,
+        /^elitte?\s*travel$/i,
+        /^o seu mundo/i,
+        /^um brinde/i,
+        /^seu guia/i,
+        /^a arte/i,
+        /^cart[aã]o postal/i,
+        /^lugares que inspiram/i,
+        /^olhares/i,
+        /^momentos/i,
+        /^conquistam/i
+      ];
 
+      if (blocked.some(function(regex) { return regex.test(value); })) return false;
       if (/@|\.com|curadoriaelitetravel|instagram|linkedin/i.test(value)) return false;
       if (/[.!?]{1}$/.test(value)) return false;
 
@@ -2171,38 +2184,118 @@
       const upperLetters = letters.replace(/[a-zà-ÿ]/g, "").length;
       const upperRatio = upperLetters / letters.length;
 
-      return upperRatio > 0.62;
+      return upperRatio > 0.68;
+    }
+
+    function splitPossibleJoinedNames(value) {
+      const text = cleanExtractedValue(value);
+      if (!text) return [];
+
+      const knownNameTokens = [
+        "SAGRADA FAMÍLIA",
+        "PARK GÜELL",
+        "CASA BATLLÓ",
+        "LA PEDRERA (CASA MILÀ)",
+        "BAIRRO GÓTICO",
+        "MERCADO DE LA BOQUERIA",
+        "MUSEU PICASSO",
+        "FONTE MÁGICA DE MONTJUÏC",
+        "BUNKERS DEL CARMEL",
+        "RECINTO MODERNISTA DE SANT PAU",
+        "LABERINT D'HORTA",
+        "FABRA I COATS"
+      ];
+
+      const matches = knownNameTokens.filter(function(name) {
+        return text.toUpperCase().includes(name.toUpperCase());
+      });
+
+      if (matches.length) {
+        return matches;
+      }
+
+      return isLikelyAttractionName(text) ? [text] : [];
     }
 
     function extractAttractionNames(text) {
-      const cleaned = removeB2CDecorativeLines(text);
+      const cleaned = removeB2CDecorativeLines(text)
+        .replace(/https:\s*\/\//gi, "https://")
+        .replace(/http:\s*\/\//gi, "http://");
+
       const lines = cleaned.split("\n").map(cleanExtractedValue).filter(Boolean);
       const names = [];
 
-      lines.forEach(function(line) {
-        if (!isLikelyAttractionName(line)) return;
+      function addName(name) {
+        splitPossibleJoinedNames(name).forEach(function(candidate) {
+          const cleanName = cleanExtractedValue(candidate);
+          if (cleanName && !names.includes(cleanName)) {
+            names.push(cleanName);
+          }
+        });
+      }
 
-        const name = line.replace(/^nome\s*:\s*/i, "").trim();
-        if (!names.includes(name)) {
-          names.push(name);
+      lines.forEach(function(line) {
+        /*
+          Alguns PDFs do Canva entregam os nomes das atrações depois do bloco de
+          entrada, ou até grudados no fim do preço:
+          "Entrada: a partir de €26 SAGRADA FAMÍLIA PARK GÜELL".
+          Por isso também procuramos nomes dentro do trecho após Entrada.
+        */
+        if (/^Entrada\s*:/i.test(line)) {
+          const entryParts = splitEntryPriceAndTrailingText(line.replace(/^Entrada\s*:\s*/i, ""));
+          if (entryParts.trailingText) {
+            addName(entryParts.trailingText);
+          }
+          return;
         }
+
+        addName(line);
       });
 
       return names;
     }
 
+    function splitEntryPriceAndTrailingText(value) {
+      const text = cleanExtractedValue(value);
+      if (!text) return { price: "", trailingText: "" };
+
+      const pricePattern = /(a partir de\s*(?:US\$|R\$|€)?\s*[\d.,]+(?:\s*\([^)]*\))?|gratuita?|entrada gratuita|sob consulta)/i;
+      const match = text.match(pricePattern);
+
+      if (!match) {
+        return { price: text, trailingText: "" };
+      }
+
+      const price = cleanExtractedValue(match[1]);
+      const trailingText = cleanExtractedValue(text.slice(match.index + match[1].length));
+
+      return { price, trailingText };
+    }
+
+    function cleanFieldUntilNextLabel(value) {
+      return cleanExtractedValue(String(value || "")
+        .replace(/\n(?=\s*(?:Descri[cç][aã]o|Endere[cç]o|Site|Entrada)\s*:)/gi, "\n")
+        .replace(/\s+/g, " "));
+    }
+
     function parseDetailBlockFromDescriptionSegment(segment) {
-      const block = normalizeExtractedPdfText(segment);
+      const block = normalizeExtractedPdfText(segment)
+        .replace(/https:\s*\/\//gi, "https://")
+        .replace(/http:\s*\/\//gi, "http://");
+
       const descriptionMatch = block.match(/Descri[cç][aã]o\s*:\s*([\s\S]*?)(?=\n\s*Endere[cç]o\s*:|$)/i);
       const addressMatch = block.match(/Endere[cç]o\s*:\s*([\s\S]*?)(?=\n\s*Site\s*:|\n\s*Entrada\s*:|$)/i);
       const siteMatch = block.match(/Site\s*:\s*([\s\S]*?)(?=\n\s*Entrada\s*:|$)/i);
       const entryMatch = block.match(/Entrada\s*:\s*([\s\S]*?)$/i);
 
+      const entryParts = splitEntryPriceAndTrailingText(entryMatch ? entryMatch[1] : "");
+
       return {
-        description: cleanExtractedValue(descriptionMatch ? descriptionMatch[1] : ""),
-        address: cleanExtractedValue(addressMatch ? addressMatch[1] : ""),
+        description: cleanFieldUntilNextLabel(descriptionMatch ? descriptionMatch[1] : ""),
+        address: cleanFieldUntilNextLabel(addressMatch ? addressMatch[1] : ""),
         site: cleanExtractedValue(siteMatch ? siteMatch[1] : "").replace(/\s+/g, ""),
-        price: cleanExtractedValue(entryMatch ? entryMatch[1] : "")
+        price: entryParts.price,
+        trailingNameText: entryParts.trailingText
       };
     }
 
@@ -2211,16 +2304,34 @@
         .replace(/https:\s*\/\//gi, "https://")
         .replace(/http:\s*\/\//gi, "http://");
 
-      const names = extractAttractionNames(cleaned);
       const descriptionSegments = cleaned
         .split(/(?=Descri[cç][aã]o\s*:)/i)
         .filter(function(segment) {
           return /^Descri[cç][aã]o\s*:/i.test(segment.trim());
         })
         .map(function(segment) {
+          /*
+            Corta o segmento antes de textos de encerramento ou antes de uma nova
+            área institucional do PDF B2C.
+          */
           return segment
             .split(/(?=\n\s*(?:Cada p[aá]gina|É um prazer|Agrade[cç]o|Porque acreditamos|By Curadoria|ATRAÇÕES TURÍSTICAS))/i)[0];
         });
+
+      let names = extractAttractionNames(cleaned);
+
+      /*
+        Se o PDF vier com os nomes grudados no campo Entrada, reforçamos a lista
+        de nomes na mesma ordem em que aparecem nos blocos de descrição.
+      */
+      descriptionSegments.forEach(function(segment) {
+        const details = parseDetailBlockFromDescriptionSegment(segment);
+        if (details.trailingNameText) {
+          splitPossibleJoinedNames(details.trailingNameText).forEach(function(name) {
+            if (!names.includes(name)) names.push(name);
+          });
+        }
+      });
 
       const items = descriptionSegments.map(function(segment, index) {
         const details = parseDetailBlockFromDescriptionSegment(segment);
@@ -2233,14 +2344,17 @@
           site: details.site,
           price: details.price
         };
-      }).filter(function(item) {
-        return item.name &&
-          item.description &&
-          item.description.length > 35 &&
-          !/^Indica[cç][aã]o\s+\d+$/i.test(item.name);
       });
 
-      return items.slice(0, 24);
+      return items
+        .filter(function(item) {
+          return item.name &&
+            item.description &&
+            item.description.length > 35 &&
+            !/^elite\s*travel$/i.test(item.name) &&
+            !/^travel$/i.test(item.name);
+        })
+        .slice(0, 24);
     }
 
     function parseAttractionsBusinessContent(text, city) {
