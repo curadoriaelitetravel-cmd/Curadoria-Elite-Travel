@@ -2052,6 +2052,10 @@
       return String(value || "")
         .replace(/\s+/g, " ")
         .replace(/\s+([,.;:])/g, "$1")
+        .replace(/\bGratuit\b/gi, "Gratuita")
+        .replace(/\bGratuto\b/gi, "Gratuito")
+        .replace(/\bEndereço\b/gi, "Endereço")
+        .replace(/\bDescrição\b/gi, "Descrição")
         .trim();
     }
 
@@ -2312,6 +2316,91 @@
         ];
       }
 
+      if (normalizedCity.includes("CIDADE DO MEXICO") || normalizedCity.includes("MEXICO CITY")) {
+        return [
+          "ZÓCALO",
+          "PALÁCIO DE BELLAS ARTES",
+          "TEMPLO MAYOR",
+          "CASTELO DE CHAPULTEPEC",
+          "MUSEU NACIONAL DE ANTROPOLOGIA",
+          "CASA AZUL",
+          "XOCHIMILCO",
+          "BASÍLICA DE GUADALUPE",
+          "TORRE LATINOAMERICANA",
+          "ALAMEDA CENTRAL",
+          "COYOACÁN",
+          "MERCADO DE LA CIUDADELA"
+        ];
+      }
+
+      if (normalizedCity.includes("GRAMADO")) {
+        return [
+          "RUA COBERTA",
+          "LAGO NEGRO",
+          "MINI MUNDO",
+          "SNOWLAND",
+          "LE JARDIN PARQUE DE LAVANDA",
+          "IGREJA MATRIZ SÃO PEDRO",
+          "FONTE DO AMOR ETERNO",
+          "ALDEIA DO PAPAI NOEL",
+          "MUNDO A VAPOR",
+          "DREAMLAND MUSEU DE CERA",
+          "REINO DO CHOCOLATE",
+          "PARQUE OLIVAS DE GRAMADO"
+        ];
+      }
+
+      if (normalizedCity.includes("RIO DE JANEIRO")) {
+        return [
+          "CRISTO REDENTOR",
+          "PÃO DE AÇÚCAR",
+          "PRAIA DE COPACABANA",
+          "PRAIA DE IPANEMA",
+          "ESCADARIA SELARÓN",
+          "ARCOS DA LAPA",
+          "MUSEU DO AMANHÃ",
+          "JARDIM BOTÂNICO",
+          "PARQUE LAGE",
+          "MARACANÃ",
+          "REAL GABINETE PORTUGUÊS DE LEITURA",
+          "ILHA FISCAL"
+        ];
+      }
+
+      if (normalizedCity.includes("SAO PAULO") || normalizedCity.includes("SÃO PAULO")) {
+        return [
+          "AVENIDA PAULISTA",
+          "MASP",
+          "PARQUE IBIRAPUERA",
+          "PINACOTECA DE SÃO PAULO",
+          "MERCADO MUNICIPAL",
+          "THEATRO MUNICIPAL",
+          "FAROL SANTANDER",
+          "LIBERDADE",
+          "BECO DO BATMAN",
+          "MUSEU DO FUTEBOL",
+          "CATEDRAL DA SÉ",
+          "INSTITUTO TOMIE OHTAKE"
+        ];
+      }
+
+      if (normalizedCity.includes("ORLANDO")) {
+        return [
+          "MAGIC KINGDOM",
+          "EPCOT",
+          "DISNEY'S HOLLYWOOD STUDIOS",
+          "DISNEY'S ANIMAL KINGDOM",
+          "UNIVERSAL STUDIOS FLORIDA",
+          "ISLANDS OF ADVENTURE",
+          "SEA WORLD ORLANDO",
+          "DISCOVERY COVE",
+          "ICON PARK",
+          "THE WHEEL AT ICON PARK",
+          "HARRY P. LEU GARDENS",
+          "WINTER PARK"
+        ];
+      }
+
       return [];
     }
 
@@ -2414,10 +2503,10 @@
       const entryParts = splitEntryPriceAndTrailingText(entryMatch ? entryMatch[1] : "", knownNames);
 
       return {
-        description: removeTrailingAttractionNamesFromField(descriptionMatch ? descriptionMatch[1] : "", knownNames),
+        description: cleanBusinessDescriptionText(descriptionMatch ? descriptionMatch[1] : "", knownNames),
         address: removeTrailingAttractionNamesFromField(addressMatch ? addressMatch[1] : "", knownNames),
         site: normalizeSiteValue(removeTrailingAttractionNamesFromField(siteMatch ? siteMatch[1] : "", knownNames)),
-        price: entryParts.price
+        price: cleanExtractedValue(entryParts.price)
       };
     }
 
@@ -2449,6 +2538,72 @@
       return (names || []).find(function(name) {
         return name && !(usedNames || []).includes(name);
       }) || "";
+    }
+
+
+    function getGlobalAttractionNameCorrections() {
+      return [
+        "HARRY P. LEU GARDENS",
+        "REAL GABINETE PORTUGUÊS DE LEITURA",
+        "PALÁCIO DE BELLAS ARTES",
+        "LE JARDIN PARQUE DE LAVANDA",
+        "PINACOTECA DE SÃO PAULO",
+        "MUSEU NACIONAL DE ANTROPOLOGIA"
+      ];
+    }
+
+    function repairAttractionName(value, city, configuredNames, fallbackNames) {
+      const original = cleanExtractedValue(value);
+      if (!original) return "";
+
+      const normalizedOriginal = normalizeForSearch(original)
+        .replace(/[^A-Z0-9]/g, "");
+
+      if (!normalizedOriginal) return original;
+
+      const allNames = []
+        .concat(configuredNames || [])
+        .concat(fallbackNames || [])
+        .concat(getGlobalAttractionNameCorrections())
+        .filter(function(name, index, array) {
+          return name && array.indexOf(name) === index;
+        });
+
+      const exact = allNames.find(function(name) {
+        return normalizeForSearch(name).replace(/[^A-Z0-9]/g, "") === normalizedOriginal;
+      });
+
+      if (exact) return exact;
+
+      const prefixMatch = allNames
+        .filter(function(name) {
+          const normalizedName = normalizeForSearch(name).replace(/[^A-Z0-9]/g, "");
+          return normalizedOriginal.length >= 7 &&
+            normalizedName.length > normalizedOriginal.length &&
+            normalizedName.indexOf(normalizedOriginal) === 0;
+        })
+        .sort(function(a, b) { return a.length - b.length; })[0];
+
+      if (prefixMatch) return prefixMatch;
+
+      if (/^HARRY\s+P\.?\s+LE$/i.test(original)) {
+        return "HARRY P. LEU GARDENS";
+      }
+
+      return original;
+    }
+
+    function cleanBusinessDescriptionText(value, namesToRemove) {
+      let text = removeTrailingAttractionNamesFromField(value, namesToRemove);
+
+      text = text
+        .replace(/\b(?:Descri[cç][aã]o|Endere[cç]o|Site|Entrada)\s*:\s*/gi, " ")
+        .replace(/\b(?:PONTOS\s+TUR[IÍ]STICOS|ATRA[CÇ][ÕO]ES\s+TUR[IÍ]STICAS)\b/gi, " ")
+        .replace(/\b(?:CURADORIA|ELITE|TRAVEL)\b/gi, " ")
+        .replace(/\s{2,}/g, " ")
+        .trim();
+
+      return cleanExtractedValue(text);
     }
 
 
@@ -2559,14 +2714,15 @@
           name = `Indicação ${index + 1}`;
         }
 
+        name = repairAttractionName(name, city, configuredNames, fallbackNames);
         usedNames.push(name);
 
         return {
           name: cleanExtractedValue(name),
-          description: details.description,
-          address: details.address,
-          site: details.site,
-          price: details.price
+          description: cleanBusinessDescriptionText(details.description, removalNames),
+          address: removeTrailingAttractionNamesFromField(details.address, removalNames),
+          site: normalizeSiteValue(removeTrailingAttractionNamesFromField(details.site, removalNames)),
+          price: cleanExtractedValue(details.price)
         };
       });
 
@@ -2602,11 +2758,11 @@
         });
 
         return {
-          name: officialName,
-          description: removeTrailingAttractionNamesFromField(item.description, cleanupNames),
+          name: repairAttractionName(officialName, city, configuredNames, []),
+          description: cleanBusinessDescriptionText(item.description, cleanupNames),
           address: removeTrailingAttractionNamesFromField(item.address, cleanupNames),
           site: normalizeSiteValue(removeTrailingAttractionNamesFromField(item.site, cleanupNames)),
-          price: removeTrailingAttractionNamesFromField(item.price, cleanupNames)
+          price: cleanExtractedValue(removeTrailingAttractionNamesFromField(item.price, cleanupNames))
         };
       });
     }
