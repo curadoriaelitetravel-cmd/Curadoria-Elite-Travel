@@ -2451,6 +2451,59 @@
       }) || "";
     }
 
+
+
+    function extractEmbeddedAttractionNameFromDescription(description, configuredNames, fallbackNames) {
+      const source = cleanExtractedValue(description);
+      if (!source) return "";
+
+      const allKnownNames = (configuredNames || []).concat(fallbackNames || []).filter(Boolean);
+      const normalizedSource = normalizeForSearch(source);
+
+      /*
+        Muitos PDFs do Canva entregam o título visual dentro da descrição do bloco.
+        Ex.: "este museu MUSEU DO LOUVRE abriga...".
+        Quando isso acontece, esse nome é mais confiável do que a lista separada de
+        títulos, porque pertence ao mesmo bloco Descrição/Endereço/Site/Entrada.
+      */
+      for (const knownName of allKnownNames) {
+        const normalizedName = normalizeForSearch(knownName);
+        if (normalizedName && normalizedSource.includes(normalizedName)) {
+          return knownName;
+        }
+      }
+
+      const candidates = source.match(/[A-ZÀ-Ú0-9][A-ZÀ-Ú0-9'’\-\.]+(?:\s+(?:DE|DA|DO|DAS|DOS|DEL|DES|DU|LA|LE|LAS|LOS|EL|D'|D’|L'|L’|[A-ZÀ-Ú0-9][A-ZÀ-Ú0-9'’\-\.]+)){0,7}/g) || [];
+
+      const blocked = [
+        /^US$/, /^R$/, /^ARS$/, /^EUR$/, /^BRL$/, /^USD$/,
+        /^PARIS$/, /^MADRID$/, /^BUENOS AIRES$/, /^BARCELONA$/, /^NEW YORK$/,
+        /^ESPANHA$/, /^ARGENTINA$/, /^FRANÇA$/, /^USA$/, /^BRASIL$/,
+        /^CURADORIA$/, /^ELITE$/, /^TRAVEL$/, /^PONTOS$/, /^TURISTICOS$/, /^TURÍSTICOS$/,
+        /^BAIRRO LATINO$/
+      ];
+
+      const cleanedCandidates = candidates
+        .map(cleanExtractedValue)
+        .filter(function(candidate) {
+          if (!candidate || candidate.length < 5 || candidate.length > 80) return false;
+          if (blocked.some(function(regex) { return regex.test(normalizeForSearch(candidate)); })) return false;
+          if (/^(RUA|AV|AVENIDA|PL|PRAÇA|CALLE|CARRER|QUAI|BD)\b/i.test(candidate)) return false;
+          return /[A-ZÀ-Ú]/.test(candidate);
+        });
+
+      return cleanedCandidates[0] || "";
+    }
+
+    function removeEmbeddedAttractionNameFromDescription(description, embeddedName) {
+      let text = cleanExtractedValue(description);
+      if (!text || !embeddedName) return text;
+
+      const escaped = embeddedName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      text = text.replace(new RegExp("\\s*" + escaped + "\\s*", "gi"), " ");
+      return cleanExtractedValue(text);
+    }
+
     function parseAttractionItemsFromText(text, city) {
       const cleaned = cleanAttractionsExtractionText(text);
       const descriptionSegments = parseDescriptionSegments(cleaned);
@@ -2466,13 +2519,23 @@
         const details = parseAttractionDetailsFromSegment(segment, removalNames);
         let name = "";
 
+        const embeddedName = extractEmbeddedAttractionNameFromDescription(
+          details.description,
+          configuredNames,
+          fallbackNames
+        );
+
+        if (embeddedName) {
+          name = embeddedName;
+          details.description = removeEmbeddedAttractionNameFromDescription(details.description, embeddedName);
+        }
+
         /*
-          Quando já temos a lista oficial do destino, usamos a posição da
-          descrição como fonte principal. Isso evita o erro dos PDFs do Canva
-          em que o título visual da próxima atração entra dentro da descrição
-          anterior e embaralha nomes como aconteceu em Paris.
+          Se não houver título embutido na própria descrição, usamos a ordem oficial
+          quando ela existir. Isso preserva PDFs como New York/Barcelona e evita
+          criar "Indicação 7" quando o destino tem uma ordem conhecida.
         */
-        if (configuredNames.length && configuredNames[index]) {
+        if (!name && configuredNames.length && configuredNames[index]) {
           name = configuredNames[index];
         }
 
