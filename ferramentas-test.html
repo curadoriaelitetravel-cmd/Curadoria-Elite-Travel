@@ -2560,6 +2560,88 @@
       return lines;
     }
 
+
+    function getGlobalAttractionNameCorrections() {
+      return [
+        "EMPIRE STATE BUILDING",
+        "ESTÁTUA DA LIBERDADE",
+        "METROPOLITAN MUSEUM OF ART (THE MET)",
+        "TOP OF THE ROCK",
+        "CENTRAL PARK ZOO",
+        "BROOKLYN BRIDGE",
+        "SUMMIT ONE VANDERBILT",
+        "LITTLE ISLAND",
+        "THE MET CLOISTERS",
+        "THE VESSEL",
+        "ROOSEVELT ISLAND TRAMWAY",
+        "THE HIGH LINE",
+        "TORRE EIFFEL",
+        "MUSEU DO LOUVRE",
+        "ARCO DO TRIUNFO",
+        "SACRÉ-CŒUR",
+        "MUSEU D'ORSAY",
+        "CATEDRAL DE NOTRE-DAME",
+        "SAINTE-CHAPELLE",
+        "PANTEÃO",
+        "ATELIER DES LUMIÈRES",
+        "CANAL SAINT-MARTIN",
+        "MUSÉE DE LA CHASSE",
+        "LA PETITE CEINTURE",
+        "HARRY P. LEU GARDENS"
+      ];
+    }
+
+    function repairAttractionName(name, city, configuredNames, fallbackNames) {
+      let value = cleanExtractedValue(name)
+        .replace(/^nome\s*:\s*/i, "")
+        .replace(/\s+/g, " ")
+        .trim();
+
+      if (!value) return value;
+
+      const normalizedValue = normalizeForSearch(value);
+      const allNames = (configuredNames || [])
+        .concat(fallbackNames || [])
+        .concat(getKnownAttractionNamesForCity(city))
+        .concat(getGlobalAttractionNameCorrections())
+        .filter(Boolean);
+
+      const exactMatch = allNames.find(function(candidate) {
+        return normalizeForSearch(candidate) === normalizedValue;
+      });
+
+      if (exactMatch) return exactMatch;
+
+      const startsWithMatch = allNames.find(function(candidate) {
+        const normalizedCandidate = normalizeForSearch(candidate);
+        return normalizedValue.length >= 7 && normalizedCandidate.indexOf(normalizedValue) === 0;
+      });
+
+      if (startsWithMatch) return startsWithMatch;
+
+      if (/^HARRY\s+P\.?\s+LE$/i.test(value) || normalizedValue === "HARRY P LE") {
+        return "HARRY P. LEU GARDENS";
+      }
+
+      return value;
+    }
+
+    function cleanBusinessDescriptionText(description, knownNames) {
+      let value = cleanExtractedValue(description)
+        .replace(/\bGratuit\b/g, "Gratuita")
+        .replace(/\bgratuït\b/gi, "gratuita")
+        .replace(/\bDescri[cç][aã]o\s*:\s*/gi, "")
+        .replace(/\bEndere[cç]o\s*:\s*$/gi, "")
+        .replace(/\bSite\s*:\s*$/gi, "")
+        .replace(/\bEntrada\s*:\s*$/gi, "")
+        .replace(/\s+([,.;:])/g, "$1")
+        .trim();
+
+      value = removeTrailingAttractionNamesFromField(value, knownNames || []);
+
+      return cleanExtractedValue(value);
+    }
+
     function parseAttractionItemsFromText(text, city) {
       const cleaned = cleanAttractionsExtractionText(text)
         .replace(/https:\s*\/\//gi, "https://")
