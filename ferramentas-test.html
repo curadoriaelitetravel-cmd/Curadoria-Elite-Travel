@@ -2301,14 +2301,14 @@
           "MUSEU DO LOUVRE",
           "ARCO DO TRIUNFO",
           "SACRÉ-CŒUR",
+          "MUSEU D'ORSAY",
           "CATEDRAL DE NOTRE-DAME",
-          "JARDIM DE LUXEMBURGO",
           "SAINTE-CHAPELLE",
           "PANTEÃO",
           "ATELIER DES LUMIÈRES",
-          "MUSEU D'ORSAY",
-          "PALAIS GARNIER",
-          "GALERIES LAFAYETTE"
+          "CANAL SAINT-MARTIN",
+          "MUSÉE DE LA CHASSE",
+          "LA PETITE CEINTURE"
         ];
       }
 
@@ -2464,7 +2464,21 @@
 
       const items = descriptionSegments.map(function(segment, index) {
         const details = parseAttractionDetailsFromSegment(segment, removalNames);
-        let name = findKnownAttractionNameInSegment(segment, configuredNames, usedNames);
+        let name = "";
+
+        /*
+          Quando já temos a lista oficial do destino, usamos a posição da
+          descrição como fonte principal. Isso evita o erro dos PDFs do Canva
+          em que o título visual da próxima atração entra dentro da descrição
+          anterior e embaralha nomes como aconteceu em Paris.
+        */
+        if (configuredNames.length && configuredNames[index]) {
+          name = configuredNames[index];
+        }
+
+        if (!name) {
+          name = findKnownAttractionNameInSegment(segment, configuredNames, usedNames);
+        }
 
         if (!name) {
           name = findCandidateNameInSegment(segment, fallbackNames, usedNames);
@@ -2504,9 +2518,40 @@
         .slice(0, 24);
     }
 
+    function applyConfiguredCityNameOrder(items, city) {
+      const configuredNames = getKnownAttractionNamesForCity(city);
+
+      if (!configuredNames.length || !items || !items.length) {
+        return items || [];
+      }
+
+      /*
+        Regra de segurança para PDFs do Canva:
+        em alguns destinos, principalmente Paris, o título visual da próxima atração
+        aparece dentro do bloco de descrição atual. Por isso, quando já conhecemos a
+        ordem oficial do destino, ela prevalece sobre qualquer nome detectado no texto.
+        Isso evita combinações erradas como “Sainte-Chapelle” com descrição do Musée d'Orsay.
+      */
+      return items.map(function(item, index) {
+        const officialName = configuredNames[index] || item.name || `Indicação ${index + 1}`;
+        const cleanupNames = configuredNames.filter(function(name) {
+          return normalizeForSearch(name) !== normalizeForSearch(officialName);
+        });
+
+        return {
+          name: officialName,
+          description: removeTrailingAttractionNamesFromField(item.description, cleanupNames),
+          address: removeTrailingAttractionNamesFromField(item.address, cleanupNames),
+          site: normalizeSiteValue(removeTrailingAttractionNamesFromField(item.site, cleanupNames)),
+          price: removeTrailingAttractionNamesFromField(item.price, cleanupNames)
+        };
+      });
+    }
+
     function parseAttractionsBusinessContent(text, city) {
       const panorama = extractPanoramaFromText(text, city);
-      const items = parseAttractionItemsFromText(text, city);
+      const parsedItems = parseAttractionItemsFromText(text, city);
+      const items = applyConfiguredCityNameOrder(parsedItems, city);
 
       return {
         panorama,
