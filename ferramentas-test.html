@@ -2053,9 +2053,6 @@
         .replace(/\s+/g, " ")
         .replace(/\s+([,.;:])/g, "$1")
         .replace(/\bGratuit\b/gi, "Gratuita")
-        .replace(/\bGratuto\b/gi, "Gratuito")
-        .replace(/\bEndereço\b/gi, "Endereço")
-        .replace(/\bDescrição\b/gi, "Descrição")
         .trim();
     }
 
@@ -2316,91 +2313,6 @@
         ];
       }
 
-      if (normalizedCity.includes("CIDADE DO MEXICO") || normalizedCity.includes("MEXICO CITY")) {
-        return [
-          "ZÓCALO",
-          "PALÁCIO DE BELLAS ARTES",
-          "TEMPLO MAYOR",
-          "CASTELO DE CHAPULTEPEC",
-          "MUSEU NACIONAL DE ANTROPOLOGIA",
-          "CASA AZUL",
-          "XOCHIMILCO",
-          "BASÍLICA DE GUADALUPE",
-          "TORRE LATINOAMERICANA",
-          "ALAMEDA CENTRAL",
-          "COYOACÁN",
-          "MERCADO DE LA CIUDADELA"
-        ];
-      }
-
-      if (normalizedCity.includes("GRAMADO")) {
-        return [
-          "RUA COBERTA",
-          "LAGO NEGRO",
-          "MINI MUNDO",
-          "SNOWLAND",
-          "LE JARDIN PARQUE DE LAVANDA",
-          "IGREJA MATRIZ SÃO PEDRO",
-          "FONTE DO AMOR ETERNO",
-          "ALDEIA DO PAPAI NOEL",
-          "MUNDO A VAPOR",
-          "DREAMLAND MUSEU DE CERA",
-          "REINO DO CHOCOLATE",
-          "PARQUE OLIVAS DE GRAMADO"
-        ];
-      }
-
-      if (normalizedCity.includes("RIO DE JANEIRO")) {
-        return [
-          "CRISTO REDENTOR",
-          "PÃO DE AÇÚCAR",
-          "PRAIA DE COPACABANA",
-          "PRAIA DE IPANEMA",
-          "ESCADARIA SELARÓN",
-          "ARCOS DA LAPA",
-          "MUSEU DO AMANHÃ",
-          "JARDIM BOTÂNICO",
-          "PARQUE LAGE",
-          "MARACANÃ",
-          "REAL GABINETE PORTUGUÊS DE LEITURA",
-          "ILHA FISCAL"
-        ];
-      }
-
-      if (normalizedCity.includes("SAO PAULO") || normalizedCity.includes("SÃO PAULO")) {
-        return [
-          "AVENIDA PAULISTA",
-          "MASP",
-          "PARQUE IBIRAPUERA",
-          "PINACOTECA DE SÃO PAULO",
-          "MERCADO MUNICIPAL",
-          "THEATRO MUNICIPAL",
-          "FAROL SANTANDER",
-          "LIBERDADE",
-          "BECO DO BATMAN",
-          "MUSEU DO FUTEBOL",
-          "CATEDRAL DA SÉ",
-          "INSTITUTO TOMIE OHTAKE"
-        ];
-      }
-
-      if (normalizedCity.includes("ORLANDO")) {
-        return [
-          "MAGIC KINGDOM",
-          "EPCOT",
-          "DISNEY'S HOLLYWOOD STUDIOS",
-          "DISNEY'S ANIMAL KINGDOM",
-          "UNIVERSAL STUDIOS FLORIDA",
-          "ISLANDS OF ADVENTURE",
-          "SEA WORLD ORLANDO",
-          "DISCOVERY COVE",
-          "ICON PARK",
-          "THE WHEEL AT ICON PARK",
-          "HARRY P. LEU GARDENS",
-          "WINTER PARK"
-        ];
-      }
-
       return [];
     }
 
@@ -2503,10 +2415,10 @@
       const entryParts = splitEntryPriceAndTrailingText(entryMatch ? entryMatch[1] : "", knownNames);
 
       return {
-        description: cleanBusinessDescriptionText(descriptionMatch ? descriptionMatch[1] : "", knownNames),
+        description: removeTrailingAttractionNamesFromField(descriptionMatch ? descriptionMatch[1] : "", knownNames),
         address: removeTrailingAttractionNamesFromField(addressMatch ? addressMatch[1] : "", knownNames),
         site: normalizeSiteValue(removeTrailingAttractionNamesFromField(siteMatch ? siteMatch[1] : "", knownNames)),
-        price: cleanExtractedValue(entryParts.price)
+        price: entryParts.price
       };
     }
 
@@ -2538,72 +2450,6 @@
       return (names || []).find(function(name) {
         return name && !(usedNames || []).includes(name);
       }) || "";
-    }
-
-
-    function getGlobalAttractionNameCorrections() {
-      return [
-        "HARRY P. LEU GARDENS",
-        "REAL GABINETE PORTUGUÊS DE LEITURA",
-        "PALÁCIO DE BELLAS ARTES",
-        "LE JARDIN PARQUE DE LAVANDA",
-        "PINACOTECA DE SÃO PAULO",
-        "MUSEU NACIONAL DE ANTROPOLOGIA"
-      ];
-    }
-
-    function repairAttractionName(value, city, configuredNames, fallbackNames) {
-      const original = cleanExtractedValue(value);
-      if (!original) return "";
-
-      const normalizedOriginal = normalizeForSearch(original)
-        .replace(/[^A-Z0-9]/g, "");
-
-      if (!normalizedOriginal) return original;
-
-      const allNames = []
-        .concat(configuredNames || [])
-        .concat(fallbackNames || [])
-        .concat(getGlobalAttractionNameCorrections())
-        .filter(function(name, index, array) {
-          return name && array.indexOf(name) === index;
-        });
-
-      const exact = allNames.find(function(name) {
-        return normalizeForSearch(name).replace(/[^A-Z0-9]/g, "") === normalizedOriginal;
-      });
-
-      if (exact) return exact;
-
-      const prefixMatch = allNames
-        .filter(function(name) {
-          const normalizedName = normalizeForSearch(name).replace(/[^A-Z0-9]/g, "");
-          return normalizedOriginal.length >= 7 &&
-            normalizedName.length > normalizedOriginal.length &&
-            normalizedName.indexOf(normalizedOriginal) === 0;
-        })
-        .sort(function(a, b) { return a.length - b.length; })[0];
-
-      if (prefixMatch) return prefixMatch;
-
-      if (/^HARRY\s+P\.?\s+LE$/i.test(original)) {
-        return "HARRY P. LEU GARDENS";
-      }
-
-      return original;
-    }
-
-    function cleanBusinessDescriptionText(value, namesToRemove) {
-      let text = removeTrailingAttractionNamesFromField(value, namesToRemove);
-
-      text = text
-        .replace(/\b(?:Descri[cç][aã]o|Endere[cç]o|Site|Entrada)\s*:\s*/gi, " ")
-        .replace(/\b(?:PONTOS\s+TUR[IÍ]STICOS|ATRA[CÇ][ÕO]ES\s+TUR[IÍ]STICAS)\b/gi, " ")
-        .replace(/\b(?:CURADORIA|ELITE|TRAVEL)\b/gi, " ")
-        .replace(/\s{2,}/g, " ")
-        .trim();
-
-      return cleanExtractedValue(text);
     }
 
 
@@ -2659,51 +2505,96 @@
       return cleanExtractedValue(text);
     }
 
+    function getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames) {
+      const used = usedNames || [];
+      const startIndex = Math.max(0, descriptionIndex - 6);
+
+      for (let index = descriptionIndex - 1; index >= startIndex; index -= 1) {
+        const candidate = cleanExtractedValue(lines[index] || "")
+          .replace(/^nome\s*:\s*/i, "")
+          .trim();
+
+        if (!candidate) continue;
+        if (used.includes(candidate)) continue;
+        if (/^(descri[cç][aã]o|endere[cç]o|site|entrada)\s*:/i.test(candidate)) continue;
+        if (/^(p[áa]gina|curadoria|elite travel|travel|pontos tur[ií]sticos|atra[cç][õo]es tur[ií]sticas|www\.|https?:)/i.test(candidate)) continue;
+        if (/^(lugares que inspiram|olhares,? momentos|conquistam cora[cç][õo]es)$/i.test(candidate)) continue;
+
+        if (isLikelyAttractionName(candidate)) {
+          return candidate;
+        }
+
+        const letters = candidate.replace(/[^A-Za-zÀ-ÿ]/g, "");
+        const upperLetters = letters.replace(/[a-zà-ÿ]/g, "").length;
+        const looksLikeShortTitle = letters.length >= 6 && upperLetters / Math.max(letters.length, 1) > 0.52 && !/[.!?]$/.test(candidate);
+
+        if (looksLikeShortTitle) {
+          return candidate;
+        }
+      }
+
+      return "";
+    }
+
+    function removeNextBlockTitleFromSegmentLines(segmentLines) {
+      const lines = (segmentLines || []).slice();
+
+      while (lines.length > 1) {
+        const lastLine = cleanExtractedValue(lines[lines.length - 1] || "");
+
+        if (isLikelyAttractionName(lastLine)) {
+          lines.pop();
+          continue;
+        }
+
+        break;
+      }
+
+      return lines;
+    }
+
     function parseAttractionItemsFromText(text, city) {
-      const cleaned = cleanAttractionsExtractionText(text);
-      const descriptionSegments = parseDescriptionSegments(cleaned);
-      const configuredNames = getKnownAttractionNamesForCity(city);
-      const knownNamesInPdf = extractKnownNamesInConfiguredOrder(cleaned, city);
+      const cleaned = cleanAttractionsExtractionText(text)
+        .replace(/https:\s*\/\//gi, "https://")
+        .replace(/http:\s*\/\//gi, "http://");
+
+      const lines = cleaned
+        .split("\n")
+        .map(cleanExtractedValue)
+        .filter(Boolean);
+
+      const descriptionIndexes = [];
+      lines.forEach(function(line, index) {
+        if (/^Descri[cç][aã]o\s*:/i.test(line)) {
+          descriptionIndexes.push(index);
+        }
+      });
+
       const fallbackNames = extractCandidateNamesInTextOrder(cleaned);
-      const removalNames = configuredNames.concat(fallbackNames).filter(function(name, index, array) {
+      const correctionNames = getGlobalAttractionNameCorrections();
+      const removalNames = fallbackNames.concat(correctionNames).filter(function(name, index, array) {
         return name && array.indexOf(name) === index;
       });
       const usedNames = [];
 
-      const items = descriptionSegments.map(function(segment, index) {
+      const items = descriptionIndexes.map(function(descriptionIndex, index) {
+        const nextDescriptionIndex = descriptionIndexes[index + 1] || lines.length;
+        const segmentLines = removeNextBlockTitleFromSegmentLines(lines.slice(descriptionIndex, nextDescriptionIndex));
+        const segment = segmentLines.join("\n");
         const details = parseAttractionDetailsFromSegment(segment, removalNames);
-        let name = "";
-
-        const embeddedName = extractEmbeddedAttractionNameFromDescription(
-          details.description,
-          configuredNames,
-          fallbackNames
-        );
-
-        if (embeddedName) {
-          name = embeddedName;
-          details.description = removeEmbeddedAttractionNameFromDescription(details.description, embeddedName);
-        }
-
-        /*
-          Se não houver título embutido na própria descrição, usamos a ordem oficial
-          quando ela existir. Isso preserva PDFs como New York/Barcelona e evita
-          criar "Indicação 7" quando o destino tem uma ordem conhecida.
-        */
-        if (!name && configuredNames.length && configuredNames[index]) {
-          name = configuredNames[index];
-        }
+        let name = getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames);
 
         if (!name) {
-          name = findKnownAttractionNameInSegment(segment, configuredNames, usedNames);
-        }
+          const embeddedName = extractEmbeddedAttractionNameFromDescription(
+            details.description,
+            [],
+            fallbackNames
+          );
 
-        if (!name) {
-          name = findCandidateNameInSegment(segment, fallbackNames, usedNames);
-        }
-
-        if (!name && knownNamesInPdf.length >= descriptionSegments.length) {
-          name = knownNamesInPdf[index] || "";
+          if (embeddedName) {
+            name = embeddedName;
+            details.description = removeEmbeddedAttractionNameFromDescription(details.description, embeddedName);
+          }
         }
 
         if (!name) {
@@ -2714,7 +2605,7 @@
           name = `Indicação ${index + 1}`;
         }
 
-        name = repairAttractionName(name, city, configuredNames, fallbackNames);
+        name = repairAttractionName(name, city, [], fallbackNames);
         usedNames.push(name);
 
         return {
@@ -2758,19 +2649,18 @@
         });
 
         return {
-          name: repairAttractionName(officialName, city, configuredNames, []),
-          description: cleanBusinessDescriptionText(item.description, cleanupNames),
+          name: officialName,
+          description: removeTrailingAttractionNamesFromField(item.description, cleanupNames),
           address: removeTrailingAttractionNamesFromField(item.address, cleanupNames),
           site: normalizeSiteValue(removeTrailingAttractionNamesFromField(item.site, cleanupNames)),
-          price: cleanExtractedValue(removeTrailingAttractionNamesFromField(item.price, cleanupNames))
+          price: removeTrailingAttractionNamesFromField(item.price, cleanupNames)
         };
       });
     }
 
     function parseAttractionsBusinessContent(text, city) {
       const panorama = extractPanoramaFromText(text, city);
-      const parsedItems = parseAttractionItemsFromText(text, city);
-      const items = applyConfiguredCityNameOrder(parsedItems, city);
+      const items = parseAttractionItemsFromText(text, city);
 
       return {
         panorama,
@@ -2796,16 +2686,7 @@
       businessContentLoading[cacheKey] = (async function() {
         try {
           const fullText = await extractPdfTextFromUrl(material.pdf_url, 5, 9);
-          let extracted = parseAttractionsBusinessContent(fullText, material.city_label);
-
-          if (!extracted.items || extracted.items.length < 2) {
-            const broadText = await extractPdfTextFromUrl(material.pdf_url, 1, 20);
-            const broadExtracted = parseAttractionsBusinessContent(broadText, material.city_label);
-
-            if (broadExtracted.items && broadExtracted.items.length > (extracted.items || []).length) {
-              extracted = broadExtracted;
-            }
-          }
+          const extracted = parseAttractionsBusinessContent(fullText, material.city_label);
 
           if (extracted.items && extracted.items.length) {
             businessContentCache[cacheKey] = extracted;
