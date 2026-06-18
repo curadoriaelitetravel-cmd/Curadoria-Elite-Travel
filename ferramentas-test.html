@@ -2408,9 +2408,9 @@
         .replace(/https:\s*\/\//gi, "https://")
         .replace(/http:\s*\/\//gi, "http://");
 
-      const descriptionMatch = block.match(/Descri[cç][aã]o\s*:\s*([\s\S]*?)(?=\n\s*Endere[cç]o\s*:|$)/i);
-      const addressMatch = block.match(/Endere[cç]o\s*:\s*([\s\S]*?)(?=\n\s*Site\s*:|\n\s*Entrada\s*:|$)/i);
-      const siteMatch = block.match(/Site\s*:\s*([\s\S]*?)(?=\n\s*Entrada\s*:|$)/i);
+      const descriptionMatch = block.match(/Descri[cç][aã]o\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Endere[cç]o\s*:|$)/i);
+      const addressMatch = block.match(/Endere[cç]o\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Site\s*:|(?:\s|\n)*Entrada\s*:|$)/i);
+      const siteMatch = block.match(/Site\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Entrada\s*:|$)/i);
       const entryMatch = block.match(/Entrada\s*:\s*([\s\S]*?)$/i);
       const entryParts = splitEntryPriceAndTrailingText(entryMatch ? entryMatch[1] : "", knownNames);
 
@@ -2508,6 +2508,13 @@
     function getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames) {
       const used = usedNames || [];
       const startIndex = Math.max(0, descriptionIndex - 6);
+      const currentLineBeforeDescription = cleanExtractedValue(String(lines[descriptionIndex] || "").split(/Descri[cç][aã]o\s*:/i)[0] || "")
+        .replace(/^nome\s*:\s*/i, "")
+        .trim();
+
+      if (currentLineBeforeDescription && !used.includes(currentLineBeforeDescription) && isLikelyAttractionName(currentLineBeforeDescription)) {
+        return currentLineBeforeDescription;
+      }
 
       for (let index = descriptionIndex - 1; index >= startIndex; index -= 1) {
         const candidate = cleanExtractedValue(lines[index] || "")
@@ -2565,7 +2572,7 @@
 
       const descriptionIndexes = [];
       lines.forEach(function(line, index) {
-        if (/^Descri[cç][aã]o\s*:/i.test(line)) {
+        if (/\bDescri[cç][aã]o\s*:/i.test(line)) {
           descriptionIndexes.push(index);
         }
       });
@@ -2660,7 +2667,7 @@
 
     function parseAttractionsBusinessContent(text, city) {
       const panorama = extractPanoramaFromText(text, city);
-      const items = parseAttractionItemsFromText(text, city);
+      const items = applyConfiguredCityNameOrder(parseAttractionItemsFromText(text, city), city);
 
       return {
         panorama,
