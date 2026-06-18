@@ -2626,6 +2626,139 @@
       return value;
     }
 
+
+
+    function getTitleRepairCandidateFromDescription(description) {
+      const source = cleanExtractedValue(description);
+      if (!source) return "";
+
+      const firstChunk = source.slice(0, 220);
+      const patterns = [
+        /^(?:A|O|As|Os)\s+([A-ZÀ-Ú][A-Za-zÀ-ÿ'’\-]+(?:\s+(?:de|da|do|das|dos|del|la|le|las|los|d'|d’|l'|l’|[A-ZÀ-Ú][A-Za-zÀ-ÿ'’\-]+)){0,5})\s+convida\b/i,
+        /\b(?:este|esta|esse|essa|o|a)\s+([A-ZÀ-Ú][A-ZÀ-Ú'’\-]+(?:\s+(?:DE|DA|DO|DAS|DOS|DEL|LA|LE|LAS|LOS|D'|D’|L'|L’|[A-ZÀ-Ú][A-ZÀ-Ú'’\-]+)){0,6})\b/,
+        /\b([A-ZÀ-Ú][A-ZÀ-Ú'’\-]{2,}(?:\s+(?:DE|DA|DO|DAS|DOS|DEL|LA|LE|LAS|LOS|D'|D’|L'|L’|[A-ZÀ-Ú][A-ZÀ-Ú'’\-]{2,})){0,6})\b/
+      ];
+
+      const blocked = /^(A|O|AS|OS|RUA|AV|AVENIDA|PRAÇA|PLAZA|EJE|RODOVIA|CENTRO|BRASIL|USA|MEXICO|MÉXICO|BRASIL|GRATUITA|GRATUITO|MXN|R\$|US\$|HTTP|HTTPS|SITE|ENTRADA|ENDERECO|ENDEREÇO)$/i;
+
+      for (const pattern of patterns) {
+        const match = firstChunk.match(pattern);
+        if (!match || !match[1]) continue;
+
+        const candidate = cleanExtractedValue(match[1])
+          .replace(/\bconvida\b.*$/i, "")
+          .replace(/\bredescobrir\b.*$/i, "")
+          .trim();
+
+        if (!candidate || candidate.length < 5 || candidate.length > 70) continue;
+        if (blocked.test(normalizeForSearch(candidate))) continue;
+        if (/\d/.test(candidate)) continue;
+
+        return candidate;
+      }
+
+      return "";
+    }
+
+    function removeTitleRepairCandidateFromDescription(description, titleCandidate) {
+      let text = cleanExtractedValue(description);
+      if (!text || !titleCandidate) return text;
+
+      const escaped = titleCandidate.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      text = text.replace(new RegExp("\\s+" + escaped + "(?=\\s|[,.;:])", "i"), " ");
+      text = text.replace(new RegExp("^(A|O|As|Os)\\s+" + escaped + "\\s+convida", "i"), "$1 " + titleCandidate.split(" ")[0] + " convida");
+      return cleanExtractedValue(text);
+    }
+
+    function repairSplitAttractionNameFromDescription(name, description, city, fallbackNames) {
+      let repairedName = cleanExtractedValue(name);
+      let repairedDescription = cleanExtractedValue(description);
+      if (!repairedName || !repairedDescription) {
+        return { name: repairedName, description: repairedDescription };
+      }
+
+      const cityNames = getKnownAttractionNamesForCity(city);
+      const allNames = (fallbackNames || [])
+        .concat(cityNames)
+        .concat(getGlobalAttractionNameCorrections())
+        .filter(Boolean);
+
+      const normalizedName = normalizeForSearch(repairedName);
+      const knownCompletion = allNames.find(function(candidate) {
+        const normalizedCandidate = normalizeForSearch(candidate);
+        return normalizedName.length >= 6 && normalizedCandidate.indexOf(normalizedName) === 0 && normalizedCandidate.length > normalizedName.length;
+      });
+
+      if (knownCompletion) {
+        const missingPart = cleanExtractedValue(knownCompletion.slice(repairedName.length));
+        if (missingPart) {
+          const escapedMissing = missingPart.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          repairedDescription = cleanExtractedValue(repairedDescription.replace(new RegExp("^" + escapedMissing + "\\b\\s*", "i"), ""));
+        }
+        return { name: knownCompletion, description: repairedDescription };
+      }
+
+      const words = repairedName.split(/\s+/);
+      const lastWord = words[words.length - 1] || "";
+      const normalizedLastWord = normalizeForSearch(lastWord);
+      const firstChunk = repairedDescription.slice(0, 170);
+      const upperTokens = firstChunk.match(/\b[A-ZÀ-Ú]{1,18}\b/g) || [];
+
+      for (const token of upperTokens) {
+        const normalizedToken = normalizeForSearch(token);
+        if (!normalizedToken || normalizedToken.length < 1 || normalizedToken.length > 18) continue;
+        if (/^(A|O|AS|OS|DE|DA|DO|DAS|DOS|E|EM|NO|NA|NOS|NAS|RUA|AV|MXN|R|US)$/.test(normalizedToken)) continue;
+
+        const joined = normalizedLastWord + normalizedToken;
+        const mergedLastWord = lastWord + token.toLowerCase();
+        const mergedName = cleanExtractedValue(words.slice(0, -1).concat([mergedLastWord]).join(" "));
+        const normalizedMergedName = normalizeForSearch(mergedName);
+
+        const knownMergedMatch = allNames.find(function(candidate) {
+          return normalizeForSearch(candidate) === normalizedMergedName || normalizeForSearch(candidate).indexOf(normalizedMergedName) === 0;
+        });
+
+        if (knownMergedMatch) {
+          repairedName = knownMergedMatch;
+          const escapedToken = token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          repairedDescription = cleanExtractedValue(repairedDescription.replace(new RegExp("\\b" + escapedToken + "\\b", "i"), ""));
+          return { name: repairedName, description: repairedDescription };
+        }
+
+        if (/^(LA|LE)$/.test(normalizedLastWord) && normalizedToken.length >= 2) {
+          repairedName = cleanExtractedValue(words.slice(0, -1).concat([lastWord + token.toLowerCase()]).join(" "));
+          const escapedToken = token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          repairedDescription = cleanExtractedValue(repairedDescription.replace(new RegExp("\\b" + escapedToken + "\\b", "i"), ""));
+          return { name: repairedName, description: repairedDescription };
+        }
+
+        if (/^(DO|DA|DE)$/.test(normalizedLastWord) && normalizedToken.length <= 2) {
+          const nextWordsMatch = firstChunk.match(new RegExp("\\b" + token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\s+([A-ZÀ-Ú][A-ZÀ-Ú'’\\-]+(?:\\s+[A-ZÀ-Ú][A-ZÀ-Ú'’\\-]+){0,3})"));
+          const complement = cleanExtractedValue((nextWordsMatch ? token + " " + nextWordsMatch[1] : token));
+          repairedName = cleanExtractedValue(repairedName + complement.toLowerCase());
+          const escapedComplement = complement.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          repairedDescription = cleanExtractedValue(repairedDescription.replace(new RegExp("\\b" + escapedComplement + "\\b", "i"), ""));
+          return { name: repairedName, description: repairedDescription };
+        }
+      }
+
+      const titleCandidate = getTitleRepairCandidateFromDescription(repairedDescription);
+      if (titleCandidate) {
+        const normalizedCandidate = normalizeForSearch(titleCandidate);
+        const normalizedCurrent = normalizeForSearch(repairedName);
+        const currentLooksGeneric = /^INDICACAO\s+\d+$/.test(normalizedCurrent) || normalizedCurrent.length < 5;
+        const currentLikelyShifted = !normalizedCandidate.includes(normalizedCurrent) && !normalizedCurrent.includes(normalizedCandidate);
+
+        if (currentLooksGeneric || currentLikelyShifted) {
+          repairedName = titleCandidate;
+          repairedDescription = removeTitleRepairCandidateFromDescription(repairedDescription, titleCandidate);
+        }
+      }
+
+      return { name: repairedName, description: repairedDescription };
+    }
+
+
     function cleanBusinessDescriptionText(description, knownNames) {
       let value = cleanExtractedValue(description)
         .replace(/\bGratuit\b/g, "Gratuita")
@@ -2695,6 +2828,17 @@
         }
 
         name = repairAttractionName(name, city, [], fallbackNames);
+
+        const repairedTitle = repairSplitAttractionNameFromDescription(
+          name,
+          details.description,
+          city,
+          fallbackNames
+        );
+
+        name = repairedTitle.name || name;
+        details.description = repairedTitle.description || details.description;
+
         usedNames.push(name);
 
         return {
