@@ -1510,8 +1510,6 @@
                 </div>
               </div>
 
-              <div id="personalizedCoverPreviewBlock"></div>
-
               <div class="business-content-preview" id="businessContentPreview">
                 <section class="business-a4-page">
                   <div class="business-page-kicker">Prévia Business Partner</div>
@@ -2052,7 +2050,6 @@
       return String(value || "")
         .replace(/\s+/g, " ")
         .replace(/\s+([,.;:])/g, "$1")
-        .replace(/\bGratuit\b/gi, "Gratuita")
         .trim();
     }
 
@@ -2124,89 +2121,74 @@
 
     function extractPanoramaFromText(text, city) {
       const cleaned = normalizeExtractedPdfText(text);
-      const cityName = cleanExtractedValue(String(city || "").split(" - ")[0]);
-
-      function cleanPanoramaCandidate(candidate) {
-        let value = cleanExtractedValue(candidate)
-          .replace(/Cart[aã]o Postal Vivo/gi, "")
-          .replace(/A Arte dos Destinos/gi, "")
-          .replace(/Lugares que inspiram\s+olhares,?\s+momentos que\s+conquistam cora[cç][õo]es/gi, "")
-          .replace(/Lugares que inspiram/gi, "")
-          .replace(/olhares,?\s+momentos que/gi, "")
-          .replace(/conquistam cora[cç][õo]es/gi, "")
-          .trim();
-
-        if (cityName) {
-          const cityIndex = value.toLowerCase().indexOf(cityName.toLowerCase());
-          if (cityIndex >= 0) {
-            value = value.slice(cityIndex).trim();
-          }
-        }
-
-        value = value
-          .split(/(?:\b(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:|SAGRADA FAM[IÍ]LIA|PARK G[ÜU]ELL|CASA BATLL[ÓO]|LA PEDRERA|BAIRRO G[ÓO]TICO)\b|PONTOS\s+TUR[IÍ]STICOS?|PONTOS\s+TURISTICOS?|CURADORIA\s+ELITE\s+TRAVEL|Mais que paisagens|Porque o verdadeiro destino|Lugares que inspiram)/i)[0]
-          .trim();
-
-        return cleanExtractedValue(value);
-      }
-
-      const beforeFirstDescription = cleaned.split(/Descri[cç][aã]o\s*:/i)[0] || cleaned;
-      const lines = beforeFirstDescription
-        .split("\n")
-        .map(cleanExtractedValue)
-        .filter(Boolean);
-
-      if (cityName) {
-        const startIndex = lines.findIndex(function(line) {
-          return line.toLowerCase().includes(cityName.toLowerCase()) &&
-            !/^\s*(?:categoria|destino|material|www|atra[cç][õo]es|pontos)/i.test(line);
-        });
-
-        if (startIndex >= 0) {
-          const collected = [];
-
-          for (let index = startIndex; index < lines.length; index += 1) {
-            const line = lines[index];
-
-            if (/^\s*(?:CURADORIA|ELITE TRAVEL|PONTOS TUR|Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:)/i.test(line)) {
-              break;
-            }
-
-            if (/^(?:Lugares que inspiram|olhares,? momentos|conquistam cora[cç][õo]es)$/i.test(line)) {
-              continue;
-            }
-
-            collected.push(line);
-          }
-
-          const panorama = cleanPanoramaCandidate(collected.join(" "));
-          if (panorama.length > 120) {
-            return panorama;
-          }
-        }
-      }
-
-      const panoramaMatch = cleaned.match(/(?:Cart[aã]o Postal Vivo|A Arte dos Destinos|panorama(?: da cidade)?|intro|introdução)\s+([\s\S]{120,1600}?)(?=\n\s*(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:))/i);
+      const panoramaMatch = cleaned.match(/(?:panorama(?: da cidade)?|intro|introdução)\s*\n+([\s\S]{120,1200}?)(?=\n\s*(?:indicações|nome\s*:|descrição\s*:|endere[cç]o\s*:|site\s*:|entrada\s*:|[A-ZÀ-Ú0-9][A-ZÀ-Ú0-9\s\-–—&().,'’]{6,}\n))/i);
 
       if (panoramaMatch && panoramaMatch[1]) {
-        const panorama = cleanPanoramaCandidate(panoramaMatch[1]);
-        if (panorama.length > 120) {
-          return panorama;
-        }
+        return cleanExtractedValue(panoramaMatch[1]);
       }
 
       const paragraphs = cleaned
         .split(/\n{2,}/)
-        .map(function(paragraph) { return cleanPanoramaCandidate(paragraph); })
+        .map(cleanExtractedValue)
         .filter(function(paragraph) {
           return paragraph.length > 160 &&
             !/^(nome|descrição|endereço|site|entrada|indicações|www\.|https?:\/\/)/i.test(paragraph) &&
-            !/curadoria elite travel/i.test(paragraph) &&
-            !/^um brinde/i.test(paragraph) &&
-            !/^seu guia/i.test(paragraph);
+            !/curadoria elite travel/i.test(paragraph);
         });
 
       return paragraphs[0] || `${city || "O destino selecionado"} reúne experiências selecionadas com foco em praticidade, clareza e orientação profissional para apoiar empresas parceiras no atendimento aos seus clientes.`;
+    }
+
+    function normalizarEntrada(value) {
+      let text = cleanExtractedValue(value);
+
+      if (!text) return "";
+
+      text = text
+        .replace(/\bGratuit(?:a|o)?\.?\b/gi, "Gratuita")
+        .replace(/\bEntrada\s+gratuita\b/gi, "Gratuita")
+        .replace(/\s+([,.;:])/g, "$1")
+        .trim();
+
+      if (/^gratuita?$/i.test(text) || /^gratuito$/i.test(text)) {
+        return "Gratuita";
+      }
+
+      return text;
+    }
+
+    function normalizeForParserSearch(value) {
+      return cleanExtractedValue(value)
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase();
+    }
+
+    function getGlobalAttractionNameCorrections() {
+      return [
+        "HARRY P. LEU GARDENS"
+      ];
+    }
+
+    function repairAttractionName(name) {
+      const value = cleanExtractedValue(name)
+        .replace(/^nome\s*:\s*/i, "")
+        .trim();
+
+      if (!value) return value;
+
+      const normalized = normalizeForParserSearch(value);
+
+      if (/^HARRY\s+P\.?\s+LE$/i.test(value) || normalized === "HARRY P LE") {
+        return "HARRY P. LEU GARDENS";
+      }
+
+      const correction = getGlobalAttractionNameCorrections().find(function(candidate) {
+        const normalizedCandidate = normalizeForParserSearch(candidate);
+        return normalized.length >= 7 && normalizedCandidate.indexOf(normalized) === 0;
+      });
+
+      return correction || value;
     }
 
     function isLikelyAttractionName(line) {
@@ -2215,6 +2197,7 @@
         .trim();
 
       if (!value || value.length < 4 || value.length > 90) return false;
+      if (/^indica[cç][aã]o\s*\d+$/i.test(value)) return false;
       if (/^(descri[cç][aã]o|endere[cç]o|site|entrada|p[áa]gina|curadoria|elite travel|travel|pontos tur[ií]sticos|atra[cç][õo]es tur[ií]sticas|porque|mais que|cada p[áa]gina|by curadoria|www\.|https?:)/i.test(value)) return false;
       if (/\d{2,}|@|\.com|curadoriaelitetravel|instagram|linkedin/i.test(value)) return false;
       if (/[.!?]$/.test(value)) return false;
@@ -2223,7 +2206,7 @@
       if (!letters) return false;
 
       const upperLetters = letters.replace(/[a-zà-ÿ]/g, "").length;
-      return upperLetters / letters.length > 0.62;
+      return upperLetters / letters.length > 0.58;
     }
 
     function cleanAttractionsExtractionText(text) {
@@ -2242,6 +2225,9 @@
             !/^www\.?\s*curadoria/i.test(line) &&
             !/porque o verdadeiro destino/i.test(line) &&
             !/mais que paisagens/i.test(line) &&
+            !/mem[oó]rias que permanecem/i.test(line) &&
+            !/cart[aã]o postal vivo/i.test(line) &&
+            !/a arte dos destinos/i.test(line) &&
             !/cada p[áa]gina foi pensada/i.test(line) &&
             !/agrade[cç]o sua confian[cç]a/i.test(line) &&
             !/que nossos caminhos/i.test(line) &&
@@ -2252,112 +2238,9 @@
         .join("\n");
     }
 
-    function normalizeForSearch(value) {
+    function removeDecorativeTail(value) {
       return cleanExtractedValue(value)
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toUpperCase();
-    }
-
-    function getKnownAttractionNamesForCity(city) {
-      const normalizedCity = normalizeForSearch(city || "");
-
-      if (normalizedCity.includes("BARCELONA")) {
-        return [
-          "SAGRADA FAMÍLIA",
-          "PARK GÜELL",
-          "CASA BATLLÓ",
-          "LA PEDRERA (CASA MILÀ)",
-          "BAIRRO GÓTICO",
-          "MERCADO DE LA BOQUERIA",
-          "MUSEU PICASSO",
-          "FONTE MÁGICA DE MONTJUÏC",
-          "BUNKERS DEL CARMEL",
-          "RECINTO MODERNISTA DE SANT PAU",
-          "LABERINT D'HORTA",
-          "FABRA I COATS"
-        ];
-      }
-
-      if (normalizedCity.includes("NEW YORK") || normalizedCity.includes("NOVA YORK")) {
-        return [
-          "EMPIRE STATE BUILDING",
-          "ESTÁTUA DA LIBERDADE",
-          "METROPOLITAN MUSEUM OF ART (THE MET)",
-          "TOP OF THE ROCK",
-          "CENTRAL PARK ZOO",
-          "BROOKLYN BRIDGE",
-          "SUMMIT ONE VANDERBILT",
-          "LITTLE ISLAND",
-          "THE MET CLOISTERS",
-          "THE VESSEL",
-          "ROOSEVELT ISLAND TRAMWAY",
-          "THE HIGH LINE"
-        ];
-      }
-
-      if (normalizedCity.includes("PARIS")) {
-        return [
-          "TORRE EIFFEL",
-          "MUSEU DO LOUVRE",
-          "ARCO DO TRIUNFO",
-          "SACRÉ-CŒUR",
-          "MUSEU D'ORSAY",
-          "CATEDRAL DE NOTRE-DAME",
-          "SAINTE-CHAPELLE",
-          "PANTEÃO",
-          "ATELIER DES LUMIÈRES",
-          "CANAL SAINT-MARTIN",
-          "MUSÉE DE LA CHASSE",
-          "LA PETITE CEINTURE"
-        ];
-      }
-
-      return [];
-    }
-
-    function extractKnownNamesInConfiguredOrder(text, city) {
-      const knownNames = getKnownAttractionNamesForCity(city);
-      if (!knownNames.length) return [];
-
-      const normalizedText = normalizeForSearch(text);
-
-      return knownNames.filter(function(name) {
-        return normalizedText.includes(normalizeForSearch(name));
-      });
-    }
-
-    function extractCandidateNamesInTextOrder(text) {
-      const names = [];
-
-      cleanAttractionsExtractionText(text)
-        .split("\n")
-        .map(cleanExtractedValue)
-        .filter(Boolean)
-        .forEach(function(line) {
-          if (!isLikelyAttractionName(line)) return;
-          const name = line.replace(/^nome\s*:\s*/i, "");
-          if (!names.includes(name)) names.push(name);
-        });
-
-      return names;
-    }
-
-    function removeTrailingAttractionNamesFromField(value, knownNames) {
-      let text = cleanExtractedValue(value);
-      if (!text) return "";
-
-      const namesToRemove = (knownNames || []).slice().sort(function(a, b) {
-        return b.length - a.length;
-      });
-
-      namesToRemove.forEach(function(name) {
-        const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        text = text.replace(new RegExp("\\s*" + escaped + "\\s*", "gi"), " ");
-      });
-
-      return cleanExtractedValue(text)
-        .replace(/\s*(?:CURADORIA|ELITE|TRAVEL|PONTOS TURISTICOS|PONTOS TURÍSTICOS).*$/i, "")
+        .split(/(?:CURADORIA\s+ELITE\s+TRAVEL|PONTOS\s+TUR[IÍ]STICOS?|PONTOS\s+TURISTICOS?|Mais que paisagens|Porque o verdadeiro destino|Cada p[áa]gina foi pensada|By Curadoria)/i)[0]
         .trim();
     }
 
@@ -2369,597 +2252,257 @@
         .replace(/visite\s*s-guiadas/i, "visites-guiades");
     }
 
-    function splitEntryPriceAndTrailingText(value, knownNames) {
+    function splitEntryAndTrailingName(value, currentName) {
       const text = cleanExtractedValue(value);
-      if (!text) return { price: "", trailingText: "" };
+      if (!text) return { price: "", trailingName: "" };
 
-      const pricePattern = /(a partir de\s*(?:US\$|R\$|€)?\s*[\d.,]+(?:\s*\([^)]*\))?|gratuita?|entrada gratuita|sob consulta)/i;
+      const pricePattern = /(a partir de\s*(?:US\$|R\$|€|\$)?\s*[\d.,]+(?:\s*[A-Z]{2,4})?(?:\s*\([^)]*\))?|gratuit(?:a|o)?\.?|entrada gratuita|sob consulta)/i;
       const match = text.match(pricePattern);
 
       if (!match) {
         return {
-          price: removeTrailingAttractionNamesFromField(text, knownNames),
-          trailingText: ""
+          price: normalizarEntrada(text),
+          trailingName: ""
         };
       }
 
+      let trailingName = cleanExtractedValue(text.slice(match.index + match[1].length));
+      const current = cleanExtractedValue(currentName || "");
+
+      if (current && normalizeForParserSearch(trailingName).indexOf(normalizeForParserSearch(current)) === 0) {
+        trailingName = cleanExtractedValue(trailingName.slice(current.length));
+      }
+
+      if (!isLikelyAttractionName(trailingName)) {
+        trailingName = "";
+      }
+
       return {
-        price: cleanExtractedValue(match[1]),
-        trailingText: removeTrailingAttractionNamesFromField(text.slice(match.index + match[1].length), knownNames)
+        price: normalizarEntrada(match[1]),
+        trailingName
       };
     }
 
-    function parseDescriptionSegments(text) {
-      return cleanAttractionsExtractionText(text)
-        .replace(/https:\s*\/\//gi, "https://")
-        .replace(/http:\s*\/\//gi, "http://")
-        .split(/(?=Descri[cç][aã]o\s*:)/i)
-        .filter(function(segment) {
-          return /^Descri[cç][aã]o\s*:/i.test(segment.trim());
-        })
-        .map(function(segment) {
-          return segment
-            .split(/(?=\n\s*(?:Cada p[aá]gina|É um prazer|Agrade[cç]o|Porque acreditamos|By Curadoria|ATRAÇÕES TURÍSTICAS|CURADORIA\s+ELITE))/i)[0];
-        });
-    }
+    function splitInlineDescription(line) {
+      const value = cleanExtractedValue(line);
+      const parts = value.split(/Descri[cç][aã]o\s*:\s*/i);
 
-    function parseAttractionDetailsFromSegment(segment, knownNames) {
-      const block = normalizeExtractedPdfText(segment)
-        .replace(/https:\s*\/\//gi, "https://")
-        .replace(/http:\s*\/\//gi, "http://");
+      if (parts.length < 2) {
+        return {
+          name: "",
+          description: value
+        };
+      }
 
-      const descriptionMatch = block.match(/Descri[cç][aã]o\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Endere[cç]o\s*:|$)/i);
-      const addressMatch = block.match(/Endere[cç]o\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Site\s*:|(?:\s|\n)*Entrada\s*:|$)/i);
-      const siteMatch = block.match(/Site\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Entrada\s*:|$)/i);
-      const entryMatch = block.match(/Entrada\s*:\s*([\s\S]*?)$/i);
-      const entryParts = splitEntryPriceAndTrailingText(entryMatch ? entryMatch[1] : "", knownNames);
+      const before = cleanExtractedValue(parts[0]);
+      const after = cleanExtractedValue(parts.slice(1).join("Descrição: "));
 
       return {
-        description: removeTrailingAttractionNamesFromField(descriptionMatch ? descriptionMatch[1] : "", knownNames),
-        address: removeTrailingAttractionNamesFromField(addressMatch ? addressMatch[1] : "", knownNames),
-        site: normalizeSiteValue(removeTrailingAttractionNamesFromField(siteMatch ? siteMatch[1] : "", knownNames)),
-        price: entryParts.price
+        name: isLikelyAttractionName(before) ? before : "",
+        description: after
       };
     }
 
-    function findKnownAttractionNameInSegment(segment, knownNames, usedNames) {
-      const normalizedSegment = normalizeForSearch(segment);
-      const used = usedNames || [];
-
-      const matches = (knownNames || [])
-        .filter(function(name) {
-          return normalizedSegment.includes(normalizeForSearch(name)) && !used.includes(name);
-        })
-        .sort(function(a, b) {
-          return normalizedSegment.indexOf(normalizeForSearch(a)) - normalizedSegment.indexOf(normalizeForSearch(b));
-        });
-
-      return matches[0] || "";
-    }
-
-    function findCandidateNameInSegment(segment, candidateNames, usedNames) {
-      const normalizedSegment = normalizeForSearch(segment);
-      const used = usedNames || [];
-
-      return (candidateNames || []).find(function(name) {
-        return !used.includes(name) && normalizedSegment.includes(normalizeForSearch(name));
-      }) || "";
-    }
-
-    function getNextUnusedName(names, usedNames) {
-      return (names || []).find(function(name) {
-        return name && !(usedNames || []).includes(name);
-      }) || "";
-    }
-
-
-
-    function extractEmbeddedAttractionNameFromDescription(description, configuredNames, fallbackNames) {
-      const source = cleanExtractedValue(description);
-      if (!source) return "";
-
-      const allKnownNames = (configuredNames || []).concat(fallbackNames || []).filter(Boolean);
-      const normalizedSource = normalizeForSearch(source);
-
-      /*
-        Muitos PDFs do Canva entregam o título visual dentro da descrição do bloco.
-        Ex.: "este museu MUSEU DO LOUVRE abriga...".
-        Quando isso acontece, esse nome é mais confiável do que a lista separada de
-        títulos, porque pertence ao mesmo bloco Descrição/Endereço/Site/Entrada.
-      */
-      for (const knownName of allKnownNames) {
-        const normalizedName = normalizeForSearch(knownName);
-        if (normalizedName && normalizedSource.includes(normalizedName)) {
-          return knownName;
-        }
+    function findNameBeforeDescription(lines, descriptionIndex, pendingName, usedNames) {
+      if (pendingName && !usedNames.includes(pendingName)) {
+        return pendingName;
       }
 
-      const candidates = source.match(/[A-ZÀ-Ú0-9][A-ZÀ-Ú0-9'’\-\.]+(?:\s+(?:DE|DA|DO|DAS|DOS|DEL|DES|DU|LA|LE|LAS|LOS|EL|D'|D’|L'|L’|[A-ZÀ-Ú0-9][A-ZÀ-Ú0-9'’\-\.]+)){0,7}/g) || [];
+      const currentLine = lines[descriptionIndex] || "";
+      const inline = splitInlineDescription(currentLine);
 
-      const blocked = [
-        /^US$/, /^R$/, /^ARS$/, /^EUR$/, /^BRL$/, /^USD$/,
-        /^PARIS$/, /^MADRID$/, /^BUENOS AIRES$/, /^BARCELONA$/, /^NEW YORK$/,
-        /^ESPANHA$/, /^ARGENTINA$/, /^FRANÇA$/, /^USA$/, /^BRASIL$/,
-        /^CURADORIA$/, /^ELITE$/, /^TRAVEL$/, /^PONTOS$/, /^TURISTICOS$/, /^TURÍSTICOS$/,
-        /^BAIRRO LATINO$/
-      ];
-
-      const cleanedCandidates = candidates
-        .map(cleanExtractedValue)
-        .filter(function(candidate) {
-          if (!candidate || candidate.length < 5 || candidate.length > 80) return false;
-          if (blocked.some(function(regex) { return regex.test(normalizeForSearch(candidate)); })) return false;
-          if (/^(RUA|AV|AVENIDA|PL|PRAÇA|CALLE|CARRER|QUAI|BD)\b/i.test(candidate)) return false;
-          return /[A-ZÀ-Ú]/.test(candidate);
-        });
-
-      return cleanedCandidates[0] || "";
-    }
-
-    function removeEmbeddedAttractionNameFromDescription(description, embeddedName) {
-      let text = cleanExtractedValue(description);
-      if (!text || !embeddedName) return text;
-
-      const escaped = embeddedName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      text = text.replace(new RegExp("\\s*" + escaped + "\\s*", "gi"), " ");
-      return cleanExtractedValue(text);
-    }
-
-    function getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames) {
-      const used = usedNames || [];
-      const startIndex = Math.max(0, descriptionIndex - 6);
-      const currentLineBeforeDescription = cleanExtractedValue(String(lines[descriptionIndex] || "").split(/Descri[cç][aã]o\s*:/i)[0] || "")
-        .replace(/^nome\s*:\s*/i, "")
-        .trim();
-
-      if (currentLineBeforeDescription && !used.includes(currentLineBeforeDescription) && isLikelyAttractionName(currentLineBeforeDescription)) {
-        return currentLineBeforeDescription;
+      if (inline.name && !usedNames.includes(inline.name)) {
+        return inline.name;
       }
 
-      for (let index = descriptionIndex - 1; index >= startIndex; index -= 1) {
+      for (let index = descriptionIndex - 1; index >= Math.max(0, descriptionIndex - 6); index -= 1) {
         const candidate = cleanExtractedValue(lines[index] || "")
           .replace(/^nome\s*:\s*/i, "")
           .trim();
 
-        if (!candidate) continue;
-        if (used.includes(candidate)) continue;
-        if (/^(descri[cç][aã]o|endere[cç]o|site|entrada)\s*:/i.test(candidate)) continue;
-        if (/^(p[áa]gina|curadoria|elite travel|travel|pontos tur[ií]sticos|atra[cç][õo]es tur[ií]sticas|www\.|https?:)/i.test(candidate)) continue;
-        if (/^(lugares que inspiram|olhares,? momentos|conquistam cora[cç][õo]es)$/i.test(candidate)) continue;
-
-        if (isLikelyAttractionName(candidate)) {
-          return candidate;
-        }
-
-        const letters = candidate.replace(/[^A-Za-zÀ-ÿ]/g, "");
-        const upperLetters = letters.replace(/[a-zà-ÿ]/g, "").length;
-        const looksLikeShortTitle = letters.length >= 6 && upperLetters / Math.max(letters.length, 1) > 0.52 && !/[.!?]$/.test(candidate);
-
-        if (looksLikeShortTitle) {
-          return candidate;
-        }
+        if (!candidate || usedNames.includes(candidate)) continue;
+        if (isLikelyAttractionName(candidate)) return candidate;
       }
 
       return "";
     }
 
-    function removeNextBlockTitleFromSegmentLines(segmentLines) {
-      const lines = (segmentLines || []).slice();
+    function removeEmbeddedNameFromDescription(description, name) {
+      let value = removeDecorativeTail(description);
+      const cleanName = cleanExtractedValue(name);
 
-      while (lines.length > 1) {
-        const lastLine = cleanExtractedValue(lines[lines.length - 1] || "");
+      if (!value || !cleanName) return value;
 
-        if (isLikelyAttractionName(lastLine)) {
-          lines.pop();
-          continue;
-        }
+      const escaped = cleanName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      value = value.replace(new RegExp("\\s*" + escaped + "\\s*", "i"), " ");
 
-        break;
-      }
-
-      return lines;
+      return cleanExtractedValue(value);
     }
 
+    function extractPossibleNameFromDescription(description) {
+      const value = cleanExtractedValue(description);
+      const firstChunk = value.slice(0, 220);
 
-    function getGlobalAttractionNameCorrections() {
-      return [
-        "EMPIRE STATE BUILDING",
-        "ESTÁTUA DA LIBERDADE",
-        "METROPOLITAN MUSEUM OF ART (THE MET)",
-        "TOP OF THE ROCK",
-        "CENTRAL PARK ZOO",
-        "BROOKLYN BRIDGE",
-        "SUMMIT ONE VANDERBILT",
-        "LITTLE ISLAND",
-        "THE MET CLOISTERS",
-        "THE VESSEL",
-        "ROOSEVELT ISLAND TRAMWAY",
-        "THE HIGH LINE",
-        "TORRE EIFFEL",
-        "MUSEU DO LOUVRE",
-        "ARCO DO TRIUNFO",
-        "SACRÉ-CŒUR",
-        "MUSEU D'ORSAY",
-        "CATEDRAL DE NOTRE-DAME",
-        "SAINTE-CHAPELLE",
-        "PANTEÃO",
-        "ATELIER DES LUMIÈRES",
-        "CANAL SAINT-MARTIN",
-        "MUSÉE DE LA CHASSE",
-        "LA PETITE CEINTURE",
-        "HARRY P. LEU GARDENS"
-      ];
-    }
-
-    function repairAttractionName(name, city, configuredNames, fallbackNames) {
-      let value = cleanExtractedValue(name)
-        .replace(/^nome\s*:\s*/i, "")
-        .replace(/\s+/g, " ")
-        .trim();
-
-      if (!value) return value;
-
-      const normalizedValue = normalizeForSearch(value);
-      const allNames = (configuredNames || [])
-        .concat(fallbackNames || [])
-        .concat(getKnownAttractionNamesForCity(city))
-        .concat(getGlobalAttractionNameCorrections())
-        .filter(Boolean);
-
-      const exactMatch = allNames.find(function(candidate) {
-        return normalizeForSearch(candidate) === normalizedValue;
-      });
-
-      if (exactMatch) return exactMatch;
-
-      const startsWithMatch = allNames.find(function(candidate) {
-        const normalizedCandidate = normalizeForSearch(candidate);
-        return normalizedValue.length >= 7 && normalizedCandidate.indexOf(normalizedValue) === 0;
-      });
-
-      if (startsWithMatch) return startsWithMatch;
-
-      if (/^HARRY\s+P\.?\s+LE$/i.test(value) || normalizedValue === "HARRY P LE") {
-        return "HARRY P. LEU GARDENS";
-      }
-
-      return value;
-    }
-
-
-
-    function getTitleRepairCandidateFromDescription(description) {
-      const source = cleanExtractedValue(description);
-      if (!source) return "";
-
-      const firstChunk = source.slice(0, 220);
       const patterns = [
-        /^(?:A|O|As|Os)\s+([A-ZÀ-Ú][A-Za-zÀ-ÿ'’\-]+(?:\s+(?:de|da|do|das|dos|del|la|le|las|los|d'|d’|l'|l’|[A-ZÀ-Ú][A-Za-zÀ-ÿ'’\-]+)){0,5})\s+convida\b/i,
-        /\b(?:este|esta|esse|essa|o|a)\s+([A-ZÀ-Ú][A-ZÀ-Ú'’\-]+(?:\s+(?:DE|DA|DO|DAS|DOS|DEL|LA|LE|LAS|LOS|D'|D’|L'|L’|[A-ZÀ-Ú][A-ZÀ-Ú'’\-]+)){0,6})\b/,
-        /\b([A-ZÀ-Ú][A-ZÀ-Ú'’\-]{2,}(?:\s+(?:DE|DA|DO|DAS|DOS|DEL|LA|LE|LAS|LOS|D'|D’|L'|L’|[A-ZÀ-Ú][A-ZÀ-Ú'’\-]{2,})){0,6})\b/
+        /\b([A-ZÀ-Ú][A-ZÀ-Ú0-9'’\-\.]{2,}(?:\s+(?:DE|DA|DO|DAS|DOS|DEL|DES|DU|LA|LE|LAS|LOS|EL|D'|D’|L'|L’|[A-ZÀ-Ú][A-ZÀ-Ú0-9'’\-\.]{2,})){0,6})\b/,
+        /^(?:A|O|As|Os)\s+([A-ZÀ-Ú][A-Za-zÀ-ÿ'’\-]+(?:\s+(?:de|da|do|das|dos|del|des|du|la|le|las|los|d'|d’|l'|l’|[A-ZÀ-Ú][A-Za-zÀ-ÿ'’\-]+)){0,5})\s+convida\b/i
       ];
 
-      const blocked = /^(A|O|AS|OS|RUA|AV|AVENIDA|PRAÇA|PLAZA|EJE|RODOVIA|CENTRO|BRASIL|USA|MEXICO|MÉXICO|BRASIL|GRATUITA|GRATUITO|MXN|R\$|US\$|HTTP|HTTPS|SITE|ENTRADA|ENDERECO|ENDEREÇO)$/i;
+      const blocked = /^(A|O|AS|OS|RUA|AV|AVENIDA|PRAÇA|PLAZA|CENTRO|BRASIL|USA|MEXICO|MÉXICO|GRATUITA|GRATUITO|HTTP|HTTPS|SITE|ENTRADA|ENDERECO|ENDEREÇO|BAIRRO LATINO)$/i;
 
       for (const pattern of patterns) {
         const match = firstChunk.match(pattern);
         if (!match || !match[1]) continue;
 
-        const candidate = cleanExtractedValue(match[1])
-          .replace(/\bconvida\b.*$/i, "")
-          .replace(/\bredescobrir\b.*$/i, "")
-          .trim();
+        const candidate = cleanExtractedValue(match[1]);
+        if (!candidate || candidate.length < 5 || candidate.length > 80) continue;
+        if (blocked.test(normalizeForParserSearch(candidate))) continue;
 
-        if (!candidate || candidate.length < 5 || candidate.length > 70) continue;
-        if (blocked.test(normalizeForSearch(candidate))) continue;
-        if (/\d/.test(candidate)) continue;
-
-        return candidate;
+        return repairAttractionName(candidate);
       }
 
       return "";
     }
 
-    function removeTitleRepairCandidateFromDescription(description, titleCandidate) {
-      let text = cleanExtractedValue(description);
-      if (!text || !titleCandidate) return text;
+    function finalizeAttractionItem(item, usedNames) {
+      if (!item) return null;
 
-      const escaped = titleCandidate.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      text = text.replace(new RegExp("\\s+" + escaped + "(?=\\s|[,.;:])", "i"), " ");
-      text = text.replace(new RegExp("^(A|O|As|Os)\\s+" + escaped + "\\s+convida", "i"), "$1 " + titleCandidate.split(" ")[0] + " convida");
-      return cleanExtractedValue(text);
+      let name = repairAttractionName(item.name);
+      let description = removeDecorativeTail(item.description);
+      const address = removeDecorativeTail(item.address);
+      const site = normalizeSiteValue(removeDecorativeTail(item.site));
+      const price = normalizarEntrada(removeDecorativeTail(item.price));
+
+      if (!name || /^indica[cç][aã]o\s*\d+$/i.test(name)) {
+        const embeddedName = extractPossibleNameFromDescription(description);
+        if (embeddedName) {
+          name = embeddedName;
+        }
+      }
+
+      description = removeEmbeddedNameFromDescription(description, name);
+
+      if (!name || !description || description.length < 35) {
+        return null;
+      }
+
+      if (usedNames.includes(name)) {
+        return null;
+      }
+
+      usedNames.push(name);
+
+      return {
+        name,
+        description,
+        address,
+        site,
+        price
+      };
     }
 
-    function repairSplitAttractionNameFromDescription(name, description, city, fallbackNames) {
-      let repairedName = cleanExtractedValue(name);
-      let repairedDescription = cleanExtractedValue(description);
-      if (!repairedName || !repairedDescription) {
-        return { name: repairedName, description: repairedDescription };
-      }
-
-      const cityNames = getKnownAttractionNamesForCity(city);
-      const allNames = (fallbackNames || [])
-        .concat(cityNames)
-        .concat(getGlobalAttractionNameCorrections())
-        .filter(Boolean);
-
-      const normalizedName = normalizeForSearch(repairedName);
-      const knownCompletion = allNames.find(function(candidate) {
-        const normalizedCandidate = normalizeForSearch(candidate);
-        return normalizedName.length >= 6 && normalizedCandidate.indexOf(normalizedName) === 0 && normalizedCandidate.length > normalizedName.length;
-      });
-
-      if (knownCompletion) {
-        const missingPart = cleanExtractedValue(knownCompletion.slice(repairedName.length));
-        if (missingPart) {
-          const escapedMissing = missingPart.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-          repairedDescription = cleanExtractedValue(repairedDescription.replace(new RegExp("^" + escapedMissing + "\\b\\s*", "i"), ""));
-        }
-        return { name: knownCompletion, description: repairedDescription };
-      }
-
-      const words = repairedName.split(/\s+/);
-      const lastWord = words[words.length - 1] || "";
-      const normalizedLastWord = normalizeForSearch(lastWord);
-      const firstChunk = repairedDescription.slice(0, 170);
-      const upperTokens = firstChunk.match(/\b[A-ZÀ-Ú]{1,18}\b/g) || [];
-
-      for (const token of upperTokens) {
-        const normalizedToken = normalizeForSearch(token);
-        if (!normalizedToken || normalizedToken.length < 1 || normalizedToken.length > 18) continue;
-        if (/^(A|O|AS|OS|DE|DA|DO|DAS|DOS|E|EM|NO|NA|NOS|NAS|RUA|AV|MXN|R|US)$/.test(normalizedToken)) continue;
-
-        const joined = normalizedLastWord + normalizedToken;
-        const mergedLastWord = lastWord + token.toLowerCase();
-        const mergedName = cleanExtractedValue(words.slice(0, -1).concat([mergedLastWord]).join(" "));
-        const normalizedMergedName = normalizeForSearch(mergedName);
-
-        const knownMergedMatch = allNames.find(function(candidate) {
-          return normalizeForSearch(candidate) === normalizedMergedName || normalizeForSearch(candidate).indexOf(normalizedMergedName) === 0;
-        });
-
-        if (knownMergedMatch) {
-          repairedName = knownMergedMatch;
-          const escapedToken = token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-          repairedDescription = cleanExtractedValue(repairedDescription.replace(new RegExp("\\b" + escapedToken + "\\b", "i"), ""));
-          return { name: repairedName, description: repairedDescription };
-        }
-
-        if (/^(LA|LE)$/.test(normalizedLastWord) && normalizedToken.length >= 2) {
-          repairedName = cleanExtractedValue(words.slice(0, -1).concat([lastWord + token.toLowerCase()]).join(" "));
-          const escapedToken = token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-          repairedDescription = cleanExtractedValue(repairedDescription.replace(new RegExp("\\b" + escapedToken + "\\b", "i"), ""));
-          return { name: repairedName, description: repairedDescription };
-        }
-
-        if (/^(DO|DA|DE)$/.test(normalizedLastWord) && normalizedToken.length <= 2) {
-          const nextWordsMatch = firstChunk.match(new RegExp("\\b" + token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\s+([A-ZÀ-Ú][A-ZÀ-Ú'’\\-]+(?:\\s+[A-ZÀ-Ú][A-ZÀ-Ú'’\\-]+){0,3})"));
-          const complement = cleanExtractedValue((nextWordsMatch ? token + " " + nextWordsMatch[1] : token));
-          repairedName = cleanExtractedValue(repairedName + complement.toLowerCase());
-          const escapedComplement = complement.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-          repairedDescription = cleanExtractedValue(repairedDescription.replace(new RegExp("\\b" + escapedComplement + "\\b", "i"), ""));
-          return { name: repairedName, description: repairedDescription };
-        }
-      }
-
-      const titleCandidate = getTitleRepairCandidateFromDescription(repairedDescription);
-      if (titleCandidate) {
-        const normalizedCandidate = normalizeForSearch(titleCandidate);
-        const normalizedCurrent = normalizeForSearch(repairedName);
-        const currentLooksGeneric = /^INDICACAO\s+\d+$/.test(normalizedCurrent) || normalizedCurrent.length < 5;
-        const currentLikelyShifted = !normalizedCandidate.includes(normalizedCurrent) && !normalizedCurrent.includes(normalizedCandidate);
-
-        if (currentLooksGeneric || currentLikelyShifted) {
-          repairedName = titleCandidate;
-          repairedDescription = removeTitleRepairCandidateFromDescription(repairedDescription, titleCandidate);
-        }
-      }
-
-      return { name: repairedName, description: repairedDescription };
-    }
-
-
-    function cleanBusinessDescriptionText(description, knownNames) {
-      let value = cleanExtractedValue(description)
-        .replace(/\bGratuit\b/g, "Gratuita")
-        .replace(/\bgratuït\b/gi, "gratuita")
-        .replace(/\bDescri[cç][aã]o\s*:\s*/gi, "")
-        .replace(/\bEndere[cç]o\s*:\s*$/gi, "")
-        .replace(/\bSite\s*:\s*$/gi, "")
-        .replace(/\bEntrada\s*:\s*$/gi, "")
-        .replace(/\s+([,.;:])/g, "$1")
+    function parseAttractionItemsFromText(text) {
+      const cleaned = cleanAttractionsExtractionText(text)
+        .replace(/\s*:\s*/g, ": ")
+        .replace(/https:\s*\/\//gi, "https://")
+        .replace(/http:\s*\/\//gi, "http://")
         .trim();
 
-      value = removeTrailingAttractionNamesFromField(value, knownNames || []);
-
-      return cleanExtractedValue(value);
-    }
-
-    function parseAttractionItemsFromText(text, city) {
-      const cleaned = cleanAttractionsExtractionText(text)
-        .replace(/https:\s*\/\//gi, "https://")
-        .replace(/http:\s*\/\//gi, "http://");
-
-      const lines = cleaned
-        .split("\n")
-        .map(cleanExtractedValue)
-        .filter(Boolean);
-
-      const descriptionIndexes = [];
-      lines.forEach(function(line, index) {
-        if (/\bDescri[cç][aã]o\s*:/i.test(line)) {
-          descriptionIndexes.push(index);
-        }
-      });
-
-      const fallbackNames = extractCandidateNamesInTextOrder(cleaned);
-      const correctionNames = getGlobalAttractionNameCorrections();
-      const removalNames = fallbackNames.concat(correctionNames).filter(function(name, index, array) {
-        return name && array.indexOf(name) === index;
-      });
+      const lines = cleaned.split("\n").map(cleanExtractedValue).filter(Boolean);
+      const items = [];
       const usedNames = [];
+      let current = null;
+      let mode = "description";
+      let pendingName = "";
 
-      const items = descriptionIndexes.map(function(descriptionIndex, index) {
-        const nextDescriptionIndex = descriptionIndexes[index + 1] || lines.length;
-        const segmentLines = removeNextBlockTitleFromSegmentLines(lines.slice(descriptionIndex, nextDescriptionIndex));
-        const segment = segmentLines.join("\n");
-        const details = parseAttractionDetailsFromSegment(segment, removalNames);
-        let name = getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames);
+      function finishCurrent() {
+        const finalized = finalizeAttractionItem(current, usedNames);
+        if (finalized) items.push(finalized);
 
-        if (!name) {
-          const embeddedName = extractEmbeddedAttractionNameFromDescription(
-            details.description,
-            [],
-            fallbackNames
-          );
-
-          if (embeddedName) {
-            name = embeddedName;
-            details.description = removeEmbeddedAttractionNameFromDescription(details.description, embeddedName);
-          }
-        }
-
-        if (!name) {
-          name = getNextUnusedName(fallbackNames, usedNames);
-        }
-
-        if (!name) {
-          name = `Indicação ${index + 1}`;
-        }
-
-        name = repairAttractionName(name, city, [], fallbackNames);
-
-        const repairedTitle = repairSplitAttractionNameFromDescription(
-          name,
-          details.description,
-          city,
-          fallbackNames
-        );
-
-        name = repairedTitle.name || name;
-        details.description = repairedTitle.description || details.description;
-
-        usedNames.push(name);
-
-        return {
-          name: cleanExtractedValue(name),
-          description: cleanBusinessDescriptionText(details.description, removalNames),
-          address: removeTrailingAttractionNamesFromField(details.address, removalNames),
-          site: normalizeSiteValue(removeTrailingAttractionNamesFromField(details.site, removalNames)),
-          price: cleanExtractedValue(details.price)
-        };
-      });
-
-      return items
-        .filter(function(item) {
-          return item.name &&
-            item.description &&
-            item.description.length > 35 &&
-            !/^elite\s*travel$/i.test(item.name) &&
-            !/^travel$/i.test(item.name);
-        })
-        .slice(0, 24);
-    }
-
-    function applyConfiguredCityNameOrder(items, city) {
-      const configuredNames = getKnownAttractionNamesForCity(city);
-
-      if (!configuredNames.length || !items || !items.length) {
-        return items || [];
+        current = null;
+        mode = "description";
       }
 
-      /*
-        Regra de segurança para PDFs do Canva:
-        em alguns destinos, principalmente Paris, o título visual da próxima atração
-        aparece dentro do bloco de descrição atual. Por isso, quando já conhecemos a
-        ordem oficial do destino, ela prevalece sobre qualquer nome detectado no texto.
-        Isso evita combinações erradas como “Sainte-Chapelle” com descrição do Musée d'Orsay.
-      */
-      return items.map(function(item, index) {
-        const officialName = configuredNames[index] || item.name || `Indicação ${index + 1}`;
-        const cleanupNames = configuredNames.filter(function(name) {
-          return normalizeForSearch(name) !== normalizeForSearch(officialName);
-        });
+      lines.forEach(function(line, lineIndex) {
+        const value = cleanExtractedValue(line);
+        if (!value) return;
 
-        return {
-          name: officialName,
-          description: removeTrailingAttractionNamesFromField(item.description, cleanupNames),
-          address: removeTrailingAttractionNamesFromField(item.address, cleanupNames),
-          site: normalizeSiteValue(removeTrailingAttractionNamesFromField(item.site, cleanupNames)),
-          price: removeTrailingAttractionNamesFromField(item.price, cleanupNames)
-        };
+        if (/\bDescri[cç][aã]o\s*:/i.test(value)) {
+          finishCurrent();
+
+          const inline = splitInlineDescription(value);
+          const name = findNameBeforeDescription(lines, lineIndex, pendingName, usedNames) || inline.name || `Indicação ${items.length + 1}`;
+
+          current = {
+            name: repairAttractionName(name),
+            description: inline.description,
+            address: "",
+            site: "",
+            price: ""
+          };
+
+          pendingName = "";
+          mode = "description";
+          return;
+        }
+
+        if (isLikelyAttractionName(value)) {
+          pendingName = repairAttractionName(value);
+          return;
+        }
+
+        if (!current) return;
+
+        if (/^endere[cç]o\s*:/i.test(value)) {
+          current.address += " " + value.replace(/^endere[cç]o\s*:\s*/i, "");
+          mode = "address";
+          return;
+        }
+
+        if (/^site\s*:/i.test(value)) {
+          current.site += " " + value.replace(/^site\s*:\s*/i, "");
+          mode = "site";
+          return;
+        }
+
+        if (/^entrada\s*:/i.test(value)) {
+          const entryParts = splitEntryAndTrailingName(value.replace(/^entrada\s*:\s*/i, ""), current.name);
+          current.price += " " + entryParts.price;
+          if (entryParts.trailingName) {
+            pendingName = repairAttractionName(entryParts.trailingName);
+          }
+          mode = "price";
+          return;
+        }
+
+        if (mode === "address" && !/^site\b|^entrada\b/i.test(value)) {
+          current.address += " " + value;
+        } else if (mode === "site" && !/^entrada\b/i.test(value)) {
+          current.site += " " + value;
+        } else if (mode === "price") {
+          const entryParts = splitEntryAndTrailingName(value, current.name);
+          current.price += " " + entryParts.price;
+          if (entryParts.trailingName) {
+            pendingName = repairAttractionName(entryParts.trailingName);
+          }
+        } else {
+          current.description += " " + value;
+        }
       });
+
+      finishCurrent();
+
+      return items.slice(0, 24);
     }
 
     function parseAttractionsBusinessContent(text, city) {
       const panorama = extractPanoramaFromText(text, city);
-      const items = applyConfiguredCityNameOrder(parseAttractionItemsFromText(text, city), city);
+      const items = parseAttractionItemsFromText(text);
 
       return {
         panorama,
         items
       };
-    }
-
-    async function ensureBusinessContentLoaded(material) {
-      if (!material || !isAttractionsMaterial(material) || !material.pdf_url) {
-        return getBusinessContentTemplate(material);
-      }
-
-      const cacheKey = getBusinessContentCacheKey(material);
-
-      if (businessContentCache[cacheKey]) {
-        return businessContentCache[cacheKey];
-      }
-
-      if (businessContentLoading[cacheKey]) {
-        return businessContentLoading[cacheKey];
-      }
-
-      businessContentLoading[cacheKey] = (async function() {
-        try {
-          const fullText = await extractPdfTextFromUrl(material.pdf_url, 5, 9);
-          const extracted = parseAttractionsBusinessContent(fullText, material.city_label);
-
-          if (extracted.items && extracted.items.length) {
-            businessContentCache[cacheKey] = extracted;
-            return extracted;
-          }
-        } catch (error) {
-          console.warn("Não foi possível extrair o PDF automaticamente:", error);
-        }
-
-        const fallback = getBusinessContentTemplate(material);
-        businessContentCache[cacheKey] = fallback;
-        return fallback;
-      })();
-
-      return businessContentLoading[cacheKey];
-    }
-
-    async function loadAndRenderBusinessContent(material) {
-      if (!material || !isAttractionsMaterial(material)) return;
-
-      const cacheKey = getBusinessContentCacheKey(material);
-      if (businessContentCache[cacheKey]) return;
-
-      const contentEl = document.getElementById("businessContentPreview");
-      if (contentEl) {
-        contentEl.innerHTML = `
-          <section class="business-a4-page">
-            <div class="business-page-kicker">Leitura automática do acervo</div>
-            <h5 class="business-page-title">Convertendo material para versão business</h5>
-            <div class="business-city-text">Estamos lendo o PDF identificado no Supabase e reorganizando as informações no modelo B2B, sem exibir o material B2C original.</div>
-            <div class="business-page-footer">Curadoria Elite Travel Partner</div>
-          </section>
-        `;
-      }
-
-      await ensureBusinessContentLoaded(material);
-
-      if (selectedMaterial && getBusinessContentCacheKey(selectedMaterial) === cacheKey) {
-        renderBusinessContentPreview(selectedMaterial);
-      }
     }
 
     function getBusinessContentTemplate(material) {
@@ -3190,19 +2733,23 @@
       }
     }
 
-    function renderPersonalizedCoverBlock(category, city) {
+    function renderInlineClientPage(category, city) {
       if (!hasClientPersonalization()) return "";
 
       return `
-        <div class="business-client-card personalized-cover-preview">
-          <h6>Atendimento personalizado</h6>
-          <p><strong>${getClientGreetingLine()}</strong></p>
-          <p>${getClientMessageText()}</p>
-        </div>
-        <div class="business-client-card personalized-cover-preview">
-          <h6>${category} • ${city}</h6>
-          <p>Material preparado em versão business clean por ${escapeHtml(getClientBrandName())}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
-        </div>
+        <section class="business-a4-page">
+          <div class="business-page-kicker">Atendimento personalizado</div>
+          <h5 class="business-page-title">${getClientGreetingLine()}</h5>
+          <div class="business-client-card">
+            <h6>Mensagem da marca apresentada</h6>
+            <p>${getClientMessageText()}</p>
+          </div>
+          <div class="business-client-card">
+            <h6>${category} • ${city}</h6>
+            <p>Material preparado em versão business clean por ${escapeHtml(getClientBrandName())}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
+          </div>
+          <div class="business-page-footer">Material personalizado • Curadoria Elite Travel Partner</div>
+        </section>
       `;
     }
 
@@ -3315,24 +2862,7 @@
       renderBusinessPreviewCurrentPage();
     }
 
-    function updatePersonalizedCoverPreviewBlock(material) {
-      const block = document.getElementById("personalizedCoverPreviewBlock");
-      if (!block) return;
-
-      if (!material || !hasClientPersonalization()) {
-        block.innerHTML = "";
-        return;
-      }
-
-      const category = normalizeCategoryName(material.category);
-      const city = material.city_label || "Destino selecionado";
-
-      block.innerHTML = renderPersonalizedCoverBlock(category, city);
-    }
-
     function renderBusinessContentPreview(material) {
-      updatePersonalizedCoverPreviewBlock(material);
-
       const content = getBusinessContentTemplate(material);
       const category = normalizeCategoryName(material.category);
       const city = material.city_label || "Destino selecionado";
@@ -3347,7 +2877,10 @@
       `;
 
       if (!content.items.length) {
+        const clientPage = renderInlineClientPage(category, city);
+
         businessPreviewPages = [
+          clientPage,
           panoramaPage,
           `
           <section class="business-a4-page">
@@ -3382,7 +2915,8 @@
         `;
       });
 
-      businessPreviewPages = [panoramaPage].concat(indicationPages).concat([renderInlineClosingPage()]).filter(Boolean);
+      const clientPage = renderInlineClientPage(category, city);
+      businessPreviewPages = [clientPage, panoramaPage].concat(indicationPages).concat([renderInlineClosingPage()]).filter(Boolean);
       businessPreviewPageIndex = 0;
       renderBusinessPreviewCurrentPage();
     }
@@ -3426,24 +2960,21 @@
       const partnerName = getPartnerCompanyName();
       const logoHtml = getBrandLogoHtml("print");
       const businessContent = getBusinessContentTemplate(selectedMaterial);
-      const personalizedCoverHtml = hasClientPersonalization()
-        ? `<div class="panel personalized-cover-panel">
+      const clientPageHtml = hasClientPersonalization()
+        ? `<section class="paper-page">
             <div class="page-kicker">Atendimento personalizado</div>
             <h2>${getClientGreetingLine()}</h2>
-            <p>${getClientMessageText()}</p>
-          </div>
-          <div class="panel personalized-cover-panel">
-            <h2>${category} • ${city}</h2>
-            <p>Material preparado em versão business clean por ${brandName}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
-          </div>`
-        : `<div class="panel">
-            <h2>Uso profissional</h2>
-            <ul>
-              <li>Versão adaptada para envio ao cliente da empresa parceira.</li>
-              <li>Identidade da empresa aplicada ao documento.</li>
-              <li>Assinatura discreta da Curadoria Elite Travel como parceira de curadoria.</li>
-            </ul>
-          </div>`;
+            <div class="panel client-panel-print">
+              <h2>Mensagem da marca apresentada</h2>
+              <p>${getClientMessageText()}</p>
+            </div>
+            <div class="panel client-panel-print">
+              <h2>${category} • ${city}</h2>
+              <p>Material preparado em versão business clean por ${brandName}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
+            </div>
+            <div class="page-footer">Material personalizado • Curadoria Elite Travel Partner</div>
+          </section>`
+        : "";
 
       const indicationPages = businessContent.items.length
         ? chunkItems(businessContent.items, 3).map(function(itemsChunk, chunkIndex) {
@@ -3628,10 +3159,6 @@
     }
     .panel h2 { font-size: 26px; margin-bottom: 12px; }
     .panel p, .panel li { color: #333; font-size: 17px; line-height: 1.65; }
-    .personalized-cover-panel .page-kicker { margin-bottom: 14px; }
-    .personalized-cover-panel h2 { font-size: 28px; margin-bottom: 14px; }
-    .personalized-cover-panel p { font-size: 18px; line-height: 1.7; }
-
     .items-grid { display: grid; gap: 18px; position: relative; z-index: 1; }
     .printed-item-card {
       border: 1px solid #dfcfaa;
@@ -3789,10 +3316,19 @@
       <div><small>Formato</small><strong>Business clean</strong></div>
     </div>
 
-    ${personalizedCoverHtml}
+    <div class="panel">
+      <h2>Uso profissional</h2>
+      <ul>
+        <li>Versão adaptada para envio ao cliente da empresa parceira.</li>
+        <li>Identidade da empresa aplicada ao documento.</li>
+        <li>Assinatura discreta da Curadoria Elite Travel como parceira de curadoria.</li>
+      </ul>
+    </div>
 
     <div class="page-footer">Página 01 • Material Partner • Uso autorizado para clientes da empresa parceira</div>
   </section>
+
+  ${clientPageHtml}
 
   <section class="paper-page">
     <div class="page-kicker">Panorama da cidade</div>
