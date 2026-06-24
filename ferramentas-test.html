@@ -2056,32 +2056,6 @@
         .trim();
     }
 
-    function trimIncompletePanoramaText(value) {
-      let text = cleanExtractedValue(value);
-
-      if (!text) return "";
-
-      text = text
-        .replace(/\bPorque\s+(?:visitar|conhecer|descobrir)\s*$/i, "")
-        .replace(/\bPorque\s*$/i, "")
-        .trim();
-
-      if (!/[.!?…]$/.test(text)) {
-        const lastSentenceEnd = Math.max(
-          text.lastIndexOf("."),
-          text.lastIndexOf("!"),
-          text.lastIndexOf("?"),
-          text.lastIndexOf("…")
-        );
-
-        if (lastSentenceEnd > 120 && lastSentenceEnd >= text.length * 0.62) {
-          text = text.slice(0, lastSentenceEnd + 1).trim();
-        }
-      }
-
-      return cleanExtractedValue(text);
-    }
-
     function groupPdfTextItemsByRows(textItems) {
       const rows = [];
 
@@ -2173,7 +2147,7 @@
           .split(/(?:\b(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:|SAGRADA FAM[IÍ]LIA|PARK G[ÜU]ELL|CASA BATLL[ÓO]|LA PEDRERA|BAIRRO G[ÓO]TICO)\b|PONTOS\s+TUR[IÍ]STICOS?|PONTOS\s+TURISTICOS?|CURADORIA\s+ELITE\s+TRAVEL|Mais que paisagens|Porque o verdadeiro destino|Lugares que inspiram)/i)[0]
           .trim();
 
-        return trimIncompletePanoramaText(value);
+        return cleanExtractedValue(value);
       }
 
       const beforeFirstDescription = cleaned.split(/Descri[cç][aã]o\s*:/i)[0] || cleaned;
@@ -2241,6 +2215,7 @@
         .trim();
 
       if (!value || value.length < 4 || value.length > 90) return false;
+      if (isInvalidAttractionNameCandidate(value)) return false;
       if (/^(descri[cç][aã]o|endere[cç]o|site|entrada|p[áa]gina|curadoria|elite travel|travel|pontos tur[ií]sticos|atra[cç][õo]es tur[ií]sticas|porque|mais que|cada p[áa]gina|by curadoria|www\.|https?:)/i.test(value)) return false;
       if (/\d{2,}|@|\.com|curadoriaelitetravel|instagram|linkedin/i.test(value)) return false;
       if (/[.!?]$/.test(value)) return false;
@@ -2283,6 +2258,20 @@
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .toUpperCase();
+    }
+
+    function isInvalidAttractionNameCandidate(value) {
+      const text = cleanExtractedValue(value);
+      const normalized = normalizeForSearch(text);
+
+      if (!text || !normalized) return true;
+      if (/^INDICACAO\s*\d+$/.test(normalized)) return true;
+      if (/^(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX|XXI|XXII|XXIII|XXIV|XXV|XXVI|XXVII|XXVIII|XXIX|XXX)$/.test(normalized)) return true;
+      if (/^SECULO\s+(I|V|X|L|C|D|M)+$/.test(normalized)) return true;
+      if (/^(US|R|ARS|EUR|BRL|USD|MXN)$/.test(normalized)) return true;
+      if (/^(GRATUITA|GRATUITO|GRATUIT|ENTRADA|SITE|ENDERECO|ENDEREÇO)$/.test(normalized)) return true;
+
+      return false;
     }
 
     function getKnownAttractionNamesForCity(city) {
@@ -2478,20 +2467,6 @@
       }) || "";
     }
 
-    function isNameFromTrustedAttractionList(name, city, fallbackNames) {
-      const normalizedName = normalizeForSearch(name);
-      if (!normalizedName) return false;
-
-      const trustedNames = (fallbackNames || [])
-        .concat(getKnownAttractionNamesForCity(city))
-        .concat(getGlobalAttractionNameCorrections())
-        .filter(Boolean);
-
-      return trustedNames.some(function(candidate) {
-        return normalizeForSearch(candidate) === normalizedName;
-      });
-    }
-
 
 
     function extractEmbeddedAttractionNameFromDescription(description, configuredNames, fallbackNames) {
@@ -2528,6 +2503,7 @@
         .map(cleanExtractedValue)
         .filter(function(candidate) {
           if (!candidate || candidate.length < 5 || candidate.length > 80) return false;
+          if (isInvalidAttractionNameCandidate(candidate)) return false;
           if (blocked.some(function(regex) { return regex.test(normalizeForSearch(candidate)); })) return false;
           if (/^(RUA|AV|AVENIDA|PL|PRAÇA|CALLE|CARRER|QUAI|BD)\b/i.test(candidate)) return false;
           return /[A-ZÀ-Ú]/.test(candidate);
@@ -2562,6 +2538,7 @@
           .trim();
 
         if (!candidate) continue;
+        if (isInvalidAttractionNameCandidate(candidate)) continue;
         if (used.includes(candidate)) continue;
         if (/^(descri[cç][aã]o|endere[cç]o|site|entrada)\s*:/i.test(candidate)) continue;
         if (/^(p[áa]gina|curadoria|elite travel|travel|pontos tur[ií]sticos|atra[cç][õo]es tur[ií]sticas|www\.|https?:)/i.test(candidate)) continue;
@@ -2691,6 +2668,7 @@
           .trim();
 
         if (!candidate || candidate.length < 5 || candidate.length > 70) continue;
+        if (isInvalidAttractionNameCandidate(candidate)) continue;
         if (blocked.test(normalizeForSearch(candidate))) continue;
         if (/\d/.test(candidate)) continue;
 
@@ -2846,20 +2824,17 @@
         const details = parseAttractionDetailsFromSegment(segment, removalNames);
         let name = getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames);
 
-        const embeddedName = extractEmbeddedAttractionNameFromDescription(
-          details.description,
-          [],
-          fallbackNames
-        );
+        if (!name) {
+          const embeddedName = extractEmbeddedAttractionNameFromDescription(
+            details.description,
+            [],
+            fallbackNames
+          );
 
-        if (
-          embeddedName &&
-          isNameFromTrustedAttractionList(embeddedName, city, fallbackNames) &&
-          !usedNames.includes(embeddedName) &&
-          normalizeForSearch(embeddedName) !== normalizeForSearch(name)
-        ) {
-          name = embeddedName;
-          details.description = removeEmbeddedAttractionNameFromDescription(details.description, embeddedName);
+          if (embeddedName) {
+            name = embeddedName;
+            details.description = removeEmbeddedAttractionNameFromDescription(details.description, embeddedName);
+          }
         }
 
         if (!name) {
@@ -2872,6 +2847,10 @@
 
         name = repairAttractionName(name, city, [], fallbackNames);
 
+        if (isInvalidAttractionNameCandidate(name)) {
+          name = getNextUnusedName(fallbackNames, usedNames) || `Indicação ${index + 1}`;
+        }
+
         const repairedTitle = repairSplitAttractionNameFromDescription(
           name,
           details.description,
@@ -2882,6 +2861,10 @@
         name = repairedTitle.name || name;
         details.description = repairedTitle.description || details.description;
 
+        if (isInvalidAttractionNameCandidate(name)) {
+          name = getNextUnusedName(fallbackNames, usedNames) || `Indicação ${index + 1}`;
+        }
+
         usedNames.push(name);
 
         return {
@@ -2890,9 +2873,6 @@
           address: removeTrailingAttractionNamesFromField(details.address, removalNames),
           site: normalizeSiteValue(removeTrailingAttractionNamesFromField(details.site, removalNames)),
           price: cleanExtractedValue(details.price)
-            .replace(/\bGratuit(?:a|o)?\.?\b/gi, "Gratuita")
-            .replace(/\s+([,.;:])/g, "$1")
-            .trim()
         };
       });
 
@@ -2946,6 +2926,68 @@
         items
       };
     }
+
+    async function ensureBusinessContentLoaded(material) {
+      if (!material || !isAttractionsMaterial(material) || !material.pdf_url) {
+        return getBusinessContentTemplate(material);
+      }
+
+      const cacheKey = getBusinessContentCacheKey(material);
+
+      if (businessContentCache[cacheKey]) {
+        return businessContentCache[cacheKey];
+      }
+
+      if (businessContentLoading[cacheKey]) {
+        return businessContentLoading[cacheKey];
+      }
+
+      businessContentLoading[cacheKey] = (async function() {
+        try {
+          const fullText = await extractPdfTextFromUrl(material.pdf_url, 5, 9);
+          const extracted = parseAttractionsBusinessContent(fullText, material.city_label);
+
+          if (extracted.items && extracted.items.length) {
+            businessContentCache[cacheKey] = extracted;
+            return extracted;
+          }
+        } catch (error) {
+          console.warn("Não foi possível extrair o PDF automaticamente:", error);
+        }
+
+        const fallback = getBusinessContentTemplate(material);
+        businessContentCache[cacheKey] = fallback;
+        return fallback;
+      })();
+
+      return businessContentLoading[cacheKey];
+    }
+
+    async function loadAndRenderBusinessContent(material) {
+      if (!material || !isAttractionsMaterial(material)) return;
+
+      const cacheKey = getBusinessContentCacheKey(material);
+      if (businessContentCache[cacheKey]) return;
+
+      const contentEl = document.getElementById("businessContentPreview");
+      if (contentEl) {
+        contentEl.innerHTML = `
+          <section class="business-a4-page">
+            <div class="business-page-kicker">Leitura automática do acervo</div>
+            <h5 class="business-page-title">Convertendo material para versão business</h5>
+            <div class="business-city-text">Estamos lendo o PDF identificado no Supabase e reorganizando as informações no modelo B2B, sem exibir o material B2C original.</div>
+            <div class="business-page-footer">Curadoria Elite Travel Partner</div>
+          </section>
+        `;
+      }
+
+      await ensureBusinessContentLoaded(material);
+
+      if (selectedMaterial && getBusinessContentCacheKey(selectedMaterial) === cacheKey) {
+        renderBusinessContentPreview(selectedMaterial);
+      }
+    }
+
 
     async function ensureBusinessContentLoaded(material) {
       if (!material || !isAttractionsMaterial(material) || !material.pdf_url) {
