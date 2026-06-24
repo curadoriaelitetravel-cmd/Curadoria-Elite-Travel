@@ -2056,6 +2056,32 @@
         .trim();
     }
 
+    function trimIncompletePanoramaText(value) {
+      let text = cleanExtractedValue(value);
+
+      if (!text) return "";
+
+      text = text
+        .replace(/\bPorque\s+(?:visitar|conhecer|descobrir)\s*$/i, "")
+        .replace(/\bPorque\s*$/i, "")
+        .trim();
+
+      if (!/[.!?…]$/.test(text)) {
+        const lastSentenceEnd = Math.max(
+          text.lastIndexOf("."),
+          text.lastIndexOf("!"),
+          text.lastIndexOf("?"),
+          text.lastIndexOf("…")
+        );
+
+        if (lastSentenceEnd > 120 && lastSentenceEnd >= text.length * 0.62) {
+          text = text.slice(0, lastSentenceEnd + 1).trim();
+        }
+      }
+
+      return cleanExtractedValue(text);
+    }
+
     function groupPdfTextItemsByRows(textItems) {
       const rows = [];
 
@@ -2147,7 +2173,7 @@
           .split(/(?:\b(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:|SAGRADA FAM[IÍ]LIA|PARK G[ÜU]ELL|CASA BATLL[ÓO]|LA PEDRERA|BAIRRO G[ÓO]TICO)\b|PONTOS\s+TUR[IÍ]STICOS?|PONTOS\s+TURISTICOS?|CURADORIA\s+ELITE\s+TRAVEL|Mais que paisagens|Porque o verdadeiro destino|Lugares que inspiram)/i)[0]
           .trim();
 
-        return cleanExtractedValue(value);
+        return trimIncompletePanoramaText(value);
       }
 
       const beforeFirstDescription = cleaned.split(/Descri[cç][aã]o\s*:/i)[0] || cleaned;
@@ -2450,6 +2476,20 @@
       return (names || []).find(function(name) {
         return name && !(usedNames || []).includes(name);
       }) || "";
+    }
+
+    function isNameFromTrustedAttractionList(name, city, fallbackNames) {
+      const normalizedName = normalizeForSearch(name);
+      if (!normalizedName) return false;
+
+      const trustedNames = (fallbackNames || [])
+        .concat(getKnownAttractionNamesForCity(city))
+        .concat(getGlobalAttractionNameCorrections())
+        .filter(Boolean);
+
+      return trustedNames.some(function(candidate) {
+        return normalizeForSearch(candidate) === normalizedName;
+      });
     }
 
 
@@ -2806,17 +2846,20 @@
         const details = parseAttractionDetailsFromSegment(segment, removalNames);
         let name = getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames);
 
-        if (!name) {
-          const embeddedName = extractEmbeddedAttractionNameFromDescription(
-            details.description,
-            [],
-            fallbackNames
-          );
+        const embeddedName = extractEmbeddedAttractionNameFromDescription(
+          details.description,
+          [],
+          fallbackNames
+        );
 
-          if (embeddedName) {
-            name = embeddedName;
-            details.description = removeEmbeddedAttractionNameFromDescription(details.description, embeddedName);
-          }
+        if (
+          embeddedName &&
+          isNameFromTrustedAttractionList(embeddedName, city, fallbackNames) &&
+          !usedNames.includes(embeddedName) &&
+          normalizeForSearch(embeddedName) !== normalizeForSearch(name)
+        ) {
+          name = embeddedName;
+          details.description = removeEmbeddedAttractionNameFromDescription(details.description, embeddedName);
         }
 
         if (!name) {
@@ -2847,6 +2890,9 @@
           address: removeTrailingAttractionNamesFromField(details.address, removalNames),
           site: normalizeSiteValue(removeTrailingAttractionNamesFromField(details.site, removalNames)),
           price: cleanExtractedValue(details.price)
+            .replace(/\bGratuit(?:a|o)?\.?\b/gi, "Gratuita")
+            .replace(/\s+([,.;:])/g, "$1")
+            .trim()
         };
       });
 
@@ -2900,68 +2946,6 @@
         items
       };
     }
-
-    async function ensureBusinessContentLoaded(material) {
-      if (!material || !isAttractionsMaterial(material) || !material.pdf_url) {
-        return getBusinessContentTemplate(material);
-      }
-
-      const cacheKey = getBusinessContentCacheKey(material);
-
-      if (businessContentCache[cacheKey]) {
-        return businessContentCache[cacheKey];
-      }
-
-      if (businessContentLoading[cacheKey]) {
-        return businessContentLoading[cacheKey];
-      }
-
-      businessContentLoading[cacheKey] = (async function() {
-        try {
-          const fullText = await extractPdfTextFromUrl(material.pdf_url, 5, 9);
-          const extracted = parseAttractionsBusinessContent(fullText, material.city_label);
-
-          if (extracted.items && extracted.items.length) {
-            businessContentCache[cacheKey] = extracted;
-            return extracted;
-          }
-        } catch (error) {
-          console.warn("Não foi possível extrair o PDF automaticamente:", error);
-        }
-
-        const fallback = getBusinessContentTemplate(material);
-        businessContentCache[cacheKey] = fallback;
-        return fallback;
-      })();
-
-      return businessContentLoading[cacheKey];
-    }
-
-    async function loadAndRenderBusinessContent(material) {
-      if (!material || !isAttractionsMaterial(material)) return;
-
-      const cacheKey = getBusinessContentCacheKey(material);
-      if (businessContentCache[cacheKey]) return;
-
-      const contentEl = document.getElementById("businessContentPreview");
-      if (contentEl) {
-        contentEl.innerHTML = `
-          <section class="business-a4-page">
-            <div class="business-page-kicker">Leitura automática do acervo</div>
-            <h5 class="business-page-title">Convertendo material para versão business</h5>
-            <div class="business-city-text">Estamos lendo o PDF identificado no Supabase e reorganizando as informações no modelo B2B, sem exibir o material B2C original.</div>
-            <div class="business-page-footer">Curadoria Elite Travel Partner</div>
-          </section>
-        `;
-      }
-
-      await ensureBusinessContentLoaded(material);
-
-      if (selectedMaterial && getBusinessContentCacheKey(selectedMaterial) === cacheKey) {
-        renderBusinessContentPreview(selectedMaterial);
-      }
-    }
-
 
     async function ensureBusinessContentLoaded(material) {
       if (!material || !isAttractionsMaterial(material) || !material.pdf_url) {
