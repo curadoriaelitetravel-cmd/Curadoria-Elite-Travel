@@ -2644,6 +2644,58 @@
     }
 
 
+    function inferAttractionNameFromDetails(details, city) {
+      const site = normalizeForSearch(details && details.site ? details.site : "");
+      const address = normalizeForSearch(details && details.address ? details.address : "");
+      const description = normalizeForSearch(details && details.description ? details.description : "");
+      const haystack = [site, address, description].join(" ");
+
+      const detailRules = [
+        { pattern: /LEUGARDENS|1920 N FOREST/, name: "HARRY P. LEU GARDENS" },
+        { pattern: /ORLANDOSCIENCE|777 E PRINCETON/, name: "ORLANDO SCIENCE CENTER" },
+        { pattern: /KENNEDYSPACECENTER|SPACE CENTER/, name: "KENNEDY SPACE CENTER" },
+        { pattern: /UNIVERSALORLANDO|UNIVERSAL ORLANDO/, name: "UNIVERSAL ORLANDO RESORT" },
+        { pattern: /DISNEYWORLD|MAGIC KINGDOM|WALT DISNEY WORLD/, name: "WALT DISNEY WORLD" },
+        { pattern: /BAYSIDEMARKETPLACE|401 BISCAYNE/, name: "BAYSIDE MARKETPLACE" },
+        { pattern: /LINCOLNROAD|LINCOLN RD/, name: "LINCOLN ROAD" },
+        { pattern: /VIZCAYA|3251 S MIAMI/, name: "VIZCAYA MUSEUM AND GARDENS" },
+        { pattern: /WYNWOODWALLS|WYNWOOD WALLS/, name: "WYNWOOD WALLS" },
+        { pattern: /PAMM|PEREZARTMUSEUM|PÉREZ ART MUSEUM/, name: "PÉREZ ART MUSEUM MIAMI" },
+        { pattern: /FROSTSCIENCE|FROST MUSEUM/, name: "PHILLIP AND PATRICIA FROST MUSEUM OF SCIENCE" },
+        { pattern: /CASAROSADA|BALCARCE 50/, name: "CASA ROSADA" },
+        { pattern: /TEATROCOLON|CERRITO 628/, name: "TEATRO COLÓN" },
+        { pattern: /ELATENEO|SANTA FE 1860/, name: "LIBRERÍA EL ATENEO GRAND SPLENDID" },
+        { pattern: /PUENTE DE LA MUJER|PIERINA DEALESSI/, name: "PUENTE DE LA MUJER" },
+        { pattern: /VIRGENDEGUADALUPE|PLAZA DE LAS AMERICAS 1|PLAZA DE LAS AMÉRICAS 1/, name: "BASÍLICA DE GUADALUPE" },
+        { pattern: /MUSEOFRIDAKAHLO|MUSEO FRIDA KAHLO|CASA AZUL/, name: "MUSEO FRIDA KAHLO" }
+      ];
+
+      const matchedRule = detailRules.find(function(rule) {
+        return rule.pattern.test(haystack);
+      });
+
+      return matchedRule ? matchedRule.name : "";
+    }
+
+    function shouldPreferDetailInferredName(currentName, inferredName) {
+      if (!inferredName) return false;
+      if (!currentName) return true;
+
+      const current = normalizeForSearch(currentName);
+      const inferred = normalizeForSearch(inferredName);
+
+      if (!current || isInvalidAttractionNameCandidate(currentName)) return true;
+      if (current === inferred) return false;
+
+      /*
+        Quando site/endereço apontam para uma atração específica, esse dado pertence ao
+        próprio bloco Descrição/Endereço/Site/Entrada. Ele é mais confiável do que o
+        título visual anterior, que em PDFs do Canva pode escorrer para o bloco errado.
+      */
+      return true;
+    }
+
+
 
     function getTitleRepairCandidateFromDescription(description) {
       const source = cleanExtractedValue(description);
@@ -2846,6 +2898,11 @@
         }
 
         name = repairAttractionName(name, city, [], fallbackNames);
+
+        const detailInferredName = inferAttractionNameFromDetails(details, city);
+        if (shouldPreferDetailInferredName(name, detailInferredName)) {
+          name = detailInferredName;
+        }
 
         if (isInvalidAttractionNameCandidate(name)) {
           name = getNextUnusedName(fallbackNames, usedNames) || `Indicação ${index + 1}`;
