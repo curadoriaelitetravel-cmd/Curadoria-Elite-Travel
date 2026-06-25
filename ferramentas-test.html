@@ -3036,6 +3036,92 @@
       };
     }
 
+    function normalizeYearValue(value) {
+      return String(value || "").trim();
+    }
+
+    function buildStructuredBusinessContentFromRows(rows, material) {
+      const orderedRows = (rows || [])
+        .slice()
+        .sort(function(a, b) {
+          return Number(a.item_order || 0) - Number(b.item_order || 0);
+        });
+
+      const items = orderedRows
+        .filter(function(row) {
+          return row && row.item_name && row.description;
+        })
+        .map(function(row) {
+          return {
+            name: cleanExtractedValue(row.item_name),
+            description: cleanBusinessDescriptionText(row.description, []),
+            address: cleanExtractedValue(row.address || ""),
+            site: normalizeSiteValue(row.site || ""),
+            price: cleanExtractedValue(row.entry_price || "")
+          };
+        });
+
+      const panoramaRow = orderedRows.find(function(row) {
+        return row && row.panorama && String(row.panorama).trim();
+      });
+
+      const fallback = getBusinessContentTemplate(material);
+
+      return {
+        panorama: panoramaRow ? cleanExtractedValue(panoramaRow.panorama) : fallback.panorama,
+        items: items
+      };
+    }
+
+    async function fetchStructuredBusinessContent(material) {
+      if (!material || !isAttractionsMaterial(material)) {
+        return null;
+      }
+
+      const normalizedCategory = normalizeCategoryName(material.category);
+      const originalCategory = String(material.category || "").trim();
+      const cityLabel = String(material.city_label || "").trim();
+      const year = normalizeYearValue(material.year);
+
+      if (!cityLabel) return null;
+
+      const categoryCandidates = [normalizedCategory, originalCategory]
+        .filter(Boolean)
+        .filter(function(value, index, array) {
+          return array.indexOf(value) === index;
+        });
+
+      for (const categoryCandidate of categoryCandidates) {
+        let query = supabaseClient
+          .from("b2b_material_items")
+          .select("id, category, city_label, year, panorama, item_order, item_name, description, address, site, entry_price, is_active, version_id")
+          .eq("category", categoryCandidate)
+          .eq("city_label", cityLabel)
+          .eq("is_active", true)
+          .order("item_order", { ascending: true });
+
+        if (year) {
+          query = query.eq("year", year);
+        }
+
+        const { data, error } = await query;
+
+        if (error) {
+          console.warn("Não foi possível ler b2b_material_items:", error);
+          continue;
+        }
+
+        if (data && data.length) {
+          const structured = buildStructuredBusinessContentFromRows(data, material);
+          if (structured.items && structured.items.length) {
+            return structured;
+          }
+        }
+      }
+
+      return null;
+    }
+
     async function ensureBusinessContentLoaded(material) {
       if (!material || !isAttractionsMaterial(material) || !material.pdf_url) {
         return getBusinessContentTemplate(material);
@@ -3053,67 +3139,16 @@
 
       businessContentLoading[cacheKey] = (async function() {
         try {
-          const fullText = await extractPdfTextFromUrl(material.pdf_url, 5, 9);
-          const extracted = parseAttractionsBusinessContent(fullText, material.city_label);
+          const structured = await fetchStructuredBusinessContent(material);
 
-          if (extracted.items && extracted.items.length) {
-            businessContentCache[cacheKey] = extracted;
-            return extracted;
+          if (structured && structured.items && structured.items.length) {
+            businessContentCache[cacheKey] = structured;
+            return structured;
           }
         } catch (error) {
-          console.warn("Não foi possível extrair o PDF automaticamente:", error);
+          console.warn("Não foi possível carregar itens estruturados do Supabase:", error);
         }
 
-        const fallback = getBusinessContentTemplate(material);
-        businessContentCache[cacheKey] = fallback;
-        return fallback;
-      })();
-
-      return businessContentLoading[cacheKey];
-    }
-
-    async function loadAndRenderBusinessContent(material) {
-      if (!material || !isAttractionsMaterial(material)) return;
-
-      const cacheKey = getBusinessContentCacheKey(material);
-      if (businessContentCache[cacheKey]) return;
-
-      const contentEl = document.getElementById("businessContentPreview");
-      if (contentEl) {
-        contentEl.innerHTML = `
-          <section class="business-a4-page">
-            <div class="business-page-kicker">Leitura automática do acervo</div>
-            <h5 class="business-page-title">Convertendo material para versão business</h5>
-            <div class="business-city-text">Estamos lendo o PDF identificado no Supabase e reorganizando as informações no modelo B2B, sem exibir o material B2C original.</div>
-            <div class="business-page-footer">Curadoria Elite Travel Partner</div>
-          </section>
-        `;
-      }
-
-      await ensureBusinessContentLoaded(material);
-
-      if (selectedMaterial && getBusinessContentCacheKey(selectedMaterial) === cacheKey) {
-        renderBusinessContentPreview(selectedMaterial);
-      }
-    }
-
-
-    async function ensureBusinessContentLoaded(material) {
-      if (!material || !isAttractionsMaterial(material) || !material.pdf_url) {
-        return getBusinessContentTemplate(material);
-      }
-
-      const cacheKey = getBusinessContentCacheKey(material);
-
-      if (businessContentCache[cacheKey]) {
-        return businessContentCache[cacheKey];
-      }
-
-      if (businessContentLoading[cacheKey]) {
-        return businessContentLoading[cacheKey];
-      }
-
-      businessContentLoading[cacheKey] = (async function() {
         try {
           const fullText = await extractPdfTextFromUrl(material.pdf_url, 5, 9);
           const extracted = parseAttractionsBusinessContent(fullText, material.city_label);
@@ -3157,9 +3192,9 @@
       if (contentEl) {
         contentEl.innerHTML = `
           <section class="business-a4-page">
-            <div class="business-page-kicker">Leitura automática do acervo</div>
-            <h5 class="business-page-title">Convertendo material para versão business</h5>
-            <div class="business-city-text">Estamos lendo o PDF identificado no Supabase e reorganizando as informações no modelo B2B, sem exibir o material B2C original.</div>
+            <div class="business-page-kicker">Leitura do acervo Partner</div>
+            <h5 class="business-page-title">Carregando versão business</h5>
+            <div class="business-city-text">Estamos verificando se este destino já possui itens estruturados no Supabase. Se não houver registros prontos, a ferramenta usará a leitura automática do PDF como apoio.</div>
             <div class="business-page-footer">Curadoria Elite Travel Partner</div>
           </section>
         `;
