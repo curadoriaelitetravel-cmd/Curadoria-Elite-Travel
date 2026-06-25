@@ -2470,17 +2470,21 @@
 
 
     function extractEmbeddedAttractionNameFromDescription(description, configuredNames, fallbackNames) {
-      /*
-        Segurança geral:
-        não extraímos nome de atração a partir da descrição.
-        Em PDFs exportados do Canva, a descrição pode conter o nome de outra atração
-        ou fragmentos visuais deslocados. Para evitar nomes inventados/trocados,
-        o título deve vir apenas do cabeçalho visual imediatamente antes de "Descrição:",
-        da lista oficial configurada do destino ou do fallback "Indicação X".
-      */
-      return "";
-    }
+      const candidate = getTitleRepairCandidateFromDescription(description);
+      const allowedNames = (configuredNames || []).concat(fallbackNames || []).filter(Boolean);
 
+      if (!candidate) return "";
+
+      if (!allowedNames.length) {
+        return candidate;
+      }
+
+      const exactAllowed = allowedNames.find(function(name) {
+        return normalizeForSearch(name) === normalizeForSearch(candidate);
+      });
+
+      return exactAllowed || candidate;
+    }
     function removeEmbeddedAttractionNameFromDescription(description, embeddedName) {
       let text = cleanExtractedValue(description);
       if (!text || !embeddedName) return text;
@@ -2658,13 +2662,57 @@
 
 
     function getTitleRepairCandidateFromDescription(description) {
-      /*
-        Segurança geral:
-        não extraímos título a partir da descrição.
-        Quando o cabeçalho visual não for confiável, é melhor manter "Indicação X"
-        do que adivinhar um nome pelo texto descritivo.
-      */
-      return "";
+      const text = cleanExtractedValue(description);
+      if (!text) return "";
+
+      const ignored = new Set([
+        "A", "O", "AS", "OS", "DE", "DA", "DO", "DAS", "DOS", "E", "EM",
+        "NO", "NA", "NOS", "NAS", "AO", "AOS", "À", "ÀS", "UM", "UMA",
+        "ESTE", "ESTA", "ESSE", "ESSA", "AQUI", "PARIS", "MIAMI",
+        "ORLANDO", "MADRID", "BARCELONA", "BUENOS", "AIRES", "MEXICO",
+        "MÉXICO", "NEW", "YORK", "USA", "FRANÇA", "ESPANHA", "ARGENTINA",
+        "BRASIL", "FL", "NY", "US", "R", "ARS", "MXN", "EUR", "BRL", "USD"
+      ]);
+
+      const matches = text.match(/\b[A-ZÀ-Ú][A-ZÀ-Ú0-9'’.\-]*(?:\s+(?:DE|DA|DO|DAS|DOS|DEL|DES|DU|LA|LE|LES|THE|OF|AND|Y|E|A|O|[A-ZÀ-Ú][A-ZÀ-Ú0-9'’.\-]*)){0,7}\b/g) || [];
+
+      const candidates = matches
+        .map(function(match) {
+          return cleanExtractedValue(match)
+            .replace(/^[,.;:\-–—]+|[,.;:\-–—]+$/g, "")
+            .trim();
+        })
+        .filter(function(match) {
+          const normalized = normalizeForSearch(match);
+          if (!match || match.length < 5 || match.length > 80) return false;
+          if (isInvalidAttractionNameCandidate(match)) return false;
+          if (/^(DESCRICAO|DESCRIÇÃO|ENDERECO|ENDEREÇO|SITE|ENTRADA|PAGINA|PÁGINA|CURADORIA|ELITE|TRAVEL|PONTOS|TURISTICOS|TURÍSTICOS)$/i.test(normalized)) return false;
+          if (/^(US|R|ARS|MXN|EUR|BRL|USD|FL|NY)$/.test(normalized)) return false;
+          if (/^\d/.test(normalized)) return false;
+          if (ignored.has(normalized)) return false;
+
+          const words = normalized.split(/\s+/).filter(Boolean);
+          const meaningfulWords = words.filter(function(word) {
+            return !ignored.has(word) && !/^(DE|DA|DO|DAS|DOS|DEL|DES|DU|LA|LE|LES|THE|OF|AND|Y|E|A|O)$/.test(word);
+          });
+
+          if (!meaningfulWords.length) return false;
+
+          return meaningfulWords.some(function(word) {
+            return word.length >= 4;
+          });
+        });
+
+      if (!candidates.length) return "";
+
+      candidates.sort(function(a, b) {
+        const aWords = normalizeForSearch(a).split(/\s+/).length;
+        const bWords = normalizeForSearch(b).split(/\s+/).length;
+        if (bWords !== aWords) return bWords - aWords;
+        return b.length - a.length;
+      });
+
+      return candidates[0] || "";
     }
 
     function removeTitleRepairCandidateFromDescription(description, titleCandidate) {
@@ -2672,11 +2720,15 @@
       if (!text || !titleCandidate) return text;
 
       const escaped = titleCandidate.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      text = text.replace(new RegExp("\\s+" + escaped + "(?=\\s|[,.;:])", "i"), " ");
-      text = text.replace(new RegExp("^(A|O|As|Os)\\s+" + escaped + "\\s+convida", "i"), "$1 " + titleCandidate.split(" ")[0] + " convida");
+
+      text = text
+        .replace(new RegExp("\\b" + escaped + "\\b", "gi"), " ")
+        .replace(/\s+([,.;:])/g, "$1")
+        .replace(/,\s*,/g, ",")
+        .replace(/\s{2,}/g, " ");
+
       return cleanExtractedValue(text);
     }
-
     function repairSplitAttractionNameFromDescription(name, description, city, fallbackNames) {
       let repairedName = cleanExtractedValue(name);
       let repairedDescription = cleanExtractedValue(description);
@@ -2884,25 +2936,26 @@
     function applyConfiguredCityNameOrder(items, city) {
       const configuredNames = getKnownAttractionNamesForCity(city);
 
-      if (!configuredNames.length || !items || !items.length) {
+      if (!items || !items.length) {
         return items || [];
       }
 
-      /*
-        Regra de segurança para PDFs do Canva:
-        em alguns destinos, principalmente Paris, o título visual da próxima atração
-        aparece dentro do bloco de descrição atual. Por isso, quando já conhecemos a
-        ordem oficial do destino, ela prevalece sobre qualquer nome detectado no texto.
-        Isso evita combinações erradas como “Sainte-Chapelle” com descrição do Musée d'Orsay.
-      */
       return items.map(function(item, index) {
-        const officialName = configuredNames[index] || item.name || `Indicação ${index + 1}`;
-        const cleanupNames = configuredNames.filter(function(name) {
-          return normalizeForSearch(name) !== normalizeForSearch(officialName);
+        const fallbackName = configuredNames[index] || `Indicação ${index + 1}`;
+        const currentName = cleanExtractedValue(item.name);
+        const currentNormalized = normalizeForSearch(currentName);
+        const shouldUseFallback = !currentName ||
+          isInvalidAttractionNameCandidate(currentName) ||
+          /^INDICACAO\s+\d+$/.test(currentNormalized) ||
+          /^INDICAÇÃO\s+\d+$/i.test(currentName);
+
+        const finalName = shouldUseFallback ? fallbackName : currentName;
+        const cleanupNames = (configuredNames || []).filter(function(name) {
+          return normalizeForSearch(name) !== normalizeForSearch(finalName);
         });
 
         return {
-          name: officialName,
+          name: finalName,
           description: removeTrailingAttractionNamesFromField(item.description, cleanupNames),
           address: removeTrailingAttractionNamesFromField(item.address, cleanupNames),
           site: normalizeSiteValue(removeTrailingAttractionNamesFromField(item.site, cleanupNames)),
@@ -2910,7 +2963,6 @@
         };
       });
     }
-
     function parseAttractionsBusinessContent(text, city) {
       const panorama = extractPanoramaFromText(text, city);
       const items = applyConfiguredCityNameOrder(parseAttractionItemsFromText(text, city), city);
