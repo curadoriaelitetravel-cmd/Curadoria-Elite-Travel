@@ -2877,12 +2877,15 @@
       const currentName = cleanExtractedValue(options.currentName || "");
       const detailName = cleanExtractedValue(options.detailName || "");
       const descriptionCandidate = cleanExtractedValue(options.descriptionCandidate || "");
+      const orderedName = cleanExtractedValue(options.orderedName || "");
       const details = options.details || {};
       const usedNames = options.usedNames || [];
       const index = options.index || 0;
 
       const currentValid = currentName && !isInvalidAttractionNameCandidate(currentName);
+      const orderedValid = orderedName && !isInvalidAttractionNameCandidate(orderedName);
       const currentSupported = currentValid && isTitleSupportedByDetails(currentName, details);
+      const orderedSupported = orderedValid && isTitleSupportedByDetails(orderedName, details);
       const detailSupported = detailName && !isInvalidAttractionNameCandidate(detailName) && isTitleSupportedByDetails(detailName, details);
       const descriptionSupported = descriptionCandidate && !isInvalidAttractionNameCandidate(descriptionCandidate) && isTitleSupportedByDetails(descriptionCandidate, details);
 
@@ -2898,11 +2901,26 @@
         return { name: detailName, removeFromDescription: "" };
       }
 
+      if (orderedSupported && !usedNames.includes(orderedName)) {
+        return { name: orderedName, removeFromDescription: "" };
+      }
+
+      if (orderedValid && !usedNames.includes(orderedName)) {
+        /*
+          Fallback estrutural:
+          quando o cabeçalho imediatamente acima do bloco não é confiável, usamos
+          o título visual extraído na mesma posição da lista completa de títulos do PDF.
+          Isso evita exibir "Indicação X" em PDFs nos quais o título ficou separado
+          do bloco Descrição/Endereço/Site/Entrada, sem reutilizar o título anterior.
+        */
+        return { name: orderedName, removeFromDescription: "" };
+      }
+
       if (currentValid && !usedNames.includes(currentName)) {
         /*
-          Regra conservadora: só mantemos o cabeçalho visual quando ele não foi
-          contradito por outro nome encontrado no próprio bloco. Se houver outro
-          candidato suportado pelos detalhes, ele já teria sido escolhido acima.
+          Última tentativa com cabeçalho visual local. Ele só chega aqui se não houve
+          candidato ordenado para este índice, evitando reaproveitamento do título
+          anterior quando o bloco pertence claramente a outra atração.
         */
         return { name: currentName, removeFromDescription: "" };
       }
@@ -2928,6 +2946,9 @@
       });
 
       const fallbackNames = extractCandidateNamesInTextOrder(cleaned);
+      const orderedFallbackNames = fallbackNames.length >= descriptionIndexes.length
+        ? fallbackNames.slice(0, descriptionIndexes.length)
+        : [];
       const correctionNames = getGlobalAttractionNameCorrections();
       const removalNames = fallbackNames.concat(correctionNames).filter(function(name, index, array) {
         return name && array.indexOf(name) === index;
@@ -2947,6 +2968,7 @@
           currentName: repairAttractionName(visualName, city, [], fallbackNames),
           detailName: detailInferredName,
           descriptionCandidate: descriptionCandidate,
+          orderedName: repairAttractionName(orderedFallbackNames[index] || "", city, [], fallbackNames),
           details: details,
           usedNames: usedNames,
           index: index
