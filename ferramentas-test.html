@@ -2834,6 +2834,82 @@
       return cleanExtractedValue(value);
     }
 
+    function getTitleMeaningfulWords(value) {
+      const ignored = new Set([
+        "A", "O", "AS", "OS", "DE", "DA", "DO", "DAS", "DOS", "DEL", "DES", "DU",
+        "LA", "LE", "LES", "THE", "OF", "AND", "Y", "E", "EM", "NO", "NA", "NOS", "NAS",
+        "MUSEU", "MUSEUM", "CENTRO", "CENTER", "PARK", "PARQUE", "JARDIM", "GARDENS",
+        "IGREJA", "CATEDRAL", "BASILICA", "BASÍLICA", "PALACIO", "PALÁCIO", "TEATRO",
+        "CASA", "PLAZA", "PRAÇA", "RUA", "AV", "AVENIDA", "STREET", "ST", "RD", "ROAD"
+      ]);
+
+      return normalizeForSearch(value)
+        .replace(/[^A-Z0-9À-Ú\s]/g, " ")
+        .split(/\s+/)
+        .filter(function(word) {
+          return word && word.length >= 4 && !ignored.has(word) && !/^\d+$/.test(word);
+        });
+    }
+
+    function getTitleEvidenceScore(name, details) {
+      const words = getTitleMeaningfulWords(name);
+      if (!words.length) return 0;
+
+      const haystack = normalizeForSearch([
+        details && details.description ? details.description : "",
+        details && details.address ? details.address : "",
+        details && details.site ? details.site : ""
+      ].join(" "));
+
+      return words.reduce(function(score, word) {
+        return score + (haystack.includes(word) ? 1 : 0);
+      }, 0);
+    }
+
+    function isTitleSupportedByDetails(name, details) {
+      const words = getTitleMeaningfulWords(name);
+      if (!name || !words.length) return false;
+      const score = getTitleEvidenceScore(name, details);
+      return score >= Math.min(2, words.length);
+    }
+
+    function chooseAttractionNameForDetails(options) {
+      const currentName = cleanExtractedValue(options.currentName || "");
+      const detailName = cleanExtractedValue(options.detailName || "");
+      const descriptionCandidate = cleanExtractedValue(options.descriptionCandidate || "");
+      const details = options.details || {};
+      const usedNames = options.usedNames || [];
+      const index = options.index || 0;
+
+      const currentValid = currentName && !isInvalidAttractionNameCandidate(currentName);
+      const currentSupported = currentValid && isTitleSupportedByDetails(currentName, details);
+      const detailSupported = detailName && !isInvalidAttractionNameCandidate(detailName) && isTitleSupportedByDetails(detailName, details);
+      const descriptionSupported = descriptionCandidate && !isInvalidAttractionNameCandidate(descriptionCandidate) && isTitleSupportedByDetails(descriptionCandidate, details);
+
+      if (currentSupported && !usedNames.includes(currentName)) {
+        return { name: currentName, removeFromDescription: "" };
+      }
+
+      if (descriptionSupported && !usedNames.includes(descriptionCandidate)) {
+        return { name: descriptionCandidate, removeFromDescription: descriptionCandidate };
+      }
+
+      if (detailSupported && !usedNames.includes(detailName)) {
+        return { name: detailName, removeFromDescription: "" };
+      }
+
+      if (currentValid && !usedNames.includes(currentName)) {
+        /*
+          Regra conservadora: só mantemos o cabeçalho visual quando ele não foi
+          contradito por outro nome encontrado no próprio bloco. Se houver outro
+          candidato suportado pelos detalhes, ele já teria sido escolhido acima.
+        */
+        return { name: currentName, removeFromDescription: "" };
+      }
+
+      return { name: `Indicação ${index + 1}`, removeFromDescription: "" };
+    }
+
     function parseAttractionItemsFromText(text, city) {
       const cleaned = cleanAttractionsExtractionText(text)
         .replace(/https:\s*\/\//gi, "https://")
@@ -2863,38 +2939,22 @@
         const segmentLines = removeNextBlockTitleFromSegmentLines(lines.slice(descriptionIndex, nextDescriptionIndex));
         const segment = segmentLines.join("\n");
         const details = parseAttractionDetailsFromSegment(segment, removalNames);
-        let name = getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames);
-
-        if (!name) {
-          const embeddedName = extractEmbeddedAttractionNameFromDescription(
-            details.description,
-            [],
-            fallbackNames
-          );
-
-          if (embeddedName) {
-            name = embeddedName;
-            details.description = removeEmbeddedAttractionNameFromDescription(details.description, embeddedName);
-          }
-        }
-
-        if (!name) {
-          name = getNextUnusedName(fallbackNames, usedNames);
-        }
-
-        if (!name) {
-          name = `Indicação ${index + 1}`;
-        }
-
-        name = repairAttractionName(name, city, [], fallbackNames);
-
+        const visualName = getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames);
+        const descriptionCandidate = getTitleRepairCandidateFromDescription(details.description);
         const detailInferredName = inferAttractionNameFromDetails(details, city);
-        if (shouldPreferDetailInferredName(name, detailInferredName)) {
-          name = detailInferredName;
-        }
 
-        if (isInvalidAttractionNameCandidate(name)) {
-          name = getNextUnusedName(fallbackNames, usedNames) || `Indicação ${index + 1}`;
+        const selectedTitle = chooseAttractionNameForDetails({
+          currentName: repairAttractionName(visualName, city, [], fallbackNames),
+          detailName: detailInferredName,
+          descriptionCandidate: descriptionCandidate,
+          details: details,
+          usedNames: usedNames,
+          index: index
+        });
+
+        let name = selectedTitle.name;
+        if (selectedTitle.removeFromDescription) {
+          details.description = removeTitleRepairCandidateFromDescription(details.description, selectedTitle.removeFromDescription);
         }
 
         const repairedTitle = repairSplitAttractionNameFromDescription(
@@ -2908,7 +2968,7 @@
         details.description = repairedTitle.description || details.description;
 
         if (isInvalidAttractionNameCandidate(name)) {
-          name = getNextUnusedName(fallbackNames, usedNames) || `Indicação ${index + 1}`;
+          name = `Indicação ${index + 1}`;
         }
 
         usedNames.push(name);
@@ -2934,35 +2994,16 @@
     }
 
     function applyConfiguredCityNameOrder(items, city) {
-      const configuredNames = getKnownAttractionNamesForCity(city);
-
-      if (!items || !items.length) {
-        return items || [];
-      }
-
-      return items.map(function(item, index) {
-        const fallbackName = configuredNames[index] || `Indicação ${index + 1}`;
-        const currentName = cleanExtractedValue(item.name);
-        const currentNormalized = normalizeForSearch(currentName);
-        const shouldUseFallback = !currentName ||
-          isInvalidAttractionNameCandidate(currentName) ||
-          /^INDICACAO\s+\d+$/.test(currentNormalized) ||
-          /^INDICAÇÃO\s+\d+$/i.test(currentName);
-
-        const finalName = shouldUseFallback ? fallbackName : currentName;
-        const cleanupNames = (configuredNames || []).filter(function(name) {
-          return normalizeForSearch(name) !== normalizeForSearch(finalName);
-        });
-
-        return {
-          name: finalName,
-          description: removeTrailingAttractionNamesFromField(item.description, cleanupNames),
-          address: removeTrailingAttractionNamesFromField(item.address, cleanupNames),
-          site: normalizeSiteValue(removeTrailingAttractionNamesFromField(item.site, cleanupNames)),
-          price: removeTrailingAttractionNamesFromField(item.price, cleanupNames)
-        };
-      });
+      /*
+        Não sobrescreve mais os nomes por posição fixa de uma lista.
+        O parser agora monta cada card a partir do bloco real:
+        Descrição → Endereço → Site → Entrada.
+        Isso evita deslocar títulos entre atrações quando o PDF do Canva muda a
+        ordem visual de nomes e descrições.
+      */
+      return items || [];
     }
+
     function parseAttractionsBusinessContent(text, city) {
       const panorama = extractPanoramaFromText(text, city);
       const items = applyConfiguredCityNameOrder(parseAttractionItemsFromText(text, city), city);
