@@ -2470,46 +2470,15 @@
 
 
     function extractEmbeddedAttractionNameFromDescription(description, configuredNames, fallbackNames) {
-      const source = cleanExtractedValue(description);
-      if (!source) return "";
-
-      const allKnownNames = (configuredNames || []).concat(fallbackNames || []).filter(Boolean);
-      const normalizedSource = normalizeForSearch(source);
-
       /*
-        Muitos PDFs do Canva entregam o título visual dentro da descrição do bloco.
-        Ex.: "este museu MUSEU DO LOUVRE abriga...".
-        Quando isso acontece, esse nome é mais confiável do que a lista separada de
-        títulos, porque pertence ao mesmo bloco Descrição/Endereço/Site/Entrada.
+        Segurança geral:
+        não extraímos nome de atração a partir da descrição.
+        Em PDFs exportados do Canva, a descrição pode conter o nome de outra atração
+        ou fragmentos visuais deslocados. Para evitar nomes inventados/trocados,
+        o título deve vir apenas do cabeçalho visual imediatamente antes de "Descrição:",
+        da lista oficial configurada do destino ou do fallback "Indicação X".
       */
-      for (const knownName of allKnownNames) {
-        const normalizedName = normalizeForSearch(knownName);
-        if (normalizedName && normalizedSource.includes(normalizedName)) {
-          return knownName;
-        }
-      }
-
-      const candidates = source.match(/[A-ZÀ-Ú0-9][A-ZÀ-Ú0-9'’\-\.]+(?:\s+(?:DE|DA|DO|DAS|DOS|DEL|DES|DU|LA|LE|LAS|LOS|EL|D'|D’|L'|L’|[A-ZÀ-Ú0-9][A-ZÀ-Ú0-9'’\-\.]+)){0,7}/g) || [];
-
-      const blocked = [
-        /^US$/, /^R$/, /^ARS$/, /^EUR$/, /^BRL$/, /^USD$/,
-        /^PARIS$/, /^MADRID$/, /^BUENOS AIRES$/, /^BARCELONA$/, /^NEW YORK$/,
-        /^ESPANHA$/, /^ARGENTINA$/, /^FRANÇA$/, /^USA$/, /^BRASIL$/,
-        /^CURADORIA$/, /^ELITE$/, /^TRAVEL$/, /^PONTOS$/, /^TURISTICOS$/, /^TURÍSTICOS$/,
-        /^BAIRRO LATINO$/
-      ];
-
-      const cleanedCandidates = candidates
-        .map(cleanExtractedValue)
-        .filter(function(candidate) {
-          if (!candidate || candidate.length < 5 || candidate.length > 80) return false;
-          if (isInvalidAttractionNameCandidate(candidate)) return false;
-          if (blocked.some(function(regex) { return regex.test(normalizeForSearch(candidate)); })) return false;
-          if (/^(RUA|AV|AVENIDA|PL|PRAÇA|CALLE|CARRER|QUAI|BD)\b/i.test(candidate)) return false;
-          return /[A-ZÀ-Ú]/.test(candidate);
-        });
-
-      return cleanedCandidates[0] || "";
+      return "";
     }
 
     function removeEmbeddedAttractionNameFromDescription(description, embeddedName) {
@@ -2678,55 +2647,23 @@
     }
 
     function shouldPreferDetailInferredName(currentName, inferredName) {
-      if (!inferredName) return false;
-      if (!currentName) return true;
-
-      const current = normalizeForSearch(currentName);
-      const inferred = normalizeForSearch(inferredName);
-
-      if (!current || isInvalidAttractionNameCandidate(currentName)) return true;
-      if (current === inferred) return false;
-
       /*
-        Quando site/endereço apontam para uma atração específica, esse dado pertence ao
-        próprio bloco Descrição/Endereço/Site/Entrada. Ele é mais confiável do que o
-        título visual anterior, que em PDFs do Canva pode escorrer para o bloco errado.
+        Segurança geral:
+        não usamos site, endereço ou descrição para trocar o nome da atração.
+        Esses campos ajudam a validar o bloco, mas não devem inventar/corrigir título,
+        porque isso pode gerar nomes formais demais ou nomes errados em outros destinos.
       */
-      return true;
+      return false;
     }
 
 
-
     function getTitleRepairCandidateFromDescription(description) {
-      const source = cleanExtractedValue(description);
-      if (!source) return "";
-
-      const firstChunk = source.slice(0, 220);
-      const patterns = [
-        /^(?:A|O|As|Os)\s+([A-ZÀ-Ú][A-Za-zÀ-ÿ'’\-]+(?:\s+(?:de|da|do|das|dos|del|la|le|las|los|d'|d’|l'|l’|[A-ZÀ-Ú][A-Za-zÀ-ÿ'’\-]+)){0,5})\s+convida\b/i,
-        /\b(?:este|esta|esse|essa|o|a)\s+([A-ZÀ-Ú][A-ZÀ-Ú'’\-]+(?:\s+(?:DE|DA|DO|DAS|DOS|DEL|LA|LE|LAS|LOS|D'|D’|L'|L’|[A-ZÀ-Ú][A-ZÀ-Ú'’\-]+)){0,6})\b/,
-        /\b([A-ZÀ-Ú][A-ZÀ-Ú'’\-]{2,}(?:\s+(?:DE|DA|DO|DAS|DOS|DEL|LA|LE|LAS|LOS|D'|D’|L'|L’|[A-ZÀ-Ú][A-ZÀ-Ú'’\-]{2,})){0,6})\b/
-      ];
-
-      const blocked = /^(A|O|AS|OS|RUA|AV|AVENIDA|PRAÇA|PLAZA|EJE|RODOVIA|CENTRO|BRASIL|USA|MEXICO|MÉXICO|BRASIL|GRATUITA|GRATUITO|MXN|R\$|US\$|HTTP|HTTPS|SITE|ENTRADA|ENDERECO|ENDEREÇO)$/i;
-
-      for (const pattern of patterns) {
-        const match = firstChunk.match(pattern);
-        if (!match || !match[1]) continue;
-
-        const candidate = cleanExtractedValue(match[1])
-          .replace(/\bconvida\b.*$/i, "")
-          .replace(/\bredescobrir\b.*$/i, "")
-          .trim();
-
-        if (!candidate || candidate.length < 5 || candidate.length > 70) continue;
-        if (isInvalidAttractionNameCandidate(candidate)) continue;
-        if (blocked.test(normalizeForSearch(candidate))) continue;
-        if (/\d/.test(candidate)) continue;
-
-        return candidate;
-      }
-
+      /*
+        Segurança geral:
+        não extraímos título a partir da descrição.
+        Quando o cabeçalho visual não for confiável, é melhor manter "Indicação X"
+        do que adivinhar um nome pelo texto descritivo.
+      */
       return "";
     }
 
