@@ -3,471 +3,365 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin B2B Converter | Curadoria Elite Travel</title>
-
+  <title>Admin B2B | Verificação de Materiais</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: Arial, sans-serif;
       background:
-        radial-gradient(circle at 20% 0%, rgba(214,173,50,.10), transparent 30%),
-        radial-gradient(circle at 90% 35%, rgba(214,173,50,.08), transparent 28%),
+        radial-gradient(circle at 20% 0%, rgba(214, 173, 50, .09), transparent 28%),
+        radial-gradient(circle at 90% 40%, rgba(214, 173, 50, .05), transparent 30%),
         #03060b;
       color: #fff;
       min-height: 100vh;
     }
-
     header {
-      height: 74px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
+      height: 76px;
+      border-bottom: 1px solid rgba(214,173,50,.26);
+      background: rgba(0,0,0,.94);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 32px;
-      background: rgba(0,0,0,.94);
       position: sticky;
       top: 0;
       z-index: 20;
     }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .brand-symbol {
-      color: #d6ad32;
-      font-size: 27px;
-    }
-
-    .brand h1 {
-      font-size: 18px;
-      color: #d6ad32;
-      letter-spacing: .5px;
-      line-height: 1;
-    }
-
-    .brand p {
-      font-size: 12px;
-      color: #fff;
-      margin-top: 5px;
-    }
-
-    main {
-      max-width: 1500px;
-      margin: 0 auto;
-      padding: 34px 24px 70px;
-    }
-
-    .hero {
-      border: 1px solid rgba(214,173,50,.34);
-      background: linear-gradient(180deg, rgba(11,17,29,.98), rgba(5,8,15,.98));
-      border-radius: 24px;
-      padding: 32px;
-      box-shadow: 0 24px 70px rgba(0,0,0,.32);
-      margin-bottom: 22px;
-    }
-
-    .eyebrow {
-      color: #d6ad32;
-      letter-spacing: 4px;
-      font-size: 12px;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-      font-weight: 900;
-    }
-
-    .hero h2 {
-      color: #d6ad32;
-      font-size: 36px;
-      line-height: 1.1;
-      margin-bottom: 12px;
-    }
-
-    .hero p {
-      color: #d8e1ee;
-      max-width: 980px;
-      line-height: 1.7;
-      font-size: 15px;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 410px 1fr;
-      gap: 22px;
-      align-items: start;
-    }
-
-    .card {
-      background: linear-gradient(180deg, #071020, #060b15);
-      border: 1px solid rgba(255,255,255,.11);
-      border-radius: 22px;
-      padding: 22px;
-      box-shadow: 0 22px 55px rgba(0,0,0,.22);
-    }
-
-    .card h3 {
-      font-size: 22px;
-      margin-bottom: 8px;
-      color: #fff;
-    }
-
-    .sub {
-      color: #c8d3e4;
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 18px;
-    }
-
+    .brand { display:flex; align-items:center; gap:14px; }
+    .brand-symbol { color:#d6ad32; font-size:28px; }
+    .brand h1 { color:#d6ad32; font-size:18px; line-height:1; }
+    .brand p { color:#fff; font-size:12px; margin-top:5px; }
     .btn {
-      border: 1px solid rgba(214,173,50,.45);
-      background: rgba(0,0,0,.16);
-      color: #fff;
-      padding: 12px 18px;
-      border-radius: 14px;
-      font-weight: 900;
-      cursor: pointer;
-      transition: .2s ease;
-      white-space: nowrap;
+      border:1px solid rgba(214,173,50,.42);
+      background:rgba(0,0,0,.18);
+      color:#fff;
+      padding:13px 18px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:900;
+      transition:.2s ease;
     }
-
-    .btn:hover { border-color: rgba(214,173,50,.85); transform: translateY(-1px); }
-    .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
-
-    .btn.gold {
-      background: linear-gradient(135deg, #e3bd43, #b88712);
-      color: #060606;
-      border: none;
-      box-shadow: 0 12px 26px rgba(214,173,50,.18);
+    .btn:hover { border-color:rgba(214,173,50,.86); transform:translateY(-1px); }
+    .btn:disabled { opacity:.42; cursor:not-allowed; transform:none; }
+    .btn.gold { background:linear-gradient(135deg,#e3bd43,#b88712); color:#060606; border:none; }
+    .btn.danger { border-color:rgba(220,80,80,.45); color:#ffb2b2; }
+    main { max-width:1520px; margin:0 auto; padding:34px 24px 70px; }
+    .intro {
+      border:1px solid rgba(214,173,50,.28);
+      background:linear-gradient(180deg,rgba(11,17,29,.98),rgba(5,8,15,.98));
+      border-radius:24px;
+      padding:28px;
+      margin-bottom:22px;
     }
-
-    .btn.danger {
-      border-color: rgba(255,94,94,.45);
-      color: #ffb3b3;
+    .intro small {
+      display:block;
+      color:#d6ad32;
+      letter-spacing:4px;
+      text-transform:uppercase;
+      font-size:12px;
+      font-weight:900;
+      margin-bottom:12px;
     }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px;
+    .intro h2 { font-size:34px; margin-bottom:10px; }
+    .intro p { color:#cbd6e6; line-height:1.7; max-width:980px; }
+    .layout {
+      display:grid;
+      grid-template-columns:420px 1fr;
+      gap:22px;
+      align-items:start;
     }
-
-    input, select, textarea {
-      width: 100%;
-      border: 1px solid rgba(255,255,255,.12);
-      background: #050b16;
-      color: #fff;
-      border-radius: 13px;
-      padding: 12px 13px;
-      outline: none;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
+    .card {
+      border:1px solid rgba(255,255,255,.11);
+      background:linear-gradient(180deg,#071020,#060b15);
+      border-radius:22px;
+      padding:22px;
+      box-shadow:0 24px 55px rgba(0,0,0,.24);
     }
-
-    textarea {
-      min-height: 96px;
-      resize: vertical;
-      line-height: 1.5;
+    .card h3 { font-size:22px; margin-bottom:8px; }
+    .sub { color:#c8d3e4; font-size:14px; line-height:1.6; margin-bottom:18px; }
+    .filters { display:grid; grid-template-columns:1fr 110px; gap:12px; margin-bottom:12px; }
+    label { display:block; color:#9fb0c7; font-size:12px; font-weight:900; margin-bottom:7px; }
+    input, select {
+      width:100%;
+      border:1px solid rgba(255,255,255,.12);
+      background:#050b16;
+      color:#fff;
+      border-radius:13px;
+      padding:13px;
+      outline:none;
+      font-family:Arial,sans-serif;
+      font-size:14px;
     }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: rgba(214,173,50,.75);
-      box-shadow: 0 0 0 3px rgba(214,173,50,.08);
+    input:focus, select:focus { border-color:rgba(214,173,50,.75); box-shadow:0 0 0 3px rgba(214,173,50,.08); }
+    .actions-row { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+    .note {
+      border:1px solid rgba(214,173,50,.25);
+      background:rgba(214,173,50,.07);
+      color:#f2d46b;
+      border-radius:16px;
+      padding:14px;
+      font-size:13px;
+      line-height:1.55;
+      margin-bottom:16px;
     }
-
-    label {
-      display: block;
-      color: #9fb0c7;
-      font-size: 12px;
-      font-weight: 900;
-      margin: 0 0 7px;
+    .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:16px 0; }
+    .stat {
+      border:1px solid rgba(255,255,255,.1);
+      background:#050b16;
+      border-radius:16px;
+      padding:14px;
     }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
+    .stat small { display:block; color:#9fb0c7; font-size:11px; font-weight:900; margin-bottom:7px; }
+    .stat strong { color:#fff; font-size:20px; }
     .materials-list {
-      display: grid;
-      gap: 10px;
-      max-height: 660px;
-      overflow: auto;
-      padding-right: 4px;
+      display:grid;
+      gap:8px;
+      max-height:640px;
+      overflow:auto;
+      padding-right:4px;
     }
-
     .material-item {
-      border: 1px solid rgba(255,255,255,.10);
-      background: #050b16;
-      border-radius: 16px;
-      padding: 15px;
-      cursor: pointer;
-      transition: .18s ease;
+      border:1px solid rgba(255,255,255,.09);
+      background:#050b16;
+      border-radius:16px;
+      padding:14px;
+      cursor:pointer;
+      transition:.18s ease;
     }
-
-    .material-item:hover,
-    .material-item.active {
-      background: rgba(214,173,50,.08);
-      border-color: rgba(214,173,50,.45);
+    .material-item:hover, .material-item.active {
+      background:rgba(214,173,50,.08);
+      border-color:rgba(214,173,50,.45);
     }
-
-    .material-item strong {
-      display: block;
-      color: #fff;
-      font-size: 15px;
-      margin-bottom: 6px;
+    .material-item strong { display:block; font-size:15px; margin-bottom:6px; }
+    .material-item span { display:block; color:#aeb8c8; font-size:12px; line-height:1.45; }
+    .status {
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      margin-top:9px;
+      padding:7px 9px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:900;
+      border:1px solid rgba(255,255,255,.12);
     }
-
-    .material-item span {
-      color: #aeb8c8;
-      font-size: 12px;
-      line-height: 1.5;
-      display: block;
-      overflow-wrap: anywhere;
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 10px;
-      font-size: 12px;
-      color: #d6ad32;
-      font-weight: 900;
-      border: 1px solid rgba(214,173,50,.30);
-      border-radius: 999px;
-      padding: 6px 9px;
-      background: rgba(214,173,50,.06);
-    }
-
-    .notice {
-      border: 1px solid rgba(214,173,50,.28);
-      background: rgba(214,173,50,.07);
-      color: #f4df9a;
-      border-radius: 16px;
-      padding: 14px;
-      font-size: 13px;
-      line-height: 1.55;
-      margin-bottom: 16px;
-    }
-
-    .message {
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      color: #d8e1ee;
-      border-radius: 16px;
-      padding: 14px;
-      font-size: 13px;
-      line-height: 1.55;
-      margin-bottom: 16px;
-      white-space: pre-wrap;
-    }
-
-    .message.error {
-      border-color: rgba(255,94,94,.36);
-      color: #ffcdcd;
-      background: rgba(255,94,94,.07);
-    }
-
-    .message.success {
-      border-color: rgba(117,255,157,.30);
-      color: #c8ffd6;
-      background: rgba(117,255,157,.07);
-    }
-
+    .status::before { content:""; width:7px; height:7px; border-radius:50%; display:inline-block; background:#9ca3af; }
+    .status.ready { color:#9ef0b7; background:rgba(45,180,100,.08); border-color:rgba(45,180,100,.28); }
+    .status.ready::before { background:#36d67a; }
+    .status.pending { color:#f2d46b; background:rgba(214,173,50,.08); border-color:rgba(214,173,50,.28); }
+    .status.pending::before { background:#d6ad32; }
+    .status.review { color:#ffb2b2; background:rgba(220,80,80,.08); border-color:rgba(220,80,80,.28); }
+    .status.review::before { background:#ff7676; }
     .preview-header {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
-      align-items: start;
-      margin-bottom: 16px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
     }
-
-    .selected-meta {
-      color: #c8d3e4;
-      font-size: 13px;
-      line-height: 1.7;
+    .selected-title { color:#fff; font-size:23px; margin-bottom:6px; }
+    .selected-meta { color:#aeb8c8; font-size:13px; line-height:1.5; }
+    .process-box {
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.03);
+      border-radius:18px;
+      padding:18px;
+      margin-bottom:18px;
     }
-
-    .selected-meta strong {
-      color: #d6ad32;
+    .process-log {
+      white-space:pre-wrap;
+      color:#c8d3e4;
+      background:#050b16;
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:14px;
+      padding:14px;
+      font-size:13px;
+      line-height:1.55;
+      max-height:180px;
+      overflow:auto;
     }
-
-    .panorama-box {
-      border: 1px solid rgba(214,173,50,.22);
-      background: rgba(255,255,255,.03);
-      border-radius: 18px;
-      padding: 16px;
-      margin-bottom: 16px;
+    .quality-grid {
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+      margin-bottom:18px;
     }
-
-    .items {
-      display: grid;
-      gap: 14px;
+    .quality-card {
+      border:1px solid rgba(255,255,255,.1);
+      background:#050b16;
+      border-radius:16px;
+      padding:14px;
     }
-
+    .quality-card small { display:block; color:#9fb0c7; font-size:11px; font-weight:900; margin-bottom:7px; }
+    .quality-card strong { display:block; font-size:18px; }
+    .panorama {
+      border:1px solid rgba(214,173,50,.22);
+      background:rgba(214,173,50,.04);
+      border-radius:18px;
+      padding:18px;
+      margin-bottom:18px;
+    }
+    .panorama h4 { color:#d6ad32; font-size:13px; text-transform:uppercase; letter-spacing:3px; margin-bottom:10px; }
+    .panorama p { color:#d8e1ee; line-height:1.75; }
+    .items-grid { display:grid; gap:12px; }
     .item-card {
-      border: 1px solid rgba(214,173,50,.22);
-      background: rgba(255,255,255,.035);
-      border-radius: 18px;
-      padding: 16px;
+      border:1px solid rgba(214,173,50,.18);
+      background:rgba(255,255,255,.035);
+      border-radius:18px;
+      padding:16px;
+      display:grid;
+      grid-template-columns:46px 1fr;
+      gap:14px;
     }
-
-    .item-top {
-      display: grid;
-      grid-template-columns: 64px 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
-      align-items: end;
+    .num {
+      width:40px;
+      height:40px;
+      border-radius:50%;
+      border:1px solid rgba(214,173,50,.55);
+      color:#d6ad32;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:950;
+      background:rgba(214,173,50,.08);
     }
-
-    .number-badge {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      border: 1px solid rgba(214,173,50,.55);
-      color: #d6ad32;
-      background: rgba(214,173,50,.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 950;
+    .item-card h5 {
+      font-size:17px;
+      margin-bottom:8px;
+      text-transform:uppercase;
     }
-
-    .item-fields {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
+    .item-card p { color:#d8e1ee; line-height:1.6; font-size:14px; margin-bottom:9px; }
+    .detail { color:#c8d3e4; font-size:13px; line-height:1.55; }
+    .detail strong { color:#fff; }
+    .warning-line {
+      margin-top:9px;
+      color:#ffb2b2;
+      font-size:12px;
+      font-weight:800;
     }
-
     .raw-box {
-      margin-top: 16px;
-      display: none;
+      display:none;
+      white-space:pre-wrap;
+      color:#c8d3e4;
+      background:#050b16;
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:14px;
+      padding:14px;
+      font-size:12px;
+      line-height:1.45;
+      max-height:360px;
+      overflow:auto;
+      margin-top:18px;
     }
-
-    .raw-box.active {
-      display: block;
-    }
-
-    pre {
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      border: 1px solid rgba(255,255,255,.10);
-      background: #050b16;
-      color: #c8d3e4;
-      border-radius: 16px;
-      padding: 16px;
-      max-height: 360px;
-      overflow: auto;
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 1100px) {
-      .layout, .preview-header, .form-grid, .item-fields { grid-template-columns: 1fr; }
-      header { padding: 0 18px; }
+    .raw-box.active { display:block; }
+    @media (max-width:1100px) {
+      .layout { grid-template-columns:1fr; }
+      .quality-grid, .stats { grid-template-columns:1fr; }
+      header { padding:0 18px; }
     }
   </style>
 </head>
-
 <body>
   <header>
     <div class="brand">
       <div class="brand-symbol">✦</div>
       <div>
         <h1>CURADORIA ELITE TRAVEL</h1>
-        <p>Admin interno • Conversão B2B</p>
+        <p>Admin interno • Verificação B2B</p>
       </div>
     </div>
-    <button class="btn" type="button" onclick="window.location.href='ferramentas-test.html'">Ir para Área Partner</button>
+    <button class="btn" type="button" onclick="location.href='ferramentas-test.html'">Ir para Área Partner</button>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="eyebrow">Ferramenta interna</div>
-      <h2>Conversor interno para itens B2B</h2>
+    <section class="intro">
+      <small>Conversão automática • Auditoria interna</small>
+      <h2>Preparação dos materiais Partner</h2>
       <p>
-        Esta página não é para empresas parceiras. Ela lê os PDFs já cadastrados em <strong>curadoria_materials</strong>,
-        extrai uma prévia editável e grava os dados estruturados em <strong>b2b_material_items</strong>. Depois disso,
-        a Área Partner passa a usar o banco estruturado em vez de depender do parser do PDF toda vez.
+        Esta tela não é para a empresa parceira. Ela verifica os PDFs já cadastrados em <strong>curadoria_materials</strong>,
+        processa automaticamente Atrações Turísticas e grava a versão estruturada em <strong>b2b_material_items</strong>.
+        A Área Partner apenas consome os dados prontos.
       </p>
     </section>
 
     <section class="layout">
       <aside class="card">
         <h3>Materiais de origem</h3>
-        <p class="sub">Lista carregada da tabela curadoria_materials.</p>
+        <p class="sub">Fonte principal: tabela curadoria_materials.</p>
 
-        <div class="notice">
-          Use esta tela apenas internamente. Se a gravação falhar, confira se a tabela <strong>b2b_material_items</strong>
-          possui política de INSERT/UPDATE/DELETE para o contexto usado por esta página.
+        <div class="note">
+          Fluxo correto: PDF em <strong>curadoria_materials</strong> → processamento interno → dados limpos em
+          <strong>b2b_material_items</strong> → visualização final em <strong>ferramentas-test.html</strong>.
         </div>
 
-        <div class="form-grid">
+        <div class="filters">
           <div>
-            <label for="categoryFilter">Categoria</label>
-            <select id="categoryFilter">
+            <label for="categorySelect">Categoria</label>
+            <select id="categorySelect">
               <option value="Atrações Turísticas">Atrações Turísticas</option>
             </select>
           </div>
           <div>
-            <label for="yearFilter">Ano</label>
-            <input id="yearFilter" type="text" value="2026" />
+            <label for="yearInput">Ano</label>
+            <input id="yearInput" type="text" value="2026" />
           </div>
         </div>
 
-        <label for="searchInput">Buscar destino</label>
-        <input id="searchInput" type="search" placeholder="Ex.: Paris, Orlando, Buenos Aires..." />
-
-        <div class="toolbar" style="margin-top:14px;">
-          <button class="btn gold" id="loadMaterialsButton" type="button">Carregar materiais</button>
-          <button class="btn" id="clearPreviewButton" type="button">Limpar prévia</button>
+        <div>
+          <label for="searchInput">Buscar destino</label>
+          <input id="searchInput" type="search" placeholder="Ex.: Paris, Orlando, Buenos Aires..." />
         </div>
 
-        <div id="sidebarMessage" class="message">Clique em carregar materiais para começar.</div>
-        <div id="materialsList" class="materials-list"></div>
+        <div class="actions-row">
+          <button class="btn gold" id="loadButton" type="button">Verificar materiais</button>
+          <button class="btn" id="processPendingButton" type="button">Processar pendentes</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><small>Total</small><strong id="statTotal">0</strong></div>
+          <div class="stat"><small>Prontos</small><strong id="statReady">0</strong></div>
+          <div class="stat"><small>Pendentes</small><strong id="statPending">0</strong></div>
+        </div>
+
+        <div id="materialsList" class="materials-list">
+          <div class="material-item">
+            <strong>Nenhum material carregado</strong>
+            <span>Clique em “Verificar materiais” para começar.</span>
+          </div>
+        </div>
       </aside>
 
       <section class="card">
         <div class="preview-header">
           <div>
-            <h3>Prévia editável</h3>
-            <p class="sub">Revise antes de salvar. O objetivo é corrigir aqui qualquer título que o PDF não entregue bem.</p>
-            <div class="selected-meta" id="selectedMeta">Nenhum material selecionado.</div>
+            <h3 class="selected-title" id="selectedTitle">Nenhum material selecionado</h3>
+            <div class="selected-meta" id="selectedMeta">Selecione um item à esquerda para verificar.</div>
           </div>
-
-          <div class="toolbar">
-            <button class="btn gold" id="extractButton" type="button" disabled>Ler PDF</button>
-            <button class="btn" id="saveButton" type="button" disabled>Salvar em b2b_material_items</button>
-            <button class="btn danger" id="replaceButton" type="button" disabled>Substituir registros existentes</button>
+          <div class="actions-row">
+            <button class="btn gold" id="processSelectedButton" type="button" disabled>Processar selecionado</button>
+            <button class="btn danger" id="reprocessSelectedButton" type="button" disabled>Reprocessar</button>
+            <button class="btn" id="toggleRawButton" type="button" disabled>Texto bruto</button>
           </div>
         </div>
 
-        <div id="mainMessage" class="message">
-          Selecione um material à esquerda e clique em “Ler PDF”.
+        <div class="process-box">
+          <div class="process-log" id="processLog">Aguardando verificação.</div>
         </div>
 
-        <div class="panorama-box">
-          <label for="panoramaInput">Panorama</label>
-          <textarea id="panoramaInput" placeholder="O panorama extraído aparecerá aqui para revisão."></textarea>
+        <div class="quality-grid">
+          <div class="quality-card"><small>Status</small><strong id="qualityStatus">--</strong></div>
+          <div class="quality-card"><small>Indicações</small><strong id="qualityItems">--</strong></div>
+          <div class="quality-card"><small>Nomes genéricos</small><strong id="qualityGeneric">--</strong></div>
+          <div class="quality-card"><small>Campos faltantes</small><strong id="qualityMissing">--</strong></div>
         </div>
 
-        <div id="itemsContainer" class="items"></div>
-
-        <div class="toolbar" style="margin-top:16px;">
-          <button class="btn" id="addItemButton" type="button">Adicionar indicação manual</button>
-          <button class="btn" id="toggleRawButton" type="button">Mostrar/Ocultar texto bruto</button>
+        <div class="panorama">
+          <h4>Panorama</h4>
+          <p id="panoramaPreview">O panorama aparecerá aqui após o processamento.</p>
         </div>
 
-        <div class="raw-box" id="rawBox">
-          <pre id="rawText"></pre>
-        </div>
+        <div id="itemsPreview" class="items-grid"></div>
+        <div id="rawTextBox" class="raw-box"></div>
       </section>
     </section>
   </main>
@@ -485,52 +379,76 @@
     }
 
     let allMaterials = [];
+    let currentMaterials = [];
     let selectedMaterial = null;
-    let extractedItems = [];
-    let extractedRawText = "";
+    let statusByKey = {};
+    let processedByKey = {};
+    let rawTextByKey = {};
+
+    const els = {
+      materialsList: document.getElementById("materialsList"),
+      loadButton: document.getElementById("loadButton"),
+      processPendingButton: document.getElementById("processPendingButton"),
+      processSelectedButton: document.getElementById("processSelectedButton"),
+      reprocessSelectedButton: document.getElementById("reprocessSelectedButton"),
+      toggleRawButton: document.getElementById("toggleRawButton"),
+      searchInput: document.getElementById("searchInput"),
+      yearInput: document.getElementById("yearInput"),
+      categorySelect: document.getElementById("categorySelect"),
+      selectedTitle: document.getElementById("selectedTitle"),
+      selectedMeta: document.getElementById("selectedMeta"),
+      processLog: document.getElementById("processLog"),
+      panoramaPreview: document.getElementById("panoramaPreview"),
+      itemsPreview: document.getElementById("itemsPreview"),
+      rawTextBox: document.getElementById("rawTextBox"),
+      statTotal: document.getElementById("statTotal"),
+      statReady: document.getElementById("statReady"),
+      statPending: document.getElementById("statPending"),
+      qualityStatus: document.getElementById("qualityStatus"),
+      qualityItems: document.getElementById("qualityItems"),
+      qualityGeneric: document.getElementById("qualityGeneric"),
+      qualityMissing: document.getElementById("qualityMissing")
+    };
+
+    function log(message) {
+      els.processLog.textContent = message;
+    }
+
+    function appendLog(message) {
+      els.processLog.textContent = `${els.processLog.textContent}\n${message}`.trim();
+      els.processLog.scrollTop = els.processLog.scrollHeight;
+    }
 
     function normalizeCategoryName(category) {
-      if (!category) return "Material";
-      const categoryMap = {
-        "city-guide": "City Guide",
-        "city guide": "City Guide",
-        "gastronomia": "Gastronomia",
+      const value = String(category || "").trim().toLowerCase();
+      const map = {
         "atracoes-turisticas": "Atrações Turísticas",
         "atrações turísticas": "Atrações Turísticas",
-        "atracoes turisticas": "Atrações Turísticas",
-        "vida-noturna": "Vida Noturna",
-        "vida noturna": "Vida Noturna",
-        "enderecos-para-compras": "Endereços para Compras",
-        "endereços para compras": "Endereços para Compras",
-        "enderecos para compras": "Endereços para Compras",
-        "sugestao-de-presentes": "Sugestão de Presentes",
-        "sugestão de presentes": "Sugestão de Presentes",
-        "sugestao de presentes": "Sugestão de Presentes"
+        "atracoes turisticas": "Atrações Turísticas"
       };
-
-      const normalizedKey = String(category).trim().toLowerCase();
-      return categoryMap[normalizedKey] || category;
+      return map[value] || String(category || "").trim();
     }
 
-    function cleanExtractedValue(value) {
+    function normalizeYear(value) {
+      return String(value || "").trim();
+    }
+
+    function materialKey(material) {
+      return `${normalizeCategoryName(material.category)}|${material.city_label}|${normalizeYear(material.year)}`;
+    }
+
+    function cleanValue(value) {
       return String(value || "")
-        .replace(/\s+/g, " ")
-        .replace(/\s+([,.;:])/g, "$1")
-        .replace(/\bGratuit\b/gi, "Gratuita")
-        .replace(/\bGratuita\./gi, "Gratuita")
-        .trim();
-    }
-
-    function normalizeExtractedPdfText(text) {
-      return String(text || "")
         .replace(/\r/g, "\n")
         .replace(/[ \t]+/g, " ")
         .replace(/\n{3,}/g, "\n\n")
+        .replace(/\s+([,.;:])/g, "$1")
+        .replace(/\bGratuit\b/gi, "Gratuita")
         .trim();
     }
 
-    function normalizeForSearch(value) {
-      return cleanExtractedValue(value)
+    function normalizeSearch(value) {
+      return cleanValue(value)
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .toUpperCase();
@@ -545,782 +463,643 @@
         .replace(/'/g, "&#039;");
     }
 
-    function setSidebarMessage(message, type) {
-      const element = document.getElementById("sidebarMessage");
-      element.className = "message" + (type ? " " + type : "");
-      element.textContent = message;
-    }
+    function getKnownNamesForCity(city) {
+      const c = normalizeSearch(city);
 
-    function setMainMessage(message, type) {
-      const element = document.getElementById("mainMessage");
-      element.className = "message" + (type ? " " + type : "");
-      element.textContent = message;
-    }
-
-    function groupPdfTextItemsByRows(textItems) {
-      const rows = [];
-
-      textItems
-        .filter(function(item) {
-          return item && String(item.str || "").trim();
-        })
-        .map(function(item) {
-          const transform = item.transform || [1, 0, 0, 1, 0, 0];
-          return {
-            text: String(item.str || "").trim(),
-            x: transform[4] || 0,
-            y: transform[5] || 0
-          };
-        })
-        .sort(function(a, b) {
-          if (Math.abs(b.y - a.y) > 4) return b.y - a.y;
-          return a.x - b.x;
-        })
-        .forEach(function(item) {
-          const lastRow = rows[rows.length - 1];
-
-          if (!lastRow || Math.abs(lastRow.y - item.y) > 4) {
-            rows.push({ y: item.y, items: [item] });
-          } else {
-            lastRow.items.push(item);
-          }
-        });
-
-      return rows.map(function(row) {
-        return row.items
-          .sort(function(a, b) { return a.x - b.x; })
-          .map(function(item) { return item.text; })
-          .join(" ")
-          .replace(/\s+/g, " ")
-          .trim();
-      }).filter(Boolean);
-    }
-
-    async function extractPdfTextFromUrl(pdfUrl, pageStart, pageEnd) {
-      if (!window.pdfjsLib) throw new Error("PDF.js não foi carregado.");
-
-      const loadingTask = pdfjsLib.getDocument({
-        url: pdfUrl,
-        withCredentials: false,
-        disableAutoFetch: false,
-        disableStream: false
-      });
-
-      const pdf = await loadingTask.promise;
-      const firstPage = Math.max(1, pageStart || 1);
-      const lastPage = Math.min(pdf.numPages, pageEnd || pdf.numPages);
-      const pages = [];
-
-      for (let pageNumber = firstPage; pageNumber <= lastPage; pageNumber += 1) {
-        const page = await pdf.getPage(pageNumber);
-        const textContent = await page.getTextContent();
-        const rows = groupPdfTextItemsByRows(textContent.items || []);
-        pages.push(rows.join("\n"));
+      if (c.includes("NEW YORK") || c.includes("NOVA YORK")) {
+        return [
+          "EMPIRE STATE BUILDING", "ESTÁTUA DA LIBERDADE", "METROPOLITAN MUSEUM OF ART (THE MET)",
+          "TOP OF THE ROCK", "CENTRAL PARK ZOO", "BROOKLYN BRIDGE", "SUMMIT ONE VANDERBILT",
+          "LITTLE ISLAND", "THE MET CLOISTERS", "THE VESSEL", "ROOSEVELT ISLAND TRAMWAY", "THE HIGH LINE"
+        ];
       }
 
-      return normalizeExtractedPdfText(pages.join("\n\n"));
-    }
-
-    function cleanAttractionsExtractionText(text) {
-      return normalizeExtractedPdfText(text)
-        .split("\n")
-        .map(cleanExtractedValue)
-        .filter(function(line) {
-          return line &&
-            !/curadoria\s*elite\s*travel/i.test(line) &&
-            !/@curadoriaelitetravel/i.test(line) &&
-            !/^o seu mundo/i.test(line) &&
-            !/^pontos tur[ií]sticos$/i.test(line) &&
-            !/^pontos tur[ií]stiicos$/i.test(line) &&
-            !/^atra[cç][õo]es tur[ií]sticas$/i.test(line) &&
-            !/^by curadoria/i.test(line) &&
-            !/^www\.?\s*curadoria/i.test(line) &&
-            !/porque o verdadeiro destino/i.test(line) &&
-            !/mais que paisagens/i.test(line) &&
-            !/cada p[áa]gina foi pensada/i.test(line) &&
-            !/agrade[cç]o sua confian[cç]a/i.test(line) &&
-            !/que nossos caminhos/i.test(line) &&
-            !/^lugares que inspiram/i.test(line) &&
-            !/^olhares,? momentos/i.test(line) &&
-            !/^conquistam cora[cç][õo]es/i.test(line);
-        })
-        .join("\n");
-    }
-
-    function isInvalidAttractionNameCandidate(value) {
-      const text = cleanExtractedValue(value);
-      const normalized = normalizeForSearch(text);
-
-      if (!text || !normalized) return true;
-      if (/^INDICACAO\s*\d+$/.test(normalized)) return true;
-      if (/^(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX|XXI|XXII|XXIII|XXIV|XXV|XXVI|XXVII|XXVIII|XXIX|XXX)$/.test(normalized)) return true;
-      if (/^SECULO\s+(I|V|X|L|C|D|M)+$/.test(normalized)) return true;
-      if (/^(US|R|ARS|EUR|BRL|USD|MXN)$/.test(normalized)) return true;
-      if (/^(GRATUITA|GRATUITO|GRATUIT|ENTRADA|SITE|ENDERECO|ENDEREÇO)$/.test(normalized)) return true;
-
-      return false;
-    }
-
-    function isLikelyAttractionName(line) {
-      const value = cleanExtractedValue(line)
-        .replace(/^(nome\s*:\s*)/i, "")
-        .trim();
-
-      if (!value || value.length < 4 || value.length > 90) return false;
-      if (isInvalidAttractionNameCandidate(value)) return false;
-      if (/^(descri[cç][aã]o|endere[cç]o|site|entrada|p[áa]gina|curadoria|elite travel|travel|pontos tur[ií]sticos|atra[cç][õo]es tur[ií]sticas|porque|mais que|cada p[áa]gina|by curadoria|www\.|https?:)/i.test(value)) return false;
-      if (/\d{2,}|@|\.com|curadoriaelitetravel|instagram|linkedin/i.test(value)) return false;
-      if (/[.!?]$/.test(value)) return false;
-
-      const letters = value.replace(/[^A-Za-zÀ-ÿ]/g, "");
-      if (!letters) return false;
-
-      const upperLetters = letters.replace(/[a-zà-ÿ]/g, "").length;
-      return upperLetters / letters.length > 0.58;
-    }
-
-    function getKnownAttractionNamesForCity(city) {
-      const normalizedCity = normalizeForSearch(city || "");
-
-      if (normalizedCity.includes("BARCELONA")) {
-        return ["SAGRADA FAMÍLIA","PARK GÜELL","CASA BATLLÓ","LA PEDRERA (CASA MILÀ)","BAIRRO GÓTICO","MERCADO DE LA BOQUERIA","MUSEU PICASSO","FONTE MÁGICA DE MONTJUÏC","BUNKERS DEL CARMEL","RECINTO MODERNISTA DE SANT PAU","LABERINT D'HORTA","FABRA I COATS"];
+      if (c.includes("BARCELONA")) {
+        return [
+          "SAGRADA FAMÍLIA", "PARK GÜELL", "CASA BATLLÓ", "LA PEDRERA (CASA MILÀ)",
+          "BAIRRO GÓTICO", "MERCADO DE LA BOQUERIA", "MUSEU PICASSO", "FONTE MÁGICA DE MONTJUÏC",
+          "BUNKERS DEL CARMEL", "RECINTO MODERNISTA DE SANT PAU", "LABERINT D'HORTA", "FABRA I COATS"
+        ];
       }
 
-      if (normalizedCity.includes("NEW YORK") || normalizedCity.includes("NOVA YORK")) {
-        return ["EMPIRE STATE BUILDING","ESTÁTUA DA LIBERDADE","METROPOLITAN MUSEUM OF ART (THE MET)","TOP OF THE ROCK","CENTRAL PARK ZOO","BROOKLYN BRIDGE","SUMMIT ONE VANDERBILT","LITTLE ISLAND","THE MET CLOISTERS","THE VESSEL","ROOSEVELT ISLAND TRAMWAY","THE HIGH LINE"];
+      if (c.includes("PARIS")) {
+        return [
+          "TORRE EIFFEL", "MUSEU DO LOUVRE", "ARCO DO TRIUNFO", "SACRÉ-CŒUR",
+          "MUSEU D'ORSAY", "JARDIM DAS TULHERIAS", "SAINTE-CHAPELLE", "PANTEÃO",
+          "ATELIER DES LUMIÈRES", "CANAL SAINT-MARTIN", "MUSÉE DE LA CHASSE", "LA PETITE CEINTURE"
+        ];
       }
 
-      if (normalizedCity.includes("PARIS")) {
-        return ["TORRE EIFFEL","MUSEU DO LOUVRE","ARCO DO TRIUNFO","SACRÉ-CŒUR","MUSEU D'ORSAY","CATEDRAL DE NOTRE-DAME","SAINTE-CHAPELLE","PANTEÃO","ATELIER DES LUMIÈRES","CANAL SAINT-MARTIN","MUSÉE DE LA CHASSE","LA PETITE CEINTURE"];
+      if (c.includes("BUENOS AIRES")) {
+        return [
+          "CASA ROSADA", "TEATRO COLÓN", "OBELISCO", "RECOLETA CEMETERY",
+          "LIBRERÍA EL ATENEO GRAND SPLENDID", "PUENTE DE LA MUJER", "SAN TELMO",
+          "CAMINITO", "MALBA", "PALACIO BAROLO", "JARDÍN JAPONÉS", "FLORALIS GENÉRICA"
+        ];
+      }
+
+      if (c.includes("ORLANDO")) {
+        return [
+          "LAKE EOLA PARK", "ICON PARK", "HARRY P. LEU GARDENS", "ORLANDO SCIENCE CENTER",
+          "DISNEY SPRINGS", "UNIVERSAL CITYWALK", "ORLANDO MUSEUM OF ART",
+          "KENNEDY SPACE CENTER", "WINTER PARK", "BOK TOWER GARDENS", "WALT DISNEY WORLD", "UNIVERSAL ORLANDO RESORT"
+        ];
+      }
+
+      if (c.includes("MIAMI")) {
+        return [
+          "MIAMI BEACH", "WYNWOOD WALLS", "VIZCAYA MUSEUM AND GARDENS", "BAYSIDE MARKETPLACE",
+          "LITTLE HAVANA", "LINCOLN ROAD", "EVERGLADES NATIONAL PARK",
+          "PHILLIP AND PATRICIA FROST MUSEUM OF SCIENCE", "PÉREZ ART MUSEUM MIAMI",
+          "FAIRCHILD TROPICAL BOTANIC GARDEN", "DESIGN DISTRICT", "KEY BISCAYNE"
+        ];
+      }
+
+      if (c.includes("MADRID")) {
+        return [
+          "MUSEO DEL PRADO", "PALACIO REAL DE MADRID", "PARQUE DE EL RETIRO", "PLAZA MAYOR",
+          "MUSEO REINA SOFÍA", "MERCADO DE SAN MIGUEL", "TEMPLO DE DEBOD", "PUERTA DEL SOL",
+          "GRAN VÍA", "ESTADIO SANTIAGO BERNABÉU", "MUSEO THYSSEN-BORNEMISZA", "MATADERO MADRID"
+        ];
+      }
+
+      if (c.includes("MEXICO") || c.includes("MÉXICO")) {
+        return [
+          "PALACIO DE BELLAS ARTES", "MUSEO NACIONAL DE ANTROPOLOGÍA", "CASTILLO DE CHAPULTEPEC",
+          "BASÍLICA DE GUADALUPE", "MUSEO FRIDA KAHLO", "XOCHIMILCO", "BIBLIOTECA VASCONCELOS",
+          "TEMPLO MAYOR", "CASA ESTUDIO LUIS BARRAGÁN", "TEOTIHUACÁN", "MERCADO DE COYOACÁN", "TORRE LATINOAMERICANA"
+        ];
       }
 
       return [];
     }
 
-    function extractCandidateNamesInTextOrder(text) {
-      const names = [];
-
-      cleanAttractionsExtractionText(text)
-        .split("\n")
-        .map(cleanExtractedValue)
-        .filter(Boolean)
-        .forEach(function(line) {
-          if (!isLikelyAttractionName(line)) return;
-          const name = line.replace(/^nome\s*:\s*/i, "");
-          if (!names.includes(name)) names.push(name);
-        });
-
-      return names;
+    function getDomainNameRules() {
+      return [
+        [/leugardens|1920 n forest/i, "HARRY P. LEU GARDENS"],
+        [/osc\.org|orlando science|777 e princeton/i, "ORLANDO SCIENCE CENTER"],
+        [/iconparkorlando/i, "ICON PARK"],
+        [/boktowergardens/i, "BOK TOWER GARDENS"],
+        [/omart\.org/i, "ORLANDO MUSEUM OF ART"],
+        [/miamibeachfl\.gov|ocean drive/i, "MIAMI BEACH"],
+        [/wynwoodwalls/i, "WYNWOOD WALLS"],
+        [/vizcaya/i, "VIZCAYA MUSEUM AND GARDENS"],
+        [/baysidemarketplace|401 biscayne/i, "BAYSIDE MARKETPLACE"],
+        [/frostscience/i, "PHILLIP AND PATRICIA FROST MUSEUM OF SCIENCE"],
+        [/pamm\.org|perez|pérez/i, "PÉREZ ART MUSEUM MIAMI"],
+        [/fairchildgarden/i, "FAIRCHILD TROPICAL BOTANIC GARDEN"],
+        [/casarosada|balcarce 50/i, "CASA ROSADA"],
+        [/teatrocolon/i, "TEATRO COLÓN"],
+        [/palaciobarolotours/i, "PALACIO BAROLO"],
+        [/musee-orsay/i, "MUSEU D'ORSAY"],
+        [/louvre/i, "MUSEU DO LOUVRE"],
+        [/toureiffel/i, "TORRE EIFFEL"],
+        [/sacre-coeur/i, "SACRÉ-CŒUR"],
+        [/sainte-chapelle/i, "SAINTE-CHAPELLE"],
+        [/atelier-lumieres/i, "ATELIER DES LUMIÈRES"],
+        [/virgendeguadalupe|plaza de las américas/i, "BASÍLICA DE GUADALUPE"],
+        [/palacio\.inba|bellas artes/i, "PALACIO DE BELLAS ARTES"],
+        [/bibliotecavasconcelos/i, "BIBLIOTECA VASCONCELOS"],
+        [/museofridakahlo|frida kahlo/i, "MUSEO FRIDA KAHLO"]
+      ];
     }
 
-    function normalizeSiteValue(value) {
-      return cleanExtractedValue(value)
-        .replace(/\s+/g, "")
-        .replace(/https:\/\/https:\/\//gi, "https://")
-        .replace(/http:\/\/http:\/\//gi, "http://")
-        .replace(/visite\s*s-guiadas/i, "visites-guiades");
-    }
-
-    function removeTrailingAttractionNamesFromField(value, knownNames) {
-      let text = cleanExtractedValue(value);
-      if (!text) return "";
-
-      const namesToRemove = (knownNames || []).slice().sort(function(a, b) {
-        return b.length - a.length;
-      });
-
-      namesToRemove.forEach(function(name) {
-        const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        text = text.replace(new RegExp("\\s*" + escaped + "\\s*", "gi"), " ");
-      });
-
-      return cleanExtractedValue(text)
-        .replace(/\s*(?:CURADORIA|ELITE|TRAVEL|PONTOS TURISTICOS|PONTOS TURÍSTICOS).*$/i, "")
-        .trim();
-    }
-
-    function splitEntryPriceAndTrailingText(value, knownNames) {
-      const text = cleanExtractedValue(value);
-      if (!text) return { price: "", trailingText: "" };
-
-      const pricePattern = /(a partir de\s*(?:US\$|R\$|€|MXN)?\s*[\d.,]+(?:\s*\([^)]*\))?|gratuita?|entrada gratuita|sob consulta)/i;
-      const match = text.match(pricePattern);
-
-      if (!match) {
-        return {
-          price: removeTrailingAttractionNamesFromField(text, knownNames),
-          trailingText: ""
-        };
-      }
-
-      return {
-        price: cleanExtractedValue(match[1]),
-        trailingText: removeTrailingAttractionNamesFromField(text.slice(match.index + match[1].length), knownNames)
-      };
-    }
-
-    function parseAttractionDetailsFromSegment(segment, knownNames) {
-      const block = normalizeExtractedPdfText(segment)
-        .replace(/https:\s*\/\//gi, "https://")
-        .replace(/http:\s*\/\//gi, "http://");
-
-      const descriptionMatch = block.match(/Descri[cç][aã]o\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Endere[cç]o\s*:|$)/i);
-      const addressMatch = block.match(/Endere[cç]o\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Site\s*:|(?:\s|\n)*Entrada\s*:|$)/i);
-      const siteMatch = block.match(/Site\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Entrada\s*:|$)/i);
-      const entryMatch = block.match(/Entrada\s*:\s*([\s\S]*?)$/i);
-      const entryParts = splitEntryPriceAndTrailingText(entryMatch ? entryMatch[1] : "", knownNames);
-
-      return {
-        description: removeTrailingAttractionNamesFromField(descriptionMatch ? descriptionMatch[1] : "", knownNames),
-        address: removeTrailingAttractionNamesFromField(addressMatch ? addressMatch[1] : "", knownNames),
-        site: normalizeSiteValue(removeTrailingAttractionNamesFromField(siteMatch ? siteMatch[1] : "", knownNames)),
-        price: entryParts.price
-      };
-    }
-
-    function getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames) {
-      const used = usedNames || [];
-      const startIndex = Math.max(0, descriptionIndex - 6);
-      const currentLineBeforeDescription = cleanExtractedValue(String(lines[descriptionIndex] || "").split(/Descri[cç][aã]o\s*:/i)[0] || "")
-        .replace(/^nome\s*:\s*/i, "")
-        .trim();
-
-      if (currentLineBeforeDescription && !used.includes(currentLineBeforeDescription) && isLikelyAttractionName(currentLineBeforeDescription)) {
-        return currentLineBeforeDescription;
-      }
-
-      for (let index = descriptionIndex - 1; index >= startIndex; index -= 1) {
-        const candidate = cleanExtractedValue(lines[index] || "")
-          .replace(/^nome\s*:\s*/i, "")
-          .trim();
-
-        if (!candidate) continue;
-        if (isInvalidAttractionNameCandidate(candidate)) continue;
-        if (used.includes(candidate)) continue;
-        if (/^(descri[cç][aã]o|endere[cç]o|site|entrada)\s*:/i.test(candidate)) continue;
-        if (/^(p[áa]gina|curadoria|elite travel|travel|pontos tur[ií]sticos|atra[cç][õo]es tur[ií]sticas|www\.|https?:)/i.test(candidate)) continue;
-        if (/^(lugares que inspiram|olhares,? momentos|conquistam cora[cç][õo]es)$/i.test(candidate)) continue;
-
-        if (isLikelyAttractionName(candidate)) return candidate;
-      }
-
-      return "";
-    }
-
-    function getTitleRepairCandidateFromDescription(description) {
-      const text = cleanExtractedValue(description);
-      if (!text) return "";
-
-      const ignored = new Set(["A","O","AS","OS","DE","DA","DO","DAS","DOS","E","EM","NO","NA","NOS","NAS","AO","AOS","À","ÀS","UM","UMA","ESTE","ESTA","ESSE","ESSA","AQUI","PARIS","MIAMI","ORLANDO","MADRID","BARCELONA","BUENOS","AIRES","MEXICO","MÉXICO","NEW","YORK","USA","FRANÇA","ESPANHA","ARGENTINA","BRASIL","FL","NY","US","R","ARS","MXN","EUR","BRL","USD"]);
-
-      const matches = text.match(/\b[A-ZÀ-Ú][A-ZÀ-Ú0-9'’.\-]*(?:\s+(?:DE|DA|DO|DAS|DOS|DEL|DES|DU|LA|LE|LES|THE|OF|AND|Y|E|A|O|[A-ZÀ-Ú][A-ZÀ-Ú0-9'’.\-]*)){0,7}\b/g) || [];
-
-      const candidates = matches
-        .map(function(match) {
-          return cleanExtractedValue(match)
-            .replace(/^[,.;:\-–—]+|[,.;:\-–—]+$/g, "")
-            .trim();
+    function groupPdfTextItemsByRows(textItems) {
+      const rows = [];
+      textItems
+        .filter(item => item && String(item.str || "").trim())
+        .map(item => {
+          const transform = item.transform || [1,0,0,1,0,0];
+          return { text: String(item.str || "").trim(), x: transform[4] || 0, y: transform[5] || 0 };
         })
-        .filter(function(match) {
-          const normalized = normalizeForSearch(match);
-          if (!match || match.length < 5 || match.length > 80) return false;
-          if (isInvalidAttractionNameCandidate(match)) return false;
-          if (/^(DESCRICAO|DESCRIÇÃO|ENDERECO|ENDEREÇO|SITE|ENTRADA|PAGINA|PÁGINA|CURADORIA|ELITE|TRAVEL|PONTOS|TURISTICOS|TURÍSTICOS)$/i.test(normalized)) return false;
-          if (/^\d/.test(normalized)) return false;
-          if (ignored.has(normalized)) return false;
-
-          const words = normalized.split(/\s+/).filter(Boolean);
-          const meaningfulWords = words.filter(function(word) {
-            return !ignored.has(word) && !/^(DE|DA|DO|DAS|DOS|DEL|DES|DU|LA|LE|LES|THE|OF|AND|Y|E|A|O)$/.test(word);
-          });
-
-          return meaningfulWords.some(function(word) { return word.length >= 4; });
+        .sort((a,b) => Math.abs(b.y - a.y) > 4 ? b.y - a.y : a.x - b.x)
+        .forEach(item => {
+          const last = rows[rows.length - 1];
+          if (!last || Math.abs(last.y - item.y) > 4) rows.push({ y:item.y, items:[item] });
+          else last.items.push(item);
         });
 
-      if (!candidates.length) return "";
-
-      candidates.sort(function(a, b) {
-        const aWords = normalizeForSearch(a).split(/\s+/).length;
-        const bWords = normalizeForSearch(b).split(/\s+/).length;
-        if (bWords !== aWords) return bWords - aWords;
-        return b.length - a.length;
-      });
-
-      return candidates[0] || "";
+      return rows.map(row => row.items.sort((a,b) => a.x - b.x).map(item => item.text).join(" ").replace(/\s+/g," ").trim()).filter(Boolean);
     }
 
-    function removeTitleRepairCandidateFromDescription(description, titleCandidate) {
-      let text = cleanExtractedValue(description);
-      if (!text || !titleCandidate) return text;
+    async function extractPdfTextFromUrl(pdfUrl, pageStart, pageEnd) {
+      const task = pdfjsLib.getDocument({ url: pdfUrl, withCredentials: false, disableAutoFetch: false, disableStream: false });
+      const pdf = await task.promise;
+      const first = Math.max(1, pageStart || 1);
+      const last = Math.min(pdf.numPages, pageEnd || pdf.numPages);
+      const pages = [];
 
-      const escaped = titleCandidate.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      for (let page = first; page <= last; page += 1) {
+        const pdfPage = await pdf.getPage(page);
+        const content = await pdfPage.getTextContent();
+        pages.push(groupPdfTextItemsByRows(content.items || []).join("\n"));
+      }
 
-      text = text
-        .replace(new RegExp("\\b" + escaped + "\\b", "gi"), " ")
-        .replace(/\s+([,.;:])/g, "$1")
-        .replace(/,\s*,/g, ",")
-        .replace(/\s{2,}/g, " ");
-
-      return cleanExtractedValue(text);
+      return cleanValue(pages.join("\n\n"));
     }
 
-    function cleanBusinessDescriptionText(description, knownNames) {
-      let value = cleanExtractedValue(description)
-        .replace(/\bGratuit\b/g, "Gratuita")
-        .replace(/\bgratuït\b/gi, "gratuita")
-        .replace(/\bDescri[cç][aã]o\s*:\s*/gi, "")
-        .replace(/\bEndere[cç]o\s*:\s*$/gi, "")
-        .replace(/\bSite\s*:\s*$/gi, "")
-        .replace(/\bEntrada\s*:\s*$/gi, "")
-        .replace(/\s+([,.;:])/g, "$1")
-        .trim();
-
-      value = removeTrailingAttractionNamesFromField(value, knownNames || []);
-      return cleanExtractedValue(value);
+    function cleanExtractionText(text) {
+      return cleanValue(text)
+        .split("\n")
+        .map(cleanValue)
+        .filter(line =>
+          line &&
+          !/curadoria\s*elite\s*travel/i.test(line) &&
+          !/@curadoriaelitetravel/i.test(line) &&
+          !/^o seu mundo/i.test(line) &&
+          !/^pontos tur/i.test(line) &&
+          !/^atra[cç][õo]es tur/i.test(line) &&
+          !/^by curadoria/i.test(line) &&
+          !/porque o verdadeiro destino/i.test(line) &&
+          !/mais que paisagens/i.test(line) &&
+          !/^lugares que inspiram/i.test(line) &&
+          !/^olhares,? momentos/i.test(line) &&
+          !/^conquistam cora/i.test(line)
+        )
+        .join("\n");
     }
 
-    function extractPanoramaFromText(text, city) {
-      const cleaned = normalizeExtractedPdfText(text);
-      const cityName = cleanExtractedValue(String(city || "").split(" - ")[0]);
+    function extractPanorama(text, cityLabel) {
+      const cleaned = cleanValue(text);
+      const beforeDescription = cleaned.split(/Descri[cç][aã]o\s*:/i)[0] || cleaned;
+      const cityName = cleanValue(String(cityLabel || "").split(" - ")[0]);
+      const lines = beforeDescription.split("\n").map(cleanValue).filter(Boolean);
 
-      function cleanPanoramaCandidate(candidate) {
-        let value = cleanExtractedValue(candidate)
+      let start = -1;
+      if (cityName) {
+        start = lines.findIndex(line => normalizeSearch(line).includes(normalizeSearch(cityName)) && line.length > 25);
+      }
+
+      if (start >= 0) {
+        let value = lines.slice(start).join(" ");
+        value = value
           .replace(/Cart[aã]o Postal Vivo/gi, "")
           .replace(/A Arte dos Destinos/gi, "")
           .replace(/Lugares que inspiram\s+olhares,?\s+momentos que\s+conquistam cora[cç][õo]es/gi, "")
-          .replace(/Lugares que inspiram/gi, "")
-          .replace(/olhares,?\s+momentos que/gi, "")
-          .replace(/conquistam cora[cç][õo]es/gi, "")
-          .trim();
-
-        if (cityName) {
-          const cityIndex = value.toLowerCase().indexOf(cityName.toLowerCase());
-          if (cityIndex >= 0) value = value.slice(cityIndex).trim();
-        }
-
-        value = value
-          .split(/(?:\b(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:)\b|PONTOS\s+TUR[IÍ]STICOS?|PONTOS\s+TURISTICOS?|CURADORIA\s+ELITE\s+TRAVEL|Mais que paisagens|Porque o verdadeiro destino|Lugares que inspiram)/i)[0]
-          .trim();
-
-        return cleanExtractedValue(value);
+          .split(/(?:Descri[cç][aã]o|Endere[cç]o|Site|Entrada|PONTOS\s+TUR|CURADORIA\s+ELITE|Mais que paisagens|Porque o verdadeiro destino)/i)[0];
+        value = cleanValue(value);
+        if (value.length > 120) return value;
       }
 
-      const beforeFirstDescription = cleaned.split(/Descri[cç][aã]o\s*:/i)[0] || cleaned;
-      const lines = beforeFirstDescription.split("\n").map(cleanExtractedValue).filter(Boolean);
+      const paragraph = cleaned
+        .split(/\n{2,}/)
+        .map(cleanValue)
+        .find(p => p.length > 160 && !/descri[cç][aã]o|endere[cç]o|site|entrada|curadoria/i.test(p));
 
-      if (cityName) {
-        const startIndex = lines.findIndex(function(line) {
-          return line.toLowerCase().includes(cityName.toLowerCase()) &&
-            !/^\s*(?:categoria|destino|material|www|atra[cç][õo]es|pontos)/i.test(line);
-        });
-
-        if (startIndex >= 0) {
-          const collected = [];
-          for (let index = startIndex; index < lines.length; index += 1) {
-            const line = lines[index];
-            if (/^\s*(?:CURADORIA|ELITE TRAVEL|PONTOS TUR|Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:)/i.test(line)) break;
-            if (/^(?:Lugares que inspiram|olhares,? momentos|conquistam cora[cç][õo]es)$/i.test(line)) continue;
-            collected.push(line);
-          }
-
-          const panorama = cleanPanoramaCandidate(collected.join(" "));
-          if (panorama.length > 80) return panorama;
-        }
-      }
-
-      const panoramaMatch = cleaned.match(/(?:Cart[aã]o Postal Vivo|A Arte dos Destinos|panorama(?: da cidade)?|intro|introdução)\s+([\s\S]{120,1600}?)(?=\n\s*(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:))/i);
-      if (panoramaMatch && panoramaMatch[1]) {
-        const panorama = cleanPanoramaCandidate(panoramaMatch[1]);
-        if (panorama.length > 80) return panorama;
-      }
-
-      return `${city || "O destino selecionado"} reúne experiências selecionadas com foco em praticidade, clareza e orientação profissional para apoiar empresas parceiras no atendimento aos seus clientes.`;
+      return paragraph || `${cityLabel} reúne experiências selecionadas com foco em clareza, praticidade e apoio profissional para empresas parceiras.`;
     }
 
-    function parseAttractionItemsFromText(text, city) {
-      const cleaned = cleanAttractionsExtractionText(text)
-        .replace(/https:\s*\/\//gi, "https://")
-        .replace(/http:\s*\/\//gi, "http://");
+    function isGenericName(value) {
+      const n = normalizeSearch(value);
+      return !n || /^INDICACAO\s*\d+$/.test(n) || /^(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX)$/.test(n);
+    }
 
-      const lines = cleaned.split("\n").map(cleanExtractedValue).filter(Boolean);
+    function isLikelyTitle(value) {
+      const text = cleanValue(value);
+      if (!text || text.length < 4 || text.length > 90) return false;
+      if (isGenericName(text)) return false;
+      if (/^(descri[cç][aã]o|endere[cç]o|site|entrada|p[áa]gina|curadoria|elite|travel|www|https?)/i.test(text)) return false;
+      if (/[.!?]$/.test(text)) return false;
+      if (/\d{2,}|\.com|@/.test(text)) return false;
 
+      const letters = text.replace(/[^A-Za-zÀ-ÿ]/g, "");
+      if (!letters) return false;
+      const upper = letters.replace(/[a-zà-ÿ]/g, "").length;
+      return upper / letters.length > .58;
+    }
+
+    function extractCandidateTitles(text) {
+      const names = [];
+      cleanExtractionText(text).split("\n").map(cleanValue).forEach(line => {
+        if (isLikelyTitle(line) && !names.includes(line)) names.push(line);
+      });
+      return names;
+    }
+
+    function cleanField(value, knownNames) {
+      let text = cleanValue(value);
+      (knownNames || []).forEach(name => {
+        const esc = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        text = text.replace(new RegExp("\\s*" + esc + "\\s*", "gi"), " ");
+      });
+      return cleanValue(text);
+    }
+
+    function normalizeSite(value) {
+      return cleanValue(value).replace(/\s+/g, "").replace(/https:\/\/https:\/\//gi, "https://").replace(/http:\/\/http:\/\//gi, "http://");
+    }
+
+    function parsePrice(value) {
+      const text = cleanValue(value);
+      const match = text.match(/(a partir de\s*(?:US\$|R\$|€|MXN|\$)?\s*[\d.,]+(?:\s*[A-Z]{2,3})?(?:\s*\([^)]*\))?|gratuita?|entrada gratuita|sob consulta)/i);
+      return match ? cleanValue(match[1]) : cleanValue(text);
+    }
+
+    function parseDetailsFromSegment(segment, knownNames) {
+      const block = cleanValue(segment).replace(/https:\s*\/\//gi, "https://").replace(/http:\s*\/\//gi, "http://");
+      const description = block.match(/Descri[cç][aã]o\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Endere[cç]o\s*:|$)/i);
+      const address = block.match(/Endere[cç]o\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Site\s*:|(?:\s|\n)*Entrada\s*:|$)/i);
+      const site = block.match(/Site\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Entrada\s*:|$)/i);
+      const entry = block.match(/Entrada\s*:\s*([\s\S]*?)$/i);
+
+      return {
+        description: cleanField(description ? description[1] : "", knownNames),
+        address: cleanField(address ? address[1] : "", knownNames),
+        site: normalizeSite(cleanField(site ? site[1] : "", knownNames)),
+        entry_price: parsePrice(entry ? entry[1] : "")
+      };
+    }
+
+    function titleBeforeDescription(lines, descriptionIndex, usedNames) {
+      const start = Math.max(0, descriptionIndex - 6);
+      const beforeSameLine = cleanValue(String(lines[descriptionIndex] || "").split(/Descri[cç][aã]o\s*:/i)[0] || "");
+      if (isLikelyTitle(beforeSameLine) && !usedNames.includes(beforeSameLine)) return beforeSameLine;
+
+      for (let i = descriptionIndex - 1; i >= start; i -= 1) {
+        const candidate = cleanValue(lines[i]);
+        if (isLikelyTitle(candidate) && !usedNames.includes(candidate)) return candidate;
+      }
+      return "";
+    }
+
+    function inferNameFromDetails(details, cityLabel, index, visualName, candidateTitles) {
+      const knownNames = getKnownNamesForCity(cityLabel);
+      const haystack = `${details.description} ${details.address} ${details.site}`;
+
+      for (const rule of getDomainNameRules()) {
+        if (rule[0].test(haystack)) return rule[1];
+      }
+
+      const knownInDescription = knownNames.find(name => normalizeSearch(haystack).includes(normalizeSearch(name)));
+      if (knownInDescription) return knownInDescription;
+
+      if (visualName && !isGenericName(visualName)) return visualName;
+
+      if (knownNames[index]) return knownNames[index];
+
+      if (candidateTitles[index] && !isGenericName(candidateTitles[index])) return candidateTitles[index];
+
+      return `Indicação ${index + 1}`;
+    }
+
+    function parseItems(text, cityLabel) {
+      const cleaned = cleanExtractionText(text).replace(/https:\s*\/\//gi, "https://").replace(/http:\s*\/\//gi, "http://");
+      const lines = cleaned.split("\n").map(cleanValue).filter(Boolean);
       const descriptionIndexes = [];
-      lines.forEach(function(line, index) {
-        if (/\bDescri[cç][aã]o\s*:/i.test(line)) descriptionIndexes.push(index);
-      });
+      lines.forEach((line, index) => { if (/\bDescri[cç][aã]o\s*:/i.test(line)) descriptionIndexes.push(index); });
 
-      const fallbackNames = extractCandidateNamesInTextOrder(cleaned);
-      const knownNames = getKnownAttractionNamesForCity(city);
-      const removalNames = fallbackNames.concat(knownNames).filter(function(name, index, array) {
-        return name && array.indexOf(name) === index;
-      });
-
+      const knownNames = getKnownNamesForCity(cityLabel);
+      const candidateTitles = extractCandidateTitles(cleaned);
       const usedNames = [];
 
-      const items = descriptionIndexes.map(function(descriptionIndex, index) {
-        const nextDescriptionIndex = descriptionIndexes[index + 1] || lines.length;
-        const segment = lines.slice(descriptionIndex, nextDescriptionIndex).join("\n");
-        const details = parseAttractionDetailsFromSegment(segment, removalNames);
+      const items = descriptionIndexes.map((descriptionIndex, index) => {
+        const next = descriptionIndexes[index + 1] || lines.length;
+        const segment = lines.slice(descriptionIndex, next).join("\n");
+        const visual = titleBeforeDescription(lines, descriptionIndex, usedNames);
+        const details = parseDetailsFromSegment(segment, knownNames.concat(candidateTitles));
+        let name = inferNameFromDetails(details, cityLabel, index, visual, candidateTitles);
 
-        let name = getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames);
-        const descriptionCandidate = getTitleRepairCandidateFromDescription(details.description);
-
-        if ((!name || isInvalidAttractionNameCandidate(name)) && knownNames[index]) {
-          name = knownNames[index];
-        }
-
-        if ((!name || isInvalidAttractionNameCandidate(name)) && fallbackNames[index]) {
-          name = fallbackNames[index];
-        }
-
-        if ((!name || isInvalidAttractionNameCandidate(name)) && descriptionCandidate) {
-          name = descriptionCandidate;
-          details.description = removeTitleRepairCandidateFromDescription(details.description, descriptionCandidate);
-        }
-
-        if (!name || isInvalidAttractionNameCandidate(name) || usedNames.includes(name)) {
-          name = `Indicação ${index + 1}`;
+        if (usedNames.includes(name)) {
+          name = knownNames[index] || candidateTitles[index] || `Indicação ${index + 1}`;
         }
 
         usedNames.push(name);
 
         return {
-          name: cleanExtractedValue(name),
-          description: cleanBusinessDescriptionText(details.description, removalNames),
-          address: removeTrailingAttractionNamesFromField(details.address, removalNames),
-          site: normalizeSiteValue(removeTrailingAttractionNamesFromField(details.site, removalNames)),
-          price: cleanExtractedValue(details.price)
+          item_order: index + 1,
+          item_name: cleanValue(name),
+          description: cleanValue(details.description),
+          address: cleanValue(details.address),
+          site: normalizeSite(details.site),
+          entry_price: cleanValue(details.entry_price)
         };
       });
 
-      return items.filter(function(item) {
-        return item.description && item.description.length > 35;
-      }).slice(0, 24);
+      return items.filter(item => item.description && item.description.length > 30).slice(0, 12);
     }
 
-    function parseAttractionsBusinessContent(text, city) {
-      return {
-        panorama: extractPanoramaFromText(text, city),
-        items: parseAttractionItemsFromText(text, city)
-      };
+    function analyzeContent(content) {
+      const items = content && content.items ? content.items : [];
+      const generic = items.filter(item => isGenericName(item.item_name)).length;
+      const missing = items.reduce((count, item) => {
+        return count + (!item.description ? 1 : 0) + (!item.address ? 1 : 0) + (!item.entry_price ? 1 : 0);
+      }, 0);
+
+      let status = "Pendente";
+      if (items.length >= 10 && generic === 0 && missing <= 2) status = "Pronto";
+      else if (items.length >= 8) status = "Revisar";
+
+      return { status, itemCount: items.length, genericCount: generic, missingCount: missing };
     }
 
-    async function loadMaterials() {
-      setSidebarMessage("Carregando materiais do Supabase...");
+    function renderQuality(analysis) {
+      els.qualityStatus.textContent = analysis ? analysis.status : "--";
+      els.qualityItems.textContent = analysis ? String(analysis.itemCount) : "--";
+      els.qualityGeneric.textContent = analysis ? String(analysis.genericCount) : "--";
+      els.qualityMissing.textContent = analysis ? String(analysis.missingCount) : "--";
+    }
 
-      const category = document.getElementById("categoryFilter").value;
-      const year = document.getElementById("yearFilter").value.trim();
-
-      let query = supabaseClient
-        .from("curadoria_materials")
-        .select("id, category, city_label, pdf_url, year")
-        .eq("category", category)
-        .order("city_label", { ascending: true });
-
-      if (year) query = query.eq("year", year);
-
-      const { data, error } = await query;
-
-      if (error) {
-        console.error(error);
-        setSidebarMessage("Erro ao carregar curadoria_materials:\n" + error.message, "error");
+    function renderPreview(content) {
+      if (!content) {
+        els.panoramaPreview.textContent = "O panorama aparecerá aqui após o processamento.";
+        els.itemsPreview.innerHTML = "";
+        renderQuality(null);
         return;
       }
 
-      allMaterials = (data || []).filter(function(item) {
-        return item.category && item.city_label && item.pdf_url;
-      });
+      els.panoramaPreview.textContent = content.panorama || "Panorama não identificado.";
+      els.itemsPreview.innerHTML = (content.items || []).map(item => {
+        const warnings = [];
+        if (isGenericName(item.item_name)) warnings.push("Nome genérico detectado");
+        if (!item.address) warnings.push("Endereço ausente");
+        if (!item.entry_price) warnings.push("Entrada ausente");
 
-      setSidebarMessage(`${allMaterials.length} material(is) carregado(s).`, allMaterials.length ? "success" : "");
-      renderMaterialsList();
+        return `
+          <article class="item-card">
+            <div class="num">${String(item.item_order).padStart(2, "0")}</div>
+            <div>
+              <h5>${escapeHtml(item.item_name)}</h5>
+              <p>${escapeHtml(item.description)}</p>
+              ${item.address ? `<div class="detail"><strong>Endereço:</strong> ${escapeHtml(item.address)}</div>` : ""}
+              ${item.site ? `<div class="detail"><strong>Site:</strong> ${escapeHtml(item.site)}</div>` : ""}
+              ${item.entry_price ? `<div class="detail"><strong>Entrada:</strong> ${escapeHtml(item.entry_price)}</div>` : ""}
+              ${warnings.length ? `<div class="warning-line">${warnings.join(" • ")}</div>` : ""}
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      renderQuality(analyzeContent(content));
+    }
+
+    function renderStats() {
+      const values = Object.values(statusByKey);
+      const ready = values.filter(v => v.count >= 10).length;
+      const pending = currentMaterials.length - ready;
+
+      els.statTotal.textContent = String(currentMaterials.length);
+      els.statReady.textContent = String(ready);
+      els.statPending.textContent = String(Math.max(0, pending));
+    }
+
+    function getMaterialStatus(material) {
+      const key = materialKey(material);
+      const status = statusByKey[key];
+
+      if (status && status.count >= 10) return { label: `Pronto • ${status.count} itens`, className: "ready" };
+      if (processedByKey[key]) {
+        const analysis = analyzeContent(processedByKey[key]);
+        if (analysis.status === "Pronto") return { label: `Processado • ${analysis.itemCount} itens`, className: "ready" };
+        return { label: `Revisar • ${analysis.itemCount} itens`, className: "review" };
+      }
+
+      return { label: "Pendente", className: "pending" };
     }
 
     function renderMaterialsList() {
-      const list = document.getElementById("materialsList");
-      const search = document.getElementById("searchInput").value.trim().toLowerCase();
+      const query = normalizeSearch(els.searchInput.value || "");
+      const filtered = currentMaterials.filter(material => !query || normalizeSearch(material.city_label).includes(query));
 
-      const materials = allMaterials.filter(function(item) {
-        return String(item.city_label || "").toLowerCase().includes(search);
-      });
-
-      list.innerHTML = "";
-
-      if (!materials.length) {
-        list.innerHTML = `<div class="message">Nenhum material encontrado.</div>`;
+      if (!filtered.length) {
+        els.materialsList.innerHTML = `<div class="material-item"><strong>Nenhum material encontrado</strong><span>Ajuste a busca ou verifique a categoria.</span></div>`;
         return;
       }
 
-      materials.forEach(function(material) {
-        const item = document.createElement("div");
-        item.className = "material-item" + (selectedMaterial && selectedMaterial.id === material.id ? " active" : "");
-        item.innerHTML = `
-          <strong>${escapeHtml(material.city_label)}</strong>
-          <span>${escapeHtml(material.category)}${material.year ? " • " + escapeHtml(material.year) : ""}</span>
-          <span>${escapeHtml(material.pdf_url)}</span>
-          <div class="status-pill">Selecionar</div>
-        `;
-
-        item.addEventListener("click", function() {
-          selectedMaterial = material;
-          extractedItems = [];
-          extractedRawText = "";
-          document.getElementById("panoramaInput").value = "";
-          document.getElementById("rawText").textContent = "";
-          renderItems();
-          renderMaterialsList();
-          updateSelectedMeta();
-          document.getElementById("extractButton").disabled = false;
-          document.getElementById("saveButton").disabled = true;
-          document.getElementById("replaceButton").disabled = true;
-          setMainMessage("Material selecionado. Clique em “Ler PDF”.");
-        });
-
-        list.appendChild(item);
-      });
-    }
-
-    function updateSelectedMeta() {
-      const meta = document.getElementById("selectedMeta");
-      if (!selectedMaterial) {
-        meta.textContent = "Nenhum material selecionado.";
-        return;
-      }
-
-      meta.innerHTML = `
-        <strong>Destino:</strong> ${escapeHtml(selectedMaterial.city_label)}<br>
-        <strong>Categoria:</strong> ${escapeHtml(selectedMaterial.category)}<br>
-        <strong>Ano:</strong> ${escapeHtml(selectedMaterial.year || "")}<br>
-        <strong>PDF:</strong> ${escapeHtml(selectedMaterial.pdf_url)}
-      `;
-    }
-
-    async function extractSelectedMaterial() {
-      if (!selectedMaterial) return;
-
-      setMainMessage("Lendo PDF. Aguarde...");
-      document.getElementById("extractButton").disabled = true;
-      document.getElementById("saveButton").disabled = true;
-      document.getElementById("replaceButton").disabled = true;
-
-      try {
-        let fullText = await extractPdfTextFromUrl(selectedMaterial.pdf_url, 5, 9);
-        let parsed = parseAttractionsBusinessContent(fullText, selectedMaterial.city_label);
-
-        if (!parsed.items.length) {
-          fullText = await extractPdfTextFromUrl(selectedMaterial.pdf_url, 1, 12);
-          parsed = parseAttractionsBusinessContent(fullText, selectedMaterial.city_label);
-        }
-
-        extractedRawText = fullText;
-        extractedItems = parsed.items || [];
-        document.getElementById("panoramaInput").value = parsed.panorama || "";
-        document.getElementById("rawText").textContent = fullText || "";
-        renderItems();
-
-        document.getElementById("saveButton").disabled = !extractedItems.length;
-        document.getElementById("replaceButton").disabled = !extractedItems.length;
-
-        setMainMessage(
-          extractedItems.length
-            ? `${extractedItems.length} indicação(ões) extraída(s). Revise e salve em b2b_material_items.`
-            : "Nenhuma indicação foi extraída. Você pode adicionar manualmente ou revisar o texto bruto.",
-          extractedItems.length ? "success" : "error"
-        );
-      } catch (error) {
-        console.error(error);
-        setMainMessage("Erro ao ler PDF:\n" + (error.message || String(error)), "error");
-      } finally {
-        document.getElementById("extractButton").disabled = false;
-      }
-    }
-
-    function renderItems() {
-      const container = document.getElementById("itemsContainer");
-      container.innerHTML = "";
-
-      extractedItems.forEach(function(item, index) {
-        const card = document.createElement("div");
-        card.className = "item-card";
-        card.innerHTML = `
-          <div class="item-top">
-            <div class="number-badge">${String(index + 1).padStart(2, "0")}</div>
-            <div>
-              <label>Nome da indicação</label>
-              <input data-field="name" data-index="${index}" type="text" value="${escapeHtml(item.name || "")}">
-            </div>
-          </div>
-
-          <label>Descrição</label>
-          <textarea data-field="description" data-index="${index}">${escapeHtml(item.description || "")}</textarea>
-
-          <div class="item-fields">
-            <div>
-              <label>Endereço</label>
-              <input data-field="address" data-index="${index}" type="text" value="${escapeHtml(item.address || "")}">
-            </div>
-            <div>
-              <label>Site</label>
-              <input data-field="site" data-index="${index}" type="text" value="${escapeHtml(item.site || "")}">
-            </div>
-            <div>
-              <label>Entrada</label>
-              <input data-field="price" data-index="${index}" type="text" value="${escapeHtml(item.price || "")}">
-            </div>
-            <div style="display:flex;align-items:end;">
-              <button class="btn danger" type="button" data-remove-index="${index}">Remover indicação</button>
-            </div>
+      els.materialsList.innerHTML = filtered.map(material => {
+        const key = materialKey(material);
+        const status = getMaterialStatus(material);
+        const active = selectedMaterial && materialKey(selectedMaterial) === key ? " active" : "";
+        return `
+          <div class="material-item${active}" data-key="${escapeHtml(key)}">
+            <strong>${escapeHtml(material.city_label)}</strong>
+            <span>${escapeHtml(normalizeCategoryName(material.category))}${material.year ? " • " + escapeHtml(material.year) : ""}</span>
+            <div class="status ${status.className}">${status.label}</div>
           </div>
         `;
+      }).join("");
 
-        container.appendChild(card);
-      });
-
-      container.querySelectorAll("[data-field]").forEach(function(input) {
-        input.addEventListener("input", function() {
-          const index = Number(input.dataset.index);
-          const field = input.dataset.field;
-          if (!extractedItems[index]) return;
-          extractedItems[index][field] = input.value;
-        });
-      });
-
-      container.querySelectorAll("[data-remove-index]").forEach(function(button) {
-        button.addEventListener("click", function() {
-          const index = Number(button.dataset.removeIndex);
-          extractedItems.splice(index, 1);
-          renderItems();
-          document.getElementById("saveButton").disabled = !extractedItems.length;
-          document.getElementById("replaceButton").disabled = !extractedItems.length;
+      els.materialsList.querySelectorAll(".material-item[data-key]").forEach(node => {
+        node.addEventListener("click", () => {
+          const material = currentMaterials.find(item => materialKey(item) === node.dataset.key);
+          selectMaterial(material);
         });
       });
     }
 
-    function addManualItem() {
-      extractedItems.push({
-        name: `Indicação ${extractedItems.length + 1}`,
-        description: "",
-        address: "",
-        site: "",
-        price: ""
-      });
+    function selectMaterial(material) {
+      selectedMaterial = material;
+      const key = materialKey(material);
 
-      renderItems();
-      document.getElementById("saveButton").disabled = !extractedItems.length;
-      document.getElementById("replaceButton").disabled = !extractedItems.length;
+      els.selectedTitle.textContent = material.city_label;
+      els.selectedMeta.textContent = `${normalizeCategoryName(material.category)} • ${material.year || "sem ano"} • Origem: curadoria_materials`;
+      els.processSelectedButton.disabled = false;
+      els.reprocessSelectedButton.disabled = false;
+      els.toggleRawButton.disabled = !rawTextByKey[key];
+
+      renderPreview(processedByKey[key] || null);
+      renderMaterialsList();
+
+      if (rawTextByKey[key]) {
+        els.rawTextBox.textContent = rawTextByKey[key];
+      } else {
+        els.rawTextBox.textContent = "";
+        els.rawTextBox.classList.remove("active");
+      }
+
+      log(`Material selecionado: ${material.city_label}. Clique em “Processar selecionado” para gerar/atualizar os itens estruturados.`);
     }
 
-    function buildRowsForSave() {
-      if (!selectedMaterial) return [];
+    async function loadExistingStatuses() {
+      statusByKey = {};
 
-      const panorama = document.getElementById("panoramaInput").value.trim();
-      const category = normalizeCategoryName(selectedMaterial.category);
-      const cityLabel = selectedMaterial.city_label;
-      const year = String(selectedMaterial.year || document.getElementById("yearFilter").value || "2026").trim();
+      const { data, error } = await supabaseClient
+        .from("b2b_material_items")
+        .select("category, city_label, year, item_order, item_name, is_active")
+        .eq("is_active", true);
 
-      return extractedItems
-        .map(function(item, index) {
-          return {
-            category: category,
-            city_label: cityLabel,
-            year: year,
-            panorama: index === 0 ? panorama : null,
-            item_order: index + 1,
-            item_name: cleanExtractedValue(item.name),
-            description: cleanExtractedValue(item.description),
-            address: cleanExtractedValue(item.address),
-            site: normalizeSiteValue(item.site),
-            entry_price: cleanExtractedValue(item.price),
-            is_active: true
-          };
-        })
-        .filter(function(row) {
-          return row.item_name && row.description;
-        });
-    }
-
-    async function saveRows(replaceExisting) {
-      if (!selectedMaterial) {
-        setMainMessage("Selecione um material antes de salvar.", "error");
+      if (error) {
+        appendLog("Aviso: não foi possível ler b2b_material_items. Verifique RLS/policies.");
+        console.warn(error);
         return;
       }
 
-      const rows = buildRowsForSave();
+      (data || []).forEach(row => {
+        const key = `${normalizeCategoryName(row.category)}|${row.city_label}|${normalizeYear(row.year)}`;
+        if (!statusByKey[key]) statusByKey[key] = { count: 0 };
+        statusByKey[key].count += 1;
+      });
+    }
 
-      if (!rows.length) {
-        setMainMessage("Não há linhas válidas para salvar. Preencha ao menos nome e descrição.", "error");
-        return;
-      }
-
-      const category = rows[0].category;
-      const cityLabel = rows[0].city_label;
-      const year = rows[0].year;
-
-      setMainMessage(replaceExisting ? "Substituindo registros existentes..." : "Salvando registros...");
+    async function loadMaterials() {
+      log("Carregando materiais de origem...");
+      els.loadButton.disabled = true;
 
       try {
-        if (replaceExisting) {
-          const deleteResult = await supabaseClient
-            .from("b2b_material_items")
-            .delete()
-            .eq("category", category)
-            .eq("city_label", cityLabel)
-            .eq("year", year);
+        const category = els.categorySelect.value;
+        const year = normalizeYear(els.yearInput.value);
 
-          if (deleteResult.error) {
-            throw deleteResult.error;
-          }
-        }
+        let query = supabaseClient
+          .from("curadoria_materials")
+          .select("id, category, city_label, pdf_url, year")
+          .eq("category", category)
+          .order("city_label", { ascending: true });
 
-        const { data, error } = await supabaseClient
-          .from("b2b_material_items")
-          .insert(rows)
-          .select();
+        if (year) query = query.eq("year", year);
+
+        const { data, error } = await query;
 
         if (error) throw error;
 
-        setMainMessage(`${(data || rows).length} registro(s) salvo(s) em b2b_material_items para ${cityLabel}.`, "success");
+        allMaterials = (data || []).filter(item => item.category && item.city_label && item.pdf_url);
+        currentMaterials = allMaterials.slice();
+
+        await loadExistingStatuses();
+        renderStats();
+        renderMaterialsList();
+
+        log(`Verificação concluída. ${currentMaterials.length} material(is) encontrado(s) em curadoria_materials.`);
       } catch (error) {
         console.error(error);
-        setMainMessage(
-          "Erro ao salvar em b2b_material_items:\n" +
-          (error.message || String(error)) +
-          "\n\nSe a tabela estiver com RLS, crie política de INSERT/DELETE para esta operação interna ou use uma função backend segura.",
-          "error"
-        );
+        log(`Erro ao carregar materiais: ${error.message || error}`);
+      } finally {
+        els.loadButton.disabled = false;
       }
     }
 
-    function clearPreview() {
-      selectedMaterial = null;
-      extractedItems = [];
-      extractedRawText = "";
-      document.getElementById("panoramaInput").value = "";
-      document.getElementById("rawText").textContent = "";
-      document.getElementById("extractButton").disabled = true;
-      document.getElementById("saveButton").disabled = true;
-      document.getElementById("replaceButton").disabled = true;
-      setMainMessage("Prévia limpa. Selecione um material à esquerda.");
-      updateSelectedMeta();
-      renderItems();
+    async function processMaterial(material, replaceExisting) {
+      const key = materialKey(material);
+      log(`Processando ${material.city_label}...\nLendo PDF de origem...`);
+
+      const textA = await extractPdfTextFromUrl(material.pdf_url, 5, 9);
+      let content = {
+        panorama: extractPanorama(textA, material.city_label),
+        items: parseItems(textA, material.city_label)
+      };
+
+      if (!content.items || content.items.length < 8) {
+        appendLog("Leitura parcial. Tentando intervalo completo do PDF...");
+        const textB = await extractPdfTextFromUrl(material.pdf_url, 1, 12);
+        content = {
+          panorama: extractPanorama(textB, material.city_label),
+          items: parseItems(textB, material.city_label)
+        };
+        rawTextByKey[key] = textB;
+      } else {
+        rawTextByKey[key] = textA;
+      }
+
+      processedByKey[key] = content;
+      renderPreview(content);
+      els.rawTextBox.textContent = rawTextByKey[key] || "";
+      els.toggleRawButton.disabled = false;
+
+      const analysis = analyzeContent(content);
+      appendLog(`Extração concluída: ${analysis.itemCount} indicação(ões), ${analysis.genericCount} nome(s) genérico(s), ${analysis.missingCount} campo(s) faltante(s).`);
+
+      if (!content.items.length) {
+        appendLog("Nada foi salvo porque nenhuma indicação foi identificada.");
+        return content;
+      }
+
+      appendLog("Salvando em b2b_material_items...");
+
+      if (replaceExisting) {
+        const deleteQuery = supabaseClient
+          .from("b2b_material_items")
+          .delete()
+          .eq("category", normalizeCategoryName(material.category))
+          .eq("city_label", material.city_label)
+          .eq("year", normalizeYear(material.year))
+          .eq("is_active", true);
+
+        const { error: deleteError } = await deleteQuery;
+        if (deleteError) throw deleteError;
+      }
+
+      const rows = content.items.map(item => ({
+        category: normalizeCategoryName(material.category),
+        city_label: material.city_label,
+        year: normalizeYear(material.year),
+        panorama: content.panorama,
+        item_order: item.item_order,
+        item_name: item.item_name,
+        description: item.description,
+        address: item.address,
+        site: item.site,
+        entry_price: item.entry_price,
+        is_active: true
+      }));
+
+      const { error: insertError } = await supabaseClient
+        .from("b2b_material_items")
+        .insert(rows);
+
+      if (insertError) throw insertError;
+
+      statusByKey[key] = { count: rows.length };
+      renderStats();
       renderMaterialsList();
+
+      appendLog(`Salvo com sucesso: ${rows.length} registro(s) em b2b_material_items.`);
+      return content;
     }
 
-    document.getElementById("loadMaterialsButton").addEventListener("click", loadMaterials);
-    document.getElementById("searchInput").addEventListener("input", renderMaterialsList);
-    document.getElementById("extractButton").addEventListener("click", extractSelectedMaterial);
-    document.getElementById("saveButton").addEventListener("click", function() { saveRows(false); });
-    document.getElementById("replaceButton").addEventListener("click", function() {
-      if (confirm("Isso vai apagar os registros existentes deste destino/categoria/ano em b2b_material_items e inserir a versão revisada. Continuar?")) {
-        saveRows(true);
-      }
-    });
-    document.getElementById("clearPreviewButton").addEventListener("click", clearPreview);
-    document.getElementById("addItemButton").addEventListener("click", addManualItem);
-    document.getElementById("toggleRawButton").addEventListener("click", function() {
-      document.getElementById("rawBox").classList.toggle("active");
-    });
+    async function processSelected(replaceExisting) {
+      if (!selectedMaterial) return;
+      els.processSelectedButton.disabled = true;
+      els.reprocessSelectedButton.disabled = true;
 
-    updateSelectedMeta();
+      try {
+        await processMaterial(selectedMaterial, replaceExisting);
+      } catch (error) {
+        console.error(error);
+        appendLog(`Erro: ${error.message || error}`);
+      } finally {
+        els.processSelectedButton.disabled = false;
+        els.reprocessSelectedButton.disabled = false;
+      }
+    }
+
+    async function processPending() {
+      if (!currentMaterials.length) {
+        await loadMaterials();
+      }
+
+      const pending = currentMaterials.filter(material => {
+        const status = statusByKey[materialKey(material)];
+        return !status || status.count < 10;
+      });
+
+      if (!pending.length) {
+        log("Não há materiais pendentes para processar.");
+        return;
+      }
+
+      els.processPendingButton.disabled = true;
+
+      try {
+        for (const material of pending) {
+          selectedMaterial = material;
+          renderMaterialsList();
+          els.selectedTitle.textContent = material.city_label;
+          els.selectedMeta.textContent = `${normalizeCategoryName(material.category)} • ${material.year || "sem ano"}`;
+          await processMaterial(material, true);
+        }
+        appendLog("Processamento de pendentes concluído.");
+      } catch (error) {
+        console.error(error);
+        appendLog(`Erro no processamento em lote: ${error.message || error}`);
+      } finally {
+        els.processPendingButton.disabled = false;
+      }
+    }
+
+    els.loadButton.addEventListener("click", loadMaterials);
+    els.processSelectedButton.addEventListener("click", () => processSelected(false));
+    els.reprocessSelectedButton.addEventListener("click", () => processSelected(true));
+    els.processPendingButton.addEventListener("click", processPending);
+    els.searchInput.addEventListener("input", renderMaterialsList);
+    els.toggleRawButton.addEventListener("click", () => els.rawTextBox.classList.toggle("active"));
   </script>
 </body>
 </html>
