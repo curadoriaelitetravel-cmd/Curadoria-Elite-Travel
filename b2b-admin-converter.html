@@ -11,39 +11,62 @@
     body {
       font-family: Arial, sans-serif;
       background:
-        radial-gradient(circle at 25% 10%, rgba(214, 173, 50, 0.10), transparent 28%),
-        radial-gradient(circle at 85% 45%, rgba(214, 173, 50, 0.06), transparent 30%),
+        radial-gradient(circle at 20% 0%, rgba(214,173,50,.10), transparent 30%),
+        radial-gradient(circle at 90% 35%, rgba(214,173,50,.08), transparent 28%),
         #03060b;
-      color: #ffffff;
+      color: #fff;
       min-height: 100vh;
     }
 
     header {
       height: 74px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,.08);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 32px;
-      background: rgba(0,0,0,0.94);
+      background: rgba(0,0,0,.94);
       position: sticky;
       top: 0;
       z-index: 20;
     }
 
-    .brand { display: flex; align-items: center; gap: 14px; }
-    .brand-symbol { color: #d6ad32; font-size: 27px; }
-    .brand h1 { font-size: 18px; color: #d6ad32; letter-spacing: 0.5px; line-height: 1; }
-    .brand p { font-size: 12px; color: #ffffff; margin-top: 5px; }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
-    main { max-width: 1280px; margin: 0 auto; padding: 44px 24px 70px; }
+    .brand-symbol {
+      color: #d6ad32;
+      font-size: 27px;
+    }
+
+    .brand h1 {
+      font-size: 18px;
+      color: #d6ad32;
+      letter-spacing: .5px;
+      line-height: 1;
+    }
+
+    .brand p {
+      font-size: 12px;
+      color: #fff;
+      margin-top: 5px;
+    }
+
+    main {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 34px 24px 70px;
+    }
 
     .hero {
       border: 1px solid rgba(214,173,50,.34);
       background: linear-gradient(180deg, rgba(11,17,29,.98), rgba(5,8,15,.98));
       border-radius: 24px;
-      padding: 34px;
-      box-shadow: 0 0 80px rgba(214,173,50,.08), 0 24px 70px rgba(0,0,0,.32);
+      padding: 32px;
+      box-shadow: 0 24px 70px rgba(0,0,0,.32);
       margin-bottom: 22px;
     }
 
@@ -56,21 +79,47 @@
       font-weight: 900;
     }
 
-    .hero h2 { font-size: 34px; color: #fff; margin-bottom: 12px; }
-    .hero p { color: #c8d3e4; line-height: 1.7; max-width: 920px; }
+    .hero h2 {
+      color: #d6ad32;
+      font-size: 36px;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
 
-    .grid { display: grid; grid-template-columns: 360px 1fr; gap: 20px; align-items: start; }
+    .hero p {
+      color: #d8e1ee;
+      max-width: 980px;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 410px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
 
     .card {
       background: linear-gradient(180deg, #071020, #060b15);
-      border: 1px solid rgba(255,255,255,0.11);
+      border: 1px solid rgba(255,255,255,.11);
       border-radius: 22px;
       padding: 22px;
       box-shadow: 0 22px 55px rgba(0,0,0,.22);
     }
 
-    .card h3 { color: #fff; font-size: 22px; margin-bottom: 10px; }
-    .sub { color: #c8d3e4; font-size: 14px; line-height: 1.65; margin-bottom: 18px; }
+    .card h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .sub {
+      color: #c8d3e4;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
 
     .btn {
       border: 1px solid rgba(214,173,50,.45);
@@ -80,17 +129,31 @@
       border-radius: 14px;
       font-weight: 900;
       cursor: pointer;
-      transition: 0.25s ease;
+      transition: .2s ease;
       white-space: nowrap;
     }
 
     .btn:hover { border-color: rgba(214,173,50,.85); transform: translateY(-1px); }
-    .btn:disabled { opacity: .42; cursor: not-allowed; transform: none; }
-    .btn.gold { background: linear-gradient(135deg, #e3bd43, #b88712); color: #060606; border: none; }
-    .btn.danger { border-color: rgba(240,90,90,.55); color: #ffb4b4; }
+    .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
 
-    .field { margin-bottom: 14px; }
-    .field label { display: block; color: #9fb0c7; font-size: 12px; font-weight: 900; margin-bottom: 7px; }
+    .btn.gold {
+      background: linear-gradient(135deg, #e3bd43, #b88712);
+      color: #060606;
+      border: none;
+      box-shadow: 0 12px 26px rgba(214,173,50,.18);
+    }
+
+    .btn.danger {
+      border-color: rgba(255,94,94,.45);
+      color: #ffb3b3;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
 
     input, select, textarea {
       width: 100%;
@@ -104,68 +167,215 @@
       font-size: 14px;
     }
 
+    textarea {
+      min-height: 96px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
     input:focus, select:focus, textarea:focus {
       border-color: rgba(214,173,50,.75);
       box-shadow: 0 0 0 3px rgba(214,173,50,.08);
     }
 
-    .actions { display: grid; gap: 10px; margin-top: 16px; }
-    .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-
-    .status-box {
-      border: 1px solid rgba(214,173,50,.22);
-      background: rgba(214,173,50,.06);
-      border-radius: 16px;
-      padding: 14px;
-      color: #d8e1ee;
-      font-size: 13px;
-      line-height: 1.6;
-      margin-top: 16px;
-      white-space: pre-wrap;
+    label {
+      display: block;
+      color: #9fb0c7;
+      font-size: 12px;
+      font-weight: 900;
+      margin: 0 0 7px;
     }
 
-    .materials-list { display: grid; gap: 12px; }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .materials-list {
+      display: grid;
+      gap: 10px;
+      max-height: 660px;
+      overflow: auto;
+      padding-right: 4px;
+    }
 
     .material-item {
       border: 1px solid rgba(255,255,255,.10);
       background: #050b16;
       border-radius: 16px;
-      padding: 16px;
+      padding: 15px;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .material-item:hover,
+    .material-item.active {
+      background: rgba(214,173,50,.08);
+      border-color: rgba(214,173,50,.45);
+    }
+
+    .material-item strong {
+      display: block;
+      color: #fff;
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .material-item span {
+      color: #aeb8c8;
+      font-size: 12px;
+      line-height: 1.5;
+      display: block;
+      overflow-wrap: anywhere;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: #d6ad32;
+      font-weight: 900;
+      border: 1px solid rgba(214,173,50,.30);
+      border-radius: 999px;
+      padding: 6px 9px;
+      background: rgba(214,173,50,.06);
+    }
+
+    .notice {
+      border: 1px solid rgba(214,173,50,.28);
+      background: rgba(214,173,50,.07);
+      color: #f4df9a;
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 13px;
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+
+    .message {
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: #d8e1ee;
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 13px;
+      line-height: 1.55;
+      margin-bottom: 16px;
+      white-space: pre-wrap;
+    }
+
+    .message.error {
+      border-color: rgba(255,94,94,.36);
+      color: #ffcdcd;
+      background: rgba(255,94,94,.07);
+    }
+
+    .message.success {
+      border-color: rgba(117,255,157,.30);
+      color: #c8ffd6;
+      background: rgba(117,255,157,.07);
+    }
+
+    .preview-header {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 14px;
-      align-items: center;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 16px;
     }
 
-    .material-item strong { display: block; color: #fff; font-size: 16px; margin-bottom: 6px; }
-    .material-item span { color: #aeb8c8; font-size: 13px; line-height: 1.5; }
-    .pill { display: inline-flex; align-items: center; border-radius: 999px; padding: 6px 10px; font-size: 12px; font-weight: 900; margin-top: 8px; }
-    .pill.ready { background: rgba(52,211,153,.10); color: #7ee0b8; border: 1px solid rgba(52,211,153,.25); }
-    .pill.pending { background: rgba(214,173,50,.10); color: #f3d678; border: 1px solid rgba(214,173,50,.25); }
-    .pill.error { background: rgba(240,90,90,.10); color: #ffb4b4; border: 1px solid rgba(240,90,90,.25); }
+    .selected-meta {
+      color: #c8d3e4;
+      font-size: 13px;
+      line-height: 1.7;
+    }
 
-    .preview {
-      margin-top: 18px;
-      border: 1px solid rgba(214,173,50,.18);
+    .selected-meta strong {
+      color: #d6ad32;
+    }
+
+    .panorama-box {
+      border: 1px solid rgba(214,173,50,.22);
       background: rgba(255,255,255,.03);
       border-radius: 18px;
-      padding: 18px;
+      padding: 16px;
+      margin-bottom: 16px;
     }
 
-    .preview h4 { color: #d6ad32; text-transform: uppercase; letter-spacing: 2px; font-size: 12px; margin-bottom: 10px; }
-    .preview h5 { font-size: 20px; margin-bottom: 10px; }
-    .preview p { color: #d8e1ee; line-height: 1.65; font-size: 14px; }
+    .items {
+      display: grid;
+      gap: 14px;
+    }
 
-    table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
-    th, td { border-bottom: 1px solid rgba(255,255,255,.08); padding: 10px 8px; text-align: left; vertical-align: top; }
-    th { color: #d6ad32; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
-    td { color: #d8e1ee; line-height: 1.45; }
+    .item-card {
+      border: 1px solid rgba(214,173,50,.22);
+      background: rgba(255,255,255,.035);
+      border-radius: 18px;
+      padding: 16px;
+    }
 
-    .small-note { color: #9fb0c7; font-size: 12px; line-height: 1.55; margin-top: 8px; }
+    .item-top {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+      align-items: end;
+    }
 
-    @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } .material-item { grid-template-columns: 1fr; } }
+    .number-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid rgba(214,173,50,.55);
+      color: #d6ad32;
+      background: rgba(214,173,50,.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 950;
+    }
+
+    .item-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .raw-box {
+      margin-top: 16px;
+      display: none;
+    }
+
+    .raw-box.active {
+      display: block;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      border: 1px solid rgba(255,255,255,.10);
+      background: #050b16;
+      color: #c8d3e4;
+      border-radius: 16px;
+      padding: 16px;
+      max-height: 360px;
+      overflow: auto;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1100px) {
+      .layout, .preview-header, .form-grid, .item-fields { grid-template-columns: 1fr; }
+      header { padding: 0 18px; }
+    }
   </style>
 </head>
+
 <body>
   <header>
     <div class="brand">
@@ -175,52 +385,89 @@
         <p>Admin interno • Conversão B2B</p>
       </div>
     </div>
-    <button class="btn" type="button" onclick="window.location.href='ferramentas-test.html'">Voltar para Partner</button>
+    <button class="btn" type="button" onclick="window.location.href='ferramentas-test.html'">Ir para Área Partner</button>
   </header>
 
   <main>
     <section class="hero">
       <div class="eyebrow">Ferramenta interna</div>
-      <h2>Conversor de materiais para base B2B</h2>
+      <h2>Conversor interno para itens B2B</h2>
       <p>
-        Esta tela é administrativa. Ela lê os PDFs cadastrados em <strong>curadoria_materials</strong>, extrai os dados de Atrações Turísticas e grava os itens estruturados em <strong>b2b_material_items</strong>. A Área Partner não exibe botão de conversão; ela apenas consome os materiais já prontos.
+        Esta página não é para empresas parceiras. Ela lê os PDFs já cadastrados em <strong>curadoria_materials</strong>,
+        extrai uma prévia editável e grava os dados estruturados em <strong>b2b_material_items</strong>. Depois disso,
+        a Área Partner passa a usar o banco estruturado em vez de depender do parser do PDF toda vez.
       </p>
     </section>
 
-    <section class="grid">
+    <section class="layout">
       <aside class="card">
-        <h3>Controle</h3>
-        <p class="sub">Use primeiro em um destino teste. Depois avance em lote.</p>
+        <h3>Materiais de origem</h3>
+        <p class="sub">Lista carregada da tabela curadoria_materials.</p>
 
-        <div class="field">
-          <label for="categoryFilter">Categoria</label>
-          <select id="categoryFilter">
-            <option value="Atrações Turísticas">Atrações Turísticas</option>
-          </select>
+        <div class="notice">
+          Use esta tela apenas internamente. Se a gravação falhar, confira se a tabela <strong>b2b_material_items</strong>
+          possui política de INSERT/UPDATE/DELETE para o contexto usado por esta página.
         </div>
 
-        <div class="field">
-          <label for="destinationFilter">Buscar destino</label>
-          <input id="destinationFilter" type="search" placeholder="Ex.: Orlando, Paris, Buenos Aires" />
+        <div class="form-grid">
+          <div>
+            <label for="categoryFilter">Categoria</label>
+            <select id="categoryFilter">
+              <option value="Atrações Turísticas">Atrações Turísticas</option>
+            </select>
+          </div>
+          <div>
+            <label for="yearFilter">Ano</label>
+            <input id="yearFilter" type="text" value="2026" />
+          </div>
         </div>
 
-        <div class="actions">
+        <label for="searchInput">Buscar destino</label>
+        <input id="searchInput" type="search" placeholder="Ex.: Paris, Orlando, Buenos Aires..." />
+
+        <div class="toolbar" style="margin-top:14px;">
           <button class="btn gold" id="loadMaterialsButton" type="button">Carregar materiais</button>
-          <button class="btn" id="convertSelectedButton" type="button" disabled>Converter destino selecionado</button>
-          <button class="btn danger" id="clearSelectedButton" type="button" disabled>Limpar itens do destino selecionado</button>
+          <button class="btn" id="clearPreviewButton" type="button">Limpar prévia</button>
         </div>
 
-        <div class="status-box" id="statusBox">Aguardando carregamento dos materiais.</div>
-        <p class="small-note">
-          Observação: esta tela usa a chave pública do projeto, igual à página Partner. Para gravar na tabela, a RLS precisa permitir insert/delete/update conforme sua política atual.
-        </p>
+        <div id="sidebarMessage" class="message">Clique em carregar materiais para começar.</div>
+        <div id="materialsList" class="materials-list"></div>
       </aside>
 
       <section class="card">
-        <h3>Materiais encontrados</h3>
-        <p class="sub">Selecione um destino para converter e revisar antes de gravar.</p>
-        <div id="materialsList" class="materials-list"></div>
-        <div id="conversionPreview" class="preview" style="display:none;"></div>
+        <div class="preview-header">
+          <div>
+            <h3>Prévia editável</h3>
+            <p class="sub">Revise antes de salvar. O objetivo é corrigir aqui qualquer título que o PDF não entregue bem.</p>
+            <div class="selected-meta" id="selectedMeta">Nenhum material selecionado.</div>
+          </div>
+
+          <div class="toolbar">
+            <button class="btn gold" id="extractButton" type="button" disabled>Ler PDF</button>
+            <button class="btn" id="saveButton" type="button" disabled>Salvar em b2b_material_items</button>
+            <button class="btn danger" id="replaceButton" type="button" disabled>Substituir registros existentes</button>
+          </div>
+        </div>
+
+        <div id="mainMessage" class="message">
+          Selecione um material à esquerda e clique em “Ler PDF”.
+        </div>
+
+        <div class="panorama-box">
+          <label for="panoramaInput">Panorama</label>
+          <textarea id="panoramaInput" placeholder="O panorama extraído aparecerá aqui para revisão."></textarea>
+        </div>
+
+        <div id="itemsContainer" class="items"></div>
+
+        <div class="toolbar" style="margin-top:16px;">
+          <button class="btn" id="addItemButton" type="button">Adicionar indicação manual</button>
+          <button class="btn" id="toggleRawButton" type="button">Mostrar/Ocultar texto bruto</button>
+        </div>
+
+        <div class="raw-box" id="rawBox">
+          <pre id="rawText"></pre>
+        </div>
       </section>
     </section>
   </main>
@@ -230,8 +477,7 @@
 
   <script>
     const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsbllvcW9lenppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
-
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     if (window.pdfjsLib) {
@@ -239,35 +485,43 @@
     }
 
     let allMaterials = [];
-    let filteredMaterials = [];
     let selectedMaterial = null;
-    let selectedExtractedContent = null;
-
-    function setStatus(message) {
-      const statusBox = document.getElementById("statusBox");
-      if (statusBox) statusBox.textContent = message;
-    }
+    let extractedItems = [];
+    let extractedRawText = "";
 
     function normalizeCategoryName(category) {
-      const value = String(category || "").trim().toLowerCase();
-      const map = {
+      if (!category) return "Material";
+      const categoryMap = {
+        "city-guide": "City Guide",
+        "city guide": "City Guide",
+        "gastronomia": "Gastronomia",
         "atracoes-turisticas": "Atrações Turísticas",
         "atrações turísticas": "Atrações Turísticas",
-        "atracoes turisticas": "Atrações Turísticas"
+        "atracoes turisticas": "Atrações Turísticas",
+        "vida-noturna": "Vida Noturna",
+        "vida noturna": "Vida Noturna",
+        "enderecos-para-compras": "Endereços para Compras",
+        "endereços para compras": "Endereços para Compras",
+        "enderecos para compras": "Endereços para Compras",
+        "sugestao-de-presentes": "Sugestão de Presentes",
+        "sugestão de presentes": "Sugestão de Presentes",
+        "sugestao de presentes": "Sugestão de Presentes"
       };
-      return map[value] || String(category || "").trim();
+
+      const normalizedKey = String(category).trim().toLowerCase();
+      return categoryMap[normalizedKey] || category;
     }
 
-    function cleanValue(value) {
+    function cleanExtractedValue(value) {
       return String(value || "")
-        .replace(/\r/g, "\n")
-        .replace(/[ \t]+/g, " ")
+        .replace(/\s+/g, " ")
         .replace(/\s+([,.;:])/g, "$1")
         .replace(/\bGratuit\b/gi, "Gratuita")
+        .replace(/\bGratuita\./gi, "Gratuita")
         .trim();
     }
 
-    function normalizeText(text) {
+    function normalizeExtractedPdfText(text) {
       return String(text || "")
         .replace(/\r/g, "\n")
         .replace(/[ \t]+/g, " ")
@@ -275,36 +529,83 @@
         .trim();
     }
 
-    function normalizeSearch(value) {
-      return cleanValue(value)
+    function normalizeForSearch(value) {
+      return cleanExtractedValue(value)
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .toUpperCase();
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function setSidebarMessage(message, type) {
+      const element = document.getElementById("sidebarMessage");
+      element.className = "message" + (type ? " " + type : "");
+      element.textContent = message;
+    }
+
+    function setMainMessage(message, type) {
+      const element = document.getElementById("mainMessage");
+      element.className = "message" + (type ? " " + type : "");
+      element.textContent = message;
     }
 
     function groupPdfTextItemsByRows(textItems) {
       const rows = [];
 
       textItems
-        .filter(item => item && String(item.str || "").trim())
-        .map(item => {
-          const transform = item.transform || [1, 0, 0, 1, 0, 0];
-          return { text: String(item.str || "").trim(), x: transform[4] || 0, y: transform[5] || 0 };
+        .filter(function(item) {
+          return item && String(item.str || "").trim();
         })
-        .sort((a, b) => Math.abs(b.y - a.y) > 4 ? b.y - a.y : a.x - b.x)
-        .forEach(item => {
+        .map(function(item) {
+          const transform = item.transform || [1, 0, 0, 1, 0, 0];
+          return {
+            text: String(item.str || "").trim(),
+            x: transform[4] || 0,
+            y: transform[5] || 0
+          };
+        })
+        .sort(function(a, b) {
+          if (Math.abs(b.y - a.y) > 4) return b.y - a.y;
+          return a.x - b.x;
+        })
+        .forEach(function(item) {
           const lastRow = rows[rows.length - 1];
-          if (!lastRow || Math.abs(lastRow.y - item.y) > 4) rows.push({ y: item.y, items: [item] });
-          else lastRow.items.push(item);
+
+          if (!lastRow || Math.abs(lastRow.y - item.y) > 4) {
+            rows.push({ y: item.y, items: [item] });
+          } else {
+            lastRow.items.push(item);
+          }
         });
 
-      return rows.map(row => row.items.sort((a, b) => a.x - b.x).map(item => item.text).join(" ").replace(/\s+/g, " ").trim()).filter(Boolean);
+      return rows.map(function(row) {
+        return row.items
+          .sort(function(a, b) { return a.x - b.x; })
+          .map(function(item) { return item.text; })
+          .join(" ")
+          .replace(/\s+/g, " ")
+          .trim();
+      }).filter(Boolean);
     }
 
     async function extractPdfTextFromUrl(pdfUrl, pageStart, pageEnd) {
       if (!window.pdfjsLib) throw new Error("PDF.js não foi carregado.");
 
-      const loadingTask = pdfjsLib.getDocument({ url: pdfUrl, withCredentials: false, disableAutoFetch: false, disableStream: false });
+      const loadingTask = pdfjsLib.getDocument({
+        url: pdfUrl,
+        withCredentials: false,
+        disableAutoFetch: false,
+        disableStream: false
+      });
+
       const pdf = await loadingTask.promise;
       const firstPage = Math.max(1, pageStart || 1);
       const lastPage = Math.min(pdf.numPages, pageEnd || pdf.numPages);
@@ -317,76 +618,302 @@
         pages.push(rows.join("\n"));
       }
 
-      return normalizeText(pages.join("\n\n"));
+      return normalizeExtractedPdfText(pages.join("\n\n"));
     }
 
-    function cleanExtractionLines(text) {
-      return normalizeText(text)
+    function cleanAttractionsExtractionText(text) {
+      return normalizeExtractedPdfText(text)
         .split("\n")
-        .map(cleanValue)
-        .filter(line => line &&
-          !/curadoria\s*elite\s*travel/i.test(line) &&
-          !/@curadoriaelitetravel/i.test(line) &&
-          !/^o seu mundo/i.test(line) &&
-          !/^pontos tur/i.test(line) &&
-          !/^atra[cç][õo]es tur/i.test(line) &&
-          !/^by curadoria/i.test(line) &&
-          !/^www\.?\s*curadoria/i.test(line) &&
-          !/porque o verdadeiro destino/i.test(line) &&
-          !/mais que paisagens/i.test(line) &&
-          !/^lugares que inspiram/i.test(line) &&
-          !/^olhares,? momentos/i.test(line) &&
-          !/^conquistam cora/i.test(line)
-        );
+        .map(cleanExtractedValue)
+        .filter(function(line) {
+          return line &&
+            !/curadoria\s*elite\s*travel/i.test(line) &&
+            !/@curadoriaelitetravel/i.test(line) &&
+            !/^o seu mundo/i.test(line) &&
+            !/^pontos tur[ií]sticos$/i.test(line) &&
+            !/^pontos tur[ií]stiicos$/i.test(line) &&
+            !/^atra[cç][õo]es tur[ií]sticas$/i.test(line) &&
+            !/^by curadoria/i.test(line) &&
+            !/^www\.?\s*curadoria/i.test(line) &&
+            !/porque o verdadeiro destino/i.test(line) &&
+            !/mais que paisagens/i.test(line) &&
+            !/cada p[áa]gina foi pensada/i.test(line) &&
+            !/agrade[cç]o sua confian[cç]a/i.test(line) &&
+            !/que nossos caminhos/i.test(line) &&
+            !/^lugares que inspiram/i.test(line) &&
+            !/^olhares,? momentos/i.test(line) &&
+            !/^conquistam cora[cç][õo]es/i.test(line);
+        })
+        .join("\n");
     }
 
-    function isInvalidTitle(value) {
-      const normalized = normalizeSearch(value);
-      if (!normalized) return true;
+    function isInvalidAttractionNameCandidate(value) {
+      const text = cleanExtractedValue(value);
+      const normalized = normalizeForSearch(text);
+
+      if (!text || !normalized) return true;
       if (/^INDICACAO\s*\d+$/.test(normalized)) return true;
       if (/^(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX|XXI|XXII|XXIII|XXIV|XXV|XXVI|XXVII|XXVIII|XXIX|XXX)$/.test(normalized)) return true;
-      if (/^(DESCRICAO|DESCRIÇÃO|ENDERECO|ENDEREÇO|SITE|ENTRADA|PAGINA|PÁGINA|CURADORIA|ELITE|TRAVEL|PONTOS|TURISTICOS|TURÍSTICOS|GRATUITA|GRATUITO)$/.test(normalized)) return true;
+      if (/^SECULO\s+(I|V|X|L|C|D|M)+$/.test(normalized)) return true;
+      if (/^(US|R|ARS|EUR|BRL|USD|MXN)$/.test(normalized)) return true;
+      if (/^(GRATUITA|GRATUITO|GRATUIT|ENTRADA|SITE|ENDERECO|ENDEREÇO)$/.test(normalized)) return true;
+
       return false;
     }
 
-    function isLikelyTitle(line) {
-      const value = cleanValue(line).replace(/^nome\s*:\s*/i, "").trim();
+    function isLikelyAttractionName(line) {
+      const value = cleanExtractedValue(line)
+        .replace(/^(nome\s*:\s*)/i, "")
+        .trim();
+
       if (!value || value.length < 4 || value.length > 90) return false;
-      if (isInvalidTitle(value)) return false;
-      if (/^(descri[cç][aã]o|endere[cç]o|site|entrada|p[áa]gina|curadoria|elite travel|travel|pontos tur|atra[cç][õo]es tur|porque|mais que|www\.|https?:)/i.test(value)) return false;
+      if (isInvalidAttractionNameCandidate(value)) return false;
+      if (/^(descri[cç][aã]o|endere[cç]o|site|entrada|p[áa]gina|curadoria|elite travel|travel|pontos tur[ií]sticos|atra[cç][õo]es tur[ií]sticas|porque|mais que|cada p[áa]gina|by curadoria|www\.|https?:)/i.test(value)) return false;
       if (/\d{2,}|@|\.com|curadoriaelitetravel|instagram|linkedin/i.test(value)) return false;
       if (/[.!?]$/.test(value)) return false;
 
       const letters = value.replace(/[^A-Za-zÀ-ÿ]/g, "");
       if (!letters) return false;
+
       const upperLetters = letters.replace(/[a-zà-ÿ]/g, "").length;
       return upperLetters / letters.length > 0.58;
     }
 
-    function extractPanoramaFromText(text, city) {
-      const cleaned = normalizeText(text);
-      const cityName = cleanValue(String(city || "").split(" - ")[0]);
-      const beforeFirstDescription = cleaned.split(/Descri[cç][aã]o\s*:/i)[0] || cleaned;
-      const lines = beforeFirstDescription.split("\n").map(cleanValue).filter(Boolean);
+    function getKnownAttractionNamesForCity(city) {
+      const normalizedCity = normalizeForSearch(city || "");
 
-      function cleanPanorama(value) {
-        let text = cleanValue(value)
+      if (normalizedCity.includes("BARCELONA")) {
+        return ["SAGRADA FAMÍLIA","PARK GÜELL","CASA BATLLÓ","LA PEDRERA (CASA MILÀ)","BAIRRO GÓTICO","MERCADO DE LA BOQUERIA","MUSEU PICASSO","FONTE MÁGICA DE MONTJUÏC","BUNKERS DEL CARMEL","RECINTO MODERNISTA DE SANT PAU","LABERINT D'HORTA","FABRA I COATS"];
+      }
+
+      if (normalizedCity.includes("NEW YORK") || normalizedCity.includes("NOVA YORK")) {
+        return ["EMPIRE STATE BUILDING","ESTÁTUA DA LIBERDADE","METROPOLITAN MUSEUM OF ART (THE MET)","TOP OF THE ROCK","CENTRAL PARK ZOO","BROOKLYN BRIDGE","SUMMIT ONE VANDERBILT","LITTLE ISLAND","THE MET CLOISTERS","THE VESSEL","ROOSEVELT ISLAND TRAMWAY","THE HIGH LINE"];
+      }
+
+      if (normalizedCity.includes("PARIS")) {
+        return ["TORRE EIFFEL","MUSEU DO LOUVRE","ARCO DO TRIUNFO","SACRÉ-CŒUR","MUSEU D'ORSAY","CATEDRAL DE NOTRE-DAME","SAINTE-CHAPELLE","PANTEÃO","ATELIER DES LUMIÈRES","CANAL SAINT-MARTIN","MUSÉE DE LA CHASSE","LA PETITE CEINTURE"];
+      }
+
+      return [];
+    }
+
+    function extractCandidateNamesInTextOrder(text) {
+      const names = [];
+
+      cleanAttractionsExtractionText(text)
+        .split("\n")
+        .map(cleanExtractedValue)
+        .filter(Boolean)
+        .forEach(function(line) {
+          if (!isLikelyAttractionName(line)) return;
+          const name = line.replace(/^nome\s*:\s*/i, "");
+          if (!names.includes(name)) names.push(name);
+        });
+
+      return names;
+    }
+
+    function normalizeSiteValue(value) {
+      return cleanExtractedValue(value)
+        .replace(/\s+/g, "")
+        .replace(/https:\/\/https:\/\//gi, "https://")
+        .replace(/http:\/\/http:\/\//gi, "http://")
+        .replace(/visite\s*s-guiadas/i, "visites-guiades");
+    }
+
+    function removeTrailingAttractionNamesFromField(value, knownNames) {
+      let text = cleanExtractedValue(value);
+      if (!text) return "";
+
+      const namesToRemove = (knownNames || []).slice().sort(function(a, b) {
+        return b.length - a.length;
+      });
+
+      namesToRemove.forEach(function(name) {
+        const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        text = text.replace(new RegExp("\\s*" + escaped + "\\s*", "gi"), " ");
+      });
+
+      return cleanExtractedValue(text)
+        .replace(/\s*(?:CURADORIA|ELITE|TRAVEL|PONTOS TURISTICOS|PONTOS TURÍSTICOS).*$/i, "")
+        .trim();
+    }
+
+    function splitEntryPriceAndTrailingText(value, knownNames) {
+      const text = cleanExtractedValue(value);
+      if (!text) return { price: "", trailingText: "" };
+
+      const pricePattern = /(a partir de\s*(?:US\$|R\$|€|MXN)?\s*[\d.,]+(?:\s*\([^)]*\))?|gratuita?|entrada gratuita|sob consulta)/i;
+      const match = text.match(pricePattern);
+
+      if (!match) {
+        return {
+          price: removeTrailingAttractionNamesFromField(text, knownNames),
+          trailingText: ""
+        };
+      }
+
+      return {
+        price: cleanExtractedValue(match[1]),
+        trailingText: removeTrailingAttractionNamesFromField(text.slice(match.index + match[1].length), knownNames)
+      };
+    }
+
+    function parseAttractionDetailsFromSegment(segment, knownNames) {
+      const block = normalizeExtractedPdfText(segment)
+        .replace(/https:\s*\/\//gi, "https://")
+        .replace(/http:\s*\/\//gi, "http://");
+
+      const descriptionMatch = block.match(/Descri[cç][aã]o\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Endere[cç]o\s*:|$)/i);
+      const addressMatch = block.match(/Endere[cç]o\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Site\s*:|(?:\s|\n)*Entrada\s*:|$)/i);
+      const siteMatch = block.match(/Site\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Entrada\s*:|$)/i);
+      const entryMatch = block.match(/Entrada\s*:\s*([\s\S]*?)$/i);
+      const entryParts = splitEntryPriceAndTrailingText(entryMatch ? entryMatch[1] : "", knownNames);
+
+      return {
+        description: removeTrailingAttractionNamesFromField(descriptionMatch ? descriptionMatch[1] : "", knownNames),
+        address: removeTrailingAttractionNamesFromField(addressMatch ? addressMatch[1] : "", knownNames),
+        site: normalizeSiteValue(removeTrailingAttractionNamesFromField(siteMatch ? siteMatch[1] : "", knownNames)),
+        price: entryParts.price
+      };
+    }
+
+    function getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames) {
+      const used = usedNames || [];
+      const startIndex = Math.max(0, descriptionIndex - 6);
+      const currentLineBeforeDescription = cleanExtractedValue(String(lines[descriptionIndex] || "").split(/Descri[cç][aã]o\s*:/i)[0] || "")
+        .replace(/^nome\s*:\s*/i, "")
+        .trim();
+
+      if (currentLineBeforeDescription && !used.includes(currentLineBeforeDescription) && isLikelyAttractionName(currentLineBeforeDescription)) {
+        return currentLineBeforeDescription;
+      }
+
+      for (let index = descriptionIndex - 1; index >= startIndex; index -= 1) {
+        const candidate = cleanExtractedValue(lines[index] || "")
+          .replace(/^nome\s*:\s*/i, "")
+          .trim();
+
+        if (!candidate) continue;
+        if (isInvalidAttractionNameCandidate(candidate)) continue;
+        if (used.includes(candidate)) continue;
+        if (/^(descri[cç][aã]o|endere[cç]o|site|entrada)\s*:/i.test(candidate)) continue;
+        if (/^(p[áa]gina|curadoria|elite travel|travel|pontos tur[ií]sticos|atra[cç][õo]es tur[ií]sticas|www\.|https?:)/i.test(candidate)) continue;
+        if (/^(lugares que inspiram|olhares,? momentos|conquistam cora[cç][õo]es)$/i.test(candidate)) continue;
+
+        if (isLikelyAttractionName(candidate)) return candidate;
+      }
+
+      return "";
+    }
+
+    function getTitleRepairCandidateFromDescription(description) {
+      const text = cleanExtractedValue(description);
+      if (!text) return "";
+
+      const ignored = new Set(["A","O","AS","OS","DE","DA","DO","DAS","DOS","E","EM","NO","NA","NOS","NAS","AO","AOS","À","ÀS","UM","UMA","ESTE","ESTA","ESSE","ESSA","AQUI","PARIS","MIAMI","ORLANDO","MADRID","BARCELONA","BUENOS","AIRES","MEXICO","MÉXICO","NEW","YORK","USA","FRANÇA","ESPANHA","ARGENTINA","BRASIL","FL","NY","US","R","ARS","MXN","EUR","BRL","USD"]);
+
+      const matches = text.match(/\b[A-ZÀ-Ú][A-ZÀ-Ú0-9'’.\-]*(?:\s+(?:DE|DA|DO|DAS|DOS|DEL|DES|DU|LA|LE|LES|THE|OF|AND|Y|E|A|O|[A-ZÀ-Ú][A-ZÀ-Ú0-9'’.\-]*)){0,7}\b/g) || [];
+
+      const candidates = matches
+        .map(function(match) {
+          return cleanExtractedValue(match)
+            .replace(/^[,.;:\-–—]+|[,.;:\-–—]+$/g, "")
+            .trim();
+        })
+        .filter(function(match) {
+          const normalized = normalizeForSearch(match);
+          if (!match || match.length < 5 || match.length > 80) return false;
+          if (isInvalidAttractionNameCandidate(match)) return false;
+          if (/^(DESCRICAO|DESCRIÇÃO|ENDERECO|ENDEREÇO|SITE|ENTRADA|PAGINA|PÁGINA|CURADORIA|ELITE|TRAVEL|PONTOS|TURISTICOS|TURÍSTICOS)$/i.test(normalized)) return false;
+          if (/^\d/.test(normalized)) return false;
+          if (ignored.has(normalized)) return false;
+
+          const words = normalized.split(/\s+/).filter(Boolean);
+          const meaningfulWords = words.filter(function(word) {
+            return !ignored.has(word) && !/^(DE|DA|DO|DAS|DOS|DEL|DES|DU|LA|LE|LES|THE|OF|AND|Y|E|A|O)$/.test(word);
+          });
+
+          return meaningfulWords.some(function(word) { return word.length >= 4; });
+        });
+
+      if (!candidates.length) return "";
+
+      candidates.sort(function(a, b) {
+        const aWords = normalizeForSearch(a).split(/\s+/).length;
+        const bWords = normalizeForSearch(b).split(/\s+/).length;
+        if (bWords !== aWords) return bWords - aWords;
+        return b.length - a.length;
+      });
+
+      return candidates[0] || "";
+    }
+
+    function removeTitleRepairCandidateFromDescription(description, titleCandidate) {
+      let text = cleanExtractedValue(description);
+      if (!text || !titleCandidate) return text;
+
+      const escaped = titleCandidate.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+      text = text
+        .replace(new RegExp("\\b" + escaped + "\\b", "gi"), " ")
+        .replace(/\s+([,.;:])/g, "$1")
+        .replace(/,\s*,/g, ",")
+        .replace(/\s{2,}/g, " ");
+
+      return cleanExtractedValue(text);
+    }
+
+    function cleanBusinessDescriptionText(description, knownNames) {
+      let value = cleanExtractedValue(description)
+        .replace(/\bGratuit\b/g, "Gratuita")
+        .replace(/\bgratuït\b/gi, "gratuita")
+        .replace(/\bDescri[cç][aã]o\s*:\s*/gi, "")
+        .replace(/\bEndere[cç]o\s*:\s*$/gi, "")
+        .replace(/\bSite\s*:\s*$/gi, "")
+        .replace(/\bEntrada\s*:\s*$/gi, "")
+        .replace(/\s+([,.;:])/g, "$1")
+        .trim();
+
+      value = removeTrailingAttractionNamesFromField(value, knownNames || []);
+      return cleanExtractedValue(value);
+    }
+
+    function extractPanoramaFromText(text, city) {
+      const cleaned = normalizeExtractedPdfText(text);
+      const cityName = cleanExtractedValue(String(city || "").split(" - ")[0]);
+
+      function cleanPanoramaCandidate(candidate) {
+        let value = cleanExtractedValue(candidate)
           .replace(/Cart[aã]o Postal Vivo/gi, "")
           .replace(/A Arte dos Destinos/gi, "")
           .replace(/Lugares que inspiram\s+olhares,?\s+momentos que\s+conquistam cora[cç][õo]es/gi, "")
+          .replace(/Lugares que inspiram/gi, "")
+          .replace(/olhares,?\s+momentos que/gi, "")
+          .replace(/conquistam cora[cç][õo]es/gi, "")
           .trim();
 
         if (cityName) {
-          const cityIndex = text.toLowerCase().indexOf(cityName.toLowerCase());
-          if (cityIndex >= 0) text = text.slice(cityIndex).trim();
+          const cityIndex = value.toLowerCase().indexOf(cityName.toLowerCase());
+          if (cityIndex >= 0) value = value.slice(cityIndex).trim();
         }
 
-        text = text.split(/(?:\b(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:)|PONTOS\s+TUR|CURADORIA\s+ELITE\s+TRAVEL|Mais que paisagens|Porque o verdadeiro destino|Lugares que inspiram)/i)[0].trim();
-        return cleanValue(text);
+        value = value
+          .split(/(?:\b(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:)\b|PONTOS\s+TUR[IÍ]STICOS?|PONTOS\s+TURISTICOS?|CURADORIA\s+ELITE\s+TRAVEL|Mais que paisagens|Porque o verdadeiro destino|Lugares que inspiram)/i)[0]
+          .trim();
+
+        return cleanExtractedValue(value);
       }
 
+      const beforeFirstDescription = cleaned.split(/Descri[cç][aã]o\s*:/i)[0] || cleaned;
+      const lines = beforeFirstDescription.split("\n").map(cleanExtractedValue).filter(Boolean);
+
       if (cityName) {
-        const startIndex = lines.findIndex(line => line.toLowerCase().includes(cityName.toLowerCase()) && !/^\s*(?:categoria|destino|material|www|atra[cç][õo]es|pontos)/i.test(line));
+        const startIndex = lines.findIndex(function(line) {
+          return line.toLowerCase().includes(cityName.toLowerCase()) &&
+            !/^\s*(?:categoria|destino|material|www|atra[cç][õo]es|pontos)/i.test(line);
+        });
+
         if (startIndex >= 0) {
           const collected = [];
           for (let index = startIndex; index < lines.length; index += 1) {
@@ -395,291 +922,405 @@
             if (/^(?:Lugares que inspiram|olhares,? momentos|conquistam cora[cç][õo]es)$/i.test(line)) continue;
             collected.push(line);
           }
-          const panorama = cleanPanorama(collected.join(" "));
-          if (panorama.length > 100) return panorama;
+
+          const panorama = cleanPanoramaCandidate(collected.join(" "));
+          if (panorama.length > 80) return panorama;
         }
       }
 
-      const paragraphs = cleaned.split(/\n{2,}/).map(cleanPanorama).filter(paragraph => paragraph.length > 140 && !/curadoria elite travel/i.test(paragraph));
-      return paragraphs[0] || `${city || "O destino selecionado"} reúne experiências selecionadas com foco em praticidade, clareza e orientação profissional para apoiar empresas parceiras no atendimento aos seus clientes.`;
-    }
-
-    function extractTitleBeforeDescription(lines, descriptionIndex, usedTitles) {
-      const startIndex = Math.max(0, descriptionIndex - 6);
-      const sameLinePrefix = cleanValue(String(lines[descriptionIndex] || "").split(/Descri[cç][aã]o\s*:/i)[0] || "").replace(/^nome\s*:\s*/i, "").trim();
-      if (sameLinePrefix && isLikelyTitle(sameLinePrefix) && !usedTitles.includes(sameLinePrefix)) return sameLinePrefix;
-
-      for (let index = descriptionIndex - 1; index >= startIndex; index -= 1) {
-        const candidate = cleanValue(lines[index] || "").replace(/^nome\s*:\s*/i, "").trim();
-        if (!candidate || usedTitles.includes(candidate)) continue;
-        if (isLikelyTitle(candidate)) return candidate;
+      const panoramaMatch = cleaned.match(/(?:Cart[aã]o Postal Vivo|A Arte dos Destinos|panorama(?: da cidade)?|intro|introdução)\s+([\s\S]{120,1600}?)(?=\n\s*(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:))/i);
+      if (panoramaMatch && panoramaMatch[1]) {
+        const panorama = cleanPanoramaCandidate(panoramaMatch[1]);
+        if (panorama.length > 80) return panorama;
       }
-      return "";
+
+      return `${city || "O destino selecionado"} reúne experiências selecionadas com foco em praticidade, clareza e orientação profissional para apoiar empresas parceiras no atendimento aos seus clientes.`;
     }
 
-    function normalizeSite(value) {
-      return cleanValue(value).replace(/\s+/g, "").replace(/https:\/\/https:\/\//gi, "https://").replace(/http:\/\/http:\/\//gi, "http://");
-    }
+    function parseAttractionItemsFromText(text, city) {
+      const cleaned = cleanAttractionsExtractionText(text)
+        .replace(/https:\s*\/\//gi, "https://")
+        .replace(/http:\s*\/\//gi, "http://");
 
-    function parseEntry(value) {
-      const text = cleanValue(value);
-      const match = text.match(/(a partir de\s*(?:US\$|R\$|€|MXN|ARS)?\s*[\d.,]+(?:\s*\([^)]*\))?|gratuita?|entrada gratuita|sob consulta)/i);
-      return match ? cleanValue(match[1]).replace(/^entrada\s+/i, "") : cleanValue(text);
-    }
+      const lines = cleaned.split("\n").map(cleanExtractedValue).filter(Boolean);
 
-    function parseAttractionsFromText(text, city) {
-      const lines = cleanExtractionLines(text);
       const descriptionIndexes = [];
-      lines.forEach((line, index) => { if (/\bDescri[cç][aã]o\s*:/i.test(line)) descriptionIndexes.push(index); });
-
-      const usedTitles = [];
-      const items = [];
-
-      descriptionIndexes.forEach((descriptionIndex, index) => {
-        const nextDescriptionIndex = descriptionIndexes[index + 1] || lines.length;
-        const segmentLines = lines.slice(descriptionIndex, nextDescriptionIndex);
-        while (segmentLines.length > 1 && isLikelyTitle(segmentLines[segmentLines.length - 1])) segmentLines.pop();
-        const segment = normalizeText(segmentLines.join("\n")).replace(/https:\s*\/\//gi, "https://").replace(/http:\s*\/\//gi, "http://");
-
-        const descriptionMatch = segment.match(/Descri[cç][aã]o\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Endere[cç]o\s*:|$)/i);
-        const addressMatch = segment.match(/Endere[cç]o\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Site\s*:|(?:\s|\n)*Entrada\s*:|$)/i);
-        const siteMatch = segment.match(/Site\s*:\s*([\s\S]*?)(?=(?:\s|\n)*Entrada\s*:|$)/i);
-        const entryMatch = segment.match(/Entrada\s*:\s*([\s\S]*?)$/i);
-
-        let title = extractTitleBeforeDescription(lines, descriptionIndex, usedTitles);
-        if (!title) title = `Indicação ${index + 1}`;
-        title = cleanValue(title);
-
-        if (!isInvalidTitle(title)) usedTitles.push(title);
-
-        const description = cleanValue(descriptionMatch ? descriptionMatch[1] : "");
-        const address = cleanValue(addressMatch ? addressMatch[1] : "");
-        const site = normalizeSite(siteMatch ? siteMatch[1] : "");
-        const entry = parseEntry(entryMatch ? entryMatch[1] : "");
-
-        if (description && description.length > 35) {
-          items.push({
-            item_order: index + 1,
-            item_name: title,
-            description,
-            address,
-            site,
-            entry_price: entry
-          });
-        }
+      lines.forEach(function(line, index) {
+        if (/\bDescri[cç][aã]o\s*:/i.test(line)) descriptionIndexes.push(index);
       });
 
-      return items.slice(0, 24);
+      const fallbackNames = extractCandidateNamesInTextOrder(cleaned);
+      const knownNames = getKnownAttractionNamesForCity(city);
+      const removalNames = fallbackNames.concat(knownNames).filter(function(name, index, array) {
+        return name && array.indexOf(name) === index;
+      });
+
+      const usedNames = [];
+
+      const items = descriptionIndexes.map(function(descriptionIndex, index) {
+        const nextDescriptionIndex = descriptionIndexes[index + 1] || lines.length;
+        const segment = lines.slice(descriptionIndex, nextDescriptionIndex).join("\n");
+        const details = parseAttractionDetailsFromSegment(segment, removalNames);
+
+        let name = getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames);
+        const descriptionCandidate = getTitleRepairCandidateFromDescription(details.description);
+
+        if ((!name || isInvalidAttractionNameCandidate(name)) && knownNames[index]) {
+          name = knownNames[index];
+        }
+
+        if ((!name || isInvalidAttractionNameCandidate(name)) && fallbackNames[index]) {
+          name = fallbackNames[index];
+        }
+
+        if ((!name || isInvalidAttractionNameCandidate(name)) && descriptionCandidate) {
+          name = descriptionCandidate;
+          details.description = removeTitleRepairCandidateFromDescription(details.description, descriptionCandidate);
+        }
+
+        if (!name || isInvalidAttractionNameCandidate(name) || usedNames.includes(name)) {
+          name = `Indicação ${index + 1}`;
+        }
+
+        usedNames.push(name);
+
+        return {
+          name: cleanExtractedValue(name),
+          description: cleanBusinessDescriptionText(details.description, removalNames),
+          address: removeTrailingAttractionNamesFromField(details.address, removalNames),
+          site: normalizeSiteValue(removeTrailingAttractionNamesFromField(details.site, removalNames)),
+          price: cleanExtractedValue(details.price)
+        };
+      });
+
+      return items.filter(function(item) {
+        return item.description && item.description.length > 35;
+      }).slice(0, 24);
+    }
+
+    function parseAttractionsBusinessContent(text, city) {
+      return {
+        panorama: extractPanoramaFromText(text, city),
+        items: parseAttractionItemsFromText(text, city)
+      };
     }
 
     async function loadMaterials() {
-      setStatus("Carregando curadoria_materials...");
+      setSidebarMessage("Carregando materiais do Supabase...");
 
       const category = document.getElementById("categoryFilter").value;
-      const { data, error } = await supabaseClient
+      const year = document.getElementById("yearFilter").value.trim();
+
+      let query = supabaseClient
         .from("curadoria_materials")
         .select("id, category, city_label, pdf_url, year")
         .eq("category", category)
         .order("city_label", { ascending: true });
 
+      if (year) query = query.eq("year", year);
+
+      const { data, error } = await query;
+
       if (error) {
         console.error(error);
-        setStatus("Erro ao carregar curadoria_materials: " + error.message);
+        setSidebarMessage("Erro ao carregar curadoria_materials:\n" + error.message, "error");
         return;
       }
 
-      allMaterials = (data || []).filter(item => item.category && item.city_label && item.pdf_url);
-      filteredMaterials = allMaterials.slice();
-      renderMaterials();
-      setStatus(`${allMaterials.length} materiais encontrados em curadoria_materials.`);
+      allMaterials = (data || []).filter(function(item) {
+        return item.category && item.city_label && item.pdf_url;
+      });
+
+      setSidebarMessage(`${allMaterials.length} material(is) carregado(s).`, allMaterials.length ? "success" : "");
+      renderMaterialsList();
     }
 
-    async function getExistingItemsCount(material) {
-      const { count, error } = await supabaseClient
-        .from("b2b_material_items")
-        .select("id", { count: "exact", head: true })
-        .eq("category", normalizeCategoryName(material.category))
-        .eq("city_label", material.city_label)
-        .eq("year", String(material.year || "2026"))
-        .eq("is_active", true);
-
-      if (error) return null;
-      return count || 0;
-    }
-
-    async function renderMaterials() {
+    function renderMaterialsList() {
       const list = document.getElementById("materialsList");
-      const query = String(document.getElementById("destinationFilter").value || "").trim().toLowerCase();
-      filteredMaterials = allMaterials.filter(item => String(item.city_label || "").toLowerCase().includes(query));
+      const search = document.getElementById("searchInput").value.trim().toLowerCase();
+
+      const materials = allMaterials.filter(function(item) {
+        return String(item.city_label || "").toLowerCase().includes(search);
+      });
 
       list.innerHTML = "";
 
-      if (!filteredMaterials.length) {
-        list.innerHTML = `<div class="status-box">Nenhum material encontrado.</div>`;
+      if (!materials.length) {
+        list.innerHTML = `<div class="message">Nenhum material encontrado.</div>`;
         return;
       }
 
-      for (const material of filteredMaterials) {
-        const count = await getExistingItemsCount(material);
-        const div = document.createElement("div");
-        div.className = "material-item";
-        div.innerHTML = `
-          <div>
-            <strong>${material.city_label}</strong>
-            <span>${normalizeCategoryName(material.category)} • ${material.year || "2026"}</span><br>
-            <span>${material.pdf_url}</span><br>
-            <span class="pill ${count ? "ready" : "pending"}">${count ? `${count} itens estruturados` : "Pendente de conversão"}</span>
-          </div>
-          <div class="row">
-            <button class="btn" type="button">Selecionar</button>
-          </div>
+      materials.forEach(function(material) {
+        const item = document.createElement("div");
+        item.className = "material-item" + (selectedMaterial && selectedMaterial.id === material.id ? " active" : "");
+        item.innerHTML = `
+          <strong>${escapeHtml(material.city_label)}</strong>
+          <span>${escapeHtml(material.category)}${material.year ? " • " + escapeHtml(material.year) : ""}</span>
+          <span>${escapeHtml(material.pdf_url)}</span>
+          <div class="status-pill">Selecionar</div>
         `;
 
-        div.querySelector("button").addEventListener("click", () => selectMaterial(material));
-        list.appendChild(div);
-      }
+        item.addEventListener("click", function() {
+          selectedMaterial = material;
+          extractedItems = [];
+          extractedRawText = "";
+          document.getElementById("panoramaInput").value = "";
+          document.getElementById("rawText").textContent = "";
+          renderItems();
+          renderMaterialsList();
+          updateSelectedMeta();
+          document.getElementById("extractButton").disabled = false;
+          document.getElementById("saveButton").disabled = true;
+          document.getElementById("replaceButton").disabled = true;
+          setMainMessage("Material selecionado. Clique em “Ler PDF”.");
+        });
+
+        list.appendChild(item);
+      });
     }
 
-    async function selectMaterial(material) {
-      selectedMaterial = material;
-      selectedExtractedContent = null;
-      document.getElementById("convertSelectedButton").disabled = false;
-      document.getElementById("clearSelectedButton").disabled = false;
-      setStatus(`Selecionado: ${material.city_label}. Lendo PDF para prévia...`);
-
-      try {
-        const text = await extractPdfTextFromUrl(material.pdf_url, 5, 9);
-        const panorama = extractPanoramaFromText(text, material.city_label);
-        const items = parseAttractionsFromText(text, material.city_label);
-        selectedExtractedContent = { panorama, items };
-        renderPreview(material, selectedExtractedContent);
-        setStatus(`Prévia gerada para ${material.city_label}: ${items.length} itens encontrados. Revise antes de converter.`);
-      } catch (error) {
-        console.error(error);
-        setStatus("Erro ao ler PDF: " + (error.message || error));
+    function updateSelectedMeta() {
+      const meta = document.getElementById("selectedMeta");
+      if (!selectedMaterial) {
+        meta.textContent = "Nenhum material selecionado.";
+        return;
       }
-    }
 
-    function renderPreview(material, content) {
-      const preview = document.getElementById("conversionPreview");
-      preview.style.display = "block";
-      preview.innerHTML = `
-        <h4>Prévia da conversão</h4>
-        <h5>${material.city_label}</h5>
-        <p>${content.panorama}</p>
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Nome</th>
-              <th>Descrição</th>
-              <th>Endereço</th>
-              <th>Site</th>
-              <th>Entrada</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${content.items.map(item => `
-              <tr>
-                <td>${item.item_order}</td>
-                <td>${item.item_name}</td>
-                <td>${item.description}</td>
-                <td>${item.address || ""}</td>
-                <td>${item.site || ""}</td>
-                <td>${item.entry_price || ""}</td>
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
+      meta.innerHTML = `
+        <strong>Destino:</strong> ${escapeHtml(selectedMaterial.city_label)}<br>
+        <strong>Categoria:</strong> ${escapeHtml(selectedMaterial.category)}<br>
+        <strong>Ano:</strong> ${escapeHtml(selectedMaterial.year || "")}<br>
+        <strong>PDF:</strong> ${escapeHtml(selectedMaterial.pdf_url)}
       `;
     }
 
-    async function clearSelectedItems() {
+    async function extractSelectedMaterial() {
       if (!selectedMaterial) return;
-      if (!confirm(`Remover itens estruturados de ${selectedMaterial.city_label}?`)) return;
 
-      const { error } = await supabaseClient
-        .from("b2b_material_items")
-        .delete()
-        .eq("category", normalizeCategoryName(selectedMaterial.category))
-        .eq("city_label", selectedMaterial.city_label)
-        .eq("year", String(selectedMaterial.year || "2026"));
+      setMainMessage("Lendo PDF. Aguarde...");
+      document.getElementById("extractButton").disabled = true;
+      document.getElementById("saveButton").disabled = true;
+      document.getElementById("replaceButton").disabled = true;
 
-      if (error) {
+      try {
+        let fullText = await extractPdfTextFromUrl(selectedMaterial.pdf_url, 5, 9);
+        let parsed = parseAttractionsBusinessContent(fullText, selectedMaterial.city_label);
+
+        if (!parsed.items.length) {
+          fullText = await extractPdfTextFromUrl(selectedMaterial.pdf_url, 1, 12);
+          parsed = parseAttractionsBusinessContent(fullText, selectedMaterial.city_label);
+        }
+
+        extractedRawText = fullText;
+        extractedItems = parsed.items || [];
+        document.getElementById("panoramaInput").value = parsed.panorama || "";
+        document.getElementById("rawText").textContent = fullText || "";
+        renderItems();
+
+        document.getElementById("saveButton").disabled = !extractedItems.length;
+        document.getElementById("replaceButton").disabled = !extractedItems.length;
+
+        setMainMessage(
+          extractedItems.length
+            ? `${extractedItems.length} indicação(ões) extraída(s). Revise e salve em b2b_material_items.`
+            : "Nenhuma indicação foi extraída. Você pode adicionar manualmente ou revisar o texto bruto.",
+          extractedItems.length ? "success" : "error"
+        );
+      } catch (error) {
         console.error(error);
-        setStatus("Erro ao limpar itens: " + error.message);
-        return;
+        setMainMessage("Erro ao ler PDF:\n" + (error.message || String(error)), "error");
+      } finally {
+        document.getElementById("extractButton").disabled = false;
       }
-
-      setStatus(`Itens removidos de ${selectedMaterial.city_label}.`);
-      await renderMaterials();
     }
 
-    async function convertSelectedMaterial() {
-      if (!selectedMaterial || !selectedExtractedContent) {
-        setStatus("Selecione um material e aguarde a prévia antes de converter.");
+    function renderItems() {
+      const container = document.getElementById("itemsContainer");
+      container.innerHTML = "";
+
+      extractedItems.forEach(function(item, index) {
+        const card = document.createElement("div");
+        card.className = "item-card";
+        card.innerHTML = `
+          <div class="item-top">
+            <div class="number-badge">${String(index + 1).padStart(2, "0")}</div>
+            <div>
+              <label>Nome da indicação</label>
+              <input data-field="name" data-index="${index}" type="text" value="${escapeHtml(item.name || "")}">
+            </div>
+          </div>
+
+          <label>Descrição</label>
+          <textarea data-field="description" data-index="${index}">${escapeHtml(item.description || "")}</textarea>
+
+          <div class="item-fields">
+            <div>
+              <label>Endereço</label>
+              <input data-field="address" data-index="${index}" type="text" value="${escapeHtml(item.address || "")}">
+            </div>
+            <div>
+              <label>Site</label>
+              <input data-field="site" data-index="${index}" type="text" value="${escapeHtml(item.site || "")}">
+            </div>
+            <div>
+              <label>Entrada</label>
+              <input data-field="price" data-index="${index}" type="text" value="${escapeHtml(item.price || "")}">
+            </div>
+            <div style="display:flex;align-items:end;">
+              <button class="btn danger" type="button" data-remove-index="${index}">Remover indicação</button>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+
+      container.querySelectorAll("[data-field]").forEach(function(input) {
+        input.addEventListener("input", function() {
+          const index = Number(input.dataset.index);
+          const field = input.dataset.field;
+          if (!extractedItems[index]) return;
+          extractedItems[index][field] = input.value;
+        });
+      });
+
+      container.querySelectorAll("[data-remove-index]").forEach(function(button) {
+        button.addEventListener("click", function() {
+          const index = Number(button.dataset.removeIndex);
+          extractedItems.splice(index, 1);
+          renderItems();
+          document.getElementById("saveButton").disabled = !extractedItems.length;
+          document.getElementById("replaceButton").disabled = !extractedItems.length;
+        });
+      });
+    }
+
+    function addManualItem() {
+      extractedItems.push({
+        name: `Indicação ${extractedItems.length + 1}`,
+        description: "",
+        address: "",
+        site: "",
+        price: ""
+      });
+
+      renderItems();
+      document.getElementById("saveButton").disabled = !extractedItems.length;
+      document.getElementById("replaceButton").disabled = !extractedItems.length;
+    }
+
+    function buildRowsForSave() {
+      if (!selectedMaterial) return [];
+
+      const panorama = document.getElementById("panoramaInput").value.trim();
+      const category = normalizeCategoryName(selectedMaterial.category);
+      const cityLabel = selectedMaterial.city_label;
+      const year = String(selectedMaterial.year || document.getElementById("yearFilter").value || "2026").trim();
+
+      return extractedItems
+        .map(function(item, index) {
+          return {
+            category: category,
+            city_label: cityLabel,
+            year: year,
+            panorama: index === 0 ? panorama : null,
+            item_order: index + 1,
+            item_name: cleanExtractedValue(item.name),
+            description: cleanExtractedValue(item.description),
+            address: cleanExtractedValue(item.address),
+            site: normalizeSiteValue(item.site),
+            entry_price: cleanExtractedValue(item.price),
+            is_active: true
+          };
+        })
+        .filter(function(row) {
+          return row.item_name && row.description;
+        });
+    }
+
+    async function saveRows(replaceExisting) {
+      if (!selectedMaterial) {
+        setMainMessage("Selecione um material antes de salvar.", "error");
         return;
       }
 
-      if (!selectedExtractedContent.items.length) {
-        setStatus("Nenhum item foi extraído. Conversão cancelada.");
+      const rows = buildRowsForSave();
+
+      if (!rows.length) {
+        setMainMessage("Não há linhas válidas para salvar. Preencha ao menos nome e descrição.", "error");
         return;
       }
 
-      const confirmed = confirm(`Gravar ${selectedExtractedContent.items.length} itens em b2b_material_items para ${selectedMaterial.city_label}? Itens anteriores deste destino/ano serão removidos.`);
-      if (!confirmed) return;
+      const category = rows[0].category;
+      const cityLabel = rows[0].city_label;
+      const year = rows[0].year;
 
-      setStatus(`Limpando itens antigos de ${selectedMaterial.city_label}...`);
+      setMainMessage(replaceExisting ? "Substituindo registros existentes..." : "Salvando registros...");
 
-      const { error: deleteError } = await supabaseClient
-        .from("b2b_material_items")
-        .delete()
-        .eq("category", normalizeCategoryName(selectedMaterial.category))
-        .eq("city_label", selectedMaterial.city_label)
-        .eq("year", String(selectedMaterial.year || "2026"));
+      try {
+        if (replaceExisting) {
+          const deleteResult = await supabaseClient
+            .from("b2b_material_items")
+            .delete()
+            .eq("category", category)
+            .eq("city_label", cityLabel)
+            .eq("year", year);
 
-      if (deleteError) {
-        console.error(deleteError);
-        setStatus("Erro ao limpar itens antigos: " + deleteError.message);
-        return;
+          if (deleteResult.error) {
+            throw deleteResult.error;
+          }
+        }
+
+        const { data, error } = await supabaseClient
+          .from("b2b_material_items")
+          .insert(rows)
+          .select();
+
+        if (error) throw error;
+
+        setMainMessage(`${(data || rows).length} registro(s) salvo(s) em b2b_material_items para ${cityLabel}.`, "success");
+      } catch (error) {
+        console.error(error);
+        setMainMessage(
+          "Erro ao salvar em b2b_material_items:\n" +
+          (error.message || String(error)) +
+          "\n\nSe a tabela estiver com RLS, crie política de INSERT/DELETE para esta operação interna ou use uma função backend segura.",
+          "error"
+        );
       }
+    }
 
-      const rows = selectedExtractedContent.items.map(item => ({
-        category: normalizeCategoryName(selectedMaterial.category),
-        city_label: selectedMaterial.city_label,
-        year: String(selectedMaterial.year || "2026"),
-        panorama: selectedExtractedContent.panorama,
-        item_order: item.item_order,
-        item_name: item.item_name,
-        description: item.description,
-        address: item.address || null,
-        site: item.site || null,
-        entry_price: item.entry_price || null,
-        is_active: true
-      }));
-
-      setStatus(`Gravando ${rows.length} itens em b2b_material_items...`);
-
-      const { error: insertError } = await supabaseClient
-        .from("b2b_material_items")
-        .insert(rows);
-
-      if (insertError) {
-        console.error(insertError);
-        setStatus("Erro ao gravar itens: " + insertError.message + "\nVerifique RLS/policies de INSERT na tabela b2b_material_items.");
-        return;
-      }
-
-      setStatus(`Conversão concluída: ${rows.length} itens gravados para ${selectedMaterial.city_label}.`);
-      await renderMaterials();
+    function clearPreview() {
+      selectedMaterial = null;
+      extractedItems = [];
+      extractedRawText = "";
+      document.getElementById("panoramaInput").value = "";
+      document.getElementById("rawText").textContent = "";
+      document.getElementById("extractButton").disabled = true;
+      document.getElementById("saveButton").disabled = true;
+      document.getElementById("replaceButton").disabled = true;
+      setMainMessage("Prévia limpa. Selecione um material à esquerda.");
+      updateSelectedMeta();
+      renderItems();
+      renderMaterialsList();
     }
 
     document.getElementById("loadMaterialsButton").addEventListener("click", loadMaterials);
-    document.getElementById("destinationFilter").addEventListener("input", renderMaterials);
-    document.getElementById("convertSelectedButton").addEventListener("click", convertSelectedMaterial);
-    document.getElementById("clearSelectedButton").addEventListener("click", clearSelectedItems);
+    document.getElementById("searchInput").addEventListener("input", renderMaterialsList);
+    document.getElementById("extractButton").addEventListener("click", extractSelectedMaterial);
+    document.getElementById("saveButton").addEventListener("click", function() { saveRows(false); });
+    document.getElementById("replaceButton").addEventListener("click", function() {
+      if (confirm("Isso vai apagar os registros existentes deste destino/categoria/ano em b2b_material_items e inserir a versão revisada. Continuar?")) {
+        saveRows(true);
+      }
+    });
+    document.getElementById("clearPreviewButton").addEventListener("click", clearPreview);
+    document.getElementById("addItemButton").addEventListener("click", addManualItem);
+    document.getElementById("toggleRawButton").addEventListener("click", function() {
+      document.getElementById("rawBox").classList.toggle("active");
+    });
 
-    loadMaterials();
+    updateSelectedMeta();
   </script>
 </body>
 </html>
