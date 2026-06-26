@@ -3,29 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin B2B Converter | Curadoria Elite Travel</title>
+  <title>Área Partner | Curadoria Elite Travel</title>
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: Arial, sans-serif;
       background:
-        radial-gradient(circle at 20% 0%, rgba(214,173,50,.10), transparent 30%),
-        radial-gradient(circle at 90% 35%, rgba(214,173,50,.08), transparent 28%),
+        radial-gradient(circle at 25% 10%, rgba(214, 173, 50, 0.08), transparent 28%),
+        radial-gradient(circle at 85% 45%, rgba(214, 173, 50, 0.05), transparent 30%),
         #03060b;
-      color: #fff;
+      color: #ffffff;
       min-height: 100vh;
     }
 
     header {
       height: 74px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 32px;
-      background: rgba(0,0,0,.94);
+      background: rgba(0,0,0,0.94);
       position: sticky;
       top: 0;
       z-index: 20;
@@ -45,96 +49,43 @@
     .brand h1 {
       font-size: 18px;
       color: #d6ad32;
-      letter-spacing: .5px;
+      letter-spacing: 0.5px;
       line-height: 1;
     }
 
     .brand p {
       font-size: 12px;
-      color: #fff;
+      color: #ffffff;
       margin-top: 5px;
     }
 
-    main {
-      max-width: 1500px;
-      margin: 0 auto;
-      padding: 34px 24px 70px;
-    }
-
-    .hero {
-      border: 1px solid rgba(214,173,50,.34);
-      background: linear-gradient(180deg, rgba(11,17,29,.98), rgba(5,8,15,.98));
-      border-radius: 24px;
-      padding: 32px;
-      box-shadow: 0 24px 70px rgba(0,0,0,.32);
-      margin-bottom: 22px;
-    }
-
-    .eyebrow {
-      color: #d6ad32;
-      letter-spacing: 4px;
-      font-size: 12px;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-      font-weight: 900;
-    }
-
-    .hero h2 {
-      color: #d6ad32;
-      font-size: 36px;
-      line-height: 1.1;
-      margin-bottom: 12px;
-    }
-
-    .hero p {
-      color: #d8e1ee;
-      max-width: 980px;
-      line-height: 1.7;
-      font-size: 15px;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 410px 1fr;
-      gap: 22px;
-      align-items: start;
-    }
-
-    .card {
-      background: linear-gradient(180deg, #071020, #060b15);
-      border: 1px solid rgba(255,255,255,.11);
-      border-radius: 22px;
-      padding: 22px;
-      box-shadow: 0 22px 55px rgba(0,0,0,.22);
-    }
-
-    .card h3 {
-      font-size: 22px;
-      margin-bottom: 8px;
-      color: #fff;
-    }
-
-    .sub {
-      color: #c8d3e4;
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 18px;
+    .top-actions {
+      display: flex;
+      gap: 12px;
     }
 
     .btn {
       border: 1px solid rgba(214,173,50,.45);
       background: rgba(0,0,0,.16);
       color: #fff;
-      padding: 12px 18px;
+      padding: 13px 22px;
       border-radius: 14px;
-      font-weight: 900;
+      font-weight: 800;
       cursor: pointer;
-      transition: .2s ease;
+      transition: 0.25s ease;
       white-space: nowrap;
     }
 
-    .btn:hover { border-color: rgba(214,173,50,.85); transform: translateY(-1px); }
-    .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+    .btn:hover {
+      border-color: rgba(214,173,50,.85);
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
 
     .btn.gold {
       background: linear-gradient(135deg, #e3bd43, #b88712);
@@ -143,19 +94,153 @@
       box-shadow: 0 12px 26px rgba(214,173,50,.18);
     }
 
-    .btn.danger {
-      border-color: rgba(255,94,94,.45);
-      color: #ffb3b3;
+    main {
+      max-width: 1420px;
+      margin: 0 auto;
+      padding: 44px 24px 70px;
     }
 
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+    .hero {
+      width: min(980px, 100%);
+      margin: 0 auto 28px;
+      border: 1px solid rgba(214,173,50,.34);
+      background: linear-gradient(180deg, rgba(11,17,29,.98), rgba(5,8,15,.98));
+      border-radius: 24px;
+      padding: 46px 44px;
+      text-align: center;
+      box-shadow: 0 0 80px rgba(214,173,50,.08), 0 24px 70px rgba(0,0,0,.32);
+    }
+
+    .eyebrow {
+      color: #d6ad32;
+      letter-spacing: 5px;
+      font-size: 12px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      font-weight: 800;
+    }
+
+    .hero h2 {
+      font-size: 46px;
+      color: #d6ad32;
       margin-bottom: 16px;
+      line-height: 1.1;
     }
 
-    input, select, textarea {
+    .hero p {
+      color: #eef2f7;
+      max-width: 760px;
+      margin: 0 auto;
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .card {
+      background: linear-gradient(180deg, #071020, #060b15);
+      border: 1px solid rgba(255,255,255,0.11);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 22px 55px rgba(0,0,0,.22);
+    }
+
+    aside.card {
+      align-self: start;
+      position: sticky;
+      top: 96px;
+    }
+
+    .card h3 {
+      color: #ffffff;
+      font-size: 22px;
+      margin-bottom: 9px;
+    }
+
+    .card .sub {
+      color: #c8d3e4;
+      font-size: 14px;
+      margin-bottom: 22px;
+      line-height: 1.7;
+    }
+
+    .logo-preview {
+      border: 1px dashed rgba(214,173,50,.55);
+      border-radius: 18px;
+      padding: 20px;
+      text-align: center;
+      min-height: 148px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d6ad32;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, rgba(214,173,50,.08), rgba(255,255,255,.02));
+      font-weight: 800;
+    }
+
+    .logo-preview img {
+      max-width: 210px;
+      max-height: 105px;
+      object-fit: contain;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      color: #cbd6e6;
+      margin-bottom: 20px;
+    }
+
+    .company-box {
+      display: grid;
+      gap: 14px;
+    }
+
+
+    .client-personalization {
+      margin-top: 18px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 18px;
+    }
+
+    .client-personalization-toggle {
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .client-personalization-panel {
+      display: none;
+      border: 1px solid rgba(214,173,50,.24);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .client-personalization-panel.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #9fb0c7;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 7px;
+    }
+
+    .partner-input,
+    .partner-select,
+    .partner-textarea {
       width: 100%;
       border: 1px solid rgba(255,255,255,.12);
       background: #050b16;
@@ -167,211 +252,1065 @@
       font-size: 14px;
     }
 
-    textarea {
-      min-height: 96px;
+    .partner-textarea {
+      min-height: 86px;
       resize: vertical;
       line-height: 1.5;
     }
 
-    input:focus, select:focus, textarea:focus {
+    .partner-input:focus,
+    .partner-select:focus,
+    .partner-textarea:focus {
       border-color: rgba(214,173,50,.75);
       box-shadow: 0 0 0 3px rgba(214,173,50,.08);
     }
 
-    label {
-      display: block;
-      color: #9fb0c7;
-      font-size: 12px;
-      font-weight: 900;
-      margin: 0 0 7px;
+    .client-preview-box {
+      border: 1px solid rgba(214,173,50,.18);
+      border-radius: 14px;
+      background: rgba(214,173,50,.05);
+      color: #d8e1ee;
+      padding: 13px;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-top: 12px;
     }
 
-    .form-grid {
+    .client-preview-box strong {
+      color: #d6ad32;
+    }
+
+    .client-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 14px;
+      gap: 8px;
+      margin-top: 12px;
     }
 
-    .materials-list {
+    .client-actions .btn {
+      padding: 11px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .client-delivery-box {
+      margin-top: 14px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 14px;
+    }
+
+    .client-delivery-note {
+      color: #9fb0c7;
+      font-size: 12px;
+      line-height: 1.55;
+      margin: 8px 0 12px;
+    }
+
+    .client-delivery-actions {
       display: grid;
-      gap: 10px;
-      max-height: 660px;
-      overflow: auto;
-      padding-right: 4px;
+      grid-template-columns: 1fr;
+      gap: 8px;
     }
 
-    .material-item {
-      border: 1px solid rgba(255,255,255,.10);
-      background: #050b16;
-      border-radius: 16px;
-      padding: 15px;
-      cursor: pointer;
-      transition: .18s ease;
+    .client-delivery-actions .btn {
+      width: 100%;
+      justify-content: center;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 13px;
     }
 
-    .material-item:hover,
-    .material-item.active {
-      background: rgba(214,173,50,.08);
-      border-color: rgba(214,173,50,.45);
+    .partner-dashboard-section {
+      margin-top: 30px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 28px;
     }
 
-    .material-item strong {
-      display: block;
+    .partner-dashboard-header h3 {
+      font-size: 24px;
       color: #fff;
-      font-size: 15px;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
-    .material-item span {
-      color: #aeb8c8;
-      font-size: 12px;
-      line-height: 1.5;
-      display: block;
-      overflow-wrap: anywhere;
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 10px;
-      font-size: 12px;
-      color: #d6ad32;
-      font-weight: 900;
-      border: 1px solid rgba(214,173,50,.30);
-      border-radius: 999px;
-      padding: 6px 9px;
-      background: rgba(214,173,50,.06);
-    }
-
-    .notice {
-      border: 1px solid rgba(214,173,50,.28);
-      background: rgba(214,173,50,.07);
-      color: #f4df9a;
-      border-radius: 16px;
-      padding: 14px;
-      font-size: 13px;
-      line-height: 1.55;
-      margin-bottom: 16px;
-    }
-
-    .message {
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      color: #d8e1ee;
-      border-radius: 16px;
-      padding: 14px;
-      font-size: 13px;
-      line-height: 1.55;
-      margin-bottom: 16px;
-      white-space: pre-wrap;
-    }
-
-    .message.error {
-      border-color: rgba(255,94,94,.36);
-      color: #ffcdcd;
-      background: rgba(255,94,94,.07);
-    }
-
-    .message.success {
-      border-color: rgba(117,255,157,.30);
-      color: #c8ffd6;
-      background: rgba(117,255,157,.07);
-    }
-
-    .preview-header {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
-      align-items: start;
-      margin-bottom: 16px;
-    }
-
-    .selected-meta {
+    .partner-dashboard-header p {
       color: #c8d3e4;
-      font-size: 13px;
-      line-height: 1.7;
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 720px;
+      margin-bottom: 18px;
     }
 
-    .selected-meta strong {
-      color: #d6ad32;
-    }
-
-    .panorama-box {
-      border: 1px solid rgba(214,173,50,.22);
-      background: rgba(255,255,255,.03);
-      border-radius: 18px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-
-    .items {
+    .partner-dashboard-grid {
       display: grid;
+      grid-template-columns: repeat(5, 1fr);
       gap: 14px;
     }
 
-    .item-card {
-      border: 1px solid rgba(214,173,50,.22);
-      background: rgba(255,255,255,.035);
+    .partner-dashboard-card {
+      border: 1px solid rgba(255,255,255,.12);
+      background: #050b16;
       border-radius: 18px;
+      padding: 18px;
+    }
+
+    .partner-dashboard-card small {
+      display: block;
+      color: #9fb0c7;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 9px;
+    }
+
+    .partner-dashboard-card strong {
+      display: block;
+      color: #fff;
+      font-size: 20px;
+      line-height: 1.15;
+    }
+
+    .partner-dashboard-card span {
+      display: block;
+      color: #d6ad32;
+      font-size: 12px;
+      font-weight: 800;
+      margin-top: 8px;
+    }
+
+    .field {
+      border: 1px solid rgba(255,255,255,.11);
+      background: #050b16;
+      border-radius: 15px;
+      padding: 15px;
+    }
+
+    .field small {
+      display: block;
+      color: #9fb0c7;
+      margin-bottom: 7px;
+      font-size: 12px;
+    }
+
+    .field strong {
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .category {
+      border: 1px solid rgba(214,173,50,.25);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #060a12;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .category:hover,
+    .category.active {
+      transform: translateY(-3px);
+      border-color: rgba(214,173,50,.78);
+      box-shadow: 0 16px 34px rgba(214,173,50,.08);
+    }
+
+    .category-img {
+      height: 118px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .category-img::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.56));
+    }
+
+    .category-body {
       padding: 16px;
     }
 
-    .item-top {
-      display: grid;
-      grid-template-columns: 64px 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
-      align-items: end;
+    .category h4 {
+      color: #d6ad32;
+      font-size: 18px;
+      margin-bottom: 8px;
     }
 
-    .number-badge {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      border: 1px solid rgba(214,173,50,.55);
+    .category p {
+      color: #d6dfef;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      margin-top: 12px;
+      align-items: start;
+    }
+
+    .destinations-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .destinations-head {
+      padding: 20px 20px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .destinations-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0 14px;
+    }
+
+    .pill {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+      color: #d8e1ee;
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .pill.gold {
+      border-color: rgba(214,173,50,.45);
       color: #d6ad32;
+      background: rgba(214,173,50,.07);
+    }
+
+    .destination-search {
+      width: 100%;
+      border: 1px solid rgba(214,173,50,.28);
+      background: #050b16;
+      color: #fff;
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .destination-search::placeholder {
+      color: #8792a5;
+    }
+
+    .destination-search:focus {
+      border-color: rgba(214,173,50,.75);
+      box-shadow: 0 0 0 3px rgba(214,173,50,.08);
+    }
+
+    .list-item {
+      padding: 17px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .list-item:hover,
+    .list-item.active {
       background: rgba(214,173,50,.08);
+    }
+
+    .list-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .list-item span {
+      color: #aeb8c8;
+      font-size: 13px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #d6ad32;
+      font-weight: 800;
+    }
+
+    .status::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #d6ad32;
+      display: inline-block;
+    }
+
+    .pagination-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.12);
+    }
+
+    .pagination-row .btn {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .page-info {
+      color: #c8d3e4;
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+      min-width: 90px;
+    }
+
+    .preview-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .viewer {
+      width: min(470px, 100%);
+      min-height: auto;
+      max-height: 690px;
+      background: #f8f6f1;
+      color: #111;
+      border-radius: 18px;
+      overflow: hidden;
+      padding: 26px 28px;
+      position: relative;
+      box-shadow: 0 26px 70px rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.55);
+    }
+
+    .viewer::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(214,173,50,.18);
+      border-radius: 14px;
+      pointer-events: none;
+    }
+
+
+    .business-preview-card {
+      border: 1px solid rgba(214,173,50,.24);
+      border-radius: 16px;
+      background: rgba(255,255,255,.46);
+      padding: 16px;
+      margin: 14px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .business-preview-label {
+      color: #9b7a19;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .business-preview-title {
+      color: #111;
+      font-size: 18px;
+      font-weight: 950;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .business-preview-text {
+      color: #333;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .business-preview-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .business-preview-meta div {
+      border: 1px solid rgba(214,173,50,.20);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,.38);
+    }
+
+    .business-preview-meta small {
+      display: block;
+      color: #8a7a58;
+      font-size: 11px;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      font-weight: 800;
+    }
+
+    .business-preview-meta strong {
+      color: #111;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+
+    .business-content-preview {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 360px;
+      margin: 12px 0 10px;
+      overflow: hidden;
+      border-radius: 16px;
+    }
+
+    .business-preview-controls {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 10px 0 0;
+      padding: 10px;
+      border: 1px solid rgba(214,173,50,.22);
+      border-radius: 14px;
+      background: rgba(255,255,255,.38);
+    }
+
+    .business-preview-controls .btn {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      color: #111;
+      border-color: rgba(214,173,50,.38);
+      background: rgba(255,255,255,.58);
+    }
+
+    .business-preview-controls .btn:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+    }
+
+    .business-preview-page-label {
+      color: #7d6731;
+      font-size: 12px;
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    .business-a4-page {
+      border: 1px solid rgba(214,173,50,.26);
+      border-radius: 18px;
+      background: rgba(255,255,255,.54);
+      padding: 26px;
+      min-height: 560px;
+      width: 128%;
+      flex: 0 0 128%;
+      transform: scale(.78);
+      transform-origin: top center;
+      box-shadow: 0 12px 24px rgba(0,0,0,.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .business-a4-page::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px solid rgba(214,173,50,.13);
+      border-radius: 14px;
+      pointer-events: none;
+    }
+
+    .business-page-kicker {
+      color: #9b7a19;
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .business-page-title {
+      color: #111;
+      font-size: 25px;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .business-city-text {
+      color: #333;
+      font-size: 14px;
+      line-height: 1.75;
+      position: relative;
+      z-index: 1;
+    }
+
+    .business-items-grid {
+      display: grid;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .business-item-card {
+      border: 1px solid rgba(214,173,50,.24);
+      border-radius: 16px;
+      padding: 17px;
+      background: rgba(255,255,255,.55);
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .business-item-number {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(214,173,50,.5);
+      color: #9b7a19;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 950;
+      font-size: 13px;
+      background: rgba(214,173,50,.08);
     }
 
-    .item-fields {
+    .business-item-card h6 {
+      font-size: 16px;
+      line-height: 1.25;
+      color: #111;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+    }
+
+    .business-item-card p {
+      color: #333;
+      font-size: 13px;
+      line-height: 1.58;
+      margin-bottom: 10px;
+    }
+
+    .business-item-details-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+
+    .business-item-detail {
+      color: #333;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .business-item-detail strong {
+      color: #111;
+    }
+
+    .business-page-footer {
+      margin-top: 18px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(214,173,50,.28);
+      color: #777;
+      font-size: 11px;
+      text-align: right;
+      position: relative;
+      z-index: 1;
+    }
+
+
+    .doc-top {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
+      gap: 18px;
+      align-items: center;
+      border-bottom: 2px solid #d6ad32;
+      padding-bottom: 14px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
     }
 
-    .raw-box {
-      margin-top: 16px;
+    .partner-logo-space {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-weight: 900;
+      color: #111;
+      font-size: 18px;
+      line-height: 1.1;
+    }
+
+    .partner-logo-space img {
+      max-width: 170px;
+      max-height: 82px;
+      object-fit: contain;
+    }
+
+    .doc-brand {
+      text-align: right;
+      font-size: 12px;
+      color: #292929;
+      line-height: 1.35;
+    }
+
+    .doc-brand strong {
+      display: inline-block;
+      margin-top: 5px;
+      font-size: 13px;
+    }
+
+    .doc-title {
+      font-size: 36px;
+      font-weight: 950;
+      letter-spacing: 1px;
+      margin-bottom: 7px;
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .doc-subtitle {
+      color: #444;
+      margin-bottom: 16px;
+      font-size: 15px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .doc-block {
+      border: 1px solid #dfcfaa;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      background: rgba(255,255,255,.52);
+      position: relative;
+      z-index: 1;
+    }
+
+    .doc-block h5 {
+      font-size: 19px;
+      margin-bottom: 9px;
+    }
+
+    .doc-block p {
+      font-size: 15px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+
+
+    .partner-summary-block {
       display: none;
     }
 
-    .raw-box.active {
-      display: block;
+    .preview-area .download-row {
+      margin-top: 14px;
     }
 
-    pre {
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      border: 1px solid rgba(255,255,255,.10);
-      background: #050b16;
-      color: #c8d3e4;
-      border-radius: 16px;
-      padding: 16px;
-      max-height: 360px;
-      overflow: auto;
+    .doc-footer {
+      margin-top: 28px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(214,173,50,.35);
+      color: #555;
       font-size: 12px;
-      line-height: 1.5;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .partner-summary-block {
+      display: none;
+    }
+
+    .download-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .pricing-section {
+      margin-top: 30px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 28px;
+    }
+
+    .pricing-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .pricing-header h3 {
+      font-size: 24px;
+      color: #fff;
+    }
+
+    .pricing-header p {
+      color: #c8d3e4;
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 620px;
+    }
+
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .plan {
+      border: 1px solid rgba(255,255,255,.12);
+      background: #050b16;
+      border-radius: 20px;
+      padding: 24px;
+      position: relative;
+    }
+
+    .plan.featured {
+      border-color: rgba(214,173,50,.72);
+      background:
+        radial-gradient(circle at top right, rgba(214,173,50,.16), transparent 32%),
+        #060b15;
+      box-shadow: 0 22px 50px rgba(214,173,50,.10);
+    }
+
+    .badge {
+      display: inline-block;
+      color: #070707;
+      background: linear-gradient(135deg, #e3bd43, #b88712);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .plan h4 {
+      color: #fff;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      color: #d6ad32;
+      font-size: 36px;
+      font-weight: 950;
+      margin-bottom: 5px;
+    }
+
+    .price-note {
+      color: #b9c5d8;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .economy {
+      border: 1px solid rgba(214,173,50,.28);
+      background: rgba(214,173,50,.07);
+      color: #f3d678;
+      border-radius: 14px;
+      padding: 12px;
+      font-weight: 800;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .plan ul {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .plan li {
+      color: #d8e1ee;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .plan li::before {
+      content: "✓";
+      color: #d6ad32;
+      font-weight: 900;
+      margin-right: 8px;
+    }
+
+    .fair-use {
+      margin-top: 18px;
+      border: 1px solid rgba(214,173,50,.22);
+      background: rgba(0,0,0,.18);
+      border-radius: 18px;
+      padding: 18px;
+      color: #c8d3e4;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .fair-use strong {
+      color: #d6ad32;
+    }
+
+    .empty-state,
+    .loading-state {
+      padding: 20px;
+      color: #c8d3e4;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .loading-state {
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      margin-bottom: 22px;
     }
 
     @media (max-width: 1100px) {
-      .layout, .preview-header, .form-grid, .item-fields { grid-template-columns: 1fr; }
-      header { padding: 0 18px; }
+      .grid,
+      .workspace,
+      .plans,
+      .partner-dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .categories {
+        grid-template-columns: 1fr;
+      }
+
+      aside.card {
+        position: static;
+      }
+
+      .viewer {
+        width: 100%;
+      }
+
+      .pricing-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 680px) {
+      header {
+        padding: 0 16px;
+      }
+
+      .brand h1 {
+        font-size: 15px;
+      }
+
+      .brand p {
+        font-size: 11px;
+      }
+
+      .top-actions {
+        gap: 8px;
+      }
+
+      .btn {
+        padding: 11px 14px;
+        font-size: 13px;
+      }
+
+      main {
+        padding: 28px 14px 48px;
+      }
+
+      .hero {
+        padding: 34px 22px;
+      }
+
+      .hero h2 {
+        font-size: 34px;
+      }
+
+      .eyebrow {
+        letter-spacing: 3px;
+      }
+
+      .business-preview-card {
+      border: 1px solid rgba(214,173,50,.24);
+      border-radius: 16px;
+      background: rgba(255,255,255,.46);
+      padding: 16px;
+      margin: 14px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .business-preview-label {
+      color: #9b7a19;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .business-preview-title {
+      color: #111;
+      font-size: 22px;
+      font-weight: 950;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+
+    .business-preview-text {
+      color: #333;
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .business-preview-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .business-preview-meta div {
+      border: 1px solid rgba(214,173,50,.20);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,.38);
+    }
+
+    .business-preview-meta small {
+      display: block;
+      color: #8a7a58;
+      font-size: 11px;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      font-weight: 800;
+    }
+
+    .business-preview-meta strong {
+      color: #111;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+
+    .business-content-preview {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 14px;
+      margin: 18px 0 18px;
+    }
+
+    .business-section-title {
+      color: #9b7a19;
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin: 8px 0 2px;
+    }
+
+    .business-city-text {
+      border: 1px solid rgba(214,173,50,.22);
+      border-radius: 16px;
+      padding: 18px;
+      background: rgba(255,255,255,.44);
+      color: #333;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .business-item-card {
+      border: 1px solid rgba(214,173,50,.24);
+      border-radius: 16px;
+      padding: 18px;
+      background: rgba(255,255,255,.50);
+    }
+
+    .business-item-card h6 {
+      font-size: 17px;
+      line-height: 1.25;
+      color: #111;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    .business-item-card p {
+      color: #333;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .business-item-detail {
+      color: #333;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 7px;
+    }
+
+    .business-item-detail strong {
+      color: #111;
+    }
+
+
+    .doc-top {
+        grid-template-columns: 1fr;
+      }
+
+      .doc-brand {
+        text-align: left;
+      }
+
+      .doc-title {
+        font-size: 36px;
+      }
+
+      .download-row,
+      .pagination-row {
+        flex-direction: column;
+      }
+
+      .price {
+        font-size: 30px;
+      }
     }
   </style>
 </head>
@@ -382,92 +1321,302 @@
       <div class="brand-symbol">✦</div>
       <div>
         <h1>CURADORIA ELITE TRAVEL</h1>
-        <p>Admin interno • Conversão B2B</p>
+        <p>O seu mundo, bem indicado.</p>
       </div>
     </div>
-    <button class="btn" type="button" onclick="window.location.href='ferramentas-test.html'">Ir para Área Partner</button>
+
+    <div class="top-actions">
+      <button class="btn" type="button">Voltar ao site</button>
+      <button class="btn gold" type="button">Sair</button>
+    </div>
   </header>
 
   <main>
     <section class="hero">
-      <div class="eyebrow">Ferramenta interna</div>
-      <h2>Conversor interno para itens B2B</h2>
+      <div class="eyebrow">Curadoria • Parceria • Excelência</div>
+      <h2>Curadoria Elite Travel Partner</h2>
       <p>
-        Esta página não é para empresas parceiras. Ela lê os PDFs já cadastrados em <strong>curadoria_materials</strong>,
-        extrai uma prévia editável e grava os dados estruturados em <strong>b2b_material_items</strong>. Depois disso,
-        a Área Partner passa a usar o banco estruturado em vez de depender do parser do PDF toda vez.
+        Materiais business personalizados para empresas de turismo, hotelaria e experiências de viagem.
+        Selecione uma categoria, escolha o destino e gere uma versão pronta para encaminhar ao cliente,
+        com a identidade da sua empresa em parceria com a Curadoria Elite Travel.
       </p>
     </section>
 
-    <section class="layout">
+    <section class="grid">
       <aside class="card">
-        <h3>Materiais de origem</h3>
-        <p class="sub">Lista carregada da tabela curadoria_materials.</p>
+        <h3>Perfil da empresa</h3>
+        <p class="sub">Dados usados para personalizar os materiais Partner.</p>
 
-        <div class="notice">
-          Use esta tela apenas internamente. Se a gravação falhar, confira se a tabela <strong>b2b_material_items</strong>
-          possui política de INSERT/UPDATE/DELETE para o contexto usado por esta página.
+        <div class="logo-preview" id="logoPreview">
+          Logo da marca apresentada ao cliente
         </div>
 
-        <div class="form-grid">
-          <div>
-            <label for="categoryFilter">Categoria</label>
-            <select id="categoryFilter">
-              <option value="Atrações Turísticas">Atrações Turísticas</option>
-            </select>
+        <input type="file" id="logoInput" accept="image/*" />
+
+        <div class="company-box">
+          <div class="form-group">
+            <label for="partnerCompanyInput">Empresa parceira</label>
+            <input class="partner-input" id="partnerCompanyInput" type="text" value="Ten Group Brasil" placeholder="Ex.: Ten Group Brasil" />
           </div>
-          <div>
-            <label for="yearFilter">Ano</label>
-            <input id="yearFilter" type="text" value="2026" />
+
+          <div class="form-group">
+            <label for="clientBrandInput">Marca apresentada ao cliente</label>
+            <input class="partner-input" id="clientBrandInput" type="text" value="Mastercard Concierge" placeholder="Ex.: Mastercard Concierge" />
+          </div>
+
+          <div class="field">
+            <small>Status</small>
+            <strong>Partner ativo</strong>
+          </div>
+
+          <div class="field">
+            <small>Plano</small>
+            <strong>Partner Access</strong>
+          </div>
+
+          <div class="field">
+            <small>Uso permitido</small>
+            <strong>Envio para clientes da empresa</strong>
           </div>
         </div>
 
-        <label for="searchInput">Buscar destino</label>
-        <input id="searchInput" type="search" placeholder="Ex.: Paris, Orlando, Buenos Aires..." />
+        <div class="client-personalization">
+          <button class="btn client-personalization-toggle" id="toggleClientPersonalization" type="button">
+            Personalizar para cliente
+          </button>
 
-        <div class="toolbar" style="margin-top:14px;">
-          <button class="btn gold" id="loadMaterialsButton" type="button">Carregar materiais</button>
-          <button class="btn" id="clearPreviewButton" type="button">Limpar prévia</button>
+          <div class="client-personalization-panel" id="clientPersonalizationPanel">
+            <div class="form-group">
+              <label for="clientGreetingType">Saudação</label>
+              <select class="partner-select" id="clientGreetingType">
+                <option value="neutral">Prezado(a)</option>
+                <option value="male">Prezado Sr.</option>
+                <option value="female">Prezada Sra.</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="clientNameInput">Nome do cliente</label>
+              <input class="partner-input" id="clientNameInput" type="text" placeholder="Ex.: Carlos Eduardo" />
+            </div>
+
+            <div class="form-group">
+              <label for="clientMessageInput">Saudação breve opcional</label>
+              <textarea class="partner-textarea" id="clientMessageInput" placeholder="Ex.: Preparamos esta seleção para apoiar sua experiência durante a viagem."></textarea>
+            </div>
+
+            <div class="client-preview-box" id="clientGreetingPreview">
+              <strong>Prévia:</strong><br>
+              O material seguirá no modelo business padrão até que os dados do cliente sejam preenchidos.
+            </div>
+
+            <div class="client-actions">
+              <button class="btn gold" id="applyClientPersonalization" type="button">Aplicar</button>
+              <button class="btn" id="clearClientPersonalization" type="button">Limpar</button>
+            </div>
+
+            <div class="client-delivery-box">
+              <div class="form-group">
+                <label for="clientEmailInput">E-mail do cliente</label>
+                <input class="partner-input" id="clientEmailInput" type="email" placeholder="cliente@email.com" autocomplete="email" />
+              </div>
+
+              <p class="client-delivery-note">
+                Envie a versão business personalizada diretamente para o cliente, sem precisar baixar o arquivo.
+              </p>
+
+              <div class="client-delivery-actions">
+                <button class="btn gold" id="sendClientEmailButton" type="button">Enviar por e-mail</button>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div id="sidebarMessage" class="message">Clique em carregar materiais para começar.</div>
-        <div id="materialsList" class="materials-list"></div>
       </aside>
 
       <section class="card">
-        <div class="preview-header">
-          <div>
-            <h3>Prévia editável</h3>
-            <p class="sub">Revise antes de salvar. O objetivo é corrigir aqui qualquer título que o PDF não entregue bem.</p>
-            <div class="selected-meta" id="selectedMeta">Nenhum material selecionado.</div>
+        <h3>Materiais Partner</h3>
+        <p class="sub">Escolha uma categoria para visualizar os destinos disponíveis.</p>
+
+        <div id="materialsLoading" class="loading-state">
+          Carregando materiais Partner do Supabase...
+        </div>
+
+        <div class="categories" id="categoriesContainer"></div>
+
+        <div class="workspace">
+          <div class="card destinations-card">
+            <div class="destinations-head">
+              <h3 id="categoryTitle">Materiais</h3>
+              <p class="sub">Destinos disponíveis</p>
+
+              <div class="destinations-meta">
+                <span class="pill gold" id="totalDestinationsPill">0 destinos</span>
+                <span class="pill" id="showingDestinationsPill">Mostrando 0</span>
+              </div>
+
+              <input
+                class="destination-search"
+                id="destinationSearchInput"
+                type="search"
+                placeholder="Buscar destino..."
+                autocomplete="off"
+              />
+            </div>
+
+            <div id="destinationsContainer">
+              <div class="empty-state">
+                Selecione uma categoria para visualizar os destinos disponíveis.
+              </div>
+            </div>
+
+            <div class="pagination-row" id="paginationRow" style="display:none;">
+              <button class="btn" id="prevPageButton" type="button">← Anterior</button>
+              <div class="page-info" id="pageInfo">Página 1 de 1</div>
+              <button class="btn" id="nextPageButton" type="button">Próxima →</button>
+            </div>
           </div>
 
-          <div class="toolbar">
-            <button class="btn gold" id="extractButton" type="button" disabled>Ler PDF</button>
-            <button class="btn" id="saveButton" type="button" disabled>Salvar em b2b_material_items</button>
-            <button class="btn danger" id="replaceButton" type="button" disabled>Substituir registros existentes</button>
+          <div class="preview-area">
+            <div class="viewer">
+              <div class="doc-top">
+                <div class="partner-logo-space" id="docLogoText">
+                  LOGO DA<br>EMPRESA
+                </div>
+
+                <div class="doc-brand">
+                  Curadoria desenvolvida em parceria com<br>
+                  <strong>Curadoria Elite Travel</strong>
+                </div>
+              </div>
+
+              <div class="doc-title" id="docTitle">MATERIAL</div>
+              <div class="doc-subtitle" id="docSubtitle">Selecione uma categoria e destino</div>
+
+              <div class="business-preview-card">
+                <div class="business-preview-label">Versão Business Partner</div>
+                <div class="business-preview-title" id="businessPreviewTitle">Material identificado no acervo</div>
+                <p class="business-preview-text" id="businessPreviewText">
+                  Selecione um destino para gerar uma apresentação business limpa, objetiva e personalizada para uso profissional da empresa parceira.
+                </p>
+                <div class="business-preview-meta">
+                  <div>
+                    <small>Formato</small>
+                    <strong>Business clean</strong>
+                  </div>
+                  <div>
+                    <small>Origem</small>
+                    <strong>Acervo Curadoria</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div id="personalizedCoverPreviewBlock"></div>
+
+              <div class="business-content-preview" id="businessContentPreview">
+                <section class="business-a4-page">
+                  <div class="business-page-kicker">Prévia Business Partner</div>
+                  <h5 class="business-page-title">Material aguardando seleção</h5>
+                  <div class="business-city-text">
+                    Selecione um destino para visualizar a versão business em páginas organizadas.
+                  </div>
+                  <div class="business-page-footer">Curadoria Elite Travel Partner</div>
+                </section>
+              </div>
+
+              <div class="business-preview-controls" id="businessPreviewControls" style="display:none;">
+                <button class="btn" id="businessPreviewPrev" type="button">← Página anterior</button>
+                <div class="business-preview-page-label" id="businessPreviewPageLabel">Página 1 de 1</div>
+                <button class="btn" id="businessPreviewNext" type="button">Próxima página →</button>
+              </div>
+
+              <div class="doc-block partner-summary-block">
+                <h5>Seleção premium organizada</h5>
+                <p>
+                  Material estruturado para envio direto ao cliente, com informações objetivas,
+                  linguagem profissional e apresentação elegante.
+                </p>
+              </div>
+
+              <div class="doc-block partner-summary-block">
+                <h5>Formato business</h5>
+                <p>
+                  Versão mais limpa, prática e funcional, mantendo a curadoria como diferencial principal.
+                </p>
+              </div>
+
+              <div class="doc-block partner-summary-block">
+                <h5>Parceria</h5>
+                <p>
+                  Documento personalizado com a identidade da empresa parceira e assinatura discreta
+                  da Curadoria Elite Travel.
+                </p>
+              </div>
+
+              <div class="doc-footer">
+                Material Partner • Uso autorizado para clientes da empresa parceira
+              </div>
+            </div>
+
+            <div class="download-row">
+              <button class="btn gold" id="downloadButton" type="button">
+                Baixar versão personalizada
+              </button>
+
+              <button class="btn" id="previewButton" type="button">
+                Visualizar material
+              </button>
+            </div>
           </div>
         </div>
 
-        <div id="mainMessage" class="message">
-          Selecione um material à esquerda e clique em “Ler PDF”.
-        </div>
+        <section class="partner-dashboard-section">
+          <div class="partner-dashboard-header">
+            <h3>Dashboard Partner</h3>
+            <p>
+              Acompanhe o uso da empresa, os limites mensais de downloads e envios por e-mail, além do status do plano ativo.
+              Os valores de assinatura ficam na tela de contratação; aqui aparece apenas a operação da empresa logada.
+            </p>
+          </div>
 
-        <div class="panorama-box">
-          <label for="panoramaInput">Panorama</label>
-          <textarea id="panoramaInput" placeholder="O panorama extraído aparecerá aqui para revisão."></textarea>
-        </div>
+          <div class="partner-dashboard-grid">
+            <div class="partner-dashboard-card">
+              <small>Plano ativo</small>
+              <strong>Partner Access</strong>
+              <span>Status ativo</span>
+            </div>
 
-        <div id="itemsContainer" class="items"></div>
+            <div class="partner-dashboard-card">
+              <small>Downloads do mês</small>
+              <strong id="dashboardDownloadsCount">12 de 30</strong>
+              <span>Materiais baixados</span>
+            </div>
 
-        <div class="toolbar" style="margin-top:16px;">
-          <button class="btn" id="addItemButton" type="button">Adicionar indicação manual</button>
-          <button class="btn" id="toggleRawButton" type="button">Mostrar/Ocultar texto bruto</button>
-        </div>
+            <div class="partner-dashboard-card">
+              <small>Envios por e-mail</small>
+              <strong id="dashboardEmailsCount">0 de 100</strong>
+              <span>Envio ao cliente</span>
+            </div>
 
-        <div class="raw-box" id="rawBox">
-          <pre id="rawText"></pre>
-        </div>
+            <div class="partner-dashboard-card">
+              <small>Renovação</small>
+              <strong>12/08/2026</strong>
+              <span>Ciclo mensal</span>
+            </div>
+
+            <div class="partner-dashboard-card">
+              <small>Acervo disponível</small>
+              <strong id="dashboardMaterialsCount">--</strong>
+              <span>Materiais Partner</span>
+            </div>
+          </div>
+
+          <div class="fair-use">
+            <strong>Política de uso profissional:</strong>
+            para garantir estabilidade e qualidade operacional da plataforma Partner,
+            o plano contempla uma capacidade mensal compatível com o uso profissional da empresa parceira.
+          </div>
+        </section>
+        </section>
       </section>
     </section>
   </main>
@@ -477,20 +1626,121 @@
 
   <script>
     const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
+
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     if (window.pdfjsLib) {
       pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
     }
 
+    const ITEMS_PER_PAGE = 10;
+    const MONTHLY_DOWNLOAD_LIMIT = 30;
+    const MONTHLY_EMAIL_LIMIT = 100;
+
+    let monthlyDownloads = Number(localStorage.getItem("partnerMonthlyDownloads") || "12");
+    let monthlyEmailSends = Number(localStorage.getItem("partnerMonthlyEmailSends") || "0");
+
     let allMaterials = [];
+    let currentCategory = "";
+    let currentCategoryMaterials = [];
+    let filteredMaterials = [];
+    let currentPage = 1;
     let selectedMaterial = null;
-    let extractedItems = [];
-    let extractedRawText = "";
+    const businessContentCache = {};
+    const businessContentLoading = {};
+    let businessPreviewPages = [];
+    let businessPreviewPageIndex = 0;
+    let partnerLogoDataUrl = "";
+    let partnerCompanyName = "Ten Group Brasil";
+    let clientBrandName = "Mastercard Concierge";
+    let clientPersonalization = {
+      enabled: false,
+      greetingType: "neutral",
+      name: "",
+      message: ""
+    };
+
+    function updatePartnerUsageDashboard() {
+      const downloadsCount = document.getElementById("dashboardDownloadsCount");
+      const emailsCount = document.getElementById("dashboardEmailsCount");
+
+      if (downloadsCount) {
+        downloadsCount.textContent = `${monthlyDownloads} de ${MONTHLY_DOWNLOAD_LIMIT}`;
+      }
+
+      if (emailsCount) {
+        emailsCount.textContent = `${monthlyEmailSends} de ${MONTHLY_EMAIL_LIMIT}`;
+      }
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function registerPartnerDownload() {
+      if (monthlyDownloads >= MONTHLY_DOWNLOAD_LIMIT) {
+        alert("O limite mensal de downloads foi atingido para este ciclo.");
+        return false;
+      }
+
+      monthlyDownloads += 1;
+      localStorage.setItem("partnerMonthlyDownloads", String(monthlyDownloads));
+      updatePartnerUsageDashboard();
+      return true;
+    }
+
+    function registerPartnerEmailSend() {
+      if (monthlyEmailSends >= MONTHLY_EMAIL_LIMIT) {
+        alert("O limite mensal de envios por e-mail foi atingido para este ciclo.");
+        return false;
+      }
+
+      monthlyEmailSends += 1;
+      localStorage.setItem("partnerMonthlyEmailSends", String(monthlyEmailSends));
+      updatePartnerUsageDashboard();
+      return true;
+    }
+
+    const categoryVisuals = {
+      "City Guide": {
+        image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=900&q=80",
+        description: "Orientação clara e objetiva para apresentar o destino."
+      },
+      "Gastronomia": {
+        image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80",
+        description: "Seleções organizadas para diferentes perfis de viajantes."
+      },
+      "Atrações Turísticas": {
+        image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+        description: "Pontos essenciais organizados com critério e contexto."
+      },
+      "Vida Noturna": {
+        image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=900&q=80",
+        description: "Experiências noturnas em versão business premium."
+      },
+      "Endereços para Compras": {
+        image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80",
+        description: "Regiões e endereços selecionados para compras no destino."
+      },
+      "Sugestão de Presentes": {
+        image: "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=900&q=80",
+        description: "Ideias refinadas para escolhas práticas e elegantes."
+      }
+    };
+
+    const categoryOrder = [
+      "City Guide",
+      "Gastronomia",
+      "Atrações Turísticas",
+      "Vida Noturna",
+      "Endereços para Compras",
+      "Sugestão de Presentes"
+    ];
 
     function normalizeCategoryName(category) {
       if (!category) return "Material";
+
       const categoryMap = {
         "city-guide": "City Guide",
         "city guide": "City Guide",
@@ -512,13 +1762,282 @@
       return categoryMap[normalizedKey] || category;
     }
 
-    function cleanExtractedValue(value) {
-      return String(value || "")
-        .replace(/\s+/g, " ")
-        .replace(/\s+([,.;:])/g, "$1")
-        .replace(/\bGratuit\b/gi, "Gratuita")
-        .replace(/\bGratuita\./gi, "Gratuita")
-        .trim();
+    function getCategoryVisual(category) {
+      const normalized = normalizeCategoryName(category);
+
+      return categoryVisuals[normalized] || {
+        image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=900&q=80",
+        description: "Material business disponível para personalização."
+      };
+    }
+
+    function getMaterialKey(material) {
+      return String(material.id || `${material.category}-${material.city_label}-${material.pdf_url}`);
+    }
+
+    function setLoadingState(isLoading, message) {
+      const loading = document.getElementById("materialsLoading");
+
+      if (!loading) return;
+
+      if (isLoading) {
+        loading.style.display = "block";
+        loading.textContent = message || "Carregando materiais Partner do Supabase...";
+      } else {
+        loading.style.display = "none";
+      }
+    }
+
+    async function loadMaterialsFromSupabase() {
+      setLoadingState(true, "Carregando materiais Partner do Supabase...");
+
+      const { data, error } = await supabaseClient
+        .from("curadoria_materials")
+        .select("id, category, city_label, pdf_url, year")
+        .order("category", { ascending: true })
+        .order("city_label", { ascending: true });
+
+      if (error) {
+        console.error("Erro ao carregar materiais:", error);
+        setLoadingState(true, "Não foi possível carregar os materiais. Verifique as permissões da tabela no Supabase.");
+        return;
+      }
+
+      allMaterials = (data || []).filter(function(item) {
+        return item.category && item.city_label && item.pdf_url;
+      });
+
+      if (!allMaterials.length) {
+        setLoadingState(true, "Nenhum material encontrado na tabela curadoria_materials.");
+        return;
+      }
+
+      const dashboardMaterialsCount = document.getElementById("dashboardMaterialsCount");
+      if (dashboardMaterialsCount) {
+        dashboardMaterialsCount.textContent = String(allMaterials.length);
+      }
+
+      setLoadingState(false);
+      renderCategories();
+
+      const firstCategory = getUniqueCategories()[0];
+      selectCategory(firstCategory);
+    }
+
+    function getUniqueCategories() {
+      const categories = allMaterials.map(function(item) {
+        return normalizeCategoryName(item.category);
+      });
+
+      const uniqueCategories = [...new Set(categories)];
+
+      uniqueCategories.sort(function(a, b) {
+        const indexA = categoryOrder.indexOf(a);
+        const indexB = categoryOrder.indexOf(b);
+
+        if (indexA === -1 && indexB === -1) return a.localeCompare(b);
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+
+        return indexA - indexB;
+      });
+
+      return uniqueCategories;
+    }
+
+    function renderCategories() {
+      const container = document.getElementById("categoriesContainer");
+
+      if (!container) return;
+
+      container.innerHTML = "";
+
+      const categories = getUniqueCategories();
+
+      categories.forEach(function(category, index) {
+        const visual = getCategoryVisual(category);
+
+        const card = document.createElement("div");
+        card.className = "category" + (index === 0 ? " active" : "");
+        card.dataset.category = category;
+
+        card.innerHTML = `
+          <div class="category-img" style="background-image: url('${visual.image}');"></div>
+          <div class="category-body">
+            <h4>${category}</h4>
+            <p>${visual.description}</p>
+          </div>
+        `;
+
+        card.addEventListener("click", function() {
+          selectCategory(category);
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    function selectCategory(category) {
+      const normalizedCategory = normalizeCategoryName(category);
+      currentCategory = normalizedCategory;
+      currentPage = 1;
+
+      const searchInput = document.getElementById("destinationSearchInput");
+
+      if (searchInput) {
+        searchInput.value = "";
+      }
+
+      document.querySelectorAll(".category").forEach(function(card) {
+        card.classList.remove("active");
+
+        if (card.dataset.category === normalizedCategory) {
+          card.classList.add("active");
+        }
+      });
+
+      const categoryTitle = document.getElementById("categoryTitle");
+
+      if (categoryTitle) {
+        categoryTitle.innerText = normalizedCategory;
+      }
+
+      currentCategoryMaterials = allMaterials.filter(function(item) {
+        return normalizeCategoryName(item.category) === normalizedCategory;
+      });
+
+      filteredMaterials = currentCategoryMaterials.slice();
+      renderDestinationsPage();
+
+      if (filteredMaterials.length) {
+        selectMaterial(filteredMaterials[0]);
+      }
+    }
+
+    function filterDestinations() {
+      const searchInput = document.getElementById("destinationSearchInput");
+      const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+      currentPage = 1;
+
+      filteredMaterials = currentCategoryMaterials.filter(function(material) {
+        return String(material.city_label || "").toLowerCase().includes(query);
+      });
+
+      renderDestinationsPage();
+
+      if (filteredMaterials.length) {
+        selectMaterial(filteredMaterials[0]);
+      }
+    }
+
+    function renderDestinationsPage() {
+      const container = document.getElementById("destinationsContainer");
+      const paginationRow = document.getElementById("paginationRow");
+      const totalPill = document.getElementById("totalDestinationsPill");
+      const showingPill = document.getElementById("showingDestinationsPill");
+      const pageInfo = document.getElementById("pageInfo");
+      const prevButton = document.getElementById("prevPageButton");
+      const nextButton = document.getElementById("nextPageButton");
+
+      if (!container) return;
+
+      container.innerHTML = "";
+
+      const totalItems = filteredMaterials.length;
+      const totalPages = Math.max(1, Math.ceil(totalItems / ITEMS_PER_PAGE));
+
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      const endIndex = startIndex + ITEMS_PER_PAGE;
+      const pageMaterials = filteredMaterials.slice(startIndex, endIndex);
+
+      if (totalPill) {
+        totalPill.textContent = `${currentCategoryMaterials.length} destino${currentCategoryMaterials.length === 1 ? "" : "s"}`;
+      }
+
+      if (showingPill) {
+        showingPill.textContent = totalItems
+          ? `Mostrando ${startIndex + 1}-${Math.min(endIndex, totalItems)} de ${totalItems}`
+          : "Mostrando 0";
+      }
+
+      if (!pageMaterials.length) {
+        container.innerHTML = `
+          <div class="empty-state">
+            Nenhum destino encontrado nesta categoria.
+          </div>
+        `;
+      } else {
+        pageMaterials.forEach(function(material, index) {
+          const item = document.createElement("div");
+          const materialKey = getMaterialKey(material);
+          const selectedKey = selectedMaterial ? getMaterialKey(selectedMaterial) : "";
+
+          item.className = "list-item" + (materialKey === selectedKey || index === 0 ? " active" : "");
+          item.dataset.materialKey = materialKey;
+
+          item.innerHTML = `
+            <strong>${material.city_label}</strong>
+            <span>Disponível para personalização${material.year ? " • " + material.year : ""}</span>
+            <div class="status">Disponível</div>
+          `;
+
+          item.addEventListener("click", function() {
+            document.querySelectorAll(".list-item").forEach(function(destinationItem) {
+              destinationItem.classList.remove("active");
+            });
+
+            item.classList.add("active");
+            selectMaterial(material);
+          });
+
+          container.appendChild(item);
+        });
+      }
+
+      if (paginationRow) {
+        paginationRow.style.display = totalItems > ITEMS_PER_PAGE ? "flex" : "none";
+      }
+
+      if (pageInfo) {
+        pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+      }
+
+      if (prevButton) {
+        prevButton.disabled = currentPage <= 1;
+      }
+
+      if (nextButton) {
+        nextButton.disabled = currentPage >= totalPages;
+      }
+    }
+
+    function changePage(direction) {
+      const totalPages = Math.max(1, Math.ceil(filteredMaterials.length / ITEMS_PER_PAGE));
+      currentPage = currentPage + direction;
+
+      if (currentPage < 1) currentPage = 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      renderDestinationsPage();
+
+      const firstVisible = document.querySelector(".list-item");
+
+      if (firstVisible) {
+        firstVisible.click();
+      }
+    }
+
+
+    function isAttractionsMaterial(material) {
+      return normalizeCategoryName(material && material.category) === "Atrações Turísticas";
+    }
+
+    function getBusinessContentCacheKey(material) {
+      return String(material && (material.id || `${material.category}-${material.city_label}-${material.pdf_url}`));
     }
 
     function normalizeExtractedPdfText(text) {
@@ -529,32 +2048,12 @@
         .trim();
     }
 
-    function normalizeForSearch(value) {
-      return cleanExtractedValue(value)
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toUpperCase();
-    }
-
-    function escapeHtml(value) {
+    function cleanExtractedValue(value) {
       return String(value || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    function setSidebarMessage(message, type) {
-      const element = document.getElementById("sidebarMessage");
-      element.className = "message" + (type ? " " + type : "");
-      element.textContent = message;
-    }
-
-    function setMainMessage(message, type) {
-      const element = document.getElementById("mainMessage");
-      element.className = "message" + (type ? " " + type : "");
-      element.textContent = message;
+        .replace(/\s+/g, " ")
+        .replace(/\s+([,.;:])/g, "$1")
+        .replace(/\bGratuit\b/gi, "Gratuita")
+        .trim();
     }
 
     function groupPdfTextItemsByRows(textItems) {
@@ -597,7 +2096,9 @@
     }
 
     async function extractPdfTextFromUrl(pdfUrl, pageStart, pageEnd) {
-      if (!window.pdfjsLib) throw new Error("PDF.js não foi carregado.");
+      if (!window.pdfjsLib) {
+        throw new Error("PDF.js não foi carregado.");
+      }
 
       const loadingTask = pdfjsLib.getDocument({
         url: pdfUrl,
@@ -619,6 +2120,111 @@
       }
 
       return normalizeExtractedPdfText(pages.join("\n\n"));
+    }
+
+    function extractPanoramaFromText(text, city) {
+      const cleaned = normalizeExtractedPdfText(text);
+      const cityName = cleanExtractedValue(String(city || "").split(" - ")[0]);
+
+      function cleanPanoramaCandidate(candidate) {
+        let value = cleanExtractedValue(candidate)
+          .replace(/Cart[aã]o Postal Vivo/gi, "")
+          .replace(/A Arte dos Destinos/gi, "")
+          .replace(/Lugares que inspiram\s+olhares,?\s+momentos que\s+conquistam cora[cç][õo]es/gi, "")
+          .replace(/Lugares que inspiram/gi, "")
+          .replace(/olhares,?\s+momentos que/gi, "")
+          .replace(/conquistam cora[cç][õo]es/gi, "")
+          .trim();
+
+        if (cityName) {
+          const cityIndex = value.toLowerCase().indexOf(cityName.toLowerCase());
+          if (cityIndex >= 0) {
+            value = value.slice(cityIndex).trim();
+          }
+        }
+
+        value = value
+          .split(/(?:\b(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:|SAGRADA FAM[IÍ]LIA|PARK G[ÜU]ELL|CASA BATLL[ÓO]|LA PEDRERA|BAIRRO G[ÓO]TICO)\b|PONTOS\s+TUR[IÍ]STICOS?|PONTOS\s+TURISTICOS?|CURADORIA\s+ELITE\s+TRAVEL|Mais que paisagens|Porque o verdadeiro destino|Lugares que inspiram)/i)[0]
+          .trim();
+
+        return cleanExtractedValue(value);
+      }
+
+      const beforeFirstDescription = cleaned.split(/Descri[cç][aã]o\s*:/i)[0] || cleaned;
+      const lines = beforeFirstDescription
+        .split("\n")
+        .map(cleanExtractedValue)
+        .filter(Boolean);
+
+      if (cityName) {
+        const startIndex = lines.findIndex(function(line) {
+          return line.toLowerCase().includes(cityName.toLowerCase()) &&
+            !/^\s*(?:categoria|destino|material|www|atra[cç][õo]es|pontos)/i.test(line);
+        });
+
+        if (startIndex >= 0) {
+          const collected = [];
+
+          for (let index = startIndex; index < lines.length; index += 1) {
+            const line = lines[index];
+
+            if (/^\s*(?:CURADORIA|ELITE TRAVEL|PONTOS TUR|Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:)/i.test(line)) {
+              break;
+            }
+
+            if (/^(?:Lugares que inspiram|olhares,? momentos|conquistam cora[cç][õo]es)$/i.test(line)) {
+              continue;
+            }
+
+            collected.push(line);
+          }
+
+          const panorama = cleanPanoramaCandidate(collected.join(" "));
+          if (panorama.length > 120) {
+            return panorama;
+          }
+        }
+      }
+
+      const panoramaMatch = cleaned.match(/(?:Cart[aã]o Postal Vivo|A Arte dos Destinos|panorama(?: da cidade)?|intro|introdução)\s+([\s\S]{120,1600}?)(?=\n\s*(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:))/i);
+
+      if (panoramaMatch && panoramaMatch[1]) {
+        const panorama = cleanPanoramaCandidate(panoramaMatch[1]);
+        if (panorama.length > 120) {
+          return panorama;
+        }
+      }
+
+      const paragraphs = cleaned
+        .split(/\n{2,}/)
+        .map(function(paragraph) { return cleanPanoramaCandidate(paragraph); })
+        .filter(function(paragraph) {
+          return paragraph.length > 160 &&
+            !/^(nome|descrição|endereço|site|entrada|indicações|www\.|https?:\/\/)/i.test(paragraph) &&
+            !/curadoria elite travel/i.test(paragraph) &&
+            !/^um brinde/i.test(paragraph) &&
+            !/^seu guia/i.test(paragraph);
+        });
+
+      return paragraphs[0] || `${city || "O destino selecionado"} reúne experiências selecionadas com foco em praticidade, clareza e orientação profissional para apoiar empresas parceiras no atendimento aos seus clientes.`;
+    }
+
+    function isLikelyAttractionName(line) {
+      const value = cleanExtractedValue(line)
+        .replace(/^(nome\s*:\s*)/i, "")
+        .trim();
+
+      if (!value || value.length < 4 || value.length > 90) return false;
+      if (isInvalidAttractionNameCandidate(value)) return false;
+      if (/^(descri[cç][aã]o|endere[cç]o|site|entrada|p[áa]gina|curadoria|elite travel|travel|pontos tur[ií]sticos|atra[cç][õo]es tur[ií]sticas|porque|mais que|cada p[áa]gina|by curadoria|www\.|https?:)/i.test(value)) return false;
+      if (/\d{2,}|@|\.com|curadoriaelitetravel|instagram|linkedin/i.test(value)) return false;
+      if (/[.!?]$/.test(value)) return false;
+
+      const letters = value.replace(/[^A-Za-zÀ-ÿ]/g, "");
+      if (!letters) return false;
+
+      const upperLetters = letters.replace(/[a-zà-ÿ]/g, "").length;
+      return upperLetters / letters.length > 0.62;
     }
 
     function cleanAttractionsExtractionText(text) {
@@ -647,6 +2253,13 @@
         .join("\n");
     }
 
+    function normalizeForSearch(value) {
+      return cleanExtractedValue(value)
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase();
+    }
+
     function isInvalidAttractionNameCandidate(value) {
       const text = cleanExtractedValue(value);
       const normalized = normalizeForSearch(text);
@@ -661,40 +2274,72 @@
       return false;
     }
 
-    function isLikelyAttractionName(line) {
-      const value = cleanExtractedValue(line)
-        .replace(/^(nome\s*:\s*)/i, "")
-        .trim();
-
-      if (!value || value.length < 4 || value.length > 90) return false;
-      if (isInvalidAttractionNameCandidate(value)) return false;
-      if (/^(descri[cç][aã]o|endere[cç]o|site|entrada|p[áa]gina|curadoria|elite travel|travel|pontos tur[ií]sticos|atra[cç][õo]es tur[ií]sticas|porque|mais que|cada p[áa]gina|by curadoria|www\.|https?:)/i.test(value)) return false;
-      if (/\d{2,}|@|\.com|curadoriaelitetravel|instagram|linkedin/i.test(value)) return false;
-      if (/[.!?]$/.test(value)) return false;
-
-      const letters = value.replace(/[^A-Za-zÀ-ÿ]/g, "");
-      if (!letters) return false;
-
-      const upperLetters = letters.replace(/[a-zà-ÿ]/g, "").length;
-      return upperLetters / letters.length > 0.58;
-    }
-
     function getKnownAttractionNamesForCity(city) {
       const normalizedCity = normalizeForSearch(city || "");
 
       if (normalizedCity.includes("BARCELONA")) {
-        return ["SAGRADA FAMÍLIA","PARK GÜELL","CASA BATLLÓ","LA PEDRERA (CASA MILÀ)","BAIRRO GÓTICO","MERCADO DE LA BOQUERIA","MUSEU PICASSO","FONTE MÁGICA DE MONTJUÏC","BUNKERS DEL CARMEL","RECINTO MODERNISTA DE SANT PAU","LABERINT D'HORTA","FABRA I COATS"];
+        return [
+          "SAGRADA FAMÍLIA",
+          "PARK GÜELL",
+          "CASA BATLLÓ",
+          "LA PEDRERA (CASA MILÀ)",
+          "BAIRRO GÓTICO",
+          "MERCADO DE LA BOQUERIA",
+          "MUSEU PICASSO",
+          "FONTE MÁGICA DE MONTJUÏC",
+          "BUNKERS DEL CARMEL",
+          "RECINTO MODERNISTA DE SANT PAU",
+          "LABERINT D'HORTA",
+          "FABRA I COATS"
+        ];
       }
 
       if (normalizedCity.includes("NEW YORK") || normalizedCity.includes("NOVA YORK")) {
-        return ["EMPIRE STATE BUILDING","ESTÁTUA DA LIBERDADE","METROPOLITAN MUSEUM OF ART (THE MET)","TOP OF THE ROCK","CENTRAL PARK ZOO","BROOKLYN BRIDGE","SUMMIT ONE VANDERBILT","LITTLE ISLAND","THE MET CLOISTERS","THE VESSEL","ROOSEVELT ISLAND TRAMWAY","THE HIGH LINE"];
+        return [
+          "EMPIRE STATE BUILDING",
+          "ESTÁTUA DA LIBERDADE",
+          "METROPOLITAN MUSEUM OF ART (THE MET)",
+          "TOP OF THE ROCK",
+          "CENTRAL PARK ZOO",
+          "BROOKLYN BRIDGE",
+          "SUMMIT ONE VANDERBILT",
+          "LITTLE ISLAND",
+          "THE MET CLOISTERS",
+          "THE VESSEL",
+          "ROOSEVELT ISLAND TRAMWAY",
+          "THE HIGH LINE"
+        ];
       }
 
       if (normalizedCity.includes("PARIS")) {
-        return ["TORRE EIFFEL","MUSEU DO LOUVRE","ARCO DO TRIUNFO","SACRÉ-CŒUR","MUSEU D'ORSAY","CATEDRAL DE NOTRE-DAME","SAINTE-CHAPELLE","PANTEÃO","ATELIER DES LUMIÈRES","CANAL SAINT-MARTIN","MUSÉE DE LA CHASSE","LA PETITE CEINTURE"];
+        return [
+          "TORRE EIFFEL",
+          "MUSEU DO LOUVRE",
+          "ARCO DO TRIUNFO",
+          "SACRÉ-CŒUR",
+          "MUSEU D'ORSAY",
+          "CATEDRAL DE NOTRE-DAME",
+          "SAINTE-CHAPELLE",
+          "PANTEÃO",
+          "ATELIER DES LUMIÈRES",
+          "CANAL SAINT-MARTIN",
+          "MUSÉE DE LA CHASSE",
+          "LA PETITE CEINTURE"
+        ];
       }
 
       return [];
+    }
+
+    function extractKnownNamesInConfiguredOrder(text, city) {
+      const knownNames = getKnownAttractionNamesForCity(city);
+      if (!knownNames.length) return [];
+
+      const normalizedText = normalizeForSearch(text);
+
+      return knownNames.filter(function(name) {
+        return normalizedText.includes(normalizeForSearch(name));
+      });
     }
 
     function extractCandidateNamesInTextOrder(text) {
@@ -711,14 +2356,6 @@
         });
 
       return names;
-    }
-
-    function normalizeSiteValue(value) {
-      return cleanExtractedValue(value)
-        .replace(/\s+/g, "")
-        .replace(/https:\/\/https:\/\//gi, "https://")
-        .replace(/http:\/\/http:\/\//gi, "http://")
-        .replace(/visite\s*s-guiadas/i, "visites-guiades");
     }
 
     function removeTrailingAttractionNamesFromField(value, knownNames) {
@@ -739,11 +2376,19 @@
         .trim();
     }
 
+    function normalizeSiteValue(value) {
+      return cleanExtractedValue(value)
+        .replace(/\s+/g, "")
+        .replace(/https:\/\/https:\/\//gi, "https://")
+        .replace(/http:\/\/http:\/\//gi, "http://")
+        .replace(/visite\s*s-guiadas/i, "visites-guiades");
+    }
+
     function splitEntryPriceAndTrailingText(value, knownNames) {
       const text = cleanExtractedValue(value);
       if (!text) return { price: "", trailingText: "" };
 
-      const pricePattern = /(a partir de\s*(?:US\$|R\$|€|MXN)?\s*[\d.,]+(?:\s*\([^)]*\))?|gratuita?|entrada gratuita|sob consulta)/i;
+      const pricePattern = /(a partir de\s*(?:US\$|R\$|€)?\s*[\d.,]+(?:\s*\([^)]*\))?|gratuita?|entrada gratuita|sob consulta)/i;
       const match = text.match(pricePattern);
 
       if (!match) {
@@ -757,6 +2402,20 @@
         price: cleanExtractedValue(match[1]),
         trailingText: removeTrailingAttractionNamesFromField(text.slice(match.index + match[1].length), knownNames)
       };
+    }
+
+    function parseDescriptionSegments(text) {
+      return cleanAttractionsExtractionText(text)
+        .replace(/https:\s*\/\//gi, "https://")
+        .replace(/http:\s*\/\//gi, "http://")
+        .split(/(?=Descri[cç][aã]o\s*:)/i)
+        .filter(function(segment) {
+          return /^Descri[cç][aã]o\s*:/i.test(segment.trim());
+        })
+        .map(function(segment) {
+          return segment
+            .split(/(?=\n\s*(?:Cada p[aá]gina|É um prazer|Agrade[cç]o|Porque acreditamos|By Curadoria|ATRAÇÕES TURÍSTICAS|CURADORIA\s+ELITE))/i)[0];
+        });
     }
 
     function parseAttractionDetailsFromSegment(segment, knownNames) {
@@ -776,6 +2435,63 @@
         site: normalizeSiteValue(removeTrailingAttractionNamesFromField(siteMatch ? siteMatch[1] : "", knownNames)),
         price: entryParts.price
       };
+    }
+
+    function findKnownAttractionNameInSegment(segment, knownNames, usedNames) {
+      const normalizedSegment = normalizeForSearch(segment);
+      const used = usedNames || [];
+
+      const matches = (knownNames || [])
+        .filter(function(name) {
+          return normalizedSegment.includes(normalizeForSearch(name)) && !used.includes(name);
+        })
+        .sort(function(a, b) {
+          return normalizedSegment.indexOf(normalizeForSearch(a)) - normalizedSegment.indexOf(normalizeForSearch(b));
+        });
+
+      return matches[0] || "";
+    }
+
+    function findCandidateNameInSegment(segment, candidateNames, usedNames) {
+      const normalizedSegment = normalizeForSearch(segment);
+      const used = usedNames || [];
+
+      return (candidateNames || []).find(function(name) {
+        return !used.includes(name) && normalizedSegment.includes(normalizeForSearch(name));
+      }) || "";
+    }
+
+    function getNextUnusedName(names, usedNames) {
+      return (names || []).find(function(name) {
+        return name && !(usedNames || []).includes(name);
+      }) || "";
+    }
+
+
+
+    function extractEmbeddedAttractionNameFromDescription(description, configuredNames, fallbackNames) {
+      const candidate = getTitleRepairCandidateFromDescription(description);
+      const allowedNames = (configuredNames || []).concat(fallbackNames || []).filter(Boolean);
+
+      if (!candidate) return "";
+
+      if (!allowedNames.length) {
+        return candidate;
+      }
+
+      const exactAllowed = allowedNames.find(function(name) {
+        return normalizeForSearch(name) === normalizeForSearch(candidate);
+      });
+
+      return exactAllowed || candidate;
+    }
+    function removeEmbeddedAttractionNameFromDescription(description, embeddedName) {
+      let text = cleanExtractedValue(description);
+      if (!text || !embeddedName) return text;
+
+      const escaped = embeddedName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      text = text.replace(new RegExp("\\s*" + escaped + "\\s*", "gi"), " ");
+      return cleanExtractedValue(text);
     }
 
     function getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames) {
@@ -801,17 +2517,162 @@
         if (/^(p[áa]gina|curadoria|elite travel|travel|pontos tur[ií]sticos|atra[cç][õo]es tur[ií]sticas|www\.|https?:)/i.test(candidate)) continue;
         if (/^(lugares que inspiram|olhares,? momentos|conquistam cora[cç][õo]es)$/i.test(candidate)) continue;
 
-        if (isLikelyAttractionName(candidate)) return candidate;
+        if (isLikelyAttractionName(candidate)) {
+          return candidate;
+        }
+
+        const letters = candidate.replace(/[^A-Za-zÀ-ÿ]/g, "");
+        const upperLetters = letters.replace(/[a-zà-ÿ]/g, "").length;
+        const looksLikeShortTitle = letters.length >= 6 && upperLetters / Math.max(letters.length, 1) > 0.52 && !/[.!?]$/.test(candidate);
+
+        if (looksLikeShortTitle) {
+          return candidate;
+        }
       }
 
       return "";
     }
 
+    function removeNextBlockTitleFromSegmentLines(segmentLines) {
+      const lines = (segmentLines || []).slice();
+
+      while (lines.length > 1) {
+        const lastLine = cleanExtractedValue(lines[lines.length - 1] || "");
+
+        if (isLikelyAttractionName(lastLine)) {
+          lines.pop();
+          continue;
+        }
+
+        break;
+      }
+
+      return lines;
+    }
+
+
+    function getGlobalAttractionNameCorrections() {
+      return [
+        "EMPIRE STATE BUILDING",
+        "ESTÁTUA DA LIBERDADE",
+        "METROPOLITAN MUSEUM OF ART (THE MET)",
+        "TOP OF THE ROCK",
+        "CENTRAL PARK ZOO",
+        "BROOKLYN BRIDGE",
+        "SUMMIT ONE VANDERBILT",
+        "LITTLE ISLAND",
+        "THE MET CLOISTERS",
+        "THE VESSEL",
+        "ROOSEVELT ISLAND TRAMWAY",
+        "THE HIGH LINE",
+        "TORRE EIFFEL",
+        "MUSEU DO LOUVRE",
+        "ARCO DO TRIUNFO",
+        "SACRÉ-CŒUR",
+        "MUSEU D'ORSAY",
+        "CATEDRAL DE NOTRE-DAME",
+        "SAINTE-CHAPELLE",
+        "PANTEÃO",
+        "ATELIER DES LUMIÈRES",
+        "CANAL SAINT-MARTIN",
+        "MUSÉE DE LA CHASSE",
+        "LA PETITE CEINTURE",
+        "HARRY P. LEU GARDENS"
+      ];
+    }
+
+    function repairAttractionName(name, city, configuredNames, fallbackNames) {
+      let value = cleanExtractedValue(name)
+        .replace(/^nome\s*:\s*/i, "")
+        .replace(/\s+/g, " ")
+        .trim();
+
+      if (!value) return value;
+
+      const normalizedValue = normalizeForSearch(value);
+      const allNames = (configuredNames || [])
+        .concat(fallbackNames || [])
+        .concat(getKnownAttractionNamesForCity(city))
+        .concat(getGlobalAttractionNameCorrections())
+        .filter(Boolean);
+
+      const exactMatch = allNames.find(function(candidate) {
+        return normalizeForSearch(candidate) === normalizedValue;
+      });
+
+      if (exactMatch) return exactMatch;
+
+      const startsWithMatch = allNames.find(function(candidate) {
+        const normalizedCandidate = normalizeForSearch(candidate);
+        return normalizedValue.length >= 7 && normalizedCandidate.indexOf(normalizedValue) === 0;
+      });
+
+      if (startsWithMatch) return startsWithMatch;
+
+      if (/^HARRY\s+P\.?\s+LE$/i.test(value) || normalizedValue === "HARRY P LE") {
+        return "HARRY P. LEU GARDENS";
+      }
+
+      return value;
+    }
+
+
+    function inferAttractionNameFromDetails(details, city) {
+      const site = normalizeForSearch(details && details.site ? details.site : "");
+      const address = normalizeForSearch(details && details.address ? details.address : "");
+      const description = normalizeForSearch(details && details.description ? details.description : "");
+      const haystack = [site, address, description].join(" ");
+
+      const detailRules = [
+        { pattern: /LEUGARDENS|1920 N FOREST/, name: "HARRY P. LEU GARDENS" },
+        { pattern: /ORLANDOSCIENCE|777 E PRINCETON/, name: "ORLANDO SCIENCE CENTER" },
+        { pattern: /KENNEDYSPACECENTER|SPACE CENTER/, name: "KENNEDY SPACE CENTER" },
+        { pattern: /UNIVERSALORLANDO|UNIVERSAL ORLANDO/, name: "UNIVERSAL ORLANDO RESORT" },
+        { pattern: /DISNEYWORLD|MAGIC KINGDOM|WALT DISNEY WORLD/, name: "WALT DISNEY WORLD" },
+        { pattern: /BAYSIDEMARKETPLACE|401 BISCAYNE/, name: "BAYSIDE MARKETPLACE" },
+        { pattern: /LINCOLNROAD|LINCOLN RD/, name: "LINCOLN ROAD" },
+        { pattern: /VIZCAYA|3251 S MIAMI/, name: "VIZCAYA MUSEUM AND GARDENS" },
+        { pattern: /WYNWOODWALLS|WYNWOOD WALLS/, name: "WYNWOOD WALLS" },
+        { pattern: /PAMM|PEREZARTMUSEUM|PÉREZ ART MUSEUM/, name: "PÉREZ ART MUSEUM MIAMI" },
+        { pattern: /FROSTSCIENCE|FROST MUSEUM/, name: "PHILLIP AND PATRICIA FROST MUSEUM OF SCIENCE" },
+        { pattern: /CASAROSADA|BALCARCE 50/, name: "CASA ROSADA" },
+        { pattern: /TEATROCOLON|CERRITO 628/, name: "TEATRO COLÓN" },
+        { pattern: /ELATENEO|SANTA FE 1860/, name: "LIBRERÍA EL ATENEO GRAND SPLENDID" },
+        { pattern: /PUENTE DE LA MUJER|PIERINA DEALESSI/, name: "PUENTE DE LA MUJER" },
+        { pattern: /VIRGENDEGUADALUPE|PLAZA DE LAS AMERICAS 1|PLAZA DE LAS AMÉRICAS 1/, name: "BASÍLICA DE GUADALUPE" },
+        { pattern: /MUSEOFRIDAKAHLO|MUSEO FRIDA KAHLO|CASA AZUL/, name: "MUSEO FRIDA KAHLO" }
+      ];
+
+      const matchedRule = detailRules.find(function(rule) {
+        return rule.pattern.test(haystack);
+      });
+
+      return matchedRule ? matchedRule.name : "";
+    }
+
+    function shouldPreferDetailInferredName(currentName, inferredName) {
+      /*
+        Segurança geral:
+        não usamos site, endereço ou descrição para trocar o nome da atração.
+        Esses campos ajudam a validar o bloco, mas não devem inventar/corrigir título,
+        porque isso pode gerar nomes formais demais ou nomes errados em outros destinos.
+      */
+      return false;
+    }
+
+
     function getTitleRepairCandidateFromDescription(description) {
       const text = cleanExtractedValue(description);
       if (!text) return "";
 
-      const ignored = new Set(["A","O","AS","OS","DE","DA","DO","DAS","DOS","E","EM","NO","NA","NOS","NAS","AO","AOS","À","ÀS","UM","UMA","ESTE","ESTA","ESSE","ESSA","AQUI","PARIS","MIAMI","ORLANDO","MADRID","BARCELONA","BUENOS","AIRES","MEXICO","MÉXICO","NEW","YORK","USA","FRANÇA","ESPANHA","ARGENTINA","BRASIL","FL","NY","US","R","ARS","MXN","EUR","BRL","USD"]);
+      const ignored = new Set([
+        "A", "O", "AS", "OS", "DE", "DA", "DO", "DAS", "DOS", "E", "EM",
+        "NO", "NA", "NOS", "NAS", "AO", "AOS", "À", "ÀS", "UM", "UMA",
+        "ESTE", "ESTA", "ESSE", "ESSA", "AQUI", "PARIS", "MIAMI",
+        "ORLANDO", "MADRID", "BARCELONA", "BUENOS", "AIRES", "MEXICO",
+        "MÉXICO", "NEW", "YORK", "USA", "FRANÇA", "ESPANHA", "ARGENTINA",
+        "BRASIL", "FL", "NY", "US", "R", "ARS", "MXN", "EUR", "BRL", "USD"
+      ]);
 
       const matches = text.match(/\b[A-ZÀ-Ú][A-ZÀ-Ú0-9'’.\-]*(?:\s+(?:DE|DA|DO|DAS|DOS|DEL|DES|DU|LA|LE|LES|THE|OF|AND|Y|E|A|O|[A-ZÀ-Ú][A-ZÀ-Ú0-9'’.\-]*)){0,7}\b/g) || [];
 
@@ -826,6 +2687,7 @@
           if (!match || match.length < 5 || match.length > 80) return false;
           if (isInvalidAttractionNameCandidate(match)) return false;
           if (/^(DESCRICAO|DESCRIÇÃO|ENDERECO|ENDEREÇO|SITE|ENTRADA|PAGINA|PÁGINA|CURADORIA|ELITE|TRAVEL|PONTOS|TURISTICOS|TURÍSTICOS)$/i.test(normalized)) return false;
+          if (/^(US|R|ARS|MXN|EUR|BRL|USD|FL|NY)$/.test(normalized)) return false;
           if (/^\d/.test(normalized)) return false;
           if (ignored.has(normalized)) return false;
 
@@ -834,7 +2696,11 @@
             return !ignored.has(word) && !/^(DE|DA|DO|DAS|DOS|DEL|DES|DU|LA|LE|LES|THE|OF|AND|Y|E|A|O)$/.test(word);
           });
 
-          return meaningfulWords.some(function(word) { return word.length >= 4; });
+          if (!meaningfulWords.length) return false;
+
+          return meaningfulWords.some(function(word) {
+            return word.length >= 4;
+          });
         });
 
       if (!candidates.length) return "";
@@ -863,6 +2729,94 @@
 
       return cleanExtractedValue(text);
     }
+    function repairSplitAttractionNameFromDescription(name, description, city, fallbackNames) {
+      let repairedName = cleanExtractedValue(name);
+      let repairedDescription = cleanExtractedValue(description);
+      if (!repairedName || !repairedDescription) {
+        return { name: repairedName, description: repairedDescription };
+      }
+
+      const cityNames = getKnownAttractionNamesForCity(city);
+      const allNames = (fallbackNames || [])
+        .concat(cityNames)
+        .concat(getGlobalAttractionNameCorrections())
+        .filter(Boolean);
+
+      const normalizedName = normalizeForSearch(repairedName);
+      const knownCompletion = allNames.find(function(candidate) {
+        const normalizedCandidate = normalizeForSearch(candidate);
+        return normalizedName.length >= 6 && normalizedCandidate.indexOf(normalizedName) === 0 && normalizedCandidate.length > normalizedName.length;
+      });
+
+      if (knownCompletion) {
+        const missingPart = cleanExtractedValue(knownCompletion.slice(repairedName.length));
+        if (missingPart) {
+          const escapedMissing = missingPart.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          repairedDescription = cleanExtractedValue(repairedDescription.replace(new RegExp("^" + escapedMissing + "\\b\\s*", "i"), ""));
+        }
+        return { name: knownCompletion, description: repairedDescription };
+      }
+
+      const words = repairedName.split(/\s+/);
+      const lastWord = words[words.length - 1] || "";
+      const normalizedLastWord = normalizeForSearch(lastWord);
+      const firstChunk = repairedDescription.slice(0, 170);
+      const upperTokens = firstChunk.match(/\b[A-ZÀ-Ú]{1,18}\b/g) || [];
+
+      for (const token of upperTokens) {
+        const normalizedToken = normalizeForSearch(token);
+        if (!normalizedToken || normalizedToken.length < 1 || normalizedToken.length > 18) continue;
+        if (/^(A|O|AS|OS|DE|DA|DO|DAS|DOS|E|EM|NO|NA|NOS|NAS|RUA|AV|MXN|R|US)$/.test(normalizedToken)) continue;
+
+        const joined = normalizedLastWord + normalizedToken;
+        const mergedLastWord = lastWord + token.toLowerCase();
+        const mergedName = cleanExtractedValue(words.slice(0, -1).concat([mergedLastWord]).join(" "));
+        const normalizedMergedName = normalizeForSearch(mergedName);
+
+        const knownMergedMatch = allNames.find(function(candidate) {
+          return normalizeForSearch(candidate) === normalizedMergedName || normalizeForSearch(candidate).indexOf(normalizedMergedName) === 0;
+        });
+
+        if (knownMergedMatch) {
+          repairedName = knownMergedMatch;
+          const escapedToken = token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          repairedDescription = cleanExtractedValue(repairedDescription.replace(new RegExp("\\b" + escapedToken + "\\b", "i"), ""));
+          return { name: repairedName, description: repairedDescription };
+        }
+
+        if (/^(LA|LE)$/.test(normalizedLastWord) && normalizedToken.length >= 2) {
+          repairedName = cleanExtractedValue(words.slice(0, -1).concat([lastWord + token.toLowerCase()]).join(" "));
+          const escapedToken = token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          repairedDescription = cleanExtractedValue(repairedDescription.replace(new RegExp("\\b" + escapedToken + "\\b", "i"), ""));
+          return { name: repairedName, description: repairedDescription };
+        }
+
+        if (/^(DO|DA|DE)$/.test(normalizedLastWord) && normalizedToken.length <= 2) {
+          const nextWordsMatch = firstChunk.match(new RegExp("\\b" + token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\s+([A-ZÀ-Ú][A-ZÀ-Ú'’\\-]+(?:\\s+[A-ZÀ-Ú][A-ZÀ-Ú'’\\-]+){0,3})"));
+          const complement = cleanExtractedValue((nextWordsMatch ? token + " " + nextWordsMatch[1] : token));
+          repairedName = cleanExtractedValue(repairedName + complement.toLowerCase());
+          const escapedComplement = complement.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          repairedDescription = cleanExtractedValue(repairedDescription.replace(new RegExp("\\b" + escapedComplement + "\\b", "i"), ""));
+          return { name: repairedName, description: repairedDescription };
+        }
+      }
+
+      const titleCandidate = getTitleRepairCandidateFromDescription(repairedDescription);
+      if (titleCandidate) {
+        const normalizedCandidate = normalizeForSearch(titleCandidate);
+        const normalizedCurrent = normalizeForSearch(repairedName);
+        const currentLooksGeneric = /^INDICACAO\s+\d+$/.test(normalizedCurrent) || normalizedCurrent.length < 5;
+        const currentLikelyShifted = !normalizedCandidate.includes(normalizedCurrent) && !normalizedCurrent.includes(normalizedCandidate);
+
+        if (currentLooksGeneric || currentLikelyShifted) {
+          repairedName = titleCandidate;
+          repairedDescription = removeTitleRepairCandidateFromDescription(repairedDescription, titleCandidate);
+        }
+      }
+
+      return { name: repairedName, description: repairedDescription };
+    }
+
 
     function cleanBusinessDescriptionText(description, knownNames) {
       let value = cleanExtractedValue(description)
@@ -876,65 +2830,102 @@
         .trim();
 
       value = removeTrailingAttractionNamesFromField(value, knownNames || []);
+
       return cleanExtractedValue(value);
     }
 
-    function extractPanoramaFromText(text, city) {
-      const cleaned = normalizeExtractedPdfText(text);
-      const cityName = cleanExtractedValue(String(city || "").split(" - ")[0]);
+    function getTitleMeaningfulWords(value) {
+      const ignored = new Set([
+        "A", "O", "AS", "OS", "DE", "DA", "DO", "DAS", "DOS", "DEL", "DES", "DU",
+        "LA", "LE", "LES", "THE", "OF", "AND", "Y", "E", "EM", "NO", "NA", "NOS", "NAS",
+        "MUSEU", "MUSEUM", "CENTRO", "CENTER", "PARK", "PARQUE", "JARDIM", "GARDENS",
+        "IGREJA", "CATEDRAL", "BASILICA", "BASÍLICA", "PALACIO", "PALÁCIO", "TEATRO",
+        "CASA", "PLAZA", "PRAÇA", "RUA", "AV", "AVENIDA", "STREET", "ST", "RD", "ROAD"
+      ]);
 
-      function cleanPanoramaCandidate(candidate) {
-        let value = cleanExtractedValue(candidate)
-          .replace(/Cart[aã]o Postal Vivo/gi, "")
-          .replace(/A Arte dos Destinos/gi, "")
-          .replace(/Lugares que inspiram\s+olhares,?\s+momentos que\s+conquistam cora[cç][õo]es/gi, "")
-          .replace(/Lugares que inspiram/gi, "")
-          .replace(/olhares,?\s+momentos que/gi, "")
-          .replace(/conquistam cora[cç][õo]es/gi, "")
-          .trim();
-
-        if (cityName) {
-          const cityIndex = value.toLowerCase().indexOf(cityName.toLowerCase());
-          if (cityIndex >= 0) value = value.slice(cityIndex).trim();
-        }
-
-        value = value
-          .split(/(?:\b(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:)\b|PONTOS\s+TUR[IÍ]STICOS?|PONTOS\s+TURISTICOS?|CURADORIA\s+ELITE\s+TRAVEL|Mais que paisagens|Porque o verdadeiro destino|Lugares que inspiram)/i)[0]
-          .trim();
-
-        return cleanExtractedValue(value);
-      }
-
-      const beforeFirstDescription = cleaned.split(/Descri[cç][aã]o\s*:/i)[0] || cleaned;
-      const lines = beforeFirstDescription.split("\n").map(cleanExtractedValue).filter(Boolean);
-
-      if (cityName) {
-        const startIndex = lines.findIndex(function(line) {
-          return line.toLowerCase().includes(cityName.toLowerCase()) &&
-            !/^\s*(?:categoria|destino|material|www|atra[cç][õo]es|pontos)/i.test(line);
+      return normalizeForSearch(value)
+        .replace(/[^A-Z0-9À-Ú\s]/g, " ")
+        .split(/\s+/)
+        .filter(function(word) {
+          return word && word.length >= 4 && !ignored.has(word) && !/^\d+$/.test(word);
         });
+    }
 
-        if (startIndex >= 0) {
-          const collected = [];
-          for (let index = startIndex; index < lines.length; index += 1) {
-            const line = lines[index];
-            if (/^\s*(?:CURADORIA|ELITE TRAVEL|PONTOS TUR|Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:)/i.test(line)) break;
-            if (/^(?:Lugares que inspiram|olhares,? momentos|conquistam cora[cç][õo]es)$/i.test(line)) continue;
-            collected.push(line);
-          }
+    function getTitleEvidenceScore(name, details) {
+      const words = getTitleMeaningfulWords(name);
+      if (!words.length) return 0;
 
-          const panorama = cleanPanoramaCandidate(collected.join(" "));
-          if (panorama.length > 80) return panorama;
-        }
+      const haystack = normalizeForSearch([
+        details && details.description ? details.description : "",
+        details && details.address ? details.address : "",
+        details && details.site ? details.site : ""
+      ].join(" "));
+
+      return words.reduce(function(score, word) {
+        return score + (haystack.includes(word) ? 1 : 0);
+      }, 0);
+    }
+
+    function isTitleSupportedByDetails(name, details) {
+      const words = getTitleMeaningfulWords(name);
+      if (!name || !words.length) return false;
+      const score = getTitleEvidenceScore(name, details);
+      return score >= Math.min(2, words.length);
+    }
+
+    function chooseAttractionNameForDetails(options) {
+      const currentName = cleanExtractedValue(options.currentName || "");
+      const detailName = cleanExtractedValue(options.detailName || "");
+      const descriptionCandidate = cleanExtractedValue(options.descriptionCandidate || "");
+      const orderedName = cleanExtractedValue(options.orderedName || "");
+      const details = options.details || {};
+      const usedNames = options.usedNames || [];
+      const index = options.index || 0;
+
+      const currentValid = currentName && !isInvalidAttractionNameCandidate(currentName);
+      const orderedValid = orderedName && !isInvalidAttractionNameCandidate(orderedName);
+      const currentSupported = currentValid && isTitleSupportedByDetails(currentName, details);
+      const orderedSupported = orderedValid && isTitleSupportedByDetails(orderedName, details);
+      const detailSupported = detailName && !isInvalidAttractionNameCandidate(detailName) && isTitleSupportedByDetails(detailName, details);
+      const descriptionSupported = descriptionCandidate && !isInvalidAttractionNameCandidate(descriptionCandidate) && isTitleSupportedByDetails(descriptionCandidate, details);
+
+      if (currentSupported && !usedNames.includes(currentName)) {
+        return { name: currentName, removeFromDescription: "" };
       }
 
-      const panoramaMatch = cleaned.match(/(?:Cart[aã]o Postal Vivo|A Arte dos Destinos|panorama(?: da cidade)?|intro|introdução)\s+([\s\S]{120,1600}?)(?=\n\s*(?:Descri[cç][aã]o\s*:|Endere[cç]o\s*:|Site\s*:|Entrada\s*:))/i);
-      if (panoramaMatch && panoramaMatch[1]) {
-        const panorama = cleanPanoramaCandidate(panoramaMatch[1]);
-        if (panorama.length > 80) return panorama;
+      if (descriptionSupported && !usedNames.includes(descriptionCandidate)) {
+        return { name: descriptionCandidate, removeFromDescription: descriptionCandidate };
       }
 
-      return `${city || "O destino selecionado"} reúne experiências selecionadas com foco em praticidade, clareza e orientação profissional para apoiar empresas parceiras no atendimento aos seus clientes.`;
+      if (detailSupported && !usedNames.includes(detailName)) {
+        return { name: detailName, removeFromDescription: "" };
+      }
+
+      if (orderedSupported && !usedNames.includes(orderedName)) {
+        return { name: orderedName, removeFromDescription: "" };
+      }
+
+      if (orderedValid && !usedNames.includes(orderedName)) {
+        /*
+          Fallback estrutural:
+          quando o cabeçalho imediatamente acima do bloco não é confiável, usamos
+          o título visual extraído na mesma posição da lista completa de títulos do PDF.
+          Isso evita exibir "Indicação X" em PDFs nos quais o título ficou separado
+          do bloco Descrição/Endereço/Site/Entrada, sem reutilizar o título anterior.
+        */
+        return { name: orderedName, removeFromDescription: "" };
+      }
+
+      if (currentValid && !usedNames.includes(currentName)) {
+        /*
+          Última tentativa com cabeçalho visual local. Ele só chega aqui se não houve
+          candidato ordenado para este índice, evitando reaproveitamento do título
+          anterior quando o bloco pertence claramente a outra atração.
+        */
+        return { name: currentName, removeFromDescription: "" };
+      }
+
+      return { name: `Indicação ${index + 1}`, removeFromDescription: "" };
     }
 
     function parseAttractionItemsFromText(text, city) {
@@ -942,43 +2933,63 @@
         .replace(/https:\s*\/\//gi, "https://")
         .replace(/http:\s*\/\//gi, "http://");
 
-      const lines = cleaned.split("\n").map(cleanExtractedValue).filter(Boolean);
+      const lines = cleaned
+        .split("\n")
+        .map(cleanExtractedValue)
+        .filter(Boolean);
 
       const descriptionIndexes = [];
       lines.forEach(function(line, index) {
-        if (/\bDescri[cç][aã]o\s*:/i.test(line)) descriptionIndexes.push(index);
+        if (/\bDescri[cç][aã]o\s*:/i.test(line)) {
+          descriptionIndexes.push(index);
+        }
       });
 
       const fallbackNames = extractCandidateNamesInTextOrder(cleaned);
-      const knownNames = getKnownAttractionNamesForCity(city);
-      const removalNames = fallbackNames.concat(knownNames).filter(function(name, index, array) {
+      const orderedFallbackNames = fallbackNames.length >= descriptionIndexes.length
+        ? fallbackNames.slice(0, descriptionIndexes.length)
+        : [];
+      const correctionNames = getGlobalAttractionNameCorrections();
+      const removalNames = fallbackNames.concat(correctionNames).filter(function(name, index, array) {
         return name && array.indexOf(name) === index;
       });
-
       const usedNames = [];
 
       const items = descriptionIndexes.map(function(descriptionIndex, index) {
         const nextDescriptionIndex = descriptionIndexes[index + 1] || lines.length;
-        const segment = lines.slice(descriptionIndex, nextDescriptionIndex).join("\n");
+        const segmentLines = removeNextBlockTitleFromSegmentLines(lines.slice(descriptionIndex, nextDescriptionIndex));
+        const segment = segmentLines.join("\n");
         const details = parseAttractionDetailsFromSegment(segment, removalNames);
-
-        let name = getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames);
+        const visualName = getAttractionNameBeforeDescription(lines, descriptionIndex, usedNames);
         const descriptionCandidate = getTitleRepairCandidateFromDescription(details.description);
+        const detailInferredName = inferAttractionNameFromDetails(details, city);
 
-        if ((!name || isInvalidAttractionNameCandidate(name)) && knownNames[index]) {
-          name = knownNames[index];
+        const selectedTitle = chooseAttractionNameForDetails({
+          currentName: repairAttractionName(visualName, city, [], fallbackNames),
+          detailName: detailInferredName,
+          descriptionCandidate: descriptionCandidate,
+          orderedName: repairAttractionName(orderedFallbackNames[index] || "", city, [], fallbackNames),
+          details: details,
+          usedNames: usedNames,
+          index: index
+        });
+
+        let name = selectedTitle.name;
+        if (selectedTitle.removeFromDescription) {
+          details.description = removeTitleRepairCandidateFromDescription(details.description, selectedTitle.removeFromDescription);
         }
 
-        if ((!name || isInvalidAttractionNameCandidate(name)) && fallbackNames[index]) {
-          name = fallbackNames[index];
-        }
+        const repairedTitle = repairSplitAttractionNameFromDescription(
+          name,
+          details.description,
+          city,
+          fallbackNames
+        );
 
-        if ((!name || isInvalidAttractionNameCandidate(name)) && descriptionCandidate) {
-          name = descriptionCandidate;
-          details.description = removeTitleRepairCandidateFromDescription(details.description, descriptionCandidate);
-        }
+        name = repairedTitle.name || name;
+        details.description = repairedTitle.description || details.description;
 
-        if (!name || isInvalidAttractionNameCandidate(name) || usedNames.includes(name)) {
+        if (isInvalidAttractionNameCandidate(name)) {
           name = `Indicação ${index + 1}`;
         }
 
@@ -993,334 +3004,1182 @@
         };
       });
 
-      return items.filter(function(item) {
-        return item.description && item.description.length > 35;
-      }).slice(0, 24);
+      return items
+        .filter(function(item) {
+          return item.name &&
+            item.description &&
+            item.description.length > 35 &&
+            !/^elite\s*travel$/i.test(item.name) &&
+            !/^travel$/i.test(item.name);
+        })
+        .slice(0, 24);
+    }
+
+    function applyConfiguredCityNameOrder(items, city) {
+      /*
+        Não sobrescreve mais os nomes por posição fixa de uma lista.
+        O parser agora monta cada card a partir do bloco real:
+        Descrição → Endereço → Site → Entrada.
+        Isso evita deslocar títulos entre atrações quando o PDF do Canva muda a
+        ordem visual de nomes e descrições.
+      */
+      return items || [];
     }
 
     function parseAttractionsBusinessContent(text, city) {
+      const panorama = extractPanoramaFromText(text, city);
+      const items = applyConfiguredCityNameOrder(parseAttractionItemsFromText(text, city), city);
+
       return {
-        panorama: extractPanoramaFromText(text, city),
-        items: parseAttractionItemsFromText(text, city)
+        panorama,
+        items
       };
     }
 
-    async function loadMaterials() {
-      setSidebarMessage("Carregando materiais do Supabase...");
-
-      const category = document.getElementById("categoryFilter").value;
-      const year = document.getElementById("yearFilter").value.trim();
-
-      let query = supabaseClient
-        .from("curadoria_materials")
-        .select("id, category, city_label, pdf_url, year")
-        .eq("category", category)
-        .order("city_label", { ascending: true });
-
-      if (year) query = query.eq("year", year);
-
-      const { data, error } = await query;
-
-      if (error) {
-        console.error(error);
-        setSidebarMessage("Erro ao carregar curadoria_materials:\n" + error.message, "error");
-        return;
-      }
-
-      allMaterials = (data || []).filter(function(item) {
-        return item.category && item.city_label && item.pdf_url;
-      });
-
-      setSidebarMessage(`${allMaterials.length} material(is) carregado(s).`, allMaterials.length ? "success" : "");
-      renderMaterialsList();
+    function normalizeYearValue(value) {
+      return String(value || "").trim();
     }
 
-    function renderMaterialsList() {
-      const list = document.getElementById("materialsList");
-      const search = document.getElementById("searchInput").value.trim().toLowerCase();
-
-      const materials = allMaterials.filter(function(item) {
-        return String(item.city_label || "").toLowerCase().includes(search);
-      });
-
-      list.innerHTML = "";
-
-      if (!materials.length) {
-        list.innerHTML = `<div class="message">Nenhum material encontrado.</div>`;
-        return;
-      }
-
-      materials.forEach(function(material) {
-        const item = document.createElement("div");
-        item.className = "material-item" + (selectedMaterial && selectedMaterial.id === material.id ? " active" : "");
-        item.innerHTML = `
-          <strong>${escapeHtml(material.city_label)}</strong>
-          <span>${escapeHtml(material.category)}${material.year ? " • " + escapeHtml(material.year) : ""}</span>
-          <span>${escapeHtml(material.pdf_url)}</span>
-          <div class="status-pill">Selecionar</div>
-        `;
-
-        item.addEventListener("click", function() {
-          selectedMaterial = material;
-          extractedItems = [];
-          extractedRawText = "";
-          document.getElementById("panoramaInput").value = "";
-          document.getElementById("rawText").textContent = "";
-          renderItems();
-          renderMaterialsList();
-          updateSelectedMeta();
-          document.getElementById("extractButton").disabled = false;
-          document.getElementById("saveButton").disabled = true;
-          document.getElementById("replaceButton").disabled = true;
-          setMainMessage("Material selecionado. Clique em “Ler PDF”.");
+    function buildStructuredBusinessContentFromRows(rows, material) {
+      const orderedRows = (rows || [])
+        .slice()
+        .sort(function(a, b) {
+          return Number(a.item_order || 0) - Number(b.item_order || 0);
         });
 
-        list.appendChild(item);
+      const items = orderedRows
+        .filter(function(row) {
+          return row && row.item_name && row.description;
+        })
+        .map(function(row) {
+          return {
+            name: cleanExtractedValue(row.item_name),
+            description: cleanBusinessDescriptionText(row.description, []),
+            address: cleanExtractedValue(row.address || ""),
+            site: normalizeSiteValue(row.site || ""),
+            price: cleanExtractedValue(row.entry_price || "")
+          };
+        });
+
+      const panoramaRow = orderedRows.find(function(row) {
+        return row && row.panorama && String(row.panorama).trim();
       });
+
+      const fallback = getBusinessContentTemplate(material);
+
+      return {
+        panorama: panoramaRow ? cleanExtractedValue(panoramaRow.panorama) : fallback.panorama,
+        items: items
+      };
     }
 
-    function updateSelectedMeta() {
-      const meta = document.getElementById("selectedMeta");
-      if (!selectedMaterial) {
-        meta.textContent = "Nenhum material selecionado.";
+    async function fetchStructuredBusinessContent(material) {
+      if (!material || !isAttractionsMaterial(material)) {
+        return null;
+      }
+
+      const normalizedCategory = normalizeCategoryName(material.category);
+      const originalCategory = String(material.category || "").trim();
+      const cityLabel = String(material.city_label || "").trim();
+      const year = normalizeYearValue(material.year);
+
+      if (!cityLabel) return null;
+
+      const categoryCandidates = [normalizedCategory, originalCategory]
+        .filter(Boolean)
+        .filter(function(value, index, array) {
+          return array.indexOf(value) === index;
+        });
+
+      for (const categoryCandidate of categoryCandidates) {
+        let query = supabaseClient
+          .from("b2b_material_items")
+          .select("id, category, city_label, year, panorama, item_order, item_name, description, address, site, entry_price, is_active, version_id")
+          .eq("category", categoryCandidate)
+          .eq("city_label", cityLabel)
+          .eq("is_active", true)
+          .order("item_order", { ascending: true });
+
+        if (year) {
+          query = query.eq("year", year);
+        }
+
+        const { data, error } = await query;
+
+        if (error) {
+          console.warn("Não foi possível ler b2b_material_items:", error);
+          continue;
+        }
+
+        if (data && data.length) {
+          const structured = buildStructuredBusinessContentFromRows(data, material);
+          if (structured.items && structured.items.length) {
+            return structured;
+          }
+        }
+      }
+
+      return null;
+    }
+
+    async function ensureBusinessContentLoaded(material) {
+      if (!material || !isAttractionsMaterial(material) || !material.pdf_url) {
+        return getBusinessContentTemplate(material);
+      }
+
+      const cacheKey = getBusinessContentCacheKey(material);
+
+      if (businessContentCache[cacheKey]) {
+        return businessContentCache[cacheKey];
+      }
+
+      if (businessContentLoading[cacheKey]) {
+        return businessContentLoading[cacheKey];
+      }
+
+      businessContentLoading[cacheKey] = (async function() {
+        try {
+          const structured = await fetchStructuredBusinessContent(material);
+
+          if (structured && structured.items && structured.items.length) {
+            businessContentCache[cacheKey] = structured;
+            return structured;
+          }
+        } catch (error) {
+          console.warn("Não foi possível carregar itens estruturados do Supabase:", error);
+        }
+
+        try {
+          const fullText = await extractPdfTextFromUrl(material.pdf_url, 5, 9);
+          const extracted = parseAttractionsBusinessContent(fullText, material.city_label);
+
+          if (extracted && extracted.items && extracted.items.length) {
+            businessContentCache[cacheKey] = extracted;
+            return extracted;
+          }
+
+          const fallbackFullText = await extractPdfTextFromUrl(material.pdf_url, 1, 12);
+          const fallbackExtracted = parseAttractionsBusinessContent(fallbackFullText, material.city_label);
+
+          if (fallbackExtracted && fallbackExtracted.items && fallbackExtracted.items.length) {
+            businessContentCache[cacheKey] = fallbackExtracted;
+            return fallbackExtracted;
+          }
+        } catch (error) {
+          console.warn("Não foi possível extrair o PDF automaticamente:", error);
+        }
+
+        const fallback = getBusinessContentTemplate(material);
+        businessContentCache[cacheKey] = fallback;
+        return fallback;
+      })();
+
+      return businessContentLoading[cacheKey];
+    }
+
+    async function loadAndRenderBusinessContent(material) {
+      if (!material || !isAttractionsMaterial(material)) return;
+
+      const cacheKey = getBusinessContentCacheKey(material);
+
+      if (businessContentCache[cacheKey]) {
+        renderBusinessContentPreview(material);
         return;
       }
 
-      meta.innerHTML = `
-        <strong>Destino:</strong> ${escapeHtml(selectedMaterial.city_label)}<br>
-        <strong>Categoria:</strong> ${escapeHtml(selectedMaterial.category)}<br>
-        <strong>Ano:</strong> ${escapeHtml(selectedMaterial.year || "")}<br>
-        <strong>PDF:</strong> ${escapeHtml(selectedMaterial.pdf_url)}
+      const contentEl = document.getElementById("businessContentPreview");
+
+      if (contentEl) {
+        contentEl.innerHTML = `
+          <section class="business-a4-page">
+            <div class="business-page-kicker">Leitura do acervo Partner</div>
+            <h5 class="business-page-title">Carregando versão business</h5>
+            <div class="business-city-text">Estamos verificando se este destino já possui itens estruturados no Supabase. Se não houver registros prontos, a ferramenta usará a leitura automática do PDF como apoio.</div>
+            <div class="business-page-footer">Curadoria Elite Travel Partner</div>
+          </section>
+        `;
+      }
+
+      await ensureBusinessContentLoaded(material);
+
+      if (selectedMaterial && getBusinessContentCacheKey(selectedMaterial) === cacheKey) {
+        renderBusinessContentPreview(selectedMaterial);
+      }
+    }
+
+
+    function getBusinessContentTemplate(material) {
+      const category = normalizeCategoryName(material.category);
+      const city = String(material.city_label || "");
+      const cityLower = city.toLowerCase();
+      const cacheKey = getBusinessContentCacheKey(material);
+
+      if (businessContentCache[cacheKey]) {
+        return businessContentCache[cacheKey];
+      }
+
+      if (category === "Atrações Turísticas" && cityLower.includes("new york")) {
+        return {
+          panorama: "Nova York não dorme, mas ela sabe como sonhar acordada — e convida você a fazer o mesmo. Para além das luzes ofuscantes da Times Square, existe uma metrópole de detalhes silenciosos: o eco do jazz em porões escondidos, o reflexo do skyline em águas calmas no Central Park e a alma cosmopolita gravada nos tijolos avermelhados do Village. Aqui, a pressa do mundo encontra a pausa da arte; o asfalto rústico dá lugar a jardins secretos que flutuam sobre a história da cidade. Nós atravessamos as avenidas icônicas para revelar uma Nova York que pulsa em um ritmo só dela, elegante e inesquecível. Porque conhecer a Capital do Mundo não é apenas percorrer distâncias — é habitar momentos. E nós sabemos exatamente em qual esquina o extraordinário está à sua espera.",
+          items: [
+            {
+              name: "EMPIRE STATE BUILDING",
+              description: "O observatório mais famoso do mundo oferece uma vista de 360 graus que define o horizonte de Manhattan. Este ícone art déco é um marco da engenharia e proporciona uma experiência inesquecível, onde cada andar revela a grandiosidade de Nova York.",
+              address: "20 West 34th Street, New York, NY 10001",
+              site: "https://www.esbnyc.com/",
+              price: "A partir de US$ 44,00"
+            },
+            {
+              name: "ESTÁTUA DA LIBERDADE",
+              description: "Símbolo máximo de liberdade e esperança, o monumento na Ilha da Liberdade é uma parada obrigatória. O passeio de balsa oferece ângulos únicos da cidade, permitindo uma imersão profunda na história dos imigrantes que moldaram a alma dos EUA.",
+              address: "Liberty Island, New York, NY 10004",
+              site: "https://www.statuecitycruises.com",
+              price: "A partir de US$ 25,00 (inclui ferry)"
+            },
+            {
+              name: "METROPOLITAN MUSEUM OF ART (THE MET)",
+              description: "Com mais de cinco mil anos de arte mundial, o Met é um dos maiores e melhores museus do planeta. Suas galerias grandiosas transportam o visitante do Egito Antigo ao design moderno, criando uma jornada cultural sem paralelos no coração da ilha.",
+              address: "1000 Fifth Avenue, New York, NY 10028",
+              site: "https://www.metmuseum.org/",
+              price: "A partir de US$ 30,00"
+            },
+            {
+              name: "TOP OF THE ROCK",
+              description: "Localizado no Rockefeller Center, este observatório é amado por oferecer a melhor vista do Central Park e do Empire State. Com três níveis de terraços ao ar livre, o espaço garante fotos perfeitas da metrópole em um ambiente elegante e histórico.",
+              address: "30 Rockefeller Plaza, New York, NY 10112",
+              site: "https://www.rockefellercenter.com/",
+              price: "A partir de US$ 40,00"
+            },
+            {
+              name: "CENTRAL PARK ZOO",
+              description: "Situado em meio ao pulmão verde de Manhattan, este zoológico charmoso é um refúgio para diversas espécies exóticas. É o destino ideal para famílias, unindo educação ambiental e lazer em um cenário icônico que parece saído de um filme clássico.",
+              address: "Brooklyn Bridge, New York, NY 10038",
+              site: "https://centralparkzoo.com/",
+              price: "A partir de US$ 19,95"
+            },
+            {
+              name: "BROOKLYN BRIDGE",
+              description: "Atravessar esta ponte histórica a pé é um dos rituais mais autênticos de quem visita a cidade. Sua arquitetura de cabos de aço e arcos de pedra oferece o cenário ideal para apreciar o pôr do sol, conectando Manhattan ao pulsar do Brooklyn.",
+              address: "Brooklyn Bridge, New York, NY 10038",
+              site: "https://www.nyc.gov/",
+              price: "Gratuita"
+            },
+            {
+              name: "SUMMIT ONE VANDERBILT",
+              description: "Esta experiência imersiva usa espelhos e tecnologia para transformar a forma como você vê Nova York. Muito além de um mirante, o local desafia os sentidos e a gravidade, criando um espetáculo visual de luzes e reflexos no topo de um arranha-céu.",
+              address: "45 East 42nd Street, New York, NY 10017",
+              site: "https://summitov.com/pt/",
+              price: "A partir de US$ 43,00"
+            },
+            {
+              name: "LITTLE ISLAND",
+              description: "Este parque flutuante sobre o Rio Hudson parece flutuar em estruturas que lembram tulipas de concreto. Com jardins exuberantes e anfiteatros, o espaço é um prodígio do design moderno, oferecendo um respiro de paz e arte longe do asfalto comum.",
+              address: "Pier 55 at Hudson River Park, New York, NY 10014",
+              site: "https://littleisland.org/",
+              price: "Gratuita"
+            },
+            {
+              name: "THE MET CLOISTERS",
+              description: "Localizado ao norte de Manhattan, este museu é dedicado à arte e arquitetura medieval europeia. Seus claustros e jardins tranquilos fazem o visitante esquecer que está em uma metrópole, oferecendo uma imersão rara em um castelo reconstruído.",
+              address: "99 Margaret Corbin Drive, New York, NY 10040",
+              site: "https://www.metmuseum.org/plan-your-visit/met-cloisters",
+              price: "A partir de US$ 30,00"
+            },
+            {
+              name: "THE VESSEL",
+              description: "Esta estrutura escultural em Hudson Yards é composta por lances de escada interconectados que formam uma colmeia gigante. O design arrojado convida à exploração vertical, proporcionando novas perspectivas urbanas e uma estética futurista única.",
+              address: "20 Hudson Yards, New York, NY 10001",
+              site: "https://www.hudsonyardsnewyork.com/discover/vessel",
+              price: "A partir de US$ 10,00"
+            },
+            {
+              name: "ROOSEVELT ISLAND TRAMWAY",
+              description: "Este teleférico atravessa o East River e oferece uma das viagens mais cênicas e baratas da cidade. O trajeto conecta Manhattan à Ilha Roosevelt, permitindo visualizar as ruas e os prédios de um ângulo aéreo que poucos turistas costumam ver.",
+              address: "59th Street & Second Avenue, New York, NY 10022",
+              site: "https://rioc.ny.gov/302/Tram",
+              price: "A partir de US$ 2,90"
+            },
+            {
+              name: "THE HIGH LINE",
+              description: "Uma antiga linha ferroviária suspensa foi transformada em um parque linear cheio de arte e plantas nativas. Caminhar por este jardim elevado permite observar a arquitetura do Chelsea de cima, unindo renovação urbana e natureza de forma genial.",
+              address: "Gansevoort St. to West 30th St., New York, NY 10014",
+              site: "https://www.thehighline.org/",
+              price: "Gratuita"
+            }
+          ]
+        };
+      }
+
+      return {
+        panorama: `${city || "O destino selecionado"} reúne experiências selecionadas com foco em praticidade, clareza e orientação profissional para apoiar empresas parceiras no atendimento aos seus clientes.`,
+        items: []
+      };
+    }
+
+
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function getPartnerCompanyName() {
+      const input = document.getElementById("partnerCompanyInput");
+      const value = input ? input.value.trim() : partnerCompanyName;
+      return value || "Empresa Parceira";
+    }
+
+    function getClientBrandName() {
+      const input = document.getElementById("clientBrandInput");
+      const value = input ? input.value.trim() : clientBrandName;
+      return value || getPartnerCompanyName();
+    }
+
+    function getBrandLogoHtml(context) {
+      if (partnerLogoDataUrl) {
+        return `<img src="${partnerLogoDataUrl}" alt="Logo da marca apresentada">`;
+      }
+
+      if (context === "inline") {
+        return `<div class="business-closing-logo-placeholder">LOGO DA<br>MARCA</div>`;
+      }
+
+      return `<div class="logo-placeholder">LOGO DA MARCA</div>`;
+    }
+
+    function syncPartnerBrandData() {
+      partnerCompanyName = getPartnerCompanyName();
+      clientBrandName = getClientBrandName();
+
+      if (selectedMaterial) {
+        renderBusinessContentPreview(selectedMaterial);
+      }
+    }
+
+    function getGreetingPrefix(type) {
+      if (type === "male") return "Prezado Sr.";
+      if (type === "female") return "Prezada Sra.";
+      return "Prezado(a)";
+    }
+
+    function hasClientPersonalization() {
+      return Boolean(
+        clientPersonalization.enabled &&
+        (clientPersonalization.name.trim() || clientPersonalization.message.trim())
+      );
+    }
+
+    function getClientGreetingLine() {
+      const prefix = getGreetingPrefix(clientPersonalization.greetingType);
+      const name = clientPersonalization.name.trim() || "Cliente";
+      return `${prefix} ${name},`;
+    }
+
+    function getClientMessageText() {
+      return clientPersonalization.message.trim() ||
+        "Preparamos esta seleção para apoiar sua experiência durante a viagem, com informações organizadas para facilitar suas escolhas no destino.";
+    }
+
+    function renderClientPreviewText() {
+      const preview = document.getElementById("clientGreetingPreview");
+      if (!preview) return;
+
+      const name = document.getElementById("clientNameInput")?.value.trim() || "Cliente";
+      const type = document.getElementById("clientGreetingType")?.value || "neutral";
+      const message = document.getElementById("clientMessageInput")?.value.trim() ||
+        "Preparamos esta seleção para apoiar sua experiência durante a viagem.";
+
+      preview.innerHTML = `<strong>Prévia:</strong><br>${getGreetingPrefix(type)} ${name},<br>${message}`;
+    }
+
+    function applyClientPersonalization() {
+      clientPersonalization = {
+        enabled: true,
+        greetingType: document.getElementById("clientGreetingType")?.value || "neutral",
+        name: document.getElementById("clientNameInput")?.value.trim() || "",
+        message: document.getElementById("clientMessageInput")?.value.trim() || ""
+      };
+
+      renderClientPreviewText();
+
+      if (selectedMaterial) {
+        renderBusinessContentPreview(selectedMaterial);
+      }
+    }
+
+    function clearClientPersonalization() {
+      clientPersonalization = {
+        enabled: false,
+        greetingType: "neutral",
+        name: "",
+        message: ""
+      };
+
+      const type = document.getElementById("clientGreetingType");
+      const name = document.getElementById("clientNameInput");
+      const message = document.getElementById("clientMessageInput");
+      const preview = document.getElementById("clientGreetingPreview");
+
+      if (type) type.value = "neutral";
+      if (name) name.value = "";
+      if (message) message.value = "";
+      if (preview) {
+        preview.innerHTML = `<strong>Prévia:</strong><br>O material seguirá no modelo business padrão até que os dados do cliente sejam preenchidos.`;
+      }
+
+      if (selectedMaterial) {
+        renderBusinessContentPreview(selectedMaterial);
+      }
+    }
+
+    function renderPersonalizedCoverBlock(category, city) {
+      if (!hasClientPersonalization()) return "";
+
+      return `
+        <div class="business-client-card personalized-cover-preview">
+          <h6>Atendimento personalizado</h6>
+          <p><strong>${getClientGreetingLine()}</strong></p>
+          <p>${getClientMessageText()}</p>
+        </div>
+        <div class="business-client-card personalized-cover-preview">
+          <h6>${category} • ${city}</h6>
+          <p>Material preparado em versão business clean por ${escapeHtml(getClientBrandName())}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
+        </div>
       `;
     }
 
-    async function extractSelectedMaterial() {
-      if (!selectedMaterial) return;
 
-      setMainMessage("Lendo PDF. Aguarde...");
-      document.getElementById("extractButton").disabled = true;
-      document.getElementById("saveButton").disabled = true;
-      document.getElementById("replaceButton").disabled = true;
+    function renderInlineClosingPage() {
+      const brandName = escapeHtml(getClientBrandName());
+      const partnerName = escapeHtml(getPartnerCompanyName());
 
-      try {
-        let fullText = await extractPdfTextFromUrl(selectedMaterial.pdf_url, 5, 9);
-        let parsed = parseAttractionsBusinessContent(fullText, selectedMaterial.city_label);
-
-        if (!parsed.items.length) {
-          fullText = await extractPdfTextFromUrl(selectedMaterial.pdf_url, 1, 12);
-          parsed = parseAttractionsBusinessContent(fullText, selectedMaterial.city_label);
-        }
-
-        extractedRawText = fullText;
-        extractedItems = parsed.items || [];
-        document.getElementById("panoramaInput").value = parsed.panorama || "";
-        document.getElementById("rawText").textContent = fullText || "";
-        renderItems();
-
-        document.getElementById("saveButton").disabled = !extractedItems.length;
-        document.getElementById("replaceButton").disabled = !extractedItems.length;
-
-        setMainMessage(
-          extractedItems.length
-            ? `${extractedItems.length} indicação(ões) extraída(s). Revise e salve em b2b_material_items.`
-            : "Nenhuma indicação foi extraída. Você pode adicionar manualmente ou revisar o texto bruto.",
-          extractedItems.length ? "success" : "error"
-        );
-      } catch (error) {
-        console.error(error);
-        setMainMessage("Erro ao ler PDF:\n" + (error.message || String(error)), "error");
-      } finally {
-        document.getElementById("extractButton").disabled = false;
-      }
+      return `
+        <section class="business-a4-page">
+          <div class="business-page-kicker">Encerramento</div>
+          <div class="business-closing-logo">${getBrandLogoHtml("inline")}</div>
+          <h5 class="business-page-title" style="text-align:center;">${brandName}</h5>
+          <div class="business-closing-text">
+            A melhor viagem é aquela que permite viver o destino com mais tranquilidade e menos dúvidas.<br><br>
+            <strong>Tenha uma excelente experiência.</strong>
+          </div>
+          <div class="business-closing-partner">
+            Material disponibilizado por<br>
+            <strong>${brandName}</strong><br><br>
+            em parceria com<br>
+            <strong>Curadoria Elite Travel</strong>
+          </div>
+          <div class="business-closing-exclusive">
+            <p><strong>Documento disponibilizado para clientes da ${brandName}.</strong></p>
+            <p>Uso destinado ao apoio e orientação durante a viagem.</p>
+          </div>
+          <div class="business-page-footer">© 2026 • ${brandName} • Curadoria Elite Travel Partner • Conta: ${partnerName}</div>
+        </section>
+      `;
     }
 
-    function renderItems() {
-      const container = document.getElementById("itemsContainer");
-      container.innerHTML = "";
+    function formatBusinessNumber(index) {
+      return String(index + 1).padStart(2, "0");
+    }
 
-      extractedItems.forEach(function(item, index) {
-        const card = document.createElement("div");
-        card.className = "item-card";
-        card.innerHTML = `
-          <div class="item-top">
-            <div class="number-badge">${String(index + 1).padStart(2, "0")}</div>
-            <div>
-              <label>Nome da indicação</label>
-              <input data-field="name" data-index="${index}" type="text" value="${escapeHtml(item.name || "")}">
+    function chunkItems(items, size) {
+      const chunks = [];
+
+      for (let index = 0; index < items.length; index += size) {
+        chunks.push(items.slice(index, index + size));
+      }
+
+      return chunks;
+    }
+
+    function renderBusinessItemCard(item, index) {
+      return `
+        <div class="business-item-card">
+          <div class="business-item-number">${formatBusinessNumber(index)}</div>
+          <div>
+            <h6>${item.name}</h6>
+            <p>${item.description}</p>
+            <div class="business-item-details-grid">
+              ${item.address ? `<div class="business-item-detail"><strong>Endereço:</strong> ${item.address}</div>` : ""}
+              ${item.site ? `<div class="business-item-detail"><strong>Site:</strong> ${item.site}</div>` : ""}
+              ${item.price ? `<div class="business-item-detail"><strong>Entrada:</strong> ${item.price}</div>` : ""}
             </div>
           </div>
+        </div>
+      `;
+    }
 
-          <label>Descrição</label>
-          <textarea data-field="description" data-index="${index}">${escapeHtml(item.description || "")}</textarea>
+    function renderBusinessPreviewCurrentPage() {
+      const contentEl = document.getElementById("businessContentPreview");
+      const controls = document.getElementById("businessPreviewControls");
+      const label = document.getElementById("businessPreviewPageLabel");
+      const prevButton = document.getElementById("businessPreviewPrev");
+      const nextButton = document.getElementById("businessPreviewNext");
 
-          <div class="item-fields">
-            <div>
-              <label>Endereço</label>
-              <input data-field="address" data-index="${index}" type="text" value="${escapeHtml(item.address || "")}">
-            </div>
-            <div>
-              <label>Site</label>
-              <input data-field="site" data-index="${index}" type="text" value="${escapeHtml(item.site || "")}">
-            </div>
-            <div>
-              <label>Entrada</label>
-              <input data-field="price" data-index="${index}" type="text" value="${escapeHtml(item.price || "")}">
-            </div>
-            <div style="display:flex;align-items:end;">
-              <button class="btn danger" type="button" data-remove-index="${index}">Remover indicação</button>
-            </div>
-          </div>
+      if (!contentEl) return;
+
+      if (!businessPreviewPages.length) {
+        contentEl.innerHTML = `
+          <section class="business-a4-page">
+            <div class="business-page-kicker">Prévia Business Partner</div>
+            <h5 class="business-page-title">Material aguardando seleção</h5>
+            <div class="business-city-text">Selecione um destino para visualizar a versão business em páginas organizadas.</div>
+            <div class="business-page-footer">Curadoria Elite Travel Partner</div>
+          </section>
         `;
+        if (controls) controls.style.display = "none";
+        return;
+      }
 
-        container.appendChild(card);
-      });
+      if (businessPreviewPageIndex < 0) businessPreviewPageIndex = 0;
+      if (businessPreviewPageIndex > businessPreviewPages.length - 1) businessPreviewPageIndex = businessPreviewPages.length - 1;
 
-      container.querySelectorAll("[data-field]").forEach(function(input) {
-        input.addEventListener("input", function() {
-          const index = Number(input.dataset.index);
-          const field = input.dataset.field;
-          if (!extractedItems[index]) return;
-          extractedItems[index][field] = input.value;
-        });
-      });
+      contentEl.innerHTML = businessPreviewPages[businessPreviewPageIndex];
 
-      container.querySelectorAll("[data-remove-index]").forEach(function(button) {
-        button.addEventListener("click", function() {
-          const index = Number(button.dataset.removeIndex);
-          extractedItems.splice(index, 1);
-          renderItems();
-          document.getElementById("saveButton").disabled = !extractedItems.length;
-          document.getElementById("replaceButton").disabled = !extractedItems.length;
-        });
-      });
+      if (controls) {
+        controls.style.display = businessPreviewPages.length > 1 ? "flex" : "none";
+      }
+
+      if (label) {
+        label.textContent = `Página ${businessPreviewPageIndex + 1} de ${businessPreviewPages.length}`;
+      }
+
+      if (prevButton) {
+        prevButton.disabled = businessPreviewPageIndex <= 0;
+      }
+
+      if (nextButton) {
+        nextButton.disabled = businessPreviewPageIndex >= businessPreviewPages.length - 1;
+      }
     }
 
-    function addManualItem() {
-      extractedItems.push({
-        name: `Indicação ${extractedItems.length + 1}`,
-        description: "",
-        address: "",
-        site: "",
-        price: ""
-      });
-
-      renderItems();
-      document.getElementById("saveButton").disabled = !extractedItems.length;
-      document.getElementById("replaceButton").disabled = !extractedItems.length;
+    function changeBusinessPreviewPage(direction) {
+      businessPreviewPageIndex = businessPreviewPageIndex + direction;
+      renderBusinessPreviewCurrentPage();
     }
 
-    function buildRowsForSave() {
-      if (!selectedMaterial) return [];
+    function updatePersonalizedCoverPreviewBlock(material) {
+      const block = document.getElementById("personalizedCoverPreviewBlock");
+      if (!block) return;
 
-      const panorama = document.getElementById("panoramaInput").value.trim();
+      if (!material || !hasClientPersonalization()) {
+        block.innerHTML = "";
+        return;
+      }
+
+      const category = normalizeCategoryName(material.category);
+      const city = material.city_label || "Destino selecionado";
+
+      block.innerHTML = renderPersonalizedCoverBlock(category, city);
+    }
+
+    function renderBusinessContentPreview(material) {
+      updatePersonalizedCoverPreviewBlock(material);
+
+      const content = getBusinessContentTemplate(material);
+      const category = normalizeCategoryName(material.category);
+      const city = material.city_label || "Destino selecionado";
+
+      const panoramaPage = `
+        <section class="business-a4-page">
+          <div class="business-page-kicker">Página 02 • Panorama da cidade</div>
+          <h5 class="business-page-title">${city}</h5>
+          <div class="business-city-text">${content.panorama}</div>
+          <div class="business-page-footer">Material Partner • ${category}</div>
+        </section>
+      `;
+
+      if (!content.items.length) {
+        businessPreviewPages = [
+          panoramaPage,
+          `
+          <section class="business-a4-page">
+            <div class="business-page-kicker">Página 03 • Indicações selecionadas</div>
+            <h5 class="business-page-title">Indicações em preparação</h5>
+            <div class="business-city-text">Este material já foi identificado no Supabase. A leitura automática tentará converter o PDF em indicações estruturadas para esta categoria e destino. Se o texto do PDF não estiver em padrão legível, será necessário revisar a conversão.</div>
+            <div class="business-page-footer">Material Partner • ${city}</div>
+          </section>
+          `,
+          renderInlineClosingPage()
+        ].filter(Boolean);
+        businessPreviewPageIndex = 0;
+        renderBusinessPreviewCurrentPage();
+        return;
+      }
+
+      const indicationPages = chunkItems(content.items, 3).map(function(itemsChunk, chunkIndex) {
+        const firstItemIndex = chunkIndex * 3;
+        const pageNumber = String(chunkIndex + 3).padStart(2, "0");
+
+        return `
+          <section class="business-a4-page">
+            <div class="business-page-kicker">Página ${pageNumber} • Indicações selecionadas</div>
+            <h5 class="business-page-title">${city}</h5>
+            <div class="business-items-grid">
+              ${itemsChunk.map(function(item, itemIndex) {
+                return renderBusinessItemCard(item, firstItemIndex + itemIndex);
+              }).join("")}
+            </div>
+            <div class="business-page-footer">${firstItemIndex + 1}–${firstItemIndex + itemsChunk.length} de ${content.items.length} indicações</div>
+          </section>
+        `;
+      });
+
+      businessPreviewPages = [panoramaPage].concat(indicationPages).concat([renderInlineClosingPage()]).filter(Boolean);
+      businessPreviewPageIndex = 0;
+      renderBusinessPreviewCurrentPage();
+    }
+
+
+    function selectMaterial(material) {
+      selectedMaterial = material;
+
+      const category = normalizeCategoryName(material.category);
+      const docTitle = document.getElementById("docTitle");
+      const docSubtitle = document.getElementById("docSubtitle");
+
+      if (docTitle) {
+        docTitle.innerText = category.toUpperCase();
+      }
+
+      if (docSubtitle) {
+        docSubtitle.innerText = `${material.city_label} • Versão Business Partner${material.year ? " • " + material.year : ""}`;
+      }
+
+      const businessPreviewTitle = document.getElementById("businessPreviewTitle");
+      const businessPreviewText = document.getElementById("businessPreviewText");
+
+      if (businessPreviewTitle) {
+        businessPreviewTitle.innerText = `${category} • ${material.city_label}`;
+      }
+
+      if (businessPreviewText) {
+        businessPreviewText.innerText = `Material identificado no acervo da Curadoria Elite Travel e pronto para ser apresentado em uma versão business clean, com identidade da marca apresentada ao cliente e assinatura discreta da Curadoria.`;
+      }
+
+      renderBusinessContentPreview(material);
+      loadAndRenderBusinessContent(material);
+    }
+
+    function buildBusinessDocumentHtml(autoPrint) {
       const category = normalizeCategoryName(selectedMaterial.category);
-      const cityLabel = selectedMaterial.city_label;
-      const year = String(selectedMaterial.year || document.getElementById("yearFilter").value || "2026").trim();
+      const city = selectedMaterial.city_label || "Destino selecionado";
+      const year = selectedMaterial.year || "";
+      const brandName = getClientBrandName();
+      const partnerName = getPartnerCompanyName();
+      const logoHtml = getBrandLogoHtml("print");
+      const businessContent = getBusinessContentTemplate(selectedMaterial);
+      const personalizedCoverHtml = hasClientPersonalization()
+        ? `<div class="panel personalized-cover-panel">
+            <div class="page-kicker">Atendimento personalizado</div>
+            <h2>${getClientGreetingLine()}</h2>
+            <p>${getClientMessageText()}</p>
+          </div>
+          <div class="panel personalized-cover-panel">
+            <h2>${category} • ${city}</h2>
+            <p>Material preparado em versão business clean por ${brandName}, com apoio da Curadoria Elite Travel, para facilitar a consulta e a tomada de decisão durante a viagem.</p>
+          </div>`
+        : `<div class="panel">
+            <h2>Uso profissional</h2>
+            <ul>
+              <li>Versão adaptada para envio ao cliente da empresa parceira.</li>
+              <li>Identidade da empresa aplicada ao documento.</li>
+              <li>Assinatura discreta da Curadoria Elite Travel como parceira de curadoria.</li>
+            </ul>
+          </div>`;
 
-      return extractedItems
-        .map(function(item, index) {
-          return {
-            category: category,
-            city_label: cityLabel,
-            year: year,
-            panorama: index === 0 ? panorama : null,
-            item_order: index + 1,
-            item_name: cleanExtractedValue(item.name),
-            description: cleanExtractedValue(item.description),
-            address: cleanExtractedValue(item.address),
-            site: normalizeSiteValue(item.site),
-            entry_price: cleanExtractedValue(item.price),
-            is_active: true
-          };
-        })
-        .filter(function(row) {
-          return row.item_name && row.description;
-        });
+      const indicationPages = businessContent.items.length
+        ? chunkItems(businessContent.items, 3).map(function(itemsChunk, chunkIndex) {
+            const firstItemIndex = chunkIndex * 3;
+            const pageNumber = String(chunkIndex + 3).padStart(2, "0");
+
+            return `
+              <section class="paper-page">
+                <div class="page-kicker">Página ${pageNumber} • Indicações selecionadas</div>
+                <h2>${city}</h2>
+                <div class="items-grid">
+                  ${itemsChunk.map(function(item, itemIndex) {
+                    const number = formatBusinessNumber(firstItemIndex + itemIndex);
+                    return `
+                      <article class="printed-item-card">
+                        <div class="printed-item-number">${number}</div>
+                        <div>
+                          <h3>${item.name}</h3>
+                          <p>${item.description}</p>
+                          ${item.address ? `<div class="detail"><strong>Endereço:</strong> ${item.address}</div>` : ""}
+                          ${item.site ? `<div class="detail"><strong>Site:</strong> ${item.site}</div>` : ""}
+                          ${item.price ? `<div class="detail"><strong>Entrada:</strong> ${item.price}</div>` : ""}
+                        </div>
+                      </article>
+                    `;
+                  }).join("")}
+                </div>
+                <div class="page-footer">${firstItemIndex + 1}–${firstItemIndex + itemsChunk.length} de ${businessContent.items.length} indicações • Curadoria Elite Travel Partner</div>
+              </section>
+            `;
+          }).join("")
+        : `<section class="paper-page"><div class="page-kicker">Página 03 • Indicações selecionadas</div><h2>Indicações em preparação</h2><p class="lead">Este material já foi identificado no Supabase. A leitura automática tentará converter o PDF em indicações estruturadas para esta categoria e destino. Se o texto do PDF não estiver em padrão legível, será necessário revisar a conversão.</p><div class="page-footer">Curadoria Elite Travel Partner</div></section>`;
+
+      const closingPageHtml = `
+        <section class="paper-page closing-page">
+          <div class="page-kicker">Encerramento</div>
+          <div class="closing-logo">${logoHtml}</div>
+          <h2 class="closing-brand">${brandName}</h2>
+
+          <p class="closing-text">
+            A melhor viagem é aquela que permite viver o destino com mais tranquilidade e menos dúvidas.
+          </p>
+
+          <p class="closing-highlight">Tenha uma excelente experiência.</p>
+
+          <div class="closing-signature">
+            Material disponibilizado por<br>
+            <strong>${brandName}</strong><br><br>
+            em parceria com<br>
+            <strong>Curadoria Elite Travel</strong>
+          </div>
+
+          <div class="closing-exclusive">
+            <p><strong>Documento disponibilizado para clientes da ${brandName}.</strong></p>
+            <p>Uso destinado ao apoio e orientação durante a viagem.</p>
+          </div>
+
+          <div class="page-footer">© 2026 • ${brandName} • Curadoria Elite Travel Partner</div>
+        </section>
+      `;
+
+      return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${category} • ${city} | Partner</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #e9e4d8;
+      color: #111;
+      padding: 36px 18px;
+    }
+    .paper-page {
+      width: min(820px, 100%);
+      min-height: 1080px;
+      margin: 0 auto 28px;
+      background: #f8f6f1;
+      border: 1px solid #d8c691;
+      border-radius: 26px;
+      padding: 54px;
+      box-shadow: 0 24px 70px rgba(0,0,0,.14);
+      position: relative;
+      overflow: hidden;
+    }
+    .paper-page::before {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border: 1px solid rgba(214,173,50,.25);
+      border-radius: 20px;
+      pointer-events: none;
+    }
+    .top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+      border-bottom: 3px solid #d6ad32;
+      padding-bottom: 26px;
+      margin-bottom: 44px;
+      position: relative;
+      z-index: 1;
+    }
+    .partner-logo img { max-width: 220px; max-height: 110px; object-fit: contain; }
+    .logo-placeholder { font-size: 23px; line-height: 1.05; font-weight: 950; letter-spacing: .5px; }
+    .signature { text-align: right; font-size: 14px; line-height: 1.4; color: #222; }
+    .signature strong { display: block; margin-top: 6px; }
+    .eyebrow, .page-kicker {
+      color: #9a7617;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 62px;
+      line-height: .95;
+      letter-spacing: 1px;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+    h2 {
+      font-size: 34px;
+      line-height: 1.1;
+      margin-bottom: 22px;
+      position: relative;
+      z-index: 1;
+    }
+    .subtitle {
+      font-size: 22px;
+      color: #444;
+      margin-bottom: 38px;
+      position: relative;
+      z-index: 1;
+    }
+    .lead {
+      color: #333;
+      font-size: 20px;
+      line-height: 1.85;
+      position: relative;
+      z-index: 1;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 28px 0 42px;
+      position: relative;
+      z-index: 1;
+    }
+    .meta div {
+      border: 1px solid #dfcfaa;
+      border-radius: 16px;
+      padding: 18px;
+      background: rgba(255,255,255,.44);
+    }
+    .meta small {
+      display: block;
+      text-transform: uppercase;
+      color: #8a7a58;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 7px;
+    }
+    .meta strong { font-size: 16px; }
+    .panel {
+      border: 1px solid #dfcfaa;
+      border-radius: 20px;
+      padding: 26px;
+      background: rgba(255,255,255,.54);
+      position: relative;
+      z-index: 1;
+      margin-top: 24px;
+    }
+    .panel h2 { font-size: 26px; margin-bottom: 12px; }
+    .panel p, .panel li { color: #333; font-size: 17px; line-height: 1.65; }
+    .personalized-cover-panel .page-kicker { margin-bottom: 14px; }
+    .personalized-cover-panel h2 { font-size: 28px; margin-bottom: 14px; }
+    .personalized-cover-panel p { font-size: 18px; line-height: 1.7; }
+
+    .items-grid { display: grid; gap: 18px; position: relative; z-index: 1; }
+    .printed-item-card {
+      border: 1px solid #dfcfaa;
+      border-radius: 20px;
+      padding: 22px;
+      background: rgba(255,255,255,.58);
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .printed-item-number {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid rgba(214,173,50,.55);
+      color: #9b7a19;
+      background: rgba(214,173,50,.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 950;
+      font-size: 15px;
+    }
+    .printed-item-card h3 {
+      font-size: 21px;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      margin-bottom: 10px;
+    }
+    .printed-item-card p {
+      color: #333;
+      font-size: 15px;
+      line-height: 1.62;
+      margin-bottom: 12px;
+    }
+    .detail { color: #333; font-size: 14px; line-height: 1.45; margin-top: 6px; }
+    .detail strong { color: #111; }
+    ul { padding-left: 20px; }
+    .page-footer {
+      position: absolute;
+      left: 54px;
+      right: 54px;
+      bottom: 38px;
+      border-top: 1px solid rgba(214,173,50,.42);
+      padding-top: 14px;
+      text-align: center;
+      color: #555;
+      font-size: 12px;
+      z-index: 1;
     }
 
-    async function saveRows(replaceExisting) {
+    .closing-page {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+    .closing-logo {
+      margin: 0 auto 28px;
+      position: relative;
+      z-index: 1;
+      min-height: 112px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .closing-logo img { max-width: 240px; max-height: 120px; object-fit: contain; }
+    .closing-brand { font-size: 34px; margin-bottom: 34px; }
+    .closing-text {
+      color: #333;
+      font-size: 24px;
+      line-height: 1.65;
+      max-width: 610px;
+      margin: 0 auto 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .closing-highlight {
+      color: #111;
+      font-size: 25px;
+      font-weight: 900;
+      margin: 18px auto 42px;
+      position: relative;
+      z-index: 1;
+    }
+    .closing-signature {
+      border-top: 1px solid rgba(214,173,50,.42);
+      border-bottom: 1px solid rgba(214,173,50,.42);
+      padding: 24px 0;
+      color: #444;
+      font-size: 17px;
+      line-height: 1.55;
+      max-width: 500px;
+      margin: 0 auto 28px;
+      position: relative;
+      z-index: 1;
+    }
+    .closing-exclusive {
+      color: #444;
+      font-size: 15px;
+      line-height: 1.65;
+      max-width: 560px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .closing-exclusive strong { color: #222; }
+
+    .actions { text-align:center; margin:24px auto 0; max-width:820px; }
+    .print-btn {
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #e3bd43, #b88712);
+      color: #090909;
+      padding: 14px 24px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    @page { size: A4; margin: 0; }
+    @media print {
+      html, body { background: #fff; padding: 0; margin: 0; }
+      .paper-page {
+        box-shadow: none;
+        border-radius: 0;
+        width: 100%;
+        min-height: 100vh;
+        margin: 0;
+        break-after: page;
+        page-break-after: always;
+      }
+      .paper-page:last-of-type {
+        break-after: auto;
+        page-break-after: auto;
+      }
+      .actions { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <section class="paper-page">
+    <div class="top">
+      <div class="partner-logo">${logoHtml}</div>
+      <div class="signature">Curadoria desenvolvida em parceria com<strong>Curadoria Elite Travel</strong></div>
+    </div>
+
+    <div class="eyebrow">Versão Business Partner</div>
+    <h1>${category.toUpperCase()}</h1>
+    <div class="subtitle">${city} • Material business${year ? " • " + year : ""}</div>
+
+    <div class="meta">
+      <div><small>Categoria</small><strong>${category}</strong></div>
+      <div><small>Destino</small><strong>${city}</strong></div>
+      <div><small>Formato</small><strong>Business clean</strong></div>
+    </div>
+
+    ${personalizedCoverHtml}
+
+    <div class="page-footer">Página 01 • Material Partner • Uso autorizado para clientes da empresa parceira</div>
+  </section>
+
+  <section class="paper-page">
+    <div class="page-kicker">Panorama da cidade</div>
+    <h2>${city}</h2>
+    <p class="lead">${businessContent.panorama}</p>
+    <div class="page-footer">Curadoria Elite Travel Partner • ${category}</div>
+  </section>
+
+  ${indicationPages}
+
+  ${closingPageHtml}
+
+  <div class="actions">
+    <button class="print-btn" onclick="window.print()">Salvar ou imprimir versão business</button>
+  </div>
+
+  ${autoPrint ? '<script>window.addEventListener("load", function(){ setTimeout(function(){ window.print(); }, 500); });<\/script>' : ''}
+</body>
+</html>`;
+    }
+
+
+    async function sendBusinessMaterialByEmail() {
       if (!selectedMaterial) {
-        setMainMessage("Selecione um material antes de salvar.", "error");
+        alert("Selecione um material disponível antes de enviar.");
         return;
       }
 
-      const rows = buildRowsForSave();
+      const emailInput = document.getElementById("clientEmailInput");
+      const clientEmail = emailInput ? emailInput.value.trim() : "";
 
-      if (!rows.length) {
-        setMainMessage("Não há linhas válidas para salvar. Preencha ao menos nome e descrição.", "error");
+      if (!isValidEmail(clientEmail)) {
+        alert("Informe um e-mail válido do cliente.");
         return;
       }
 
-      const category = rows[0].category;
-      const cityLabel = rows[0].city_label;
-      const year = rows[0].year;
+      applyClientPersonalization();
+      await ensureBusinessContentLoaded(selectedMaterial);
 
-      setMainMessage(replaceExisting ? "Substituindo registros existentes..." : "Salvando registros...");
+      if (!registerPartnerEmailSend()) {
+        return;
+      }
+
+      alert(`Envio registrado para ${clientEmail}. Nesta versão de teste, o disparo é simulado; em produção, este botão chamará a função de e-mail para enviar a versão business sem baixar.`);
+    }
+
+    async function openBusinessMaterial(autoPrint) {
+      if (!selectedMaterial) {
+        alert("Selecione um material disponível.");
+        return;
+      }
+
+      const businessWindow = window.open("", "_blank");
+
+      if (!businessWindow) {
+        alert("Permita pop-ups para visualizar a versão business.");
+        return;
+      }
 
       try {
-        if (replaceExisting) {
-          const deleteResult = await supabaseClient
-            .from("b2b_material_items")
-            .delete()
-            .eq("category", category)
-            .eq("city_label", cityLabel)
-            .eq("year", year);
-
-          if (deleteResult.error) {
-            throw deleteResult.error;
-          }
-        }
-
-        const { data, error } = await supabaseClient
-          .from("b2b_material_items")
-          .insert(rows)
-          .select();
-
-        if (error) throw error;
-
-        setMainMessage(`${(data || rows).length} registro(s) salvo(s) em b2b_material_items para ${cityLabel}.`, "success");
+        await ensureBusinessContentLoaded(selectedMaterial);
+        const documentHtml = buildBusinessDocumentHtml(autoPrint);
+        businessWindow.document.open();
+        businessWindow.document.write(documentHtml);
+        businessWindow.document.close();
       } catch (error) {
-        console.error(error);
-        setMainMessage(
-          "Erro ao salvar em b2b_material_items:\n" +
-          (error.message || String(error)) +
-          "\n\nSe a tabela estiver com RLS, crie política de INSERT/DELETE para esta operação interna ou use uma função backend segura.",
-          "error"
-        );
+        console.error("Erro ao gerar material business:", error);
+        businessWindow.document.open();
+        businessWindow.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Erro ao gerar material</title></head><body style="font-family:Arial,sans-serif;padding:40px;color:#111;"><h1>Não foi possível gerar este material.</h1><p>Verifique se a categoria e o destino estão selecionados corretamente.</p><pre style="white-space:pre-wrap;background:#f4f4f4;padding:16px;border-radius:12px;">${String(error && error.message ? error.message : error)}</pre></body></html>`);
+        businessWindow.document.close();
       }
     }
 
-    function clearPreview() {
-      selectedMaterial = null;
-      extractedItems = [];
-      extractedRawText = "";
-      document.getElementById("panoramaInput").value = "";
-      document.getElementById("rawText").textContent = "";
-      document.getElementById("extractButton").disabled = true;
-      document.getElementById("saveButton").disabled = true;
-      document.getElementById("replaceButton").disabled = true;
-      setMainMessage("Prévia limpa. Selecione um material à esquerda.");
-      updateSelectedMeta();
-      renderItems();
-      renderMaterialsList();
-    }
+    document.getElementById("previewButton").addEventListener("click", async function() {
+      await openBusinessMaterial(false);
+    });
 
-    document.getElementById("loadMaterialsButton").addEventListener("click", loadMaterials);
-    document.getElementById("searchInput").addEventListener("input", renderMaterialsList);
-    document.getElementById("extractButton").addEventListener("click", extractSelectedMaterial);
-    document.getElementById("saveButton").addEventListener("click", function() { saveRows(false); });
-    document.getElementById("replaceButton").addEventListener("click", function() {
-      if (confirm("Isso vai apagar os registros existentes deste destino/categoria/ano em b2b_material_items e inserir a versão revisada. Continuar?")) {
-        saveRows(true);
+    document.getElementById("downloadButton").addEventListener("click", async function() {
+      if (registerPartnerDownload()) {
+        await openBusinessMaterial(true);
       }
     });
-    document.getElementById("clearPreviewButton").addEventListener("click", clearPreview);
-    document.getElementById("addItemButton").addEventListener("click", addManualItem);
-    document.getElementById("toggleRawButton").addEventListener("click", function() {
-      document.getElementById("rawBox").classList.toggle("active");
+    document.getElementById("destinationSearchInput").addEventListener("input", filterDestinations);
+    document.getElementById("prevPageButton").addEventListener("click", function() { changePage(-1); });
+    document.getElementById("nextPageButton").addEventListener("click", function() { changePage(1); });
+    document.getElementById("businessPreviewPrev").addEventListener("click", function() { changeBusinessPreviewPage(-1); });
+    document.getElementById("businessPreviewNext").addEventListener("click", function() { changeBusinessPreviewPage(1); });
+
+    document.getElementById("toggleClientPersonalization").addEventListener("click", function() {
+      document.getElementById("clientPersonalizationPanel").classList.toggle("active");
     });
 
-    updateSelectedMeta();
+    document.getElementById("clientGreetingType").addEventListener("change", renderClientPreviewText);
+    document.getElementById("clientNameInput").addEventListener("input", renderClientPreviewText);
+    document.getElementById("clientMessageInput").addEventListener("input", renderClientPreviewText);
+    document.getElementById("applyClientPersonalization").addEventListener("click", applyClientPersonalization);
+    document.getElementById("clearClientPersonalization").addEventListener("click", clearClientPersonalization);
+    document.getElementById("sendClientEmailButton").addEventListener("click", async function() { await sendBusinessMaterialByEmail(); });
+
+    updatePartnerUsageDashboard();
+
+    const partnerCompanyInput = document.getElementById("partnerCompanyInput");
+    const clientBrandInput = document.getElementById("clientBrandInput");
+
+    if (partnerCompanyInput) {
+      partnerCompanyInput.addEventListener("input", syncPartnerBrandData);
+    }
+
+    if (clientBrandInput) {
+      clientBrandInput.addEventListener("input", syncPartnerBrandData);
+    }
+
+    syncPartnerBrandData();
+
+    document.getElementById("logoInput").addEventListener("change", function(event) {
+      const file = event.target.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        partnerLogoDataUrl = e.target.result;
+
+        document.getElementById("logoPreview").innerHTML =
+          '<img src="' + e.target.result + '" alt="Logo da marca apresentada">';
+
+        document.getElementById("docLogoText").innerHTML =
+          '<img src="' + e.target.result + '" alt="Logo da marca apresentada">';
+
+        if (selectedMaterial) {
+          renderBusinessContentPreview(selectedMaterial);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    });
+
+    loadMaterialsFromSupabase();
   </script>
 </body>
 </html>
