@@ -2,569 +2,539 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin · Curadoria Elite Travel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <title>Admin | Curadoria Elite Travel</title>
   <style>
-    body{
-      margin:0;
-      font-family:"Segoe UI",sans-serif;
-      background:#0b0b0b;
-      color:#fff;
-      overflow-x:hidden;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #03060b;
+      --panel: #071020;
+      --panel-2: #050b16;
+      --gold: #d6ad32;
+      --gold-2: #b88712;
+      --text: #ffffff;
+      --muted: #aeb8c8;
+      --line: rgba(255,255,255,.10);
+      --soft-gold: rgba(214,173,50,.14);
+      --danger: #ffb3b3;
+      --success: #bff3ca;
     }
 
-    header{
-      padding:16px 22px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      position:sticky;
-      top:0;
-      z-index:10;
-      background:rgba(0,0,0,0.65);
-      backdrop-filter:blur(8px);
-      border-bottom:1px solid rgba(255,255,255,0.08);
+    body {
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at 18% 10%, rgba(214,173,50,.10), transparent 28%),
+        radial-gradient(circle at 90% 42%, rgba(214,173,50,.05), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
     }
 
-    .brand{
-      font-family:"Cinzel","Georgia",serif;
-      color:#d4af37;
-      letter-spacing:0.8px;
-      text-transform:uppercase;
-      font-size:16px;
+    header {
+      min-height: 74px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      background: rgba(0,0,0,.94);
+      position: sticky;
+      top: 0;
+      z-index: 20;
     }
 
-    .wrap{
-      max-width:1100px;
-      margin:0 auto;
-      padding:22px;
-      box-sizing:border-box;
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand-symbol { color: var(--gold); font-size: 27px; }
+    .brand h1 { font-size: 18px; color: var(--gold); letter-spacing: .5px; line-height: 1; }
+    .brand p { font-size: 12px; color: #fff; margin-top: 5px; }
+
+    .top-actions { display: flex; gap: 12px; align-items: center; }
+
+    .btn {
+      border: 1px solid rgba(214,173,50,.45);
+      background: rgba(0,0,0,.16);
+      color: #fff;
+      padding: 13px 22px;
+      border-radius: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .22s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+      font-size: 14px;
     }
 
-    .card{
-      background:linear-gradient(145deg,#111,#000);
-      border:1px solid #222;
-      border-radius:14px;
-      padding:18px;
-      box-sizing:border-box;
-      margin-bottom:14px;
+    .btn:hover { border-color: rgba(214,173,50,.85); transform: translateY(-1px); }
+    .btn.gold { background: linear-gradient(135deg, #e3bd43, #b88712); color: #060606; border: none; box-shadow: 0 12px 26px rgba(214,173,50,.18); }
+    .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+    main { max-width: 1320px; margin: 0 auto; padding: 44px 24px 70px; }
+
+    .hero {
+      border: 1px solid rgba(214,173,50,.34);
+      background: linear-gradient(180deg, rgba(11,17,29,.98), rgba(5,8,15,.98));
+      border-radius: 24px;
+      padding: 42px;
+      box-shadow: 0 0 80px rgba(214,173,50,.08), 0 24px 70px rgba(0,0,0,.32);
+      margin-bottom: 24px;
     }
 
-    .title{
-      color:#d4af37;
-      margin:0 0 8px;
-      font-size:18px;
-      letter-spacing:0.2px;
+    .eyebrow { color: var(--gold); letter-spacing: 5px; font-size: 12px; text-transform: uppercase; margin-bottom: 16px; font-weight: 900; }
+    .hero h2 { font-size: clamp(34px, 5vw, 56px); color: var(--gold); margin-bottom: 14px; line-height: 1.05; }
+    .hero p { color: #eef2f7; max-width: 850px; line-height: 1.75; font-size: 16px; }
+
+    .login-card,
+    .dashboard-shell {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #071020, #060b15);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 22px 55px rgba(0,0,0,.22);
     }
 
-    .sub{
-      color:rgba(255,255,255,0.75);
-      margin:0 0 14px;
-      line-height:1.6;
-      font-size:13.8px;
+    .login-card { max-width: 560px; margin: 0 auto; }
+    .login-card h3,
+    .section-title { color: #fff; font-size: 24px; margin-bottom: 9px; }
+    .sub { color: #c8d3e4; font-size: 14px; line-height: 1.65; margin-bottom: 18px; }
+
+    .form-grid { display: grid; gap: 14px; }
+    .form-group label { display: block; color: #9fb0c7; font-size: 12px; font-weight: 900; margin-bottom: 7px; }
+    .input {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.12);
+      background: #050b16;
+      color: #fff;
+      border-radius: 13px;
+      padding: 13px 14px;
+      outline: none;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+    .input:focus { border-color: rgba(214,173,50,.75); box-shadow: 0 0 0 3px rgba(214,173,50,.08); }
+
+    .message { margin-top: 14px; font-size: 13px; line-height: 1.5; display: none; }
+    .message.error { color: var(--danger); }
+    .message.success { color: var(--success); }
+
+    .dashboard-shell { display: none; }
+
+    .dashboard-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+      margin-bottom: 22px;
     }
 
-    .row{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
+    .status-pill {
+      border: 1px solid rgba(214,173,50,.35);
+      color: var(--gold);
+      background: rgba(214,173,50,.07);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    @media (max-width:900px){
-      .row{ grid-template-columns:1fr; }
+    .status-pill::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: inline-block;
     }
 
-    label{
-      display:block;
-      color:rgba(255,255,255,0.72);
-      font-size:12.5px;
-      margin:10px 0 8px;
-      letter-spacing:0.2px;
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
     }
 
-    input, select{
-      width:100%;
-      padding:12px 14px;
-      border-radius:12px;
-      border:1px solid #222;
-      background:#0f0f0f;
-      color:#fff;
-      outline:none;
-      box-sizing:border-box;
-      font-size:14px;
+    .metric-card {
+      border: 1px solid rgba(255,255,255,.12);
+      background: #050b16;
+      border-radius: 18px;
+      padding: 18px;
+      min-height: 118px;
     }
 
-    .actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:14px;
+    .metric-card small { display: block; color: #9fb0c7; font-size: 12px; font-weight: 900; margin-bottom: 10px; }
+    .metric-card strong { display: block; color: #fff; font-size: 28px; line-height: 1.1; }
+    .metric-card span { display: block; color: var(--gold); font-size: 12px; font-weight: 900; margin-top: 9px; }
+
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
     }
 
-    button{
-      cursor:pointer;
-      padding:10px 14px;
-      border-radius:10px;
-      border:none;
-      background:#d4af37;
-      color:#000;
-      font-weight:700;
+    .module-card {
+      border: 1px solid rgba(214,173,50,.24);
+      background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015));
+      border-radius: 20px;
+      padding: 22px;
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .btn-ghost{
-      background:transparent;
-      border:1px solid rgba(212,175,55,0.35);
-      color:#d4af37;
-      font-weight:600;
+    .module-icon { color: var(--gold); font-size: 28px; margin-bottom: 16px; }
+    .module-card h4 { font-size: 22px; margin-bottom: 10px; color: #fff; }
+    .module-card p { color: #c8d3e4; font-size: 14px; line-height: 1.62; margin-bottom: 18px; }
+    .module-card.disabled { opacity: .58; }
+    .module-card.disabled .btn { pointer-events: none; opacity: .6; }
+
+    .system-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
     }
 
-    .table{
-      width:100%;
-      border-collapse:collapse;
-      overflow:hidden;
-      border-radius:12px;
-      border:1px solid #222;
-      background:#0f0f0f;
+    .system-box {
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      border-radius: 18px;
+      padding: 18px;
     }
 
-    .table th, .table td{
-      padding:12px;
-      border-bottom:1px solid rgba(255,255,255,0.06);
-      vertical-align:top;
-      font-size:13px;
-      line-height:1.45;
-      color:rgba(255,255,255,0.82);
+    .system-box h4 { font-size: 18px; margin-bottom: 12px; color: #fff; }
+    .system-list { display: grid; gap: 10px; }
+    .system-row { display: flex; justify-content: space-between; gap: 12px; color: #c8d3e4; font-size: 14px; }
+    .system-row strong { color: var(--gold); }
+
+    .note {
+      margin-top: 24px;
+      border: 1px solid rgba(214,173,50,.22);
+      background: rgba(214,173,50,.06);
+      border-radius: 18px;
+      padding: 18px;
+      color: #d8e1ee;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .note strong { color: var(--gold); }
+
+    @media (max-width: 1100px) {
+      .metrics, .modules, .system-grid { grid-template-columns: 1fr 1fr; }
     }
 
-    .table th{
-      color:rgba(255,255,255,0.78);
-      font-weight:600;
-      text-align:left;
-      background:rgba(255,255,255,0.03);
+    @media (max-width: 720px) {
+      header { padding: 14px 16px; align-items: flex-start; gap: 12px; flex-direction: column; }
+      .top-actions { width: 100%; justify-content: space-between; }
+      main { padding: 28px 14px 48px; }
+      .hero { padding: 30px 22px; }
+      .metrics, .modules, .system-grid { grid-template-columns: 1fr; }
+      .dashboard-head { flex-direction: column; }
+      .btn { padding: 11px 14px; font-size: 13px; }
     }
-
-    .pill{
-      display:inline-flex;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid #222;
-      background:#0b0b0b;
-      color:rgba(255,255,255,0.72);
-      font-size:12px;
-      line-height:1;
-      gap:8px;
-      align-items:center;
-      margin-right:6px;
-    }
-
-    .pill.ok{
-      border-color:rgba(212,175,55,0.35);
-      color:#d4af37;
-    }
-
-    .muted{
-      color:rgba(255,255,255,0.62);
-      font-size:12.5px;
-      line-height:1.55;
-    }
-
-    .error{
-      color:#ffb3b3;
-      font-size:13px;
-      line-height:1.55;
-      margin-top:10px;
-    }
-
-    .success{
-      color:#c7ffcf;
-      font-size:13px;
-      line-height:1.55;
-      margin-top:10px;
-    }
-
-    a{ color:#d4af37; text-decoration:none; }
   </style>
 </head>
-
 <body>
   <header>
-    <div class="brand">Curadoria Elite Travel · Admin</div>
-    <div class="muted" id="status">desconectado</div>
+    <div class="brand">
+      <div class="brand-symbol">✦</div>
+      <div>
+        <h1>CURADORIA ELITE TRAVEL</h1>
+        <p>Centro Administrativo</p>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <a class="btn" href="index.html">Voltar ao site</a>
+      <button class="btn gold" id="logoutButton" type="button" style="display:none;">Sair</button>
+    </div>
   </header>
 
-  <div class="wrap">
-
-    <div class="card">
-      <h2 class="title">1) Configuração do Supabase</h2>
-      <p class="sub">
-        Cole aqui a <strong>ANON KEY</strong> do seu Supabase (a mesma que você vai colar no <code>index.html</code>).
+  <main>
+    <section class="hero">
+      <div class="eyebrow">Administração • Publicação • Controle</div>
+      <h2>Painel Administrativo</h2>
+      <p>
+        Central interna da Curadoria Elite Travel para acompanhar o acervo, acessar a publicação Partner
+        e organizar os próximos módulos administrativos sem misturar a experiência da empresa parceira.
       </p>
+    </section>
 
-      <label>Supabase URL</label>
-      <input id="sb-url" value="https://lnyoqoezezisakghtmim.supabase.co" />
+    <section class="login-card" id="loginCard">
+      <h3>Acesso interno</h3>
+      <p class="sub">Entre com seu usuário administrativo do Supabase para acessar o painel.</p>
 
-      <label>Supabase ANON KEY</label>
-      <input id="sb-key" placeholder="Cole aqui sua anon key..." />
-
-      <div class="actions">
-        <button class="btn-ghost" onclick="saveConfig()">Salvar</button>
-        <button class="btn-ghost" onclick="loadConfig()">Carregar</button>
-      </div>
-
-      <div class="muted">
-        Dica: essa configuração fica salva no seu navegador (não aparece para clientes).
-      </div>
-    </div>
-
-    <div class="card">
-      <h2 class="title">2) Acesso (Admin)</h2>
-      <p class="sub">
-        Faça login para cadastrar/editar materiais. (Esse login é do Supabase.)
-      </p>
-
-      <div class="row">
-        <div>
-          <label>Email</label>
-          <input id="login-email" type="email" placeholder="seuemail@exemplo.com" />
-        </div>
-        <div>
-          <label>Senha</label>
-          <input id="login-pass" type="password" placeholder="********" />
-        </div>
-      </div>
-
-      <div class="actions">
-        <button onclick="login()">Entrar</button>
-        <button class="btn-ghost" onclick="logout()">Sair</button>
-      </div>
-
-      <div class="error" id="login-error" style="display:none;"></div>
-      <div class="success" id="login-success" style="display:none;"></div>
-    </div>
-
-    <div class="card" id="panel" style="display:none;">
-      <h2 class="title">3) Cadastrar material</h2>
-      <p class="sub">
-        Você vai cadastrar: <strong>Categoria</strong> + <strong>Cidade (como aparece no site)</strong> + <strong>Link do PDF</strong> + <strong>Ano</strong> + <strong>Ativo</strong>.
-      </p>
-
-      <div class="row">
-        <div>
-          <label>Categoria</label>
-          <select id="m-category">
-            <option>City Guide</option>
-            <option>Gastronomia</option>
-            <option>Atrações Turísticas</option>
-            <option>Vida Noturna</option>
-            <option>Endereços para Compras</option>
-            <option>Sugestão de Presentes</option>
-          </select>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="emailInput">E-mail</label>
+          <input class="input" id="emailInput" type="email" placeholder="seuemail@exemplo.com" autocomplete="email" />
         </div>
 
+        <div class="form-group">
+          <label for="passwordInput">Senha</label>
+          <input class="input" id="passwordInput" type="password" placeholder="********" autocomplete="current-password" />
+        </div>
+
+        <button class="btn gold" id="loginButton" type="button">Entrar no Admin</button>
+      </div>
+
+      <div class="message error" id="loginError"></div>
+      <div class="message success" id="loginSuccess"></div>
+    </section>
+
+    <section class="dashboard-shell" id="dashboardShell">
+      <div class="dashboard-head">
         <div>
-          <label>Cidade (EXATAMENTE como aparece no site)</label>
-          <input id="m-city" placeholder="Ex.: NEW YORK – USA" />
+          <h3 class="section-title">Visão geral</h3>
+          <p class="sub">Acesso rápido aos módulos internos e leitura básica do acervo atual.</p>
+        </div>
+        <span class="status-pill" id="connectionStatus">Supabase conectado</span>
+      </div>
+
+      <div class="metrics">
+        <div class="metric-card">
+          <small>Acervo B2C</small>
+          <strong id="materialsCount">--</strong>
+          <span>curadoria_materials</span>
+        </div>
+
+        <div class="metric-card">
+          <small>Itens Partner</small>
+          <strong id="b2bItemsCount">--</strong>
+          <span>b2b_material_items</span>
+        </div>
+
+        <div class="metric-card">
+          <small>Categoria prioritária</small>
+          <strong id="attractionsCount">--</strong>
+          <span>Atrações Turísticas</span>
+        </div>
+
+        <div class="metric-card">
+          <small>Status</small>
+          <strong>Online</strong>
+          <span>Admin operacional</span>
         </div>
       </div>
 
-      <label>Link do PDF (Supabase)</label>
-      <input id="m-url" placeholder="Cole o link público do PDF..." />
+      <h3 class="section-title">Módulos</h3>
+      <p class="sub">Use este painel como porta de entrada. Cada módulo terá uma responsabilidade separada.</p>
 
-      <div class="row">
-        <div>
-          <label>Ano (opcional)</label>
-          <input id="m-year" placeholder="Ex.: 2026" />
+      <div class="modules">
+        <article class="module-card">
+          <div>
+            <div class="module-icon">◆</div>
+            <h4>Publicação Partner</h4>
+            <p>
+              Processar materiais B2C, validar a conversão e publicar dados estruturados em b2b_material_items.
+              Primeiro foco: Atrações Turísticas.
+            </p>
+          </div>
+          <a class="btn gold" href="partner-publicacao.html">Abrir módulo</a>
+        </article>
+
+        <article class="module-card">
+          <div>
+            <div class="module-icon">◇</div>
+            <h4>Área Partner</h4>
+            <p>
+              Acessar a página usada pelas empresas parceiras para visualizar e baixar materiais prontos.
+            </p>
+          </div>
+          <a class="btn" href="partner.html">Abrir Partner</a>
+        </article>
+
+        <article class="module-card">
+          <div>
+            <div class="module-icon">✦</div>
+            <h4>Documentos</h4>
+            <p>
+              Acessar a ferramenta pública de consulta de documentos, vistos, vacinas e exigências de entrada.
+            </p>
+          </div>
+          <a class="btn" href="documentos.html">Abrir Documentos</a>
+        </article>
+
+        <article class="module-card disabled">
+          <div>
+            <div class="module-icon">●</div>
+            <h4>Parceiros</h4>
+            <p>Gestão de empresas, planos, limites, usuários e permissões. Módulo reservado para próxima fase.</p>
+          </div>
+          <span class="btn">Em breve</span>
+        </article>
+
+        <article class="module-card disabled">
+          <div>
+            <div class="module-icon">●</div>
+            <h4>Logs</h4>
+            <p>Histórico de processamentos, erros de parser, publicações e alterações administrativas.</p>
+          </div>
+          <span class="btn">Em breve</span>
+        </article>
+
+        <article class="module-card disabled">
+          <div>
+            <div class="module-icon">●</div>
+            <h4>Configurações</h4>
+            <p>Parâmetros internos da plataforma, limites operacionais e preferências de exibição.</p>
+          </div>
+          <span class="btn">Em breve</span>
+        </article>
+      </div>
+
+      <div class="system-grid">
+        <div class="system-box">
+          <h4>Arquitetura definida</h4>
+          <div class="system-list">
+            <div class="system-row"><span>Cliente final</span><strong>index.html</strong></div>
+            <div class="system-row"><span>Empresa parceira</span><strong>partner.html</strong></div>
+            <div class="system-row"><span>Você/Admin</span><strong>admin.html</strong></div>
+            <div class="system-row"><span>Publicação B2B</span><strong>partner-publicacao.html</strong></div>
+          </div>
         </div>
-        <div>
-          <label>Ativo (após compra)</label>
-          <select id="m-active">
-            <option value="true">Sim</option>
-            <option value="false">Não</option>
-          </select>
+
+        <div class="system-box">
+          <h4>Prioridade atual</h4>
+          <div class="system-list">
+            <div class="system-row"><span>Categoria</span><strong>Atrações Turísticas</strong></div>
+            <div class="system-row"><span>Fonte</span><strong>curadoria_materials</strong></div>
+            <div class="system-row"><span>Destino</span><strong>b2b_material_items</strong></div>
+            <div class="system-row"><span>Partner lê</span><strong>dados estruturados</strong></div>
+          </div>
         </div>
       </div>
 
-      <div class="actions">
-        <button onclick="saveMaterial()">Salvar material</button>
-        <button class="btn-ghost" onclick="clearForm()">Limpar</button>
+      <div class="note">
+        <strong>Importante:</strong> este painel não substitui a Área Partner e não deve ser usado pela empresa.
+        Ele é apenas a entrada administrativa para você acessar os módulos internos da Curadoria Elite Travel.
       </div>
-
-      <div class="muted">
-        Importante: o site não mostra o PDF antes da compra — mesmo que você cadastre aqui. Ele apenas marca como “disponível após confirmação”.
-      </div>
-
-      <div class="error" id="save-error" style="display:none;"></div>
-      <div class="success" id="save-success" style="display:none;"></div>
-    </div>
-
-    <div class="card" id="list" style="display:none;">
-      <h2 class="title">4) Materiais cadastrados</h2>
-      <p class="sub">Aqui você edita ou remove materiais. Clique em “Editar” para preencher o formulário acima.</p>
-
-      <div class="actions">
-        <button class="btn-ghost" onclick="refreshList()">Atualizar lista</button>
-      </div>
-
-      <div id="list-status" class="muted" style="margin-top:12px;"></div>
-
-      <div style="overflow:auto; margin-top:12px;">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Categoria</th>
-              <th>Cidade</th>
-              <th>Ano</th>
-              <th>Status</th>
-              <th>PDF</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody id="tbody"></tbody>
-        </table>
-      </div>
-    </div>
-
-  </div>
+    </section>
+  </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    let supabaseClient = null;
-    let currentUser = null;
+    const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
-    function showMsg(elId, msg, type){
-      const el = document.getElementById(elId);
-      if (!el) return;
-      el.style.display = "block";
-      el.innerText = msg;
-      if (type === "error") {
-        el.className = "error";
-      } else {
-        el.className = "success";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const loginCard = document.getElementById("loginCard");
+    const dashboardShell = document.getElementById("dashboardShell");
+    const loginButton = document.getElementById("loginButton");
+    const logoutButton = document.getElementById("logoutButton");
+    const emailInput = document.getElementById("emailInput");
+    const passwordInput = document.getElementById("passwordInput");
+    const loginError = document.getElementById("loginError");
+    const loginSuccess = document.getElementById("loginSuccess");
+
+    function showMessage(element, text) {
+      if (!element) return;
+      element.textContent = text;
+      element.style.display = "block";
+      setTimeout(function() { element.style.display = "none"; }, 5200);
+    }
+
+    function setAuthenticatedState(isAuthenticated) {
+      loginCard.style.display = isAuthenticated ? "none" : "block";
+      dashboardShell.style.display = isAuthenticated ? "block" : "none";
+      logoutButton.style.display = isAuthenticated ? "inline-flex" : "none";
+    }
+
+    async function updateCount(tableName, elementId, queryBuilder) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+
+      try {
+        let query = supabaseClient
+          .from(tableName)
+          .select("*", { count: "exact", head: true });
+
+        if (typeof queryBuilder === "function") {
+          query = queryBuilder(query);
+        }
+
+        const { count, error } = await query;
+
+        if (error) {
+          element.textContent = "--";
+          return;
+        }
+
+        element.textContent = String(count || 0);
+      } catch (error) {
+        element.textContent = "--";
       }
-      setTimeout(() => { el.style.display = "none"; }, 4500);
     }
 
-    function setStatus(text){
-      const el = document.getElementById("status");
-      if (el) el.innerText = text;
+    async function loadDashboardCounts() {
+      await Promise.all([
+        updateCount("curadoria_materials", "materialsCount"),
+        updateCount("b2b_material_items", "b2bItemsCount"),
+        updateCount("curadoria_materials", "attractionsCount", function(query) {
+          return query.eq("category", "Atrações Turísticas");
+        })
+      ]);
     }
 
-    function saveConfig(){
-      const url = document.getElementById("sb-url").value.trim();
-      const key = document.getElementById("sb-key").value.trim();
+    async function checkSession() {
+      const { data } = await supabaseClient.auth.getSession();
+      const hasSession = Boolean(data && data.session);
+      setAuthenticatedState(hasSession);
+      if (hasSession) await loadDashboardCounts();
+    }
 
-      if (!url || !key) {
-        alert("Por favor, preencha a URL e a ANON KEY.");
+    async function login() {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!email || !password) {
+        showMessage(loginError, "Preencha e-mail e senha para entrar.");
         return;
       }
 
-      localStorage.setItem("cet_supabase_url", url);
-      localStorage.setItem("cet_supabase_key", key);
-      alert("Configuração salva. Agora faça login.");
-      initSupabase();
-    }
+      loginButton.disabled = true;
+      loginButton.textContent = "Entrando...";
 
-    function loadConfig(){
-      const url = localStorage.getItem("cet_supabase_url") || "https://lnyoqoezezisakghtmim.supabase.co";
-      const key = localStorage.getItem("cet_supabase_key") || "";
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
-      document.getElementById("sb-url").value = url;
-      document.getElementById("sb-key").value = key;
-
-      initSupabase();
-    }
-
-    function initSupabase(){
-      const url = document.getElementById("sb-url").value.trim();
-      const key = document.getElementById("sb-key").value.trim();
-
-      if (!url || !key) {
-        setStatus("configurar supabase");
-        return;
-      }
-
-      supabaseClient = window.supabase.createClient(url, key);
-      setStatus("supabase ok");
-    }
-
-    async function login(){
-      try{
-        if (!supabaseClient) initSupabase();
-        if (!supabaseClient) {
-          alert("Configure o Supabase primeiro.");
-          return;
-        }
-
-        const email = document.getElementById("login-email").value.trim();
-        const pass = document.getElementById("login-pass").value.trim();
-
-        if (!email || !pass) {
-          alert("Preencha email e senha.");
-          return;
-        }
-
-        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password: pass });
-        if (error) {
-          showMsg("login-error", "Erro: " + error.message, "error");
-          return;
-        }
-
-        currentUser = data.user;
-        setStatus("logado");
-        document.getElementById("panel").style.display = "block";
-        document.getElementById("list").style.display = "block";
-        showMsg("login-success", "Login realizado com sucesso.", "ok");
-        refreshList();
-      } catch (e) {
-        showMsg("login-error", "Erro inesperado no login.", "error");
-      }
-    }
-
-    async function logout(){
-      if (!supabaseClient) return;
-      await supabaseClient.auth.signOut();
-      currentUser = null;
-      setStatus("desconectado");
-      document.getElementById("panel").style.display = "none";
-      document.getElementById("list").style.display = "none";
-      alert("Você saiu do Admin.");
-    }
-
-    function clearForm(){
-      document.getElementById("m-category").value = "City Guide";
-      document.getElementById("m-city").value = "";
-      document.getElementById("m-url").value = "";
-      document.getElementById("m-year").value = "";
-      document.getElementById("m-active").value = "true";
-    }
-
-    async function saveMaterial(){
-      try{
-        if (!supabaseClient || !currentUser) {
-          alert("Faça login primeiro.");
-          return;
-        }
-
-        const category = document.getElementById("m-category").value.trim();
-        const city_label = document.getElementById("m-city").value.trim();
-        const pdf_url = document.getElementById("m-url").value.trim();
-        const year = document.getElementById("m-year").value.trim();
-        const is_active = document.getElementById("m-active").value === "true";
-
-        if (!category || !city_label || !pdf_url) {
-          showMsg("save-error", "Preencha Categoria, Cidade e Link do PDF.", "error");
-          return;
-        }
-
-        // UPSERT por (category, city_label)
-        const { error } = await supabaseClient
-          .from("materials")
-          .upsert([{
-            category,
-            city_label,
-            pdf_url,
-            year: year || null,
-            is_active
-          }], { onConflict: "category,city_label" });
-
-        if (error) {
-          showMsg("save-error", "Erro ao salvar: " + error.message, "error");
-          return;
-        }
-
-        showMsg("save-success", "Material salvo com sucesso.", "ok");
-        clearForm();
-        refreshList();
-      } catch (e) {
-        showMsg("save-error", "Erro inesperado ao salvar.", "error");
-      }
-    }
-
-    async function refreshList(){
-      try{
-        if (!supabaseClient || !currentUser) return;
-
-        document.getElementById("list-status").innerText = "Carregando…";
-
-        const { data, error } = await supabaseClient
-          .from("materials")
-          .select("category,city_label,year,is_active,pdf_url")
-          .order("category", { ascending: true });
-
-        if (error) {
-          document.getElementById("list-status").innerText = "Erro ao carregar.";
-          return;
-        }
-
-        document.getElementById("list-status").innerText = (data || []).length + " materiais encontrados.";
-
-        const tbody = document.getElementById("tbody");
-        tbody.innerHTML = "";
-
-        (data || []).forEach(row => {
-          const tr = document.createElement("tr");
-
-          const statusPill = row.is_active
-            ? `<span class="pill ok">ativo</span>`
-            : `<span class="pill">inativo</span>`;
-
-          tr.innerHTML = `
-            <td>${row.category || ""}</td>
-            <td>${row.city_label || ""}</td>
-            <td>${row.year || ""}</td>
-            <td>${statusPill}</td>
-            <td><a href="${row.pdf_url}" target="_blank" rel="noopener noreferrer">abrir</a></td>
-            <td>
-              <button class="btn-ghost" onclick="editRow('${escapeQuotes(row.category)}','${escapeQuotes(row.city_label)}','${escapeQuotes(row.pdf_url)}','${escapeQuotes(row.year || "")}','${row.is_active ? "true" : "false"}')">Editar</button>
-              <button class="btn-ghost" onclick="removeRow('${escapeQuotes(row.category)}','${escapeQuotes(row.city_label)}')">Remover</button>
-            </td>
-          `;
-
-          tbody.appendChild(tr);
-        });
-
-      } catch (e) {
-        document.getElementById("list-status").innerText = "Erro inesperado.";
-      }
-    }
-
-    function escapeQuotes(str){
-      return (str || "").replace(/'/g, "\\'");
-    }
-
-    function editRow(category, city, url, year, active){
-      document.getElementById("m-category").value = category;
-      document.getElementById("m-city").value = city;
-      document.getElementById("m-url").value = url;
-      document.getElementById("m-year").value = year || "";
-      document.getElementById("m-active").value = active === "true" ? "true" : "false";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    async function removeRow(category, city){
-      if (!supabaseClient || !currentUser) return;
-
-      const ok = confirm("Deseja remover este material?\n\n" + category + " · " + city);
-      if (!ok) return;
-
-      const { error } = await supabaseClient
-        .from("materials")
-        .delete()
-        .eq("category", category)
-        .eq("city_label", city);
+      loginButton.disabled = false;
+      loginButton.textContent = "Entrar no Admin";
 
       if (error) {
-        alert("Erro ao remover: " + error.message);
+        showMessage(loginError, "Erro ao entrar: " + error.message);
         return;
       }
 
-      alert("Material removido.");
-      refreshList();
+      if (data && data.user) {
+        showMessage(loginSuccess, "Login realizado com sucesso.");
+        setAuthenticatedState(true);
+        await loadDashboardCounts();
+      }
     }
 
-    // Auto-carregar config
-    loadConfig();
+    async function logout() {
+      await supabaseClient.auth.signOut();
+      setAuthenticatedState(false);
+      emailInput.value = "";
+      passwordInput.value = "";
+    }
+
+    loginButton.addEventListener("click", login);
+    logoutButton.addEventListener("click", logout);
+
+    passwordInput.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") login();
+    });
+
+    checkSession();
   </script>
 </body>
 </html>
