@@ -175,6 +175,27 @@
     .items-table tr:last-child td{border-bottom:none}
     .items-table strong{color:#fff;font-size:14px}
 
+
+    .editor-note{border:1px solid rgba(212,175,55,.24);background:rgba(212,175,55,.07);border-radius:16px;padding:14px;color:rgba(255,255,255,.82);font-size:13px;line-height:1.55;margin-bottom:14px}
+    .editor-note strong{color:var(--gold2)}
+    .items-editor{display:grid;gap:14px}
+    .item-editor-card{border:1px solid rgba(255,255,255,.10);border-radius:20px;background:rgba(0,0,0,.20);padding:18px}
+    .item-editor-card.problem{border-color:rgba(255,155,155,.42);background:rgba(255,155,155,.05)}
+    .item-editor-card.ok{border-color:rgba(168,240,176,.24)}
+    .item-editor-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+    .item-editor-title{display:flex;align-items:center;gap:10px;color:#fff;font-weight:950;font-size:16px}
+    .item-editor-number{width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(212,175,55,.45);color:var(--gold2);background:rgba(212,175,55,.08);font-size:12px}
+    .item-editor-status{border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900;border:1px solid rgba(255,255,255,.10);color:var(--muted);white-space:nowrap}
+    .item-editor-status.ok{color:var(--ok);border-color:rgba(168,240,176,.28)}
+    .item-editor-status.warn{color:var(--danger);border-color:rgba(255,155,155,.34)}
+    .item-editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .item-editor-field.full{grid-column:1 / -1}
+    .item-editor-field label{display:block;color:rgba(255,255,255,.62);font-size:12px;font-weight:900;margin:0 0 7px;text-transform:uppercase;letter-spacing:.5px}
+    .item-editor-field input,.item-editor-field textarea{width:100%;border:1px solid rgba(255,255,255,.12);background:#050b14;color:#fff;border-radius:13px;padding:12px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.45;min-height:auto}
+    .item-editor-field textarea{min-height:96px;resize:vertical}
+    .item-editor-field input:focus,.item-editor-field textarea:focus{border-color:rgba(212,175,55,.55);box-shadow:0 0 0 3px rgba(212,175,55,.10);outline:none}
+    .critical-block{border:1px solid rgba(255,155,155,.34);background:rgba(255,155,155,.06);color:var(--danger);border-radius:16px;padding:14px;font-size:13px;line-height:1.5;margin-bottom:14px}
+
     .quality-list{display:grid;gap:10px}
     .quality-item{border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:12px;background:rgba(0,0,0,.18);font-size:13px;line-height:1.45;color:var(--muted)}
     .quality-item.ok{border-color:rgba(168,240,176,.28);color:var(--ok)}
@@ -196,7 +217,8 @@
       .container{padding:28px 18px 60px}
       h1{font-size:38px}
       .lead{font-size:17px}
-      .summary-grid,.stepper{grid-template-columns:1fr}
+      .summary-grid,.stepper,.item-editor-grid{grid-template-columns:1fr}
+      .item-editor-field.full{grid-column:auto}
       .panel{padding:20px}
     }
   </style>
@@ -304,19 +326,10 @@
               <div class="text" id="panoramaPreview"></div>
             </div>
 
-            <table class="items-table">
-              <thead>
-                <tr>
-                  <th style="width:62px;">#</th>
-                  <th>Nome</th>
-                  <th>Descrição / detalhes</th>
-                  <th>Endereço</th>
-                  <th>Site</th>
-                  <th>Entrada / valor</th>
-                </tr>
-              </thead>
-              <tbody id="itemsTbody"></tbody>
-            </table>
+            <div class="editor-note">
+              <strong>Revisão por card completo:</strong> confira nome, descrição, endereço, site e entrada juntos. Se o parser misturou blocos, corrija o card inteiro antes de publicar.
+            </div>
+            <div class="items-editor" id="itemsEditor"></div>
           </div>
 
           <aside>
@@ -334,7 +347,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     const SUPABASE_URL = "https://lnyoqoezezisakghtmim.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxueW9xb2V6ZXppc2FrZ2h0bWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNjI4OTMsImV4cCI6MjA3OTczODg5M30.Nn9ZPRXeJlvCGJ2kXQ3XBvT743pQn2VIXEsT9pexqnA";
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
@@ -761,34 +774,71 @@
       return cleanValue(parts.join(" "));
     }
 
+    function getItemProblems(item) {
+      const problems = [];
+      const name = cleanValue(item && item.name ? item.name : "");
+      const description = cleanValue(item && item.description ? item.description : "");
+
+      if (!name || /^Indicação\s+\d+$/i.test(name) || isInvalidNameCandidate(name)) {
+        problems.push("Nome ausente ou genérico.");
+      }
+
+      if (!description || description.length < 35) {
+        problems.push("Descrição ausente ou curta demais.");
+      }
+
+      if (/^Indicação\s+\d+$/i.test(description)) {
+        problems.push("Descrição parece conter rótulo genérico.");
+      }
+
+      return problems;
+    }
+
+    function hasCriticalProblems(extraction) {
+      const items = extraction && extraction.items ? extraction.items : [];
+      if (!items.length) return true;
+      if (items.length < 10) return true;
+      return items.some(item => getItemProblems(item).length > 0);
+    }
+
     function validateExtraction(extraction) {
       const items = extraction && extraction.items ? extraction.items : [];
       const warnings = [];
       const oks = [];
+      const critical = [];
 
       if (extraction.panorama && extraction.panorama.length > 80) oks.push("Panorama encontrado.");
       else warnings.push("Panorama curto ou não identificado.");
 
       if (items.length >= 10) oks.push(items.length + " indicações extraídas.");
-      else warnings.push("Foram extraídas apenas " + items.length + " indicações.");
+      else critical.push("Foram extraídas apenas " + items.length + " indicações. Não publicar antes de revisar.");
 
-      const genericNames = items.filter(item => /^Indicação\s+\d+$/i.test(item.name)).length;
-      if (genericNames) warnings.push(genericNames + " item(ns) ficaram com nome genérico.");
-      else oks.push("Nomes identificados sem rótulos genéricos.");
+      const itemsWithProblems = items.filter(item => getItemProblems(item).length > 0);
+      if (itemsWithProblems.length) {
+        critical.push(itemsWithProblems.length + " card(s) precisam revisão obrigatória antes da publicação.");
+      } else if (items.length) {
+        oks.push("Todos os cards têm nome real e descrição mínima.");
+      }
 
       const withoutAddress = items.filter(item => !item.address).length;
-      if (withoutAddress) warnings.push(withoutAddress + " item(ns) sem endereço.");
-      else oks.push("Endereços identificados.");
+      if (withoutAddress) warnings.push(withoutAddress + " item(ns) sem endereço. Revise se o PDF original não tiver endereço.");
+      else if (items.length) oks.push("Endereços identificados.");
 
       const withoutSite = items.filter(item => !item.site).length;
       if (withoutSite) warnings.push(withoutSite + " item(ns) sem site. Pode ser normal em alguns materiais.");
-      else oks.push("Sites identificados.");
+      else if (items.length) oks.push("Sites identificados.");
 
       const withoutPrice = items.filter(item => !item.entry_price).length;
-      if (withoutPrice) warnings.push(withoutPrice + " item(ns) sem entrada/valor.");
-      else oks.push("Entrada/valor identificados.");
+      if (withoutPrice) warnings.push(withoutPrice + " item(ns) sem entrada/valor. Revise se o PDF original não tiver essa informação.");
+      else if (items.length) oks.push("Entrada/valor identificados.");
 
-      return { oks, warnings };
+      return { oks, warnings, critical };
+    }
+
+    function updateCurrentItem(index, field, value) {
+      if (!currentExtraction || !currentExtraction.items || !currentExtraction.items[index]) return;
+      currentExtraction.items[index][field] = value;
+      renderExtraction(currentExtraction);
     }
 
     function renderExtraction(extraction) {
@@ -798,24 +848,58 @@
       el("rawText").value = extraction.rawText || "";
       el("metricItems").textContent = String(items.length);
       el("toggleRawBtn").disabled = false;
-      el("publishBtn").disabled = !items.length;
-      el("replaceBtn").disabled = !items.length;
-
-      el("itemsTbody").innerHTML = items.map(item => `
-        <tr>
-          <td><strong>${String(item.item_order).padStart(2,"0")}</strong></td>
-          <td><strong>${escapeHtml(item.name)}</strong></td>
-          <td>${escapeHtml(item.description || "")}</td>
-          <td>${escapeHtml(item.address || "")}</td>
-          <td>${escapeHtml(item.site || "")}</td>
-          <td>${escapeHtml(item.entry_price || "")}</td>
-        </tr>
-      `).join("");
 
       const quality = validateExtraction(extraction);
+      const blocked = quality.critical.length > 0;
+      el("publishBtn").disabled = blocked;
+      el("replaceBtn").disabled = blocked;
+
+      const criticalHtml = blocked
+        ? `<div class="critical-block"><strong>Publicação bloqueada:</strong><br>${quality.critical.map(escapeHtml).join("<br>")}</div>`
+        : "";
+
+      el("itemsEditor").innerHTML = criticalHtml + items.map((item, index) => {
+        const problems = getItemProblems(item);
+        const statusClass = problems.length ? "warn" : "ok";
+        const cardClass = problems.length ? "problem" : "ok";
+        const statusText = problems.length ? "Revisar" : "OK";
+        return `
+          <article class="item-editor-card ${cardClass}">
+            <div class="item-editor-head">
+              <div class="item-editor-title"><span class="item-editor-number">${String(item.item_order || index + 1).padStart(2,"0")}</span> Card completo</div>
+              <div class="item-editor-status ${statusClass}">${statusText}</div>
+            </div>
+            ${problems.length ? `<div class="critical-block">${problems.map(escapeHtml).join("<br>")}</div>` : ""}
+            <div class="item-editor-grid">
+              <div class="item-editor-field full">
+                <label>Nome da indicação</label>
+                <input value="${escapeHtml(item.name || "")}" oninput="updateCurrentItem(${index}, 'name', this.value)">
+              </div>
+              <div class="item-editor-field full">
+                <label>Descrição</label>
+                <textarea oninput="updateCurrentItem(${index}, 'description', this.value)">${escapeHtml(item.description || "")}</textarea>
+              </div>
+              <div class="item-editor-field">
+                <label>Endereço</label>
+                <input value="${escapeHtml(item.address || "")}" oninput="updateCurrentItem(${index}, 'address', this.value)">
+              </div>
+              <div class="item-editor-field">
+                <label>Site</label>
+                <input value="${escapeHtml(item.site || "")}" oninput="updateCurrentItem(${index}, 'site', this.value)">
+              </div>
+              <div class="item-editor-field">
+                <label>Entrada / valor</label>
+                <input value="${escapeHtml(item.entry_price || "")}" oninput="updateCurrentItem(${index}, 'entry_price', this.value)">
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
       const qualityHtml = [
         ...quality.oks.map(text => `<div class="quality-item ok">✓ ${escapeHtml(text)}</div>`),
-        ...quality.warnings.map(text => `<div class="quality-item warn">⚠ ${escapeHtml(text)}</div>`)
+        ...quality.warnings.map(text => `<div class="quality-item warn">⚠ ${escapeHtml(text)}</div>`),
+        ...quality.critical.map(text => `<div class="quality-item danger">✕ ${escapeHtml(text)}</div>`)
       ].join("");
       el("qualityList").innerHTML = qualityHtml || `<div class="quality-item warn">Nenhuma validação disponível.</div>`;
     }
@@ -861,6 +945,13 @@
 
     async function publishExtraction(replaceExisting) {
       if (!selectedMaterial || !currentExtraction || !currentExtraction.items.length) return;
+
+      const quality = validateExtraction(currentExtraction);
+      if (quality.critical && quality.critical.length) {
+        alert("Este material ainda não pode ser publicado. Corrija os cards sinalizados antes de salvar em b2b_material_items.");
+        renderExtraction(currentExtraction);
+        return;
+      }
 
       const category = normalizeCategoryName(selectedMaterial.category);
       const city = String(selectedMaterial.city_label || "").trim();
