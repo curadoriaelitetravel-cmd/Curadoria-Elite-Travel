@@ -455,28 +455,49 @@
     }
 
     async function loadMaterials() {
-      setStatus("Carregando materiais da tabela <strong>curadoria_materials</strong>...", "busy");
-      resetSteps();
-      setStep("stepLoad", "active");
+      try {
+        setStatus("Carregando materiais da tabela <strong>curadoria_materials</strong>...", "busy");
+        resetSteps();
+        setStep("stepLoad", "active");
+        resetSelectedMaterialUI();
 
-      const { data, error } = await supabaseClient
-        .from("curadoria_materials")
-        .select("id, category, city_label, pdf_url, year")
-        .order("category", { ascending: true })
-        .order("city_label", { ascending: true });
+        const { data, error } = await supabaseClient
+          .from("curadoria_materials")
+          .select("id, category, city_label, pdf_url, year")
+          .order("category", { ascending: true })
+          .order("city_label", { ascending: true });
 
-      if (error) {
-        setStatus("Erro ao carregar curadoria_materials: <strong>" + error.message + "</strong>", "error");
+        if (error) {
+          setStatus("Erro ao carregar curadoria_materials: <strong>" + error.message + "</strong>", "error");
+          setStep("stepLoad", "error");
+          return;
+        }
+
+        allMaterials = (data || []).filter(row => row.category && row.city_label && row.pdf_url);
+
+        // Primeiro mostra e seleciona o material imediatamente.
+        // A leitura de b2b_material_items é secundária e não pode travar a seleção.
+        existingStructuredMap = new Map();
+        filterMaterials();
+        setStep("stepLoad", "done");
+
+        if (filteredMaterials.length === 1 && selectedMaterial) {
+          setStatus("Material encontrado e selecionado automaticamente. Clique em <strong>Processar PDF</strong>.", "ok");
+        } else if (filteredMaterials.length > 1) {
+          setStatus("Materiais carregados. Selecione um destino para processar.", "ok");
+        } else {
+          setStatus("Nenhum material encontrado para os filtros atuais.", "error");
+        }
+
+        // Carrega o status estruturado depois, sem impedir o uso da tela.
+        loadExistingStructuredItems()
+          .then(() => renderMaterialsList())
+          .catch(error => console.warn("Status b2b_material_items ignorado", error));
+      } catch (error) {
+        console.error(error);
+        setStatus("Erro inesperado ao carregar materiais: <strong>" + (error.message || error) + "</strong>", "error");
         setStep("stepLoad", "error");
-        return;
       }
-
-      allMaterials = (data || []).filter(row => row.category && row.city_label && row.pdf_url);
-
-      await loadExistingStructuredItems();
-      filterMaterials();
-      setStep("stepLoad", "done");
-      setStatus("Materiais carregados. Selecione um destino para processar.", "ok");
     }
 
     async function loadExistingStructuredItems() {
