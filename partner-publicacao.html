@@ -499,6 +499,29 @@
       });
     }
 
+    function getMaterialIdentity(material) {
+      if (!material) return "";
+      return [
+        normalizeCategoryName(material.category),
+        String(material.city_label || "").trim(),
+        normalizeYear(material.year),
+        String(material.pdf_url || "").trim()
+      ].join("||");
+    }
+
+    function resetSelectedMaterialUI() {
+      selectedMaterial = null;
+      currentExtraction = null;
+      resetPreview();
+      el("selectedBox").innerHTML = `<h3>Nenhum material selecionado</h3><p>Selecione um destino na lista à esquerda para iniciar o processamento.</p>`;
+      el("metricSelected").textContent = "--";
+      el("metricItems").textContent = "--";
+      el("processBtn").disabled = true;
+      el("toggleRawBtn").disabled = true;
+      el("publishBtn").disabled = true;
+      el("replaceBtn").disabled = true;
+    }
+
     function filterMaterials() {
       const category = normalizeCategoryName(el("categorySelect").value);
       const year = normalizeYear(el("yearSelect").value);
@@ -511,25 +534,19 @@
         return sameCategory && sameYear && matchesSearch;
       });
 
-      renderMaterialsList();
+      const selectedStillVisible = selectedMaterial && filteredMaterials.some(material => getMaterialIdentity(material) === getMaterialIdentity(selectedMaterial));
 
-      const selectedStillVisible = selectedMaterial && filteredMaterials.some(material => String(material.id) === String(selectedMaterial.id));
       if (!selectedStillVisible) {
-        selectedMaterial = null;
-        currentExtraction = null;
-        resetPreview();
-        el("selectedBox").innerHTML = `<h3>Nenhum material selecionado</h3><p>Selecione um destino na lista à esquerda para iniciar o processamento.</p>`;
-        el("metricSelected").textContent = "--";
-        el("metricItems").textContent = "--";
-        el("processBtn").disabled = true;
-        el("toggleRawBtn").disabled = true;
-        el("publishBtn").disabled = true;
-        el("replaceBtn").disabled = true;
+        resetSelectedMaterialUI();
       }
 
-      if (filteredMaterials.length === 1) {
-        selectMaterial(filteredMaterials[0], { silentScroll: true });
+      // Quando a busca retorna só um destino, a seleção precisa acontecer sozinha.
+      // Isso evita o estado travado em que há 1 material filtrado, mas nenhum destino selecionado.
+      if (!selectedMaterial && filteredMaterials.length === 1) {
+        applySelectedMaterial(filteredMaterials[0]);
       }
+
+      renderMaterialsList();
     }
 
     function renderMaterialsList() {
@@ -545,7 +562,7 @@
       filteredMaterials.forEach(material => {
         const key = materialKey(material.category, material.city_label, material.year);
         const existing = existingStructuredMap.get(key);
-        const isSelected = selectedMaterial && String(selectedMaterial.id) === String(material.id);
+        const isSelected = selectedMaterial && getMaterialIdentity(material) === getMaterialIdentity(selectedMaterial);
         const statusBadge = existing && existing.active
           ? `<span class="badge ok">Publicado · ${existing.active} itens</span>`
           : `<span class="badge warn">Pendente</span>`;
@@ -572,11 +589,10 @@
       });
     }
 
-    function selectMaterial(material, options = {}) {
+    function applySelectedMaterial(material) {
       selectedMaterial = material;
       currentExtraction = null;
       resetPreview();
-      renderMaterialsList();
 
       el("selectedBox").innerHTML = `
         <h3>${material.city_label}</h3>
@@ -592,15 +608,20 @@
       resetSteps();
       setStep("stepLoad", "done");
 
-      if (!options.silentScroll && window.innerWidth < 900) {
-        el("selectedBox").scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-
       if (normalizeCategoryName(material.category) === "City Guide") {
         setStatus("City Guide foi deixado para a próxima fase, porque exige um modelo diferente e maior.", "ok");
         el("processBtn").disabled = true;
       } else {
         setStatus("Material selecionado. Clique em <strong>Processar PDF</strong> para gerar a prévia estruturada.", "ok");
+      }
+    }
+
+    function selectMaterial(material, options = {}) {
+      applySelectedMaterial(material);
+      renderMaterialsList();
+
+      if (!options.silentScroll && window.innerWidth < 900) {
+        el("selectedBox").scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
 
