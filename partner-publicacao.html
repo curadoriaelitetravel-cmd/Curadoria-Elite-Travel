@@ -372,6 +372,21 @@
 
     const el = (id) => document.getElementById(id);
 
+    function setText(id, value) {
+      const node = el(id);
+      if (node) node.textContent = value;
+    }
+
+    function setHtml(id, value) {
+      const node = el(id);
+      if (node) node.innerHTML = value;
+    }
+
+    function setDisplay(id, value) {
+      const node = el(id);
+      if (node) node.style.display = value;
+    }
+
     function normalizeCategoryName(category) {
       const value = String(category || "").trim().toLowerCase();
       const map = {
@@ -647,12 +662,13 @@
     }
 
     function resetPreview() {
-      el("previewLayout").style.display = "none";
-      el("rawBox").style.display = "none";
-      el("rawText").value = "";
-      el("panoramaPreview").textContent = "";
-      el("itemsTbody").innerHTML = "";
-      el("qualityList").innerHTML = "";
+      setDisplay("previewLayout", "none");
+      setDisplay("rawBox", "none");
+      const rawTextNode = el("rawText");
+      if (rawTextNode) rawTextNode.value = "";
+      setText("panoramaPreview", "");
+      setHtml("itemsEditor", "");
+      setHtml("qualityList", "");
     }
 
     async function extractPdfTextFromUrl(url, firstPage, lastPage) {
