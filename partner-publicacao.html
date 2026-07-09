@@ -196,6 +196,11 @@
     .item-editor-field label{display:block;color:rgba(255,255,255,.62);font-size:12px;font-weight:900;margin:0 0 7px;text-transform:uppercase;letter-spacing:.5px}
     .item-editor-field input,.item-editor-field textarea{width:100%;border:1px solid rgba(255,255,255,.12);background:#050b14;color:#fff;border-radius:13px;padding:12px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.45;min-height:auto}
     .item-editor-field textarea{min-height:96px;resize:vertical}
+    .panorama-editor{width:100%;min-height:260px;border:1px solid rgba(255,255,255,.12);background:#050b14;color:#fff;border-radius:16px;padding:16px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.62;resize:vertical;box-sizing:border-box}
+    .panorama-editor:focus{border-color:rgba(212,175,55,.55);box-shadow:0 0 0 3px rgba(212,175,55,.10);outline:none}
+    .mini-actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 0}
+    .mini-btn{border:1px solid rgba(212,175,55,.35);background:rgba(0,0,0,.15);color:#d4af37;border-radius:12px;padding:10px 12px;font-weight:800;cursor:pointer}
+    .mini-btn.danger{border-color:rgba(255,155,155,.40);color:#ffb3b3}
     .item-editor-field input:focus,.item-editor-field textarea:focus{border-color:rgba(212,175,55,.55);box-shadow:0 0 0 3px rgba(212,175,55,.10);outline:none}
     .critical-block{border:1px solid rgba(255,155,155,.34);background:rgba(255,155,155,.06);color:var(--danger);border-radius:16px;padding:14px;font-size:13px;line-height:1.5;margin-bottom:14px}
 
@@ -325,8 +330,8 @@
         <div class="preview-layout" id="previewLayout" style="display:none;">
           <div>
             <div class="preview-card">
-              <h4>Panorama</h4>
-              <div class="text" id="panoramaPreview"></div>
+              <h4>Panorama editável</h4>
+              <textarea id="panoramaPreview" class="panorama-editor" oninput="updateCurrentPanorama(this.value)" placeholder="O panorama extraído aparecerá aqui. Você pode ajustar antes de publicar."></textarea>
             </div>
 
             <div class="editor-note">
@@ -928,16 +933,77 @@
       return { oks, warnings, critical };
     }
 
+    function renderQualityList(quality) {
+      const qualityHtml = [
+        ...quality.oks.map(text => `<div class="quality-item ok">✓ ${escapeHtml(text)}</div>`),
+        ...quality.warnings.map(text => `<div class="quality-item warn">⚠ ${escapeHtml(text)}</div>`),
+        ...quality.critical.map(text => `<div class="quality-item danger">✕ ${escapeHtml(text)}</div>`)
+      ].join("");
+      el("qualityList").innerHTML = qualityHtml || `<div class="quality-item warn">Nenhuma validação disponível.</div>`;
+    }
+
+    function refreshPublishAvailability() {
+      if (!currentExtraction) return;
+      const quality = validateExtraction(currentExtraction);
+      const blocked = quality.critical.length > 0;
+      el("publishBtn").disabled = blocked;
+      el("replaceBtn").disabled = blocked;
+      el("metricItems").textContent = String((currentExtraction.items || []).length);
+      renderQualityList(quality);
+    }
+
+    function updateCurrentPanorama(value) {
+      if (!currentExtraction) return;
+      currentExtraction.panorama = value;
+      refreshPublishAvailability();
+    }
+
     function updateCurrentItem(index, field, value) {
       if (!currentExtraction || !currentExtraction.items || !currentExtraction.items[index]) return;
       currentExtraction.items[index][field] = value;
+      refreshPublishAvailability();
+    }
+
+    function renumberCurrentItems() {
+      if (!currentExtraction || !currentExtraction.items) return;
+      currentExtraction.items.forEach((item, idx) => { item.item_order = idx + 1; });
+    }
+
+    function addManualItem() {
+      if (!currentExtraction) return;
+      if (!Array.isArray(currentExtraction.items)) currentExtraction.items = [];
+      currentExtraction.items.push({
+        item_order: currentExtraction.items.length + 1,
+        name: "",
+        description: "",
+        address: "",
+        site: "",
+        entry_price: ""
+      });
+      renumberCurrentItems();
+      renderExtraction(currentExtraction);
+      setTimeout(() => {
+        const cards = document.querySelectorAll(".item-editor-card");
+        const last = cards[cards.length - 1];
+        if (last) last.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 50);
+    }
+
+    function removeCurrentItem(index) {
+      if (!currentExtraction || !Array.isArray(currentExtraction.items)) return;
+      const item = currentExtraction.items[index];
+      const label = item && item.name ? item.name : "Card " + String(index + 1).padStart(2,"0");
+      const ok = confirm("Remover este card da publicação?\n\n" + label);
+      if (!ok) return;
+      currentExtraction.items.splice(index, 1);
+      renumberCurrentItems();
       renderExtraction(currentExtraction);
     }
 
     function renderExtraction(extraction) {
       const items = extraction.items || [];
       el("previewLayout").style.display = "grid";
-      el("panoramaPreview").textContent = extraction.panorama || "Panorama não identificado.";
+      el("panoramaPreview").value = extraction.panorama || "";
       el("rawText").value = extraction.rawText || "";
       el("metricItems").textContent = String(items.length);
       el("toggleRawBtn").disabled = false;
@@ -951,7 +1017,17 @@
         ? `<div class="critical-block"><strong>Publicação bloqueada:</strong><br>${quality.critical.map(escapeHtml).join("<br>")}</div>`
         : "";
 
-      el("itemsEditor").innerHTML = criticalHtml + items.map((item, index) => {
+      const editorToolbar = `
+        <div class="preview-card">
+          <h4>Cards editáveis</h4>
+          <p class="muted-text">Você pode ajustar nome, descrição, endereço, site e entrada de cada indicação. Também pode adicionar ou remover um card antes de publicar.</p>
+          <div class="mini-actions">
+            <button type="button" class="mini-btn" onclick="addManualItem()">+ Adicionar card</button>
+          </div>
+        </div>
+      `;
+
+      el("itemsEditor").innerHTML = criticalHtml + editorToolbar + items.map((item, index) => {
         const problems = getItemProblems(item);
         const statusClass = problems.length ? "warn" : "ok";
         const cardClass = problems.length ? "problem" : "ok";
@@ -960,41 +1036,39 @@
           <article class="item-editor-card ${cardClass}">
             <div class="item-editor-head">
               <div class="item-editor-title"><span class="item-editor-number">${String(item.item_order || index + 1).padStart(2,"0")}</span> Card completo</div>
-              <div class="item-editor-status ${statusClass}">${statusText}</div>
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <button type="button" class="mini-btn danger" onclick="removeCurrentItem(${index})">Remover</button>
+                <div class="item-editor-status ${statusClass}">${statusText}</div>
+              </div>
             </div>
             ${problems.length ? `<div class="critical-block">${problems.map(escapeHtml).join("<br>")}</div>` : ""}
             <div class="item-editor-grid">
               <div class="item-editor-field full">
                 <label>Nome da indicação</label>
-                <input value="${escapeHtml(item.name || "")}" oninput="updateCurrentItem(${index}, 'name', this.value)">
+                <input value="${escapeHtml(item.name || "")}" oninput="updateCurrentItem(${index}, 'name', this.value)" onblur="renderExtraction(currentExtraction)">
               </div>
               <div class="item-editor-field full">
                 <label>Descrição</label>
-                <textarea oninput="updateCurrentItem(${index}, 'description', this.value)">${escapeHtml(item.description || "")}</textarea>
+                <textarea oninput="updateCurrentItem(${index}, 'description', this.value)" onblur="renderExtraction(currentExtraction)">${escapeHtml(item.description || "")}</textarea>
               </div>
               <div class="item-editor-field">
                 <label>Endereço</label>
-                <input value="${escapeHtml(item.address || "")}" oninput="updateCurrentItem(${index}, 'address', this.value)">
+                <input value="${escapeHtml(item.address || "")}" oninput="updateCurrentItem(${index}, 'address', this.value)" onblur="renderExtraction(currentExtraction)">
               </div>
               <div class="item-editor-field">
                 <label>Site</label>
-                <input value="${escapeHtml(item.site || "")}" oninput="updateCurrentItem(${index}, 'site', this.value)">
+                <input value="${escapeHtml(item.site || "")}" oninput="updateCurrentItem(${index}, 'site', this.value)" onblur="renderExtraction(currentExtraction)">
               </div>
               <div class="item-editor-field">
                 <label>Entrada / valor</label>
-                <input value="${escapeHtml(item.entry_price || "")}" oninput="updateCurrentItem(${index}, 'entry_price', this.value)">
+                <input value="${escapeHtml(item.entry_price || "")}" oninput="updateCurrentItem(${index}, 'entry_price', this.value)" onblur="renderExtraction(currentExtraction)">
               </div>
             </div>
           </article>
         `;
       }).join("");
 
-      const qualityHtml = [
-        ...quality.oks.map(text => `<div class="quality-item ok">✓ ${escapeHtml(text)}</div>`),
-        ...quality.warnings.map(text => `<div class="quality-item warn">⚠ ${escapeHtml(text)}</div>`),
-        ...quality.critical.map(text => `<div class="quality-item danger">✕ ${escapeHtml(text)}</div>`)
-      ].join("");
-      el("qualityList").innerHTML = qualityHtml || `<div class="quality-item warn">Nenhuma validação disponível.</div>`;
+      renderQualityList(quality);
     }
 
     function escapeHtml(value) {
