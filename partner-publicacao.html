@@ -1033,7 +1033,7 @@
         const cardClass = problems.length ? "problem" : "ok";
         const statusText = problems.length ? "Revisar" : "OK";
         return `
-          <article class="item-editor-card ${cardClass}">
+          <article class="item-editor-card ${cardClass}" data-item-card="true">
             <div class="item-editor-head">
               <div class="item-editor-title"><span class="item-editor-number">${String(item.item_order || index + 1).padStart(2,"0")}</span> Card completo</div>
               <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
@@ -1045,23 +1045,23 @@
             <div class="item-editor-grid">
               <div class="item-editor-field full">
                 <label>Nome da indicação</label>
-                <input value="${escapeHtml(item.name || "")}" oninput="updateCurrentItem(${index}, 'name', this.value)" onblur="renderExtraction(currentExtraction)">
+                <input data-field="name" value="${escapeHtml(item.name || "")}" oninput="updateCurrentItem(${index}, 'name', this.value)" onblur="renderExtraction(currentExtraction)">
               </div>
               <div class="item-editor-field full">
                 <label>Descrição</label>
-                <textarea oninput="updateCurrentItem(${index}, 'description', this.value)" onblur="renderExtraction(currentExtraction)">${escapeHtml(item.description || "")}</textarea>
+                <textarea data-field="description" oninput="updateCurrentItem(${index}, 'description', this.value)" onblur="renderExtraction(currentExtraction)">${escapeHtml(item.description || "")}</textarea>
               </div>
               <div class="item-editor-field">
                 <label>Endereço</label>
-                <input value="${escapeHtml(item.address || "")}" oninput="updateCurrentItem(${index}, 'address', this.value)" onblur="renderExtraction(currentExtraction)">
+                <input data-field="address" value="${escapeHtml(item.address || "")}" oninput="updateCurrentItem(${index}, 'address', this.value)" onblur="renderExtraction(currentExtraction)">
               </div>
               <div class="item-editor-field">
                 <label>Site</label>
-                <input value="${escapeHtml(item.site || "")}" oninput="updateCurrentItem(${index}, 'site', this.value)" onblur="renderExtraction(currentExtraction)">
+                <input data-field="site" value="${escapeHtml(item.site || "")}" oninput="updateCurrentItem(${index}, 'site', this.value)" onblur="renderExtraction(currentExtraction)">
               </div>
               <div class="item-editor-field">
                 <label>Entrada / valor</label>
-                <input value="${escapeHtml(item.entry_price || "")}" oninput="updateCurrentItem(${index}, 'entry_price', this.value)" onblur="renderExtraction(currentExtraction)">
+                <input data-field="entry_price" value="${escapeHtml(item.entry_price || "")}" oninput="updateCurrentItem(${index}, 'entry_price', this.value)" onblur="renderExtraction(currentExtraction)">
               </div>
             </div>
           </article>
@@ -1110,10 +1110,48 @@
       }
     }
 
-    async function publishExtraction(replaceExisting) {
-      if (!selectedMaterial || !currentExtraction || !currentExtraction.items.length) return;
 
-      const quality = validateExtraction(currentExtraction);
+    function collectExtractionFromScreen() {
+      if (!currentExtraction) return null;
+
+      const panoramaEl = el("panoramaPreview");
+      const panorama = panoramaEl ? panoramaEl.value.trim() : "";
+      const cards = Array.from(document.querySelectorAll('[data-item-card="true"]'));
+
+      const items = cards.map((card, index) => {
+        const read = (field) => {
+          const input = card.querySelector(`[data-field="${field}"]`);
+          return input ? String(input.value || "").trim() : "";
+        };
+        return {
+          item_order: index + 1,
+          name: read("name"),
+          description: read("description"),
+          address: read("address"),
+          site: read("site"),
+          entry_price: read("entry_price")
+        };
+      });
+
+      currentExtraction = {
+        ...currentExtraction,
+        panorama,
+        items
+      };
+
+      return currentExtraction;
+    }
+
+    async function publishExtraction(replaceExisting) {
+      if (!selectedMaterial || !currentExtraction) return;
+
+      const finalExtraction = collectExtractionFromScreen();
+      if (!finalExtraction || !finalExtraction.items || !finalExtraction.items.length) {
+        alert("Não há cards na tela para publicar.");
+        return;
+      }
+
+      const quality = validateExtraction(finalExtraction);
       if (quality.critical && quality.critical.length) {
         alert("Este material ainda não pode ser publicado. Corrija os cards sinalizados antes de salvar em b2b_material_items.");
         renderExtraction(currentExtraction);
@@ -1127,7 +1165,7 @@
       const confirmed = confirm(
         (replaceExisting ? "Substituir" : "Publicar") + " dados estruturados?\n\n" +
         category + " · " + city + " · " + year + "\n" +
-        currentExtraction.items.length + " itens serão salvos em b2b_material_items."
+        finalExtraction.items.length + " itens serão salvos em b2b_material_items."
       );
       if (!confirmed) return;
 
@@ -1148,11 +1186,11 @@
           if (deleteError) throw deleteError;
         }
 
-        const rows = currentExtraction.items.map(item => ({
+        const rows = finalExtraction.items.map(item => ({
           category: category,
           city_label: city,
           year: year,
-          panorama: currentExtraction.panorama || "",
+          panorama: finalExtraction.panorama || "",
           item_order: item.item_order,
           item_name: item.name,
           description: item.description,
