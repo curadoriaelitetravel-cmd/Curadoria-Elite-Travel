@@ -430,6 +430,16 @@
       return [normalizeCategoryName(category), String(city || "").trim(), normalizeYear(year)].join("||");
     }
 
+    function getExistingStructuredStatus(material) {
+      if (!material) return null;
+      return existingStructuredMap.get(materialKey(material.category, material.city_label, material.year)) || null;
+    }
+
+    function isSelectedMaterialPublished() {
+      const existing = getExistingStructuredStatus(selectedMaterial);
+      return Boolean(existing && existing.active > 0);
+    }
+
     function cleanValue(value) {
       return String(value || "")
         .replace(/\u00a0/g, " ")
@@ -511,7 +521,10 @@
 
         // Carrega o status estruturado depois, sem impedir o uso da tela.
         loadExistingStructuredItems()
-          .then(() => renderMaterialsList())
+          .then(() => {
+            renderMaterialsList();
+            if (currentExtraction) refreshPublishAvailability();
+          })
           .catch(error => console.warn("Status b2b_material_items ignorado", error));
       } catch (error) {
         console.error(error);
@@ -946,8 +959,10 @@
       if (!currentExtraction) return;
       const quality = validateExtraction(currentExtraction);
       const blocked = quality.critical.length > 0;
-      el("publishBtn").disabled = blocked;
-      el("replaceBtn").disabled = blocked;
+      const alreadyPublished = isSelectedMaterialPublished();
+
+      el("publishBtn").disabled = blocked || alreadyPublished;
+      el("replaceBtn").disabled = blocked || !alreadyPublished;
       el("metricItems").textContent = String((currentExtraction.items || []).length);
       renderQualityList(quality);
     }
@@ -1010,8 +1025,9 @@
 
       const quality = validateExtraction(extraction);
       const blocked = quality.critical.length > 0;
-      el("publishBtn").disabled = blocked;
-      el("replaceBtn").disabled = blocked;
+      const alreadyPublished = isSelectedMaterialPublished();
+      el("publishBtn").disabled = blocked || alreadyPublished;
+      el("replaceBtn").disabled = blocked || !alreadyPublished;
 
       const criticalHtml = blocked
         ? `<div class="critical-block"><strong>Publicação bloqueada:</strong><br>${quality.critical.map(escapeHtml).join("<br>")}</div>`
@@ -1161,6 +1177,20 @@
       const category = normalizeCategoryName(selectedMaterial.category);
       const city = String(selectedMaterial.city_label || "").trim();
       const year = normalizeYear(selectedMaterial.year);
+      const existing = getExistingStructuredStatus(selectedMaterial);
+      const alreadyPublished = Boolean(existing && existing.active > 0);
+
+      if (!replaceExisting && alreadyPublished) {
+        alert("Este destino já possui uma publicação ativa. Use 'Substituir publicação existente' para apagar a versão anterior e salvar somente a versão revisada que está na tela.");
+        refreshPublishAvailability();
+        return;
+      }
+
+      if (replaceExisting && !alreadyPublished) {
+        alert("Não existe uma publicação ativa para substituir. Use 'Publicar em b2b_material_items'.");
+        refreshPublishAvailability();
+        return;
+      }
 
       const confirmed = confirm(
         (replaceExisting ? "Substituir" : "Publicar") + " dados estruturados?\n\n" +
@@ -1210,13 +1240,13 @@
         setStatus("Publicado com sucesso. A Área Partner poderá consumir esses dados estruturados.", "ok");
         await loadExistingStructuredItems();
         renderMaterialsList();
+        refreshPublishAvailability();
       } catch (error) {
         console.error(error);
         setStep("stepPublish", "error");
         setStatus("Erro ao publicar: <strong>" + escapeHtml(error.message || error) + "</strong>", "error");
       } finally {
-        el("publishBtn").disabled = false;
-        el("replaceBtn").disabled = false;
+        refreshPublishAvailability();
       }
     }
 
