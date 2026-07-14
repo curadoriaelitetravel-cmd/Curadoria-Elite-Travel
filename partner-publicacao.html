@@ -430,16 +430,6 @@
       return [normalizeCategoryName(category), String(city || "").trim(), normalizeYear(year)].join("||");
     }
 
-    function getExistingStructuredStatus(material) {
-      if (!material) return null;
-      return existingStructuredMap.get(materialKey(material.category, material.city_label, material.year)) || null;
-    }
-
-    function isSelectedMaterialPublished() {
-      const existing = getExistingStructuredStatus(selectedMaterial);
-      return Boolean(existing && existing.active > 0);
-    }
-
     function cleanValue(value) {
       return String(value || "")
         .replace(/\u00a0/g, " ")
@@ -521,10 +511,7 @@
 
         // Carrega o status estruturado depois, sem impedir o uso da tela.
         loadExistingStructuredItems()
-          .then(() => {
-            renderMaterialsList();
-            if (currentExtraction) refreshPublishAvailability();
-          })
+          .then(() => renderMaterialsList())
           .catch(error => console.warn("Status b2b_material_items ignorado", error));
       } catch (error) {
         console.error(error);
@@ -666,7 +653,13 @@
         setStatus("City Guide foi deixado para a próxima fase, porque exige um modelo diferente e maior.", "ok");
         el("processBtn").disabled = true;
       } else {
-        setStatus("Material selecionado. Clique em <strong>Processar PDF</strong> para gerar a prévia estruturada.", "ok");
+        const publication = getSelectedPublicationState();
+        setStatus(
+          publication.exists
+            ? "Material selecionado e já publicado. Processe o PDF, revise a tela e use <strong>Substituir publicação existente</strong> para salvar a nova versão sem duplicar registros."
+            : "Material selecionado. Clique em <strong>Processar PDF</strong> para gerar a prévia estruturada.",
+          "ok"
+        );
       }
     }
 
@@ -955,14 +948,42 @@
       el("qualityList").innerHTML = qualityHtml || `<div class="quality-item warn">Nenhuma validação disponível.</div>`;
     }
 
+    function getSelectedPublicationState() {
+      if (!selectedMaterial) return { total: 0, active: 0, exists: false };
+      const key = materialKey(selectedMaterial.category, selectedMaterial.city_label, selectedMaterial.year);
+      const existing = existingStructuredMap.get(key) || { total: 0, active: 0 };
+      return {
+        total: Number(existing.total || 0),
+        active: Number(existing.active || 0),
+        exists: Number(existing.total || 0) > 0 || Number(existing.active || 0) > 0
+      };
+    }
+
+    function updatePublishButtons(blocked) {
+      const publishBtn = el("publishBtn");
+      const replaceBtn = el("replaceBtn");
+      if (!publishBtn || !replaceBtn) return;
+
+      if (!currentExtraction || blocked) {
+        publishBtn.disabled = true;
+        replaceBtn.disabled = true;
+        return;
+      }
+
+      const publication = getSelectedPublicationState();
+
+      // Material ainda não publicado: permite somente a primeira publicação.
+      publishBtn.disabled = publication.exists;
+
+      // Material já publicado: permite somente substituir a versão existente.
+      replaceBtn.disabled = !publication.exists;
+    }
+
     function refreshPublishAvailability() {
       if (!currentExtraction) return;
       const quality = validateExtraction(currentExtraction);
       const blocked = quality.critical.length > 0;
-      const alreadyPublished = isSelectedMaterialPublished();
-
-      el("publishBtn").disabled = blocked || alreadyPublished;
-      el("replaceBtn").disabled = blocked || !alreadyPublished;
+      updatePublishButtons(blocked);
       el("metricItems").textContent = String((currentExtraction.items || []).length);
       renderQualityList(quality);
     }
@@ -1025,9 +1046,7 @@
 
       const quality = validateExtraction(extraction);
       const blocked = quality.critical.length > 0;
-      const alreadyPublished = isSelectedMaterialPublished();
-      el("publishBtn").disabled = blocked || alreadyPublished;
-      el("replaceBtn").disabled = blocked || !alreadyPublished;
+      updatePublishButtons(blocked);
 
       const criticalHtml = blocked
         ? `<div class="critical-block"><strong>Publicação bloqueada:</strong><br>${quality.critical.map(escapeHtml).join("<br>")}</div>`
@@ -1177,18 +1196,17 @@
       const category = normalizeCategoryName(selectedMaterial.category);
       const city = String(selectedMaterial.city_label || "").trim();
       const year = normalizeYear(selectedMaterial.year);
-      const existing = getExistingStructuredStatus(selectedMaterial);
-      const alreadyPublished = Boolean(existing && existing.active > 0);
+      const publication = getSelectedPublicationState();
 
-      if (!replaceExisting && alreadyPublished) {
-        alert("Este destino já possui uma publicação ativa. Use 'Substituir publicação existente' para apagar a versão anterior e salvar somente a versão revisada que está na tela.");
-        refreshPublishAvailability();
+      if (!replaceExisting && publication.exists) {
+        alert("Este destino já possui uma publicação estruturada. Use o botão ‘Substituir publicação existente’ para apagar a versão anterior e salvar somente a versão revisada que está na tela.");
+        updatePublishButtons(false);
         return;
       }
 
-      if (replaceExisting && !alreadyPublished) {
-        alert("Não existe uma publicação ativa para substituir. Use 'Publicar em b2b_material_items'.");
-        refreshPublishAvailability();
+      if (replaceExisting && !publication.exists) {
+        alert("Ainda não existe uma publicação para substituir. Use o botão ‘Publicar em b2b_material_items’ para fazer a primeira publicação.");
+        updatePublishButtons(false);
         return;
       }
 
@@ -1236,8 +1254,29 @@
 
         if (error) throw error;
 
+        // Confirma no banco que ficou exatamente uma versão ativa com a quantidade esperada.
+        const { data: savedRows, error: verifyError } = await supabaseClient
+          .from("b2b_material_items")
+          .select("id, item_order, item_name, is_active")
+          .eq("category", category)
+          .eq("city_label", city)
+          .eq("year", year)
+          .order("item_order", { ascending: true });
+
+        if (verifyError) throw verifyError;
+
+        const savedActiveRows = (savedRows || []).filter(row => row.is_active !== false);
+        if (savedActiveRows.length !== rows.length) {
+          throw new Error(`A verificação encontrou ${savedActiveRows.length} itens ativos no banco, mas ${rows.length} eram esperados.`);
+        }
+
         setStep("stepPublish", "done");
-        setStatus("Publicado com sucesso. A Área Partner poderá consumir esses dados estruturados.", "ok");
+        setStatus(
+          (replaceExisting ? "Publicação substituída" : "Publicado") +
+          " com sucesso. Foram confirmados <strong>" + savedActiveRows.length +
+          " itens</strong> em b2b_material_items.",
+          "ok"
+        );
         await loadExistingStructuredItems();
         renderMaterialsList();
         refreshPublishAvailability();
@@ -1246,7 +1285,12 @@
         setStep("stepPublish", "error");
         setStatus("Erro ao publicar: <strong>" + escapeHtml(error.message || error) + "</strong>", "error");
       } finally {
-        refreshPublishAvailability();
+        if (currentExtraction) {
+          refreshPublishAvailability();
+        } else {
+          el("publishBtn").disabled = true;
+          el("replaceBtn").disabled = true;
+        }
       }
     }
 
