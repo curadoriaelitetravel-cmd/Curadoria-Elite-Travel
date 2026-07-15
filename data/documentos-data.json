@@ -1,5 +1,5 @@
 {
-  "updatedAt": "14/07/2026, 07:45:38",
+  "updatedAt": "15/07/2026, 07:49:01",
   "monitoring": {
     "enabled": true,
     "frequency": "daily",
@@ -93,8 +93,8 @@
           "url": "https://www.auswaertiges-amt.de/en/visa-service"
         }
       ],
-      "lastChecked": "14/07/2026, 07:45:25",
-      "lastAutomaticUpdate": "14/07/2026, 07:45:25",
+      "lastChecked": "15/07/2026, 07:48:50",
+      "lastAutomaticUpdate": "15/07/2026, 07:48:50",
       "origin": "extracted"
     },
     {
@@ -946,7 +946,7 @@
       ],
       "entry": {
         "title": "Visto e entrada no país",
-        "summary": "Brasileiros precisam de visto para turismo."
+        "summary": "Brasileiros precisam de visto B1/B2 para turismo."
       },
       "health": {
         "title": "Informações de saúde",
@@ -972,8 +972,8 @@
           "url": "https://travel.state.gov/"
         }
       ],
-      "lastChecked": "14/07/2026, 07:45:26",
-      "lastAutomaticUpdate": "14/07/2026, 07:45:26",
+      "lastChecked": "15/07/2026, 07:48:52",
+      "lastAutomaticUpdate": "15/07/2026, 07:48:52",
       "origin": "extracted"
     },
     {
@@ -1099,8 +1099,8 @@
           "url": "https://france-visas.gouv.fr/"
         }
       ],
-      "lastChecked": "14/07/2026, 07:45:38",
-      "lastAutomaticUpdate": "14/07/2026, 07:45:38",
+      "lastChecked": "15/07/2026, 07:49:01",
+      "lastAutomaticUpdate": "15/07/2026, 07:49:01",
       "origin": "extracted"
     },
     {
