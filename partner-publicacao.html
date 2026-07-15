@@ -1079,24 +1079,24 @@
             ${problems.length ? `<div class="critical-block">${problems.map(escapeHtml).join("<br>")}</div>` : ""}
             <div class="item-editor-grid">
               <div class="item-editor-field full">
-                <label>Nome da indicação</label>
-                <input data-field="name" value="${escapeHtml(item.name || "")}" oninput="updateCurrentItem(${index}, 'name', this.value)" onblur="renderExtraction(currentExtraction)">
+                <label for="item-name-${index}">Nome da indicação</label>
+                <input id="item-name-${index}" name="item-name-${index}" data-field="name" data-index="${index}" autocomplete="off" value="${escapeHtml(item.name || "")}" oninput="updateCurrentItem(${index}, 'name', this.value)">
               </div>
               <div class="item-editor-field full">
-                <label>Descrição</label>
-                <textarea data-field="description" oninput="updateCurrentItem(${index}, 'description', this.value)" onblur="renderExtraction(currentExtraction)">${escapeHtml(item.description || "")}</textarea>
+                <label for="item-description-${index}">Descrição</label>
+                <textarea id="item-description-${index}" name="item-description-${index}" data-field="description" data-index="${index}" autocomplete="off" oninput="updateCurrentItem(${index}, 'description', this.value)">${escapeHtml(item.description || "")}</textarea>
               </div>
               <div class="item-editor-field">
-                <label>Endereço</label>
-                <input data-field="address" value="${escapeHtml(item.address || "")}" oninput="updateCurrentItem(${index}, 'address', this.value)" onblur="renderExtraction(currentExtraction)">
+                <label for="item-address-${index}">Endereço</label>
+                <input id="item-address-${index}" name="item-address-${index}" data-field="address" data-index="${index}" autocomplete="off" value="${escapeHtml(item.address || "")}" oninput="updateCurrentItem(${index}, 'address', this.value)">
               </div>
               <div class="item-editor-field">
-                <label>Site</label>
-                <input data-field="site" value="${escapeHtml(item.site || "")}" oninput="updateCurrentItem(${index}, 'site', this.value)" onblur="renderExtraction(currentExtraction)">
+                <label for="item-site-${index}">Site</label>
+                <input id="item-site-${index}" name="item-site-${index}" data-field="site" data-index="${index}" autocomplete="off" value="${escapeHtml(item.site || "")}" oninput="updateCurrentItem(${index}, 'site', this.value)">
               </div>
               <div class="item-editor-field">
-                <label>Entrada / valor</label>
-                <input data-field="entry_price" value="${escapeHtml(item.entry_price || "")}" oninput="updateCurrentItem(${index}, 'entry_price', this.value)" onblur="renderExtraction(currentExtraction)">
+                <label for="item-entry-${index}">Entrada / valor</label>
+                <input id="item-entry-${index}" name="item-entry-${index}" data-field="entry_price" data-index="${index}" autocomplete="off" value="${escapeHtml(item.entry_price || "")}" oninput="updateCurrentItem(${index}, 'entry_price', this.value)">
               </div>
             </div>
           </article>
@@ -1150,31 +1150,33 @@
       if (!currentExtraction) return null;
 
       const panoramaEl = el("panoramaPreview");
-      const panorama = panoramaEl ? panoramaEl.value.trim() : "";
+      const panorama = panoramaEl ? String(panoramaEl.value || "").trim() : "";
       const cards = Array.from(document.querySelectorAll('[data-item-card="true"]'));
 
       const items = cards.map((card, index) => {
-        const read = (field) => {
-          const input = card.querySelector(`[data-field="${field}"]`);
+        const readById = (id) => {
+          const input = document.getElementById(id);
           return input ? String(input.value || "").trim() : "";
         };
+
         return {
           item_order: index + 1,
-          name: read("name"),
-          description: read("description"),
-          address: read("address"),
-          site: read("site"),
-          entry_price: read("entry_price")
+          name: readById(`item-name-${index}`),
+          description: readById(`item-description-${index}`),
+          address: readById(`item-address-${index}`),
+          site: readById(`item-site-${index}`),
+          entry_price: readById(`item-entry-${index}`)
         };
       });
 
-      currentExtraction = {
+      const screenSnapshot = {
         ...currentExtraction,
         panorama,
         items
       };
 
-      return currentExtraction;
+      currentExtraction = JSON.parse(JSON.stringify(screenSnapshot));
+      return JSON.parse(JSON.stringify(screenSnapshot));
     }
 
     async function publishExtraction(replaceExisting) {
@@ -1257,7 +1259,7 @@
         // Confirma no banco que ficou exatamente uma versão ativa com a quantidade esperada.
         const { data: savedRows, error: verifyError } = await supabaseClient
           .from("b2b_material_items")
-          .select("id, item_order, item_name, is_active")
+          .select("id, item_order, item_name, description, address, site, entry_price, panorama, is_active")
           .eq("category", category)
           .eq("city_label", city)
           .eq("year", year)
@@ -1268,6 +1270,37 @@
         const savedActiveRows = (savedRows || []).filter(row => row.is_active !== false);
         if (savedActiveRows.length !== rows.length) {
           throw new Error(`A verificação encontrou ${savedActiveRows.length} itens ativos no banco, mas ${rows.length} eram esperados.`);
+        }
+
+        const normalizeComparable = (value) => String(value || "").trim();
+        const mismatches = [];
+
+        rows.forEach((expected, index) => {
+          const saved = savedActiveRows[index];
+          if (!saved) {
+            mismatches.push(`Card ${index + 1}: registro não encontrado após salvar.`);
+            return;
+          }
+
+          const comparisons = [
+            ["item_order", expected.item_order, saved.item_order],
+            ["item_name", expected.item_name, saved.item_name],
+            ["description", expected.description, saved.description],
+            ["address", expected.address, saved.address],
+            ["site", expected.site, saved.site],
+            ["entry_price", expected.entry_price, saved.entry_price],
+            ["panorama", expected.panorama, saved.panorama]
+          ];
+
+          comparisons.forEach(([field, expectedValue, savedValue]) => {
+            if (normalizeComparable(expectedValue) !== normalizeComparable(savedValue)) {
+              mismatches.push(`Card ${index + 1}: o campo ${field} foi salvo diferente do conteúdo exibido na tela.`);
+            }
+          });
+        });
+
+        if (mismatches.length) {
+          throw new Error("A conferência após a gravação encontrou divergências: " + mismatches.slice(0, 6).join(" | "));
         }
 
         setStep("stepPublish", "done");
