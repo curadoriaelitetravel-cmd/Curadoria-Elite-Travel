@@ -1137,6 +1137,61 @@
       return extractLeadingUppercaseTitle(mergeTitleFragments(titleLines));
     }
 
+    function firstCardTitleFallback(page, descriptionLine, nextDescriptionY, material) {
+      /*
+        No PDF oficial, o primeiro título de cada página pode aparecer internamente
+        depois do bloco textual, apesar de visualmente estar ao lado da descrição.
+
+        Por isso, para o primeiro card não usamos proximidade rígida com "Descrição:".
+        Procuramos o primeiro título válido em caixa alta na região esquerda,
+        entre o cabeçalho da página e o início do segundo card.
+      */
+      const upperLimit = Number(nextDescriptionY || page.height || 0);
+
+      const candidates = page.lines
+        .filter(line => {
+          const value = cleanValue(line.text);
+          if (!value) return false;
+          if (visualLineIsNoise(line, material)) return false;
+          if (isFieldLine(value)) return false;
+          if (isInvalidNameCandidate(value)) return false;
+
+          const inLeftRegion =
+            Number(line.xMin || 0) < Number(page.width || 0) * 0.62;
+
+          if (!inLeftRegion) return false;
+
+          const y = Number(line.y || 0);
+          if (y < Number(page.height || 0) * 0.16) return false;
+          if (y >= upperLimit) return false;
+
+          const title = extractLeadingUppercaseTitle(value);
+          if (!title) return false;
+
+          const letters = title.replace(/[^A-Za-zÀ-ÿ]/g, "");
+          if (!letters) return false;
+
+          const uppercaseRatio =
+            letters.replace(/[a-zà-ÿ]/g, "").length / letters.length;
+
+          return uppercaseRatio >= 0.72;
+        })
+        .map(line => ({
+          value: extractLeadingUppercaseTitle(line.text),
+          y: Number(line.y || 0),
+          x: Number(line.xMin || 0),
+          fontSize: Number(line.fontSize || 0)
+        }))
+        .filter(candidate => candidate.value)
+        .sort((a, b) => {
+          // The first visual title on the page is the first card's title.
+          if (Math.abs(a.y - b.y) > 3.2) return a.y - b.y;
+          return a.x - b.x;
+        });
+
+      return candidates.length ? candidates[0].value : "";
+    }
+
     function extractItemsFromLayout(layout, material) {
       const extracted = [];
       const indicationPages = (layout.pages || []).filter(page =>
@@ -1158,13 +1213,25 @@
             ? Number(next.line.y) - 3
             : Number(page.height || 0) + 1;
 
-          const title = titleCandidateFromBand(
+          let title = titleCandidateFromBand(
             page,
             bandTop,
             bandBottom,
             descriptionLine,
             material
           );
+
+          // The first attraction on pages 6–9 has a slightly different
+          // internal PDF boundary because it sits below the page header.
+          if ((!title || /^Indicação\s+\d+$/i.test(title)) && anchorIndex === 0) {
+            const nextDescriptionY = next ? Number(next.line.y) : Number(page.height || 0);
+            title = firstCardTitleFallback(
+              page,
+              descriptionLine,
+              nextDescriptionY,
+              material
+            );
+          }
 
           // Official template: textual fields are entirely in the right column.
           const blockLines = page.lines
@@ -1623,7 +1690,7 @@
         <div class="preview-card">
           <h4>Cards editáveis</h4>
           <p class="muted-text">Você pode ajustar nome, descrição, endereço, site e entrada de cada indicação. Também pode adicionar ou remover um card antes de publicar.</p>
-          <div class="badge ok">Parser: panorama da página 5 + colunas fixas validadas no PDF oficial</div>
+          <div class="badge ok">Parser: panorama da página 5 + fallback ampliado para o primeiro card de cada página</div>
           <div class="mini-actions">
             <button type="button" class="mini-btn" onclick="addManualItem()">+ Adicionar card</button>
           </div>
