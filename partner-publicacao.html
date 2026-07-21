@@ -781,13 +781,36 @@
         const page = await pdf.getPage(pageNumber);
         const viewport = page.getViewport({ scale: 1 });
         const content = await page.getTextContent();
-        const lines = groupPdfItemsIntoLines(content.items, content.styles || {}, viewport.width, viewport.height);
+        const styles = content.styles || {};
+        const lines = groupPdfItemsIntoLines(content.items, styles, viewport.width, viewport.height);
+
+        const spans = (content.items || [])
+          .filter(item => item && String(item.str || "").trim())
+          .map(item => {
+            const transform = item.transform || [1,0,0,1,0,0];
+            const style = item.fontName ? styles[item.fontName] : null;
+            return {
+              text: cleanValue(item.str),
+              x: Number(transform[4] || 0),
+              y: Number(viewport.height - Number(transform[5] || 0)),
+              width: Number(item.width || 0),
+              fontSize: Math.max(
+                Math.abs(Number(transform[0] || 0)),
+                Math.abs(Number(transform[3] || 0)),
+                Number(item.height || 0),
+                1
+              ),
+              fontName: String(item.fontName || ""),
+              fontFamily: String(style && style.fontFamily ? style.fontFamily : "")
+            };
+          });
 
         pages.push({
           pageNumber,
           width: viewport.width,
           height: viewport.height,
-          lines
+          lines,
+          spans
         });
 
         rawParts.push(
@@ -1212,6 +1235,64 @@
       return candidates.length ? candidates[0].value : "";
     }
 
+    function extractTitleFromRawSpans(page, descriptionLine, material) {
+      /*
+        The first title on each page was being lost because PDF.js sometimes
+        merged its baseline with the right-column Description line.
+
+        Raw spans are evaluated before line grouping, so left and right columns
+        cannot contaminate each other.
+      */
+      const candidates = (page.spans || [])
+        .filter(span => {
+          const value = cleanValue(span.text);
+          if (!value) return false;
+          if (isInvalidNameCandidate(value)) return false;
+          if (visualLineIsNoise({ text: value }, material)) return false;
+
+          const isLeft = Number(span.x || 0) < Number(page.width || 0) * 0.53;
+          if (!isLeft) return false;
+
+          const deltaY = Number(span.y || 0) - Number(descriptionLine.y || 0);
+          if (deltaY < -14 || deltaY > 30) return false;
+
+          const letters = value.replace(/[^A-Za-zÀ-ÿ]/g, "");
+          if (!letters) return false;
+
+          const uppercaseRatio =
+            letters.replace(/[a-zà-ÿ]/g, "").length / letters.length;
+
+          return uppercaseRatio >= 0.72;
+        })
+        .sort((a, b) => {
+          const dy = Math.abs(Number(a.y || 0) - Number(b.y || 0));
+          if (dy > 3.5) return Number(a.y || 0) - Number(b.y || 0);
+          return Number(a.x || 0) - Number(b.x || 0);
+        });
+
+      if (!candidates.length) return "";
+
+      // Keep only the closest horizontal title row.
+      const nearestDistance = Math.min(
+        ...candidates.map(span =>
+          Math.abs(Number(span.y || 0) - Number(descriptionLine.y || 0))
+        )
+      );
+
+      const titleRow = candidates
+        .filter(span =>
+          Math.abs(
+            Math.abs(Number(span.y || 0) - Number(descriptionLine.y || 0)) -
+            nearestDistance
+          ) <= 3.5
+        )
+        .sort((a, b) => Number(a.x || 0) - Number(b.x || 0));
+
+      return extractLeadingUppercaseTitle(
+        titleRow.map(span => span.text).join(" ")
+      );
+    }
+
     function extractItemsFromLayout(layout, material) {
       const extracted = [];
       const indicationPages = (layout.pages || []).filter(page =>
@@ -1219,60 +1300,10 @@
       );
 
       indicationPages.forEach(page => {
-        /*
-          O PDF oficial usa exatamente três cards por página.
-          A ordem visual é estável:
-          título 1 ↔ descrição 1
-          título 2 ↔ descrição 2
-          título 3 ↔ descrição 3
-
-          Portanto, em vez de adivinhar por proximidade, pareamos as listas
-          ordenadas verticalmente. Isso elimina a diferença interna do primeiro
-          card de cada página.
-        */
-
         const anchors = page.lines
           .map((line, index) => ({ line, index }))
           .filter(entry => /descri[cç][aã]o\s*:/i.test(entry.line.text))
           .sort((a, b) => a.line.y - b.line.y);
-
-        const titleLines = page.lines
-          .filter(line => {
-            const value = cleanValue(line.text);
-            if (!value) return false;
-            if (visualLineIsNoise(line, material)) return false;
-            if (isFieldLine(value)) return false;
-            if (isInvalidNameCandidate(value)) return false;
-
-            const inLeftRegion =
-              Number(line.xMin || 0) < Number(page.width || 0) * 0.53 &&
-              Number(line.xMax || 0) <= Number(page.width || 0) * 0.54;
-
-            if (!inLeftRegion) return false;
-
-            const families = (line.fontFamilies || []).join(" ").toLowerCase();
-            const names = (line.fontNames || []).join(" ").toLowerCase();
-            const usesTitleFont =
-              families.includes("playfair") ||
-              names.includes("playfair");
-
-            const letters = value.replace(/[^A-Za-zÀ-ÿ]/g, "");
-            if (!letters) return false;
-
-            const uppercaseRatio =
-              letters.replace(/[a-zà-ÿ]/g, "").length / letters.length;
-
-            return usesTitleFont || uppercaseRatio >= 0.88;
-          })
-          .map(line => ({
-            ...line,
-            cleanTitle: extractLeadingUppercaseTitle(line.text)
-          }))
-          .filter(line => line.cleanTitle)
-          .sort((a, b) => {
-            if (Math.abs(a.y - b.y) > 3.2) return a.y - b.y;
-            return a.xMin - b.xMin;
-          });
 
         anchors.forEach((anchor, anchorIndex) => {
           const next = anchors[anchorIndex + 1];
@@ -1281,9 +1312,11 @@
             ? Number(next.line.y) - 3
             : Number(page.height || 0) + 1;
 
-          const title = titleLines[anchorIndex]
-            ? titleLines[anchorIndex].cleanTitle
-            : "";
+          const title = extractTitleFromRawSpans(
+            page,
+            descriptionLine,
+            material
+          );
 
           const blockLines = page.lines
             .filter(line => {
@@ -1741,7 +1774,7 @@
         <div class="preview-card">
           <h4>Cards editáveis</h4>
           <p class="muted-text">Você pode ajustar nome, descrição, endereço, site e entrada de cada indicação. Também pode adicionar ou remover um card antes de publicar.</p>
-          <div class="badge ok">Parser: panorama da página 5 + títulos e descrições pareados pela ordem vertical</div>
+          <div class="badge ok">Parser: panorama da página 5 + títulos lidos diretamente dos fragmentos do PDF</div>
           <div class="mini-actions">
             <button type="button" class="mini-btn" onclick="addManualItem()">+ Adicionar card</button>
           </div>
