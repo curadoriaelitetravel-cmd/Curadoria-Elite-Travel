@@ -1235,26 +1235,52 @@
       return candidates.length ? candidates[0].value : "";
     }
 
-    function extractTitleFromRawSpans(page, descriptionLine, material) {
+    function getRawPageTitles(page, material) {
       /*
-        The first title on each page was being lost because PDF.js sometimes
-        merged its baseline with the right-column Description line.
+        No primeiro card de cada página, o PDF.js pode entregar o título da esquerda
+        e "Descrição:" da direita dentro do MESMO item bruto.
 
-        Raw spans are evaluated before line grouping, so left and right columns
-        cannot contaminate each other.
+        Exemplo interno possível:
+        "EMPIRE STATE BUILDING Descrição:"
+
+        Por isso:
+        1. usamos somente o trecho anterior a "Descrição:";
+        2. avaliamos a posição inicial X, não a largura total do item misturado;
+        3. mantemos os três títulos em ordem vertical.
       */
-      const candidates = (page.spans || [])
+      return (page.spans || [])
+        .map(span => {
+          const original = cleanValue(span.text);
+          const descriptionMatch = original.match(/descri[cç][aã]o\s*:/i);
+
+          const titlePart = descriptionMatch && descriptionMatch.index != null
+            ? cleanValue(original.slice(0, descriptionMatch.index))
+            : original;
+
+          return {
+            ...span,
+            originalText: original,
+            titlePart
+          };
+        })
         .filter(span => {
-          const value = cleanValue(span.text);
+          const value = cleanValue(span.titlePart);
           if (!value) return false;
-          if (isInvalidNameCandidate(value)) return false;
           if (visualLineIsNoise({ text: value }, material)) return false;
+          if (isFieldLine(value)) return false;
+          if (isInvalidNameCandidate(value)) return false;
 
-          const isLeft = Number(span.x || 0) < Number(page.width || 0) * 0.53;
-          if (!isLeft) return false;
+          // Use only the starting coordinate. A mixed item may extend into
+          // the right column even though its title begins on the left.
+          const startsInLeftRegion = Number(span.x || 0) < 305;
+          if (!startsInLeftRegion) return false;
 
-          const deltaY = Number(span.y || 0) - Number(descriptionLine.y || 0);
-          if (deltaY < -14 || deltaY > 30) return false;
+          const fontIdentity = (
+            String(span.fontName || "") + " " +
+            String(span.fontFamily || "")
+          ).toLowerCase();
+
+          const usesPlayfair = fontIdentity.includes("playfair");
 
           const letters = value.replace(/[^A-Za-zÀ-ÿ]/g, "");
           if (!letters) return false;
@@ -1262,35 +1288,31 @@
           const uppercaseRatio =
             letters.replace(/[a-zà-ÿ]/g, "").length / letters.length;
 
-          return uppercaseRatio >= 0.72;
+          const y = Number(span.y || 0);
+          const inCardArea = y >= 150 && y <= 735;
+
+          return inCardArea && (usesPlayfair || uppercaseRatio >= 0.88);
         })
+        .map(span => ({
+          title: extractLeadingUppercaseTitle(span.titlePart),
+          y: Number(span.y || 0),
+          x: Number(span.x || 0)
+        }))
+        .filter(item => item.title)
         .sort((a, b) => {
-          const dy = Math.abs(Number(a.y || 0) - Number(b.y || 0));
-          if (dy > 3.5) return Number(a.y || 0) - Number(b.y || 0);
-          return Number(a.x || 0) - Number(b.x || 0);
-        });
+          if (Math.abs(a.y - b.y) > 5) return a.y - b.y;
+          return a.x - b.x;
+        })
+        .filter((item, index, array) => {
+          if (index === 0) return true;
 
-      if (!candidates.length) return "";
+          const previous = array[index - 1];
+          const sameTitle = item.title === previous.title;
+          const sameRow = Math.abs(item.y - previous.y) <= 5;
 
-      // Keep only the closest horizontal title row.
-      const nearestDistance = Math.min(
-        ...candidates.map(span =>
-          Math.abs(Number(span.y || 0) - Number(descriptionLine.y || 0))
-        )
-      );
-
-      const titleRow = candidates
-        .filter(span =>
-          Math.abs(
-            Math.abs(Number(span.y || 0) - Number(descriptionLine.y || 0)) -
-            nearestDistance
-          ) <= 3.5
-        )
-        .sort((a, b) => Number(a.x || 0) - Number(b.x || 0));
-
-      return extractLeadingUppercaseTitle(
-        titleRow.map(span => span.text).join(" ")
-      );
+          return !(sameTitle && sameRow);
+        })
+        .slice(0, 3);
     }
 
     function extractItemsFromLayout(layout, material) {
@@ -1305,6 +1327,8 @@
           .filter(entry => /descri[cç][aã]o\s*:/i.test(entry.line.text))
           .sort((a, b) => a.line.y - b.line.y);
 
+        const rawTitles = getRawPageTitles(page, material);
+
         anchors.forEach((anchor, anchorIndex) => {
           const next = anchors[anchorIndex + 1];
           const descriptionLine = anchor.line;
@@ -1312,11 +1336,9 @@
             ? Number(next.line.y) - 3
             : Number(page.height || 0) + 1;
 
-          const title = extractTitleFromRawSpans(
-            page,
-            descriptionLine,
-            material
-          );
+          const title = rawTitles[anchorIndex]
+            ? rawTitles[anchorIndex].title
+            : "";
 
           const blockLines = page.lines
             .filter(line => {
@@ -1774,7 +1796,7 @@
         <div class="preview-card">
           <h4>Cards editáveis</h4>
           <p class="muted-text">Você pode ajustar nome, descrição, endereço, site e entrada de cada indicação. Também pode adicionar ou remover um card antes de publicar.</p>
-          <div class="badge ok">Parser: panorama da página 5 + títulos lidos diretamente dos fragmentos do PDF</div>
+          <div class="badge ok">Parser: panorama da página 5 + títulos separados de itens brutos misturados</div>
           <div class="mini-actions">
             <button type="button" class="mini-btn" onclick="addManualItem()">+ Adicionar card</button>
           </div>
