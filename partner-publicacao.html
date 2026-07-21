@@ -1051,6 +1051,32 @@
       return finalizeItem(item, order);
     }
 
+    function extractLeadingUppercaseTitle(value) {
+      const text = cleanValue(value);
+      if (!text) return "";
+
+      const tokens = text.split(/\s+/);
+      const kept = [];
+
+      for (const token of tokens) {
+        const letters = token.replace(/[^A-Za-zÀ-ÿ]/g, "");
+        if (!letters) {
+          if (kept.length) kept.push(token);
+          continue;
+        }
+
+        const uppercaseLetters = letters.replace(/[a-zà-ÿ]/g, "").length;
+        const ratio = uppercaseLetters / letters.length;
+
+        // Titles in the Curadoria cards are uppercase.
+        // Stop as soon as prose in lowercase begins.
+        if (ratio < 0.72) break;
+        kept.push(token);
+      }
+
+      return cleanValue(kept.join(" "));
+    }
+
     function mergeTitleFragments(lines) {
       const ordered = (lines || [])
         .slice()
@@ -1061,7 +1087,7 @@
 
       const parts = [];
       ordered.forEach(line => {
-        const value = cleanValue(line.text);
+        const value = extractLeadingUppercaseTitle(line.text);
         if (!value) return;
         if (parts.length && parts[parts.length - 1] === value) return;
         parts.push(value);
@@ -1071,7 +1097,7 @@
     }
 
     function titleCandidateFromBand(page, bandTop, bandBottom, descriptionLine, material) {
-      const leftLimit = Number(page.width || 0) * 0.56;
+      const leftLimit = Number(page.width || 0) * 0.515;
 
       const candidates = page.lines.filter(line => {
         const value = cleanValue(line.text);
@@ -1150,16 +1176,16 @@
           const next = anchors[anchorIndex + 1];
 
           // Each Description anchor defines one visual card row.
-          const bandTop = previous
-            ? (Number(previous.line.y) + Number(anchor.line.y)) / 2
-            : Math.max(0, Number(anchor.line.y) - 145);
+          const bandTop = Math.max(0, Number(anchor.line.y) - 115);
 
+          // Keep the complete information block (description, address, site and entry)
+          // until immediately before the next card's Description anchor.
           const bandBottom = next
-            ? (Number(anchor.line.y) + Number(next.line.y)) / 2
-            : Math.min(Number(page.height || 0), Number(anchor.line.y) + 235);
+            ? Number(next.line.y) - 3
+            : Math.min(Number(page.height || 0), Number(anchor.line.y) + 320);
 
           const descriptionLine = anchor.line;
-          const rightStart = Number(page.width || 0) * 0.43;
+          const rightStart = Number(page.width || 0) * 0.535;
 
           const blockLines = page.lines
             .filter(line =>
@@ -1637,7 +1663,7 @@
         <div class="preview-card">
           <h4>Cards editáveis</h4>
           <p class="muted-text">Você pode ajustar nome, descrição, endereço, site e entrada de cada indicação. Também pode adicionar ou remover um card antes de publicar.</p>
-          <div class="badge ok">Parser: panorama da página 5 + cards por faixas visuais nas páginas 6 a 9</div>
+          <div class="badge ok">Parser: panorama da página 5 + títulos em caixa alta e campos completos nas páginas 6 a 9</div>
           <div class="mini-actions">
             <button type="button" class="mini-btn" onclick="addManualItem()">+ Adicionar card</button>
           </div>
