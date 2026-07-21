@@ -682,7 +682,7 @@
       setHtml("qualityList", "");
     }
 
-    function groupPdfItemsIntoLines(items, pageHeight) {
+    function groupPdfItemsIntoLines(items, pageWidth, pageHeight) {
       const prepared = (items || [])
         .filter(item => item && String(item.str || "").trim())
         .map(item => {
@@ -706,34 +706,58 @@
         })
         .sort((a, b) => Math.abs(a.y - b.y) > 2.6 ? a.y - b.y : a.x - b.x);
 
-      const lines = [];
-      const tolerance = 3.4;
+      const horizontalBands = [];
+      const yTolerance = 3.4;
 
       prepared.forEach(span => {
-        let line = lines.find(candidate => Math.abs(candidate.y - span.y) <= tolerance);
-        if (!line) {
-          line = { y: span.y, spans: [] };
-          lines.push(line);
+        let band = horizontalBands.find(candidate => Math.abs(candidate.y - span.y) <= yTolerance);
+        if (!band) {
+          band = { y: span.y, spans: [] };
+          horizontalBands.push(band);
         }
-        line.spans.push(span);
-        line.y = (line.y * (line.spans.length - 1) + span.y) / line.spans.length;
+        band.spans.push(span);
+        band.y = (band.y * (band.spans.length - 1) + span.y) / band.spans.length;
       });
 
-      return lines
-        .map(line => {
-          line.spans.sort((a, b) => a.x - b.x);
-          const text = cleanValue(line.spans.map(span => span.text).join(" "));
-          return {
-            y: line.y,
-            xMin: Math.min(...line.spans.map(span => span.x)),
-            xMax: Math.max(...line.spans.map(span => span.x + span.width)),
-            fontSize: Math.max(...line.spans.map(span => span.fontSize)),
-            text,
-            spans: line.spans
-          };
-        })
-        .filter(line => line.text)
-        .sort((a, b) => a.y - b.y);
+      const segmentedLines = [];
+      const largeGap = Math.max(34, pageWidth * 0.075);
+
+      horizontalBands.forEach(band => {
+        band.spans.sort((a, b) => a.x - b.x);
+        let segment = [];
+
+        const flush = () => {
+          if (!segment.length) return;
+          const lineText = cleanValue(segment.map(span => span.text).join(" "));
+          if (lineText) {
+            segmentedLines.push({
+              y: band.y,
+              xMin: Math.min(...segment.map(span => span.x)),
+              xMax: Math.max(...segment.map(span => span.x + span.width)),
+              fontSize: Math.max(...segment.map(span => span.fontSize)),
+              text: lineText,
+              spans: segment.slice()
+            });
+          }
+          segment = [];
+        };
+
+        band.spans.forEach(span => {
+          if (segment.length) {
+            const previous = segment[segment.length - 1];
+            const gap = span.x - (previous.x + previous.width);
+            if (gap > largeGap) flush();
+          }
+          segment.push(span);
+        });
+
+        flush();
+      });
+
+      return segmentedLines.sort((a, b) => {
+        if (Math.abs(a.y - b.y) > 3.2) return a.y - b.y;
+        return a.xMin - b.xMin;
+      });
     }
 
     async function extractPdfLayoutFromUrl(url, firstPage, lastPage) {
@@ -752,7 +776,7 @@
         const page = await pdf.getPage(pageNumber);
         const viewport = page.getViewport({ scale: 1 });
         const content = await page.getTextContent();
-        const lines = groupPdfItemsIntoLines(content.items, viewport.height);
+        const lines = groupPdfItemsIntoLines(content.items, viewport.width, viewport.height);
 
         pages.push({
           pageNumber,
@@ -846,6 +870,11 @@
       if (city && (normalized === city || normalized === city.replace(/\s*-\s*.*/, ""))) return true;
       if (/^p[áa]gina\s+\d+/i.test(value)) return true;
       if (/indicac[oõ]es selecionadas/i.test(value)) return true;
+      if (/^pontos tur[ií]sticos$/i.test(value)) return true;
+      if (/^mais que paisagens[,.]? mem[oó]rias que permanecem$/i.test(value)) return true;
+      if (/porque o verdadeiro destino/i.test(value)) return true;
+      if (/pq o verdadeiro destino/i.test(value)) return true;
+      if (/lembran[cç]a que a gente guarda para sempre no cora[cç][aã]o/i.test(value)) return true;
       return false;
     }
 
@@ -883,6 +912,24 @@
       return score;
     }
 
+    function lineColumn(line, pageWidth) {
+      const center = (Number(line.xMin || 0) + Number(line.xMax || 0)) / 2;
+      if (center < pageWidth * 0.43) return "left";
+      if (center > pageWidth * 0.57) return "right";
+      return "center";
+    }
+
+    function sameVisualColumn(a, b, pageWidth) {
+      const colA = lineColumn(a, pageWidth);
+      const colB = lineColumn(b, pageWidth);
+      if (colA === "center" || colB === "center") {
+        const overlap = Math.max(0, Math.min(a.xMax, b.xMax) - Math.max(a.xMin, b.xMin));
+        const minWidth = Math.max(1, Math.min(a.xMax - a.xMin, b.xMax - b.xMin));
+        return overlap / minWidth >= 0.35;
+      }
+      return colA === colB;
+    }
+
     function findNameForDescription(page, descriptionIndex, descriptionLine, material) {
       const split = splitLineAtFieldLabel(descriptionLine.text, /descri[cç][aã]o\s*:/i);
       const candidates = [];
@@ -894,15 +941,18 @@
         });
       }
 
-      for (let i = Math.max(0, descriptionIndex - 7); i < descriptionIndex; i++) {
+      for (let i = descriptionIndex - 1; i >= Math.max(0, descriptionIndex - 10); i--) {
         const line = page.lines[i];
+        if (!sameVisualColumn(line, descriptionLine, page.width)) continue;
         if (visualLineIsNoise(line, material)) continue;
         if (isFieldLine(line.text)) continue;
-        const distance = Math.abs(descriptionLine.y - line.y);
-        if (distance > 92) continue;
+
+        const distance = descriptionLine.y - line.y;
+        if (distance < 0 || distance > 115) continue;
+
         candidates.push({
           value: line.text,
-          score: candidateNameScore(line.text, distance, line)
+          score: candidateNameScore(line.text, distance, line) + (i === descriptionIndex - 1 ? 3 : 0)
         });
       }
 
@@ -958,20 +1008,44 @@
 
     function extractItemsFromLayout(layout, material) {
       const extracted = [];
+      const indicationPages = (layout.pages || []).filter(page =>
+        Number(page.pageNumber) >= 6 && Number(page.pageNumber) <= 9
+      );
 
-      (layout.pages || []).forEach(page => {
+      indicationPages.forEach(page => {
         const anchors = page.lines
           .map((line, index) => ({ line, index }))
-          .filter(entry => /descri[cç][aã]o\s*:/i.test(entry.line.text));
+          .filter(entry => /descri[cç][aã]o\s*:/i.test(entry.line.text))
+          .sort((a, b) => {
+            if (Math.abs(a.line.y - b.line.y) > 3.2) return a.line.y - b.line.y;
+            return a.line.xMin - b.line.xMin;
+          });
 
-        anchors.forEach((anchor, anchorPosition) => {
-          const nextAnchor = anchors[anchorPosition + 1];
-          const endIndex = nextAnchor ? nextAnchor.index : page.lines.length;
+        anchors.forEach(anchor => {
+          const descriptionLine = anchor.line;
+          const column = lineColumn(descriptionLine, page.width);
+
+          const nextSameColumn = anchors.find(other =>
+            other.index !== anchor.index &&
+            lineColumn(other.line, page.width) === column &&
+            other.line.y > descriptionLine.y + 4
+          );
+
+          const endY = nextSameColumn ? nextSameColumn.line.y - 3 : page.height + 1;
+
           const blockLines = page.lines
-            .slice(anchor.index, endIndex)
-            .filter(line => !visualLineIsNoise(line, material));
+            .filter(line =>
+              line.y >= descriptionLine.y - 2 &&
+              line.y < endY &&
+              sameVisualColumn(line, descriptionLine, page.width) &&
+              !visualLineIsNoise(line, material)
+            )
+            .sort((a, b) => {
+              if (Math.abs(a.y - b.y) > 3.2) return a.y - b.y;
+              return a.xMin - b.xMin;
+            });
 
-          const name = findNameForDescription(page, anchor.index, anchor.line, material);
+          const name = findNameForDescription(page, anchor.index, descriptionLine, material);
           const item = parseVisualBlockLines(blockLines, name, extracted.length + 1);
 
           if (item.description) extracted.push(item);
@@ -1422,7 +1496,7 @@
         <div class="preview-card">
           <h4>Cards editáveis</h4>
           <p class="muted-text">Você pode ajustar nome, descrição, endereço, site e entrada de cada indicação. Também pode adicionar ou remover um card antes de publicar.</p>
-          <div class="badge ok">Parser: panorama da página 5 sem textos fixos + cards por coordenadas</div>
+          <div class="badge ok">Parser: panorama da página 5 + indicações das páginas 6 a 9 em ordem visual</div>
           <div class="mini-actions">
             <button type="button" class="mini-btn" onclick="addManualItem()">+ Adicionar card</button>
           </div>
