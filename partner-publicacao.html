@@ -682,7 +682,7 @@
       setHtml("qualityList", "");
     }
 
-    function groupPdfItemsIntoLines(items, pageWidth, pageHeight) {
+    function groupPdfItemsIntoLines(items, styles, pageWidth, pageHeight) {
       const prepared = (items || [])
         .filter(item => item && String(item.str || "").trim())
         .map(item => {
@@ -696,12 +696,15 @@
             Number(item.height || 0),
             1
           );
+          const style = styles && item.fontName ? styles[item.fontName] : null;
           return {
             text: cleanValue(item.str),
             x,
             y,
             width: Number(item.width || 0),
-            fontSize
+            fontSize,
+            fontName: String(item.fontName || ""),
+            fontFamily: String(style && style.fontFamily ? style.fontFamily : "")
           };
         })
         .sort((a, b) => Math.abs(a.y - b.y) > 2.6 ? a.y - b.y : a.x - b.x);
@@ -735,6 +738,8 @@
               xMin: Math.min(...segment.map(span => span.x)),
               xMax: Math.max(...segment.map(span => span.x + span.width)),
               fontSize: Math.max(...segment.map(span => span.fontSize)),
+              fontNames: Array.from(new Set(segment.map(span => span.fontName).filter(Boolean))),
+              fontFamilies: Array.from(new Set(segment.map(span => span.fontFamily).filter(Boolean))),
               text: lineText,
               spans: segment.slice()
             });
@@ -776,7 +781,7 @@
         const page = await pdf.getPage(pageNumber);
         const viewport = page.getViewport({ scale: 1 });
         const content = await page.getTextContent();
-        const lines = groupPdfItemsIntoLines(content.items, viewport.width, viewport.height);
+        const lines = groupPdfItemsIntoLines(content.items, content.styles || {}, viewport.width, viewport.height);
 
         pages.push({
           pageNumber,
@@ -1098,26 +1103,30 @@
 
     function titleCandidateFromBand(page, bandTop, bandBottom, descriptionLine, material) {
       /*
-        Estrutura real validada no PDF oficial:
-        - títulos: lado esquerdo, terminando perto de x=290;
-        - dados: lado direito, começando perto de x=326;
-        - título aparece na mesma altura ou até cerca de 25 pt abaixo de "Descrição:".
+        Regra validada no PDF oficial:
+        o nome da atração usa Playfair Display e fica na região esquerda.
+        Associamos cada "Descrição:" ao título mais próximo verticalmente,
+        sem depender da ordem interna dos objetos do PDF.
       */
-      const titleLines = page.lines
+      const candidates = page.lines
         .filter(line => {
           const value = cleanValue(line.text);
           if (!value) return false;
           if (visualLineIsNoise(line, material)) return false;
           if (isFieldLine(value)) return false;
+          if (isInvalidNameCandidate(value)) return false;
 
-          const isLeftTitleRegion =
-            Number(line.xMin || 0) < Number(page.width || 0) * 0.50 &&
-            Number(line.xMax || 0) <= Number(page.width || 0) * 0.51;
+          const inLeftRegion =
+            Number(line.xMin || 0) < Number(page.width || 0) * 0.53 &&
+            Number(line.xMax || 0) <= Number(page.width || 0) * 0.54;
 
-          if (!isLeftTitleRegion) return false;
+          if (!inLeftRegion) return false;
 
-          const deltaY = Number(line.y || 0) - Number(descriptionLine.y || 0);
-          if (deltaY < -8 || deltaY > 28) return false;
+          const families = (line.fontFamilies || []).join(" ").toLowerCase();
+          const names = (line.fontNames || []).join(" ").toLowerCase();
+          const usesTitleFont =
+            families.includes("playfair") ||
+            names.includes("playfair");
 
           const letters = value.replace(/[^A-Za-zÀ-ÿ]/g, "");
           if (!letters) return false;
@@ -1125,16 +1134,27 @@
           const uppercaseRatio =
             letters.replace(/[a-zà-ÿ]/g, "").length / letters.length;
 
-          return uppercaseRatio >= 0.72;
+          return usesTitleFont || uppercaseRatio >= 0.88;
         })
-        .sort((a, b) => {
-          if (Math.abs(a.y - b.y) > 3.2) return a.y - b.y;
-          return a.xMin - b.xMin;
-        });
+        .map(line => {
+          const title = extractLeadingUppercaseTitle(line.text);
+          const distance = Math.abs(Number(line.y || 0) - Number(descriptionLine.y || 0));
+          const families = (line.fontFamilies || []).join(" ").toLowerCase();
+          const names = (line.fontNames || []).join(" ").toLowerCase();
+          const usesTitleFont =
+            families.includes("playfair") ||
+            names.includes("playfair");
 
-      if (!titleLines.length) return "";
+          let score = distance;
+          if (usesTitleFont) score -= 50;
+          if (title.length >= 3 && title.length <= 70) score -= 8;
 
-      return extractLeadingUppercaseTitle(mergeTitleFragments(titleLines));
+          return { title, distance, score };
+        })
+        .filter(candidate => candidate.title && candidate.distance <= 45)
+        .sort((a, b) => a.score - b.score);
+
+      return candidates.length ? candidates[0].title : "";
     }
 
     function firstCardTitleFallback(page, descriptionLine, nextDescriptionY, material) {
@@ -1690,7 +1710,7 @@
         <div class="preview-card">
           <h4>Cards editáveis</h4>
           <p class="muted-text">Você pode ajustar nome, descrição, endereço, site e entrada de cada indicação. Também pode adicionar ou remover um card antes de publicar.</p>
-          <div class="badge ok">Parser: panorama da página 5 + fallback ampliado para o primeiro card de cada página</div>
+          <div class="badge ok">Parser: panorama da página 5 + títulos identificados pela fonte e proximidade vertical</div>
           <div class="mini-actions">
             <button type="button" class="mini-btn" onclick="addManualItem()">+ Adicionar card</button>
           </div>
