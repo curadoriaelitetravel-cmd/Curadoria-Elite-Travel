@@ -859,6 +859,15 @@
       };
     }
 
+    function removeFixedPanoramaHeadings(value) {
+      return cleanValue(String(value || "")
+        .replace(/cart[aã]o[\s-]*postal vivo/gi, " ")
+        .replace(/a arte dos destinos/gi, " ")
+        .replace(/lugares que inspiram olhares\s*,?\s*momentos que conq(?:u|ü)?istam cora[cç][õo]es/gi, " ")
+        .replace(/lugares que inspiram olhares/gi, " ")
+        .replace(/momentos que conq(?:u|ü)?istam cora[cç][õo]es/gi, " "));
+    }
+
     function candidateNameScore(value, distance, line) {
       const text = cleanValue(value);
       if (isInvalidNameCandidate(text) || isFieldLine(text)) return -999;
@@ -1040,7 +1049,7 @@
           contentLines.push(value);
         }
 
-        const panorama = cleanValue(contentLines.join(" "));
+        const panorama = removeFixedPanoramaHeadings(contentLines.join(" "));
         if (panorama.length > 120) {
           return panorama;
         }
@@ -1064,7 +1073,7 @@
             if (!visualLineIsNoise(lines[i], material)) parts.push(value);
           }
 
-          const fallback = cleanValue(parts.join(" "));
+          const fallback = removeFixedPanoramaHeadings(parts.join(" "));
           if (fallback.length > 80) return fallback;
         }
       }
@@ -1413,7 +1422,7 @@
         <div class="preview-card">
           <h4>Cards editáveis</h4>
           <p class="muted-text">Você pode ajustar nome, descrição, endereço, site e entrada de cada indicação. Também pode adicionar ou remover um card antes de publicar.</p>
-          <div class="badge ok">Parser: panorama fixo da página 5 + cards por coordenadas</div>
+          <div class="badge ok">Parser: panorama da página 5 sem textos fixos + cards por coordenadas</div>
           <div class="mini-actions">
             <button type="button" class="mini-btn" onclick="addManualItem()">+ Adicionar card</button>
           </div>
