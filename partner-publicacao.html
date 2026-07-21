@@ -1237,82 +1237,70 @@
 
     function getRawPageTitles(page, material) {
       /*
-        No primeiro card de cada página, o PDF.js pode entregar o título da esquerda
-        e "Descrição:" da direita dentro do MESMO item bruto.
+        Regra baseada na estrutura interna real do PDF oficial:
 
-        Exemplo interno possível:
-        "EMPIRE STATE BUILDING Descrição:"
+        O PDF.js não entrega necessariamente os títulos em ordem vertical.
+        Porém, dentro do fluxo bruto de conteúdo de cada página, os três
+        títulos aparecem na ordem correta do material:
 
-        Por isso:
-        1. usamos somente o trecho anterior a "Descrição:";
-        2. avaliamos a posição inicial X, não a largura total do item misturado;
-        3. mantemos os três títulos em ordem vertical.
+        título 1, título 2, título 3.
+
+        Portanto:
+        - preservamos a ordem original de content.items;
+        - não ordenamos por coordenada Y;
+        - selecionamos somente textos em caixa alta iniciados no lado esquerdo;
+        - removemos cabeçalhos e frases institucionais;
+        - mantemos os três primeiros títulos válidos.
       */
-      return (page.spans || [])
-        .map(span => {
-          const original = cleanValue(span.text);
-          const descriptionMatch = original.match(/descri[cç][aã]o\s*:/i);
+      const titles = [];
 
-          const titlePart = descriptionMatch && descriptionMatch.index != null
-            ? cleanValue(original.slice(0, descriptionMatch.index))
-            : original;
+      (page.spans || []).forEach(span => {
+        const original = cleanValue(span.text);
+        if (!original) return;
 
-          return {
-            ...span,
-            originalText: original,
-            titlePart
-          };
-        })
-        .filter(span => {
-          const value = cleanValue(span.titlePart);
-          if (!value) return false;
-          if (visualLineIsNoise({ text: value }, material)) return false;
-          if (isFieldLine(value)) return false;
-          if (isInvalidNameCandidate(value)) return false;
+        const descriptionMatch = original.match(/descri[cç][aã]o\s*:/i);
+        const titlePart = descriptionMatch && descriptionMatch.index != null
+          ? cleanValue(original.slice(0, descriptionMatch.index))
+          : original;
 
-          // Use only the starting coordinate. A mixed item may extend into
-          // the right column even though its title begins on the left.
-          const startsInLeftRegion = Number(span.x || 0) < 305;
-          if (!startsInLeftRegion) return false;
+        if (!titlePart) return;
+        if (visualLineIsNoise({ text: titlePart }, material)) return;
+        if (isFieldLine(titlePart)) return;
+        if (isInvalidNameCandidate(titlePart)) return;
 
-          const fontIdentity = (
-            String(span.fontName || "") + " " +
-            String(span.fontFamily || "")
-          ).toLowerCase();
+        // O título sempre começa na metade esquerda. Não usamos a largura,
+        // porque um item bruto pode avançar até "Descrição:" na coluna direita.
+        if (Number(span.x || 0) >= 305) return;
 
-          const usesPlayfair = fontIdentity.includes("playfair");
+        const letters = titlePart.replace(/[^A-Za-zÀ-ÿ]/g, "");
+        if (!letters) return;
 
-          const letters = value.replace(/[^A-Za-zÀ-ÿ]/g, "");
-          if (!letters) return false;
+        const uppercaseRatio =
+          letters.replace(/[a-zà-ÿ]/g, "").length / letters.length;
 
-          const uppercaseRatio =
-            letters.replace(/[a-zà-ÿ]/g, "").length / letters.length;
+        const fontIdentity = (
+          String(span.fontName || "") + " " +
+          String(span.fontFamily || "")
+        ).toLowerCase();
 
-          const y = Number(span.y || 0);
-          const inCardArea = y >= 150 && y <= 735;
+        const usesPlayfair = fontIdentity.includes("playfair");
 
-          return inCardArea && (usesPlayfair || uppercaseRatio >= 0.88);
-        })
-        .map(span => ({
-          title: extractLeadingUppercaseTitle(span.titlePart),
-          y: Number(span.y || 0),
-          x: Number(span.x || 0)
-        }))
-        .filter(item => item.title)
-        .sort((a, b) => {
-          if (Math.abs(a.y - b.y) > 5) return a.y - b.y;
-          return a.x - b.x;
-        })
-        .filter((item, index, array) => {
-          if (index === 0) return true;
+        if (!usesPlayfair && uppercaseRatio < 0.88) return;
 
-          const previous = array[index - 1];
-          const sameTitle = item.title === previous.title;
-          const sameRow = Math.abs(item.y - previous.y) <= 5;
+        const cleanTitle = extractLeadingUppercaseTitle(titlePart);
+        if (!cleanTitle) return;
 
-          return !(sameTitle && sameRow);
-        })
-        .slice(0, 3);
+        // Exclui elementos institucionais que também aparecem em caixa alta.
+        if (/^(PONTOS TUR[IÍ]STICOS|CURADORIA|ELITE TRAVEL|O SEU MUNDO BEM INDICADO)$/i.test(cleanTitle)) {
+          return;
+        }
+
+        if (!titles.includes(cleanTitle)) {
+          titles.push(cleanTitle);
+        }
+      });
+
+      return titles.slice(0, 3).map(title => ({ title }));
     }
 
     function extractItemsFromLayout(layout, material) {
@@ -1796,7 +1784,7 @@
         <div class="preview-card">
           <h4>Cards editáveis</h4>
           <p class="muted-text">Você pode ajustar nome, descrição, endereço, site e entrada de cada indicação. Também pode adicionar ou remover um card antes de publicar.</p>
-          <div class="badge ok">Parser: panorama da página 5 + títulos separados de itens brutos misturados</div>
+          <div class="badge ok">Parser: panorama da página 5 + títulos na ordem bruta original do PDF</div>
           <div class="mini-actions">
             <button type="button" class="mini-btn" onclick="addManualItem()">+ Adicionar card</button>
           </div>
