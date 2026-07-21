@@ -934,30 +934,75 @@
       const split = splitLineAtFieldLabel(descriptionLine.text, /descri[cç][aã]o\s*:/i);
       const candidates = [];
 
+      // Caso raro: nome e "Descrição:" vieram unidos na mesma linha.
       if (split && split.before && !visualLineIsNoise({ text: split.before }, material)) {
         candidates.push({
           value: split.before,
-          score: candidateNameScore(split.before, 0, descriptionLine)
+          score: candidateNameScore(split.before, 0, descriptionLine) + 6
         });
       }
 
-      for (let i = descriptionIndex - 1; i >= Math.max(0, descriptionIndex - 10); i--) {
+      /*
+        Estrutura fixa das páginas 6 a 9:
+        - nome da atração dentro da faixa preta, no lado esquerdo;
+        - descrição no lado direito;
+        - ambos começam praticamente na mesma faixa vertical.
+
+        Portanto, o nome NÃO está na mesma coluna da descrição.
+        Ele deve ser procurado à esquerda dela, ligeiramente acima ou na mesma altura.
+      */
+      for (let i = 0; i < page.lines.length; i++) {
         const line = page.lines[i];
-        if (!sameVisualColumn(line, descriptionLine, page.width)) continue;
+
         if (visualLineIsNoise(line, material)) continue;
         if (isFieldLine(line.text)) continue;
+        if (isInvalidNameCandidate(line.text)) continue;
 
-        const distance = descriptionLine.y - line.y;
-        if (distance < 0 || distance > 115) continue;
+        const isLeftOfDescription = Number(line.xMax || 0) <= Number(descriptionLine.xMin || 0) + 28;
+        if (!isLeftOfDescription) continue;
+
+        const verticalDifference = Math.abs(Number(line.y || 0) - Number(descriptionLine.y || 0));
+        const slightlyAbove = Number(line.y || 0) <= Number(descriptionLine.y || 0) + 18;
+        if (!slightlyAbove || verticalDifference > 82) continue;
+
+        const letters = String(line.text || "").replace(/[^A-Za-zÀ-ÿ]/g, "");
+        if (!letters) continue;
+
+        const upperRatio = letters.replace(/[a-zà-ÿ]/g, "").length / letters.length;
+        const isStrongTitle = upperRatio >= 0.55 || Number(line.fontSize || 0) >= Number(descriptionLine.fontSize || 0) * 1.05;
+        if (!isStrongTitle) continue;
+
+        let score = candidateNameScore(line.text, verticalDifference, line);
+        score += 10;
+        score += Math.max(0, 5 - verticalDifference * 0.08);
+
+        // Favorece títulos posicionados na metade esquerda da página.
+        const center = (Number(line.xMin || 0) + Number(line.xMax || 0)) / 2;
+        if (center < Number(page.width || 0) * 0.48) score += 4;
 
         candidates.push({
           value: line.text,
-          score: candidateNameScore(line.text, distance, line) + (i === descriptionIndex - 1 ? 3 : 0)
+          score
+        });
+      }
+
+      // Fallback: procura imediatamente acima da descrição, sem exigir mesma coluna.
+      for (let i = descriptionIndex - 1; i >= Math.max(0, descriptionIndex - 12); i--) {
+        const line = page.lines[i];
+        if (visualLineIsNoise(line, material)) continue;
+        if (isFieldLine(line.text)) continue;
+
+        const distance = Math.abs(Number(descriptionLine.y || 0) - Number(line.y || 0));
+        if (distance > 100) continue;
+
+        candidates.push({
+          value: line.text,
+          score: candidateNameScore(line.text, distance, line)
         });
       }
 
       candidates.sort((a, b) => b.score - a.score);
-      const best = candidates.find(candidate => candidate.score > 1.5);
+      const best = candidates.find(candidate => candidate.score > 2);
       return best ? cleanValue(best.value) : "";
     }
 
@@ -1496,7 +1541,7 @@
         <div class="preview-card">
           <h4>Cards editáveis</h4>
           <p class="muted-text">Você pode ajustar nome, descrição, endereço, site e entrada de cada indicação. Também pode adicionar ou remover um card antes de publicar.</p>
-          <div class="badge ok">Parser: panorama da página 5 + indicações das páginas 6 a 9 em ordem visual</div>
+          <div class="badge ok">Parser: panorama da página 5 + título à esquerda e dados à direita nas páginas 6 a 9</div>
           <div class="mini-actions">
             <button type="button" class="mini-btn" onclick="addManualItem()">+ Adicionar card</button>
           </div>
