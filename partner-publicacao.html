@@ -984,7 +984,70 @@
 
     function extractPanoramaFromLayout(layout, material) {
       const pages = layout.pages || [];
-      const candidatePages = pages.slice(0, Math.min(4, pages.length));
+
+      // Regra fixa dos materiais da Curadoria:
+      // o panorama está na página 5, na metade inferior,
+      // depois do bloco institucional:
+      // "Cartão-postal vivo"
+      // "A arte dos destinos"
+      // "Lugares que inspiram olhares, momentos que conquistam corações"
+      const panoramaPage = pages.find(page => Number(page.pageNumber) === 5);
+
+      if (panoramaPage) {
+        const lowerHalfLines = panoramaPage.lines
+          .filter(line => Number(line.y) >= Number(panoramaPage.height) * 0.42)
+          .filter(line => !visualLineIsNoise(line, material));
+
+        const fixedInstitutionalPatterns = [
+          /cart[aã]o[\s-]*postal vivo/i,
+          /a arte dos destinos/i,
+          /lugares que inspiram olhares/i,
+          /momentos que conq[u]?istam cora[cç][õo]es/i
+        ];
+
+        let anchorIndex = lowerHalfLines.findIndex(line =>
+          /lugares que inspiram olhares/i.test(line.text) ||
+          /momentos que conq[u]?istam cora[cç][õo]es/i.test(line.text)
+        );
+
+        if (anchorIndex === -1) {
+          anchorIndex = lowerHalfLines.findIndex(line =>
+            fixedInstitutionalPatterns.some(pattern => pattern.test(line.text))
+          );
+        }
+
+        const cityNormalized = normalizeForSearch(material.city_label)
+          .replace(/\s*-\s*(usa|brasil|mexico|méxico|franca|frança|espanha|argentina).*$/i, "")
+          .trim();
+
+        const contentLines = [];
+        const startIndex = anchorIndex >= 0 ? anchorIndex + 1 : 0;
+
+        for (let i = startIndex; i < lowerHalfLines.length; i++) {
+          const value = cleanValue(lowerHalfLines[i].text);
+          const normalized = normalizeForSearch(value);
+
+          if (!value) continue;
+          if (fixedInstitutionalPatterns.some(pattern => pattern.test(value))) continue;
+          if (normalized === cityNormalized) continue;
+          if (normalized === normalizeForSearch(material.city_label)) continue;
+          if (/^(curadoria elite travel|o seu mundo|www\.?curadoria)/i.test(value)) continue;
+          if (/^--- p[áa]gina/i.test(value)) continue;
+
+          if (/descri[cç][aã]o\s*:/i.test(value)) break;
+          if (/indicac[oõ]es selecionadas/i.test(value)) break;
+
+          contentLines.push(value);
+        }
+
+        const panorama = cleanValue(contentLines.join(" "));
+        if (panorama.length > 120) {
+          return panorama;
+        }
+      }
+
+      // Fallback apenas para PDFs antigos que não sigam a página 5.
+      const candidatePages = pages.slice(0, Math.min(6, pages.length));
 
       for (const page of candidatePages) {
         const lines = page.lines.filter(line => !visualLineIsNoise(line, material));
@@ -992,30 +1055,21 @@
 
         if (start !== -1) {
           start += 1;
-          while (start < lines.length) {
-            const value = cleanValue(lines[start].text);
-            const normalized = normalizeForSearch(value);
-            const city = normalizeForSearch(material.city_label);
-            if (!value || normalized === city || normalized === city.replace(/\s*-\s*.*/, "")) start++;
-            else break;
-          }
-
           const parts = [];
+
           for (let i = start; i < lines.length; i++) {
             const value = cleanValue(lines[i].text);
             if (/descri[cç][aã]o\s*:/i.test(value)) break;
             if (/indicac[oõ]es selecionadas/i.test(value)) break;
-            if (isLikelyItemName(value) && parts.join(" ").length > 120) break;
             if (!visualLineIsNoise(lines[i], material)) parts.push(value);
           }
 
-          const panorama = cleanValue(parts.join(" "));
-          if (panorama.length > 80) return panorama;
+          const fallback = cleanValue(parts.join(" "));
+          if (fallback.length > 80) return fallback;
         }
       }
 
-      const allLines = pages.flatMap(page => page.lines.map(line => line.text));
-      return extractPanorama(allLines, normalizeCategoryName(material.category));
+      return "";
     }
 
     function detectCrossCardRisks(items) {
@@ -1359,7 +1413,7 @@
         <div class="preview-card">
           <h4>Cards editáveis</h4>
           <p class="muted-text">Você pode ajustar nome, descrição, endereço, site e entrada de cada indicação. Também pode adicionar ou remover um card antes de publicar.</p>
-          <div class="badge ok">Parser: blocos visuais por coordenadas</div>
+          <div class="badge ok">Parser: panorama fixo da página 5 + cards por coordenadas</div>
           <div class="mini-actions">
             <button type="button" class="mini-btn" onclick="addManualItem()">+ Adicionar card</button>
           </div>
