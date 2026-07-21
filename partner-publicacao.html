@@ -720,7 +720,7 @@
       });
 
       const segmentedLines = [];
-      const largeGap = Math.max(34, pageWidth * 0.075);
+      const largeGap = Math.max(18, pageWidth * 0.03);
 
       horizontalBands.forEach(band => {
         band.spans.sort((a, b) => a.x - b.x);
@@ -1097,63 +1097,44 @@
     }
 
     function titleCandidateFromBand(page, bandTop, bandBottom, descriptionLine, material) {
-      const leftLimit = Number(page.width || 0) * 0.515;
+      /*
+        Estrutura real validada no PDF oficial:
+        - títulos: lado esquerdo, terminando perto de x=290;
+        - dados: lado direito, começando perto de x=326;
+        - título aparece na mesma altura ou até cerca de 25 pt abaixo de "Descrição:".
+      */
+      const titleLines = page.lines
+        .filter(line => {
+          const value = cleanValue(line.text);
+          if (!value) return false;
+          if (visualLineIsNoise(line, material)) return false;
+          if (isFieldLine(value)) return false;
 
-      const candidates = page.lines.filter(line => {
-        const value = cleanValue(line.text);
-        if (!value) return false;
-        if (line.y < bandTop || line.y >= bandBottom) return false;
-        if (Number(line.xMin || 0) >= leftLimit) return false;
-        if (visualLineIsNoise(line, material)) return false;
-        if (isFieldLine(value)) return false;
-        if (isInvalidNameCandidate(value)) return false;
+          const isLeftTitleRegion =
+            Number(line.xMin || 0) < Number(page.width || 0) * 0.50 &&
+            Number(line.xMax || 0) <= Number(page.width || 0) * 0.51;
 
-        const letters = value.replace(/[^A-Za-zÀ-ÿ]/g, "");
-        if (!letters) return false;
+          if (!isLeftTitleRegion) return false;
 
-        const upperRatio = letters.replace(/[a-zà-ÿ]/g, "").length / letters.length;
-        const titleLike = upperRatio >= 0.48 || Number(line.fontSize || 0) >= 11;
-        if (!titleLike) return false;
+          const deltaY = Number(line.y || 0) - Number(descriptionLine.y || 0);
+          if (deltaY < -8 || deltaY > 28) return false;
 
-        // The black title strip normally sits near the top of the visual card.
-        const distanceFromDescription = Math.abs(Number(line.y || 0) - Number(descriptionLine.y || 0));
-        return distanceFromDescription <= Math.max(115, (bandBottom - bandTop) * 0.52);
-      });
+          const letters = value.replace(/[^A-Za-zÀ-ÿ]/g, "");
+          if (!letters) return false;
 
-      if (!candidates.length) return "";
+          const uppercaseRatio =
+            letters.replace(/[a-zà-ÿ]/g, "").length / letters.length;
 
-      // Prefer the horizontal group nearest to the Description line.
-      const groups = [];
-      candidates
-        .sort((a, b) => a.y - b.y || a.xMin - b.xMin)
-        .forEach(line => {
-          let group = groups.find(current => Math.abs(current.y - line.y) <= 12);
-          if (!group) {
-            group = { y: line.y, lines: [] };
-            groups.push(group);
-          }
-          group.lines.push(line);
-          group.y = (group.y * (group.lines.length - 1) + line.y) / group.lines.length;
+          return uppercaseRatio >= 0.72;
+        })
+        .sort((a, b) => {
+          if (Math.abs(a.y - b.y) > 3.2) return a.y - b.y;
+          return a.xMin - b.xMin;
         });
 
-      const ranked = groups.map(group => {
-        const merged = mergeTitleFragments(group.lines);
-        const distance = Math.abs(group.y - Number(descriptionLine.y || 0));
-        const letters = merged.replace(/[^A-Za-zÀ-ÿ]/g, "");
-        const upperRatio = letters
-          ? letters.replace(/[a-zà-ÿ]/g, "").length / letters.length
-          : 0;
+      if (!titleLines.length) return "";
 
-        let score = 0;
-        score += upperRatio * 12;
-        score += merged.length >= 3 && merged.length <= 70 ? 5 : 0;
-        score += Math.max(0, 8 - distance * 0.09);
-        score += group.lines.some(line => Number(line.fontSize || 0) >= 11) ? 2 : 0;
-
-        return { merged, score };
-      }).sort((a, b) => b.score - a.score);
-
-      return ranked.length && ranked[0].score > 4 ? ranked[0].merged : "";
+      return extractLeadingUppercaseTitle(mergeTitleFragments(titleLines));
     }
 
     function extractItemsFromLayout(layout, material) {
@@ -1166,38 +1147,16 @@
         const anchors = page.lines
           .map((line, index) => ({ line, index }))
           .filter(entry => /descri[cç][aã]o\s*:/i.test(entry.line.text))
-          .sort((a, b) => {
-            if (Math.abs(a.line.y - b.line.y) > 3.2) return a.line.y - b.line.y;
-            return a.line.xMin - b.line.xMin;
-          });
+          .sort((a, b) => a.line.y - b.line.y);
 
         anchors.forEach((anchor, anchorIndex) => {
-          const previous = anchors[anchorIndex - 1];
           const next = anchors[anchorIndex + 1];
+          const descriptionLine = anchor.line;
 
-          // Each Description anchor defines one visual card row.
-          const bandTop = Math.max(0, Number(anchor.line.y) - 115);
-
-          // Keep the complete information block (description, address, site and entry)
-          // until immediately before the next card's Description anchor.
+          const bandTop = Number(descriptionLine.y) - 8;
           const bandBottom = next
             ? Number(next.line.y) - 3
-            : Math.min(Number(page.height || 0), Number(anchor.line.y) + 320);
-
-          const descriptionLine = anchor.line;
-          const rightStart = Number(page.width || 0) * 0.535;
-
-          const blockLines = page.lines
-            .filter(line =>
-              line.y >= Number(descriptionLine.y) - 3 &&
-              line.y < bandBottom &&
-              Number(line.xMax || 0) >= rightStart &&
-              !visualLineIsNoise(line, material)
-            )
-            .sort((a, b) => {
-              if (Math.abs(a.y - b.y) > 3.2) return a.y - b.y;
-              return a.xMin - b.xMin;
-            });
+            : Number(page.height || 0) + 1;
 
           const title = titleCandidateFromBand(
             page,
@@ -1206,6 +1165,19 @@
             descriptionLine,
             material
           );
+
+          // Official template: textual fields are entirely in the right column.
+          const blockLines = page.lines
+            .filter(line => {
+              if (line.y < Number(descriptionLine.y) - 3 || line.y >= bandBottom) return false;
+              if (Number(line.xMin || 0) < Number(page.width || 0) * 0.53) return false;
+              if (visualLineIsNoise(line, material)) return false;
+              return true;
+            })
+            .sort((a, b) => {
+              if (Math.abs(a.y - b.y) > 3.2) return a.y - b.y;
+              return a.xMin - b.xMin;
+            });
 
           const item = parseVisualBlockLines(
             blockLines,
@@ -1217,19 +1189,7 @@
         });
       });
 
-      const seenFingerprints = new Set();
-
-      return extracted.filter(item => {
-        const fingerprint = [
-          normalizeForSearch(item.name),
-          normalizeForSearch(item.address),
-          normalizeForSearch(item.description).slice(0, 60)
-        ].join("|");
-
-        if (seenFingerprints.has(fingerprint)) return false;
-        seenFingerprints.add(fingerprint);
-        return true;
-      }).slice(0, 18);
+      return extracted.slice(0, 18);
     }
 
     function extractPanoramaFromLayout(layout, material) {
@@ -1663,7 +1623,7 @@
         <div class="preview-card">
           <h4>Cards editáveis</h4>
           <p class="muted-text">Você pode ajustar nome, descrição, endereço, site e entrada de cada indicação. Também pode adicionar ou remover um card antes de publicar.</p>
-          <div class="badge ok">Parser: panorama da página 5 + títulos em caixa alta e campos completos nas páginas 6 a 9</div>
+          <div class="badge ok">Parser: panorama da página 5 + colunas fixas validadas no PDF oficial</div>
           <div class="mini-actions">
             <button type="button" class="mini-btn" onclick="addManualItem()">+ Adicionar card</button>
           </div>
