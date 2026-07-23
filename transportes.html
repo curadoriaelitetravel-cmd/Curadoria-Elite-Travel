@@ -908,6 +908,113 @@
       margin: 14px 0 22px;
     }
 
+
+    .map-guide {
+      margin: 24px 0;
+      padding: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-radius: 20px;
+      background:
+        linear-gradient(145deg, rgba(212, 175, 55, 0.045), transparent 42%),
+        rgba(255, 255, 255, 0.012);
+    }
+
+    .map-guide-title {
+      margin: 0 0 6px;
+      color: var(--gold);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+    }
+
+    .map-guide-intro {
+      margin: 0 0 17px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 11px;
+    }
+
+    .legend-card {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      min-height: 94px;
+      padding: 14px;
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.012);
+    }
+
+    .legend-line {
+      width: 34px;
+      height: 8px;
+      margin-top: 7px;
+      border-radius: 999px;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+    }
+
+    .legend-symbol {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 50%;
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.04);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .legend-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .legend-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .operator-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .operator-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.01);
+      font-size: 11px;
+    }
+
+    .operator-pill strong {
+      margin-right: 4px;
+      color: var(--text);
+    }
+
+    @media (max-width: 720px) {
+      .legend-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .visitor-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -956,7 +1063,114 @@
     }
 
     @media (max-width: 720px) {
-      .visitor-grid {
+  
+    .map-guide {
+      margin: 24px 0;
+      padding: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-radius: 20px;
+      background:
+        linear-gradient(145deg, rgba(212, 175, 55, 0.045), transparent 42%),
+        rgba(255, 255, 255, 0.012);
+    }
+
+    .map-guide-title {
+      margin: 0 0 6px;
+      color: var(--gold);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+    }
+
+    .map-guide-intro {
+      margin: 0 0 17px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 11px;
+    }
+
+    .legend-card {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      min-height: 94px;
+      padding: 14px;
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.012);
+    }
+
+    .legend-line {
+      width: 34px;
+      height: 8px;
+      margin-top: 7px;
+      border-radius: 999px;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+    }
+
+    .legend-symbol {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 50%;
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.04);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .legend-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .legend-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .operator-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .operator-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.01);
+      font-size: 11px;
+    }
+
+    .operator-pill strong {
+      margin-right: 4px;
+      color: var(--text);
+    }
+
+    @media (max-width: 720px) {
+      .legend-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .visitor-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -1374,6 +1588,133 @@
             </a>
           </div>
 
+
+          <section class="map-guide">
+            <h4 class="map-guide-title">Como ler este mapa</h4>
+            <p class="map-guide-intro">
+              A cor mostra qual é a linha. O nome ao lado da linha indica o operador.
+              Os símbolos mostram integrações, aeroportos, terminais e conexões possíveis.
+            </p>
+
+            <div class="legend-grid">
+              <article class="legend-card">
+                <span class="legend-line" style="background:#6f1935"></span>
+                <div>
+                  <strong>A linha escura é a Linha 7 — Rubi</strong>
+                  <p>
+                    É um trem metropolitano, não uma linha de metrô. Liga o eixo da Luz
+                    e Barra Funda a municípios do noroeste, chegando a Jundiaí.
+                    No mapa atual, aparece associada à TIC Trens.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">M</span>
+                <div>
+                  <strong>Metrô</strong>
+                  <p>
+                    Linhas urbanas de alta frequência. No mapa, incluem as linhas
+                    1-Azul, 2-Verde, 3-Vermelha, 4-Amarela, 5-Lilás, 15-Prata e 17-Ouro.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">T</span>
+                <div>
+                  <strong>Trem metropolitano</strong>
+                  <p>
+                    Atende trajetos mais longos dentro da capital e da Região Metropolitana,
+                    com operadores como CPTM, ViaMobilidade e TIC Trens.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">↔</span>
+                <div>
+                  <strong>Integração gratuita</strong>
+                  <p>
+                    Permite trocar de linha dentro da área indicada sem pagar uma nova tarifa.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">R$</span>
+                <div>
+                  <strong>Integração tarifada</strong>
+                  <p>
+                    Existe conexão entre os sistemas, mas a mudança segue uma regra específica
+                    de cobrança ou integração.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">🚶</span>
+                <div>
+                  <strong>Conexão a pé</strong>
+                  <p>
+                    As estações são próximas, mas não fazem parte da mesma área interna.
+                    É necessário sair e caminhar entre elas.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">✈</span>
+                <div>
+                  <strong>Aeroporto</strong>
+                  <p>
+                    Identifica estações ou serviços ligados a aeroportos. O símbolo não significa
+                    necessariamente que o trem chega diretamente ao terminal de embarque.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">B</span>
+                <div>
+                  <strong>Terminal rodoviário</strong>
+                  <p>
+                    Indica ligação com terminais de ônibus intermunicipais ou interestaduais.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">E</span>
+                <div>
+                  <strong>Serviço expresso</strong>
+                  <p>
+                    Algumas linhas possuem serviços que param em menos estações.
+                    O passageiro precisa confirmar horários e paradas antes de embarcar.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">A</span>
+                <div>
+                  <strong>Acesso livre</strong>
+                  <p>
+                    Indica trecho ou ligação em que a passagem entre áreas ocorre sem bloqueio tarifário.
+                  </p>
+                </div>
+              </article>
+            </div>
+
+            <div class="operator-strip" aria-label="Operadores representados no mapa">
+              <span class="operator-pill"><strong>Metrô:</strong> linhas públicas operadas pelo Metrô SP</span>
+              <span class="operator-pill"><strong>CPTM:</strong> linhas ferroviárias estaduais</span>
+              <span class="operator-pill"><strong>ViaQuatro:</strong> Linha 4-Amarela</span>
+              <span class="operator-pill"><strong>ViaMobilidade:</strong> linhas 5, 8 e 9</span>
+              <span class="operator-pill"><strong>TIC Trens:</strong> Linha 7-Rubi</span>
+            </div>
+          </section>
+
           <p class="modal-intro">
             As linhas aparecem de forma compacta. Ao tocar em uma delas, o visitante
             visualiza trajeto, regiões atendidas e integrações importantes.
@@ -1434,6 +1775,133 @@
             </a>
           </div>
 
+
+          <section class="map-guide">
+            <h4 class="map-guide-title">Como ler este mapa</h4>
+            <p class="map-guide-intro">
+              A cor mostra qual é a linha. O nome ao lado da linha indica o operador.
+              Os símbolos mostram integrações, aeroportos, terminais e conexões possíveis.
+            </p>
+
+            <div class="legend-grid">
+              <article class="legend-card">
+                <span class="legend-line" style="background:#6f1935"></span>
+                <div>
+                  <strong>A linha escura é a Linha 7 — Rubi</strong>
+                  <p>
+                    É um trem metropolitano, não uma linha de metrô. Liga o eixo da Luz
+                    e Barra Funda a municípios do noroeste, chegando a Jundiaí.
+                    No mapa atual, aparece associada à TIC Trens.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">M</span>
+                <div>
+                  <strong>Metrô</strong>
+                  <p>
+                    Linhas urbanas de alta frequência. No mapa, incluem as linhas
+                    1-Azul, 2-Verde, 3-Vermelha, 4-Amarela, 5-Lilás, 15-Prata e 17-Ouro.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">T</span>
+                <div>
+                  <strong>Trem metropolitano</strong>
+                  <p>
+                    Atende trajetos mais longos dentro da capital e da Região Metropolitana,
+                    com operadores como CPTM, ViaMobilidade e TIC Trens.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">↔</span>
+                <div>
+                  <strong>Integração gratuita</strong>
+                  <p>
+                    Permite trocar de linha dentro da área indicada sem pagar uma nova tarifa.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">R$</span>
+                <div>
+                  <strong>Integração tarifada</strong>
+                  <p>
+                    Existe conexão entre os sistemas, mas a mudança segue uma regra específica
+                    de cobrança ou integração.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">🚶</span>
+                <div>
+                  <strong>Conexão a pé</strong>
+                  <p>
+                    As estações são próximas, mas não fazem parte da mesma área interna.
+                    É necessário sair e caminhar entre elas.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">✈</span>
+                <div>
+                  <strong>Aeroporto</strong>
+                  <p>
+                    Identifica estações ou serviços ligados a aeroportos. O símbolo não significa
+                    necessariamente que o trem chega diretamente ao terminal de embarque.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">B</span>
+                <div>
+                  <strong>Terminal rodoviário</strong>
+                  <p>
+                    Indica ligação com terminais de ônibus intermunicipais ou interestaduais.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">E</span>
+                <div>
+                  <strong>Serviço expresso</strong>
+                  <p>
+                    Algumas linhas possuem serviços que param em menos estações.
+                    O passageiro precisa confirmar horários e paradas antes de embarcar.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">A</span>
+                <div>
+                  <strong>Acesso livre</strong>
+                  <p>
+                    Indica trecho ou ligação em que a passagem entre áreas ocorre sem bloqueio tarifário.
+                  </p>
+                </div>
+              </article>
+            </div>
+
+            <div class="operator-strip" aria-label="Operadores representados no mapa">
+              <span class="operator-pill"><strong>Metrô:</strong> linhas públicas operadas pelo Metrô SP</span>
+              <span class="operator-pill"><strong>CPTM:</strong> linhas ferroviárias estaduais</span>
+              <span class="operator-pill"><strong>ViaQuatro:</strong> Linha 4-Amarela</span>
+              <span class="operator-pill"><strong>ViaMobilidade:</strong> linhas 5, 8 e 9</span>
+              <span class="operator-pill"><strong>TIC Trens:</strong> Linha 7-Rubi</span>
+            </div>
+          </section>
+
           <p class="modal-intro">
             As linhas serão agrupadas por operador e apresentarão conexões,
             cidades atendidas e utilidade prática para o visitante.
@@ -1493,6 +1961,133 @@
               Consultar fonte oficial
             </a>
           </div>
+
+
+          <section class="map-guide">
+            <h4 class="map-guide-title">Como ler este mapa</h4>
+            <p class="map-guide-intro">
+              A cor mostra qual é a linha. O nome ao lado da linha indica o operador.
+              Os símbolos mostram integrações, aeroportos, terminais e conexões possíveis.
+            </p>
+
+            <div class="legend-grid">
+              <article class="legend-card">
+                <span class="legend-line" style="background:#6f1935"></span>
+                <div>
+                  <strong>A linha escura é a Linha 7 — Rubi</strong>
+                  <p>
+                    É um trem metropolitano, não uma linha de metrô. Liga o eixo da Luz
+                    e Barra Funda a municípios do noroeste, chegando a Jundiaí.
+                    No mapa atual, aparece associada à TIC Trens.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">M</span>
+                <div>
+                  <strong>Metrô</strong>
+                  <p>
+                    Linhas urbanas de alta frequência. No mapa, incluem as linhas
+                    1-Azul, 2-Verde, 3-Vermelha, 4-Amarela, 5-Lilás, 15-Prata e 17-Ouro.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">T</span>
+                <div>
+                  <strong>Trem metropolitano</strong>
+                  <p>
+                    Atende trajetos mais longos dentro da capital e da Região Metropolitana,
+                    com operadores como CPTM, ViaMobilidade e TIC Trens.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">↔</span>
+                <div>
+                  <strong>Integração gratuita</strong>
+                  <p>
+                    Permite trocar de linha dentro da área indicada sem pagar uma nova tarifa.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">R$</span>
+                <div>
+                  <strong>Integração tarifada</strong>
+                  <p>
+                    Existe conexão entre os sistemas, mas a mudança segue uma regra específica
+                    de cobrança ou integração.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">🚶</span>
+                <div>
+                  <strong>Conexão a pé</strong>
+                  <p>
+                    As estações são próximas, mas não fazem parte da mesma área interna.
+                    É necessário sair e caminhar entre elas.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">✈</span>
+                <div>
+                  <strong>Aeroporto</strong>
+                  <p>
+                    Identifica estações ou serviços ligados a aeroportos. O símbolo não significa
+                    necessariamente que o trem chega diretamente ao terminal de embarque.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">B</span>
+                <div>
+                  <strong>Terminal rodoviário</strong>
+                  <p>
+                    Indica ligação com terminais de ônibus intermunicipais ou interestaduais.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">E</span>
+                <div>
+                  <strong>Serviço expresso</strong>
+                  <p>
+                    Algumas linhas possuem serviços que param em menos estações.
+                    O passageiro precisa confirmar horários e paradas antes de embarcar.
+                  </p>
+                </div>
+              </article>
+
+              <article class="legend-card">
+                <span class="legend-symbol">A</span>
+                <div>
+                  <strong>Acesso livre</strong>
+                  <p>
+                    Indica trecho ou ligação em que a passagem entre áreas ocorre sem bloqueio tarifário.
+                  </p>
+                </div>
+              </article>
+            </div>
+
+            <div class="operator-strip" aria-label="Operadores representados no mapa">
+              <span class="operator-pill"><strong>Metrô:</strong> linhas públicas operadas pelo Metrô SP</span>
+              <span class="operator-pill"><strong>CPTM:</strong> linhas ferroviárias estaduais</span>
+              <span class="operator-pill"><strong>ViaQuatro:</strong> Linha 4-Amarela</span>
+              <span class="operator-pill"><strong>ViaMobilidade:</strong> linhas 5, 8 e 9</span>
+              <span class="operator-pill"><strong>TIC Trens:</strong> Linha 7-Rubi</span>
+            </div>
+          </section>
 
           <p class="modal-intro">
             O monotrilho terá um espaço próprio porque sua operação e aparência
