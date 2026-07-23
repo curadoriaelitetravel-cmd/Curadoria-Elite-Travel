@@ -885,6 +885,86 @@
       font-size: 12px;
     }
 
+
+    .official-map-frame {
+      width: 100%;
+      min-height: 620px;
+      border: 0;
+      background: #fff;
+    }
+
+    .official-map-wrap {
+      overflow: hidden;
+      margin-bottom: 22px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 20px;
+      background: #fff;
+    }
+
+    .official-map-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 14px 0 22px;
+    }
+
+    .visitor-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .visitor-card {
+      padding: 17px;
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      border-radius: 17px;
+      background: rgba(255, 255, 255, 0.014);
+    }
+
+    .visitor-card h4 {
+      margin: 0 0 6px;
+      color: var(--gold);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+    }
+
+    .visitor-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .answer-block {
+      margin: 14px 0;
+      padding: 16px;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 16px;
+      background: rgba(212, 175, 55, 0.035);
+    }
+
+    .answer-block strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--text);
+    }
+
+    .answer-block p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 720px) {
+      .official-map-frame {
+        min-height: 470px;
+      }
+
+      .visitor-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 920px) {
       .site-header-inner {
         min-height: auto;
@@ -1227,8 +1307,8 @@
           <div class="status-banner">
             <span class="status-dot" aria-hidden="true"></span>
             <span>
-              Esta página é a versão de layout. Os mapas oficiais, fotografias definitivas,
-              dados dinâmicos e conexão com o Supabase serão incluídos nas próximas etapas.
+              Esta página é a versão de layout. O mapa oficial da rede e as orientações práticas de São Paulo já foram incorporados.
+              A conexão com o Supabase e a replicação para outros destinos ficam para as próximas etapas.
             </span>
           </div>
         </div>
@@ -1262,11 +1342,32 @@
         kicker: "São Paulo · rede urbana",
         title: "Metrô",
         body: `
-          <div class="map-preview" aria-label="Espaço reservado para o mapa oficial do metrô">
-            <div class="map-caption">
-              <strong>Mapa oficial da rede de metrô</strong>
-              <span>Área preparada para receber a imagem definitiva e o botão de ampliação.</span>
-            </div>
+<div class="official-map-wrap">
+            <iframe
+              class="official-map-frame"
+              src="https://www.metro.sp.gov.br/wp-content/uploads/2026/07/mapa-da-rede.pdf#view=FitH"
+              title="Mapa oficial do Transporte Metropolitano de São Paulo"
+              loading="lazy"
+            ></iframe>
+          </div>
+
+          <div class="official-map-actions">
+            <a
+              class="official-link"
+              href="https://www.metro.sp.gov.br/wp-content/uploads/2026/07/mapa-da-rede.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir mapa oficial em tela cheia
+            </a>
+            <a
+              class="official-link"
+              href="https://www.metro.sp.gov.br/sua-viagem/mapa-da-rede/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Consultar versão mais recente
+            </a>
           </div>
 
           <p class="modal-intro">
@@ -1293,11 +1394,32 @@
         kicker: "São Paulo · rede metropolitana",
         title: "Trem",
         body: `
-          <div class="map-preview" aria-label="Espaço reservado para o mapa oficial dos trens">
-            <div class="map-caption">
-              <strong>Mapa oficial da malha ferroviária</strong>
-              <span>Área preparada para a imagem definitiva da rede metropolitana.</span>
-            </div>
+<div class="official-map-wrap">
+            <iframe
+              class="official-map-frame"
+              src="https://www.metro.sp.gov.br/wp-content/uploads/2026/07/mapa-da-rede.pdf#view=FitH"
+              title="Mapa oficial do Transporte Metropolitano de São Paulo"
+              loading="lazy"
+            ></iframe>
+          </div>
+
+          <div class="official-map-actions">
+            <a
+              class="official-link"
+              href="https://www.metro.sp.gov.br/wp-content/uploads/2026/07/mapa-da-rede.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir mapa oficial em tela cheia
+            </a>
+            <a
+              class="official-link"
+              href="https://www.metro.sp.gov.br/sua-viagem/mapa-da-rede/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Consultar versão mais recente
+            </a>
           </div>
 
           <p class="modal-intro">
@@ -1324,11 +1446,32 @@
         kicker: "São Paulo · sistema elevado",
         title: "Monotrilho",
         body: `
-          <div class="map-preview" aria-label="Espaço reservado para o mapa do monotrilho">
-            <div class="map-caption">
-              <strong>Mapa do sistema de monotrilho</strong>
-              <span>Espaço preparado para destacar apenas as linhas elevadas.</span>
-            </div>
+<div class="official-map-wrap">
+            <iframe
+              class="official-map-frame"
+              src="https://www.metro.sp.gov.br/wp-content/uploads/2026/07/mapa-da-rede.pdf#view=FitH"
+              title="Mapa oficial do Transporte Metropolitano de São Paulo"
+              loading="lazy"
+            ></iframe>
+          </div>
+
+          <div class="official-map-actions">
+            <a
+              class="official-link"
+              href="https://www.metro.sp.gov.br/wp-content/uploads/2026/07/mapa-da-rede.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir mapa oficial em tela cheia
+            </a>
+            <a
+              class="official-link"
+              href="https://www.metro.sp.gov.br/sua-viagem/mapa-da-rede/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Consultar versão mais recente
+            </a>
           </div>
 
           <p class="modal-intro">
@@ -1349,38 +1492,68 @@
       },
 
       bus: {
-        kicker: "São Paulo · áreas operacionais",
+        kicker: "São Paulo · ônibus municipais",
         title: "Ônibus",
         body: `
           <p class="modal-intro">
-            Em vez de listar milhares de linhas, a ferramenta explica as cores
-            e as regiões gerais de operação. Depois, o visitante consulta o itinerário exato.
+            As cores ajudam a reconhecer a área operacional do veículo, mas não dizem,
+            sozinhas, qual ônibus você deve pegar. O que identifica a linha é principalmente
+            o número e o destino exibidos no letreiro frontal.
           </p>
 
+          <div class="answer-block">
+            <strong>Como saber qual é o meu ônibus?</strong>
+            <p>
+              Pesquise pelo endereço de origem e destino no planejador oficial da SPTrans.
+              O resultado mostra o número da linha, nome, sentido, pontos próximos,
+              itinerário no mapa e horários. No ponto, confirme o mesmo número e o destino
+              no letreiro frontal do ônibus antes de embarcar.
+            </p>
+          </div>
+
+          <div class="answer-block">
+            <strong>O que devo conferir no veículo?</strong>
+            <p>
+              1) número completo da linha; 2) destino ou terminal no letreiro;
+              3) sentido da viagem; 4) ponto correto de embarque. A cor é apenas uma
+              referência regional e não substitui essas informações.
+            </p>
+          </div>
+
+          <div class="official-map-actions">
+            <a
+              class="official-link"
+              href="https://www.sptrans.com.br/busca-de-itinerarios/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Buscar por trajeto, linha ou endereço
+            </a>
+            <a
+              class="official-link"
+              href="https://www.sptrans.com.br/terminais"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver áreas e terminais oficiais
+            </a>
+          </div>
+
           <div class="region-grid">
-            ${createRegionCard("#7ac36a", "Área 1 · Noroeste", "Regiões do eixo noroeste da cidade.")}
-            ${createRegionCard("#355ca8", "Área 2 · Norte", "Regiões da Zona Norte.")}
-            ${createRegionCard("#e0c326", "Área 3 · Nordeste", "Regiões do eixo nordeste.")}
-            ${createRegionCard("#c7473e", "Área 4 · Leste", "Regiões da Zona Leste.")}
-            ${createRegionCard("#3b8d57", "Área 5 · Sudeste", "Regiões do eixo sudeste.")}
-            ${createRegionCard("#5aa7cf", "Área 6 · Sul", "Regiões da Zona Sul.")}
-            ${createRegionCard("#7f3045", "Área 7 · Sudoeste", "Regiões do eixo sudoeste.")}
-            ${createRegionCard("#df8b2e", "Área 8 · Oeste", "Regiões da Zona Oeste.")}
+            ${createRegionCard("#7ac36a", "Área 1 · Noroeste", "Referência regional em verde-claro.")}
+            ${createRegionCard("#355ca8", "Área 2 · Norte", "Referência regional em azul-escuro.")}
+            ${createRegionCard("#e0c326", "Área 3 · Nordeste", "Referência regional em amarelo.")}
+            ${createRegionCard("#c7473e", "Área 4 · Leste", "Referência regional em vermelho.")}
+            ${createRegionCard("#3b8d57", "Área 5 · Sudeste", "Referência regional em verde-escuro.")}
+            ${createRegionCard("#5aa7cf", "Área 6 · Sul", "Referência regional em azul-claro.")}
+            ${createRegionCard("#7f3045", "Área 7 · Sudoeste", "Referência regional em vinho.")}
+            ${createRegionCard("#df8b2e", "Área 8 · Oeste", "Referência regional em laranja.")}
           </div>
 
           <div class="development-note">
-            A cor ajuda a identificar a área operacional, mas não substitui a conferência
-            do número, do letreiro e do itinerário de cada linha.
+            Para o visitante, a regra prática é simples: escolha a linha no planejador,
+            anote o número e o destino e confirme essas duas informações no letreiro frontal.
           </div>
-
-          <a
-            class="official-link"
-            href="https://www.sptrans.com.br/busca-de-itinerarios/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Consultar itinerário oficial
-          </a>
         `
       },
 
@@ -1389,8 +1562,7 @@
         title: "Tarifas e integração",
         body: `
           <p class="modal-intro">
-            O formato abaixo já está preparado para receber os valores vigentes,
-            regras de integração e condições especiais.
+            Valores oficiais vigentes desde 6 de janeiro de 2026.
           </p>
 
           <div class="table-scroll">
@@ -1405,65 +1577,177 @@
               <tbody>
                 <tr>
                   <td><strong>Ônibus municipal</strong></td>
-                  <td>Em validação</td>
-                  <td>Tarifa comum e regras de integração entre ônibus.</td>
+                  <td>R$ 5,30</td>
+                  <td>Em dinheiro ou crédito comum. Com Bilhete Único, permite até 4 ônibus diferentes em 3 horas.</td>
                 </tr>
                 <tr>
                   <td><strong>Metrô e trem</strong></td>
-                  <td>Em validação</td>
-                  <td>Tarifa da rede sobre trilhos.</td>
+                  <td>R$ 5,40</td>
+                  <td>Bilhete unitário QR Code válido para uma viagem na rede sobre trilhos.</td>
                 </tr>
                 <tr>
-                  <td><strong>Ônibus + trilhos</strong></td>
-                  <td>Em validação</td>
-                  <td>Integração entre os diferentes sistemas.</td>
+                  <td><strong>Ônibus + metrô/trem</strong></td>
+                  <td>R$ 9,38</td>
+                  <td>Com Bilhete Único Comum: até 3 ônibus em 3 horas e 1 embarque nos trilhos nas 2 primeiras horas.</td>
                 </tr>
                 <tr>
-                  <td><strong>Condições especiais</strong></td>
-                  <td>Em validação</td>
-                  <td>Domingos, passes, gratuidades e demais regras vigentes.</td>
+                  <td><strong>Passe integrado de 24 horas</strong></td>
+                  <td>R$ 27,28</td>
+                  <td>Até 10 embarques durante 24 horas corridas, respeitando as regras de intervalo.</td>
+                </tr>
+                <tr>
+                  <td><strong>Ônibus aos domingos</strong></td>
+                  <td>Gratuito</td>
+                  <td>Rede municipal diurna e noturna, da 0h às 23h59.</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <div class="development-note">
-            Os valores foram retirados desta versão de layout para evitar publicar
-            números antes da etapa de validação técnica.
+          <div class="visitor-grid">
+            <article class="visitor-card">
+              <h4>Visitante usando só metrô e trem</h4>
+              <p>
+                Pode comprar o Bilhete Unitário QR Code por R$ 5,40 nas bilheterias,
+                máquinas de autoatendimento das estações, aplicativo TOP, WhatsApp,
+                Google Wallet ou pontos credenciados.
+              </p>
+            </article>
+
+            <article class="visitor-card">
+              <h4>Visitante usando ônibus</h4>
+              <p>
+                Pode pagar R$ 5,30 em dinheiro dentro do ônibus. Para aproveitar
+                integração entre vários ônibus ou com metrô/trem, precisa do Bilhete Único.
+              </p>
+            </article>
+          </div>
+
+          <div class="official-map-actions">
+            <a
+              class="official-link"
+              href="https://www.sptrans.com.br/tarifas/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Conferir tarifas oficiais
+            </a>
+            <a
+              class="official-link"
+              href="https://www.metro.sp.gov.br/sua-viagem/bilhetes-cartoes/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver bilhetes de metrô e trem
+            </a>
           </div>
         `
       },
 
       card: {
         kicker: "São Paulo · cartão de transporte",
-        title: "Bilhete Único",
+        title: "Bilhete Único para visitantes",
         body: `
-          <p class="modal-intro">
-            O passo a passo será apresentado em uma ordem simples, pensada para
-            moradores e visitantes.
-          </p>
-
-          <ol class="steps">
-            <li>Verifique qual modalidade do cartão atende ao seu perfil.</li>
-            <li>Faça o cadastro pelos canais oficiais indicados.</li>
-            <li>Envie os documentos solicitados, quando necessário.</li>
-            <li>Escolha a forma de retirada ou recebimento disponível.</li>
-            <li>Carregue o cartão e confira as regras de integração.</li>
-          </ol>
-
-          <div class="development-note">
-            Na versão final, cada etapa terá instruções verificadas, documentos,
-            custos, prazos e links oficiais.
+          <div class="answer-block">
+            <strong>Preciso do Bilhete Único para pegar ônibus?</strong>
+            <p>
+              Não obrigatoriamente. A tarifa do ônibus municipal também pode ser paga
+              em dinheiro. Porém, sem o Bilhete Único você não recebe o benefício tarifário
+              das integrações entre ônibus ou entre ônibus e metrô/trem.
+            </p>
           </div>
 
-          <a
-            class="official-link"
-            href="https://atendimento.sptrans.com.br/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Acessar atendimento oficial
-          </a>
+          <div class="answer-block">
+            <strong>Quanto custa o cartão?</strong>
+            <p>
+              A primeira via do Bilhete Único Comum não tem custo e não exige recarga mínima.
+              O usuário paga apenas os créditos que colocar no cartão. A segunda via custa
+              o equivalente a sete tarifas de ônibus — R$ 37,10 nos valores vigentes.
+            </p>
+          </div>
+
+          <div class="answer-block">
+            <strong>Posso retirar em qualquer estação?</strong>
+            <p>
+              Não. O cartão personalizado deve ser solicitado no Site de Atendimento
+              e retirado em um Posto de Atendimento escolhido, ou enviado para um endereço
+              elegível mediante pagamento de frete. Estações de metrô, trem e monotrilho
+              podem ter máquinas de recarga ou venda de bilhetes, mas isso não significa
+              que todas emitam ou entreguem o Bilhete Único personalizado.
+            </p>
+          </div>
+
+          <div class="answer-block">
+            <strong>Estrangeiro pode solicitar?</strong>
+            <p>
+              A página oficial informa que o Bilhete Único Comum é destinado a qualquer
+              pessoa a partir de seis anos. Entretanto, a emissão personalizada exige
+              cadastro completo no sistema da SPTrans. A documentação para estrangeiros
+              pode envolver documento oficial aceito no Brasil e CPF. Para turista de curta
+              permanência sem CPF, o site oficial não garante de forma clara a emissão imediata.
+              Nesse caso, a opção mais simples é pagar ônibus em dinheiro e usar QR Code
+              unitário no metrô e trem.
+            </p>
+          </div>
+
+          <div class="answer-block">
+            <strong>Quais documentos devo preparar?</strong>
+            <p>
+              Para o cadastro comum, a SPTrans solicita identificação, CPF e foto digital.
+              Nos postos, são aceitos documentos oficiais com foto; para estrangeiros,
+              a lista oficial inclui documentos como CIE e passaporte em determinados
+              atendimentos. A exigência final deve ser confirmada no cadastro ou no posto.
+            </p>
+          </div>
+
+          <ol class="steps">
+            <li>Acesse o Site de Atendimento da SPTrans e faça o cadastro.</li>
+            <li>Preencha os dados pessoais e envie a foto solicitada.</li>
+            <li>Escolha retirada em um Posto de Atendimento ou entrega, quando disponível.</li>
+            <li>Consulte o endereço e horário do posto antes de se deslocar.</li>
+            <li>Depois de receber o cartão, compre créditos e valide a recarga em uma máquina.</li>
+          </ol>
+
+          <div class="official-map-actions">
+            <a
+              class="official-link"
+              href="https://atendimento.sptrans.com.br/cadastro"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Fazer cadastro oficial
+            </a>
+            <a
+              class="official-link"
+              href="https://bilheteunico.sptrans.com.br/postos/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver postos oficiais
+            </a>
+            <a
+              class="official-link"
+              href="https://bilheteunico.sptrans.com.br/pontos-de-venda/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Encontrar ponto de venda e recarga
+            </a>
+            <a
+              class="official-link"
+              href="https://www.sptrans.com.br/compra-de-creditos-e-servicos/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver formas de recarga
+            </a>
+          </div>
+
+          <div class="development-note">
+            Endereço fixo de referência: Posto Central da SPTrans, Rua Boa Vista, 274,
+            Centro, mezanino. Como postos e horários podem mudar, a ferramenta direciona
+            para o buscador oficial atualizado em vez de manter uma lista estática.
+          </div>
         `
       },
 
