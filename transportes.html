@@ -649,13 +649,22 @@
 
     .network-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
-      gap: 22px;
-      align-items: start;
+      gap: 18px;
     }
 
-    .network-left,
-    .network-right {
+    .network-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .network-row > .panel-box {
+      height: 100%;
+      margin-top: 0;
+    }
+
+    .network-full {
       min-width: 0;
     }
 
@@ -832,6 +841,122 @@
       display: block;
       color: var(--muted);
       font-size: 10px;
+    }
+
+
+    .lines-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .line-mini-card {
+      min-height: 138px;
+      padding: 14px 10px;
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.014);
+      text-align: center;
+    }
+
+    .line-mini-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 35px;
+      height: 35px;
+      padding: 0 8px;
+      margin-bottom: 9px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+    }
+
+    .line-mini-card strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .line-mini-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.4;
+    }
+
+    .line-mini-card small {
+      display: block;
+      margin-top: 7px;
+      color: var(--gold-soft);
+      font-size: 9px;
+      line-height: 1.3;
+    }
+
+    .map-zoom-button {
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 12px;
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.04);
+      font-size: 12px;
+      font-weight: 800;
+      min-height: 42px;
+      padding: 0 14px;
+      cursor: pointer;
+    }
+
+    .map-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 180;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(10px);
+    }
+
+    .map-lightbox.active {
+      display: flex;
+    }
+
+    .map-lightbox-inner {
+      position: relative;
+      width: min(1400px, 100%);
+      max-height: 94vh;
+      overflow: auto;
+      border: 1px solid rgba(212, 175, 55, 0.34);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75);
+    }
+
+    .map-lightbox-image {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .map-lightbox-close {
+      position: fixed;
+      top: 28px;
+      right: 30px;
+      z-index: 181;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(212, 175, 55, 0.42);
+      border-radius: 50%;
+      color: var(--gold);
+      background: rgba(8, 8, 8, 0.94);
+      font-size: 27px;
+      cursor: pointer;
     }
 
     .detail-list {
@@ -1011,12 +1136,16 @@
     }
 
     @media (max-width: 1040px) {
-      .network-layout {
+      .network-row {
         grid-template-columns: 1fr;
       }
 
       .operator-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .lines-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
       }
     }
 
@@ -1105,6 +1234,19 @@
 
       .operator-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .lines-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .map-lightbox {
+        padding: 10px;
+      }
+
+      .map-lightbox-close {
+        top: 15px;
+        right: 15px;
       }
 
       .info-table {
@@ -1345,6 +1487,20 @@
     </div>
   </div>
 
+
+  <div class="map-lightbox" id="mapLightbox" aria-hidden="true">
+    <button class="map-lightbox-close" id="closeMapLightbox" type="button" aria-label="Fechar mapa ampliado">
+      ×
+    </button>
+    <div class="map-lightbox-inner" role="dialog" aria-modal="true" aria-label="Mapa ampliado">
+      <img
+        class="map-lightbox-image"
+        src="https://www.metrocptm.com.br/wp-content/uploads/2019/09/mapa-metro-cptm-marco-2026-ab.jpg"
+        alt="Mapa ampliado da rede metropolitana de São Paulo"
+      />
+    </div>
+  </div>
+
   <script>
     const MAP_URL =
       "https://www.metrocptm.com.br/wp-content/uploads/2019/09/mapa-metro-cptm-marco-2026-ab.jpg";
@@ -1355,7 +1511,8 @@
         title: "Rede Metropolitana",
         body: `
           <div class="network-layout">
-            <div class="network-left">
+
+            <div class="network-row">
               <section class="panel-box">
                 <h4 class="panel-title">Mapa da rede</h4>
                 <p class="panel-intro">
@@ -1372,14 +1529,9 @@
                 </div>
 
                 <div class="official-map-actions">
-                  <a
-                    class="official-link"
-                    href="${MAP_URL}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <button class="map-zoom-button" type="button" id="openMapLightbox">
                     Ampliar mapa
-                  </a>
+                  </button>
 
                   <a
                     class="official-link"
@@ -1392,6 +1544,26 @@
                 </div>
               </section>
 
+              <section class="panel-box">
+                <h4 class="panel-title">Entenda este mapa</h4>
+                <p class="panel-intro">
+                  Cores identificam linhas. Símbolos mostram conexões, serviços e pontos importantes.
+                </p>
+
+                <div class="legend-grid">
+                  ${createLegendLine("#6f1935", "Linha escura", "É a Linha 7 — Rubi, um trem metropolitano operado pela TIC Trens.")}
+                  ${createLegendSymbol("↔", "Integração gratuita", "Troca de linha sem pagamento adicional dentro da área indicada.")}
+                  ${createLegendSymbol("R$", "Integração tarifada", "Existe conexão, mas com regra própria de cobrança.")}
+                  ${createLegendSymbol("🚶", "Conexão a pé", "É necessário sair e caminhar entre as estações.")}
+                  ${createLegendSymbol("✈", "Aeroporto", "Indica ligação com aeroporto ou serviço de acesso aeroportuário.")}
+                  ${createLegendSymbol("B", "Terminal rodoviário", "Indica conexão com terminal de ônibus intermunicipal ou interestadual.")}
+                  ${createLegendSymbol("E", "Serviço expresso", "Serviço que pode parar em menos estações.")}
+                  ${createLegendSymbol("A", "Acesso livre", "Trecho ou estação indicada com acesso sem bloqueio tarifário.")}
+                </div>
+              </section>
+            </div>
+
+            <div class="network-row">
               <section class="panel-box">
                 <h4 class="panel-title">Diferença entre metrô e trem</h4>
                 <p class="panel-intro">
@@ -1417,50 +1589,6 @@
               </section>
 
               <section class="panel-box">
-                <h4 class="panel-title">Linhas da rede</h4>
-                <p class="panel-intro">
-                  Abra cada linha para entender o tipo de transporte, o trajeto e o operador.
-                </p>
-
-                <div class="detail-list">
-                  ${createLineCard("#1f6fc2", "Linha 1 — Azul", "Metrô · Jabaquara ↔ Tucuruvi", "Metrô SP", "Liga Zona Sul, Centro e Zona Norte.")}
-                  ${createLineCard("#31945a", "Linha 2 — Verde", "Metrô · Vila Prudente ↔ Vila Madalena", "Metrô SP", "Atende Avenida Paulista, Centro expandido e Zona Oeste.")}
-                  ${createLineCard("#c94239", "Linha 3 — Vermelha", "Metrô · Corinthians-Itaquera ↔ Palmeiras-Barra Funda", "Metrô SP", "Principal eixo entre Zona Leste, Centro e Barra Funda.")}
-                  ${createLineCard("#d4b11c", "Linha 4 — Amarela", "Metrô · Luz ↔ Vila Sônia", "ViaQuatro", "Atende Luz, Paulista, Pinheiros, Butantã e Vila Sônia.")}
-                  ${createLineCard("#8b4ba5", "Linha 5 — Lilás", "Metrô · Capão Redondo ↔ Chácara Klabin", "ViaMobilidade", "Conecta bairros da Zona Sul às linhas 1, 2 e 9.")}
-                  ${createLineCard("#6f1935", "Linha 7 — Rubi", "Trem metropolitano · eixo noroeste", "TIC Trens", "A linha escura do mapa. Liga São Paulo ao eixo noroeste e a Jundiaí.")}
-                  ${createLineCard("#8a8a8a", "Linha 8 — Diamante", "Trem metropolitano · eixo oeste", "ViaMobilidade", "Atende bairros do oeste e municípios como Osasco e Itapevi.")}
-                  ${createLineCard("#49a8c4", "Linha 9 — Esmeralda", "Trem metropolitano · eixo sudoeste", "ViaMobilidade", "Acompanha a Marginal Pinheiros e atende o eixo sudoeste.")}
-                  ${createLineCard("#24a184", "Linha 10 — Turquesa", "Trem metropolitano · eixo sudeste", "CPTM", "Liga a região central ao ABC paulista.")}
-                  ${createLineCard("#df7f32", "Linha 11 — Coral", "Trem metropolitano · eixo leste", "CPTM", "Atende a Zona Leste e municípios do eixo leste.")}
-                  ${createLineCard("#223e89", "Linha 12 — Safira", "Trem metropolitano · eixo nordeste", "CPTM", "Atende a região leste e nordeste da metrópole.")}
-                  ${createLineCard("#37a17b", "Linha 13 — Jade", "Trem metropolitano · Aeroporto-Guarulhos", "CPTM", "Ligação ferroviária com a região do Aeroporto de Guarulhos.")}
-                  ${createLineCard("#b3b3b3", "Linha 15 — Prata", "Monotrilho · Vila Prudente ↔ Jardim Colonial", "Metrô SP", "Sistema elevado da Zona Leste, integrado à Linha 2-Verde.")}
-                  ${createLineCard("#b58735", "Linha 17 — Ouro", "Monotrilho · em desenvolvimento", "Metrô SP", "Linha em implantação. Deve aparecer com status antes da publicação definitiva.")}
-                </div>
-              </section>
-            </div>
-
-            <div class="network-right">
-              <section class="panel-box">
-                <h4 class="panel-title">Entenda este mapa</h4>
-                <p class="panel-intro">
-                  Cores identificam linhas. Símbolos mostram conexões, serviços e pontos importantes.
-                </p>
-
-                <div class="legend-grid">
-                  ${createLegendLine("#6f1935", "Linha escura", "É a Linha 7 — Rubi, um trem metropolitano operado pela TIC Trens.")}
-                  ${createLegendSymbol("↔", "Integração gratuita", "Troca de linha sem pagamento adicional dentro da área indicada.")}
-                  ${createLegendSymbol("R$", "Integração tarifada", "Existe conexão, mas com regra própria de cobrança.")}
-                  ${createLegendSymbol("🚶", "Conexão a pé", "É necessário sair e caminhar entre as estações.")}
-                  ${createLegendSymbol("✈", "Aeroporto", "Indica ligação com aeroporto ou serviço de acesso aeroportuário.")}
-                  ${createLegendSymbol("B", "Terminal rodoviário", "Indica conexão com terminal de ônibus intermunicipal ou interestadual.")}
-                  ${createLegendSymbol("E", "Serviço expresso", "Serviço que pode parar em menos estações.")}
-                  ${createLegendSymbol("A", "Acesso livre", "Trecho ou estação indicada com acesso sem bloqueio tarifário.")}
-                </div>
-              </section>
-
-              <section class="panel-box">
                 <h4 class="panel-title">Operadores presentes no mapa</h4>
                 <p class="panel-intro">
                   Cada operador administra linhas específicas da rede.
@@ -1475,6 +1603,31 @@
                 </div>
               </section>
             </div>
+
+            <section class="panel-box network-full">
+              <h4 class="panel-title">Linhas da rede</h4>
+              <p class="panel-intro">
+                As 14 linhas aparecem em duas fileiras de sete para reduzir a rolagem.
+              </p>
+
+              <div class="lines-grid">
+                ${createLineMiniCard("#1f6fc2", "1", "Azul", "Jabaquara ↔ Tucuruvi", "Metrô SP")}
+                ${createLineMiniCard("#31945a", "2", "Verde", "Vila Prudente ↔ Vila Madalena", "Metrô SP")}
+                ${createLineMiniCard("#c94239", "3", "Vermelha", "Corinthians-Itaquera ↔ Palmeiras-Barra Funda", "Metrô SP")}
+                ${createLineMiniCard("#d4b11c", "4", "Amarela", "Luz ↔ Vila Sônia", "ViaQuatro")}
+                ${createLineMiniCard("#8b4ba5", "5", "Lilás", "Capão Redondo ↔ Chácara Klabin", "ViaMobilidade")}
+                ${createLineMiniCard("#6f1935", "7", "Rubi", "Luz ↔ Jundiaí", "TIC Trens")}
+                ${createLineMiniCard("#8a8a8a", "8", "Diamante", "Júlio Prestes ↔ Itapevi", "ViaMobilidade")}
+
+                ${createLineMiniCard("#49a8c4", "9", "Esmeralda", "Osasco ↔ Varginha", "ViaMobilidade")}
+                ${createLineMiniCard("#24a184", "10", "Turquesa", "Brás ↔ Rio Grande da Serra", "CPTM")}
+                ${createLineMiniCard("#df7f32", "11", "Coral", "Luz ↔ Estudantes", "CPTM")}
+                ${createLineMiniCard("#223e89", "12", "Safira", "Brás ↔ Calmon Viana", "CPTM")}
+                ${createLineMiniCard("#37a17b", "13", "Jade", "Eng. Goulart ↔ Aeroporto-Guarulhos", "CPTM")}
+                ${createLineMiniCard("#b3b3b3", "15", "Prata", "Vila Prudente ↔ Jardim Colonial", "Metrô SP")}
+                ${createLineMiniCard("#b58735", "17", "Ouro", "Em implantação", "Metrô SP")}
+              </div>
+            </section>
           </div>
         `
       },
@@ -1782,6 +1935,18 @@
       `;
     }
 
+
+    function createLineMiniCard(color, number, name, route, operator) {
+      return `
+        <article class="line-mini-card">
+          <span class="line-mini-number" style="background:${color}">${number}</span>
+          <strong>${name}</strong>
+          <span>${route}</span>
+          <small>${operator}</small>
+        </article>
+      `;
+    }
+
     function createLegendLine(color, title, description) {
       return `
         <article class="legend-card">
@@ -1856,6 +2021,38 @@
 
     let lastFocusedElement = null;
 
+
+    const mapLightbox = document.getElementById("mapLightbox");
+    const closeMapLightboxButton = document.getElementById("closeMapLightbox");
+
+    function bindMapLightboxButton() {
+      const openButton = document.getElementById("openMapLightbox");
+
+      if (!openButton) return;
+
+      openButton.addEventListener("click", () => {
+        mapLightbox.classList.add("active");
+        mapLightbox.setAttribute("aria-hidden", "false");
+        closeMapLightboxButton.focus();
+      });
+    }
+
+    function closeMapLightbox() {
+      mapLightbox.classList.remove("active");
+      mapLightbox.setAttribute("aria-hidden", "true");
+
+      const openButton = document.getElementById("openMapLightbox");
+      if (openButton) openButton.focus();
+    }
+
+    closeMapLightboxButton.addEventListener("click", closeMapLightbox);
+
+    mapLightbox.addEventListener("click", (event) => {
+      if (event.target === mapLightbox) {
+        closeMapLightbox();
+      }
+    });
+
     function openModal(key) {
       const content = MODAL_CONTENT[key];
       if (!content) return;
@@ -1871,6 +2068,7 @@
       document.body.classList.add("modal-open");
 
       bindDetailToggles();
+      bindMapLightboxButton();
       closeModalButton.focus();
     }
 
@@ -1915,7 +2113,14 @@
     });
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && modal.classList.contains("active")) {
+      if (event.key !== "Escape") return;
+
+      if (mapLightbox.classList.contains("active")) {
+        closeMapLightbox();
+        return;
+      }
+
+      if (modal.classList.contains("active")) {
         closeModal();
       }
     });
