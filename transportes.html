@@ -7,7 +7,7 @@
   <title>Transportes por destino | Curadoria Elite Travel</title>
   <meta
     name="description"
-    content="Entenda como circular pelos destinos da Curadoria Elite Travel usando metrô, trem, monotrilho, ônibus e cartões de transporte."
+    content="Entenda como circular pelos destinos da Curadoria Elite Travel usando metrô, trem, monotrilho, ônibus, tarifas e cartões de transporte."
   />
 
   <style>
@@ -18,18 +18,16 @@
       --panel-3: #151515;
       --gold: #d4af37;
       --gold-soft: #b9912f;
-      --gold-faint: rgba(212, 175, 55, 0.14);
-      --line: rgba(212, 175, 55, 0.22);
-      --line-strong: rgba(212, 175, 55, 0.48);
-      --text: #f6f1e7;
-      --muted: #bfb6a7;
+      --gold-faint: rgba(212, 175, 55, 0.12);
+      --line: rgba(212, 175, 55, 0.20);
+      --line-strong: rgba(212, 175, 55, 0.46);
+      --text: #f4efe5;
+      --muted: #beb5a7;
       --muted-2: #91897d;
-      --danger: #cf6b61;
-      --success: #7fb58a;
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.36);
-      --radius-lg: 26px;
-      --radius-md: 20px;
-      --radius-sm: 14px;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 17px;
       --max: 1180px;
     }
 
@@ -46,8 +44,8 @@
       min-height: 100vh;
       color: var(--text);
       background:
-        radial-gradient(circle at 18% 0%, rgba(212, 175, 55, 0.08), transparent 30%),
-        linear-gradient(180deg, #050505 0%, #070707 45%, #050505 100%);
+        radial-gradient(circle at 18% 0%, rgba(212, 175, 55, 0.08), transparent 31%),
+        linear-gradient(180deg, #050505 0%, #070707 48%, #050505 100%);
       font-family: Arial, Helvetica, sans-serif;
       line-height: 1.55;
     }
@@ -81,14 +79,14 @@
       top: 0;
       z-index: 40;
       border-bottom: 1px solid rgba(212, 175, 55, 0.12);
-      background: rgba(5, 5, 5, 0.9);
+      background: rgba(5, 5, 5, 0.91);
       backdrop-filter: blur(14px);
     }
 
     .site-header-inner {
       width: min(var(--max), calc(100% - 32px));
-      margin: 0 auto;
       min-height: 72px;
+      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -126,7 +124,7 @@
     }
 
     .nav a {
-      opacity: 0.9;
+      opacity: 0.88;
       transition: opacity 0.2s ease;
     }
 
@@ -154,8 +152,7 @@
       margin: 0;
       color: var(--gold);
       font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(38px, 7vw, 68px);
-      font-weight: 700;
+      font-size: clamp(40px, 7vw, 68px);
       line-height: 1.02;
     }
 
@@ -169,15 +166,15 @@
     .page-shell {
       width: min(var(--max), calc(100% - 32px));
       margin: 0 auto;
-      padding-bottom: 80px;
+      padding-bottom: 82px;
     }
 
     .tool-panel {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      background: rgba(8, 8, 8, 0.94);
-      box-shadow: var(--shadow);
       overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: rgba(8, 8, 8, 0.95);
+      box-shadow: var(--shadow);
     }
 
     .tool-top {
@@ -202,7 +199,7 @@
     }
 
     .tool-top p {
-      max-width: 780px;
+      max-width: 790px;
       margin: 10px 0 0;
       color: var(--muted);
       font-size: 15px;
@@ -231,13 +228,6 @@
       box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
     }
 
-    .primary-button,
-    .ghost-button,
-    .text-button {
-      border: 0;
-      cursor: pointer;
-    }
-
     .primary-button {
       min-height: 52px;
       padding: 0 22px;
@@ -246,6 +236,7 @@
       color: #111;
       background: linear-gradient(180deg, #d4af37, #a57b24);
       font-weight: 800;
+      cursor: pointer;
       box-shadow: 0 12px 30px rgba(165, 123, 36, 0.16);
     }
 
@@ -266,7 +257,7 @@
       margin-bottom: 26px;
       padding: 24px;
       border: 1px solid rgba(212, 175, 55, 0.16);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
       background:
         linear-gradient(135deg, rgba(212, 175, 55, 0.06), transparent 38%),
         rgba(255, 255, 255, 0.018);
@@ -302,7 +293,7 @@
       align-items: end;
       justify-content: space-between;
       gap: 20px;
-      margin: 30px 0 16px;
+      margin: 32px 0 16px;
     }
 
     .section-heading h3 {
@@ -320,19 +311,16 @@
       text-align: right;
     }
 
-    .transport-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .transport-card {
+    .network-card {
       position: relative;
-      min-height: 328px;
+      min-height: 410px;
       overflow: hidden;
-      border: 1px solid rgba(212, 175, 55, 0.18);
-      border-radius: var(--radius-md);
-      background: var(--panel-2);
+      border: 1px solid rgba(212, 175, 55, 0.20);
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(circle at 73% 20%, rgba(28, 93, 179, 0.35), transparent 18%),
+        radial-gradient(circle at 78% 45%, rgba(165, 44, 44, 0.28), transparent 20%),
+        linear-gradient(130deg, #0d1014 0%, #17202b 52%, #0a0a0a 100%);
       cursor: pointer;
       isolation: isolate;
       transition:
@@ -341,172 +329,167 @@
         box-shadow 0.25s ease;
     }
 
-    .transport-card:hover,
-    .transport-card:focus-visible {
+    .network-card:hover,
+    .network-card:focus-visible {
       transform: translateY(-4px);
       border-color: rgba(212, 175, 55, 0.48);
       box-shadow: 0 18px 44px rgba(0, 0, 0, 0.38);
       outline: none;
     }
 
-    .transport-visual {
+    .network-map-lines {
       position: absolute;
       inset: 0;
-      z-index: -2;
-      background-position: center;
-      background-size: cover;
-      transform: scale(1.01);
+      opacity: 0.82;
+      pointer-events: none;
     }
 
-    .transport-visual::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(180deg, rgba(0, 0, 0, 0.08) 15%, rgba(0, 0, 0, 0.87) 85%),
-        linear-gradient(90deg, rgba(0, 0, 0, 0.2), transparent 70%);
-    }
-
-    .visual-metro {
-      background:
-        radial-gradient(circle at 73% 24%, rgba(19, 89, 201, 0.55), transparent 18%),
-        linear-gradient(130deg, #111922 0%, #1d3144 46%, #0d0f12 100%);
-    }
-
-    .visual-train {
-      background:
-        radial-gradient(circle at 72% 18%, rgba(180, 70, 49, 0.42), transparent 18%),
-        linear-gradient(135deg, #221612 0%, #493029 46%, #0d0d0d 100%);
-    }
-
-    .visual-monorail {
-      background:
-        radial-gradient(circle at 70% 22%, rgba(208, 208, 208, 0.34), transparent 18%),
-        linear-gradient(135deg, #171717 0%, #454545 45%, #101010 100%);
-    }
-
-    .visual-bus {
-      background:
-        radial-gradient(circle at 72% 22%, rgba(230, 153, 28, 0.42), transparent 18%),
-        linear-gradient(135deg, #2a2014 0%, #554323 48%, #111 100%);
-    }
-
-    .visual-lines {
-      position: absolute;
-      inset: 28px 26px auto auto;
-      width: 42%;
-      height: 42%;
-      opacity: 0.62;
-      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.28));
-    }
-
-    .visual-lines span {
+    .network-map-lines span {
       position: absolute;
       display: block;
-      height: 7px;
+      height: 9px;
       border-radius: 999px;
       transform-origin: left center;
+      box-shadow: 0 7px 18px rgba(0, 0, 0, 0.25);
     }
 
-    .visual-lines span:nth-child(1) {
-      width: 92%;
-      top: 15%;
-      left: 3%;
-      background: #2f7fd6;
-      transform: rotate(22deg);
+    .network-map-lines span:nth-child(1) {
+      width: 58%;
+      top: 22%;
+      left: 42%;
+      background: #2671c2;
+      transform: rotate(16deg);
     }
 
-    .visual-lines span:nth-child(2) {
-      width: 70%;
-      top: 34%;
-      left: 15%;
-      background: #d8b218;
-      transform: rotate(-18deg);
+    .network-map-lines span:nth-child(2) {
+      width: 50%;
+      top: 38%;
+      left: 48%;
+      background: #d2ad1d;
+      transform: rotate(-13deg);
     }
 
-    .visual-lines span:nth-child(3) {
-      width: 84%;
-      top: 54%;
-      left: 5%;
-      background: #c7443b;
-      transform: rotate(12deg);
+    .network-map-lines span:nth-child(3) {
+      width: 55%;
+      top: 53%;
+      left: 43%;
+      background: #c33b35;
+      transform: rotate(9deg);
     }
 
-    .visual-lines span:nth-child(4) {
-      width: 62%;
-      top: 72%;
-      left: 24%;
-      background: #3b9a55;
-      transform: rotate(-28deg);
+    .network-map-lines span:nth-child(4) {
+      width: 47%;
+      top: 68%;
+      left: 48%;
+      background: #278e57;
+      transform: rotate(-24deg);
     }
 
-    .transport-content {
+    .network-map-lines span:nth-child(5) {
+      width: 38%;
+      top: 77%;
+      left: 60%;
+      background: #7b2e4c;
+      transform: rotate(11deg);
+    }
+
+    .network-overlay {
       position: absolute;
-      inset: auto 0 0;
-      padding: 26px;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.66) 48%, rgba(0, 0, 0, 0.18) 100%),
+        linear-gradient(180deg, transparent 20%, rgba(0, 0, 0, 0.72) 100%);
     }
 
-    .transport-tag {
+    .network-content {
+      position: relative;
+      z-index: 2;
+      width: min(610px, 70%);
+      padding: 34px;
+    }
+
+    .network-tag {
       display: inline-flex;
-      min-height: 28px;
+      min-height: 29px;
       align-items: center;
-      padding: 0 10px;
-      border: 1px solid rgba(212, 175, 55, 0.32);
+      padding: 0 11px;
+      border: 1px solid rgba(212, 175, 55, 0.34);
       border-radius: 999px;
       color: var(--gold);
-      background: rgba(5, 5, 5, 0.6);
+      background: rgba(5, 5, 5, 0.56);
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 0.06em;
       text-transform: uppercase;
     }
 
-    .transport-content h4 {
-      margin: 13px 0 6px;
+    .network-content h4 {
+      margin: 17px 0 9px;
       font-family: Georgia, "Times New Roman", serif;
-      font-size: 31px;
+      font-size: clamp(34px, 5vw, 50px);
       line-height: 1;
     }
 
-    .transport-content p {
-      max-width: 470px;
+    .network-content p {
+      max-width: 560px;
       margin: 0;
-      color: #d9d2c7;
-      font-size: 14px;
+      color: #ddd5c9;
+      font-size: 15px;
     }
 
-    .transport-cta {
+    .network-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 20px;
+    }
+
+    .network-points span {
+      display: inline-flex;
+      min-height: 31px;
+      align-items: center;
+      padding: 0 11px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(5, 5, 5, 0.55);
+      font-size: 11px;
+    }
+
+    .network-cta {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-top: 16px;
+      margin-top: 23px;
       color: var(--gold);
       font-size: 13px;
       font-weight: 800;
     }
 
-    .transport-cta::after {
+    .network-cta::after {
       content: "→";
       transition: transform 0.2s ease;
     }
 
-    .transport-card:hover .transport-cta::after {
+    .network-card:hover .network-cta::after {
       transform: translateX(4px);
     }
 
-    .utility-grid {
+    .practical-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 17px;
     }
 
-    .utility-card {
-      min-height: 190px;
-      padding: 22px;
+    .practical-card {
+      position: relative;
+      min-height: 230px;
+      padding: 24px;
+      overflow: hidden;
       border: 1px solid rgba(212, 175, 55, 0.16);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
       background:
-        linear-gradient(145deg, rgba(212, 175, 55, 0.05), transparent 40%),
+        linear-gradient(145deg, rgba(212, 175, 55, 0.045), transparent 42%),
         var(--panel-2);
       cursor: pointer;
       transition:
@@ -514,14 +497,14 @@
         border-color 0.2s ease;
     }
 
-    .utility-card:hover,
-    .utility-card:focus-visible {
+    .practical-card:hover,
+    .practical-card:focus-visible {
       transform: translateY(-3px);
       border-color: rgba(212, 175, 55, 0.42);
       outline: none;
     }
 
-    .utility-number {
+    .practical-number {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -535,17 +518,26 @@
       font-weight: 700;
     }
 
-    .utility-card h4 {
-      margin: 20px 0 6px;
+    .practical-card h4 {
+      margin: 22px 0 7px;
       color: var(--gold);
       font-family: Georgia, "Times New Roman", serif;
-      font-size: 21px;
+      font-size: 24px;
     }
 
-    .utility-card p {
+    .practical-card p {
       margin: 0;
       color: var(--muted);
       font-size: 13px;
+    }
+
+    .practical-cta {
+      position: absolute;
+      right: 22px;
+      bottom: 20px;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 800;
     }
 
     .status-banner {
@@ -555,7 +547,7 @@
       margin-top: 22px;
       padding: 16px 18px;
       border: 1px solid rgba(212, 175, 55, 0.13);
-      border-radius: var(--radius-sm);
+      border-radius: 14px;
       color: var(--muted);
       background: rgba(255, 255, 255, 0.015);
       font-size: 12px;
@@ -579,6 +571,7 @@
       font-size: 12px;
     }
 
+    /* MODAL */
     .modal {
       position: fixed;
       inset: 0;
@@ -586,8 +579,8 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.78);
+      padding: 18px;
+      background: rgba(0, 0, 0, 0.80);
       backdrop-filter: blur(12px);
     }
 
@@ -596,24 +589,24 @@
     }
 
     .modal-panel {
-      width: min(980px, 100%);
-      max-height: min(88vh, 920px);
+      width: min(1240px, 100%);
+      max-height: 92vh;
       overflow: auto;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 26px;
+      border: 1px solid rgba(212, 175, 55, 0.30);
+      border-radius: 28px;
       background: #090909;
-      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.65);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.68);
     }
 
     .modal-header {
       position: sticky;
       top: 0;
-      z-index: 3;
+      z-index: 6;
       display: flex;
       align-items: start;
       justify-content: space-between;
       gap: 20px;
-      padding: 22px 24px;
+      padding: 24px 28px;
       border-bottom: 1px solid rgba(212, 175, 55, 0.14);
       background: rgba(9, 9, 9, 0.96);
       backdrop-filter: blur(10px);
@@ -632,91 +625,213 @@
       margin: 0;
       color: var(--gold);
       font-family: Georgia, "Times New Roman", serif;
-      font-size: 30px;
+      font-size: 32px;
     }
 
     .close-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       border: 1px solid rgba(212, 175, 55, 0.22);
       border-radius: 50%;
       color: var(--gold);
       background: transparent;
       cursor: pointer;
-      font-size: 24px;
+      font-size: 26px;
       line-height: 1;
     }
 
     .modal-body {
-      padding: 24px;
+      padding: 26px;
     }
 
-    .map-preview {
-      position: relative;
-      min-height: 330px;
-      overflow: hidden;
-      margin-bottom: 22px;
-      border: 1px solid rgba(212, 175, 55, 0.18);
+    .network-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .network-left,
+    .network-right {
+      min-width: 0;
+    }
+
+    .panel-box {
+      padding: 18px;
+      border: 1px solid rgba(212, 175, 55, 0.16);
       border-radius: 20px;
       background:
-        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        radial-gradient(circle at 70% 20%, rgba(212, 175, 55, 0.12), transparent 22%),
-        #101010;
-      background-size: 28px 28px, 28px 28px, auto, auto;
+        linear-gradient(145deg, rgba(212, 175, 55, 0.035), transparent 40%),
+        rgba(255, 255, 255, 0.012);
     }
 
-    .map-preview::before,
-    .map-preview::after {
-      content: "";
-      position: absolute;
-      left: 8%;
-      right: 8%;
-      height: 8px;
-      border-radius: 999px;
-      opacity: 0.78;
+    .panel-box + .panel-box {
+      margin-top: 16px;
     }
 
-    .map-preview::before {
-      top: 34%;
-      background: linear-gradient(90deg, #2568b5 0 24%, #d1ac18 24% 46%, #c23b35 46% 72%, #398f50 72% 100%);
-      transform: rotate(6deg);
-    }
-
-    .map-preview::after {
-      top: 57%;
-      background: linear-gradient(90deg, #8b4ca7 0 29%, #9f9f9f 29% 53%, #bb7d1f 53% 75%, #2969a9 75% 100%);
-      transform: rotate(-7deg);
-    }
-
-    .map-caption {
-      position: absolute;
-      inset: auto 18px 18px;
-      padding: 14px 16px;
-      border: 1px solid rgba(212, 175, 55, 0.18);
-      border-radius: 14px;
-      background: rgba(5, 5, 5, 0.82);
-      backdrop-filter: blur(10px);
-    }
-
-    .map-caption strong {
-      display: block;
-      margin-bottom: 3px;
+    .panel-title {
+      margin: 0 0 5px;
       color: var(--gold);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
     }
 
-    .map-caption span {
+    .panel-intro {
+      margin: 0 0 15px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .official-map-wrap {
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    .official-map-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #fff;
+    }
+
+    .official-map-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .official-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 14px;
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 12px;
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.04);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 11px;
+    }
+
+    .comparison-card {
+      padding: 15px;
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.012);
+    }
+
+    .comparison-card strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .comparison-card p {
+      margin: 0;
       color: var(--muted);
       font-size: 12px;
     }
 
-    .modal-intro {
-      margin: 0 0 20px;
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 11px;
+    }
+
+    .legend-card {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      min-height: 100px;
+      padding: 14px;
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.012);
+    }
+
+    .legend-line {
+      width: 34px;
+      height: 8px;
+      margin-top: 7px;
+      border-radius: 999px;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+    }
+
+    .legend-symbol {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(212, 175, 55, 0.20);
+      border-radius: 50%;
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.04);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .legend-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .legend-card p {
+      margin: 0;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 12px;
+    }
+
+    .operator-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .operator-card {
+      min-height: 114px;
+      padding: 13px 10px;
+      border: 1px solid rgba(212, 175, 55, 0.13);
+      border-radius: 14px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.012);
+    }
+
+    .operator-mark {
+      width: 34px;
+      height: 34px;
+      margin: 0 auto 8px;
+      border-radius: 10px;
+    }
+
+    .operator-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .operator-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
     }
 
     .detail-list {
@@ -725,10 +840,10 @@
     }
 
     .detail-card {
+      overflow: hidden;
       border: 1px solid rgba(212, 175, 55, 0.14);
       border-radius: 17px;
       background: rgba(255, 255, 255, 0.014);
-      overflow: hidden;
     }
 
     .detail-toggle {
@@ -786,10 +901,20 @@
       margin: 6px 0 0;
     }
 
-    .region-grid {
+    .region-grid,
+    .visitor-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
+    }
+
+    .region-card,
+    .visitor-card,
+    .answer-block {
+      padding: 16px;
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      border-radius: 17px;
+      background: rgba(255, 255, 255, 0.014);
     }
 
     .region-card {
@@ -797,10 +922,6 @@
       grid-template-columns: auto minmax(0, 1fr);
       gap: 14px;
       align-items: start;
-      padding: 16px;
-      border: 1px solid rgba(212, 175, 55, 0.14);
-      border-radius: 17px;
-      background: rgba(255, 255, 255, 0.014);
     }
 
     .region-swatch {
@@ -810,16 +931,34 @@
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
     }
 
-    .region-card h4 {
-      margin: 0 0 3px;
-      color: var(--text);
-      font-size: 15px;
+    .region-card h4,
+    .visitor-card h4 {
+      margin: 0 0 4px;
+      color: var(--gold);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 17px;
     }
 
-    .region-card p {
+    .region-card p,
+    .visitor-card p,
+    .answer-block p {
       margin: 0;
       color: var(--muted);
       font-size: 12px;
+    }
+
+    .answer-block + .answer-block {
+      margin-top: 12px;
+    }
+
+    .answer-block strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--text);
+    }
+
+    .table-scroll {
+      overflow-x: auto;
     }
 
     .info-table {
@@ -862,20 +1001,6 @@
       padding-left: 4px;
     }
 
-    .official-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 18px;
-      padding: 11px 14px;
-      border: 1px solid rgba(212, 175, 55, 0.28);
-      border-radius: 12px;
-      color: var(--gold);
-      background: rgba(212, 175, 55, 0.04);
-      font-size: 12px;
-      font-weight: 800;
-    }
-
     .development-note {
       margin-top: 18px;
       padding: 14px 16px;
@@ -885,293 +1010,13 @@
       font-size: 12px;
     }
 
-
-    .official-map-image {
-      display: block;
-      width: 100%;
-      height: auto;
-      background: #fff;
-    }
-
-    .official-map-wrap {
-      overflow: hidden;
-      margin-bottom: 22px;
-      border: 1px solid rgba(212, 175, 55, 0.18);
-      border-radius: 20px;
-      background: #fff;
-    }
-
-    .official-map-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 14px 0 22px;
-    }
-
-
-    .map-guide {
-      margin: 24px 0;
-      padding: 20px;
-      border: 1px solid rgba(212, 175, 55, 0.16);
-      border-radius: 20px;
-      background:
-        linear-gradient(145deg, rgba(212, 175, 55, 0.045), transparent 42%),
-        rgba(255, 255, 255, 0.012);
-    }
-
-    .map-guide-title {
-      margin: 0 0 6px;
-      color: var(--gold);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 22px;
-    }
-
-    .map-guide-intro {
-      margin: 0 0 17px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .legend-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 11px;
-    }
-
-    .legend-card {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      gap: 12px;
-      align-items: start;
-      min-height: 94px;
-      padding: 14px;
-      border: 1px solid rgba(212, 175, 55, 0.12);
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.012);
-    }
-
-    .legend-line {
-      width: 34px;
-      height: 8px;
-      margin-top: 7px;
-      border-radius: 999px;
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
-    }
-
-    .legend-symbol {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 34px;
-      height: 34px;
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      border-radius: 50%;
-      color: var(--gold);
-      background: rgba(212, 175, 55, 0.04);
-      font-size: 15px;
-      font-weight: 800;
-    }
-
-    .legend-card strong {
-      display: block;
-      margin-bottom: 3px;
-      color: var(--text);
-      font-size: 13px;
-    }
-
-    .legend-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .operator-strip {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
-    }
-
-    .operator-pill {
-      display: inline-flex;
-      align-items: center;
-      min-height: 30px;
-      padding: 0 10px;
-      border: 1px solid rgba(212, 175, 55, 0.16);
-      border-radius: 999px;
-      color: var(--muted);
-      background: rgba(255, 255, 255, 0.01);
-      font-size: 11px;
-    }
-
-    .operator-pill strong {
-      margin-right: 4px;
-      color: var(--text);
-    }
-
-    @media (max-width: 720px) {
-      .legend-grid {
+    @media (max-width: 1040px) {
+      .network-layout {
         grid-template-columns: 1fr;
       }
-    }
 
-    .visitor-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin: 16px 0;
-    }
-
-    .visitor-card {
-      padding: 17px;
-      border: 1px solid rgba(212, 175, 55, 0.14);
-      border-radius: 17px;
-      background: rgba(255, 255, 255, 0.014);
-    }
-
-    .visitor-card h4 {
-      margin: 0 0 6px;
-      color: var(--gold);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 18px;
-    }
-
-    .visitor-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .answer-block {
-      margin: 14px 0;
-      padding: 16px;
-      border: 1px solid rgba(212, 175, 55, 0.15);
-      border-radius: 16px;
-      background: rgba(212, 175, 55, 0.035);
-    }
-
-    .answer-block strong {
-      display: block;
-      margin-bottom: 5px;
-      color: var(--text);
-    }
-
-    .answer-block p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    @media (max-width: 720px) {
-  
-    .map-guide {
-      margin: 24px 0;
-      padding: 20px;
-      border: 1px solid rgba(212, 175, 55, 0.16);
-      border-radius: 20px;
-      background:
-        linear-gradient(145deg, rgba(212, 175, 55, 0.045), transparent 42%),
-        rgba(255, 255, 255, 0.012);
-    }
-
-    .map-guide-title {
-      margin: 0 0 6px;
-      color: var(--gold);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 22px;
-    }
-
-    .map-guide-intro {
-      margin: 0 0 17px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .legend-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 11px;
-    }
-
-    .legend-card {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      gap: 12px;
-      align-items: start;
-      min-height: 94px;
-      padding: 14px;
-      border: 1px solid rgba(212, 175, 55, 0.12);
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.012);
-    }
-
-    .legend-line {
-      width: 34px;
-      height: 8px;
-      margin-top: 7px;
-      border-radius: 999px;
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
-    }
-
-    .legend-symbol {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 34px;
-      height: 34px;
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      border-radius: 50%;
-      color: var(--gold);
-      background: rgba(212, 175, 55, 0.04);
-      font-size: 15px;
-      font-weight: 800;
-    }
-
-    .legend-card strong {
-      display: block;
-      margin-bottom: 3px;
-      color: var(--text);
-      font-size: 13px;
-    }
-
-    .legend-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .operator-strip {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
-    }
-
-    .operator-pill {
-      display: inline-flex;
-      align-items: center;
-      min-height: 30px;
-      padding: 0 10px;
-      border: 1px solid rgba(212, 175, 55, 0.16);
-      border-radius: 999px;
-      color: var(--muted);
-      background: rgba(255, 255, 255, 0.01);
-      font-size: 11px;
-    }
-
-    .operator-pill strong {
-      margin-right: 4px;
-      color: var(--text);
-    }
-
-    @media (max-width: 720px) {
-      .legend-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .visitor-grid {
-        grid-template-columns: 1fr;
+      .operator-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
 
@@ -1188,10 +1033,6 @@
         justify-content: flex-start;
         flex-wrap: wrap;
         gap: 10px 16px;
-      }
-
-      .utility-grid {
-        grid-template-columns: 1fr;
       }
 
       .destination-summary {
@@ -1222,25 +1063,34 @@
         padding: 20px;
       }
 
-      .destination-toolbar {
+      .destination-toolbar,
+      .practical-grid,
+      .legend-grid,
+      .comparison-grid,
+      .region-grid,
+      .visitor-grid {
         grid-template-columns: 1fr;
       }
 
-      .transport-grid,
-      .region-grid {
-        grid-template-columns: 1fr;
+      .network-card {
+        min-height: 430px;
       }
 
-      .transport-card {
-        min-height: 300px;
+      .network-content {
+        width: 100%;
+        padding: 24px;
+      }
+
+      .network-map-lines {
+        opacity: 0.46;
       }
 
       .modal {
-        padding: 8px;
+        padding: 7px;
       }
 
       .modal-panel {
-        max-height: 94vh;
+        max-height: 96vh;
         border-radius: 20px;
       }
 
@@ -1253,16 +1103,12 @@
         font-size: 25px;
       }
 
-      .map-preview {
-        min-height: 270px;
-      }
-
-      .table-scroll {
-        overflow-x: auto;
+      .operator-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .info-table {
-        min-width: 680px;
+        min-width: 700px;
       }
     }
 
@@ -1285,16 +1131,12 @@
         padding: 19px;
       }
 
-      .transport-content {
-        padding: 21px;
+      .network-content h4 {
+        font-size: 36px;
       }
 
-      .transport-content h4 {
-        font-size: 27px;
-      }
-
-      .visual-lines {
-        width: 52%;
+      .operator-grid {
+        grid-template-columns: 1fr 1fr;
       }
     }
   </style>
@@ -1323,8 +1165,8 @@
       <div class="hero-kicker">Mobilidade urbana por destino</div>
       <h1>Transportes</h1>
       <p>
-        Selecione uma cidade e entenda como circular usando metrô, trem,
-        monotrilho, ônibus, integrações e cartões de transporte.
+        Entenda a rede, descubra como pagar e encontre os canais certos
+        para circular com segurança em cada cidade.
       </p>
     </section>
 
@@ -1334,13 +1176,14 @@
           <div class="breadcrumbs">Ferramentas &gt; Transportes</div>
           <h2>Escolha o destino</h2>
           <p>
-            Nesta primeira versão, São Paulo funciona como modelo visual da ferramenta.
-            Os demais destinos serão ligados à base após a aprovação da experiência.
+            São Paulo é o modelo inicial da ferramenta. Os demais destinos serão
+            ligados ao banco de dados depois da aprovação completa da experiência.
           </p>
 
           <div class="destination-toolbar">
             <select id="destinationSelect" class="destination-select" aria-label="Selecionar destino">
               <option value="sao-paulo">São Paulo, Brasil</option>
+              <option value="rio" disabled>Rio de Janeiro, Brasil — em preparação</option>
               <option value="paris" disabled>Paris, França — em preparação</option>
               <option value="new-york" disabled>New York, Estados Unidos — em preparação</option>
             </select>
@@ -1355,170 +1198,126 @@
             <div>
               <h3>São Paulo, Brasil</h3>
               <p>
-                Uma visão prática da rede de transporte da cidade, organizada por modal.
-                Abra cada card para visualizar linhas, regiões atendidas, mapas e informações de uso.
+                Primeiro, entenda a rede. Depois, veja tarifas, cartões,
+                formas de pagamento, ônibus e canais oficiais de planejamento.
               </p>
             </div>
             <span class="updated-pill">Modelo visual · julho de 2026</span>
           </section>
 
           <div class="section-heading">
-            <h3>Como você pretende circular?</h3>
+            <h3>Entenda a rede</h3>
             <p>
-              Cada card abre uma experiência própria, sem sobrecarregar a página principal.
+              O mapa, os operadores e os símbolos aparecem juntos para facilitar a leitura.
             </p>
           </div>
 
-          <section class="transport-grid" aria-label="Meios de transporte">
-            <article
-              class="transport-card"
-              tabindex="0"
-              role="button"
-              data-modal="metro"
-              aria-label="Abrir informações do metrô"
-            >
-              <div class="transport-visual visual-metro">
-                <div class="visual-lines" aria-hidden="true">
-                  <span></span><span></span><span></span><span></span>
-                </div>
-              </div>
-              <div class="transport-content">
-                <span class="transport-tag">Rede urbana</span>
-                <h4>Metrô</h4>
-                <p>
-                  Veja o mapa da rede, as linhas, os principais eixos da cidade
-                  e as integrações mais úteis.
-                </p>
-                <span class="transport-cta">Explorar metrô</span>
-              </div>
-            </article>
+          <article
+            class="network-card"
+            tabindex="0"
+            role="button"
+            data-modal="network"
+            aria-label="Abrir visão completa da rede metropolitana"
+          >
+            <div class="network-map-lines" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="network-overlay"></div>
 
-            <article
-              class="transport-card"
-              tabindex="0"
-              role="button"
-              data-modal="train"
-              aria-label="Abrir informações dos trens"
-            >
-              <div class="transport-visual visual-train">
-                <div class="visual-lines" aria-hidden="true">
-                  <span></span><span></span><span></span><span></span>
-                </div>
-              </div>
-              <div class="transport-content">
-                <span class="transport-tag">Rede metropolitana</span>
-                <h4>Trem</h4>
-                <p>
-                  Entenda as linhas metropolitanas, operadores, conexões e regiões
-                  da Grande São Paulo atendidas.
-                </p>
-                <span class="transport-cta">Explorar trens</span>
-              </div>
-            </article>
+            <div class="network-content">
+              <span class="network-tag">Mapa e interpretação</span>
+              <h4>Rede Metropolitana</h4>
+              <p>
+                Veja o mapa completo de metrô, trem e monotrilho, entenda as cores,
+                os símbolos, as integrações e quem opera cada linha.
+              </p>
 
-            <article
-              class="transport-card"
-              tabindex="0"
-              role="button"
-              data-modal="monorail"
-              aria-label="Abrir informações do monotrilho"
-            >
-              <div class="transport-visual visual-monorail">
-                <div class="visual-lines" aria-hidden="true">
-                  <span></span><span></span><span></span><span></span>
-                </div>
+              <div class="network-points">
+                <span>Metrô</span>
+                <span>Trem metropolitano</span>
+                <span>Monotrilho</span>
+                <span>Operadores</span>
+                <span>Integrações</span>
               </div>
-              <div class="transport-content">
-                <span class="transport-tag">Sistema elevado</span>
-                <h4>Monotrilho</h4>
-                <p>
-                  Conheça as linhas elevadas, as regiões atendidas e os pontos
-                  de integração com o restante da rede.
-                </p>
-                <span class="transport-cta">Explorar monotrilho</span>
-              </div>
-            </article>
 
-            <article
-              class="transport-card"
-              tabindex="0"
-              role="button"
-              data-modal="bus"
-              aria-label="Abrir informações dos ônibus"
-            >
-              <div class="transport-visual visual-bus">
-                <div class="visual-lines" aria-hidden="true">
-                  <span></span><span></span><span></span><span></span>
-                </div>
-              </div>
-              <div class="transport-content">
-                <span class="transport-tag">Áreas operacionais</span>
-                <h4>Ônibus</h4>
-                <p>
-                  Descubra o que significam as cores dos veículos e quais regiões
-                  da cidade cada área operacional atende.
-                </p>
-                <span class="transport-cta">Ver áreas de operação</span>
-              </div>
-            </article>
-          </section>
+              <span class="network-cta">Entender este mapa</span>
+            </div>
+          </article>
 
           <div class="section-heading">
-            <h3>Informações práticas</h3>
+            <h3>Use o transporte</h3>
             <p>
-              Tarifas, integrações e orientações úteis ficam separadas dos mapas.
+              Informações práticas para quem precisa comprar, pagar e embarcar.
             </p>
           </div>
 
-          <section class="utility-grid" aria-label="Informações práticas de transporte">
+          <section class="practical-grid" aria-label="Informações práticas de transporte">
             <article
-              class="utility-card"
+              class="practical-card"
               tabindex="0"
               role="button"
               data-modal="fares"
-              aria-label="Abrir tarifas e integrações"
+              aria-label="Abrir tarifas e integração"
             >
-              <div class="utility-number">01</div>
+              <div class="practical-number">01</div>
               <h4>Tarifas e integração</h4>
               <p>
-                Valores, tempo de integração, passes e condições especiais.
+                Valores de ônibus, metrô, trem, integração e passe de 24 horas.
               </p>
+              <span class="practical-cta">Ver valores →</span>
             </article>
 
             <article
-              class="utility-card"
+              class="practical-card"
               tabindex="0"
               role="button"
               data-modal="card"
               aria-label="Abrir informações do Bilhete Único"
             >
-              <div class="utility-number">02</div>
+              <div class="practical-number">02</div>
               <h4>Bilhete Único</h4>
               <p>
-                Como solicitar, carregar, retirar e usar o cartão de transporte.
+                Quem pode solicitar, documentos, custo, retirada, recarga e uso.
               </p>
+              <span class="practical-cta">Entender o cartão →</span>
             </article>
 
             <article
-              class="utility-card"
+              class="practical-card"
+              tabindex="0"
+              role="button"
+              data-modal="bus"
+              aria-label="Abrir informações dos ônibus"
+            >
+              <div class="practical-number">03</div>
+              <h4>Ônibus</h4>
+              <p>
+                Cores, áreas operacionais e como identificar a linha correta no ponto.
+              </p>
+              <span class="practical-cta">Ver como usar →</span>
+            </article>
+
+            <article
+              class="practical-card"
               tabindex="0"
               role="button"
               data-modal="planner"
-              aria-label="Abrir planejador de trajeto"
+              aria-label="Abrir planejamento de trajeto"
             >
-              <div class="utility-number">03</div>
+              <div class="practical-number">04</div>
               <h4>Planeje o trajeto</h4>
               <p>
-                Acesse os canais adequados para consultar linhas, horários e operação.
+                Links oficiais para linhas, horários, mapas e condições de operação.
               </p>
+              <span class="practical-cta">Abrir canais →</span>
             </article>
           </section>
 
           <div class="status-banner">
             <span class="status-dot" aria-hidden="true"></span>
             <span>
-              Esta página é a versão de layout. O mapa oficial da rede e as orientações práticas de São Paulo já foram incorporados.
-              A conexão com o Supabase e a replicação para outros destinos ficam para as próximas etapas.
+              Esta versão fecha a estrutura visual da ferramenta. A integração com o Supabase,
+              os demais destinos e a atualização automatizada serão trabalhados depois.
             </span>
           </div>
         </div>
@@ -1536,7 +1335,7 @@
       <div class="modal-header">
         <div>
           <small id="modalKicker">São Paulo</small>
-          <h3 id="modalTitle">Transporte</h3>
+          <h3 id="modalTitle">Transportes</h3>
         </div>
         <button class="close-button" id="closeModalButton" type="button" aria-label="Fechar">
           ×
@@ -1547,627 +1346,135 @@
   </div>
 
   <script>
+    const MAP_URL =
+      "https://www.metrocptm.com.br/wp-content/uploads/2019/09/mapa-metro-cptm-marco-2026-ab.jpg";
+
     const MODAL_CONTENT = {
-      metro: {
-        kicker: "São Paulo · rede urbana",
-        title: "Metrô",
+      network: {
+        kicker: "São Paulo · visão completa",
+        title: "Rede Metropolitana",
         body: `
-<div class="official-map-wrap">
-            <img
-              class="official-map-image"
-              src="https://www.metrocptm.com.br/wp-content/uploads/2019/09/mapa-metro-cptm-marco-2026-ab.jpg"
-              alt="Mapa da rede de Metrô, CPTM, ViaQuatro e ViaMobilidade de São Paulo em 2026"
-              loading="lazy"
-            />
-          </div>
+          <div class="network-layout">
+            <div class="network-left">
+              <section class="panel-box">
+                <h4 class="panel-title">Mapa da rede</h4>
+                <p class="panel-intro">
+                  Metrô, trens metropolitanos e monotrilho reunidos em uma única visualização.
+                </p>
 
-          <div class="official-map-actions">
-            <a
-              class="official-link"
-              href="https://www.metrocptm.com.br/wp-content/uploads/2019/09/mapa-metro-cptm-marco-2026-ab.jpg"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ampliar mapa
-            </a>
-            <a
-              class="official-link"
-              href="https://www.metrocptm.com.br/veja-o-mapa-de-estacoes-do-metro-e-cptm/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ver página completa do mapa
-            </a>
-            <a
-              class="official-link"
-              href="https://www.metro.sp.gov.br/sua-viagem/mapa-da-rede/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Consultar fonte oficial
-            </a>
-          </div>
-
-
-          <section class="map-guide">
-            <h4 class="map-guide-title">Como ler este mapa</h4>
-            <p class="map-guide-intro">
-              A cor mostra qual é a linha. O nome ao lado da linha indica o operador.
-              Os símbolos mostram integrações, aeroportos, terminais e conexões possíveis.
-            </p>
-
-            <div class="legend-grid">
-              <article class="legend-card">
-                <span class="legend-line" style="background:#6f1935"></span>
-                <div>
-                  <strong>A linha escura é a Linha 7 — Rubi</strong>
-                  <p>
-                    É um trem metropolitano, não uma linha de metrô. Liga o eixo da Luz
-                    e Barra Funda a municípios do noroeste, chegando a Jundiaí.
-                    No mapa atual, aparece associada à TIC Trens.
-                  </p>
+                <div class="official-map-wrap">
+                  <img
+                    class="official-map-image"
+                    src="${MAP_URL}"
+                    alt="Mapa da rede metropolitana de São Paulo em 2026"
+                    loading="lazy"
+                  />
                 </div>
-              </article>
 
-              <article class="legend-card">
-                <span class="legend-symbol">M</span>
-                <div>
-                  <strong>Metrô</strong>
-                  <p>
-                    Linhas urbanas de alta frequência. No mapa, incluem as linhas
-                    1-Azul, 2-Verde, 3-Vermelha, 4-Amarela, 5-Lilás, 15-Prata e 17-Ouro.
-                  </p>
-                </div>
-              </article>
+                <div class="official-map-actions">
+                  <a
+                    class="official-link"
+                    href="${MAP_URL}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Ampliar mapa
+                  </a>
 
-              <article class="legend-card">
-                <span class="legend-symbol">T</span>
-                <div>
-                  <strong>Trem metropolitano</strong>
-                  <p>
-                    Atende trajetos mais longos dentro da capital e da Região Metropolitana,
-                    com operadores como CPTM, ViaMobilidade e TIC Trens.
-                  </p>
+                  <a
+                    class="official-link"
+                    href="https://www.metro.sp.gov.br/sua-viagem/mapa-da-rede/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Fonte oficial
+                  </a>
                 </div>
-              </article>
+              </section>
 
-              <article class="legend-card">
-                <span class="legend-symbol">↔</span>
-                <div>
-                  <strong>Integração gratuita</strong>
-                  <p>
-                    Permite trocar de linha dentro da área indicada sem pagar uma nova tarifa.
-                  </p>
-                </div>
-              </article>
+              <section class="panel-box">
+                <h4 class="panel-title">Diferença entre metrô e trem</h4>
+                <p class="panel-intro">
+                  Ambos fazem parte da rede, mas atendem escalas e trajetos diferentes.
+                </p>
 
-              <article class="legend-card">
-                <span class="legend-symbol">R$</span>
-                <div>
-                  <strong>Integração tarifada</strong>
-                  <p>
-                    Existe conexão entre os sistemas, mas a mudança segue uma regra específica
-                    de cobrança ou integração.
-                  </p>
-                </div>
-              </article>
+                <div class="comparison-grid">
+                  <article class="comparison-card">
+                    <strong>Metrô</strong>
+                    <p>
+                      Opera principalmente dentro da cidade, com estações mais próximas
+                      e alta frequência em áreas urbanas.
+                    </p>
+                  </article>
 
-              <article class="legend-card">
-                <span class="legend-symbol">🚶</span>
-                <div>
-                  <strong>Conexão a pé</strong>
-                  <p>
-                    As estações são próximas, mas não fazem parte da mesma área interna.
-                    É necessário sair e caminhar entre elas.
-                  </p>
+                  <article class="comparison-card">
+                    <strong>Trem metropolitano</strong>
+                    <p>
+                      Liga a capital a bairros mais afastados e municípios da Região Metropolitana.
+                    </p>
+                  </article>
                 </div>
-              </article>
+              </section>
 
-              <article class="legend-card">
-                <span class="legend-symbol">✈</span>
-                <div>
-                  <strong>Aeroporto</strong>
-                  <p>
-                    Identifica estações ou serviços ligados a aeroportos. O símbolo não significa
-                    necessariamente que o trem chega diretamente ao terminal de embarque.
-                  </p>
-                </div>
-              </article>
+              <section class="panel-box">
+                <h4 class="panel-title">Linhas da rede</h4>
+                <p class="panel-intro">
+                  Abra cada linha para entender o tipo de transporte, o trajeto e o operador.
+                </p>
 
-              <article class="legend-card">
-                <span class="legend-symbol">B</span>
-                <div>
-                  <strong>Terminal rodoviário</strong>
-                  <p>
-                    Indica ligação com terminais de ônibus intermunicipais ou interestaduais.
-                  </p>
+                <div class="detail-list">
+                  ${createLineCard("#1f6fc2", "Linha 1 — Azul", "Metrô · Jabaquara ↔ Tucuruvi", "Metrô SP", "Liga Zona Sul, Centro e Zona Norte.")}
+                  ${createLineCard("#31945a", "Linha 2 — Verde", "Metrô · Vila Prudente ↔ Vila Madalena", "Metrô SP", "Atende Avenida Paulista, Centro expandido e Zona Oeste.")}
+                  ${createLineCard("#c94239", "Linha 3 — Vermelha", "Metrô · Corinthians-Itaquera ↔ Palmeiras-Barra Funda", "Metrô SP", "Principal eixo entre Zona Leste, Centro e Barra Funda.")}
+                  ${createLineCard("#d4b11c", "Linha 4 — Amarela", "Metrô · Luz ↔ Vila Sônia", "ViaQuatro", "Atende Luz, Paulista, Pinheiros, Butantã e Vila Sônia.")}
+                  ${createLineCard("#8b4ba5", "Linha 5 — Lilás", "Metrô · Capão Redondo ↔ Chácara Klabin", "ViaMobilidade", "Conecta bairros da Zona Sul às linhas 1, 2 e 9.")}
+                  ${createLineCard("#6f1935", "Linha 7 — Rubi", "Trem metropolitano · eixo noroeste", "TIC Trens", "A linha escura do mapa. Liga São Paulo ao eixo noroeste e a Jundiaí.")}
+                  ${createLineCard("#8a8a8a", "Linha 8 — Diamante", "Trem metropolitano · eixo oeste", "ViaMobilidade", "Atende bairros do oeste e municípios como Osasco e Itapevi.")}
+                  ${createLineCard("#49a8c4", "Linha 9 — Esmeralda", "Trem metropolitano · eixo sudoeste", "ViaMobilidade", "Acompanha a Marginal Pinheiros e atende o eixo sudoeste.")}
+                  ${createLineCard("#24a184", "Linha 10 — Turquesa", "Trem metropolitano · eixo sudeste", "CPTM", "Liga a região central ao ABC paulista.")}
+                  ${createLineCard("#df7f32", "Linha 11 — Coral", "Trem metropolitano · eixo leste", "CPTM", "Atende a Zona Leste e municípios do eixo leste.")}
+                  ${createLineCard("#223e89", "Linha 12 — Safira", "Trem metropolitano · eixo nordeste", "CPTM", "Atende a região leste e nordeste da metrópole.")}
+                  ${createLineCard("#37a17b", "Linha 13 — Jade", "Trem metropolitano · Aeroporto-Guarulhos", "CPTM", "Ligação ferroviária com a região do Aeroporto de Guarulhos.")}
+                  ${createLineCard("#b3b3b3", "Linha 15 — Prata", "Monotrilho · Vila Prudente ↔ Jardim Colonial", "Metrô SP", "Sistema elevado da Zona Leste, integrado à Linha 2-Verde.")}
+                  ${createLineCard("#b58735", "Linha 17 — Ouro", "Monotrilho · em desenvolvimento", "Metrô SP", "Linha em implantação. Deve aparecer com status antes da publicação definitiva.")}
                 </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">E</span>
-                <div>
-                  <strong>Serviço expresso</strong>
-                  <p>
-                    Algumas linhas possuem serviços que param em menos estações.
-                    O passageiro precisa confirmar horários e paradas antes de embarcar.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">A</span>
-                <div>
-                  <strong>Acesso livre</strong>
-                  <p>
-                    Indica trecho ou ligação em que a passagem entre áreas ocorre sem bloqueio tarifário.
-                  </p>
-                </div>
-              </article>
+              </section>
             </div>
 
-            <div class="operator-strip" aria-label="Operadores representados no mapa">
-              <span class="operator-pill"><strong>Metrô:</strong> linhas públicas operadas pelo Metrô SP</span>
-              <span class="operator-pill"><strong>CPTM:</strong> linhas ferroviárias estaduais</span>
-              <span class="operator-pill"><strong>ViaQuatro:</strong> Linha 4-Amarela</span>
-              <span class="operator-pill"><strong>ViaMobilidade:</strong> linhas 5, 8 e 9</span>
-              <span class="operator-pill"><strong>TIC Trens:</strong> Linha 7-Rubi</span>
+            <div class="network-right">
+              <section class="panel-box">
+                <h4 class="panel-title">Entenda este mapa</h4>
+                <p class="panel-intro">
+                  Cores identificam linhas. Símbolos mostram conexões, serviços e pontos importantes.
+                </p>
+
+                <div class="legend-grid">
+                  ${createLegendLine("#6f1935", "Linha escura", "É a Linha 7 — Rubi, um trem metropolitano operado pela TIC Trens.")}
+                  ${createLegendSymbol("↔", "Integração gratuita", "Troca de linha sem pagamento adicional dentro da área indicada.")}
+                  ${createLegendSymbol("R$", "Integração tarifada", "Existe conexão, mas com regra própria de cobrança.")}
+                  ${createLegendSymbol("🚶", "Conexão a pé", "É necessário sair e caminhar entre as estações.")}
+                  ${createLegendSymbol("✈", "Aeroporto", "Indica ligação com aeroporto ou serviço de acesso aeroportuário.")}
+                  ${createLegendSymbol("B", "Terminal rodoviário", "Indica conexão com terminal de ônibus intermunicipal ou interestadual.")}
+                  ${createLegendSymbol("E", "Serviço expresso", "Serviço que pode parar em menos estações.")}
+                  ${createLegendSymbol("A", "Acesso livre", "Trecho ou estação indicada com acesso sem bloqueio tarifário.")}
+                </div>
+              </section>
+
+              <section class="panel-box">
+                <h4 class="panel-title">Operadores presentes no mapa</h4>
+                <p class="panel-intro">
+                  Cada operador administra linhas específicas da rede.
+                </p>
+
+                <div class="operator-grid">
+                  ${createOperatorCard("#224d93", "Metrô SP", "Linhas 1, 2, 3 e 15")}
+                  ${createOperatorCard("#d33a35", "CPTM", "Linhas 10, 11, 12 e 13")}
+                  ${createOperatorCard("#d7b11e", "ViaQuatro", "Linha 4")}
+                  ${createOperatorCard("#20a39c", "ViaMobilidade", "Linhas 5, 8 e 9")}
+                  ${createOperatorCard("#7c2f87", "TIC Trens", "Linha 7")}
+                </div>
+              </section>
             </div>
-          </section>
-
-          <p class="modal-intro">
-            As linhas aparecem de forma compacta. Ao tocar em uma delas, o visitante
-            visualiza trajeto, regiões atendidas e integrações importantes.
-          </p>
-
-          <div class="detail-list">
-            ${createLineCard("#1f6fc2", "Linha 1 — Azul", "Jabaquara ↔ Tucuruvi", "Zona Sul, Centro e Zona Norte.", "Integrações importantes com as linhas 2, 3, 4 e rede ferroviária.")}
-            ${createLineCard("#31945a", "Linha 2 — Verde", "Vila Prudente ↔ Vila Madalena", "Zona Leste, Avenida Paulista e Zona Oeste.", "Útil para circular pela região da Avenida Paulista e fazer conexões com outras linhas.")}
-            ${createLineCard("#c94239", "Linha 3 — Vermelha", "Corinthians-Itaquera ↔ Palmeiras-Barra Funda", "Zona Leste, Centro e Zona Oeste.", "Uma das principais ligações entre a região central e a Zona Leste.")}
-            ${createLineCard("#d4b11c", "Linha 4 — Amarela", "Luz ↔ Vila Sônia", "Centro e eixo sudoeste.", "Atende regiões como Paulista, Pinheiros, Butantã e Vila Sônia.")}
-            ${createLineCard("#8b4ba5", "Linha 5 — Lilás", "Capão Redondo ↔ Chácara Klabin", "Zona Sul.", "Conecta bairros da Zona Sul às linhas 1, 2 e 9.")}
-          </div>
-
-          <div class="development-note">
-            O conteúdo está apresentado como modelo visual. Quantidades, trajetos,
-            horários e operadores serão validados antes da publicação definitiva.
-          </div>
-        `
-      },
-
-      train: {
-        kicker: "São Paulo · rede metropolitana",
-        title: "Trem",
-        body: `
-<div class="official-map-wrap">
-            <img
-              class="official-map-image"
-              src="https://www.metrocptm.com.br/wp-content/uploads/2019/09/mapa-metro-cptm-marco-2026-ab.jpg"
-              alt="Mapa da rede de Metrô, CPTM, ViaQuatro e ViaMobilidade de São Paulo em 2026"
-              loading="lazy"
-            />
-          </div>
-
-          <div class="official-map-actions">
-            <a
-              class="official-link"
-              href="https://www.metrocptm.com.br/wp-content/uploads/2019/09/mapa-metro-cptm-marco-2026-ab.jpg"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ampliar mapa
-            </a>
-            <a
-              class="official-link"
-              href="https://www.metrocptm.com.br/veja-o-mapa-de-estacoes-do-metro-e-cptm/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ver página completa do mapa
-            </a>
-            <a
-              class="official-link"
-              href="https://www.metro.sp.gov.br/sua-viagem/mapa-da-rede/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Consultar fonte oficial
-            </a>
-          </div>
-
-
-          <section class="map-guide">
-            <h4 class="map-guide-title">Como ler este mapa</h4>
-            <p class="map-guide-intro">
-              A cor mostra qual é a linha. O nome ao lado da linha indica o operador.
-              Os símbolos mostram integrações, aeroportos, terminais e conexões possíveis.
-            </p>
-
-            <div class="legend-grid">
-              <article class="legend-card">
-                <span class="legend-line" style="background:#6f1935"></span>
-                <div>
-                  <strong>A linha escura é a Linha 7 — Rubi</strong>
-                  <p>
-                    É um trem metropolitano, não uma linha de metrô. Liga o eixo da Luz
-                    e Barra Funda a municípios do noroeste, chegando a Jundiaí.
-                    No mapa atual, aparece associada à TIC Trens.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">M</span>
-                <div>
-                  <strong>Metrô</strong>
-                  <p>
-                    Linhas urbanas de alta frequência. No mapa, incluem as linhas
-                    1-Azul, 2-Verde, 3-Vermelha, 4-Amarela, 5-Lilás, 15-Prata e 17-Ouro.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">T</span>
-                <div>
-                  <strong>Trem metropolitano</strong>
-                  <p>
-                    Atende trajetos mais longos dentro da capital e da Região Metropolitana,
-                    com operadores como CPTM, ViaMobilidade e TIC Trens.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">↔</span>
-                <div>
-                  <strong>Integração gratuita</strong>
-                  <p>
-                    Permite trocar de linha dentro da área indicada sem pagar uma nova tarifa.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">R$</span>
-                <div>
-                  <strong>Integração tarifada</strong>
-                  <p>
-                    Existe conexão entre os sistemas, mas a mudança segue uma regra específica
-                    de cobrança ou integração.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">🚶</span>
-                <div>
-                  <strong>Conexão a pé</strong>
-                  <p>
-                    As estações são próximas, mas não fazem parte da mesma área interna.
-                    É necessário sair e caminhar entre elas.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">✈</span>
-                <div>
-                  <strong>Aeroporto</strong>
-                  <p>
-                    Identifica estações ou serviços ligados a aeroportos. O símbolo não significa
-                    necessariamente que o trem chega diretamente ao terminal de embarque.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">B</span>
-                <div>
-                  <strong>Terminal rodoviário</strong>
-                  <p>
-                    Indica ligação com terminais de ônibus intermunicipais ou interestaduais.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">E</span>
-                <div>
-                  <strong>Serviço expresso</strong>
-                  <p>
-                    Algumas linhas possuem serviços que param em menos estações.
-                    O passageiro precisa confirmar horários e paradas antes de embarcar.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">A</span>
-                <div>
-                  <strong>Acesso livre</strong>
-                  <p>
-                    Indica trecho ou ligação em que a passagem entre áreas ocorre sem bloqueio tarifário.
-                  </p>
-                </div>
-              </article>
-            </div>
-
-            <div class="operator-strip" aria-label="Operadores representados no mapa">
-              <span class="operator-pill"><strong>Metrô:</strong> linhas públicas operadas pelo Metrô SP</span>
-              <span class="operator-pill"><strong>CPTM:</strong> linhas ferroviárias estaduais</span>
-              <span class="operator-pill"><strong>ViaQuatro:</strong> Linha 4-Amarela</span>
-              <span class="operator-pill"><strong>ViaMobilidade:</strong> linhas 5, 8 e 9</span>
-              <span class="operator-pill"><strong>TIC Trens:</strong> Linha 7-Rubi</span>
-            </div>
-          </section>
-
-          <p class="modal-intro">
-            As linhas serão agrupadas por operador e apresentarão conexões,
-            cidades atendidas e utilidade prática para o visitante.
-          </p>
-
-          <div class="detail-list">
-            ${createLineCard("#8b1f2b", "Linha 7 — Rubi", "Eixo noroeste", "Capital e municípios do eixo noroeste.", "O operador e o percurso final serão validados na etapa de conteúdo.")}
-            ${createLineCard("#8a8a8a", "Linha 8 — Diamante", "Eixo oeste", "Capital, Osasco e municípios do eixo oeste.", "Integrações e estações estratégicas serão mostradas aqui.")}
-            ${createLineCard("#52a3d2", "Linha 9 — Esmeralda", "Eixo sudoeste", "Marginal Pinheiros e região sudoeste.", "Útil para acessar bairros e centros comerciais ao longo da Marginal Pinheiros.")}
-            ${createLineCard("#df8a25", "Linha 11 — Coral", "Eixo leste", "Centro e municípios do eixo leste.", "A versão definitiva mostrará serviços expressos, quando aplicáveis.")}
-            ${createLineCard("#3ca3b6", "Linha 13 — Jade", "Acesso a Guarulhos", "Ligação ferroviária com a região do Aeroporto de Guarulhos.", "A operação e os serviços disponíveis serão apresentados com dados oficiais.")}
-          </div>
-
-          <div class="development-note">
-            O desenho já separa metrô e trem. Isso evita que a pessoa veja toda a rede
-            como um único bloco e facilita a compreensão dos operadores.
-          </div>
-        `
-      },
-
-      monorail: {
-        kicker: "São Paulo · sistema elevado",
-        title: "Monotrilho",
-        body: `
-<div class="official-map-wrap">
-            <img
-              class="official-map-image"
-              src="https://www.metrocptm.com.br/wp-content/uploads/2019/09/mapa-metro-cptm-marco-2026-ab.jpg"
-              alt="Mapa da rede de Metrô, CPTM, ViaQuatro e ViaMobilidade de São Paulo em 2026"
-              loading="lazy"
-            />
-          </div>
-
-          <div class="official-map-actions">
-            <a
-              class="official-link"
-              href="https://www.metrocptm.com.br/wp-content/uploads/2019/09/mapa-metro-cptm-marco-2026-ab.jpg"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ampliar mapa
-            </a>
-            <a
-              class="official-link"
-              href="https://www.metrocptm.com.br/veja-o-mapa-de-estacoes-do-metro-e-cptm/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ver página completa do mapa
-            </a>
-            <a
-              class="official-link"
-              href="https://www.metro.sp.gov.br/sua-viagem/mapa-da-rede/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Consultar fonte oficial
-            </a>
-          </div>
-
-
-          <section class="map-guide">
-            <h4 class="map-guide-title">Como ler este mapa</h4>
-            <p class="map-guide-intro">
-              A cor mostra qual é a linha. O nome ao lado da linha indica o operador.
-              Os símbolos mostram integrações, aeroportos, terminais e conexões possíveis.
-            </p>
-
-            <div class="legend-grid">
-              <article class="legend-card">
-                <span class="legend-line" style="background:#6f1935"></span>
-                <div>
-                  <strong>A linha escura é a Linha 7 — Rubi</strong>
-                  <p>
-                    É um trem metropolitano, não uma linha de metrô. Liga o eixo da Luz
-                    e Barra Funda a municípios do noroeste, chegando a Jundiaí.
-                    No mapa atual, aparece associada à TIC Trens.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">M</span>
-                <div>
-                  <strong>Metrô</strong>
-                  <p>
-                    Linhas urbanas de alta frequência. No mapa, incluem as linhas
-                    1-Azul, 2-Verde, 3-Vermelha, 4-Amarela, 5-Lilás, 15-Prata e 17-Ouro.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">T</span>
-                <div>
-                  <strong>Trem metropolitano</strong>
-                  <p>
-                    Atende trajetos mais longos dentro da capital e da Região Metropolitana,
-                    com operadores como CPTM, ViaMobilidade e TIC Trens.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">↔</span>
-                <div>
-                  <strong>Integração gratuita</strong>
-                  <p>
-                    Permite trocar de linha dentro da área indicada sem pagar uma nova tarifa.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">R$</span>
-                <div>
-                  <strong>Integração tarifada</strong>
-                  <p>
-                    Existe conexão entre os sistemas, mas a mudança segue uma regra específica
-                    de cobrança ou integração.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">🚶</span>
-                <div>
-                  <strong>Conexão a pé</strong>
-                  <p>
-                    As estações são próximas, mas não fazem parte da mesma área interna.
-                    É necessário sair e caminhar entre elas.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">✈</span>
-                <div>
-                  <strong>Aeroporto</strong>
-                  <p>
-                    Identifica estações ou serviços ligados a aeroportos. O símbolo não significa
-                    necessariamente que o trem chega diretamente ao terminal de embarque.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">B</span>
-                <div>
-                  <strong>Terminal rodoviário</strong>
-                  <p>
-                    Indica ligação com terminais de ônibus intermunicipais ou interestaduais.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">E</span>
-                <div>
-                  <strong>Serviço expresso</strong>
-                  <p>
-                    Algumas linhas possuem serviços que param em menos estações.
-                    O passageiro precisa confirmar horários e paradas antes de embarcar.
-                  </p>
-                </div>
-              </article>
-
-              <article class="legend-card">
-                <span class="legend-symbol">A</span>
-                <div>
-                  <strong>Acesso livre</strong>
-                  <p>
-                    Indica trecho ou ligação em que a passagem entre áreas ocorre sem bloqueio tarifário.
-                  </p>
-                </div>
-              </article>
-            </div>
-
-            <div class="operator-strip" aria-label="Operadores representados no mapa">
-              <span class="operator-pill"><strong>Metrô:</strong> linhas públicas operadas pelo Metrô SP</span>
-              <span class="operator-pill"><strong>CPTM:</strong> linhas ferroviárias estaduais</span>
-              <span class="operator-pill"><strong>ViaQuatro:</strong> Linha 4-Amarela</span>
-              <span class="operator-pill"><strong>ViaMobilidade:</strong> linhas 5, 8 e 9</span>
-              <span class="operator-pill"><strong>TIC Trens:</strong> Linha 7-Rubi</span>
-            </div>
-          </section>
-
-          <p class="modal-intro">
-            O monotrilho terá um espaço próprio porque sua operação e aparência
-            são diferentes do metrô tradicional.
-          </p>
-
-          <div class="detail-list">
-            ${createLineCard("#a8a8a8", "Linha 15 — Prata", "Vila Prudente ↔ Jardim Colonial", "Zona Leste.", "Integração com a Linha 2 — Verde em Vila Prudente.")}
-            ${createLineCard("#bb8126", "Linha 17 — Ouro", "Trecho em desenvolvimento", "Zona Sul e região do aeroporto.", "A situação operacional será sempre exibida com data de verificação.")}
-          </div>
-
-          <div class="development-note">
-            Este modelo também poderá ser reaproveitado para VLT, bonde, tram,
-            teleférico urbano ou outros modais especiais em destinos futuros.
-          </div>
-        `
-      },
-
-      bus: {
-        kicker: "São Paulo · ônibus municipais",
-        title: "Ônibus",
-        body: `
-          <p class="modal-intro">
-            As cores ajudam a reconhecer a área operacional do veículo, mas não dizem,
-            sozinhas, qual ônibus você deve pegar. O que identifica a linha é principalmente
-            o número e o destino exibidos no letreiro frontal.
-          </p>
-
-          <div class="answer-block">
-            <strong>Como saber qual é o meu ônibus?</strong>
-            <p>
-              Pesquise pelo endereço de origem e destino no planejador oficial da SPTrans.
-              O resultado mostra o número da linha, nome, sentido, pontos próximos,
-              itinerário no mapa e horários. No ponto, confirme o mesmo número e o destino
-              no letreiro frontal do ônibus antes de embarcar.
-            </p>
-          </div>
-
-          <div class="answer-block">
-            <strong>O que devo conferir no veículo?</strong>
-            <p>
-              1) número completo da linha; 2) destino ou terminal no letreiro;
-              3) sentido da viagem; 4) ponto correto de embarque. A cor é apenas uma
-              referência regional e não substitui essas informações.
-            </p>
-          </div>
-
-          <div class="official-map-actions">
-            <a
-              class="official-link"
-              href="https://www.sptrans.com.br/busca-de-itinerarios/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Buscar por trajeto, linha ou endereço
-            </a>
-            <a
-              class="official-link"
-              href="https://www.sptrans.com.br/terminais"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ver áreas e terminais oficiais
-            </a>
-          </div>
-
-          <div class="region-grid">
-            ${createRegionCard("#7ac36a", "Área 1 · Noroeste", "Referência regional em verde-claro.")}
-            ${createRegionCard("#355ca8", "Área 2 · Norte", "Referência regional em azul-escuro.")}
-            ${createRegionCard("#e0c326", "Área 3 · Nordeste", "Referência regional em amarelo.")}
-            ${createRegionCard("#c7473e", "Área 4 · Leste", "Referência regional em vermelho.")}
-            ${createRegionCard("#3b8d57", "Área 5 · Sudeste", "Referência regional em verde-escuro.")}
-            ${createRegionCard("#5aa7cf", "Área 6 · Sul", "Referência regional em azul-claro.")}
-            ${createRegionCard("#7f3045", "Área 7 · Sudoeste", "Referência regional em vinho.")}
-            ${createRegionCard("#df8b2e", "Área 8 · Oeste", "Referência regional em laranja.")}
-          </div>
-
-          <div class="development-note">
-            Para o visitante, a regra prática é simples: escolha a linha no planejador,
-            anote o número e o destino e confirme essas duas informações no letreiro frontal.
           </div>
         `
       },
@@ -2176,67 +1483,73 @@
         kicker: "São Paulo · informações práticas",
         title: "Tarifas e integração",
         body: `
-          <p class="modal-intro">
-            Valores oficiais vigentes desde 6 de janeiro de 2026.
-          </p>
+          <section class="panel-box">
+            <h4 class="panel-title">Valores principais</h4>
+            <p class="panel-intro">
+              Valores considerados para o modelo de São Paulo. Antes da publicação definitiva,
+              todas as tarifas serão novamente verificadas.
+            </p>
 
-          <div class="table-scroll">
-            <table class="info-table">
-              <thead>
-                <tr>
-                  <th>Modalidade</th>
-                  <th>Valor</th>
-                  <th>Como funciona</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>Ônibus municipal</strong></td>
-                  <td>R$ 5,30</td>
-                  <td>Em dinheiro ou crédito comum. Com Bilhete Único, permite até 4 ônibus diferentes em 3 horas.</td>
-                </tr>
-                <tr>
-                  <td><strong>Metrô e trem</strong></td>
-                  <td>R$ 5,40</td>
-                  <td>Bilhete unitário QR Code válido para uma viagem na rede sobre trilhos.</td>
-                </tr>
-                <tr>
-                  <td><strong>Ônibus + metrô/trem</strong></td>
-                  <td>R$ 9,38</td>
-                  <td>Com Bilhete Único Comum: até 3 ônibus em 3 horas e 1 embarque nos trilhos nas 2 primeiras horas.</td>
-                </tr>
-                <tr>
-                  <td><strong>Passe integrado de 24 horas</strong></td>
-                  <td>R$ 27,28</td>
-                  <td>Até 10 embarques durante 24 horas corridas, respeitando as regras de intervalo.</td>
-                </tr>
-                <tr>
-                  <td><strong>Ônibus aos domingos</strong></td>
-                  <td>Gratuito</td>
-                  <td>Rede municipal diurna e noturna, da 0h às 23h59.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+            <div class="table-scroll">
+              <table class="info-table">
+                <thead>
+                  <tr>
+                    <th>Modalidade</th>
+                    <th>Valor</th>
+                    <th>Como funciona</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Ônibus municipal</strong></td>
+                    <td>R$ 5,30</td>
+                    <td>Pagamento em dinheiro ou crédito comum.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Metrô e trem</strong></td>
+                    <td>R$ 5,40</td>
+                    <td>Bilhete unitário QR Code para uma viagem na rede sobre trilhos.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Ônibus + metrô/trem</strong></td>
+                    <td>R$ 9,38</td>
+                    <td>Integração com Bilhete Único conforme tempo e quantidade permitidos.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Passe integrado de 24 horas</strong></td>
+                    <td>R$ 27,28</td>
+                    <td>Até 10 embarques durante 24 horas corridas, respeitando as regras vigentes.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Ônibus aos domingos</strong></td>
+                    <td>Gratuito</td>
+                    <td>Rede municipal durante o período previsto pelo programa vigente.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
 
-          <div class="visitor-grid">
-            <article class="visitor-card">
-              <h4>Visitante usando só metrô e trem</h4>
-              <p>
-                Pode comprar o Bilhete Unitário QR Code por R$ 5,40 nas bilheterias,
-                máquinas de autoatendimento das estações, aplicativo TOP, WhatsApp,
-                Google Wallet ou pontos credenciados.
-              </p>
-            </article>
+          <section class="panel-box">
+            <h4 class="panel-title">Qual opção faz mais sentido?</h4>
+            <div class="visitor-grid">
+              <article class="visitor-card">
+                <h4>Só metrô e trem</h4>
+                <p>
+                  O visitante pode comprar bilhete unitário QR Code em bilheterias,
+                  máquinas de autoatendimento e canais digitais disponíveis.
+                </p>
+              </article>
 
-            <article class="visitor-card">
-              <h4>Visitante usando ônibus</h4>
-              <p>
-                Pode pagar R$ 5,30 em dinheiro dentro do ônibus. Para aproveitar
-                integração entre vários ônibus ou com metrô/trem, precisa do Bilhete Único.
-              </p>
-            </article>
-          </div>
+              <article class="visitor-card">
+                <h4>Também vai usar ônibus</h4>
+                <p>
+                  Pode pagar em dinheiro, mas o Bilhete Único é necessário para aproveitar
+                  integrações tarifárias.
+                </p>
+              </article>
+            </div>
+          </section>
 
           <div class="official-map-actions">
             <a
@@ -2245,15 +1558,16 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              Conferir tarifas oficiais
+              Tarifas oficiais
             </a>
+
             <a
               class="official-link"
               href="https://www.metro.sp.gov.br/sua-viagem/bilhetes-cartoes/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Ver bilhetes de metrô e trem
+              Bilhetes de metrô e trem
             </a>
           </div>
         `
@@ -2261,67 +1575,63 @@
 
       card: {
         kicker: "São Paulo · cartão de transporte",
-        title: "Bilhete Único para visitantes",
+        title: "Bilhete Único",
         body: `
-          <div class="answer-block">
-            <strong>Preciso do Bilhete Único para pegar ônibus?</strong>
-            <p>
-              Não obrigatoriamente. A tarifa do ônibus municipal também pode ser paga
-              em dinheiro. Porém, sem o Bilhete Único você não recebe o benefício tarifário
-              das integrações entre ônibus ou entre ônibus e metrô/trem.
-            </p>
-          </div>
+          <section class="panel-box">
+            <h4 class="panel-title">Para quem está visitando</h4>
 
-          <div class="answer-block">
-            <strong>Quanto custa o cartão?</strong>
-            <p>
-              A primeira via do Bilhete Único Comum não tem custo e não exige recarga mínima.
-              O usuário paga apenas os créditos que colocar no cartão. A segunda via custa
-              o equivalente a sete tarifas de ônibus — R$ 37,10 nos valores vigentes.
-            </p>
-          </div>
+            <div class="answer-block">
+              <strong>Preciso do Bilhete Único para pegar ônibus?</strong>
+              <p>
+                Não obrigatoriamente. O ônibus aceita pagamento em dinheiro.
+                O cartão é útil para receber os benefícios de integração.
+              </p>
+            </div>
 
-          <div class="answer-block">
-            <strong>Posso retirar em qualquer estação?</strong>
-            <p>
-              Não. O cartão personalizado deve ser solicitado no Site de Atendimento
-              e retirado em um Posto de Atendimento escolhido, ou enviado para um endereço
-              elegível mediante pagamento de frete. Estações de metrô, trem e monotrilho
-              podem ter máquinas de recarga ou venda de bilhetes, mas isso não significa
-              que todas emitam ou entreguem o Bilhete Único personalizado.
-            </p>
-          </div>
+            <div class="answer-block">
+              <strong>Quanto custa?</strong>
+              <p>
+                A primeira via do Bilhete Único Comum não tem custo.
+                O usuário paga apenas os créditos carregados.
+              </p>
+            </div>
 
-          <div class="answer-block">
-            <strong>Estrangeiro pode solicitar?</strong>
-            <p>
-              A página oficial informa que o Bilhete Único Comum é destinado a qualquer
-              pessoa a partir de seis anos. Entretanto, a emissão personalizada exige
-              cadastro completo no sistema da SPTrans. A documentação para estrangeiros
-              pode envolver documento oficial aceito no Brasil e CPF. Para turista de curta
-              permanência sem CPF, o site oficial não garante de forma clara a emissão imediata.
-              Nesse caso, a opção mais simples é pagar ônibus em dinheiro e usar QR Code
-              unitário no metrô e trem.
-            </p>
-          </div>
+            <div class="answer-block">
+              <strong>Posso retirar em qualquer estação?</strong>
+              <p>
+                Não. O cartão personalizado deve ser solicitado no sistema oficial
+                e retirado em um posto escolhido, ou entregue quando essa opção estiver disponível.
+              </p>
+            </div>
 
-          <div class="answer-block">
-            <strong>Quais documentos devo preparar?</strong>
-            <p>
-              Para o cadastro comum, a SPTrans solicita identificação, CPF e foto digital.
-              Nos postos, são aceitos documentos oficiais com foto; para estrangeiros,
-              a lista oficial inclui documentos como CIE e passaporte em determinados
-              atendimentos. A exigência final deve ser confirmada no cadastro ou no posto.
-            </p>
-          </div>
+            <div class="answer-block">
+              <strong>Estrangeiro pode solicitar?</strong>
+              <p>
+                O cartão comum é destinado a pessoas a partir de seis anos, mas a emissão personalizada
+                exige cadastro e documentos aceitos pela SPTrans. Para turista sem CPF, a emissão imediata
+                não é garantida de forma clara nos materiais oficiais.
+              </p>
+            </div>
 
-          <ol class="steps">
-            <li>Acesse o Site de Atendimento da SPTrans e faça o cadastro.</li>
-            <li>Preencha os dados pessoais e envie a foto solicitada.</li>
-            <li>Escolha retirada em um Posto de Atendimento ou entrega, quando disponível.</li>
-            <li>Consulte o endereço e horário do posto antes de se deslocar.</li>
-            <li>Depois de receber o cartão, compre créditos e valide a recarga em uma máquina.</li>
-          </ol>
+            <div class="answer-block">
+              <strong>Quais documentos devo preparar?</strong>
+              <p>
+                Identificação, CPF e foto digital. Estrangeiros devem confirmar previamente
+                quais documentos são aceitos no cadastro ou posto escolhido.
+              </p>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Como solicitar</h4>
+            <ol class="steps">
+              <li>Acesse o Site de Atendimento da SPTrans.</li>
+              <li>Faça o cadastro e envie a foto solicitada.</li>
+              <li>Escolha um posto de retirada ou entrega, quando disponível.</li>
+              <li>Consulte endereço e horário antes de se deslocar.</li>
+              <li>Depois de receber o cartão, compre os créditos e valide a recarga.</li>
+            </ol>
+          </section>
 
           <div class="official-map-actions">
             <a
@@ -2330,38 +1640,98 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              Fazer cadastro oficial
+              Fazer cadastro
             </a>
+
             <a
               class="official-link"
               href="https://bilheteunico.sptrans.com.br/postos/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Ver postos oficiais
+              Ver postos
             </a>
+
             <a
               class="official-link"
               href="https://bilheteunico.sptrans.com.br/pontos-de-venda/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Encontrar ponto de venda e recarga
+              Pontos de venda e recarga
             </a>
+          </div>
+        `
+      },
+
+      bus: {
+        kicker: "São Paulo · ônibus municipais",
+        title: "Ônibus",
+        body: `
+          <section class="panel-box">
+            <h4 class="panel-title">Como saber qual ônibus pegar?</h4>
+            <p class="panel-intro">
+              A cor indica uma região operacional. Para identificar a linha correta,
+              confira sempre o número e o destino.
+            </p>
+
+            <div class="answer-block">
+              <strong>1. Pesquise o trajeto</strong>
+              <p>
+                Use o planejador oficial da SPTrans para encontrar número, nome,
+                sentido, pontos próximos, mapa e horários.
+              </p>
+            </div>
+
+            <div class="answer-block">
+              <strong>2. Confirme no ponto</strong>
+              <p>
+                Antes de embarcar, verifique o número completo da linha,
+                o destino no letreiro e o sentido da viagem.
+              </p>
+            </div>
+
+            <div class="answer-block">
+              <strong>3. Use a cor apenas como apoio</strong>
+              <p>
+                A cor ajuda a reconhecer a área operacional, mas não substitui
+                o número e o destino da linha.
+              </p>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Áreas operacionais</h4>
+            <div class="region-grid">
+              ${createRegionCard("#7ac36a", "Área 1 · Noroeste", "Referência regional em verde-claro.")}
+              ${createRegionCard("#355ca8", "Área 2 · Norte", "Referência regional em azul-escuro.")}
+              ${createRegionCard("#e0c326", "Área 3 · Nordeste", "Referência regional em amarelo.")}
+              ${createRegionCard("#c7473e", "Área 4 · Leste", "Referência regional em vermelho.")}
+              ${createRegionCard("#3b8d57", "Área 5 · Sudeste", "Referência regional em verde-escuro.")}
+              ${createRegionCard("#5aa7cf", "Área 6 · Sul", "Referência regional em azul-claro.")}
+              ${createRegionCard("#7f3045", "Área 7 · Sudoeste", "Referência regional em vinho.")}
+              ${createRegionCard("#df8b2e", "Área 8 · Oeste", "Referência regional em laranja.")}
+            </div>
+          </section>
+
+          <div class="official-map-actions">
             <a
               class="official-link"
-              href="https://www.sptrans.com.br/compra-de-creditos-e-servicos/"
+              href="https://www.sptrans.com.br/busca-de-itinerarios/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Ver formas de recarga
+              Buscar linha ou trajeto
             </a>
-          </div>
 
-          <div class="development-note">
-            Endereço fixo de referência: Posto Central da SPTrans, Rua Boa Vista, 274,
-            Centro, mezanino. Como postos e horários podem mudar, a ferramenta direciona
-            para o buscador oficial atualizado em vez de manter uma lista estática.
+            <a
+              class="official-link"
+              href="https://www.sptrans.com.br/terminais"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver terminais
+            </a>
           </div>
         `
       },
@@ -2370,27 +1740,29 @@
         kicker: "São Paulo · consulta operacional",
         title: "Planeje o trajeto",
         body: `
-          <p class="modal-intro">
-            A Curadoria explica o funcionamento da rede. Para horários em tempo real,
-            alterações operacionais e itinerários exatos, o visitante será direcionado
-            aos canais oficiais.
-          </p>
+          <section class="panel-box">
+            <h4 class="panel-title">Canais oficiais</h4>
+            <p class="panel-intro">
+              A Curadoria explica a rede. Para horários em tempo real, alterações
+              operacionais e itinerários exatos, consulte os canais oficiais.
+            </p>
 
-          <div class="detail-list">
-            ${createActionCard("Metrô", "Consultar linhas, estações, mapas e condições da rede.", "https://www.metro.sp.gov.br/")}
-            ${createActionCard("Trens metropolitanos", "Consultar linhas, estações e operação ferroviária.", "https://www.cptm.sp.gov.br/")}
-            ${createActionCard("Ônibus municipais", "Pesquisar linha, itinerário, mapa e horários.", "https://www.sptrans.com.br/busca-de-itinerarios/")}
-          </div>
+            <div class="detail-list">
+              ${createActionCard("Metrô", "Linhas, estações, mapas e condições da rede.", "https://www.metro.sp.gov.br/")}
+              ${createActionCard("Trens metropolitanos", "Linhas, estações e operação ferroviária.", "https://www.cptm.sp.gov.br/")}
+              ${createActionCard("Ônibus municipais", "Linha, itinerário, mapa e horários.", "https://www.sptrans.com.br/busca-de-itinerarios/")}
+            </div>
+          </section>
 
           <div class="development-note">
-            Não vamos tentar substituir um planejador em tempo real. A ferramenta
-            será uma camada de orientação clara e confiável antes da consulta operacional.
+            A ferramenta não substitui um planejador em tempo real. Ela ajuda o visitante
+            a entender o sistema e chegar à fonte operacional correta.
           </div>
         `
       }
     };
 
-    function createLineCard(color, title, route, region, detail) {
+    function createLineCard(color, title, route, operator, description) {
       return `
         <article class="detail-card">
           <button class="detail-toggle" type="button" aria-expanded="false">
@@ -2401,10 +1773,45 @@
             </span>
             <span class="toggle-mark" aria-hidden="true">+</span>
           </button>
+
           <div class="detail-content">
-            <p><strong style="color:var(--text)">Região atendida:</strong> ${region}</p>
-            <p>${detail}</p>
+            <p><strong style="color:var(--text)">Operador:</strong> ${operator}</p>
+            <p>${description}</p>
           </div>
+        </article>
+      `;
+    }
+
+    function createLegendLine(color, title, description) {
+      return `
+        <article class="legend-card">
+          <span class="legend-line" style="background:${color}"></span>
+          <div>
+            <strong>${title}</strong>
+            <p>${description}</p>
+          </div>
+        </article>
+      `;
+    }
+
+    function createLegendSymbol(symbol, title, description) {
+      return `
+        <article class="legend-card">
+          <span class="legend-symbol">${symbol}</span>
+          <div>
+            <strong>${title}</strong>
+            <p>${description}</p>
+          </div>
+        </article>
+      `;
+    }
+
+    function createOperatorCard(color, name, lines) {
+      return `
+        <article class="operator-card">
+          <div class="operator-mark" style="background:${color}"></div>
+          <strong>${name}</strong>
+          <span>${lines}</span>
         </article>
       `;
     }
@@ -2427,7 +1834,13 @@
           <div style="padding:16px">
             <strong style="display:block;margin-bottom:4px;color:var(--text)">${title}</strong>
             <span style="display:block;color:var(--muted);font-size:12px">${description}</span>
-            <a class="official-link" href="${url}" target="_blank" rel="noopener noreferrer">
+            <a
+              class="official-link"
+              href="${url}"
+              target="_blank"
+              rel="noopener noreferrer"
+              style="margin-top:12px"
+            >
               Abrir canal oficial
             </a>
           </div>
@@ -2441,9 +1854,13 @@
     const modalBody = document.getElementById("modalBody");
     const closeModalButton = document.getElementById("closeModalButton");
 
+    let lastFocusedElement = null;
+
     function openModal(key) {
       const content = MODAL_CONTENT[key];
       if (!content) return;
+
+      lastFocusedElement = document.activeElement;
 
       modalKicker.textContent = content.kicker;
       modalTitle.textContent = content.title;
@@ -2452,9 +1869,9 @@
       modal.classList.add("active");
       modal.setAttribute("aria-hidden", "false");
       document.body.classList.add("modal-open");
-      closeModalButton.focus();
 
       bindDetailToggles();
+      closeModalButton.focus();
     }
 
     function closeModal() {
@@ -2462,6 +1879,10 @@
       modal.setAttribute("aria-hidden", "true");
       document.body.classList.remove("modal-open");
       modalBody.innerHTML = "";
+
+      if (lastFocusedElement) {
+        lastFocusedElement.focus();
+      }
     }
 
     function bindDetailToggles() {
@@ -2501,12 +1922,13 @@
 
     document.getElementById("showDestinationButton").addEventListener("click", () => {
       const select = document.getElementById("destinationSelect");
-      if (select.value !== "sao-paulo") return;
 
-      document.querySelector(".destination-summary").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+      if (select.value === "sao-paulo") {
+        document.querySelector(".destination-summary").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
     });
   </script>
 </body>
