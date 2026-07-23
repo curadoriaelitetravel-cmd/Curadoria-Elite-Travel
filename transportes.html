@@ -888,6 +888,24 @@
       line-height: 1.4;
     }
 
+    .transport-type-pill {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      min-height: 25px;
+      margin: 7px auto 8px;
+      padding: 0 9px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 999px;
+      color: var(--text) !important;
+      background: rgba(212, 175, 55, 0.045);
+      font-size: 9px !important;
+      font-weight: 800;
+      line-height: 1 !important;
+      white-space: nowrap;
+    }
+
     .line-mini-card small {
       display: block;
       margin-top: 7px;
@@ -1611,21 +1629,21 @@
               </p>
 
               <div class="lines-grid">
-                ${createLineMiniCard("#1f6fc2", "1", "Azul", "Jabaquara ↔ Tucuruvi", "Metrô SP")}
-                ${createLineMiniCard("#31945a", "2", "Verde", "Vila Prudente ↔ Vila Madalena", "Metrô SP")}
-                ${createLineMiniCard("#c94239", "3", "Vermelha", "Corinthians-Itaquera ↔ Palmeiras-Barra Funda", "Metrô SP")}
-                ${createLineMiniCard("#d4b11c", "4", "Amarela", "Luz ↔ Vila Sônia", "ViaQuatro")}
-                ${createLineMiniCard("#8b4ba5", "5", "Lilás", "Capão Redondo ↔ Chácara Klabin", "ViaMobilidade")}
-                ${createLineMiniCard("#6f1935", "7", "Rubi", "Luz ↔ Jundiaí", "TIC Trens")}
-                ${createLineMiniCard("#8a8a8a", "8", "Diamante", "Júlio Prestes ↔ Itapevi", "ViaMobilidade")}
+                ${createLineMiniCard("#1f6fc2", "1", "Azul", "Metrô", "Jabaquara ↔ Tucuruvi", "Metrô SP")}
+                ${createLineMiniCard("#31945a", "2", "Verde", "Metrô", "Vila Prudente ↔ Vila Madalena", "Metrô SP")}
+                ${createLineMiniCard("#c94239", "3", "Vermelha", "Metrô", "Corinthians-Itaquera ↔ Palmeiras-Barra Funda", "Metrô SP")}
+                ${createLineMiniCard("#d4b11c", "4", "Amarela", "Metrô", "Luz ↔ Vila Sônia", "ViaQuatro")}
+                ${createLineMiniCard("#8b4ba5", "5", "Lilás", "Metrô", "Capão Redondo ↔ Chácara Klabin", "ViaMobilidade")}
+                ${createLineMiniCard("#6f1935", "7", "Rubi", "Trem metropolitano", "Luz ↔ Jundiaí", "TIC Trens")}
+                ${createLineMiniCard("#8a8a8a", "8", "Diamante", "Trem metropolitano", "Júlio Prestes ↔ Itapevi", "ViaMobilidade")}
 
-                ${createLineMiniCard("#49a8c4", "9", "Esmeralda", "Osasco ↔ Varginha", "ViaMobilidade")}
-                ${createLineMiniCard("#24a184", "10", "Turquesa", "Brás ↔ Rio Grande da Serra", "CPTM")}
-                ${createLineMiniCard("#df7f32", "11", "Coral", "Luz ↔ Estudantes", "CPTM")}
-                ${createLineMiniCard("#223e89", "12", "Safira", "Brás ↔ Calmon Viana", "CPTM")}
-                ${createLineMiniCard("#37a17b", "13", "Jade", "Eng. Goulart ↔ Aeroporto-Guarulhos", "CPTM")}
-                ${createLineMiniCard("#b3b3b3", "15", "Prata", "Vila Prudente ↔ Jardim Colonial", "Metrô SP")}
-                ${createLineMiniCard("#b58735", "17", "Ouro", "Em implantação", "Metrô SP")}
+                ${createLineMiniCard("#49a8c4", "9", "Esmeralda", "Trem metropolitano", "Osasco ↔ Varginha", "ViaMobilidade")}
+                ${createLineMiniCard("#24a184", "10", "Turquesa", "Trem metropolitano", "Brás ↔ Rio Grande da Serra", "CPTM")}
+                ${createLineMiniCard("#df7f32", "11", "Coral", "Trem metropolitano", "Luz ↔ Estudantes", "CPTM")}
+                ${createLineMiniCard("#223e89", "12", "Safira", "Trem metropolitano", "Brás ↔ Calmon Viana", "CPTM")}
+                ${createLineMiniCard("#37a17b", "13", "Jade", "Trem metropolitano", "Eng. Goulart ↔ Aeroporto-Guarulhos", "CPTM")}
+                ${createLineMiniCard("#b3b3b3", "15", "Prata", "Monotrilho", "Vila Prudente ↔ Jardim Colonial", "Metrô SP")}
+                ${createLineMiniCard("#b58735", "17", "Ouro", "Monotrilho", "Em implantação", "Metrô SP")}
               </div>
             </section>
           </div>
@@ -1936,11 +1954,17 @@
     }
 
 
-    function createLineMiniCard(color, number, name, route, operator) {
+    function createLineMiniCard(color, number, name, type, route, operator) {
+      const typeIcon =
+        type === "Metrô" ? "🚇" :
+        type === "Trem metropolitano" ? "🚆" :
+        type === "Monotrilho" ? "🚝" : "•";
+
       return `
         <article class="line-mini-card">
           <span class="line-mini-number" style="background:${color}">${number}</span>
           <strong>${name}</strong>
+          <span class="transport-type-pill">${typeIcon} ${type}</span>
           <span>${route}</span>
           <small>${operator}</small>
         </article>
