@@ -2433,7 +2433,7 @@
     }
 
     /* ============================================================
-       FUNDO CINEMATOGRÁFICO — TRANSPORTES
+       FUNDO CINEMATOGRÁFICO — TRATAMENTO IGUAL AO INDEX.HTML
        ============================================================ */
 
     .transport-cinema {
@@ -2441,130 +2441,28 @@
       inset: 0;
       z-index: -3;
       overflow: hidden;
-      background: #050505;
+      background: #0b0b0b;
       pointer-events: none;
     }
 
     .transport-cinema-image {
       position: absolute;
-      inset: -2%;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transform: scale(1.045);
-      filter:
-        brightness(0.56)
-        saturate(0.78)
-        contrast(1.04);
-      transition:
-        opacity 3.4s ease,
-        transform 11s ease;
-      will-change: opacity, transform;
-    }
-
-    .transport-cinema-image.active {
-      opacity: 1;
-      transform: scale(1.015);
-    }
-
-    .transport-cinema-overlay {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(
-          180deg,
-          rgba(0, 0, 0, 0.30) 0%,
-          rgba(0, 0, 0, 0.50) 37%,
-          rgba(0, 0, 0, 0.76) 100%
-        ),
-        radial-gradient(
-          circle at 50% 16%,
-          rgba(212, 175, 55, 0.10),
-          transparent 38%
-        ),
-        linear-gradient(
-          90deg,
-          rgba(0, 0, 0, 0.34),
-          transparent 24%,
-          transparent 76%,
-          rgba(0, 0, 0, 0.34)
-        );
-    }
-
-    .transport-cinema-grain {
-      position: absolute;
-      inset: 0;
-      opacity: 0.035;
-      background-image:
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.62'/%3E%3C/svg%3E");
-      mix-blend-mode: soft-light;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      background:
-        linear-gradient(
-          180deg,
-          rgba(5, 5, 5, 0.16),
-          rgba(5, 5, 5, 0.42) 45%,
-          rgba(5, 5, 5, 0.72)
-        );
-      pointer-events: none;
-    }
-
-    .hero,
-    .page-shell,
-    .site-footer {
-      position: relative;
-      z-index: 1;
-    }
-
-    .tool-panel {
-      background: rgba(8, 8, 8, 0.86);
-      backdrop-filter: blur(5px);
-    }
-
-    .destination-summary,
-    .practical-card,
-    .network-card,
-    .status-banner {
-      backdrop-filter: blur(2px);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .transport-cinema-image {
-        transition: opacity 0.8s ease;
-        transform: none;
-      }
-
-      .transport-cinema-image.active {
-        transform: none;
-      }
-    }
-  
-    /* ============================================================
-       TRATAMENTO VISUAL IDÊNTICO AO INDEX.HTML
-       ============================================================ */
-
-    .transport-cinema-image {
       inset: 0;
       background-size: cover;
       background-position: center;
-      opacity: 0;
-      transform: scale(1.04);
-      transition: opacity 3.4s ease;
       filter: brightness(1.10) saturate(0.88) contrast(1.02);
+      opacity: 0;
+      transition: opacity 3.4s ease;
+      transform: scale(1.04);
     }
 
     .transport-cinema-image.active {
       opacity: 1;
-      transform: scale(1.04);
     }
 
     .transport-cinema-overlay {
+      position: absolute;
+      inset: 0;
       background:
         radial-gradient(circle at center, rgba(0,0,0,0.08), rgba(0,0,0,0.54)),
         linear-gradient(180deg, rgba(0,0,0,0.24) 0%, rgba(0,0,0,0.48) 100%);
@@ -2574,13 +2472,18 @@
       display: none;
     }
 
-    body::before {
-      display: none;
+    .hero,
+    .page-shell,
+    .site-footer {
+      position: relative;
+      z-index: 1;
     }
 
-    .tool-panel {
-      background: linear-gradient(180deg, rgba(10,10,10,0.95), rgba(4,4,4,0.92));
-      backdrop-filter: blur(2px);
+    @media (prefers-reduced-motion: reduce) {
+      .transport-cinema-image {
+        transition: opacity 0.8s ease;
+        transform: none;
+      }
     }
 
   </style>
@@ -2837,12 +2740,12 @@
   <script>
 
     const TRANSPORT_CINEMA_IMAGES = [
-      "https://unsplash.com/photos/FuJs3gCQSyw/download?force=true&w=2200",
-      "https://unsplash.com/photos/dnWS9QBuxug/download?force=true&w=2200",
-      "https://unsplash.com/photos/HuodXiktpgE/download?force=true&w=2200",
-      "https://unsplash.com/photos/WodTDLua9MM/download?force=true&w=2200",
-      "https://unsplash.com/photos/_GKxtd3fco4/download?force=true&w=2200",
-      "https://unsplash.com/photos/vscEsdNrC_U/download?force=true&w=2200"
+      "https://images.unsplash.com/photo-1762645780431-c355317869d8?auto=format&fit=crop&w=2200&q=86",
+      "https://images.unsplash.com/photo-1771153224860-3032444d1b79?auto=format&fit=crop&w=2200&q=86",
+      "https://images.unsplash.com/photo-1765176938462-dcfc54bb32b8?auto=format&fit=crop&w=2200&q=86",
+      "https://images.unsplash.com/photo-1646146422686-bdc3f71284ea?auto=format&fit=crop&w=2200&q=86",
+      "https://images.unsplash.com/photo-1705775109766-44acd23cbeec?auto=format&fit=crop&w=2200&q=86",
+      "https://images.unsplash.com/photo-1642443055969-282b3416a333?auto=format&fit=crop&w=2200&q=86"
     ];
 
     function preloadTransportCinemaImages(images) {
