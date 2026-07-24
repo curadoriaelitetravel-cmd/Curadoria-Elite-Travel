@@ -1149,10 +1149,7 @@
        MODAL DE BILHETAGEM — COMPONENTE REUTILIZÁVEL
        ============================================================ */
     .payment-hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(230px, 0.55fr);
-      gap: 18px;
-      align-items: stretch;
+      display: block;
     }
 
     .payment-recommendation {
@@ -1187,48 +1184,6 @@
       color: var(--muted);
       font-size: 14px;
       line-height: 1.65;
-    }
-
-    .payment-summary {
-      display: grid;
-      gap: 10px;
-    }
-
-    .payment-summary-card {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      min-height: 62px;
-      padding: 12px 14px;
-      border: 1px solid rgba(212, 175, 55, 0.16);
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.025);
-    }
-
-    .payment-summary-card b {
-      display: block;
-      margin-bottom: 1px;
-      color: var(--text);
-      font-size: 12px;
-    }
-
-    .payment-summary-card span {
-      display: block;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.35;
-    }
-
-    .payment-summary-icon {
-      display: grid !important;
-      flex: 0 0 34px;
-      width: 34px;
-      height: 34px;
-      place-items: center;
-      border: 1px solid rgba(212, 175, 55, 0.22);
-      border-radius: 50%;
-      background: rgba(212, 175, 55, 0.07);
-      font-size: 16px !important;
     }
 
     .payment-method-grid {
@@ -1995,24 +1950,10 @@
                 Para viagens ocasionais apenas de metrô ou trem, a solução mais simples é
                 pagar por aproximação ou comprar um bilhete unitário QR Code. O Bilhete Único
                 passa a ser mais interessante quando o visitante também pretende usar ônibus
-                e aproveitar a integração tarifária.
+                ou combinar diferentes meios de transporte.
               </p>
             </section>
 
-            <aside class="payment-summary" aria-label="Resumo da bilhetagem">
-              <div class="payment-summary-card">
-                <span class="payment-summary-icon">🚇</span>
-                <div><b>Metrô e trem</b><span>R$ 5,40 por viagem unitária</span></div>
-              </div>
-              <div class="payment-summary-card">
-                <span class="payment-summary-icon">🚌</span>
-                <div><b>Ônibus municipal</b><span>R$ 5,30 na tarifa comum</span></div>
-              </div>
-              <div class="payment-summary-card">
-                <span class="payment-summary-icon">🔄</span>
-                <div><b>Integração</b><span>R$ 9,38 com Bilhete Único</span></div>
-              </div>
-            </aside>
           </div>
 
           <section class="panel-box">
@@ -2124,20 +2065,6 @@
             </div>
           </section>
 
-          <section class="panel-box">
-            <h4 class="panel-title">Tarifas ligadas à bilhetagem</h4>
-            <div class="table-scroll">
-              <table class="info-table">
-                <thead><tr><th>Uso</th><th>Valor</th><th>Regra principal</th></tr></thead>
-                <tbody>
-                  <tr><td><strong>Ônibus municipal</strong></td><td>R$ 5,30</td><td>Até quatro embarques em ônibus diferentes em três horas com crédito comum.</td></tr>
-                  <tr><td><strong>Metrô ou trem</strong></td><td>R$ 5,40</td><td>Uma viagem unitária na rede sobre trilhos.</td></tr>
-                  <tr><td><strong>Ônibus + metrô/trem</strong></td><td>R$ 9,38</td><td>Até três ônibus em três horas e um embarque sobre trilhos nas duas primeiras horas.</td></tr>
-                  <tr><td><strong>Crédito comum de 24 horas</strong></td><td>Consulte a modalidade</td><td>Até dez viagens em 24 horas contínuas conforme o crédito adquirido.</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
 
           <section class="panel-box">
             <h4 class="panel-title">Atenção antes de embarcar</h4>
@@ -2146,8 +2073,8 @@
               <p>Cada passageiro deve aproximar seu próprio meio de pagamento.</p>
             </div>
             <div class="answer-block">
-              <strong>A aproximação não substitui automaticamente a integração.</strong>
-              <p>Para combinar ônibus com metrô ou trem usando a tarifa integrada, o Bilhete Único continua sendo a referência.</p>
+              <strong>A aproximação não substitui o Bilhete Único em todos os trajetos.</strong>
+              <p>Para combinar ônibus com metrô ou trem, o Bilhete Único continua sendo a referência. Consulte os valores no card Tarifas e integração.</p>
             </div>
             <div class="answer-block">
               <strong>Confirme a estação da CPTM.</strong>
