@@ -1146,6 +1146,240 @@
 
 
 
+
+    /* ============================================================
+       MODAL DE ÔNIBUS — GUIA PRÁTICO
+       ============================================================ */
+
+    .bus-identification-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .bus-identification-card {
+      padding: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .bus-identification-number {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      margin-bottom: 14px;
+      place-items: center;
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 50%;
+      color: var(--gold);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .bus-identification-card strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--gold);
+      font-size: 14px;
+    }
+
+    .bus-identification-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .bus-example {
+      display: grid;
+      grid-template-columns: minmax(190px, 0.55fr) minmax(0, 1.45fr);
+      gap: 18px;
+      align-items: center;
+      padding: 22px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 17px;
+      background:
+        linear-gradient(135deg, rgba(212, 175, 55, 0.06), transparent 55%),
+        rgba(255, 255, 255, 0.02);
+    }
+
+    .bus-display {
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 13px;
+      background: #070707;
+      box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.025);
+    }
+
+    .bus-display-line {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--gold);
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+    }
+
+    .bus-display-destination {
+      display: block;
+      color: #f4e9bd;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .bus-example-explanation strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .bus-example-explanation p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .bus-use-flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .bus-use-step {
+      position: relative;
+      min-height: 155px;
+      padding: 18px;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .bus-use-step span {
+      display: block;
+      margin-bottom: 11px;
+      font-size: 21px;
+    }
+
+    .bus-use-step strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--gold);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .bus-use-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.55;
+    }
+
+    .bus-system-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .bus-system-card {
+      padding: 18px;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .bus-system-card span {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 21px;
+    }
+
+    .bus-system-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--gold);
+      font-size: 13px;
+    }
+
+    .bus-system-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .bus-tip-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .bus-tip {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 15px 17px;
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.018);
+    }
+
+    .bus-tip-icon {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.055);
+      font-size: 15px;
+    }
+
+    .bus-tip strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .bus-tip p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .bus-updated {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    @media (max-width: 960px) {
+      .bus-use-flow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .bus-identification-grid,
+      .bus-system-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .bus-example,
+      .bus-use-flow {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* ============================================================
        MODAL DE TARIFAS E INTEGRAÇÃO
        ============================================================ */
@@ -2444,62 +2678,234 @@
 
       bus: {
         kicker: "São Paulo · ônibus municipais",
-        title: "Ônibus",
+        title: "Como usar os ônibus",
         body: `
           <section class="panel-box">
-            <h4 class="panel-title">Como saber qual ônibus pegar?</h4>
+            <h4 class="panel-title">Como identificar o ônibus certo</h4>
             <p class="panel-intro">
-              A cor indica uma região operacional. Para identificar a linha correta,
-              confira sempre o número e o destino.
+              Não escolha apenas pela cor do veículo. Para confirmar uma linha,
+              observe sempre três informações.
             </p>
 
+            <div class="bus-identification-grid">
+              <article class="bus-identification-card">
+                <span class="bus-identification-number">1</span>
+                <strong>Número completo da linha</strong>
+                <p>
+                  É a identificação mais segura. Confira também os números após o hífen,
+                  pois eles podem diferenciar serviços parecidos.
+                </p>
+              </article>
+
+              <article class="bus-identification-card">
+                <span class="bus-identification-number">2</span>
+                <strong>Destino no letreiro</strong>
+                <p>
+                  O nome exibido na frente mostra para onde aquele ônibus está seguindo.
+                  Uma mesma linha pode aparecer nos dois sentidos.
+                </p>
+              </article>
+
+              <article class="bus-identification-card">
+                <span class="bus-identification-number">3</span>
+                <strong>Ponto e sentido da viagem</strong>
+                <p>
+                  Confirme se a linha passa naquele ponto e se o veículo está indo
+                  na direção do seu destino.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Como ler o letreiro</h4>
+
+            <div class="bus-example">
+              <div class="bus-display" aria-label="Exemplo de letreiro de ônibus">
+                <span class="bus-display-line">5109-10</span>
+                <span class="bus-display-destination">TERM. VL. PRUDENTE</span>
+              </div>
+
+              <div class="bus-example-explanation">
+                <strong>O número identifica a linha. O nome indica o destino.</strong>
+                <p>
+                  Antes de entrar, compare as duas informações com o resultado do planejador.
+                  Não embarque apenas porque o ônibus passa perto de uma região conhecida.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Passo a passo para embarcar</h4>
+
+            <div class="bus-use-flow">
+              <article class="bus-use-step">
+                <span>🔎</span>
+                <strong>1. Pesquise o trajeto</strong>
+                <p>
+                  Informe origem e destino ou procure pelo número da linha no canal oficial.
+                </p>
+              </article>
+
+              <article class="bus-use-step">
+                <span>📍</span>
+                <strong>2. Confirme o ponto</strong>
+                <p>
+                  Veja em qual parada a linha passa e caminhe até o ponto indicado.
+                </p>
+              </article>
+
+              <article class="bus-use-step">
+                <span>🚌</span>
+                <strong>3. Confira o letreiro</strong>
+                <p>
+                  Compare número, destino e sentido antes de sinalizar para o veículo.
+                </p>
+              </article>
+
+              <article class="bus-use-step">
+                <span>📡</span>
+                <strong>4. Acompanhe a chegada</strong>
+                <p>
+                  Use o Olho Vivo para consultar a localização e a previsão do ônibus.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Cores e áreas operacionais</h4>
+            <p class="panel-intro">
+              A cor representa a área de operação do ônibus. Ela ajuda na orientação,
+              mas não informa sozinha o destino da linha.
+            </p>
+
+            <div class="region-grid">
+              ${createRegionCard("#7ac36a", "Área 1 · Noroeste", "Verde-claro")}
+              ${createRegionCard("#355ca8", "Área 2 · Norte", "Azul-escuro")}
+              ${createRegionCard("#e0c326", "Área 3 · Nordeste", "Amarelo")}
+              ${createRegionCard("#c7473e", "Área 4 · Leste", "Vermelho")}
+              ${createRegionCard("#3b8d57", "Área 5 · Sudeste", "Verde-escuro")}
+              ${createRegionCard("#5aa7cf", "Área 6 · Sul", "Azul-claro")}
+              ${createRegionCard("#7f3045", "Área 7 · Sudoeste", "Vinho")}
+              ${createRegionCard("#df8b2e", "Área 8 · Oeste", "Laranja")}
+            </div>
+
+            <div class="fare-note">
+              <strong>A cor é apenas uma referência regional.</strong>
+              Ônibus de cores diferentes podem compartilhar partes do trajeto.
+              Número, destino e sentido continuam sendo as informações decisivas.
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Como a rede está organizada</h4>
+
+            <div class="bus-system-grid">
+              <article class="bus-system-card">
+                <span>🏙️</span>
+                <strong>Linhas estruturais</strong>
+                <p>
+                  Fazem ligações de maior alcance entre regiões, terminais, corredores
+                  e áreas centrais.
+                </p>
+              </article>
+
+              <article class="bus-system-card">
+                <span>🏘️</span>
+                <strong>Linhas locais</strong>
+                <p>
+                  Conectam bairros a terminais, estações e outros pontos de integração.
+                </p>
+              </article>
+
+              <article class="bus-system-card">
+                <span>🛣️</span>
+                <strong>Corredores</strong>
+                <p>
+                  Trechos com infraestrutura dedicada ou prioritária para ônibus.
+                  Algumas plataformas realizam embarque pelo lado esquerdo.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Ônibus durante a madrugada</h4>
+
             <div class="answer-block">
-              <strong>1. Pesquise o trajeto</strong>
+              <strong>A Rede Noturno opera da 0h às 4h.</strong>
               <p>
-                Use o planejador oficial da SPTrans para encontrar número, nome,
-                sentido, pontos próximos, mapa e horários.
+                O serviço conecta diferentes regiões da cidade e atende locais próximos
+                a estações do Metrô. Consulte sempre o mapa e os horários antes de sair.
               </p>
             </div>
 
             <div class="answer-block">
-              <strong>2. Confirme no ponto</strong>
+              <strong>Linhas noturnas devem ser conferidas separadamente.</strong>
               <p>
-                Antes de embarcar, verifique o número completo da linha,
-                o destino no letreiro e o sentido da viagem.
-              </p>
-            </div>
-
-            <div class="answer-block">
-              <strong>3. Use a cor apenas como apoio</strong>
-              <p>
-                A cor ajuda a reconhecer a área operacional, mas não substitui
-                o número e o destino da linha.
+                Não presuma que a mesma linha usada durante o dia continuará com o mesmo
+                trajeto e frequência durante a madrugada.
               </p>
             </div>
           </section>
 
           <section class="panel-box">
-            <h4 class="panel-title">Áreas operacionais</h4>
-            <div class="region-grid">
-              ${createRegionCard("#7ac36a", "Área 1 · Noroeste", "Referência regional em verde-claro.")}
-              ${createRegionCard("#355ca8", "Área 2 · Norte", "Referência regional em azul-escuro.")}
-              ${createRegionCard("#e0c326", "Área 3 · Nordeste", "Referência regional em amarelo.")}
-              ${createRegionCard("#c7473e", "Área 4 · Leste", "Referência regional em vermelho.")}
-              ${createRegionCard("#3b8d57", "Área 5 · Sudeste", "Referência regional em verde-escuro.")}
-              ${createRegionCard("#5aa7cf", "Área 6 · Sul", "Referência regional em azul-claro.")}
-              ${createRegionCard("#7f3045", "Área 7 · Sudoeste", "Referência regional em vinho.")}
-              ${createRegionCard("#df8b2e", "Área 8 · Oeste", "Referência regional em laranja.")}
+            <h4 class="panel-title">Antes de embarcar</h4>
+
+            <div class="bus-tip-list">
+              <article class="bus-tip">
+                <span class="bus-tip-icon">↔️</span>
+                <div>
+                  <strong>Confira o sentido</strong>
+                  <p>O ponto do outro lado da rua normalmente atende a direção oposta.</p>
+                </div>
+              </article>
+
+              <article class="bus-tip">
+                <span class="bus-tip-icon">📱</span>
+                <div>
+                  <strong>Salve o número completo</strong>
+                  <p>Uma captura de tela ajuda a comparar rapidamente a linha e o destino no ponto.</p>
+                </div>
+              </article>
+
+              <article class="bus-tip">
+                <span class="bus-tip-icon">⏱️</span>
+                <div>
+                  <strong>Previsão não é horário garantido</strong>
+                  <p>Trânsito, desvios e condições de operação podem alterar a chegada.</p>
+                </div>
+              </article>
+
+              <article class="bus-tip">
+                <span class="bus-tip-icon">⚠️</span>
+                <div>
+                  <strong>Verifique mudanças operacionais</strong>
+                  <p>Interdições e eventos podem mudar temporariamente pontos e itinerários.</p>
+                </div>
+              </article>
             </div>
           </section>
 
           <div class="official-map-actions">
             <a
               class="official-link"
-              href="https://www.sptrans.com.br/busca-de-itinerarios/"
+              href="https://www.sptrans.com.br/itinerarios/linha/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Buscar linha ou trajeto
+              Buscar linha
+            </a>
+
+            <a
+              class="official-link"
+              href="https://olhovivo.sptrans.com.br/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Acompanhar no Olho Vivo
             </a>
 
             <a
@@ -2510,6 +2916,28 @@
             >
               Ver terminais
             </a>
+
+            <a
+              class="official-link"
+              href="https://www.sptrans.com.br/corredores-e-faixas-exclusivas/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Corredores e faixas
+            </a>
+
+            <a
+              class="official-link"
+              href="https://www.sptrans.com.br/rede-de-onibus-da-madrugada/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Rede Noturno
+            </a>
+          </div>
+
+          <div class="bus-updated">
+            Informações verificadas em julho de 2026.
           </div>
         `
       },
