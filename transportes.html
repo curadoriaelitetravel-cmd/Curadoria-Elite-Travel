@@ -75,68 +75,128 @@
     }
 
     .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.12);
-      background: rgba(5, 5, 5, 0.91);
-      backdrop-filter: blur(14px);
-    }
-
-    .site-header-inner {
-      width: min(var(--max), calc(100% - 32px));
-      min-height: 72px;
-      margin: 0 auto;
+      padding: 16px 40px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 22px;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.30);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      box-sizing: border-box;
+      gap: 16px;
     }
 
     .brand {
       display: flex;
-      flex-direction: column;
-      gap: 2px;
+      align-items: center;
+      gap: 12px;
+      min-width: 240px;
+      cursor: pointer;
     }
 
-    .brand-title {
-      color: var(--gold);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: 0.035em;
-      line-height: 1.05;
+    .brand img {
+      height: 34px;
+      width: 34px;
+      object-fit: contain;
+      flex: 0 0 auto;
     }
 
-    .brand-sub {
-      color: var(--muted);
-      font-size: 11px;
+    .brand-name {
+      font-family: "Cinzel", "Georgia", serif;
+      font-size: 18px;
+      color: #d4af37;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .brand-tagline {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.2;
+      margin-top: 2px;
     }
 
     .nav {
       display: flex;
       align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
       justify-content: flex-end;
-      gap: 18px;
-      color: var(--gold);
-      font-size: 13px;
-      font-weight: 700;
+      position: relative;
     }
 
     .nav a {
-      opacity: 0.88;
-      transition: opacity 0.2s ease;
+      color: #d4af37;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.25s ease, color 0.25s ease;
+      font-size: 16px;
     }
 
     .nav a:hover,
     .nav a:focus-visible {
-      opacity: 1;
+      opacity: 0.88;
+    }
+
+    .nav-sep {
+      width: 1px;
+      height: 16px;
+      background: rgba(255, 255, 255, 0.12);
+      display: inline-block;
+      margin: 0 2px;
+      flex: 0 0 auto;
+    }
+
+    .nav-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: #d4af37;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      margin-top: 0;
+      line-height: 1;
+      min-width: auto;
+      min-height: auto;
+      box-shadow: none;
+    }
+
+    .nav-toggle:hover,
+    .nav-toggle:focus-visible {
+      transform: none;
+      background: rgba(212, 175, 55, 0.06);
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #d4af37;
+      margin: 4px 0;
+      border-radius: 99px;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .hero {
       width: min(var(--max), calc(100% - 32px));
       margin: 0 auto;
-      padding: 76px 0 38px;
+      padding: 148px 0 38px;
       text-align: center;
     }
 
@@ -564,11 +624,23 @@
     }
 
     .site-footer {
-      padding: 34px 20px 42px;
-      border-top: 1px solid rgba(212, 175, 55, 0.1);
-      color: var(--muted);
+      margin-top: 12px;
+      padding: 34px 24px 38px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 14px;
+      line-height: 1.7;
       text-align: center;
-      font-size: 12px;
+    }
+
+    .site-footer a {
+      color: #1a0dab;
+      text-decoration: underline;
+    }
+
+    .site-footer a:hover,
+    .site-footer a:focus-visible {
+      opacity: 0.88;
     }
 
     /* MODAL */
@@ -2218,13 +2290,8 @@
 
     @media (max-width: 480px) {
       .page-shell,
-      .hero,
-      .site-header-inner {
+      .hero {
         width: min(100% - 22px, var(--max));
-      }
-
-      .brand-title {
-        font-size: 17px;
       }
 
       .hero h1 {
@@ -2243,25 +2310,168 @@
         grid-template-columns: 1fr 1fr;
       }
     }
+
+    @media (max-width: 980px) {
+      .site-header {
+        padding: 14px 16px;
+      }
+
+      .brand {
+        min-width: auto;
+      }
+
+      .nav-toggle {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 56px;
+        right: 0;
+        min-width: 220px;
+        padding: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.94);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        z-index: 2000;
+      }
+
+      .site-header.nav-open .nav-menu {
+        display: flex;
+      }
+
+      .nav-sep {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 128px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-title {
+        font-size: 15px;
+      }
+
+      .brand-sub {
+        font-size: 10px;
+      }
+
+      .brand img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .site-header {
+        padding: 14px 16px;
+      }
+
+      .brand {
+        min-width: auto;
+      }
+
+      .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 56px;
+        right: 0;
+        min-width: 220px;
+        padding: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        z-index: 2000;
+      }
+
+      .site-header.nav-open .nav-menu {
+        display: flex;
+      }
+
+      .nav-sep {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 128px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .brand-name {
+        font-size: 15px;
+      }
+
+      .brand-tagline {
+        font-size: 10px;
+      }
+
+      .brand img {
+        width: 30px;
+        height: 30px;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <header class="site-header">
-    <div class="site-header-inner">
-      <a class="brand" href="https://www.curadoriaelitetravel.com/">
-        <span class="brand-title">CURADORIA ELITE TRAVEL</span>
-        <span class="brand-sub">O seu mundo, bem indicado.</span>
-      </a>
+  <header class="site-header" id="siteHeader">
+    <a class="brand" href="index.html" aria-label="Voltar ao início">
+      <img src="images/rosa-dos-ventos.png" alt="Rosa dos Ventos">
+      <div>
+        <div class="brand-name">Curadoria Elite Travel</div>
+        <div class="brand-tagline">O seu mundo, bem indicado.</div>
+      </div>
+    </a>
 
-      <nav class="nav" aria-label="Navegação principal">
-        <a href="https://www.curadoriaelitetravel.com/">Início</a>
-        <a href="https://www.curadoriaelitetravel.com/?secao=buscador#buscador">Buscador</a>
-        <a href="https://www.curadoriaelitetravel.com/documentos.html">Documentação</a>
-        <a href="https://www.curadoriaelitetravel.com/transportes.html" aria-current="page">Transportes</a>
-        <a href="https://www.curadoriaelitetravel.com/account.html">Minha conta</a>
-      </nav>
-    </div>
+    <nav class="nav" aria-label="Navegação principal">
+      <button
+        class="nav-toggle"
+        id="navToggle"
+        type="button"
+        aria-label="Menu"
+        title="Menu"
+        aria-controls="navMenu"
+        aria-expanded="false"
+      >
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="navMenu">
+        <a href="index.html">Início</a>
+        <a href="index.html?secao=quem#quem">Quem Somos</a>
+        <a href="index.html?secao=curadoria#curadoria">Curadoria</a>
+        <a href="index.html?secao=buscador#buscador">Buscador</a>
+
+        <span class="nav-sep" aria-hidden="true"></span>
+
+        <a href="index.html">Carrinho (0)</a>
+
+        <span class="nav-sep" aria-hidden="true"></span>
+
+        <a href="login.html?return_to=transportes.html">Entrar</a>
+      </div>
+    </nav>
   </header>
 
   <main>
@@ -2429,9 +2639,10 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    Curadoria Elite Travel · O seu mundo, bem indicado.<br />
-    São Paulo - SP · curadoriaelitetravel@gmail.com
+  <footer class="site-footer" id="siteFooter">
+    Curadoria Elite Travel · O seu mundo, bem indicado.<br>
+    São Paulo - SP ·
+    <a href="contact.html">curadoriaelitetravel@gmail.com</a>
   </footer>
 
   <div class="modal" id="transportModal" aria-hidden="true">
@@ -3856,6 +4067,42 @@
           behavior: "smooth",
           block: "start"
         });
+      }
+    });
+
+    const siteHeader = document.getElementById("siteHeader");
+    const navToggle = document.getElementById("navToggle");
+    const navMenu = document.getElementById("navMenu");
+
+    function closeMobileNavigation() {
+      if (!siteHeader || !navToggle) return;
+      siteHeader.classList.remove("nav-open");
+      navToggle.setAttribute("aria-expanded", "false");
+    }
+
+    if (navToggle && siteHeader) {
+      navToggle.addEventListener("click", () => {
+        const willOpen = !siteHeader.classList.contains("nav-open");
+        siteHeader.classList.toggle("nav-open", willOpen);
+        navToggle.setAttribute("aria-expanded", String(willOpen));
+      });
+    }
+
+    if (navMenu) {
+      navMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", closeMobileNavigation);
+      });
+    }
+
+    document.addEventListener("click", (event) => {
+      if (!siteHeader || !siteHeader.classList.contains("nav-open")) return;
+      if (!siteHeader.contains(event.target)) closeMobileNavigation();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && siteHeader && siteHeader.classList.contains("nav-open")) {
+        closeMobileNavigation();
+        if (navToggle) navToggle.focus();
       }
     });
   </script>
