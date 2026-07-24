@@ -1144,6 +1144,245 @@
       padding-left: 4px;
     }
 
+
+    /* ============================================================
+       MODAL DE BILHETAGEM — COMPONENTE REUTILIZÁVEL
+       ============================================================ */
+    .payment-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(230px, 0.55fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .payment-recommendation {
+      padding: 24px;
+      border: 1px solid rgba(212, 175, 55, 0.24);
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, rgba(212, 175, 55, 0.09), rgba(255, 255, 255, 0.018)),
+        var(--panel-2);
+    }
+
+    .payment-eyebrow {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .payment-recommendation h4 {
+      margin: 0 0 10px;
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(22px, 3vw, 30px);
+      line-height: 1.15;
+    }
+
+    .payment-recommendation p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .payment-summary {
+      display: grid;
+      gap: 10px;
+    }
+
+    .payment-summary-card {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-height: 62px;
+      padding: 12px 14px;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .payment-summary-card b {
+      display: block;
+      margin-bottom: 1px;
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .payment-summary-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .payment-summary-icon {
+      display: grid !important;
+      flex: 0 0 34px;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.07);
+      font-size: 16px !important;
+    }
+
+    .payment-method-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .payment-method {
+      min-height: 126px;
+      padding: 16px 12px;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.022);
+      text-align: center;
+    }
+
+    .payment-method-icon {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 22px;
+    }
+
+    .payment-method strong {
+      display: block;
+      min-height: 34px;
+      color: var(--text);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .payment-status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 9px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .payment-status.available {
+      border: 1px solid rgba(83, 183, 126, 0.32);
+      background: rgba(83, 183, 126, 0.09);
+      color: #8fe0b2;
+    }
+
+    .payment-status.partial {
+      border: 1px solid rgba(212, 175, 55, 0.30);
+      background: rgba(212, 175, 55, 0.08);
+      color: #e4c66b;
+    }
+
+    .payment-method small {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.35;
+    }
+
+    .payment-choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .payment-choice,
+    .purchase-card {
+      padding: 17px;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .payment-choice strong,
+    .purchase-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--gold);
+      font-size: 13px;
+    }
+
+    .payment-choice p,
+    .purchase-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .purchase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .purchase-card span {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 19px;
+    }
+
+    .visitor-alert {
+      margin-top: 14px;
+      padding: 15px 17px;
+      border-left: 3px solid var(--gold);
+      border-radius: 0 12px 12px 0;
+      background: rgba(212, 175, 55, 0.055);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .visitor-alert strong {
+      color: var(--text);
+    }
+
+    .payment-updated {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .payment-method-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .purchase-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      .payment-hero,
+      .payment-choice-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .payment-method-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .purchase-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .development-note {
       margin-top: 18px;
       padding: 14px 16px;
@@ -1432,14 +1671,14 @@
               tabindex="0"
               role="button"
               data-modal="card"
-              aria-label="Abrir informações do Bilhete Único"
+              aria-label="Abrir informações sobre como pagar o transporte"
             >
               <div class="practical-number">02</div>
-              <h4>Bilhete Único</h4>
+              <h4>Como pagar</h4>
               <p>
-                Quem pode solicitar, documentos, custo, retirada, recarga e uso.
+                Cartão, aproximação, QR Code, dinheiro, recarga e melhor opção para visitantes.
               </p>
-              <span class="practical-cta">Entender o cartão →</span>
+              <span class="practical-cta">Ver formas de pagamento →</span>
             </article>
 
             <article
@@ -1745,94 +1984,187 @@
       },
 
       card: {
-        kicker: "São Paulo · cartão de transporte",
-        title: "Bilhete Único",
+        kicker: "São Paulo · bilhetagem",
+        title: "Como pagar o transporte",
         body: `
+          <div class="payment-hero">
+            <section class="payment-recommendation">
+              <span class="payment-eyebrow">Melhor opção para visitantes</span>
+              <h4>Escolha de acordo com o transporte que você realmente vai usar</h4>
+              <p>
+                Para viagens ocasionais apenas de metrô ou trem, a solução mais simples é
+                pagar por aproximação ou comprar um bilhete unitário QR Code. O Bilhete Único
+                passa a ser mais interessante quando o visitante também pretende usar ônibus
+                e aproveitar a integração tarifária.
+              </p>
+            </section>
+
+            <aside class="payment-summary" aria-label="Resumo da bilhetagem">
+              <div class="payment-summary-card">
+                <span class="payment-summary-icon">🚇</span>
+                <div><b>Metrô e trem</b><span>R$ 5,40 por viagem unitária</span></div>
+              </div>
+              <div class="payment-summary-card">
+                <span class="payment-summary-icon">🚌</span>
+                <div><b>Ônibus municipal</b><span>R$ 5,30 na tarifa comum</span></div>
+              </div>
+              <div class="payment-summary-card">
+                <span class="payment-summary-icon">🔄</span>
+                <div><b>Integração</b><span>R$ 9,38 com Bilhete Único</span></div>
+              </div>
+            </aside>
+          </div>
+
           <section class="panel-box">
-            <h4 class="panel-title">Para quem está visitando</h4>
+            <h4 class="panel-title">Formas de pagamento</h4>
+            <p class="panel-intro">
+              A aceitação muda conforme o modal e a estação. Veja onde cada opção faz sentido.
+            </p>
 
-            <div class="answer-block">
-              <strong>Preciso do Bilhete Único para pegar ônibus?</strong>
-              <p>
-                Não obrigatoriamente. O ônibus aceita pagamento em dinheiro.
-                O cartão é útil para receber os benefícios de integração.
-              </p>
-            </div>
-
-            <div class="answer-block">
-              <strong>Quanto custa?</strong>
-              <p>
-                A primeira via do Bilhete Único Comum não tem custo.
-                O usuário paga apenas os créditos carregados.
-              </p>
-            </div>
-
-            <div class="answer-block">
-              <strong>Posso retirar em qualquer estação?</strong>
-              <p>
-                Não. O cartão personalizado deve ser solicitado no sistema oficial
-                e retirado em um posto escolhido, ou entregue quando essa opção estiver disponível.
-              </p>
-            </div>
-
-            <div class="answer-block">
-              <strong>Estrangeiro pode solicitar?</strong>
-              <p>
-                O cartão comum é destinado a pessoas a partir de seis anos, mas a emissão personalizada
-                exige cadastro e documentos aceitos pela SPTrans. Para turista sem CPF, a emissão imediata
-                não é garantida de forma clara nos materiais oficiais.
-              </p>
-            </div>
-
-            <div class="answer-block">
-              <strong>Quais documentos devo preparar?</strong>
-              <p>
-                Identificação, CPF e foto digital. Estrangeiros devem confirmar previamente
-                quais documentos são aceitos no cadastro ou posto escolhido.
-              </p>
+            <div class="payment-method-grid">
+              <article class="payment-method">
+                <span class="payment-method-icon">💳</span>
+                <strong>Cartão por aproximação</strong>
+                <span class="payment-status available">Disponível</span>
+                <small>Em todas as estações do Metrô. Na CPTM, confirme a estação.</small>
+              </article>
+              <article class="payment-method">
+                <span class="payment-method-icon">▣</span>
+                <strong>Bilhete QR Code</strong>
+                <span class="payment-status available">Disponível</span>
+                <small>Metrô e trem. Compra física ou digital.</small>
+              </article>
+              <article class="payment-method">
+                <span class="payment-method-icon">🟨</span>
+                <strong>Bilhete Único</strong>
+                <span class="payment-status available">Disponível</span>
+                <small>Ônibus, metrô e trem, com integração conforme as regras.</small>
+              </article>
+              <article class="payment-method">
+                <span class="payment-method-icon">💵</span>
+                <strong>Dinheiro</strong>
+                <span class="payment-status partial">Uso limitado</span>
+                <small>Ônibus e pontos físicos indicados. Não é a opção principal nas catracas.</small>
+              </article>
+              <article class="payment-method">
+                <span class="payment-method-icon">📱</span>
+                <strong>Carteira digital</strong>
+                <span class="payment-status partial">Conforme o canal</span>
+                <small>QR Code disponível por canais digitais e Carteira Google.</small>
+              </article>
             </div>
           </section>
 
           <section class="panel-box">
-            <h4 class="panel-title">Como solicitar</h4>
-            <ol class="steps">
-              <li>Acesse o Site de Atendimento da SPTrans.</li>
-              <li>Faça o cadastro e envie a foto solicitada.</li>
-              <li>Escolha um posto de retirada ou entrega, quando disponível.</li>
-              <li>Consulte endereço e horário antes de se deslocar.</li>
-              <li>Depois de receber o cartão, compre os créditos e valide a recarga.</li>
-            </ol>
+            <h4 class="panel-title">Qual opção eu escolheria?</h4>
+            <div class="payment-choice-grid">
+              <article class="payment-choice">
+                <strong>Vou usar metrô ou trem poucas vezes</strong>
+                <p>Pagamento por aproximação ou QR Code. Não é preciso emitir cartão personalizado apenas para essas viagens.</p>
+              </article>
+              <article class="payment-choice">
+                <strong>Vou usar ônibus todos os dias</strong>
+                <p>O Bilhete Único tende a ser mais prático e permite aproveitar as regras de integração entre ônibus.</p>
+              </article>
+              <article class="payment-choice">
+                <strong>Vou combinar ônibus com metrô ou trem</strong>
+                <p>Use o Bilhete Único para acessar a tarifa integrada, respeitando o período e a quantidade de embarques.</p>
+              </article>
+              <article class="payment-choice">
+                <strong>Não tenho tempo para fazer cadastro</strong>
+                <p>Para metrô e trem, use aproximação ou QR Code. Nos ônibus, confirme o pagamento em dinheiro.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Bilhete Único</h4>
+            <p class="panel-intro">
+              Cartão da SPTrans usado nos ônibus municipais e também aceito na rede sobre trilhos.
+            </p>
+
+            <div class="answer-block">
+              <strong>Quem pode solicitar?</strong>
+              <p>O cadastro do Bilhete Único Comum está disponível a partir dos seis anos. A primeira via é gratuita.</p>
+            </div>
+            <div class="answer-block">
+              <strong>Estrangeiro pode fazer o cadastro?</strong>
+              <p>
+                Sim. O formulário oficial possui a opção “Estrangeiro(a)”, mas também solicita CPF e dados
+                de identificação. Um turista sem CPF deve preferir aproximação ou QR Code para metrô e trem
+                e confirmar diretamente com a SPTrans qualquer alternativa para emissão do cartão.
+              </p>
+            </div>
+            <div class="answer-block">
+              <strong>Quais documentos são necessários?</strong>
+              <p>Cadastro com CPF, documento de identificação e foto. Na retirada, apresente um documento que permita sua identificação.</p>
+            </div>
+            <div class="answer-block">
+              <strong>Onde retirar?</strong>
+              <p>Após concluir o cadastro sem pendências, retire o cartão em um Posto de Atendimento da SPTrans.</p>
+            </div>
+
+            <div class="visitor-alert">
+              <strong>Para quem está apenas visitando:</strong>
+              fazer um cartão personalizado pode não compensar em uma estadia curta.
+              Compare o tempo de cadastro e retirada com a quantidade de viagens de ônibus
+              e integrações que você pretende realizar.
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Onde comprar ou recarregar</h4>
+            <div class="purchase-grid">
+              <article class="purchase-card"><span>🏧</span><strong>Máquinas nas estações</strong><p>Compra de QR Code e serviços disponíveis na estação.</p></article>
+              <article class="purchase-card"><span>📱</span><strong>Aplicativo TOP</strong><p>Compra digital de bilhete QR Code para metrô e trem.</p></article>
+              <article class="purchase-card"><span>💬</span><strong>WhatsApp TOP</strong><p>Canal digital para aquisição do bilhete QR Code.</p></article>
+              <article class="purchase-card"><span>🏪</span><strong>Pontos credenciados</strong><p>Compra e recarga em estabelecimentos indicados.</p></article>
+              <article class="purchase-card"><span>🏢</span><strong>Postos SPTrans</strong><p>Retirada e atendimento do Bilhete Único personalizado.</p></article>
+              <article class="purchase-card"><span>📲</span><strong>Carteira Google</strong><p>Canal disponível para bilhetes QR Code compatíveis.</p></article>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Tarifas ligadas à bilhetagem</h4>
+            <div class="table-scroll">
+              <table class="info-table">
+                <thead><tr><th>Uso</th><th>Valor</th><th>Regra principal</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Ônibus municipal</strong></td><td>R$ 5,30</td><td>Até quatro embarques em ônibus diferentes em três horas com crédito comum.</td></tr>
+                  <tr><td><strong>Metrô ou trem</strong></td><td>R$ 5,40</td><td>Uma viagem unitária na rede sobre trilhos.</td></tr>
+                  <tr><td><strong>Ônibus + metrô/trem</strong></td><td>R$ 9,38</td><td>Até três ônibus em três horas e um embarque sobre trilhos nas duas primeiras horas.</td></tr>
+                  <tr><td><strong>Crédito comum de 24 horas</strong></td><td>Consulte a modalidade</td><td>Até dez viagens em 24 horas contínuas conforme o crédito adquirido.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Atenção antes de embarcar</h4>
+            <div class="answer-block">
+              <strong>Use o mesmo cartão bancário ou dispositivo durante a viagem.</strong>
+              <p>Cada passageiro deve aproximar seu próprio meio de pagamento.</p>
+            </div>
+            <div class="answer-block">
+              <strong>A aproximação não substitui automaticamente a integração.</strong>
+              <p>Para combinar ônibus com metrô ou trem usando a tarifa integrada, o Bilhete Único continua sendo a referência.</p>
+            </div>
+            <div class="answer-block">
+              <strong>Confirme a estação da CPTM.</strong>
+              <p>A aproximação está em expansão na rede de trens. Caso não esteja disponível, use QR Code ou outro meio aceito.</p>
+            </div>
           </section>
 
           <div class="official-map-actions">
-            <a
-              class="official-link"
-              href="https://atendimento.sptrans.com.br/cadastro"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Fazer cadastro
-            </a>
-
-            <a
-              class="official-link"
-              href="https://bilheteunico.sptrans.com.br/postos/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ver postos
-            </a>
-
-            <a
-              class="official-link"
-              href="https://bilheteunico.sptrans.com.br/pontos-de-venda/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Pontos de venda e recarga
-            </a>
+            <a class="official-link" href="https://www.sptrans.com.br/tarifas/" target="_blank" rel="noopener noreferrer">Tarifas SPTrans</a>
+            <a class="official-link" href="https://atendimento.sptrans.com.br/cadastro" target="_blank" rel="noopener noreferrer">Cadastro Bilhete Único</a>
+            <a class="official-link" href="https://www.metro.sp.gov.br/sua-viagem/bilhetes-cartoes/" target="_blank" rel="noopener noreferrer">Bilhetes do Metrô</a>
+            <a class="official-link" href="https://www.cptm.sp.gov.br/cptm/sua-viagem/bilhetes-e-cartoes" target="_blank" rel="noopener noreferrer">Bilhetes da CPTM</a>
           </div>
+
+          <div class="payment-updated">Informações verificadas em julho de 2026.</div>
         `
+      }
       },
 
       bus: {
