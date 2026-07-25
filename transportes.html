@@ -2433,7 +2433,7 @@
     }
 
     /* ============================================================
-       FUNDO CINEMATOGRÁFICO — TRANSPORTES
+       FUNDO CINEMATOGRÁFICO — EXATAMENTE COMO NO INDEX.HTML
        ============================================================ */
 
     .transport-cinema {
@@ -2441,78 +2441,35 @@
       inset: 0;
       z-index: -3;
       overflow: hidden;
-      background: #050505;
+      background: #0b0b0b;
       pointer-events: none;
     }
 
     .transport-cinema-image {
       position: absolute;
-      inset: -2%;
+      inset: 0;
       background-size: cover;
       background-position: center;
+      filter: brightness(1.10) saturate(0.88) contrast(1.02);
       opacity: 0;
-      transform: scale(1.045);
-      filter:
-        brightness(0.56)
-        saturate(0.78)
-        contrast(1.04);
-      transition:
-        opacity 3.4s ease,
-        transform 11s ease;
-      will-change: opacity, transform;
+      transition: opacity 3.4s ease;
+      transform: scale(1.04);
     }
 
     .transport-cinema-image.active {
       opacity: 1;
-      transform: scale(1.015);
     }
 
     .transport-cinema-overlay {
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(
-          180deg,
-          rgba(0, 0, 0, 0.30) 0%,
-          rgba(0, 0, 0, 0.50) 37%,
-          rgba(0, 0, 0, 0.76) 100%
-        ),
-        radial-gradient(
-          circle at 50% 16%,
-          rgba(212, 175, 55, 0.10),
-          transparent 38%
-        ),
-        linear-gradient(
-          90deg,
-          rgba(0, 0, 0, 0.34),
-          transparent 24%,
-          transparent 76%,
-          rgba(0, 0, 0, 0.34)
-        );
+        radial-gradient(circle at center, rgba(0,0,0,0.08), rgba(0,0,0,0.54)),
+        linear-gradient(180deg, rgba(0,0,0,0.24) 0%, rgba(0,0,0,0.48) 100%);
     }
 
     .transport-cinema-grain {
-      position: absolute;
-      inset: 0;
-      opacity: 0.035;
-      background-image:
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.62'/%3E%3C/svg%3E");
-      mix-blend-mode: soft-light;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      background:
-        linear-gradient(
-          180deg,
-          rgba(5, 5, 5, 0.16),
-          rgba(5, 5, 5, 0.42) 45%,
-          rgba(5, 5, 5, 0.72)
-        );
-      pointer-events: none;
+      display: none;
     }
 
     .hero,
@@ -2522,28 +2479,13 @@
       z-index: 1;
     }
 
-    .tool-panel {
-      background: rgba(8, 8, 8, 0.86);
-      backdrop-filter: blur(5px);
-    }
-
-    .destination-summary,
-    .practical-card,
-    .network-card,
-    .status-banner {
-      backdrop-filter: blur(2px);
-    }
-
     @media (prefers-reduced-motion: reduce) {
       .transport-cinema-image {
         transition: opacity 0.8s ease;
         transform: none;
       }
-
-      .transport-cinema-image.active {
-        transform: none;
-      }
     }
+
   </style>
 </head>
 
@@ -2797,13 +2739,15 @@
 
   <script>
 
+    const TRANSPORT_CINEMA_VERSION = "20260724-1";
+
     const TRANSPORT_CINEMA_IMAGES = [
-      "https://images.unsplash.com/photo-1516939884455-1445c8652f83?auto=format&fit=crop&w=2200&q=86",
-      "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=2200&q=86",
-      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=2200&q=86",
-      "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=2200&q=86",
-      "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=2200&q=86",
-      "https://images.unsplash.com/photo-1528744598421-b7b93e12dfbd?auto=format&fit=crop&w=2200&q=86"
+      "images/01-metro-nova-york.webp",
+      "images/02-plataforma-metro.webp",
+      "images/03-metro-paris-etoile.webp",
+      "images/04-mobilidade-nova-york.webp",
+      "images/05-bonde-lisboa.webp",
+      "images/06-onibus-lisboa.webp"
     ];
 
     function preloadTransportCinemaImages(images) {
@@ -2822,7 +2766,7 @@
       let currentIndex = 0;
       let showingFirst = true;
 
-      first.style.backgroundImage = `url("${TRANSPORT_CINEMA_IMAGES[0]}")`;
+      first.style.backgroundImage = `url("${TRANSPORT_CINEMA_IMAGES[0]}?v=${TRANSPORT_CINEMA_VERSION}")`;
       first.classList.add("active");
 
       preloadTransportCinemaImages(TRANSPORT_CINEMA_IMAGES.slice(1));
