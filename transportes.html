@@ -2593,6 +2593,125 @@
       }
     }
 
+
+    /* ============================================================
+       RIO DE JANEIRO — MALHA DE TRANSPORTE
+       ============================================================ */
+
+    .rio-network-card {
+      background:
+        radial-gradient(circle at 76% 18%, rgba(32, 111, 176, 0.34), transparent 20%),
+        radial-gradient(circle at 82% 55%, rgba(238, 157, 35, 0.22), transparent 22%),
+        linear-gradient(130deg, #0b1118 0%, #172638 54%, #090909 100%);
+    }
+
+    .rio-network-card .network-map-lines span:nth-child(1) {
+      background: #f06d2f;
+    }
+
+    .rio-network-card .network-map-lines span:nth-child(2) {
+      background: #2b8ac6;
+    }
+
+    .rio-network-card .network-map-lines span:nth-child(3) {
+      background: #69ad45;
+    }
+
+    .rio-network-card .network-map-lines span:nth-child(4) {
+      background: #f0c232;
+    }
+
+    .rio-network-card .network-map-lines span:nth-child(5) {
+      background: #5d79bd;
+    }
+
+    .rio-mode-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .rio-mode-card {
+      padding: 18px;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .rio-mode-card span {
+      display: block;
+      margin-bottom: 9px;
+      font-size: 23px;
+    }
+
+    .rio-mode-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--gold);
+      font-size: 13px;
+    }
+
+    .rio-mode-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.58;
+    }
+
+    .rio-line-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .rio-line-card {
+      padding: 16px 12px;
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      border-radius: 15px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.014);
+    }
+
+    .rio-line-mark {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 10px;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      font-weight: 900;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+    }
+
+    .rio-line-card strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .rio-line-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 900px) {
+      .rio-mode-grid,
+      .rio-line-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .rio-mode-grid,
+      .rio-line-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
   </style>
 </head>
 
@@ -2660,14 +2779,14 @@
           <div class="breadcrumbs">Ferramentas &gt; Transportes</div>
           <h2>Escolha o destino</h2>
           <p>
-            São Paulo é o modelo inicial da ferramenta. Os demais destinos serão
-            ligados ao banco de dados depois da aprovação completa da experiência.
+            Selecione uma cidade para entender a rede, as tarifas, os cartões,
+            as integrações e os canais oficiais de planejamento.
           </p>
 
           <div class="destination-toolbar">
             <select id="destinationSelect" class="destination-select" aria-label="Selecionar destino">
               <option value="sao-paulo">São Paulo, Brasil</option>
-              <option value="rio" disabled>Rio de Janeiro, Brasil — em preparação</option>
+              <option value="rio">Rio de Janeiro, Brasil</option>
               <option value="paris" disabled>Paris, França — em preparação</option>
               <option value="new-york" disabled>New York, Estados Unidos — em preparação</option>
             </select>
@@ -3157,6 +3276,729 @@
 
     const MAP_URL =
       "https://www.metrocptm.com.br/wp-content/uploads/2019/09/mapa-metro-cptm-marco-2026-ab.jpg";
+
+
+    const RIO_MAP_URL =
+      "https://www.metrorio.com.br/VadeMetro/MapaInterativo";
+
+    const RIO_MODAL_CONTENT = {
+      network: {
+        kicker: "Rio de Janeiro · visão completa",
+        title: "Rede Metropolitana",
+        body: `
+          <div class="network-layout">
+            <section class="panel-box">
+              <h4 class="panel-title">Como a rede do Rio está organizada</h4>
+              <p class="panel-intro">
+                O deslocamento no Rio combina sistemas municipais e metropolitanos.
+                Metrô, trem, BRT, VLT, ônibus e barcas cumprem funções diferentes.
+              </p>
+
+              <div class="rio-mode-grid">
+                <article class="rio-mode-card">
+                  <span>🚇</span>
+                  <strong>MetrôRio</strong>
+                  <p>
+                    Três linhas identificadas como 1, 2 e 4. A operação regular aparece
+                    ao visitante como Linha 1/4 e Linha 2.
+                  </p>
+                </article>
+
+                <article class="rio-mode-card">
+                  <span>🚆</span>
+                  <strong>TrensRJ</strong>
+                  <p>
+                    Oito ramais metropolitanos conectam a Central do Brasil à Zona Norte,
+                    Zona Oeste e municípios da Região Metropolitana.
+                  </p>
+                </article>
+
+                <article class="rio-mode-card">
+                  <span>🚌</span>
+                  <strong>BRT</strong>
+                  <p>
+                    Corredores de ônibus articulados conectam áreas como Barra,
+                    Zona Oeste, Transcarioca, Transolímpica e Transbrasil.
+                  </p>
+                </article>
+
+                <article class="rio-mode-card">
+                  <span>🚊</span>
+                  <strong>VLT Carioca</strong>
+                  <p>
+                    Quatro linhas atendem Centro, Região Portuária, Rodoviária,
+                    Santos Dumont, Praça XV e Terminal Gentileza.
+                  </p>
+                </article>
+
+                <article class="rio-mode-card">
+                  <span>⛴️</span>
+                  <strong>Barcas</strong>
+                  <p>
+                    Travessias ligam a Praça XV a Niterói, Charitas, Cocotá e Paquetá,
+                    além de serviços para Ilha Grande.
+                  </p>
+                </article>
+
+                <article class="rio-mode-card">
+                  <span>🚍</span>
+                  <strong>Ônibus municipais</strong>
+                  <p>
+                    Complementam a rede em bairros sem acesso direto aos trilhos
+                    e fazem conexões com terminais, BRT e estações.
+                  </p>
+                </article>
+              </div>
+            </section>
+
+            <section class="panel-box">
+              <h4 class="panel-title">Linhas e ramais principais</h4>
+              <div class="rio-line-grid">
+                <article class="rio-line-card">
+                  <span class="rio-line-mark" style="background:#ef6b2d">1</span>
+                  <strong>Linha 1</strong>
+                  <p>Uruguai/Tijuca ↔ General Osório/Ipanema.</p>
+                </article>
+
+                <article class="rio-line-card">
+                  <span class="rio-line-mark" style="background:#2c8bc7">2</span>
+                  <strong>Linha 2</strong>
+                  <p>Pavuna ↔ Botafogo, conforme a operação vigente.</p>
+                </article>
+
+                <article class="rio-line-card">
+                  <span class="rio-line-mark" style="background:#e1bd2b">4</span>
+                  <strong>Linha 4</strong>
+                  <p>General Osório/Ipanema ↔ Jardim Oceânico/Barra.</p>
+                </article>
+
+                <article class="rio-line-card">
+                  <span class="rio-line-mark" style="background:#6a8944">8</span>
+                  <strong>Ramais TrensRJ</strong>
+                  <p>Deodoro, Japeri, Santa Cruz, Saracuruna, Belford Roxo, Paracambi, Vila Inhomirim e Guapimirim.</p>
+                </article>
+              </div>
+            </section>
+
+            <section class="panel-box">
+              <h4 class="panel-title">Integrações que mais ajudam o visitante</h4>
+
+              <div class="comparison-grid">
+                <article class="comparison-card">
+                  <strong>Metrô + BRT</strong>
+                  <p>
+                    Integração relevante nas estações Vicente de Carvalho e
+                    Jardim Oceânico/Barra da Tijuca.
+                  </p>
+                </article>
+
+                <article class="comparison-card">
+                  <strong>Metrô + VLT</strong>
+                  <p>
+                    Conexões úteis em Central do Brasil/Centro, Carioca/Centro
+                    e Cinelândia/Centro.
+                  </p>
+                </article>
+
+                <article class="comparison-card">
+                  <strong>Metrô + trem</strong>
+                  <p>
+                    Integrações em Central do Brasil, São Cristóvão, Maracanã,
+                    Triagem e Pavuna.
+                  </p>
+                </article>
+
+                <article class="comparison-card">
+                  <strong>Metrô + barcas</strong>
+                  <p>
+                    Para Praça XV, a referência é a estação Carioca/Centro,
+                    seguida de caminhada até o terminal hidroviário.
+                  </p>
+                </article>
+              </div>
+            </section>
+
+            <div class="official-map-actions">
+              <a class="official-link" href="https://www.metrorio.com.br/VadeMetro/MapaInterativo" target="_blank" rel="noopener noreferrer">
+                Mapa do MetrôRio
+              </a>
+              <a class="official-link" href="https://trensrj.com.br/pt/planeje-sua-viagem" target="_blank" rel="noopener noreferrer">
+                Mapa e ramais TrensRJ
+              </a>
+              <a class="official-link" href="https://trilhos.motiva.com.br/vltrio/mapas/" target="_blank" rel="noopener noreferrer">
+                Mapa do VLT
+              </a>
+              <a class="official-link" href="https://barcasrio.com.br/" target="_blank" rel="noopener noreferrer">
+                Linhas das Barcas
+              </a>
+            </div>
+
+            <div class="fare-updated">Informações verificadas em julho de 2026.</div>
+          </div>
+        `
+      },
+
+      fares: {
+        kicker: "Rio de Janeiro · tarifas vigentes",
+        title: "Tarifas e integração",
+        body: `
+          <section class="panel-box">
+            <h4 class="panel-title">Valores principais</h4>
+            <p class="panel-intro">
+              As tarifas variam conforme o sistema. Confirme sempre o valor
+              e o benefício de integração antes do embarque.
+            </p>
+
+            <div class="fare-highlight-grid">
+              <article class="fare-highlight">
+                <span>Ônibus municipal, BRT ou VLT</span>
+                <strong>R$ 5,00</strong>
+                <p>
+                  Tarifa municipal de referência. O Bilhete Único Carioca pode permitir
+                  até três viagens em três horas, sendo uma delas no BRT.
+                </p>
+              </article>
+
+              <article class="fare-highlight">
+                <span>MetrôRio</span>
+                <strong>R$ 7,90</strong>
+                <p>
+                  Tarifa pública das Linhas 1, 2 e 4. O cartão unitário e o Giro
+                  podem ser adquiridos nas estações.
+                </p>
+              </article>
+
+              <article class="fare-highlight">
+                <span>TrensRJ</span>
+                <strong>R$ 7,60</strong>
+                <p>
+                  Viagem exclusiva no trem urbano. A integração pelo Bilhete Único
+                  possui valor próprio.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Integrações metropolitanas</h4>
+
+            <div class="integration-grid">
+              <article class="integration-card">
+                <h5>Bilhete Único Carioca</h5>
+                <div class="integration-visual">
+                  <span class="integration-step">até 3 viagens</span>
+                  <span class="integration-arrow">·</span>
+                  <span class="integration-step">em 3 horas</span>
+                </div>
+                <p>
+                  O benefício municipal é feito pelo sistema Jaé. Uma das viagens
+                  deve ocorrer no BRT para a regra divulgada em 2026.
+                </p>
+              </article>
+
+              <article class="integration-card">
+                <h5>Bilhete Único Intermunicipal</h5>
+                <div class="integration-visual">
+                  <span class="integration-step">2 transportes</span>
+                  <span class="integration-arrow">·</span>
+                  <span class="integration-step">R$ 9,40</span>
+                </div>
+                <p>
+                  Benefício estadual sujeito a cadastro, renda e demais critérios.
+                  Pode abranger metrô, trem, barcas, ônibus, BRT e VLT.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Outros valores úteis</h4>
+            <div class="table-scroll">
+              <table class="info-table">
+                <thead>
+                  <tr>
+                    <th>Serviço</th>
+                    <th>Valor</th>
+                    <th>Observação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Metrô + BRT com Jaé</strong></td>
+                    <td>R$ 9,70</td>
+                    <td>Integração divulgada pelo MetrôRio.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Metrô + ônibus municipal</strong></td>
+                    <td>R$ 8,80</td>
+                    <td>Com Jaé ou Riocard, conforme a regra aplicável.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Metrô + trem</strong></td>
+                    <td>R$ 9,40</td>
+                    <td>Integração com Riocard e critérios do benefício.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Praça XV ↔ Praça Arariboia</strong></td>
+                    <td>R$ 5,00</td>
+                    <td>Travessia de barca para Niterói.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Praça XV ↔ Charitas</strong></td>
+                    <td>R$ 7,70</td>
+                    <td>Serviço seletivo hidroviário.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <div class="fare-note">
+            <strong>Atenção:</strong>
+            benefícios tarifários dependem do cartão correto, cadastro e janela de integração.
+            O valor unitário de cada sistema não garante integração automática.
+          </div>
+
+          <div class="official-map-actions">
+            <a class="official-link" href="https://www.metrorio.com.br/como-pagar/meios-e-tarifas" target="_blank" rel="noopener noreferrer">Tarifas MetrôRio</a>
+            <a class="official-link" href="https://trensrj.com.br/pt/tarifas-e-formas-de-pagamento" target="_blank" rel="noopener noreferrer">Tarifas TrensRJ</a>
+            <a class="official-link" href="https://trilhos.motiva.com.br/vltrio/" target="_blank" rel="noopener noreferrer">Tarifa VLT</a>
+            <a class="official-link" href="https://barcasrio.com.br/" target="_blank" rel="noopener noreferrer">Tarifas Barcas</a>
+          </div>
+
+          <div class="fare-updated">Informações verificadas em julho de 2026.</div>
+        `
+      },
+
+      card: {
+        kicker: "Rio de Janeiro · bilhetagem",
+        title: "Como pagar o transporte",
+        body: `
+          <section class="payment-recommendation">
+            <span class="payment-eyebrow">Para quem está visitando</span>
+            <h4>Não existe um único cartão ideal para toda a rede</h4>
+            <p>
+              O sistema Jaé é a referência do transporte municipal. O Riocard continua
+              relevante para serviços estaduais, metropolitanos e integrações específicas.
+              No metrô, também há Giro, cartão unitário, QR Code e aproximação.
+            </p>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Principais meios de pagamento</h4>
+
+            <div class="payment-method-grid">
+              <article class="payment-method">
+                <span class="payment-method-icon">⬛</span>
+                <strong>Jaé</strong>
+                <span class="payment-status available">Municipal</span>
+                <small>Ônibus municipais, BRT, VLT e benefícios do Bilhete Único Carioca.</small>
+              </article>
+
+              <article class="payment-method">
+                <span class="payment-method-icon">🟧</span>
+                <strong>Riocard</strong>
+                <span class="payment-status available">Metropolitano</span>
+                <small>Metrô, trem, barcas e serviços estaduais conforme aceitação.</small>
+              </article>
+
+              <article class="payment-method">
+                <span class="payment-method-icon">💳</span>
+                <strong>Aproximação</strong>
+                <span class="payment-status partial">Conforme o sistema</span>
+                <small>MetrôRio e estações específicas dos trens.</small>
+              </article>
+
+              <article class="payment-method">
+                <span class="payment-method-icon">▣</span>
+                <strong>QR Code</strong>
+                <span class="payment-status available">Disponível</span>
+                <small>Jaé, MetrôRio e opções específicas dos trens.</small>
+              </article>
+
+              <article class="payment-method">
+                <span class="payment-method-icon">💵</span>
+                <strong>Dinheiro</strong>
+                <span class="payment-status partial">Uso restrito</span>
+                <small>Não é mais aceito dentro dos ônibus municipais desde junho de 2026.</small>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Qual opção faz mais sentido?</h4>
+            <div class="payment-choice-grid">
+              <article class="payment-choice">
+                <strong>Vou usar ônibus, BRT ou VLT</strong>
+                <p>Use Jaé físico ou QR Code. Para integração do Bilhete Único Carioca, use o Jaé preto ou QR Code elegível.</p>
+              </article>
+
+              <article class="payment-choice">
+                <strong>Vou usar apenas o metrô algumas vezes</strong>
+                <p>Cartão unitário, Giro, QR Code ou aproximação são as opções mais diretas.</p>
+              </article>
+
+              <article class="payment-choice">
+                <strong>Vou combinar metrô, trem ou barcas</strong>
+                <p>Confirme o uso do Riocard e as regras do benefício antes de iniciar o trajeto.</p>
+              </article>
+
+              <article class="payment-choice">
+                <strong>Sou turista estrangeiro</strong>
+                <p>Prefira meios sem cadastro quando possível. Benefícios estaduais podem exigir CPF, renda e cadastro.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Onde recarregar o Jaé</h4>
+            <div class="purchase-grid">
+              <article class="purchase-card"><span>📱</span><strong>Aplicativo Jaé</strong><p>Recarga por Pix ou crédito com liberação imediata.</p></article>
+              <article class="purchase-card"><span>🏧</span><strong>Máquinas de autoatendimento</strong><p>Disponíveis em pontos da rede e terminais.</p></article>
+              <article class="purchase-card"><span>🏪</span><strong>Pontos credenciados</strong><p>Rede de estabelecimentos espalhada pela cidade.</p></article>
+              <article class="purchase-card"><span>🚌</span><strong>Bilheterias do BRT</strong><p>Atendimento e recarga nos terminais indicados.</p></article>
+            </div>
+          </section>
+
+          <div class="visitor-alert">
+            <strong>Importante para 2026:</strong>
+            o pagamento em dinheiro deixou de ser aceito dentro dos ônibus municipais.
+            Tenha o Jaé físico, QR Code ou outro meio oficialmente aceito antes de embarcar.
+          </div>
+
+          <div class="official-map-actions">
+            <a class="official-link" href="https://jae.com.br/" target="_blank" rel="noopener noreferrer">Jaé</a>
+            <a class="official-link" href="https://www.metrorio.com.br/como-pagar/meios-e-tarifas" target="_blank" rel="noopener noreferrer">Meios do MetrôRio</a>
+            <a class="official-link" href="https://trensrj.com.br/pt/tarifas-e-formas-de-pagamento" target="_blank" rel="noopener noreferrer">Pagamento TrensRJ</a>
+          </div>
+
+          <div class="payment-updated">Informações verificadas em julho de 2026.</div>
+        `
+      },
+
+      bus: {
+        kicker: "Rio de Janeiro · ônibus, BRT e VLT",
+        title: "Como usar a rede municipal",
+        body: `
+          <section class="panel-box">
+            <h4 class="panel-title">Ônibus comum, BRT e VLT não são a mesma coisa</h4>
+
+            <div class="bus-system-grid">
+              <article class="bus-system-card">
+                <span>🚍</span>
+                <strong>Ônibus municipais</strong>
+                <p>
+                  Circulam por ruas e avenidas, atendendo bairros, terminais e estações.
+                  Confirme número, destino e sentido no letreiro.
+                </p>
+              </article>
+
+              <article class="bus-system-card">
+                <span>🚌</span>
+                <strong>BRT</strong>
+                <p>
+                  Opera em corredores segregados, com embarque em estações e terminais.
+                  A validação acontece antes do acesso à plataforma.
+                </p>
+              </article>
+
+              <article class="bus-system-card">
+                <span>🚊</span>
+                <strong>VLT Carioca</strong>
+                <p>
+                  Atende principalmente Centro e Região Portuária. A tarifa deve ser
+                  validada corretamente para evitar cobrança ou fiscalização.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Corredores e conexões do BRT</h4>
+            <div class="rio-line-grid">
+              <article class="rio-line-card">
+                <span class="rio-line-mark" style="background:#e05a35">T</span>
+                <strong>Transoeste</strong>
+                <p>Zona Oeste e conexão com a Barra.</p>
+              </article>
+              <article class="rio-line-card">
+                <span class="rio-line-mark" style="background:#3479bb">C</span>
+                <strong>Transcarioca</strong>
+                <p>Ligação transversal e acesso ao Aeroporto do Galeão.</p>
+              </article>
+              <article class="rio-line-card">
+                <span class="rio-line-mark" style="background:#7fa646">O</span>
+                <strong>Transolímpica</strong>
+                <p>Conecta áreas da Zona Oeste e terminais do sistema.</p>
+              </article>
+              <article class="rio-line-card">
+                <span class="rio-line-mark" style="background:#cf9b2d">B</span>
+                <strong>Transbrasil</strong>
+                <p>Eixo pela Avenida Brasil até o Terminal Gentileza.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">VLT Carioca</h4>
+            <div class="detail-list">
+              ${createLineCard("#2f79bd", "Linha 1 · Azul", "Santos Dumont ↔ Terminal Gentileza", "VLT Carioca", "Atende Centro, Região Portuária, Rodoviária e Terminal Gentileza.")}
+              ${createLineCard("#53a55a", "Linha 2 · Verde", "Praça XV ↔ Praia Formosa", "VLT Carioca", "Conecta Praça XV, Centro, Central e Região Portuária.")}
+              ${createLineCard("#d6b328", "Linha 3 · Amarela", "Santos Dumont ↔ Central", "VLT Carioca", "Ligação direta entre o aeroporto e a Central do Brasil.")}
+              ${createLineCard("#dd7b2f", "Linha 4 · Laranja", "Praça XV ↔ Terminal Gentileza", "VLT Carioca", "Conecta a área das barcas ao Terminal Gentileza.")}
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Antes de embarcar</h4>
+            <div class="bus-tip-list">
+              <article class="bus-tip">
+                <span class="bus-tip-icon">🔢</span>
+                <div><strong>Confira o número completo</strong><p>Linhas parecidas podem seguir destinos diferentes.</p></div>
+              </article>
+              <article class="bus-tip">
+                <span class="bus-tip-icon">⬛</span>
+                <div><strong>Tenha o Jaé pronto</strong><p>Dinheiro não é aceito dentro dos ônibus municipais.</p></div>
+              </article>
+              <article class="bus-tip">
+                <span class="bus-tip-icon">↔️</span>
+                <div><strong>Veja o sentido</strong><p>No BRT e no VLT, confirme a plataforma e o destino final.</p></div>
+              </article>
+              <article class="bus-tip">
+                <span class="bus-tip-icon">📱</span>
+                <div><strong>Consulte a operação</strong><p>Eventos e interdições alteram trajetos com frequência.</p></div>
+              </article>
+            </div>
+          </section>
+
+          <div class="official-map-actions">
+            <a class="official-link" href="https://jae.com.br/" target="_blank" rel="noopener noreferrer">Jaé</a>
+            <a class="official-link" href="https://trilhos.motiva.com.br/vltrio/mapas/" target="_blank" rel="noopener noreferrer">Mapa VLT</a>
+            <a class="official-link" href="https://transportes.prefeitura.rio/" target="_blank" rel="noopener noreferrer">Secretaria de Transportes</a>
+          </div>
+
+          <div class="bus-updated">Informações verificadas em julho de 2026.</div>
+        `
+      },
+
+      planner: {
+        kicker: "Rio de Janeiro · planejamento de viagem",
+        title: "Planeje o trajeto",
+        body: `
+          <section class="panel-box">
+            <h4 class="panel-title">Escolha a ferramenta pelo tipo de viagem</h4>
+            <div class="planner-tool-grid">
+              <article class="planner-tool-card">
+                <span class="planner-tool-icon">🗺️</span>
+                <strong>Comparar todos os modais</strong>
+                <p>Use Google Maps para comparar tempo, caminhada, baldeações e combinações.</p>
+              </article>
+              <article class="planner-tool-card">
+                <span class="planner-tool-icon">🚇</span>
+                <strong>Planejar no metrô</strong>
+                <p>Use o planejador do MetrôRio para estações, tempo estimado e transferências.</p>
+              </article>
+              <article class="planner-tool-card">
+                <span class="planner-tool-icon">🚆</span>
+                <strong>Planejar nos trens</strong>
+                <p>Use o TrensRJ para consultar até três opções e horários por ramal.</p>
+              </article>
+              <article class="planner-tool-card">
+                <span class="planner-tool-icon">⛴️</span>
+                <strong>Consultar as barcas</strong>
+                <p>Veja linha, horário, tarifa e tempo estimado da travessia.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Horários de referência</h4>
+            <div class="hours-grid">
+              <article class="hours-card">
+                <span>🚇</span>
+                <strong>MetrôRio</strong>
+                <p>Segunda a sábado, das 5h à 0h. Domingos e feriados, das 7h às 23h.</p>
+              </article>
+              <article class="hours-card">
+                <span>🚆</span>
+                <strong>TrensRJ</strong>
+                <p>Os horários variam por estação e ramal. Algumas estações encerram antes do último trem.</p>
+              </article>
+              <article class="hours-card">
+                <span>🚊</span>
+                <strong>VLT Carioca</strong>
+                <p>Operação divulgada todos os dias, das 5h às 23h.</p>
+              </article>
+              <article class="hours-card">
+                <span>⛴️</span>
+                <strong>Barcas</strong>
+                <p>Grade própria por linha. Consulte o horário exato antes de sair.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Aeroportos</h4>
+            <div class="comparison-grid">
+              <article class="comparison-card">
+                <strong>Santos Dumont</strong>
+                <p>
+                  O VLT atende o aeroporto pelas Linhas 1 e 3 e conecta a pontos
+                  importantes do Centro.
+                </p>
+              </article>
+              <article class="comparison-card">
+                <strong>Galeão</strong>
+                <p>
+                  O acesso por transporte público normalmente envolve BRT,
+                  ônibus ou combinação com outros modais.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-box">
+            <h4 class="panel-title">Dicas que evitam erros</h4>
+            <div class="planner-tip-list">
+              <article class="planner-tip"><span class="planner-tip-icon">📱</span><div><strong>Confira a operação no dia</strong><p>Eventos, jogos e interdições podem alterar linhas e estações.</p></div></article>
+              <article class="planner-tip"><span class="planner-tip-icon">💳</span><div><strong>Confirme o cartão correto</strong><p>Jaé e Riocard cumprem funções diferentes na rede.</p></div></article>
+              <article class="planner-tip"><span class="planner-tip-icon">🚶</span><div><strong>Considere a caminhada</strong><p>Algumas conexões exigem sair da estação e caminhar.</p></div></article>
+              <article class="planner-tip"><span class="planner-tip-icon">⏱️</span><div><strong>Não dependa do último serviço</strong><p>Transferências podem encerrar antes do horário final da linha.</p></div></article>
+            </div>
+          </section>
+
+          <div class="official-map-actions">
+            <a class="official-link" href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer">Google Maps</a>
+            <a class="official-link" href="https://www.metrorio.com.br/" target="_blank" rel="noopener noreferrer">Planejador MetrôRio</a>
+            <a class="official-link" href="https://trensrj.com.br/pt/planeje-sua-viagem" target="_blank" rel="noopener noreferrer">Planejador TrensRJ</a>
+            <a class="official-link" href="https://barcasrio.com.br/" target="_blank" rel="noopener noreferrer">Horários das Barcas</a>
+          </div>
+
+          <div class="planner-updated">Informações verificadas em julho de 2026.</div>
+        `
+      }
+    };
+
+    function getActiveModalContent() {
+      const select = document.getElementById("destinationSelect");
+      return select && select.value === "rio" ? RIO_MODAL_CONTENT : MODAL_CONTENT;
+    }
+
+    function createMaterialsBridgeMarkup() {
+      return `
+        <section
+          class="materials-bridge"
+          id="materialsBridge"
+          aria-live="polite"
+          aria-busy="true"
+        >
+          <span class="materials-bridge-kicker">Curadoria do destino</span>
+          <h3 id="materialsBridgeTitle">Verificando materiais disponíveis...</h3>
+          <div class="materials-bridge-copy" id="materialsBridgeCopy">
+            <p>Estamos consultando a Curadoria para identificar os materiais disponíveis.</p>
+          </div>
+          <div class="materials-category-list" id="materialsCategoryList" hidden></div>
+          <a class="materials-bridge-action" id="materialsBridgeAction" href="index.html?secao=curadoria#curadoria" hidden>
+            Ver materiais disponíveis
+          </a>
+          <div class="materials-bridge-status" id="materialsBridgeStatus">Consulta automática em andamento.</div>
+        </section>
+      `;
+    }
+
+    function renderRioDestination() {
+      const content = document.querySelector(".tool-panel > .content");
+      if (!content) return;
+
+      content.innerHTML = `
+        <section class="destination-summary">
+          <div>
+            <h3>Rio de Janeiro, Brasil</h3>
+            <p>
+              Entenda como metrô, trens metropolitanos, BRT, VLT, ônibus e barcas
+              se conectam para circular pela cidade e pela Região Metropolitana.
+            </p>
+          </div>
+          <span class="updated-pill">Informações verificadas · julho de 2026</span>
+        </section>
+
+        <div class="section-heading">
+          <h3>Entenda a rede</h3>
+          <p>Veja os principais sistemas, integrações e mapas oficiais do Rio.</p>
+        </div>
+
+        <article class="network-card rio-network-card" tabindex="0" role="button" data-modal="network" aria-label="Abrir visão completa da rede do Rio de Janeiro">
+          <div class="network-map-lines" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="network-overlay"></div>
+          <div class="network-content">
+            <span class="network-tag">Mapa e interpretação</span>
+            <h4>Rede Metropolitana</h4>
+            <p>
+              Entenda metrô, TrensRJ, BRT, VLT, ônibus e barcas,
+              além das principais conexões entre os sistemas.
+            </p>
+            <div class="network-points">
+              <span>Metrô</span>
+              <span>Trens urbanos</span>
+              <span>BRT</span>
+              <span>VLT</span>
+              <span>Barcas</span>
+              <span>Integrações</span>
+            </div>
+            <span class="network-cta">Entender esta rede</span>
+          </div>
+        </article>
+
+        <div class="section-heading">
+          <h3>Use o transporte</h3>
+          <p>Tarifas, cartões, ônibus, BRT, VLT e planejamento do trajeto.</p>
+        </div>
+
+        <section class="practical-grid" aria-label="Informações práticas de transporte do Rio">
+          <article class="practical-card" tabindex="0" role="button" data-modal="fares">
+            <div class="practical-number">01</div>
+            <h4>Tarifas e integração</h4>
+            <p>Valores de metrô, trem, ônibus, BRT, VLT, barcas e benefícios tarifários.</p>
+            <span class="practical-cta">Ver valores →</span>
+          </article>
+
+          <article class="practical-card" tabindex="0" role="button" data-modal="card">
+            <div class="practical-number">02</div>
+            <h4>Como pagar</h4>
+            <p>Jaé, Riocard, QR Code, aproximação e escolha mais prática para visitantes.</p>
+            <span class="practical-cta">Ver formas de pagamento →</span>
+          </article>
+
+          <article class="practical-card" tabindex="0" role="button" data-modal="bus">
+            <div class="practical-number">03</div>
+            <h4>Ônibus, BRT e VLT</h4>
+            <p>Diferenças entre os sistemas, corredores, linhas e orientações de embarque.</p>
+            <span class="practical-cta">Ver como usar →</span>
+          </article>
+
+          <article class="practical-card" tabindex="0" role="button" data-modal="planner">
+            <div class="practical-number">04</div>
+            <h4>Planeje o trajeto</h4>
+            <p>Mapas, horários, aeroportos, barcas e canais oficiais de planejamento.</p>
+            <span class="practical-cta">Abrir canais →</span>
+          </article>
+        </section>
+
+        <div class="status-banner">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>
+            A malha do Rio de Janeiro foi estruturada com os principais sistemas
+            municipais e metropolitanos usados por visitantes.
+          </span>
+        </div>
+
+        ${createMaterialsBridgeMarkup()}
+      `;
+
+      updateMaterialsBridge();
+    }
 
     const MODAL_CONTENT = {
       network: {
@@ -4631,7 +5473,7 @@
     });
 
     function openModal(key) {
-      const content = MODAL_CONTENT[key];
+      const content = getActiveModalContent()[key];
       if (!content) return;
 
       lastFocusedElement = document.activeElement;
@@ -4681,6 +5523,30 @@
       });
     });
 
+
+    document.addEventListener("click", (event) => {
+      const select = document.getElementById("destinationSelect");
+      if (!select || select.value !== "rio") return;
+
+      const target = event.target.closest("[data-modal]");
+      if (!target) return;
+
+      openModal(target.dataset.modal);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      const select = document.getElementById("destinationSelect");
+      if (!select || select.value !== "rio") return;
+
+      const target = event.target.closest("[data-modal]");
+      if (!target) return;
+
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openModal(target.dataset.modal);
+      }
+    });
+
     closeModalButton.addEventListener("click", closeModal);
 
     modal.addEventListener("click", (event) => {
@@ -4705,18 +5571,28 @@
     document.getElementById("showDestinationButton").addEventListener("click", async () => {
       const select = document.getElementById("destinationSelect");
 
-      await updateMaterialsBridge();
-
-      if (select.value === "sao-paulo") {
+      if (select.value === "rio") {
+        renderRioDestination();
         document.querySelector(".destination-summary").scrollIntoView({
           behavior: "smooth",
           block: "start"
         });
+        return;
+      }
+
+      if (select.value === "sao-paulo") {
+        window.location.reload();
       }
     });
 
     document.getElementById("destinationSelect").addEventListener("change", () => {
-      updateMaterialsBridge();
+      const select = document.getElementById("destinationSelect");
+
+      if (select.value === "rio") {
+        renderRioDestination();
+      } else if (select.value === "sao-paulo") {
+        window.location.reload();
+      }
     });
 
     const siteHeader = document.getElementById("siteHeader");
