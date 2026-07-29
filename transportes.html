@@ -3002,6 +3002,13 @@
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
+  <script src="transport-data/sao-paulo/network.js"></script>
+  <script src="transport-data/sao-paulo/fares.js"></script>
+  <script src="transport-data/sao-paulo/pagamento.js"></script>
+  <script src="transport-data/sao-paulo/onibus.js"></script>
+  <script src="transport-data/sao-paulo/planner.js"></script>
+  <script src="transport-data/sao-paulo/index.js"></script>
+
   <script>
 
     const TRANSPORT_CINEMA_VERSION = "20260724-1";
@@ -3881,7 +3888,12 @@
 
     function getActiveModalContent() {
       const select = document.getElementById("destinationSelect");
-      return select && select.value === "rio" ? RIO_MODAL_CONTENT : MODAL_CONTENT;
+
+      if (select && select.value === "rio") {
+        return RIO_MODAL_CONTENT;
+      }
+
+      return window.SP_TRANSPORT_MODULES || {};
     }
 
     function createMaterialsBridgeMarkup() {
@@ -5480,7 +5492,10 @@
 
       modalKicker.textContent = content.kicker;
       modalTitle.textContent = content.title;
-      modalBody.innerHTML = content.body;
+      modalBody.innerHTML =
+        typeof content.body === "function"
+          ? content.body()
+          : content.body;
 
       modal.classList.add("active");
       modal.setAttribute("aria-hidden", "false");
