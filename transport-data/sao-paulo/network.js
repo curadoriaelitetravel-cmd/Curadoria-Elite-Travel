@@ -6,7 +6,7 @@ window.SP_TRANSPORT_MODULES["network"] = {
 
   body() {
     const OFFICIAL_NETWORK_PDF =
-      "https://www.metro.sp.gov.br/wp-content/uploads/2026/07/mapaderede.pdf";
+  "https://www.metro.sp.gov.br/wp-content/uploads/2026/07/mapa-da-rede.pdf";
 
     return `
       <div class="network-layout">
