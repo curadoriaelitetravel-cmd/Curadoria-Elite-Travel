@@ -1,96 +1,317 @@
+// ============================================================
+// CURADORIA ELITE TRAVEL
+// TRANSPORTES — SÃO PAULO
+// MÓDULO: REDE METROPOLITANA
+// ============================================================
+
 window.SP_TRANSPORT_MODULES = window.SP_TRANSPORT_MODULES || {};
 
+// Imagem salva no próprio projeto.
+// Local no GitHub:
+// /images/mapa-transporte-sao-paulo-2026.jpg
+const MAP_URL = "/images/mapa-transporte-sao-paulo-2026.jpg";
+
+
+// ============================================================
+// FUNÇÕES AUXILIARES
+// ============================================================
+
+function createLegendLine(color, title, description) {
+  return `
+    <article class="legend-card">
+      <span
+        class="legend-line"
+        style="
+          display:block;
+          width:42px;
+          height:5px;
+          border-radius:999px;
+          background:${color};
+          margin-bottom:12px;
+        "
+      ></span>
+
+      <strong>${title}</strong>
+      <p>${description}</p>
+    </article>
+  `;
+}
+
+
+function createLegendSymbol(symbol, title, description) {
+  return `
+    <article class="legend-card">
+      <span
+        class="legend-symbol"
+        style="
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          width:38px;
+          height:38px;
+          border:1px solid rgba(212,175,55,.35);
+          border-radius:50%;
+          margin-bottom:10px;
+          font-weight:700;
+        "
+      >
+        ${symbol}
+      </span>
+
+      <strong>${title}</strong>
+      <p>${description}</p>
+    </article>
+  `;
+}
+
+
+function createOperatorCard(color, name, lines) {
+  return `
+    <article class="operator-card">
+      <span
+        class="operator-dot"
+        style="
+          display:inline-block;
+          width:12px;
+          height:12px;
+          border-radius:50%;
+          background:${color};
+          margin-right:8px;
+        "
+      ></span>
+
+      <strong>${name}</strong>
+      <p>${lines}</p>
+    </article>
+  `;
+}
+
+
+function createLineMiniCard(
+  color,
+  number,
+  name,
+  type,
+  route,
+  operator
+) {
+  return `
+    <article class="line-mini-card">
+
+      <div class="line-mini-head">
+        <span
+          class="line-number"
+          style="
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            min-width:34px;
+            height:34px;
+            padding:0 8px;
+            border-radius:50%;
+            background:${color};
+            color:#fff;
+            font-weight:700;
+          "
+        >
+          ${number}
+        </span>
+
+        <div>
+          <strong>Linha ${number} — ${name}</strong>
+          <small style="display:block;">${type}</small>
+        </div>
+      </div>
+
+      <p>${route}</p>
+      <span class="line-operator">${operator}</span>
+
+    </article>
+  `;
+}
+
+
+// ============================================================
+// LIGHTBOX DO MAPA
+// ============================================================
+
+function openSPNetworkMap() {
+
+  // Evita abrir dois lightboxes ao mesmo tempo.
+  if (document.getElementById("spNetworkMapLightbox")) {
+    return;
+  }
+
+  const lightbox = document.createElement("div");
+
+  lightbox.id = "spNetworkMapLightbox";
+
+  lightbox.style.cssText = `
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:rgba(0,0,0,.92);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    box-sizing:border-box;
+    cursor:zoom-out;
+  `;
+
+  lightbox.innerHTML = `
+    <button
+      type="button"
+      id="closeSPNetworkMap"
+      aria-label="Fechar mapa ampliado"
+      style="
+        position:fixed;
+        top:22px;
+        right:28px;
+        z-index:100001;
+        width:46px;
+        height:46px;
+        border-radius:50%;
+        border:1px solid rgba(212,175,55,.55);
+        background:#090909;
+        color:#d4af37;
+        font-size:28px;
+        line-height:1;
+        cursor:pointer;
+      "
+    >
+      ×
+    </button>
+
+    <img
+      src="${MAP_URL}"
+      alt="Mapa ampliado da rede metropolitana de São Paulo"
+      style="
+        display:block;
+        max-width:96vw;
+        max-height:94vh;
+        width:auto;
+        height:auto;
+        object-fit:contain;
+        background:#fff;
+        box-shadow:0 18px 60px rgba(0,0,0,.65);
+        cursor:default;
+      "
+    />
+  `;
+
+  document.body.appendChild(lightbox);
+
+  const closeLightbox = () => {
+    lightbox.remove();
+    document.removeEventListener("keydown", escapeHandler);
+  };
+
+  const escapeHandler = (event) => {
+    if (event.key === "Escape") {
+      closeLightbox();
+    }
+  };
+
+  lightbox.addEventListener("click", (event) => {
+    if (
+      event.target === lightbox ||
+      event.target.id === "closeSPNetworkMap"
+    ) {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener("keydown", escapeHandler);
+}
+
+
+// ============================================================
+// MÓDULO
+// ============================================================
+
 window.SP_TRANSPORT_MODULES["network"] = {
+
   kicker: "São Paulo · visão completa",
+
   title: "Rede Metropolitana",
 
   body() {
-    const OFFICIAL_NETWORK_PDF =
-  "https://www.metro.sp.gov.br/wp-content/uploads/2026/07/mapa-da-rede.pdf";
-
     return `
+
       <div class="network-layout">
 
-        <section class="panel-box network-full">
-          <h4 class="panel-title">Mapa da rede</h4>
-
-          <p class="panel-intro">
-            Metrô, trens metropolitanos e monotrilho reunidos no mapa oficial
-            da rede de transporte de São Paulo.
-          </p>
-
-          <div
-            class="official-map-wrap"
-            style="
-              position: relative;
-              width: 100%;
-              height: min(76vh, 850px);
-              min-height: 580px;
-              overflow: hidden;
-              background: #ffffff;
-            "
-          >
-            <object
-              data="${OFFICIAL_NETWORK_PDF}"
-              type="application/pdf"
-              aria-label="Mapa oficial da rede metropolitana de São Paulo"
-              style="
-                display: block;
-                width: 100%;
-                height: 100%;
-                border: 0;
-                background: #ffffff;
-              "
-            >
-              <iframe
-                src="${OFFICIAL_NETWORK_PDF}"
-                title="Mapa oficial da rede metropolitana de São Paulo"
-                loading="lazy"
-                style="
-                  display: block;
-                  width: 100%;
-                  height: 100%;
-                  border: 0;
-                  background: #ffffff;
-                "
-              ></iframe>
-
-              <div
-                style="
-                  display: flex;
-                  min-height: 580px;
-                  align-items: center;
-                  justify-content: center;
-                  padding: 30px;
-                  color: #333333;
-                  background: #ffffff;
-                  text-align: center;
-                "
-              >
-                <p style="max-width: 520px; margin: 0;">
-                  O visualizador de PDF não está disponível neste navegador.
-                  Tente acessar novamente usando uma versão atualizada do navegador.
-                </p>
-              </div>
-            </object>
-          </div>
-
-          <p
-            style="
-              margin: 12px 0 0;
-              color: var(--muted);
-              font-size: 11px;
-              line-height: 1.55;
-            "
-          >
-            Documento oficial apresentado dentro da Curadoria Elite Travel.
-            Use os controles do visualizador para ampliar, reduzir ou navegar pelo mapa.
-          </p>
-        </section>
+        <!-- ==================================================
+             MAPA + LEGENDA
+        =================================================== -->
 
         <div class="network-row">
+
           <section class="panel-box">
-            <h4 class="panel-title">Entenda este mapa</h4>
+
+            <h4 class="panel-title">
+              Mapa da rede
+            </h4>
+
+            <p class="panel-intro">
+              Metrô, trens metropolitanos e monotrilho reunidos
+              em uma única visualização.
+            </p>
+
+            <div
+              class="official-map-wrap"
+              style="
+                overflow:hidden;
+                border-radius:16px;
+                background:#fff;
+              "
+            >
+
+              <img
+                class="official-map-image"
+                src="${MAP_URL}"
+                alt="Mapa da rede metropolitana de São Paulo em 2026"
+                loading="lazy"
+                style="
+                  display:block;
+                  width:100%;
+                  height:auto;
+                  cursor:zoom-in;
+                "
+                onclick="openSPNetworkMap()"
+              />
+
+            </div>
+
+            <div class="official-map-actions">
+
+              <button
+                class="map-zoom-button"
+                type="button"
+                onclick="openSPNetworkMap()"
+              >
+                Ampliar mapa
+              </button>
+
+              <a
+                class="official-link"
+                href="https://www.metro.sp.gov.br/sua-viagem/mapa-da-rede/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Consultar fonte oficial
+              </a>
+
+            </div>
+
+          </section>
+
+
+          <section class="panel-box">
+
+            <h4 class="panel-title">
+              Entenda este mapa
+            </h4>
 
             <p class="panel-intro">
               Cores identificam linhas. Símbolos mostram conexões,
@@ -98,6 +319,7 @@ window.SP_TRANSPORT_MODULES["network"] = {
             </p>
 
             <div class="legend-grid">
+
               ${createLegendLine(
                 "#6f1935",
                 "Linha escura",
@@ -145,86 +367,128 @@ window.SP_TRANSPORT_MODULES["network"] = {
                 "Acesso livre",
                 "Trecho ou estação indicada com acesso sem bloqueio tarifário."
               )}
+
             </div>
+
           </section>
 
+        </div>
+
+
+        <!-- ==================================================
+             METRÔ X TREM + OPERADORES
+        =================================================== -->
+
+        <div class="network-row">
+
           <section class="panel-box">
-            <h4 class="panel-title">Diferença entre metrô e trem</h4>
+
+            <h4 class="panel-title">
+              Diferença entre metrô e trem
+            </h4>
 
             <p class="panel-intro">
-              Ambos fazem parte da rede, mas atendem escalas e trajetos diferentes.
+              Ambos fazem parte da rede, mas atendem escalas
+              e trajetos diferentes.
             </p>
 
             <div class="comparison-grid">
+
               <article class="comparison-card">
+
                 <strong>Metrô</strong>
 
                 <p>
-                  Opera principalmente dentro da cidade, com estações mais próximas
-                  e alta frequência em áreas urbanas.
+                  Opera principalmente dentro da cidade,
+                  com estações mais próximas e alta frequência
+                  em áreas urbanas.
                 </p>
+
               </article>
 
+
               <article class="comparison-card">
+
                 <strong>Trem metropolitano</strong>
 
                 <p>
-                  Liga a capital a bairros mais afastados e municípios
-                  da Região Metropolitana.
+                  Liga a capital a bairros mais afastados
+                  e municípios da Região Metropolitana.
                 </p>
+
               </article>
+
             </div>
+
           </section>
+
+
+          <section class="panel-box">
+
+            <h4 class="panel-title">
+              Operadores presentes no mapa
+            </h4>
+
+            <p class="panel-intro">
+              Cada operador administra linhas específicas da rede.
+            </p>
+
+            <div class="operator-grid">
+
+              ${createOperatorCard(
+                "#224d93",
+                "Metrô SP",
+                "Linhas 1, 2, 3 e 15"
+              )}
+
+              ${createOperatorCard(
+                "#d33a35",
+                "CPTM",
+                "Linhas 10, 11, 12 e 13"
+              )}
+
+              ${createOperatorCard(
+                "#d7b11e",
+                "ViaQuatro",
+                "Linha 4"
+              )}
+
+              ${createOperatorCard(
+                "#20a39c",
+                "ViaMobilidade",
+                "Linhas 5, 8 e 9"
+              )}
+
+              ${createOperatorCard(
+                "#7c2f87",
+                "TIC Trens",
+                "Linha 7"
+              )}
+
+            </div>
+
+          </section>
+
         </div>
 
-        <section class="panel-box network-full">
-          <h4 class="panel-title">Operadores presentes no mapa</h4>
 
-          <p class="panel-intro">
-            Cada operador administra linhas específicas da rede.
-          </p>
-
-          <div class="operator-grid">
-            ${createOperatorCard(
-              "#224d93",
-              "Metrô SP",
-              "Linhas 1, 2, 3 e 15"
-            )}
-
-            ${createOperatorCard(
-              "#d33a35",
-              "CPTM",
-              "Linhas 10, 11, 12 e 13"
-            )}
-
-            ${createOperatorCard(
-              "#d7b11e",
-              "ViaQuatro",
-              "Linha 4"
-            )}
-
-            ${createOperatorCard(
-              "#20a39c",
-              "ViaMobilidade",
-              "Linhas 5, 8 e 9"
-            )}
-
-            ${createOperatorCard(
-              "#7c2f87",
-              "TIC Trens",
-              "Linha 7"
-            )}
-          </div>
-        </section>
+        <!-- ==================================================
+             LINHAS
+        =================================================== -->
 
         <section class="panel-box network-full">
-          <h4 class="panel-title">Linhas da rede</h4>
+
+          <h4 class="panel-title">
+            Linhas da rede
+          </h4>
 
           <p class="panel-intro">
-            As 14 linhas aparecem em duas fileiras de sete para reduzir a rolagem.
+            As linhas aparecem organizadas para facilitar
+            a consulta durante a viagem.
           </p>
 
           <div class="lines-grid">
+
             ${createLineMiniCard(
               "#1f6fc2",
               "1",
@@ -350,10 +614,20 @@ window.SP_TRANSPORT_MODULES["network"] = {
               "Em implantação",
               "Metrô SP"
             )}
+
           </div>
+
         </section>
 
       </div>
+
     `;
   }
 };
+
+
+// ============================================================
+// Torna a função disponível para os elementos HTML do módulo.
+// ============================================================
+
+window.openSPNetworkMap = openSPNetworkMap;
