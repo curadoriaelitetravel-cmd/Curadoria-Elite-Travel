@@ -125,7 +125,7 @@ function createSalvadorBrtCard(
       </span>
 
       <small>
-        ${description}
+        Prefeitura de Salvador · SEMOB
       </small>
 
     </article>
@@ -193,7 +193,7 @@ function openSalvadorNetworkMap() {
 
     <img
       src="${SALVADOR_MAP_URL}"
-      alt="Mapa ampliado das linhas 1 e 2 do Metrô de Salvador"
+      alt="Mapa ampliado das Linhas 1 e 2 do Metrô de Salvador"
       style="
         display:block;
         max-width:96vw;
@@ -285,8 +285,8 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
           </h4>
 
           <p class="panel-intro">
-            As Linhas 1 e 2 formam a principal
-            rede sobre trilhos em operação regular
+            As Linhas 1 e 2 formam
+            a rede metroviária
             de Salvador e Lauro de Freitas.
           </p>
 
@@ -325,13 +325,14 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
               Ampliar mapa
             </button>
 
+
             <a
               class="official-link"
               href="https://www.ba.gov.br/trilhos/25/mapa-das-linhas"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Consultar fonte oficial
+              Mapa oficial · Governo da Bahia
             </a>
 
           </div>
@@ -350,9 +351,9 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
           </h4>
 
           <p class="panel-intro">
-            A mobilidade da cidade não depende
-            apenas do metrô. Diferentes sistemas
-            se conectam em estações e terminais.
+            A mobilidade da cidade combina
+            diferentes sistemas que se conectam
+            em estações e terminais.
           </p>
 
           <div class="legend-grid">
@@ -360,37 +361,37 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
             ${createSalvadorLegendItem(
               "M",
               "Metrô",
-              "Linhas 1 e 2 conectam áreas centrais, rodoviária, bairros e Aeroporto."
+              "As Linhas 1 e 2 conectam diferentes regiões de Salvador e chegam ao eixo do Aeroporto."
             )}
 
             ${createSalvadorLegendItem(
               "BRT",
               "BRT Salvador",
-              "Rede de ônibus de alta capacidade com corredores e estações próprias."
+              "Sistema municipal de ônibus de alta capacidade com corredores e estações próprias."
             )}
 
             ${createSalvadorLegendItem(
               "VLT",
               "VLT",
-              "Novo sistema em operação assistida no Subúrbio Ferroviário."
+              "Sistema sobre trilhos em implantação, atualmente em operação assistida em trecho do Subúrbio Ferroviário."
             )}
 
             ${createSalvadorLegendItem(
               "🚌",
               "Ônibus urbanos",
-              "Complementam a cobertura nos bairros e alimentam metrô e terminais."
+              "Complementam a cobertura municipal e fazem conexões com metrô, BRT e terminais."
             )}
 
             ${createSalvadorLegendItem(
               "🌆",
               "Ônibus metropolitanos",
-              "Ligam Salvador aos municípios da Região Metropolitana."
+              "Conectam Salvador a outros municípios da Região Metropolitana."
             )}
 
             ${createSalvadorLegendItem(
               "⛴",
               "Ferry-Boat",
-              "Travessia marítima entre Salvador e a Ilha de Itaparica."
+              "Sistema hidroviário que realiza a travessia entre Salvador e a Ilha de Itaparica."
             )}
 
           </div>
@@ -418,35 +419,35 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
             ${createSalvadorSystemCard(
               "🚇",
               "Metrô",
-              "Principal eixo sobre trilhos da cidade.",
+              "Principal sistema sobre trilhos em operação regular.",
               "Linhas 1 e 2"
             )}
 
             ${createSalvadorSystemCard(
               "🚍",
               "BRT Salvador",
-              "Corredores de ônibus de alta capacidade.",
+              "Rede municipal de ônibus em corredores estruturados.",
               "B1, B2, B3, B4 e B5"
             )}
 
             ${createSalvadorSystemCard(
               "🚊",
               "VLT",
-              "Novo sistema ferroviário urbano.",
+              "Novo sistema sobre trilhos em implantação.",
               "Operação assistida em trecho limitado"
             )}
 
             ${createSalvadorSystemCard(
               "🚌",
               "Ônibus",
-              "Rede urbana e metropolitana.",
-              "Integração com terminais e metrô"
+              "Redes municipal e metropolitana.",
+              "Conexões com terminais e metrô"
             )}
 
             ${createSalvadorSystemCard(
               "⛴",
               "Ferry-Boat",
-              "Travessia com passageiros e veículos.",
+              "Sistema hidroviário para passageiros e veículos.",
               "São Joaquim ↔ Bom Despacho"
             )}
 
@@ -462,12 +463,12 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Metrô de Salvador
+            Metrô
           </h4>
 
           <p class="panel-intro">
-            O sistema possui duas linhas
-            integradas entre si.
+            O sistema metroviário
+            possui duas linhas integradas.
           </p>
 
           <div class="lines-grid">
@@ -477,8 +478,8 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
               "1",
               "Linha 1",
               "Metrô",
-              "Lapa ↔ Águas Claras / Cajazeiras",
-              "CCR Metrô Bahia"
+              "Lapa ↔ Águas Claras",
+              "Sistema Metroviário Salvador e Lauro de Freitas"
             )}
 
             ${createLineMiniCard(
@@ -487,14 +488,16 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
               "Linha 2",
               "Metrô",
               "Acesso Norte ↔ Aeroporto",
-              "CCR Metrô Bahia"
+              "Sistema Metroviário Salvador e Lauro de Freitas"
             )}
 
           </div>
 
 
-          <div class="comparison-grid"
-               style="margin-top:14px;">
+          <div
+            class="comparison-grid"
+            style="margin-top:14px;"
+          >
 
             <article class="comparison-card">
 
@@ -503,23 +506,9 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Principal estação de conexão
-                entre as Linhas 1 e 2.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Rodoviária
-              </strong>
-
-              <p>
-                A Linha 2 possui estação
-                junto à região da Rodoviária
-                e do Shopping da Bahia.
+                É o principal ponto
+                de conexão entre
+                as Linhas 1 e 2.
               </p>
 
             </article>
@@ -532,8 +521,9 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                A Linha 2 chega à Estação Aeroporto,
-                com ligação complementar
+                A Linha 2 chega
+                à Estação Aeroporto,
+                no eixo de acesso
                 ao terminal aéreo.
               </p>
 
@@ -547,95 +537,12 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                A extensão da Linha 1
-                conecta o metrô
-                à nova Rodoviária da Bahia.
+                A Linha 1 atende
+                Águas Claras,
+                região da nova Rodoviária.
               </p>
 
             </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             HORÁRIO DO METRÔ
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Operação do metrô
-          </h4>
-
-          <div class="hours-grid">
-
-            <article class="hours-card">
-
-              <span>
-                🕔
-              </span>
-
-              <strong>
-                Início
-              </strong>
-
-              <p>
-                Operação regular
-                a partir das 5h.
-              </p>
-
-            </article>
-
-
-            <article class="hours-card">
-
-              <span>
-                🌙
-              </span>
-
-              <strong>
-                Encerramento
-              </strong>
-
-              <p>
-                Operação regular
-                até a meia-noite.
-              </p>
-
-            </article>
-
-
-            <article class="hours-card">
-
-              <span>
-                📅
-              </span>
-
-              <strong>
-                Todos os dias
-              </strong>
-
-              <p>
-                O sistema opera
-                diariamente.
-              </p>
-
-            </article>
-
-          </div>
-
-
-          <div class="fare-note">
-
-            <strong>
-              Operações especiais podem alterar horários.
-            </strong>
-
-            Carnaval, festas, jogos
-            e grandes eventos podem gerar
-            extensões ou mudanças temporárias.
 
           </div>
 
@@ -653,42 +560,51 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
           </h4>
 
           <p class="panel-intro">
-            O BRT funciona em corredores próprios
-            e complementa a rede de metrô
-            e ônibus convencionais.
+            A Prefeitura informa atualmente
+            cinco linhas em operação no sistema.
           </p>
 
           <div class="lines-grid">
 
             ${createSalvadorBrtCard(
               "B1",
-              "Rodoviária ↔ Pituba",
-              "Ligação entre a região da Rodoviária e Pituba."
+              "Estação Rodoviária ↔ Estação Pituba",
+              "Via Cidadela"
             )}
 
             ${createSalvadorBrtCard(
               "B2",
-              "Rodoviária ↔ Rio Vermelho",
-              "Atende Pituba, Amaralina e Rio Vermelho."
+              "Estação Rodoviária ↔ Rio Vermelho",
+              "Via Pituba e Amaralina"
             )}
 
             ${createSalvadorBrtCard(
               "B3",
-              "Rodoviária ↔ Pituba",
-              "Serviço via Paulo VI."
+              "Estação Rodoviária ↔ Pituba",
+              "Via Paulo VI"
             )}
 
             ${createSalvadorBrtCard(
               "B4",
-              "Pituba ↔ Lapa",
-              "Conecta Pituba ao Centro."
+              "Estação Pituba ↔ Estação Lapa",
+              "Atende o trecho 2 do BRT"
             )}
 
             ${createSalvadorBrtCard(
               "B5",
-              "Rodoviária ↔ Lapa",
-              "Conecta dois importantes terminais."
+              "Estação Rodoviária ↔ Estação Lapa",
+              "Conecta os dois eixos do sistema"
             )}
+
+          </div>
+
+
+          <div class="fare-note">
+
+            As linhas e a operação
+            podem passar por ajustes.
+            Consulte a Secretaria Municipal
+            de Mobilidade antes da viagem.
 
           </div>
 
@@ -706,11 +622,9 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
           </h4>
 
           <p class="panel-intro">
-            O novo VLT está sendo implantado
-            gradualmente e ainda não deve ser tratado
-            como uma rede totalmente concluída.
+            O VLT está sendo implantado
+            gradualmente pelo Governo da Bahia.
           </p>
-
 
           <div class="comparison-grid">
 
@@ -721,8 +635,9 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                O sistema iniciou operação assistida
-                de passageiros em junho de 2026.
+                A operação assistida
+                de passageiros começou
+                em 29 de junho de 2026.
               </p>
 
             </article>
@@ -731,14 +646,14 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
             <article class="comparison-card">
 
               <strong>
-                Trecho atual
+                Trecho assistido
               </strong>
 
               <p>
-                Operação assistida
+                A etapa atual ocorre
                 entre Calçada e Lobato,
-                com atendimento ao trecho
-                do Subúrbio Ferroviário.
+                em percurso de aproximadamente
+                quatro quilômetros.
               </p>
 
             </article>
@@ -747,13 +662,13 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
             <article class="comparison-card">
 
               <strong>
-                Serviço limitado
+                Horário atual
               </strong>
 
               <p>
-                Horários e operação
-                ainda são diferentes
-                de um sistema plenamente implantado.
+                Segunda a sexta-feira,
+                exceto feriados,
+                das 8h às 16h.
               </p>
 
             </article>
@@ -762,11 +677,11 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
             <article class="comparison-card">
 
               <strong>
-                Expansão
+                Sistema em expansão
               </strong>
 
               <p>
-                Outros trechos do VLT
+                Outros trechos
                 permanecem em implantação.
               </p>
 
@@ -781,10 +696,10 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
               Para quem está viajando:
             </strong>
 
-            confirme a operação do VLT
-            no dia do deslocamento
-            antes de incluí-lo como parte essencial
-            do seu trajeto.
+            como se trata de operação assistida,
+            confirme a programação pública
+            antes de depender do VLT
+            em um deslocamento essencial.
 
           </div>
 
@@ -810,10 +725,9 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Atendem bairros,
-                terminais e áreas
-                fora dos principais eixos
-                do metrô e BRT.
+                Atendem bairros
+                e regiões fora dos principais
+                eixos do metrô e BRT.
               </p>
 
             </article>
@@ -827,25 +741,8 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
 
               <p>
                 Ligam Salvador
-                a municípios como Lauro de Freitas,
-                Camaçari, Simões Filho
-                e outros destinos da RMS.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Terminais
-              </strong>
-
-              <p>
-                Águas Claras, Aeroporto,
-                Mussurunga e Pirajá
-                são importantes pontos
-                de conexão metropolitana.
+                a outros municípios
+                da Região Metropolitana.
               </p>
 
             </article>
@@ -858,9 +755,9 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Ônibus podem alimentar
-                metrô, BRT
-                e terminais de conexão.
+                Terminais e estações
+                permitem combinar
+                diferentes sistemas.
               </p>
 
             </article>
@@ -871,7 +768,7 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             FERRY BOAT
+             FERRY-BOAT
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -881,9 +778,9 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
           </h4>
 
           <p class="panel-intro">
-            É uma alternativa importante
-            para quem cruza a Baía de Todos-os-Santos
-            em direção à Ilha de Itaparica.
+            O transporte hidroviário
+            intermunicipal é regulado
+            e fiscalizado pela AGERBA.
           </p>
 
           <div class="route-compare-grid">
@@ -899,12 +796,13 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Terminal localizado
-                na Cidade Baixa.
+                É o terminal
+                de embarque do sistema
+                na capital.
               </p>
 
               <span class="route-compare-result">
-                Embarque em Salvador
+                Salvador
               </span>
 
             </article>
@@ -917,16 +815,17 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
               </span>
 
               <strong>
-                Bom Despacho
+                Terminal Bom Despacho
               </strong>
 
               <p>
-                Terminal localizado
-                no município de Itaparica.
+                É o terminal
+                localizado na Ilha
+                de Itaparica.
               </p>
 
               <span class="route-compare-result">
-                Passageiros e veículos
+                Itaparica
               </span>
 
             </article>
@@ -935,23 +834,33 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
             <article class="route-compare-card">
 
               <span>
-                Travessia
+                Sistema
               </span>
 
               <strong>
-                São Joaquim ↔ Bom Despacho
+                Passageiros e veículos
               </strong>
 
               <p>
-                O serviço opera
-                em horários programados.
+                A travessia atende
+                passageiros e diferentes
+                categorias de veículos.
               </p>
 
               <span class="route-compare-result">
-                Consulte antes de sair
+                Consulte a AGERBA
               </span>
 
             </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Horários e condições
+            de operação podem sofrer alterações.
+            Consulte a AGERBA antes da viagem.
 
           </div>
 
@@ -959,7 +868,7 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             QUAL PROCURAR
+             QUAL SISTEMA PROCURAR
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -972,16 +881,15 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
 
             <article class="planner-check-card">
 
-              <span>
-                🚇
-              </span>
+              <span>🚇</span>
 
               <strong>
-                Aeroporto ou Rodoviária
+                Aeroporto ou eixo metroviário
               </strong>
 
               <p>
-                Comece verificando o metrô.
+                Comece verificando
+                as Linhas 1 e 2.
               </p>
 
             </article>
@@ -989,17 +897,15 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
 
             <article class="planner-check-card">
 
-              <span>
-                🚍
-              </span>
+              <span>🚍</span>
 
               <strong>
-                Pituba ou Rio Vermelho
+                Pituba, Rio Vermelho ou Lapa
               </strong>
 
               <p>
                 Compare BRT,
-                ônibus e metrô.
+                metrô e ônibus.
               </p>
 
             </article>
@@ -1007,17 +913,15 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
 
             <article class="planner-check-card">
 
-              <span>
-                🚌
-              </span>
+              <span>🚌</span>
 
               <strong>
                 Bairro fora dos eixos principais
               </strong>
 
               <p>
-                Confira a rede
-                de ônibus urbanos.
+                Consulte a rede
+                municipal de ônibus.
               </p>
 
             </article>
@@ -1025,17 +929,15 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
 
             <article class="planner-check-card">
 
-              <span>
-                🌆
-              </span>
+              <span>🌆</span>
 
               <strong>
                 Região Metropolitana
               </strong>
 
               <p>
-                Compare metrô
-                e ônibus metropolitanos.
+                Consulte metrô
+                e transporte metropolitano.
               </p>
 
             </article>
@@ -1043,16 +945,15 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
 
             <article class="planner-check-card">
 
-              <span>
-                ⛴
-              </span>
+              <span>⛴</span>
 
               <strong>
                 Ilha de Itaparica
               </strong>
 
               <p>
-                Consulte o Ferry-Boat.
+                Consulte o sistema
+                Ferry-Boat pela AGERBA.
               </p>
 
             </article>
@@ -1063,7 +964,7 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             FONTES
+             FONTES PÚBLICAS
         =================================================== -->
 
         <div class="official-map-actions">
@@ -1074,7 +975,7 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Mapa oficial do Metrô
+            Mapa do Metrô · CTB
           </a>
 
 
@@ -1100,11 +1001,11 @@ window.SALVADOR_TRANSPORT_MODULES["network"] = {
 
           <a
             class="official-link"
-            href="https://www.internacionaltravessias.com.br/"
+            href="https://www.ba.gov.br/agerba/transporte-hidroviario"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Ferry-Boat
+            Transporte hidroviário · AGERBA
           </a>
 
         </div>
