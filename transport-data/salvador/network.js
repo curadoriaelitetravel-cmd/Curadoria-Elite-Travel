@@ -8,7 +8,7 @@ window.SALVADOR_TRANSPORT_MODULES =
   window.SALVADOR_TRANSPORT_MODULES || {};
 
 const SALVADOR_MAP_URL =
-  "/images/mapa-transporte-salvador.jpg";
+  "/images/mapa-transporte-salvador.png";
 
 
 // ============================================================
