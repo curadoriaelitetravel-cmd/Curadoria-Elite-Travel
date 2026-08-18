@@ -2667,7 +2667,7 @@
           <div class="destination-toolbar">
             <select id="destinationSelect" class="destination-select" aria-label="Selecionar destino">
               <option value="sao-paulo">São Paulo, Brasil</option>
-              <option value="rio" disabled>Rio de Janeiro, Brasil — em preparação</option>
+              <option value="rio">Rio de Janeiro, Brasil</option>
               <option value="paris" disabled>Paris, França — em preparação</option>
               <option value="new-york" disabled>New York, Estados Unidos — em preparação</option>
             </select>
@@ -2876,6 +2876,13 @@
   <script src="transport-data/sao-paulo/planner.js"></script>
   <script src="transport-data/sao-paulo/index.js"></script>
 
+  <script src="transport-data/rio-de-janeiro/network.js"></script>
+  <script src="transport-data/rio-de-janeiro/fares.js"></script>
+  <script src="transport-data/rio-de-janeiro/pagamento.js"></script>
+  <script src="transport-data/rio-de-janeiro/onibus.js"></script>
+  <script src="transport-data/rio-de-janeiro/planner.js"></script>
+  <script src="transport-data/rio-de-janeiro/index.js"></script>
+
   <script>
 
     const TRANSPORT_CINEMA_VERSION = "20260724-1";
@@ -2934,6 +2941,19 @@
       "sao-paulo": {
         cityName: "São Paulo",
         cityLabel: "São Paulo",
+        fallbackCategories: [
+          "City Guide",
+          "Gastronomia",
+          "Atrações Turísticas",
+          "Vida Noturna",
+          "Endereços para Compras",
+          "Sugestão de Presentes"
+        ]
+      },
+
+      "rio": {
+        cityName: "Rio de Janeiro",
+        cityLabel: "Rio de Janeiro",
         fallbackCategories: [
           "City Guide",
           "Gastronomia",
@@ -3134,7 +3154,130 @@
     }
 
     function getActiveModalContent() {
+      const select = document.getElementById("destinationSelect");
+
+      if (select && select.value === "rio") {
+        return window.RIO_TRANSPORT_MODULES || {};
+      }
+
       return window.SP_TRANSPORT_MODULES || {};
+    }
+
+    function getActiveDestinationData() {
+      const select = document.getElementById("destinationSelect");
+      const value = select ? select.value : "sao-paulo";
+
+      if (value === "rio") {
+        return {
+          cityName: "Rio de Janeiro",
+          summary:
+            "Entenda metrô, trens metropolitanos, BRT, VLT, barcas, ônibus, tarifas e meios de pagamento antes de circular pela cidade.",
+          updatedAt: "Modelo visual · agosto de 2026",
+          networkDescription:
+            "Veja o mapa metropolitano e entenda MetrôRio, trens metropolitanos, BRT, VLT, barcas e suas conexões.",
+          networkPoints: [
+            "MetrôRio",
+            "Trens metropolitanos",
+            "BRT",
+            "VLT",
+            "Barcas"
+          ],
+          cards: {
+            fares: {
+              title: "Tarifas e integração",
+              description:
+                "Valores de ônibus, BRT, VLT, MetrôRio, trens, barcas e principais integrações."
+            },
+            card: {
+              title: "Como pagar",
+              description:
+                "Jaé, Riocard Mais, Giro, aproximação, QR Code e o meio certo para cada sistema."
+            },
+            bus: {
+              title: "Ônibus",
+              description:
+                "Ônibus municipais, BRT/MOBI-Rio, linhas intermunicipais, identificação e pagamento."
+            },
+            planner: {
+              title: "Planeje o trajeto",
+              description:
+                "Compare metrô, trem, BRT, VLT, barcas e ônibus e consulte os canais oficiais."
+            }
+          }
+        };
+      }
+
+      return {
+        cityName: "São Paulo",
+        summary:
+          "Primeiro, entenda a rede. Depois, veja tarifas, cartões, formas de pagamento, ônibus e canais oficiais de planejamento.",
+        updatedAt: "Modelo visual · julho de 2026",
+        networkDescription:
+          "Veja o mapa completo de metrô, trem e monotrilho, entenda as cores, os símbolos, as integrações e quem opera cada linha.",
+        networkPoints: [
+          "Metrô",
+          "Trem metropolitano",
+          "Monotrilho",
+          "Operadores",
+          "Integrações"
+        ],
+        cards: {
+          fares: {
+            title: "Tarifas e integração",
+            description:
+              "Valores de ônibus, metrô, trem, integração e passe de 24 horas."
+          },
+          card: {
+            title: "Como pagar",
+            description:
+              "Cartão, aproximação, QR Code, dinheiro, recarga e melhor opção para visitantes."
+          },
+          bus: {
+            title: "Ônibus",
+            description:
+              "Linhas municipais e intermunicipais, identificação, pagamento e canais oficiais."
+          },
+          planner: {
+            title: "Planeje o trajeto",
+            description:
+              "Links oficiais para linhas, horários, mapas e condições de operação."
+          }
+        }
+      };
+    }
+
+    function renderActiveDestination() {
+      const data = getActiveDestinationData();
+
+      const summaryTitle = document.querySelector(".destination-summary h3");
+      const summaryCopy = document.querySelector(".destination-summary p");
+      const updatedPill = document.querySelector(".updated-pill");
+      const networkDescription = document.querySelector(".network-content > p");
+      const networkPoints = document.querySelector(".network-points");
+
+      if (summaryTitle) summaryTitle.textContent = `${data.cityName}, Brasil`;
+      if (summaryCopy) summaryCopy.textContent = data.summary;
+      if (updatedPill) updatedPill.textContent = data.updatedAt;
+      if (networkDescription) networkDescription.textContent = data.networkDescription;
+
+      if (networkPoints) {
+        networkPoints.innerHTML = data.networkPoints
+          .map((item) => `<span>${item}</span>`)
+          .join("");
+      }
+
+      Object.entries(data.cards).forEach(([key, card]) => {
+        const element = document.querySelector(`[data-modal="${key}"]`);
+        if (!element) return;
+
+        const title = element.querySelector("h4");
+        const description = element.querySelector("p");
+
+        if (title) title.textContent = card.title;
+        if (description) description.textContent = card.description;
+      });
+
+      updateMaterialsBridge();
     }
 
     function createLineCard(color, title, route, operator, description) {
@@ -3321,6 +3464,8 @@
     });
 
     document.getElementById("showDestinationButton").addEventListener("click", () => {
+      renderActiveDestination();
+
       const summary = document.querySelector(".destination-summary");
 
       if (summary) {
@@ -3329,6 +3474,10 @@
           block: "start"
         });
       }
+    });
+
+    document.getElementById("destinationSelect").addEventListener("change", () => {
+      renderActiveDestination();
     });
 
     const siteHeader = document.getElementById("siteHeader");
@@ -3361,7 +3510,7 @@
     });
 
     startTransportCinema();
-    updateMaterialsBridge();
+    renderActiveDestination();
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && siteHeader && siteHeader.classList.contains("nav-open")) {
