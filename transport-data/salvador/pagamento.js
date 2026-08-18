@@ -22,7 +22,7 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             RESUMO PARA VISITANTES
+             RESUMO
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -30,20 +30,23 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
           <div class="payment-recommendation">
 
             <span class="payment-eyebrow">
-              Melhor opção depende do trajeto
+              Primeiro identifique o trajeto
             </span>
 
             <h4>
-              Só metrô? Aproximação pode ser suficiente.
-              Vai integrar com ônibus ou BRT? Use um cartão compatível.
+              Metrô, ônibus municipal
+              e transporte metropolitano
+              não dependem necessariamente
+              do mesmo meio de pagamento.
             </h4>
 
             <p>
-              O Metrô Bahia aceita pagamento direto na catraca
-              por aproximação e QR Code. Já para aproveitar
-              integrações tarifárias com ônibus urbanos,
-              metropolitanos ou BRT, utilize cartões recarregáveis
-              aceitos pelo sistema.
+              Para uma viagem exclusiva de metrô,
+              existem opções avulsas.
+              Quando o percurso envolve integração,
+              é importante utilizar
+              um cartão compatível
+              com os sistemas envolvidos.
             </p>
 
           </div>
@@ -52,22 +55,23 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             FORMAS DE PAGAMENTO
+             FORMAS CONFIRMADAS NO METRÔ
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Principais formas de pagamento
+            Formas confirmadas no metrô
           </h4>
 
           <p class="panel-intro">
-            Nem todas as opções servem para os mesmos modais
-            ou garantem integração tarifária.
+            O Governo da Bahia publica
+            diferentes formas de acesso
+            ao Sistema Metroviário
+            de Salvador e Lauro de Freitas.
           </p>
 
           <div class="payment-method-grid">
-
 
             <article class="payment-method">
 
@@ -84,9 +88,31 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
               </span>
 
               <small>
-                Cartões de crédito e débito,
-                celulares NFC, smartwatches
-                e pulseiras de pagamento.
+                Cartão de crédito ou débito
+                compatível com pagamento
+                por aproximação.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                📱
+              </span>
+
+              <strong>
+                Dispositivo NFC
+              </strong>
+
+              <span class="payment-status available">
+                Metrô
+              </span>
+
+              <small>
+                Celular, smartwatch
+                ou pulseira compatível.
               </small>
 
             </article>
@@ -107,9 +133,9 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
               </span>
 
               <small>
-                Pode ser adquirido
-                pelo aplicativo RecargaPay
-                e validado na catraca.
+                Bilhete unitário
+                validado diretamente
+                no bloqueio.
               </small>
 
             </article>
@@ -131,8 +157,8 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
 
               <small>
                 Cartão recarregável
-                do Metrô Bahia,
-                válido também nas integrações previstas.
+                utilizado no metrô
+                e em integrações compatíveis.
               </small>
 
             </article>
@@ -141,44 +167,21 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
             <article class="payment-method">
 
               <span class="payment-method-icon">
-                🟦
+                🚌
               </span>
 
               <strong>
-                SalvadorCARD
+                SalvadorCARD / Metropasse
               </strong>
 
               <span class="payment-status available">
-                Ônibus + integração
+                Conforme o trajeto
               </span>
 
               <small>
-                Usado na rede municipal
-                e nas integrações compatíveis
-                com metrô.
-              </small>
-
-            </article>
-
-
-            <article class="payment-method">
-
-              <span class="payment-method-icon">
-                🟩
-              </span>
-
-              <strong>
-                Metropasse
-              </strong>
-
-              <span class="payment-status available">
-                Metropolitana
-              </span>
-
-              <small>
-                Cartão utilizado
-                em transportes metropolitanos
-                e integrações compatíveis.
+                Os dois aparecem
+                entre os cartões aceitos
+                nas integrações publicadas.
               </small>
 
             </article>
@@ -189,32 +192,27 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             PAGAMENTO POR APROXIMAÇÃO
+             APROXIMAÇÃO
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Pagamento por aproximação no metrô
+            Pagamento por aproximação
           </h4>
 
-          <p class="panel-intro">
-            É uma das formas mais práticas
-            para quem está visitando Salvador
-            e pretende usar apenas o metrô
-            ou fazer poucas viagens.
-          </p>
-
-
           <div class="answer-block">
 
             <strong>
-              Cartão de crédito ou débito
+              Tarifa avulsa do metrô
             </strong>
 
             <p>
-              Basta aproximar o cartão compatível
-              diretamente no leitor da catraca.
+              O acesso pode ser pago
+              diretamente na catraca
+              com cartão de crédito,
+              débito ou dispositivo
+              com tecnologia NFC compatível.
             </p>
 
           </div>
@@ -223,28 +221,13 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
           <div class="answer-block">
 
             <strong>
-              Celular e outros dispositivos
+              Aguarde a validação
             </strong>
 
             <p>
-              Também são aceitos celulares com NFC,
-              smartwatches e pulseiras
-              de pagamento compatíveis.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Aguarde a luz verde
-            </strong>
-
-            <p>
-              O acesso é liberado
-              após a validação do pagamento
-              no bloqueio.
+              A liberação acontece
+              após o sistema reconhecer
+              o pagamento no bloqueio.
             </p>
 
           </div>
@@ -256,519 +239,10 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
               Atenção:
             </strong>
 
-            pagar o metrô diretamente
-            por aproximação não significa
-            que a integração tarifária
-            com ônibus será reconhecida.
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             CARTÃO INTEGRAÇÃO
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Cartão Integração do Metrô
-          </h4>
-
-          <p class="panel-intro">
-            É o cartão recarregável
-            do sistema metroviário
-            e pode participar das integrações
-            com outros transportes.
-          </p>
-
-
-          <div class="payment-choice-grid">
-
-            <article class="payment-choice">
-
-              <strong>
-                Onde comprar
-              </strong>
-
-              <p>
-                Em bilheterias
-                e máquinas de autoatendimento
-                do sistema metroviário.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Taxa do cartão
-              </strong>
-
-              <p>
-                A emissão do cartão
-                possui taxa própria,
-                além do valor que será colocado
-                como crédito.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Onde usar
-              </strong>
-
-              <p>
-                No metrô e nas integrações
-                tarifárias compatíveis
-                com ônibus urbanos,
-                metropolitanos e BRT.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Uso individual
-              </strong>
-
-              <p>
-                Para a integração funcionar,
-                utilize o mesmo cartão
-                durante todas as etapas
-                daquela viagem.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             RECARGA DO CARTÃO INTEGRAÇÃO
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Onde recarregar o Cartão Integração
-          </h4>
-
-          <div class="purchase-grid">
-
-
-            <article class="purchase-card">
-
-              <span>
-                📱
-              </span>
-
-              <strong>
-                App da operadora
-              </strong>
-
-              <p>
-                Recarga digital
-                pelo aplicativo
-                indicado pelo Metrô Bahia.
-              </p>
-
-            </article>
-
-
-            <article class="purchase-card">
-
-              <span>
-                🧭
-              </span>
-
-              <strong>
-                Moovit
-              </strong>
-
-              <p>
-                Desde 2026,
-                também permite comprar
-                créditos do Cartão Integração.
-              </p>
-
-            </article>
-
-
-            <article class="purchase-card">
-
-              <span>
-                📲
-              </span>
-
-              <strong>
-                KIM+
-              </strong>
-
-              <p>
-                Carteira digital utilizada
-                para recarga de cartões
-                de transporte em Salvador.
-              </p>
-
-            </article>
-
-
-            <article class="purchase-card">
-
-              <span>
-                💬
-              </span>
-
-              <strong>
-                PicPay e RecargaPay
-              </strong>
-
-              <p>
-                Também aparecem
-                entre os canais digitais
-                informados para recarga.
-              </p>
-
-            </article>
-
-
-            <article class="purchase-card">
-
-              <span>
-                🚌
-              </span>
-
-              <strong>
-                Cittamobi
-              </strong>
-
-              <p>
-                Canal digital disponível
-                para aquisição de créditos.
-              </p>
-
-            </article>
-
-
-            <article class="purchase-card">
-
-              <span>
-                🏪
-              </span>
-
-              <strong>
-                Rede credenciada
-              </strong>
-
-              <p>
-                Há milhares de pontos
-                de venda e recarga
-                espalhados pela cidade.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             SALVADORCARD
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            SalvadorCARD
-          </h4>
-
-          <p class="panel-intro">
-            É uma das principais referências
-            para o transporte municipal
-            e para as integrações
-            com o metrô.
-          </p>
-
-
-          <div class="comparison-grid">
-
-            <article class="comparison-card">
-
-              <strong>
-                Bilhete Avulso
-              </strong>
-
-              <p>
-                Pode ser adquirido
-                por qualquer pessoa,
-                sem necessidade de cadastro.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Bilhete Identificado
-              </strong>
-
-              <p>
-                Exige cadastro,
-                mas permite bloqueio
-                e recuperação de saldo
-                em determinadas situações.
-              </p>
-
-            </article>
-
-          </div>
-
-
-          <div class="visitor-alert">
-
-            <strong>
-              Para turistas, o Bilhete Avulso
-              é especialmente interessante.
-            </strong>
-
-            Ele não exige cadastro,
-            tem uso imediato
-            e participa do sistema
-            de integração tarifária de Salvador.
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             BILHETE AVULSO
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Bilhete Avulso SalvadorCARD
-          </h4>
-
-          <div class="payment-choice-grid">
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Sem cadastro
-              </strong>
-
-              <p>
-                Qualquer pessoa
-                pode adquirir o cartão
-                e utilizá-lo imediatamente.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Integração tarifária
-              </strong>
-
-              <p>
-                Pode participar
-                da integração entre ônibus
-                e metrô dentro das regras vigentes.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Créditos sem prazo
-              </strong>
-
-              <p>
-                Os créditos colocados
-                no cartão não possuem
-                prazo de validade informado.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Cartão ao portador
-              </strong>
-
-              <p>
-                Em caso de perda,
-                não é possível bloquear o cartão
-                nem recuperar o saldo.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             ONDE COMPRAR SALVADORCARD
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Onde comprar ou recarregar SalvadorCARD
-          </h4>
-
-          <div class="purchase-grid">
-
-
-            <article class="purchase-card">
-
-              <span>
-                🏢
-              </span>
-
-              <strong>
-                Postos SalvadorCARD
-              </strong>
-
-              <p>
-                Atendimento em pontos
-                como Lapa,
-                Shopping da Gente
-                e estações de transbordo.
-              </p>
-
-            </article>
-
-
-            <article class="purchase-card">
-
-              <span>
-                🏪
-              </span>
-
-              <strong>
-                Rede credenciada
-              </strong>
-
-              <p>
-                Mais de uma centena
-                de pontos de recarga
-                estão distribuídos pela cidade.
-              </p>
-
-            </article>
-
-
-            <article class="purchase-card">
-
-              <span>
-                🏧
-              </span>
-
-              <strong>
-                Autoatendimento
-              </strong>
-
-              <p>
-                Terminais permitem
-                inserir créditos
-                diretamente no cartão.
-              </p>
-
-            </article>
-
-
-            <article class="purchase-card">
-
-              <span>
-                📱
-              </span>
-
-              <strong>
-                KIM+
-              </strong>
-
-              <p>
-                Permite recarga online
-                do SalvadorCARD.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             METROPASSE
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Metropasse
-          </h4>
-
-          <p class="panel-intro">
-            É utilizado na rede metropolitana
-            e pode participar das integrações
-            entre ônibus metropolitanos
-            e metrô.
-          </p>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Quando considerar
-            </strong>
-
-            <p>
-              Se seu deslocamento envolver
-              municípios da Região Metropolitana,
-              confirme se a linha utilizada
-              aceita Metropasse
-              e quais regras de integração
-              se aplicam ao percurso.
-            </p>
-
-          </div>
-
-
-          <div class="fare-note">
-
-            <strong>
-              Para uma estadia curta:
-            </strong>
-
-            não compre um cartão metropolitano
-            sem antes confirmar
-            se o seu trajeto realmente
-            depende de ônibus intermunicipal.
+            pagamento avulso por aproximação
+            não deve ser confundido
+            com um cartão utilizado
+            para integração tarifária.
 
           </div>
 
@@ -782,19 +256,20 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            QR Code no metrô
+            QR Code
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              Compra digital
+              Bilhete unitário
             </strong>
 
             <p>
-              O Metrô Bahia informa
-              a possibilidade de adquirir
-              QR Code pelo aplicativo RecargaPay.
+              A CTB informa
+              que o QR Code
+              pode ser utilizado
+              para acesso avulso ao metrô.
             </p>
 
           </div>
@@ -803,14 +278,14 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
           <div class="answer-block">
 
             <strong>
-              Validação
+              Máquinas de autoatendimento
             </strong>
 
             <p>
-              Apresente o QR Code
-              no leitor indicado
-              da catraca para liberar
-              o acesso.
+              O Governo da Bahia
+              já publicou a emissão
+              de QR Code unitário
+              nas máquinas das estações.
             </p>
 
           </div>
@@ -818,11 +293,10 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
 
           <div class="fare-note">
 
-            O QR Code é útil
-            para uma viagem avulsa,
-            mas não deve ser presumido
-            como equivalente ao cartão
-            utilizado em integrações tarifárias.
+            Uma viagem unitária
+            não deve ser presumida
+            como equivalente
+            a uma integração tarifária.
 
           </div>
 
@@ -830,7 +304,325 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             FERRY
+             CARTÃO INTEGRAÇÃO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Cartão Integração
+          </h4>
+
+          <p class="panel-intro">
+            É o cartão recarregável
+            apresentado pela SEDUR
+            para viagens exclusivas
+            e integradas.
+          </p>
+
+          <div class="payment-choice-grid">
+
+            <article class="payment-choice">
+
+              <strong>
+                Onde adquirir
+              </strong>
+
+              <p>
+                Em bilheterias
+                e máquinas de autoatendimento
+                das estações do metrô.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Taxa do cartão
+              </strong>
+
+              <p>
+                A SEDUR publica
+                taxa de emissão
+                de R$ 7,00,
+                separada do valor da recarga.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Onde utilizar
+              </strong>
+
+              <p>
+                Pode ser usado
+                no metrô e nas integrações
+                compatíveis com ônibus,
+                BRT e STEC.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Uso durante a integração
+              </strong>
+
+              <p>
+                Utilize o mesmo cartão
+                ao longo das etapas
+                da viagem integrada.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             RECARGA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Recarga do Cartão Integração
+          </h4>
+
+          <p class="panel-intro">
+            Os canais abaixo aparecem
+            em páginas públicas
+            do Governo da Bahia.
+          </p>
+
+          <div class="purchase-grid">
+
+            <article class="purchase-card">
+
+              <span>🏧</span>
+
+              <strong>
+                Máquinas de autoatendimento
+              </strong>
+
+              <p>
+                Estão disponíveis
+                nas estações do sistema.
+              </p>
+
+            </article>
+
+
+            <article class="purchase-card">
+
+              <span>🏪</span>
+
+              <strong>
+                Rede credenciada
+              </strong>
+
+              <p>
+                A SEDUR informa
+                uma ampla rede
+                de pontos de recarga.
+              </p>
+
+            </article>
+
+
+            <article class="purchase-card">
+
+              <span>📱</span>
+
+              <strong>
+                Canais digitais
+              </strong>
+
+              <p>
+                A página pública da SEDUR
+                lista aplicativos
+                e carteiras digitais
+                habilitados para recarga.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Como os parceiros digitais
+            podem mudar,
+            consulte a página pública
+            da SEDUR para verificar
+            a lista vigente.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             SALVADORCARD E METROPASSE
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            SalvadorCARD e Metropasse
+          </h4>
+
+          <div class="comparison-grid">
+
+            <article class="comparison-card">
+
+              <strong>
+                SalvadorCARD
+              </strong>
+
+              <p>
+                A SEDUR lista cartões
+                SalvadorCARD entre
+                os meios aceitos
+                em viagens e integrações
+                compatíveis com o metrô.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Metropasse
+              </strong>
+
+              <p>
+                Também aparece
+                entre os cartões
+                aceitos para determinados
+                deslocamentos metropolitanos
+                e integrações.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              Não compre um cartão
+              antes de entender o trajeto.
+            </strong>
+
+            Primeiro descubra
+            se a viagem será apenas municipal,
+            metroviária ou metropolitana.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             BILHETE AVULSO MUNICIPAL
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Bilhete Avulso municipal
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Existe no sistema SalvadorCARD.
+            </strong>
+
+            <p>
+              A Prefeitura de Salvador
+              já publicou o Bilhete Avulso
+              como modalidade destinada
+              ao usuário do transporte coletivo.
+            </p>
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              Mas não vamos reproduzir
+              regras comerciais antigas.
+            </strong>
+
+            As páginas públicas encontradas
+            sobre distribuição, valores pré-carregados
+            e pontos específicos são antigas.
+            Consulte a Semob para confirmar
+            as condições atuais antes da compra.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             ÔNIBUS METROPOLITANO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Transporte metropolitano
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Possui regras próprias
+              de bilhetagem.
+            </strong>
+
+            <p>
+              As linhas metropolitanas
+              fazem parte do sistema
+              regulado pela AGERBA
+              e podem participar
+              da integração com o metrô.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Antes de adquirir
+            um cartão para uso metropolitano,
+            confirme a linha necessária
+            e a regra atual
+            de integração.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             FERRY-BOAT
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -839,43 +631,33 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
             Ferry-Boat
           </h4>
 
-          <p class="panel-intro">
-            A travessia São Joaquim ↔ Bom Despacho
-            possui sistema próprio de venda
-            e cobrança.
-          </p>
-
-
           <div class="answer-block">
 
             <strong>
-              Passageiros e veículos
-              possuem tarifas diferentes.
+              Possui cobrança própria.
             </strong>
 
             <p>
-              Antes da viagem,
-              consulte a tabela oficial
-              correspondente ao tipo
-              de embarque.
+              O sistema hidroviário
+              segue tabela tarifária
+              e categorias específicas
+              reguladas pela AGERBA.
             </p>
 
           </div>
 
 
-          <div class="answer-block">
+          <div class="visitor-alert">
 
             <strong>
-              Compra antecipada pode existir
-              em modalidades específicas.
+              Não apresentamos
+              canais comerciais de venda aqui.
             </strong>
 
-            <p>
-              Consulte os canais oficiais
-              da Internacional Travessias
-              para verificar venda,
-              horários e regras vigentes.
-            </p>
+            Para valores,
+            categorias e informações públicas
+            sobre a travessia,
+            consulte a AGERBA.
 
           </div>
 
@@ -883,29 +665,28 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             O QUE ESCOLHER
+             QUAL ESCOLHER
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Qual opção eu escolheria?
+            Qual opção procurar?
           </h4>
 
           <div class="payment-choice-grid">
 
-
             <article class="payment-choice">
 
               <strong>
-                Vou usar metrô poucas vezes
+                Vou usar apenas metrô
               </strong>
 
               <p>
-                Comece pela aproximação
-                ou QR Code.
-                Evita comprar um cartão
-                sem necessidade.
+                Uma forma avulsa,
+                como aproximação
+                ou QR Code,
+                pode ser suficiente.
               </p>
 
             </article>
@@ -914,14 +695,13 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Vou usar ônibus + metrô
+                Vou integrar metrô e ônibus/BRT
               </strong>
 
               <p>
-                Considere Bilhete Avulso SalvadorCARD
-                ou Cartão Integração,
-                porque a viagem depende
-                da integração tarifária.
+                Utilize um cartão
+                reconhecido pela integração
+                vigente.
               </p>
 
             </article>
@@ -930,13 +710,13 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Vou usar muito ônibus municipal
+                Vou usar ônibus municipal
               </strong>
 
               <p>
-                O Bilhete Avulso SalvadorCARD
-                é uma opção prática
-                para quem não quer cadastro.
+                Consulte a Semob
+                para verificar os meios
+                atualmente disponíveis.
               </p>
 
             </article>
@@ -949,9 +729,10 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
               </strong>
 
               <p>
-                Verifique antes
-                a linha metropolitana
-                e a necessidade de Metropasse.
+                Confirme as regras
+                da linha metropolitana
+                e da integração
+                junto à AGERBA.
               </p>
 
             </article>
@@ -971,19 +752,16 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
             Antes de colocar crédito
           </h4>
 
-
           <div class="answer-block">
 
             <strong>
-              Descubra primeiro o seu trajeto.
+              Descubra primeiro o trajeto.
             </strong>
 
             <p>
-              Metrô, ônibus urbano,
-              ônibus metropolitano
-              e Ferry-Boat não dependem
-              necessariamente do mesmo meio
-              de pagamento.
+              Sistemas diferentes
+              podem exigir meios
+              de pagamento diferentes.
             </p>
 
           </div>
@@ -992,15 +770,15 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
           <div class="answer-block">
 
             <strong>
-              Integração exige cartão compatível.
+              Integração depende
+              de meio compatível.
             </strong>
 
             <p>
-              Pagamento por aproximação
-              é prático no metrô,
-              mas não substitui automaticamente
-              os cartões usados
-              para reconhecer integrações.
+              Não presuma
+              que qualquer pagamento avulso
+              gere automaticamente
+              o benefício tarifário.
             </p>
 
           </div>
@@ -1009,15 +787,13 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
           <div class="answer-block">
 
             <strong>
-              Use o mesmo cartão
-              durante a integração.
+              Consulte fonte pública atual.
             </strong>
 
             <p>
-              Trocar de cartão
-              durante a viagem
-              pode impedir o benefício
-              tarifário.
+              Aplicativos, parceiros
+              e canais de recarga
+              podem mudar com o tempo.
             </p>
 
           </div>
@@ -1026,38 +802,28 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             FONTES
+             FONTES PÚBLICAS
         =================================================== -->
 
         <div class="official-map-actions">
 
           <a
             class="official-link"
-            href="https://trilhos.motiva.com.br/metrobahia/"
+            href="https://www.ba.gov.br/sedur/mobilidade-urbana/metro"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Metrô Bahia
+            Bilhetes e cartões · SEDUR
           </a>
 
 
           <a
             class="official-link"
-            href="https://www.salvadorcard.com.br/"
+            href="https://www.ba.gov.br/trilhos/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            SalvadorCARD
-          </a>
-
-
-          <a
-            class="official-link"
-            href="https://www.salvadorcard.com.br/produtos/bilhete-avulso/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Bilhete Avulso
+            CTB · Governo da Bahia
           </a>
 
 
@@ -1073,11 +839,11 @@ window.SALVADOR_TRANSPORT_MODULES["card"] = {
 
           <a
             class="official-link"
-            href="https://www.internacionaltravessias.com.br/"
+            href="https://www.ba.gov.br/agerba/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Ferry-Boat
+            AGERBA
           </a>
 
         </div>
