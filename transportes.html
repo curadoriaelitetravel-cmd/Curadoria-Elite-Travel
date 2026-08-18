@@ -2668,6 +2668,7 @@
             <select id="destinationSelect" class="destination-select" aria-label="Selecionar destino">
               <option value="sao-paulo">São Paulo, Brasil</option>
               <option value="rio">Rio de Janeiro, Brasil</option>
+              <option value="salvador">Salvador, Brasil</option>
               <option value="paris" disabled>Paris, França — em preparação</option>
               <option value="new-york" disabled>New York, Estados Unidos — em preparação</option>
             </select>
@@ -2883,6 +2884,13 @@
   <script src="transport-data/rio-de-janeiro/planner.js"></script>
   <script src="transport-data/rio-de-janeiro/index.js"></script>
 
+  <script src="transport-data/salvador/network.js"></script>
+  <script src="transport-data/salvador/fares.js"></script>
+  <script src="transport-data/salvador/pagamento.js"></script>
+  <script src="transport-data/salvador/onibus.js"></script>
+  <script src="transport-data/salvador/planner.js"></script>
+  <script src="transport-data/salvador/index.js"></script>
+
   <script>
 
     const TRANSPORT_CINEMA_VERSION = "20260724-1";
@@ -2954,6 +2962,19 @@
       "rio": {
         cityName: "Rio de Janeiro",
         cityLabel: "Rio de Janeiro",
+        fallbackCategories: [
+          "City Guide",
+          "Gastronomia",
+          "Atrações Turísticas",
+          "Vida Noturna",
+          "Endereços para Compras",
+          "Sugestão de Presentes"
+        ]
+      },
+
+      "salvador": {
+        cityName: "Salvador",
+        cityLabel: "Salvador",
         fallbackCategories: [
           "City Guide",
           "Gastronomia",
@@ -3160,6 +3181,10 @@
         return window.RIO_TRANSPORT_MODULES || {};
       }
 
+      if (select && select.value === "salvador") {
+        return window.SALVADOR_TRANSPORT_MODULES || {};
+      }
+
       return window.SP_TRANSPORT_MODULES || {};
     }
 
@@ -3173,6 +3198,7 @@
           summary:
             "Entenda metrô, trens metropolitanos, BRT, VLT, barcas, ônibus, tarifas e meios de pagamento antes de circular pela cidade.",
           updatedAt: "Modelo visual · agosto de 2026",
+          networkTitle: "Rede Metropolitana",
           networkDescription:
             "Veja o mapa metropolitano e entenda MetrôRio, trens metropolitanos, BRT, VLT, barcas e suas conexões.",
           networkPoints: [
@@ -3207,11 +3233,53 @@
         };
       }
 
+      if (value === "salvador") {
+        return {
+          cityName: "Salvador",
+          summary:
+            "Entenda metrô, BRT, ônibus, VLT, Ferry-Boat, tarifas, integrações e meios de pagamento antes de circular por Salvador.",
+          updatedAt: "Modelo visual · agosto de 2026",
+          networkTitle: "Rede de Transporte",
+          networkDescription:
+            "Veja o mapa do metrô e entenda Metrô, BRT, VLT, ônibus urbanos e metropolitanos e Ferry-Boat.",
+          networkPoints: [
+            "Metrô",
+            "BRT",
+            "VLT",
+            "Ônibus",
+            "Ferry-Boat"
+          ],
+          cards: {
+            fares: {
+              title: "Tarifas e integração",
+              description:
+                "Tarifas de metrô, ônibus, BRT, integrações metropolitanas e valores do Ferry-Boat."
+            },
+            card: {
+              title: "Como pagar",
+              description:
+                "Aproximação, QR Code, Cartão Integração, SalvadorCARD, Metropasse e recargas."
+            },
+            bus: {
+              title: "Ônibus e BRT",
+              description:
+                "Ônibus municipais, BRT, linhas metropolitanas, terminais e canais de consulta."
+            },
+            planner: {
+              title: "Planeje o trajeto",
+              description:
+                "Compare metrô, BRT, ônibus, VLT, Ferry-Boat e transporte metropolitano antes de sair."
+            }
+          }
+        };
+      }
+
       return {
         cityName: "São Paulo",
         summary:
           "Primeiro, entenda a rede. Depois, veja tarifas, cartões, formas de pagamento, ônibus e canais oficiais de planejamento.",
         updatedAt: "Modelo visual · julho de 2026",
+        networkTitle: "Rede Metropolitana",
         networkDescription:
           "Veja o mapa completo de metrô, trem e monotrilho, entenda as cores, os símbolos, as integrações e quem opera cada linha.",
         networkPoints: [
@@ -3252,12 +3320,14 @@
       const summaryTitle = document.querySelector(".destination-summary h3");
       const summaryCopy = document.querySelector(".destination-summary p");
       const updatedPill = document.querySelector(".updated-pill");
+      const networkTitle = document.querySelector(".network-content h4");
       const networkDescription = document.querySelector(".network-content > p");
       const networkPoints = document.querySelector(".network-points");
 
       if (summaryTitle) summaryTitle.textContent = `${data.cityName}, Brasil`;
       if (summaryCopy) summaryCopy.textContent = data.summary;
       if (updatedPill) updatedPill.textContent = data.updatedAt;
+      if (networkTitle) networkTitle.textContent = data.networkTitle || "Rede Metropolitana";
       if (networkDescription) networkDescription.textContent = data.networkDescription;
 
       if (networkPoints) {
