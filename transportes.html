@@ -2670,6 +2670,7 @@
               <option value="rio">Rio de Janeiro, Brasil</option>
               <option value="salvador">Salvador, Brasil</option>
               <option value="gramado">Gramado, Brasil</option>
+              <option value="belo-horizonte">Belo Horizonte, Brasil</option>
               <option value="paris" disabled>Paris, França — em preparação</option>
               <option value="new-york" disabled>New York, Estados Unidos — em preparação</option>
             </select>
@@ -2899,6 +2900,13 @@
   <script src="transport-data/gramado/planner.js"></script>
   <script src="transport-data/gramado/index.js"></script>
 
+  <script src="transport-data/belo-horizonte/network.js"></script>
+  <script src="transport-data/belo-horizonte/fares.js"></script>
+  <script src="transport-data/belo-horizonte/pagamento.js"></script>
+  <script src="transport-data/belo-horizonte/onibus.js"></script>
+  <script src="transport-data/belo-horizonte/planner.js"></script>
+  <script src="transport-data/belo-horizonte/index.js"></script>
+
   <script>
 
     const TRANSPORT_CINEMA_VERSION = "20260724-1";
@@ -3004,6 +3012,12 @@
           "Endereços para Compras",
           "Sugestão de Presentes"
         ]
+      },
+
+      "belo-horizonte": {
+        cityName: "Belo Horizonte",
+        cityLabel: "Belo Horizonte",
+        fallbackCategories: []
       }
     };
 
@@ -3210,6 +3224,10 @@
         return window.GRAMADO_TRANSPORT_MODULES || {};
       }
 
+      if (select && select.value === "belo-horizonte") {
+        return window.BELO_HORIZONTE_TRANSPORT_MODULES || {};
+      }
+
       return window.SP_TRANSPORT_MODULES || {};
     }
 
@@ -3303,38 +3321,79 @@
         return {
           cityName: "Gramado",
           summary:
-            "Entenda a nova rede municipal, a ligação com Canela, viagens regionais, tarifas, bilhetagem e alternativas de deslocamento antes de circular pela cidade.",
+            "Entenda a rede municipal, conexões rodoviárias, tarifas, bilhetagem e alternativas de deslocamento antes de circular pela cidade.",
           updatedAt: "Modelo visual · agosto de 2026",
           networkTitle: "Rede de Transporte",
           networkDescription:
-            "Veja como funciona a mobilidade de Gramado, a nova rede municipal, a conexão com Canela e as principais ligações regionais.",
+            "Veja como funciona a mobilidade de Gramado, a rede municipal e as principais conexões rodoviárias.",
           networkPoints: [
             "Ônibus municipal",
-            "Gramado ↔ Canela",
-            "Conexões regionais",
+            "Conexões rodoviárias",
             "Rodoviária",
+            "Várzea Grande",
             "Caminhada e carro"
           ],
           cards: {
             fares: {
               title: "Tarifas e custos",
               description:
-                "Tarifa municipal, valores de referência para Gramado–Canela e diferenças entre serviços regionais."
+                "Tarifa municipal e orientação para consultar valores de viagens intermunicipais."
             },
             card: {
               title: "Como pagar",
               description:
-                "Cartão Nosso Transporte Público, bilhetagem municipal e compra de passagens regionais da Citral."
+                "Bilhetagem eletrônica e Cartão Nosso Transporte Público do sistema municipal."
             },
             bus: {
               title: "Ônibus",
               description:
-                "Nova rede municipal, ligação Gramado–Canela, serviços regionais, Rodoviária e Várzea Grande."
+                "Rede municipal, áreas atendidas, conexões rodoviárias e referências para embarque."
             },
             planner: {
               title: "Planeje o trajeto",
               description:
-                "Compare caminhada, ônibus, aplicativo, carro e conexões regionais antes de decidir como se deslocar."
+                "Compare caminhada, ônibus, táxi, aplicativo, carro e conexões rodoviárias."
+            }
+          }
+        };
+      }
+
+      if (value === "belo-horizonte") {
+        return {
+          cityName: "Belo Horizonte",
+          summary:
+            "Entenda metrô, MOVE, ônibus municipais, sistema suplementar, transporte metropolitano, tarifas, integrações e meios de pagamento antes de circular por Belo Horizonte.",
+          updatedAt: "Modelo visual · agosto de 2026",
+          networkTitle: "Rede de Transporte",
+          networkDescription:
+            "Veja a Linha 1 do metrô, MOVE, ônibus municipais, sistema suplementar e conexões metropolitanas.",
+          networkPoints: [
+            "Metrô · Linha 1",
+            "MOVE",
+            "Ônibus municipais",
+            "Sistema Suplementar",
+            "Transporte metropolitano"
+          ],
+          cards: {
+            fares: {
+              title: "Tarifas e integração",
+              description:
+                "Tarifas municipais, integrações com metrô, Catraca Livre e valores da rede metropolitana."
+            },
+            card: {
+              title: "Como pagar",
+              description:
+                "Cartão BHBUS, QR Code, recargas e diferenças entre os sistemas municipal e metropolitano."
+            },
+            bus: {
+              title: "Ônibus e MOVE",
+              description:
+                "Linhas convencionais, MOVE, suplementar, estações, Madrugão e transporte metropolitano."
+            },
+            planner: {
+              title: "Planeje o trajeto",
+              description:
+                "Compare metrô, MOVE, ônibus municipais e transporte metropolitano antes de escolher o percurso."
             }
           }
         };
