@@ -1,7 +1,7 @@
 // ============================================================
 // CURADORIA ELITE TRAVEL
 // TRANSPORTES — GRAMADO
-// MÓDULO: ÔNIBUS MUNICIPAIS E REGIONAIS
+// MÓDULO: ÔNIBUS MUNICIPAIS E INTERMUNICIPAIS
 // ============================================================
 
 window.GRAMADO_TRANSPORT_MODULES =
@@ -28,13 +28,13 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Em Gramado, o ônibus se divide em duas redes
+            Em Gramado, existem duas lógicas de ônibus
           </h4>
 
           <p class="panel-intro">
             Uma atende os deslocamentos dentro do município.
-            A outra conecta Gramado a Canela
-            e a outras cidades da região.
+            A outra faz parte do sistema rodoviário
+            intermunicipal do Rio Grande do Sul.
           </p>
 
           <div class="bus-system-grid">
@@ -57,15 +57,16 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
 
             <article class="bus-system-card">
 
-              <span>🏘️</span>
+              <span>🛣️</span>
 
               <strong>
-                Gramado ↔ Canela
+                Ônibus intermunicipal
               </strong>
 
               <p>
-                Ligação regional frequente,
-                com destaque para a circular 6152.
+                Liga Gramado
+                a outros municípios
+                por linhas estaduais.
               </p>
 
             </article>
@@ -73,16 +74,16 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
 
             <article class="bus-system-card">
 
-              <span>🌄</span>
+              <span>🏢</span>
 
               <strong>
-                Ônibus regionais
+                Estação Rodoviária
               </strong>
 
               <p>
-                Conectam Gramado
-                a outras cidades da Serra
-                e do Vale do Paranhana.
+                É a principal referência
+                para embarques rodoviários
+                intermunicipais e interestaduais.
               </p>
 
             </article>
@@ -103,9 +104,8 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
           </h4>
 
           <p class="panel-intro">
-            Desde agosto de 2026,
-            Gramado opera uma nova rede
-            de transporte público municipal.
+            A nova operação entrou em vigor
+            em 1º de agosto de 2026.
           </p>
 
           <div class="fare-highlight-grid">
@@ -139,8 +139,9 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Criadas na reestruturação
-                iniciada em agosto de 2026.
+                Foram criadas
+                na reestruturação
+                do transporte municipal.
               </p>
 
             </article>
@@ -157,8 +158,9 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Algumas linhas passaram
-                a operar também à noite.
+                Parte da rede passou
+                a contar com oferta
+                também no período noturno.
               </p>
 
             </article>
@@ -169,14 +171,20 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             ÁREAS DE DESTAQUE
+             ÁREAS ATENDIDAS
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Áreas importantes da rede municipal
+            Áreas destacadas pela Prefeitura
           </h4>
+
+          <p class="panel-intro">
+            A nova rede ampliou a cobertura
+            urbana e também o atendimento
+            às localidades do interior.
+          </p>
 
           <div class="bus-system-grid">
 
@@ -189,24 +197,9 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Funciona como referência
-                para diversas linhas municipais.
-              </p>
-
-            </article>
-
-
-            <article class="bus-system-card">
-
-              <span>🌲</span>
-
-              <strong>
-                Várzea Grande
-              </strong>
-
-              <p>
-                Importante área de conexão
-                e atendimento do novo sistema.
+                Faz parte
+                da estrutura municipal
+                de transporte.
               </p>
 
             </article>
@@ -221,8 +214,25 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Recebeu forte ampliação
+                A Prefeitura anunciou
+                ampliação importante
                 da oferta de horários.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>🌲</span>
+
+              <strong>
+                Várzea Grande
+              </strong>
+
+              <p>
+                É uma das regiões
+                atendidas pelo sistema municipal.
               </p>
 
             </article>
@@ -237,8 +247,9 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Está entre as áreas
-                contempladas pela nova rede.
+                Está entre
+                as novas rotas
+                divulgadas pelo Município.
               </p>
 
             </article>
@@ -254,7 +265,8 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
 
               <p>
                 Também aparece
-                entre as rotas reforçadas.
+                na nova configuração
+                da rede municipal.
               </p>
 
             </article>
@@ -269,8 +281,9 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                A rede inclui localidades
-                fora da área urbana central.
+                Localidades rurais
+                também foram incluídas
+                na ampliação da cobertura.
               </p>
 
             </article>
@@ -281,7 +294,7 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             COMO ESCOLHER A LINHA
+             COMO ESCOLHER A LINHA MUNICIPAL
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -299,13 +312,13 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
               </span>
 
               <strong>
-                Identifique o destino
+                Identifique a região
               </strong>
 
               <p>
-                Primeiro confirme
-                o bairro ou localidade
-                onde você realmente precisa chegar.
+                Confirme o bairro
+                ou localidade
+                onde está seu destino.
               </p>
 
             </article>
@@ -318,13 +331,13 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
               </span>
 
               <strong>
-                Confira o horário
+                Consulte a rota oficial
               </strong>
 
               <p>
-                A frequência varia
-                bastante de uma linha
-                para outra.
+                A Prefeitura disponibiliza
+                mapas, rotas,
+                itinerários e horários.
               </p>
 
             </article>
@@ -337,13 +350,13 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
               </span>
 
               <strong>
-                Veja o ponto de embarque
+                Confira o horário
               </strong>
 
               <p>
-                Confirme se a saída acontece
-                no Centro, Várzea Grande
-                ou em outro ponto indicado.
+                A frequência
+                varia conforme
+                a linha utilizada.
               </p>
 
             </article>
@@ -354,88 +367,46 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             GRAMADO X CANELA
+             HORÁRIOS
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Gramado ↔ Canela
+            Consulte o horário específico da linha
           </h4>
 
-          <p class="panel-intro">
-            Esta é uma das conexões mais úteis
-            para quem está viajando pela região.
-          </p>
+          <div class="answer-block">
 
-          <div class="route-compare-grid">
+            <strong>
+              A rede foi ampliada,
+              mas não possui uma frequência única.
+            </strong>
 
-            <article class="route-compare-card">
+            <p>
+              Cada linha possui
+              programação própria.
+              Consulte sempre o itinerário
+              e o horário divulgados
+              pela Prefeitura.
+            </p>
 
-              <span>
-                Circular
-              </span>
-
-              <strong>
-                Linha 6152
-              </strong>
-
-              <p>
-                Serviço frequente
-                entre Gramado e Canela.
-              </p>
-
-              <span class="route-compare-result">
-                Citral
-              </span>
-
-            </article>
+          </div>
 
 
-            <article class="route-compare-card">
+          <div class="answer-block">
 
-              <span>
-                Tempo aproximado
-              </span>
+            <strong>
+              Algumas linhas operam à noite.
+            </strong>
 
-              <strong>
-                Cerca de 15 minutos
-              </strong>
-
-              <p>
-                Em muitos horários,
-                a programação indica
-                aproximadamente 15 minutos.
-              </p>
-
-              <span class="route-compare-result">
-                Consulte o dia
-              </span>
-
-            </article>
-
-
-            <article class="route-compare-card">
-
-              <span>
-                Frequência
-              </span>
-
-              <strong>
-                Vários horários
-              </strong>
-
-              <p>
-                Existem saídas
-                ao longo de praticamente
-                todo o dia.
-              </p>
-
-              <span class="route-compare-result">
-                Veja a grade
-              </span>
-
-            </article>
+            <p>
+              A Prefeitura informa
+              ampliação do atendimento noturno,
+              mas isso não significa
+              que todas as 26 linhas
+              funcionem até tarde.
+            </p>
 
           </div>
 
@@ -443,50 +414,129 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             NÃO É SÓ A 6152
+             TRANSPORTE INTERMUNICIPAL
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Outras linhas também passam por Canela
+            Ônibus intermunicipais
           </h4>
 
           <p class="panel-intro">
-            Além da circular 6152,
-            outras linhas regionais
-            passam por Gramado e seguem para Canela.
+            Gramado também faz parte
+            do sistema rodoviário
+            intermunicipal do Estado.
           </p>
 
-          <div class="comparison-grid">
+          <div class="answer-block">
 
-            <article class="comparison-card">
+            <strong>
+              Essas linhas não pertencem
+              à rede municipal.
+            </strong>
+
+            <p>
+              Elas seguem regras,
+              tarifas e fiscalização
+              próprias do sistema estadual.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              O DAER mantém registros oficiais
+              das linhas estaduais.
+            </strong>
+
+            <p>
+              Esses registros permitem confirmar
+              eixos rodoviários que passam
+              por Gramado sem depender
+              do site comercial de uma operadora.
+            </p>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             EIXOS INTERMUNICIPAIS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Exemplos de eixos oficiais
+          </h4>
+
+          <p class="panel-intro">
+            O DAER registra linhas estaduais
+            relacionadas a Gramado
+            e à região da Serra.
+          </p>
+
+          <div class="payment-choice-grid">
+
+            <article class="payment-choice">
 
               <strong>
-                Linha 722
+                Porto Alegre ↔ Canela
               </strong>
 
               <p>
-                Serviço comum
-                que vem pelo eixo
-                Taquara → Igrejinha → Três Coroas
-                → Gramado → Canela.
+                Há linha estadual
+                registrada pelo DAER
+                nesse eixo.
               </p>
 
             </article>
 
 
-            <article class="comparison-card">
+            <article class="payment-choice">
 
               <strong>
-                Linha 2021
+                Taquara ↔ Canela
               </strong>
 
               <p>
-                Serviço regional
-                vindo de Nova Petrópolis
-                e seguindo por Gramado
-                até Canela.
+                Há serviço estadual
+                via RS-115,
+                eixo que atende
+                a região de Gramado.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Caxias do Sul ↔ Santo Antônio da Patrulha
+              </strong>
+
+              <p>
+                O DAER registra
+                serviço via Gramado.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Caxias do Sul ↔ São Francisco de Paula
+              </strong>
+
+              <p>
+                Também existe
+                linha estadual registrada
+                via Gramado.
               </p>
 
             </article>
@@ -496,123 +546,11 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
 
           <div class="fare-note">
 
-            <strong>
-              Para um simples Gramado ↔ Canela,
-            </strong>
-
-            compare primeiro a circular 6152,
-            porque outros serviços podem ter
-            tarifa e categoria diferentes.
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             CONEXÕES REGIONAIS
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Outros destinos saindo de Gramado
-          </h4>
-
-          <p class="panel-intro">
-            A rede regional conecta Gramado
-            a diversos destinos
-            do Rio Grande do Sul.
-          </p>
-
-          <div class="payment-choice-grid">
-
-            <article class="payment-choice">
-
-              <strong>
-                Canela
-              </strong>
-
-              <p>
-                Principal conexão
-                regional de curta distância.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Nova Petrópolis
-              </strong>
-
-              <p>
-                Há serviços regionais
-                ligando as duas cidades.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Três Coroas
-              </strong>
-
-              <p>
-                Faz parte
-                de rotas que chegam
-                a Gramado pela RS-115.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Taquara
-              </strong>
-
-              <p>
-                Também aparece
-                em linhas regionais
-                que passam por Gramado.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Porto Alegre
-              </strong>
-
-              <p>
-                Existem serviços rodoviários
-                entre Gramado
-                e a capital.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Aeroporto Salgado Filho
-              </strong>
-
-              <p>
-                Há serviços
-                partindo de Gramado
-                para o aeroporto.
-              </p>
-
-            </article>
+            Estes exemplos servem
+            para entender a conectividade regional.
+            Horários e operação devem ser
+            confirmados nos sistemas públicos
+            antes da viagem.
 
           </div>
 
@@ -626,20 +564,20 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Rodoviária de Gramado
+            Estação Rodoviária de Gramado
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              Principal referência
-              para viagens regionais
+              Principal referência rodoviária
             </strong>
 
             <p>
-              É o ponto mais importante
-              para ônibus intermunicipais
-              e serviços para outras cidades.
+              A estação atende
+              o transporte rodoviário
+              e está sujeita à fiscalização
+              e às normas estaduais.
             </p>
 
           </div>
@@ -648,13 +586,15 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
           <div class="answer-block">
 
             <strong>
-              Confira a plataforma
+              Confirme o local de embarque
             </strong>
 
             <p>
-              Depois de comprar a passagem,
-              confirme box, horário
-              e local exato de embarque.
+              Para viagens intermunicipais
+              ou interestaduais,
+              confira plataforma,
+              horário e linha
+              antes da saída.
             </p>
 
           </div>
@@ -669,139 +609,33 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Terminal da Várzea Grande
+            Várzea Grande
           </h4>
-
-          <p class="panel-intro">
-            Na rede municipal,
-            Várzea Grande funciona
-            como um ponto importante
-            de atendimento e conexão.
-          </p>
 
           <div class="answer-block">
 
             <strong>
-              Não confunda os dois pontos
+              Também é referência
+              no sistema municipal.
             </strong>
 
             <p>
-              A Rodoviária central
-              é a principal referência
-              para viagens regionais.
-              Várzea Grande aparece
-              principalmente na lógica
-              do transporte municipal.
+              A Prefeitura utilizou
+              o Terminal Rodoviário
+              da Várzea Grande
+              no processo de cadastramento
+              do novo transporte público.
             </p>
 
           </div>
 
-        </section>
 
+          <div class="fare-note">
 
-        <!-- ==================================================
-             HORÁRIOS
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Horários merecem atenção
-          </h4>
-
-          <div class="planner-tip-list">
-
-            <article class="planner-tip">
-
-              <span class="planner-tip-icon">
-                🕒
-              </span>
-
-              <div>
-
-                <strong>
-                  Rede municipal
-                </strong>
-
-                <p>
-                  A frequência depende
-                  bastante da linha.
-                  Consulte o horário específico.
-                </p>
-
-              </div>
-
-            </article>
-
-
-            <article class="planner-tip">
-
-              <span class="planner-tip-icon">
-                🌙
-              </span>
-
-              <div>
-
-                <strong>
-                  Período noturno
-                </strong>
-
-                <p>
-                  O novo sistema ampliou
-                  a operação noturna
-                  em parte da rede,
-                  mas não em todas as linhas.
-                </p>
-
-              </div>
-
-            </article>
-
-
-            <article class="planner-tip">
-
-              <span class="planner-tip-icon">
-                📅
-              </span>
-
-              <div>
-
-                <strong>
-                  Feriados
-                </strong>
-
-                <p>
-                  Horários regionais
-                  podem sofrer alterações.
-                </p>
-
-              </div>
-
-            </article>
-
-
-            <article class="planner-tip">
-
-              <span class="planner-tip-icon">
-                🌧️
-              </span>
-
-              <div>
-
-                <strong>
-                  Clima
-                </strong>
-
-                <p>
-                  A própria Citral informa
-                  que tempos de viagem
-                  são estimados
-                  e podem sofrer alterações.
-                </p>
-
-              </div>
-
-            </article>
+            Não confunda
+            a Estação Rodoviária central
+            de Gramado com o atendimento
+            municipal em Várzea Grande.
 
           </div>
 
@@ -809,13 +643,13 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             DICAS PARA VISITANTES
+             PARA O VISITANTE
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Dicas que evitam erro
+            Para quem está viajando
           </h4>
 
           <div class="bus-tip-list">
@@ -829,13 +663,13 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
               <div>
 
                 <strong>
-                  Confirme a origem exata
+                  Dentro de Gramado
                 </strong>
 
                 <p>
-                  Centro, Rodoviária
-                  e Várzea Grande
-                  não são o mesmo ponto.
+                  Consulte primeiro
+                  a rede municipal
+                  no portal da Prefeitura.
                 </p>
 
               </div>
@@ -846,19 +680,19 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
             <article class="bus-tip">
 
               <span class="bus-tip-icon">
-                🏘️
+                🛣️
               </span>
 
               <div>
 
                 <strong>
-                  Para Canela, compare os serviços
+                  Outra cidade
                 </strong>
 
                 <p>
-                  A circular 6152
-                  costuma ser a referência
-                  mais simples.
+                  Trate o deslocamento
+                  como viagem intermunicipal
+                  e consulte o sistema estadual.
                 </p>
 
               </div>
@@ -869,19 +703,19 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
             <article class="bus-tip">
 
               <span class="bus-tip-icon">
-                🎟️
+                🕒
               </span>
 
               <div>
 
                 <strong>
-                  Regional exige passagem própria
+                  Confira o horário
                 </strong>
 
                 <p>
-                  Não confunda
-                  o cartão municipal
-                  com bilhete da Citral.
+                  Não presuma
+                  que todas as linhas
+                  tenham alta frequência.
                 </p>
 
               </div>
@@ -892,19 +726,19 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
             <article class="bus-tip">
 
               <span class="bus-tip-icon">
-                📱
+                🏢
               </span>
 
               <div>
 
                 <strong>
-                  Consulte antes de sair
+                  Confira o terminal
                 </strong>
 
                 <p>
-                  O novo sistema municipal
-                  ainda está em fase recente
-                  de operação.
+                  Veja se o embarque
+                  é municipal
+                  ou rodoviário estadual.
                 </p>
 
               </div>
@@ -917,7 +751,7 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             FONTES
+             FONTES PÚBLICAS
         =================================================== -->
 
         <div class="official-map-actions">
@@ -928,17 +762,37 @@ window.GRAMADO_TRANSPORT_MODULES["bus"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Transporte municipal · Gramado
+            Prefeitura de Gramado
           </a>
 
 
           <a
             class="official-link"
-            href="https://www.citral.tur.br/"
+            href="https://www.gramado.rs.gov.br/subportal/seguranca-publica-transito-transporte-e-fiscalizacao"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Linhas regionais · Citral
+            Trânsito e Transporte · Gramado
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://www.daer.rs.gov.br/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            DAER-RS
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://agergs.rs.gov.br/transporte-rodoviario-de-passageiros"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            AGERGS
           </a>
 
         </div>
