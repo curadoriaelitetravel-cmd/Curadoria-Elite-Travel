@@ -33,13 +33,14 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
 
           <p class="panel-intro">
             Em Salvador, é importante diferenciar
-            ônibus municipal, BRT e ônibus metropolitano.
-            Cada rede possui funções e canais próprios.
+            ônibus municipal, BRT e transporte metropolitano.
+            Cada sistema possui função e regras próprias.
           </p>
 
           <div class="bus-system-grid">
 
             <article class="bus-system-card">
+
               <span>🚌</span>
 
               <strong>
@@ -51,10 +52,12 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
                 e complementa metrô,
                 BRT e terminais.
               </p>
+
             </article>
 
 
             <article class="bus-system-card">
+
               <span>🚍</span>
 
               <strong>
@@ -62,14 +65,16 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Sistema de ônibus
-                de maior capacidade,
-                com estações e corredores próprios.
+                Sistema municipal
+                com estações
+                e corredores próprios.
               </p>
+
             </article>
 
 
             <article class="bus-system-card">
+
               <span>🌆</span>
 
               <strong>
@@ -77,11 +82,11 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Liga Salvador a municípios
-                da Região Metropolitana,
-                como Lauro de Freitas,
-                Camaçari e Simões Filho.
+                Liga Salvador
+                a outros municípios
+                da Região Metropolitana.
               </p>
+
             </article>
 
           </div>
@@ -108,13 +113,12 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </span>
 
               <strong>
-                Confira o número da linha
+                Confira o número
               </strong>
 
               <p>
-                É a referência mais segura
-                para confirmar o serviço
-                indicado pelo planejador.
+                Use o número da linha
+                como principal referência.
               </p>
 
             </article>
@@ -131,8 +135,9 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                O letreiro ajuda a confirmar
-                o sentido correto da viagem.
+                O letreiro ajuda
+                a confirmar o sentido
+                correto da viagem.
               </p>
 
             </article>
@@ -149,9 +154,9 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Nem todas as linhas
-                que passam pela mesma avenida
-                param nos mesmos locais.
+                Linhas que passam
+                pela mesma avenida
+                podem utilizar pontos diferentes.
               </p>
 
             </article>
@@ -162,32 +167,32 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             PLANEJADOR OFICIAL
+             PLANEJAMENTO MUNICIPAL
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Use o planejador oficial
+            Consulte a Mobilidade Salvador
           </h4>
 
           <p class="panel-intro">
-            A Prefeitura de Salvador possui
-            um planejador oficial integrado
-            ao aplicativo KIM.
+            A Secretaria Municipal de Mobilidade
+            publica informações sobre linhas,
+            alterações operacionais,
+            terminais e BRT.
           </p>
 
           <div class="answer-block">
 
             <strong>
-              Informe origem e destino
+              Confirme a linha antes de sair
             </strong>
 
             <p>
-              O planejador apresenta opções
-              de linhas de ônibus
-              e combinações com metrô,
-              BRT e caminhada.
+              Alterações de itinerário,
+              eventos e operações especiais
+              podem modificar o serviço.
             </p>
 
           </div>
@@ -196,29 +201,16 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
           <div class="answer-block">
 
             <strong>
-              Compare o tempo total
+              Compare com metrô e BRT
             </strong>
 
             <p>
-              A ferramenta informa
-              alternativas de deslocamento
-              e o tempo estimado da viagem.
+              Em vários trajetos,
+              combinar sistemas
+              pode ser mais simples
+              do que depender
+              de uma única linha.
             </p>
-
-          </div>
-
-
-          <div class="fare-note">
-
-            <strong>
-              Para visitantes:
-            </strong>
-
-            vale consultar o planejador
-            antes de sair,
-            principalmente quando o destino
-            não está diretamente
-            junto a uma estação de metrô.
 
           </div>
 
@@ -236,8 +228,9 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
           </h4>
 
           <p class="panel-intro">
-            O BRT opera em vias prioritárias
-            e possui embarque em estações próprias.
+            O BRT opera
+            em estações próprias
+            e integra a rede municipal.
           </p>
 
           <div class="bus-use-flow">
@@ -254,8 +247,7 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
 
               <p>
                 O embarque acontece
-                em estações do sistema,
-                não em qualquer ponto comum.
+                nas estações do sistema.
               </p>
 
             </article>
@@ -272,8 +264,8 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                O sistema possui serviços
-                B1, B2, B3, B4 e B5.
+                Verifique qual serviço
+                atende seu destino.
               </p>
 
             </article>
@@ -290,9 +282,8 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Confira a estação
-                ou terminal indicado
-                como destino.
+                Confirme o destino
+                indicado antes do embarque.
               </p>
 
             </article>
@@ -305,13 +296,13 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </span>
 
               <strong>
-                4. Valide o cartão
+                4. Confira o meio de pagamento
               </strong>
 
               <p>
-                Use um meio compatível
-                com a rede municipal
-                e com eventual integração.
+                Se houver integração,
+                use meio compatível
+                com a regra vigente.
               </p>
 
             </article>
@@ -339,7 +330,7 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               "Rodoviária ↔ Pituba",
               "BRT",
               "Via Cidadela",
-              "BRT Salvador"
+              "Prefeitura de Salvador"
             )}
 
             ${createLineMiniCard(
@@ -348,7 +339,7 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               "Rodoviária ↔ Rio Vermelho",
               "BRT",
               "Via Pituba e Amaralina",
-              "BRT Salvador"
+              "Prefeitura de Salvador"
             )}
 
             ${createLineMiniCard(
@@ -357,7 +348,7 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               "Rodoviária ↔ Pituba",
               "BRT",
               "Via Paulo VI",
-              "BRT Salvador"
+              "Prefeitura de Salvador"
             )}
 
             ${createLineMiniCard(
@@ -365,8 +356,8 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               "B4",
               "Pituba ↔ Lapa",
               "BRT",
-              "Atende o trecho central do sistema",
-              "BRT Salvador"
+              "Ligação entre Pituba e Centro",
+              "Prefeitura de Salvador"
             )}
 
             ${createLineMiniCard(
@@ -374,8 +365,8 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               "B5",
               "Rodoviária ↔ Lapa",
               "BRT",
-              "Ligação entre dois grandes polos de conexão",
-              "BRT Salvador"
+              "Ligação entre dois polos de conexão",
+              "Prefeitura de Salvador"
             )}
 
           </div>
@@ -384,7 +375,7 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             TERMINAIS IMPORTANTES
+             TERMINAIS
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -392,12 +383,6 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
           <h4 class="panel-title">
             Terminais importantes
           </h4>
-
-          <p class="panel-intro">
-            Muitos trajetos ficam mais simples
-            quando você entende
-            onde as linhas se conectam.
-          </p>
 
           <div class="bus-system-grid">
 
@@ -410,9 +395,9 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Um dos maiores pontos
-                de conexão do transporte
-                urbano de Salvador.
+                Importante terminal
+                do transporte urbano
+                de Salvador.
               </p>
 
             </article>
@@ -427,7 +412,8 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Integra ônibus
+                Ponto de conexão
+                entre ônibus
                 e Linha 1 do metrô.
               </p>
 
@@ -443,9 +429,9 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Importante terminal
-                para linhas metropolitanas
-                e conexão com a Linha 2.
+                Recebe diversas
+                linhas metropolitanas
+                e conecta-se ao eixo da Linha 2.
               </p>
 
             </article>
@@ -460,9 +446,9 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Terminal urbano
-                e metropolitano
-                conectado à Linha 2.
+                Importante ponto
+                de integração urbana
+                e metropolitana.
               </p>
 
             </article>
@@ -477,9 +463,9 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Integra metrô,
-                ônibus e a nova
-                Rodoviária da Bahia.
+                Integra transporte
+                rodoviário, ônibus
+                e metrô.
               </p>
 
             </article>
@@ -490,11 +476,12 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               <span>🏢</span>
 
               <strong>
-                Shopping da Bahia
+                Terminal Shopping da Bahia
               </strong>
 
               <p>
-                Mantém linhas urbanas
+                Continua atendendo
+                linhas urbanas
                 da região da antiga Rodoviária.
               </p>
 
@@ -512,20 +499,21 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Atenção à Rodoviária
+            Nova Rodoviária de Salvador
           </h4>
 
           <div class="visitor-alert">
 
             <strong>
-              A Rodoviária principal mudou para Águas Claras em 2026.
+              A principal Rodoviária está
+              em Águas Claras.
             </strong>
 
-            O novo Terminal Salvador
-            começou a operar em janeiro de 2026
+            O Terminal Salvador
+            entrou em operação
+            em 20 de janeiro de 2026
             e possui conexão direta
-            com a estação de metrô
-            de Águas Claras.
+            com o sistema metroviário.
 
           </div>
 
@@ -533,31 +521,28 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
           <div class="answer-block">
 
             <strong>
-              Não confunda com o antigo terminal
+              A antiga referência mudou
             </strong>
 
             <p>
-              Algumas referências antigas
-              ainda podem mencionar
-              a região do Shopping da Bahia
-              como “Rodoviária”.
+              Linhas municipais
+              que utilizavam “Rodoviária”
+              no nome passaram
+              a utilizar “Terminal Shopping da Bahia”.
             </p>
 
           </div>
 
 
-          <div class="answer-block">
+          <div class="fare-note">
 
-            <strong>
-              Algumas linhas foram renomeadas
-            </strong>
-
-            <p>
-              Linhas urbanas que utilizavam
-              “Rodoviária” no nome
-              passaram a usar
-              “Terminal Shopping da Bahia”.
-            </p>
+            Se encontrar uma indicação
+            antiga para “Rodoviária”
+            na região do Shopping da Bahia,
+            confirme se ela se refere
+            ao terminal urbano
+            ou à nova Rodoviária
+            em Águas Claras.
 
           </div>
 
@@ -575,9 +560,8 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
           </h4>
 
           <p class="panel-intro">
-            Essas linhas atravessam
-            os limites de Salvador
-            e atendem outros municípios
+            A rede estadual conecta
+            Salvador a diversos municípios
             da Região Metropolitana.
           </p>
 
@@ -586,13 +570,13 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
             <article class="comparison-card">
 
               <strong>
-                Rede atual
+                67 linhas
               </strong>
 
               <p>
-                A AGERBA informa
-                67 linhas metropolitanas
-                operadas por quatro concessionárias.
+                É o total informado
+                pela AGERBA
+                em junho de 2026.
               </p>
 
             </article>
@@ -601,14 +585,30 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
             <article class="comparison-card">
 
               <strong>
-                Terminais de integração
+                Quatro concessionárias
               </strong>
 
               <p>
-                Águas Claras, Aeroporto,
+                A operação é distribuída
+                entre quatro empresas
+                dentro do sistema regulado
+                pela AGERBA.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Terminais principais
+              </strong>
+
+              <p>
+                Águas Claras,
+                Aeroporto,
                 Mussurunga e Pirajá
-                concentram diversas
-                conexões metropolitanas.
+                concentram diversas conexões.
               </p>
 
             </article>
@@ -617,30 +617,12 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
             <article class="comparison-card">
 
               <strong>
-                Destinos frequentes
-              </strong>
-
-              <p>
-                Lauro de Freitas,
-                Camaçari, Simões Filho,
-                Dias d'Ávila, Mata de São João
-                e outras cidades da RMS.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Tarifa própria
+                Tarifa variável
               </strong>
 
               <p>
                 O valor depende
                 da linha e do percurso.
-                Não existe uma única tarifa
-                metropolitana para todos os trajetos.
               </p>
 
             </article>
@@ -651,7 +633,7 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             EXEMPLOS DE LINHAS METROPOLITANAS
+             EXEMPLOS METROPOLITANOS
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -659,12 +641,6 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
           <h4 class="panel-title">
             Exemplos de conexões metropolitanas
           </h4>
-
-          <p class="panel-intro">
-            Alguns exemplos ajudam a entender
-            como os terminais de Salvador
-            funcionam como portas de entrada da RMS.
-          </p>
 
           <div class="fare-scenario-grid">
 
@@ -679,8 +655,9 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Diversas linhas metropolitanas
-                chegam ao Terminal Aeroporto.
+                Diversas linhas
+                da região chegam
+                ao Terminal Aeroporto.
               </p>
 
               <span class="fare-scenario-result">
@@ -697,12 +674,12 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </span>
 
               <strong>
-                Águas Claras ou Mussurunga
+                Águas Claras / Mussurunga
               </strong>
 
               <p>
-                Há linhas metropolitanas
-                conectando Camaçari
+                A AGERBA registra
+                linhas ligando Camaçari
                 a terminais da capital.
               </p>
 
@@ -724,16 +701,54 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                A rede metropolitana inclui
-                serviço ligando Praia do Forte
+                A linha 138
+                liga Praia do Forte
                 ao Terminal Aeroporto.
               </p>
 
               <span class="fare-scenario-result">
-                Linha metropolitana
+                Rede metropolitana
               </span>
 
             </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             HORÁRIOS METROPOLITANOS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Horários metropolitanos
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              A AGERBA publica quadros de horários.
+            </strong>
+
+            <p>
+              Algumas linhas
+              possuem horários disponíveis
+              diretamente no portal
+              da Agência.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Para uma viagem metropolitana,
+            consulte o número exato da linha
+            e o quadro correspondente
+            antes de sair.
 
           </div>
 
@@ -757,26 +772,10 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
             </strong>
 
             <p>
-              Use SalvadorCARD
-              ou outro meio aceito
-              pela rede municipal.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Bilhete Avulso
-            </strong>
-
-            <p>
-              Para quem está visitando,
-              o Bilhete Avulso SalvadorCARD
-              é uma opção prática:
-              não exige cadastro
-              e participa da integração tarifária.
+              Consulte os meios
+              atualmente aceitos
+              pela rede municipal
+              e as regras de integração.
             </p>
 
           </div>
@@ -789,10 +788,28 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
             </strong>
 
             <p>
-              Confirme o cartão aceito
-              e a tarifa específica
-              antes de embarcar.
+              A tarifa depende
+              da linha utilizada.
+              Quando houver integração
+              com o metrô,
+              siga a regra tarifária vigente.
             </p>
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              Não colocamos aqui
+              regras comerciais do SalvadorCARD.
+            </strong>
+
+            Os cartões aceitos
+            e as formas de pagamento
+            são tratados no módulo
+            “Como pagar” apenas quando
+            confirmados por fonte pública.
 
           </div>
 
@@ -825,31 +842,8 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
 
                 <p>
                   Número e destino juntos
-                  são mais seguros
-                  do que apenas o nome do bairro.
-                </p>
-
-              </div>
-
-            </article>
-
-
-            <article class="bus-tip">
-
-              <span class="bus-tip-icon">
-                📱
-              </span>
-
-              <div>
-
-                <strong>
-                  Consulte o planejador oficial
-                </strong>
-
-                <p>
-                  Ele já considera
-                  integração com metrô,
-                  BRT e caminhada.
+                  ajudam a evitar
+                  embarque no sentido errado.
                 </p>
 
               </div>
@@ -870,9 +864,8 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
                 </strong>
 
                 <p>
-                  Desde 2026,
-                  a principal Rodoviária
-                  está em Águas Claras.
+                  A nova Rodoviária
+                  fica em Águas Claras.
                 </p>
 
               </div>
@@ -893,9 +886,33 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
                 </strong>
 
                 <p>
-                  Confirme se a linha
+                  Verifique se a linha
                   é metropolitana
                   e consulte a AGERBA.
+                </p>
+
+              </div>
+
+            </article>
+
+
+            <article class="bus-tip">
+
+              <span class="bus-tip-icon">
+                📅
+              </span>
+
+              <div>
+
+                <strong>
+                  Eventos podem alterar a operação
+                </strong>
+
+                <p>
+                  Carnaval,
+                  grandes festas
+                  e outras operações especiais
+                  podem mudar horários.
                 </p>
 
               </div>
@@ -908,7 +925,7 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             FONTES
+             FONTES PÚBLICAS
         =================================================== -->
 
         <div class="official-map-actions">
@@ -925,21 +942,31 @@ window.SALVADOR_TRANSPORT_MODULES["bus"] = {
 
           <a
             class="official-link"
-            href="https://www.salvadorcard.com.br/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            SalvadorCARD
-          </a>
-
-
-          <a
-            class="official-link"
             href="https://www.ba.gov.br/agerba/"
             target="_blank"
             rel="noopener noreferrer"
           >
             AGERBA
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://www.ba.gov.br/agerba/quadro-de-horarios-expresso-metropolitano"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Horários metropolitanos · AGERBA
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://www.ba.gov.br/agerba/noticias/2026-01/8341/nova-rodoviaria-da-bahia-mais-moderna-integrada-e-segura"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Nova Rodoviária · AGERBA
           </a>
 
         </div>
