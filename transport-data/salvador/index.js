@@ -20,6 +20,7 @@
     country: "Brasil",
 
     page: {
+
       eyebrow: "Malha de Transporte",
 
       title: "Salvador",
@@ -28,6 +29,7 @@
         "Entenda metrô, BRT, ônibus, VLT, Ferry-Boat, tarifas, integrações e meios de pagamento para circular por Salvador com mais clareza.",
 
       updatedAt: "Agosto de 2026"
+
     },
 
 
@@ -46,7 +48,7 @@
         title: "Rede de Transporte",
 
         description:
-          "Veja o mapa do metrô e entenda Metrô, BRT, VLT, ônibus urbanos e metropolitanos e Ferry-Boat."
+          "Veja o mapa do metrô e entenda metrô, BRT, VLT, ônibus urbanos e metropolitanos e Ferry-Boat."
       },
 
 
@@ -59,7 +61,7 @@
         title: "Tarifas e integração",
 
         description:
-          "Consulte tarifas do metrô, ônibus, BRT, integrações metropolitanas e valores do Ferry-Boat."
+          "Consulte tarifas do metrô, ônibus, BRT, integrações metropolitanas e valores regulados do Ferry-Boat."
       },
 
 
@@ -72,7 +74,7 @@
         title: "Como pagar",
 
         description:
-          "Entenda aproximação, QR Code, Cartão Integração, SalvadorCARD, Metropasse e recargas."
+          "Entenda os meios de pagamento e os cartões utilizados nos diferentes sistemas de transporte."
       },
 
 
@@ -85,7 +87,7 @@
         title: "Ônibus e BRT",
 
         description:
-          "Veja ônibus municipais, BRT, linhas metropolitanas, terminais e canais de consulta."
+          "Veja ônibus municipais, BRT, transporte metropolitano, terminais e canais públicos de consulta."
       },
 
 
@@ -105,7 +107,7 @@
 
 
     // ========================================================
-    // ACESSOS OFICIAIS
+    // ACESSOS PÚBLICOS OFICIAIS
     // ========================================================
 
     quickAccess: [
@@ -115,29 +117,34 @@
         url: "https://www.ba.gov.br/trilhos/25/mapa-das-linhas"
       },
 
+
       {
-        label: "Metrô Bahia",
-        url: "https://trilhos.motiva.com.br/metrobahia/"
+        label: "CTB · Governo da Bahia",
+        url: "https://www.ba.gov.br/trilhos/"
       },
+
+
+      {
+        label: "SEDUR · Mobilidade Urbana",
+        url: "https://www.ba.gov.br/sedur/mobilidade-urbana/metro"
+      },
+
 
       {
         label: "Mobilidade Salvador",
         url: "https://mobilidade.salvador.ba.gov.br/"
       },
 
-      {
-        label: "SalvadorCARD",
-        url: "https://www.salvadorcard.com.br/"
-      },
 
       {
         label: "AGERBA",
         url: "https://www.ba.gov.br/agerba/"
       },
 
+
       {
-        label: "Ferry-Boat",
-        url: "https://www.internacionaltravessias.com.br/"
+        label: "Tarifas · AGERBA",
+        url: "https://www.ba.gov.br/agerba/publicacoes/Tarifas"
       }
 
     ]
@@ -174,13 +181,16 @@
 
   function getCardModule(cardId) {
 
-    const card = getCard(cardId);
+    const card =
+      getCard(cardId);
 
     if (!card) {
       return null;
     }
 
-    return getModule(card.module);
+    return getModule(
+      card.module
+    );
 
   }
 
@@ -189,9 +199,11 @@
 
     return SALVADOR_TRANSPORT.cards.filter(
       function (card) {
+
         return Boolean(
           getModule(card.module)
         );
+
       }
     );
 
@@ -208,17 +220,25 @@
       SALVADOR_TRANSPORT.cards
         .filter(
           function (card) {
-            return !getModule(card.module);
+
+            return !getModule(
+              card.module
+            );
+
           }
         )
         .map(
           function (card) {
+
             return card.module;
+
           }
         );
 
 
-    if (missingModules.length > 0) {
+    if (
+      missingModules.length > 0
+    ) {
 
       console.warn(
         "[Transportes · Salvador] Módulos ainda não carregados:",
@@ -312,7 +332,10 @@
         : moduleData.body || "";
 
 
-    modal.classList.add("active");
+    modal.classList.add(
+      "active"
+    );
+
 
     modal.setAttribute(
       "aria-hidden",
@@ -334,7 +357,9 @@
   // FECHAR CONTEÚDO
   // ==========================================================
 
-  function closeModule(modal) {
+  function closeModule(
+    modal
+  ) {
 
     if (!modal) {
       return;
@@ -345,10 +370,12 @@
       "active"
     );
 
+
     modal.setAttribute(
       "aria-hidden",
       "true"
     );
+
 
     document.body.classList.remove(
       "modal-open"
@@ -413,6 +440,7 @@
 
     new CustomEvent(
       "salvadorTransportReady",
+
       {
         detail: {
 
@@ -424,6 +452,7 @@
 
         }
       }
+
     )
 
   );
