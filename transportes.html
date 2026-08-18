@@ -2669,6 +2669,7 @@
               <option value="sao-paulo">São Paulo, Brasil</option>
               <option value="rio">Rio de Janeiro, Brasil</option>
               <option value="salvador">Salvador, Brasil</option>
+              <option value="gramado">Gramado, Brasil</option>
               <option value="paris" disabled>Paris, França — em preparação</option>
               <option value="new-york" disabled>New York, Estados Unidos — em preparação</option>
             </select>
@@ -2891,6 +2892,13 @@
   <script src="transport-data/salvador/planner.js"></script>
   <script src="transport-data/salvador/index.js"></script>
 
+  <script src="transport-data/gramado/network.js"></script>
+  <script src="transport-data/gramado/fares.js"></script>
+  <script src="transport-data/gramado/pagamento.js"></script>
+  <script src="transport-data/gramado/onibus.js"></script>
+  <script src="transport-data/gramado/planner.js"></script>
+  <script src="transport-data/gramado/index.js"></script>
+
   <script>
 
     const TRANSPORT_CINEMA_VERSION = "20260724-1";
@@ -2975,6 +2983,19 @@
       "salvador": {
         cityName: "Salvador",
         cityLabel: "Salvador",
+        fallbackCategories: [
+          "City Guide",
+          "Gastronomia",
+          "Atrações Turísticas",
+          "Vida Noturna",
+          "Endereços para Compras",
+          "Sugestão de Presentes"
+        ]
+      },
+
+      "gramado": {
+        cityName: "Gramado",
+        cityLabel: "Gramado",
         fallbackCategories: [
           "City Guide",
           "Gastronomia",
@@ -3185,6 +3206,10 @@
         return window.SALVADOR_TRANSPORT_MODULES || {};
       }
 
+      if (select && select.value === "gramado") {
+        return window.GRAMADO_TRANSPORT_MODULES || {};
+      }
+
       return window.SP_TRANSPORT_MODULES || {};
     }
 
@@ -3269,6 +3294,47 @@
               title: "Planeje o trajeto",
               description:
                 "Compare metrô, BRT, ônibus, VLT, Ferry-Boat e transporte metropolitano antes de sair."
+            }
+          }
+        };
+      }
+
+      if (value === "gramado") {
+        return {
+          cityName: "Gramado",
+          summary:
+            "Entenda a nova rede municipal, a ligação com Canela, viagens regionais, tarifas, bilhetagem e alternativas de deslocamento antes de circular pela cidade.",
+          updatedAt: "Modelo visual · agosto de 2026",
+          networkTitle: "Rede de Transporte",
+          networkDescription:
+            "Veja como funciona a mobilidade de Gramado, a nova rede municipal, a conexão com Canela e as principais ligações regionais.",
+          networkPoints: [
+            "Ônibus municipal",
+            "Gramado ↔ Canela",
+            "Conexões regionais",
+            "Rodoviária",
+            "Caminhada e carro"
+          ],
+          cards: {
+            fares: {
+              title: "Tarifas e custos",
+              description:
+                "Tarifa municipal, valores de referência para Gramado–Canela e diferenças entre serviços regionais."
+            },
+            card: {
+              title: "Como pagar",
+              description:
+                "Cartão Nosso Transporte Público, bilhetagem municipal e compra de passagens regionais da Citral."
+            },
+            bus: {
+              title: "Ônibus",
+              description:
+                "Nova rede municipal, ligação Gramado–Canela, serviços regionais, Rodoviária e Várzea Grande."
+            },
+            planner: {
+              title: "Planeje o trajeto",
+              description:
+                "Compare caminhada, ônibus, aplicativo, carro e conexões regionais antes de decidir como se deslocar."
             }
           }
         };
