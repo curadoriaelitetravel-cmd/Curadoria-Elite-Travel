@@ -8,6 +8,10 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES =
   window.BELO_HORIZONTE_TRANSPORT_MODULES || {};
 
 
+const BH_METRO_MAP_URL =
+  "/images/Mapa_MetroBH.jpg";
+
+
 // ============================================================
 // FUNÇÕES AUXILIARES
 // ============================================================
@@ -103,6 +107,138 @@ function createBhLegendItem(
 
     </article>
   `;
+
+}
+
+
+// ============================================================
+// LIGHTBOX DO MAPA
+// ============================================================
+
+function openBhMetroMap() {
+
+  if (
+    document.getElementById(
+      "bhMetroMapLightbox"
+    )
+  ) {
+    return;
+  }
+
+
+  const lightbox =
+    document.createElement("div");
+
+
+  lightbox.id =
+    "bhMetroMapLightbox";
+
+
+  lightbox.style.cssText = `
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:rgba(0,0,0,.93);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    box-sizing:border-box;
+    cursor:zoom-out;
+  `;
+
+
+  lightbox.innerHTML = `
+
+    <button
+      type="button"
+      id="closeBhMetroMap"
+      aria-label="Fechar mapa ampliado"
+      style="
+        position:fixed;
+        top:22px;
+        right:28px;
+        z-index:100001;
+        width:46px;
+        height:46px;
+        border-radius:50%;
+        border:1px solid rgba(212,175,55,.55);
+        background:#090909;
+        color:#d4af37;
+        font-size:28px;
+        line-height:1;
+        cursor:pointer;
+      "
+    >
+      ×
+    </button>
+
+
+    <img
+      src="${BH_METRO_MAP_URL}"
+      alt="Mapa ampliado do Metrô de Belo Horizonte"
+      style="
+        display:block;
+        max-width:96vw;
+        max-height:94vh;
+        width:auto;
+        height:auto;
+        object-fit:contain;
+        background:#fff;
+        box-shadow:0 18px 60px rgba(0,0,0,.65);
+        cursor:default;
+      "
+    />
+
+  `;
+
+
+  document.body.appendChild(
+    lightbox
+  );
+
+
+  const closeLightbox = () => {
+
+    lightbox.remove();
+
+    document.removeEventListener(
+      "keydown",
+      escapeHandler
+    );
+
+  };
+
+
+  const escapeHandler = (event) => {
+
+    if (event.key === "Escape") {
+      closeLightbox();
+    }
+
+  };
+
+
+  lightbox.addEventListener(
+    "click",
+    (event) => {
+
+      if (
+        event.target === lightbox ||
+        event.target.id ===
+          "closeBhMetroMap"
+      ) {
+        closeLightbox();
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "keydown",
+    escapeHandler
+  );
 
 }
 
@@ -232,6 +368,79 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["network"] = {
               "Rede que conecta Belo Horizonte a outros municípios da RMBH.",
               "Sistema estadual"
             )}
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             MAPA DO METRÔ
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Mapa do Metrô
+          </h4>
+
+          <p class="panel-intro">
+            O mapa diferencia
+            a linha atualmente em operação
+            da expansão planejada
+            da rede metroviária.
+          </p>
+
+          <div
+            class="official-map-wrap"
+            style="
+              overflow:hidden;
+              border-radius:16px;
+              background:#fff;
+            "
+          >
+
+            <img
+              class="official-map-image"
+              src="${BH_METRO_MAP_URL}"
+              alt="Mapa do Metrô de Belo Horizonte"
+              loading="lazy"
+              style="
+                display:block;
+                width:100%;
+                height:auto;
+                cursor:zoom-in;
+              "
+              onclick="openBhMetroMap()"
+            />
+
+          </div>
+
+
+          <div class="official-map-actions">
+
+            <button
+              class="map-zoom-button"
+              type="button"
+              onclick="openBhMetroMap()"
+            >
+              Ampliar mapa
+            </button>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            <strong>
+              Atenção:
+            </strong>
+
+            a Linha 1 está em operação.
+            A Linha 2 aparece no mapa
+            como expansão planejada
+            e ainda não deve ser considerada
+            disponível para a viagem.
 
           </div>
 
@@ -781,7 +990,7 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             BHBus
+             BHBUS
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -1047,3 +1256,11 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["network"] = {
   }
 
 };
+
+
+// ============================================================
+// DISPONIBILIZA O LIGHTBOX
+// ============================================================
+
+window.openBhMetroMap =
+  openBhMetroMap;
