@@ -12,7 +12,7 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
   kicker: "Gramado · bilhetagem",
 
-  title: "Como pagar o transporte",
+  title: "Como pagar",
 
   body() {
 
@@ -30,20 +30,19 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
           <div class="payment-recommendation">
 
             <span class="payment-eyebrow">
-              Primeiro identifique o tipo de viagem
+              Sistema municipal
             </span>
 
             <h4>
-              Dentro de Gramado e em viagens regionais,
-              a forma de pagamento não é a mesma.
+              Gramado adotou bilhetagem eletrônica
+              no novo transporte público.
             </h4>
 
             <p>
-              O transporte municipal utiliza
-              o novo sistema de bilhetagem eletrônica
-              de Gramado. Já as viagens para Canela
-              e outros destinos regionais
-              seguem os canais de venda da Citral.
+              O sistema municipal passou a utilizar
+              o Cartão “Nosso Transporte Público”,
+              associado à nova bilhetagem eletrônica
+              implantada em 2026.
             </p>
 
           </div>
@@ -52,116 +51,7 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             PRINCIPAIS FORMAS
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Principais formas de pagamento
-          </h4>
-
-          <div class="payment-method-grid">
-
-
-            <article class="payment-method">
-
-              <span class="payment-method-icon">
-                🚌
-              </span>
-
-              <strong>
-                Cartão Nosso
-              </strong>
-
-              <span class="payment-status available">
-                Rede municipal
-              </span>
-
-              <small>
-                Cartão eletrônico
-                do novo transporte público
-                de Gramado.
-              </small>
-
-            </article>
-
-
-            <article class="payment-method">
-
-              <span class="payment-method-icon">
-                🎟️
-              </span>
-
-              <strong>
-                Passagem Citral
-              </strong>
-
-              <span class="payment-status available">
-                Regional
-              </span>
-
-              <small>
-                Utilizada em viagens
-                entre Gramado, Canela
-                e outros destinos atendidos.
-              </small>
-
-            </article>
-
-
-            <article class="payment-method">
-
-              <span class="payment-method-icon">
-                💻
-              </span>
-
-              <strong>
-                Compra online
-              </strong>
-
-              <span class="payment-status available">
-                Citral
-              </span>
-
-              <small>
-                Passagens regionais podem
-                ser compradas pelos canais
-                digitais da empresa.
-              </small>
-
-            </article>
-
-
-            <article class="payment-method">
-
-              <span class="payment-method-icon">
-                🏢
-              </span>
-
-              <strong>
-                Guichê
-              </strong>
-
-              <span class="payment-status available">
-                Rodoviária
-              </span>
-
-              <small>
-                A compra presencial
-                continua disponível
-                nos pontos de venda indicados.
-              </small>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             CARTÃO NOSSO
+             CARTÃO
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -171,74 +61,177 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
           </h4>
 
           <p class="panel-intro">
-            O novo sistema municipal
-            adotou bilhetagem eletrônica
-            a partir da operação iniciada
-            em agosto de 2026.
+            É o cartão divulgado oficialmente
+            pela Prefeitura para a nova
+            bilhetagem eletrônica municipal.
           </p>
 
+          <div class="payment-method-grid">
 
-          <div class="payment-choice-grid">
 
+            <article class="payment-method">
 
-            <article class="payment-choice">
+              <span class="payment-method-icon">
+                💳
+              </span>
 
               <strong>
-                Para que serve
+                Cartão Nosso Transporte Público
+              </strong>
+
+              <span class="payment-status available">
+                Rede municipal
+              </span>
+
+              <small>
+                Utilizado no novo sistema
+                de ônibus de Gramado.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                👤
+              </span>
+
+              <strong>
+                Reconhecimento facial
+              </strong>
+
+              <span class="payment-status available">
+                Bilhetagem
+              </span>
+
+              <small>
+                A Prefeitura informa
+                que a nova tecnologia
+                inclui reconhecimento facial.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                🚌
+              </span>
+
+              <strong>
+                Transporte municipal
+              </strong>
+
+              <span class="payment-status available">
+                Gramado
+              </span>
+
+              <small>
+                O cartão está relacionado
+                ao sistema público municipal,
+                não ao transporte rodoviário estadual.
+              </small>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             CADASTRO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Cadastramento de usuários
+          </h4>
+
+          <p class="panel-intro">
+            O Município iniciou o cadastramento
+            antes da entrada em operação
+            do novo sistema.
+          </p>
+
+          <div class="comparison-grid">
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Início do cadastramento
               </strong>
 
               <p>
-                É o cartão eletrônico
-                utilizado no novo sistema
-                de ônibus municipais de Gramado.
+                O processo começou
+                em julho de 2026,
+                durante a transição
+                para a nova operação.
               </p>
 
             </article>
 
 
-            <article class="payment-choice">
+            <article class="comparison-card">
 
               <strong>
-                Primeira via
+                Atendimento
               </strong>
 
               <p>
-                A Prefeitura informou
-                que a primeira via
-                do cartão não possui taxa.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Cadastro
-              </strong>
-
-              <p>
-                O cadastramento exige
-                documento de identificação
-                e CPF.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Atendimento presencial
-              </strong>
-
-              <p>
-                O sistema possui atendimento
-                no Terminal Rodoviário
+                A Prefeitura divulgou
+                atendimento ligado
+                ao Terminal Rodoviário
                 da Várzea Grande.
               </p>
 
             </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TRANSIÇÃO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Período de transição
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Passagens impressas antigas
+              tiveram validade temporária.
+            </strong>
+
+            <p>
+              A Prefeitura informou
+              que os bilhetes impressos
+              permaneceriam válidos
+              durante 60 dias
+              após o início da nova operação.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Como o novo sistema começou
+            em 1º de agosto de 2026,
+            esta é uma regra de transição
+            e não deve ser tratada
+            como característica permanente
+            da bilhetagem.
 
           </div>
 
@@ -252,21 +245,104 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Recarga do cartão municipal
+            E como recarregar?
+          </h4>
+
+          <div class="visitor-alert">
+
+            <strong>
+              Os canais públicos consultados
+              ainda não detalham suficientemente
+              todas as formas de recarga.
+            </strong>
+
+            Por isso, a Curadoria não informa
+            Pix, cartão bancário, dinheiro,
+            aplicativo de recarga
+            ou qualquer outro meio
+            sem confirmação pública específica.
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Antes de depender do ônibus municipal
+            </strong>
+
+            <p>
+              Consulte o portal oficial
+              da Prefeitura de Gramado
+              para verificar os procedimentos
+              mais recentes da bilhetagem.
+            </p>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             PAGAMENTO AVULSO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Posso pagar uma viagem avulsa?
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              A recarga faz parte
-              da nova bilhetagem eletrônica.
+              As fontes públicas consultadas
+              não esclarecem isso de forma suficiente.
             </strong>
 
             <p>
-              A Prefeitura confirmou
-              a implantação de um sistema
-              eletrônico de recarga
-              para os cartões.
+              Não encontramos confirmação pública
+              atual que permita afirmar
+              quais meios de pagamento avulso
+              são aceitos diretamente no ônibus.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Por isso, não apresentamos
+            dinheiro, Pix,
+            cartão de crédito ou débito
+            como opções confirmadas.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             APLICATIVO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Aplicativo “Nosso Transporte Público”
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Previsto para setembro de 2026
+            </strong>
+
+            <p>
+              A Prefeitura informou
+              que o aplicativo deverá permitir
+              acompanhar em tempo real
+              a localização dos ônibus.
             </p>
 
           </div>
@@ -275,20 +351,15 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
           <div class="visitor-alert">
 
             <strong>
-              O que ainda não está claro
-              nos canais oficiais:
+              Atenção à data.
             </strong>
 
-            as fontes consultadas
-            não detalham de forma suficiente
-            todos os canais de recarga,
-            formas de pagamento disponíveis
-            ou eventual compra avulsa
-            diretamente no ônibus.
-
-            Por isso, confirme essas informações
-            com a operadora antes de depender
-            exclusivamente do transporte municipal.
+            Como estamos em agosto de 2026,
+            a funcionalidade foi anunciada,
+            mas ainda não deve ser tratada
+            como disponível antes
+            da confirmação oficial
+            de seu lançamento.
 
           </div>
 
@@ -296,13 +367,14 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             VISITANTES
+             MUNICIPAL X INTERMUNICIPAL
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            E para quem está visitando Gramado?
+            Municipal e intermunicipal
+            não são a mesma coisa
           </h4>
 
           <div class="comparison-grid">
@@ -311,14 +383,13 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
             <article class="comparison-card">
 
               <strong>
-                Poucas viagens municipais
+                Dentro de Gramado
               </strong>
 
               <p>
-                Antes de fazer cadastro,
-                confirme com a operadora
-                quais opções existem
-                para pagamento ocasional.
+                O Cartão “Nosso Transporte Público”
+                pertence à lógica
+                do sistema municipal.
               </p>
 
             </article>
@@ -327,14 +398,14 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
             <article class="comparison-card">
 
               <strong>
-                Muitas viagens municipais
+                Viagem para outra cidade
               </strong>
 
               <p>
-                O cartão Nosso
-                pode fazer mais sentido
-                se você pretende utilizar
-                a rede com frequência.
+                O transporte rodoviário
+                intermunicipal pertence
+                ao sistema estadual
+                e possui regras próprias.
               </p>
 
             </article>
@@ -344,15 +415,10 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
           <div class="fare-note">
 
-            <strong>
-              Não recomendo cadastrar um cartão
-              automaticamente só porque você chegou à cidade.
-            </strong>
-
-            Primeiro veja quantas viagens
-            de ônibus municipal
-            realmente fazem parte
-            do seu deslocamento.
+            Não presuma que o cartão municipal
+            possa ser utilizado
+            em viagens rodoviárias
+            para outros municípios.
 
           </div>
 
@@ -360,224 +426,42 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             GRAMADO X CANELA
+             INTERMUNICIPAL
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Passagens Gramado ↔ Canela
-          </h4>
-
-          <p class="panel-intro">
-            A ligação regional é operada
-            por serviços da Citral
-            e não utiliza o cartão municipal
-            de Gramado como referência.
-          </p>
-
-
-          <div class="payment-choice-grid">
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Compra online
-              </strong>
-
-              <p>
-                Consulte origem,
-                destino, data e horário
-                no site da Citral
-                e compre quando a venda
-                estiver disponível.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Compra presencial
-              </strong>
-
-              <p>
-                Também é possível
-                comprar a passagem
-                nos canais presenciais
-                indicados pela empresa.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Circular 6152
-              </strong>
-
-              <p>
-                Para uma viagem simples
-                entre Gramado e Canela,
-                confira os horários
-                desta linha.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Outras linhas
-              </strong>
-
-              <p>
-                Serviços comuns,
-                semi-diretos e executivos
-                também podem atender
-                o mesmo trecho.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             COMPRA ONLINE
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Compra online na Citral
-          </h4>
-
-          <div class="bus-use-flow">
-
-
-            <article class="bus-use-step">
-
-              <span>
-                1
-              </span>
-
-              <strong>
-                Informe origem e destino
-              </strong>
-
-              <p>
-                Exemplo:
-                Gramado → Canela.
-              </p>
-
-            </article>
-
-
-            <article class="bus-use-step">
-
-              <span>
-                2
-              </span>
-
-              <strong>
-                Escolha a data
-              </strong>
-
-              <p>
-                Consulte os horários
-                disponíveis para o dia.
-              </p>
-
-            </article>
-
-
-            <article class="bus-use-step">
-
-              <span>
-                3
-              </span>
-
-              <strong>
-                Compare o serviço
-              </strong>
-
-              <p>
-                Veja modalidade,
-                horário e tarifa
-                antes de comprar.
-              </p>
-
-            </article>
-
-
-            <article class="bus-use-step">
-
-              <span>
-                4
-              </span>
-
-              <strong>
-                Finalize a compra
-              </strong>
-
-              <p>
-                Guarde o comprovante
-                ou bilhete apresentado
-                pela plataforma.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             RODOVIÁRIA
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Compra na rodoviária
+            Pagamento de viagens intermunicipais
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              Viagens regionais e transfers
+              Não encontramos base pública suficiente
+              para listar os meios de pagamento.
             </strong>
 
             <p>
-              Para determinados serviços,
-              a Citral orienta o passageiro
-              a comprar no guichê
-              da rodoviária.
+              Os órgãos públicos estaduais
+              regulam o transporte intermunicipal,
+              mas as fontes públicas consultadas
+              não apresentam de forma consolidada
+              todos os meios de pagamento
+              disponíveis ao passageiro
+              em cada linha ou serviço.
             </p>
 
           </div>
 
 
-          <div class="answer-block">
+          <div class="visitor-alert">
 
-            <strong>
-              Confira o local de embarque
-            </strong>
-
-            <p>
-              Depois da compra,
-              confirme o box,
-              plataforma ou ponto
-              indicado na passagem.
-            </p>
+            A Curadoria prefere deixar
+            uma informação em aberto
+            a apresentar como oficial
+            uma forma de pagamento
+            sustentada apenas por site comercial.
 
           </div>
 
@@ -585,74 +469,13 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             AEROPORTO
+             PARA O VISITANTE
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Gramado ↔ Aeroporto de Porto Alegre
-          </h4>
-
-          <p class="panel-intro">
-            A Citral mantém serviços
-            entre a Serra e o Aeroporto Salgado Filho.
-          </p>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Compra antecipada
-            </strong>
-
-            <p>
-              O serviço pode ser adquirido
-              online antes da viagem,
-              conforme disponibilidade.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Retorno ao aeroporto
-            </strong>
-
-            <p>
-              A empresa orienta que
-              os serviços partem
-              das rodoviárias de Gramado
-              e Canela.
-            </p>
-
-          </div>
-
-
-          <div class="fare-note">
-
-            Para voo saindo de Porto Alegre,
-            a Citral recomenda escolher
-            um ônibus com bastante antecedência
-            em relação ao check-in.
-            Consulte a recomendação atual
-            no momento da viagem.
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             O QUE ESCOLHER
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Qual opção procurar?
+            Para quem está visitando Gramado
           </h4>
 
           <div class="payment-choice-grid">
@@ -661,15 +484,14 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Dentro de Gramado
+                Primeiro veja seu trajeto
               </strong>
 
               <p>
-                Consulte o sistema
-                Nosso Transporte Público
-                e confirme o meio
-                de pagamento disponível
-                para seu perfil.
+                Descubra se você realmente
+                precisará utilizar
+                o ônibus municipal
+                durante a estadia.
               </p>
 
             </article>
@@ -678,13 +500,14 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Gramado → Canela
+                Depois confira a bilhetagem
               </strong>
 
               <p>
-                Consulte e compre
-                a passagem da Citral
-                correspondente ao serviço escolhido.
+                Consulte as informações
+                mais recentes da Prefeitura
+                antes de realizar cadastro
+                ou adquirir créditos.
               </p>
 
             </article>
@@ -693,13 +516,13 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Gramado → outra cidade
+                Outra cidade?
               </strong>
 
               <p>
-                Utilize os canais
-                de venda da empresa
-                responsável pela linha regional.
+                Trate a viagem
+                como transporte intermunicipal,
+                separado do sistema municipal.
               </p>
 
             </article>
@@ -708,13 +531,13 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Aplicativo ou táxi
+                Informação não confirmada?
               </strong>
 
               <p>
-                O pagamento segue
-                as regras da plataforma
-                ou do serviço contratado.
+                Não presuma que os meios
+                utilizados em outras cidades
+                também sejam aceitos em Gramado.
               </p>
 
             </article>
@@ -725,71 +548,11 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             ALERTAS
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Antes de pagar
-          </h4>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Não confunda rede municipal
-              com viagem regional.
-            </strong>
-
-            <p>
-              O cartão do transporte municipal
-              e a passagem da Citral
-              são coisas diferentes.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Confirme antes de colocar crédito.
-            </strong>
-
-            <p>
-              O novo sistema municipal
-              ainda é recente,
-              então canais e procedimentos
-              podem continuar evoluindo.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Guarde a passagem regional.
-            </strong>
-
-            <p>
-              Em viagens intermunicipais,
-              tenha o bilhete
-              ou comprovante disponível
-              no embarque.
-            </p>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             FONTES
+             FONTES PÚBLICAS
         =================================================== -->
 
         <div class="official-map-actions">
+
 
           <a
             class="official-link"
@@ -797,17 +560,37 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Transporte municipal · Gramado
+            Prefeitura de Gramado
           </a>
 
 
           <a
             class="official-link"
-            href="https://www.citral.tur.br/"
+            href="https://www.gramado.rs.gov.br/subportal/seguranca-publica-transito-transporte-e-fiscalizacao"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Comprar passagens · Citral
+            Trânsito e Transporte · Gramado
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://www.daer.rs.gov.br/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            DAER-RS
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://agergs.rs.gov.br/transporte-rodoviario-de-passageiros"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            AGERGS
           </a>
 
         </div>
