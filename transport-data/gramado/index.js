@@ -25,7 +25,7 @@
       title: "Gramado",
 
       description:
-        "Entenda ônibus municipais, conexão com Canela, viagens regionais, tarifas, bilhetagem e alternativas de deslocamento para circular por Gramado com mais clareza.",
+        "Entenda a rede municipal, conexões rodoviárias, tarifas, bilhetagem e alternativas de deslocamento para circular por Gramado com mais clareza.",
 
       updatedAt: "Agosto de 2026"
     },
@@ -46,7 +46,7 @@
         title: "Rede de Transporte",
 
         description:
-          "Entenda como funciona a mobilidade de Gramado, a nova rede municipal, a ligação com Canela e as principais conexões regionais."
+          "Entenda como funciona a mobilidade de Gramado, a rede municipal e as principais conexões rodoviárias."
       },
 
 
@@ -59,7 +59,7 @@
         title: "Tarifas e custos",
 
         description:
-          "Consulte a tarifa municipal, valores de referência para Gramado–Canela e diferenças entre serviços regionais."
+          "Consulte a tarifa municipal e entenda como funcionam os valores das viagens intermunicipais."
       },
 
 
@@ -67,12 +67,12 @@
         id: "card",
         module: "card",
 
-        eyebrow: "Bilhetes e pagamento",
+        eyebrow: "Bilhetagem",
 
         title: "Como pagar",
 
         description:
-          "Entenda o cartão Nosso Transporte Público, bilhetagem municipal e compra de passagens regionais da Citral."
+          "Entenda a bilhetagem eletrônica e o Cartão Nosso Transporte Público do sistema municipal."
       },
 
 
@@ -85,7 +85,7 @@
         title: "Ônibus",
 
         description:
-          "Veja a nova rede municipal, ligação Gramado–Canela, serviços regionais, Rodoviária e Várzea Grande."
+          "Veja a rede municipal, áreas atendidas, conexões rodoviárias e referências para embarque."
       },
 
 
@@ -98,14 +98,14 @@
         title: "Planeje o trajeto",
 
         description:
-          "Compare caminhada, ônibus, aplicativo, carro e conexões regionais antes de decidir como se deslocar."
+          "Compare caminhada, ônibus, táxi, aplicativo, carro e conexões rodoviárias antes de decidir como se deslocar."
       }
 
     ],
 
 
     // ========================================================
-    // ACESSOS OFICIAIS
+    // ACESSOS PÚBLICOS
     // ========================================================
 
     quickAccess: [
@@ -116,8 +116,18 @@
       },
 
       {
-        label: "Citral",
-        url: "https://www.citral.tur.br/"
+        label: "Trânsito e Transporte · Gramado",
+        url: "https://www.gramado.rs.gov.br/subportal/seguranca-publica-transito-transporte-e-fiscalizacao"
+      },
+
+      {
+        label: "DAER-RS",
+        url: "https://www.daer.rs.gov.br/"
+      },
+
+      {
+        label: "AGERGS",
+        url: "https://agergs.rs.gov.br/transporte-rodoviario-de-passageiros"
       }
 
     ]
