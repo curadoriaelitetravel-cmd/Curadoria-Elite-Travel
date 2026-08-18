@@ -21,10 +21,6 @@ window.GRAMADO_TRANSPORT_MODULES["planner"] = {
       <div class="network-layout">
 
 
-        <!-- ==================================================
-             POR ONDE COMEÇAR
-        =================================================== -->
-
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
@@ -32,96 +28,56 @@ window.GRAMADO_TRANSPORT_MODULES["planner"] = {
           </h4>
 
           <p class="panel-intro">
-            Em Gramado, a melhor escolha depende
-            muito mais da distância, do clima
-            e do horário do que de uma grande rede
-            de transporte integrada.
+            Em Gramado, a escolha depende da distância,
+            do horário, do clima e de o deslocamento
+            acontecer dentro ou fora do município.
           </p>
 
           <div class="planner-tool-grid">
 
             <article class="planner-tool-card">
-
-              <span class="planner-tool-icon">
-                🚶
-              </span>
-
-              <strong>
-                Destino no Centro
-              </strong>
-
+              <span class="planner-tool-icon">🚶</span>
+              <strong>Destino no Centro</strong>
               <p>
                 Compare primeiro a caminhada.
                 Muitas atrações centrais
-                estão relativamente próximas.
+                ficam relativamente próximas.
               </p>
-
             </article>
 
-
             <article class="planner-tool-card">
-
-              <span class="planner-tool-icon">
-                🚌
-              </span>
-
-              <strong>
-                Bairro de Gramado
-              </strong>
-
+              <span class="planner-tool-icon">🚌</span>
+              <strong>Bairro de Gramado</strong>
               <p>
-                Consulte a nova rede municipal
-                e veja se existe linha
-                no horário necessário.
+                Consulte as rotas
+                e os horários oficiais
+                do transporte municipal.
               </p>
-
             </article>
 
-
             <article class="planner-tool-card">
-
-              <span class="planner-tool-icon">
-                🏘️
-              </span>
-
-              <strong>
-                Quero ir a Canela
-              </strong>
-
+              <span class="planner-tool-icon">🛣️</span>
+              <strong>Outra cidade</strong>
               <p>
-                Comece pela circular 6152
-                e compare com aplicativo
-                conforme o número de passageiros.
+                Consulte a conectividade
+                rodoviária intermunicipal
+                disponibilizada pelos canais públicos.
               </p>
-
             </article>
 
-
             <article class="planner-tool-card">
-
-              <span class="planner-tool-icon">
-                🚗
-              </span>
-
-              <strong>
-                Atração afastada
-              </strong>
-
+              <span class="planner-tool-icon">🚗</span>
+              <strong>Atração afastada</strong>
               <p>
-                Compare ônibus, aplicativo,
-                táxi e carro antes de decidir.
+                Compare transporte municipal,
+                táxi, aplicativo e carro.
               </p>
-
             </article>
 
           </div>
 
         </section>
 
-
-        <!-- ==================================================
-             O QUE COMPARAR
-        =================================================== -->
 
         <section class="panel-box network-full">
 
@@ -132,106 +88,55 @@ window.GRAMADO_TRANSPORT_MODULES["planner"] = {
           <div class="planner-check-grid">
 
             <article class="planner-check-card">
-
-              <span>
-                ⏱️
-              </span>
-
-              <strong>
-                Tempo total
-              </strong>
-
+              <span>⏱️</span>
+              <strong>Tempo total</strong>
               <p>
-                Considere espera,
-                caminhada e deslocamento
-                até o ponto de embarque.
+                Considere espera
+                e deslocamento até o ponto.
               </p>
-
             </article>
 
-
             <article class="planner-check-card">
-
-              <span>
-                🌧️
-              </span>
-
-              <strong>
-                Clima
-              </strong>
-
+              <span>🌧️</span>
+              <strong>Clima</strong>
               <p>
-                Chuva, frio
-                e neblina mudam bastante
-                a conveniência da caminhada.
+                Chuva, frio e neblina
+                podem mudar a conveniência.
               </p>
-
             </article>
 
-
             <article class="planner-check-card">
-
-              <span>
-                👥
-              </span>
-
-              <strong>
-                Número de pessoas
-              </strong>
-
+              <span>👥</span>
+              <strong>Número de pessoas</strong>
               <p>
                 Para grupos,
-                aplicativo pode competir
-                com a soma das passagens.
+                compare o custo total
+                das alternativas.
               </p>
-
             </article>
 
-
             <article class="planner-check-card">
-
-              <span>
-                🕒
-              </span>
-
-              <strong>
-                Horário
-              </strong>
-
+              <span>🕒</span>
+              <strong>Horário</strong>
               <p>
-                Nem todas as linhas municipais
-                operam com a mesma frequência.
+                Cada linha municipal
+                possui sua programação.
               </p>
-
             </article>
 
-
             <article class="planner-check-card">
-
-              <span>
-                🧳
-              </span>
-
-              <strong>
-                Bagagem
-              </strong>
-
+              <span>🧳</span>
+              <strong>Bagagem</strong>
               <p>
-                Na chegada e saída,
-                considere conforto
-                e praticidade.
+                Na chegada ou saída,
+                considere praticidade.
               </p>
-
             </article>
 
           </div>
 
         </section>
 
-
-        <!-- ==================================================
-             CAMINHANDO
-        =================================================== -->
 
         <section class="panel-box network-full">
 
@@ -239,85 +144,47 @@ window.GRAMADO_TRANSPORT_MODULES["planner"] = {
             Quando caminhar faz sentido
           </h4>
 
-          <p class="panel-intro">
-            Para quem está hospedado
-            na região central,
-            caminhar pode ser a forma
-            mais simples de circular.
-          </p>
+          <div class="comparison-grid">
 
-          <div class="payment-choice-grid">
-
-            <article class="payment-choice">
-
-              <strong>
-                Distâncias curtas
-              </strong>
-
+            <article class="comparison-card">
+              <strong>Trajeto curto</strong>
               <p>
                 Compare a caminhada
                 com o tempo de espera
                 do transporte.
               </p>
-
             </article>
 
-
-            <article class="payment-choice">
-
-              <strong>
-                Centro turístico
-              </strong>
-
+            <article class="comparison-card">
+              <strong>Região central</strong>
               <p>
                 Muitas atrações,
                 restaurantes e lojas
-                ficam concentrados
-                em áreas próximas.
+                ficam concentrados.
               </p>
-
             </article>
 
-
-            <article class="payment-choice">
-
-              <strong>
-                Chuva ou frio intenso
-              </strong>
-
+            <article class="comparison-card">
+              <strong>Clima ruim</strong>
               <p>
-                Uma distância confortável
-                em dia seco pode não ser
-                a melhor escolha
-                em condições ruins.
+                Uma distância pequena
+                pode deixar de ser conveniente
+                com chuva ou frio intenso.
               </p>
-
             </article>
 
-
-            <article class="payment-choice">
-
-              <strong>
-                Ladeiras
-              </strong>
-
+            <article class="comparison-card">
+              <strong>Relevo</strong>
               <p>
-                Considere o relevo
-                antes de decidir
-                apenas pela distância
-                mostrada no mapa.
+                Considere inclinações
+                e condições do percurso.
               </p>
-
             </article>
 
           </div>
 
         </section>
 
-
-        <!-- ==================================================
-             ÔNIBUS MUNICIPAL
-        =================================================== -->
 
         <section class="panel-box network-full">
 
@@ -326,96 +193,53 @@ window.GRAMADO_TRANSPORT_MODULES["planner"] = {
           </h4>
 
           <p class="panel-intro">
-            O novo sistema de Gramado
-            possui 26 linhas,
-            mas frequência e horários
-            variam conforme o trajeto.
+            Gramado possui 26 linhas municipais,
+            com programação específica por rota.
           </p>
 
           <div class="bus-use-flow">
 
             <article class="bus-use-step">
-
-              <span>
-                1
-              </span>
-
-              <strong>
-                Identifique o bairro
-              </strong>
-
+              <span>1</span>
+              <strong>Identifique a região</strong>
               <p>
-                Primeiro confirme
-                a região exata
-                do seu destino.
+                Confirme o bairro
+                ou localidade do destino.
               </p>
-
             </article>
 
-
             <article class="bus-use-step">
-
-              <span>
-                2
-              </span>
-
-              <strong>
-                Consulte a linha
-              </strong>
-
+              <span>2</span>
+              <strong>Consulte a rota</strong>
               <p>
-                Veja qual das linhas
-                atende aquela região.
+                Use os mapas,
+                itinerários e informações
+                publicados pela Prefeitura.
               </p>
-
             </article>
 
-
             <article class="bus-use-step">
-
-              <span>
-                3
-              </span>
-
-              <strong>
-                Confira o horário
-              </strong>
-
+              <span>3</span>
+              <strong>Confira o horário</strong>
               <p>
-                A frequência
-                não é igual
-                em toda a rede.
+                A frequência varia
+                conforme a linha.
               </p>
-
             </article>
 
-
             <article class="bus-use-step">
-
-              <span>
-                4
-              </span>
-
-              <strong>
-                Confirme o ponto
-              </strong>
-
+              <span>4</span>
+              <strong>Confirme o ponto</strong>
               <p>
-                Veja onde embarcar
-                e em qual sentido
-                o ônibus seguirá.
+                Veja o local correto
+                de embarque e o sentido.
               </p>
-
             </article>
 
           </div>
 
         </section>
 
-
-        <!-- ==================================================
-             HORÁRIOS MUNICIPAIS
-        =================================================== -->
 
         <section class="panel-box network-full">
 
@@ -426,29 +250,28 @@ window.GRAMADO_TRANSPORT_MODULES["planner"] = {
           <div class="answer-block">
 
             <strong>
-              A nova rede ampliou horários.
+              Consulte a programação específica.
+            </strong>
+
+            <p>
+              A Prefeitura disponibiliza
+              os horários do transporte coletivo
+              em seus canais oficiais.
+            </p>
+
+          </div>
+
+          <div class="answer-block">
+
+            <strong>
+              A nova rede ampliou os horários.
             </strong>
 
             <p>
               Parte das linhas passou
-              a ter operação também
-              no período noturno.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Isso não significa operação contínua.
-            </strong>
-
-            <p>
-              Cada linha possui
-              sua própria programação.
-              Consulte sempre
-              o horário específico.
+              a contar com atendimento noturno,
+              mas isso não vale
+              necessariamente para toda a rede.
             </p>
 
           </div>
@@ -456,90 +279,151 @@ window.GRAMADO_TRANSPORT_MODULES["planner"] = {
         </section>
 
 
-        <!-- ==================================================
-             GRAMADO X CANELA
-        =================================================== -->
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Viagem para outra cidade
+          </h4>
+
+          <p class="panel-intro">
+            O deslocamento deixa de ser municipal
+            e passa a integrar o sistema
+            rodoviário intermunicipal.
+          </p>
+
+          <div class="answer-block">
+
+            <strong>
+              Consulte a conectividade oficial.
+            </strong>
+
+            <p>
+              A Prefeitura mantém acesso
+              às informações de conectividade
+              rodoviária intermunicipal
+              e interestadual.
+            </p>
+
+          </div>
+
+          <div class="answer-block">
+
+            <strong>
+              Tarifas e horários podem variar.
+            </strong>
+
+            <p>
+              Para viagens estaduais,
+              consulte os canais públicos
+              responsáveis antes de sair.
+            </p>
+
+          </div>
+
+        </section>
+
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando Gramado ↔ Canela
+            Estação Rodoviária
           </h4>
 
-          <p class="panel-intro">
-            A circular 6152 é uma das referências
-            mais práticas para uma viagem simples
-            entre as duas cidades.
-          </p>
+          <div class="answer-block">
+
+            <strong>
+              É a principal referência
+              para viagens rodoviárias.
+            </strong>
+
+            <p>
+              Antes de embarcar,
+              confirme plataforma,
+              horário e destino.
+            </p>
+
+          </div>
+
+        </section>
+
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Várzea Grande
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Também aparece
+              na estrutura municipal.
+            </strong>
+
+            <p>
+              A Prefeitura utilizou
+              o Terminal Rodoviário
+              da Várzea Grande
+              no processo de implantação
+              do novo sistema.
+            </p>
+
+          </div>
+
+          <div class="fare-note">
+            Não confunda
+            a Rodoviária central
+            com o atendimento municipal
+            em Várzea Grande.
+          </div>
+
+        </section>
+
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Atrações afastadas
+          </h4>
 
           <div class="route-compare-grid">
 
             <article class="route-compare-card">
-
-              <span>
-                Ônibus
-              </span>
-
-              <strong>
-                Circular 6152
-              </strong>
-
+              <span>Ônibus municipal</span>
+              <strong>Menor custo previsível</strong>
               <p>
-                A Citral publica
-                diversos horários
-                ao longo do dia.
+                Pode funcionar bem
+                quando existe linha
+                e horário adequados.
               </p>
-
               <span class="route-compare-result">
-                Cerca de 15 min
+                Consulte a rota
               </span>
-
             </article>
 
-
             <article class="route-compare-card">
-
-              <span>
-                Aplicativo
-              </span>
-
-              <strong>
-                Porta a porta
-              </strong>
-
+              <span>Táxi ou aplicativo</span>
+              <strong>Porta a porta</strong>
               <p>
-                Pode ser conveniente
-                principalmente para duas
-                ou mais pessoas.
+                Pode reduzir espera
+                em deslocamentos pontuais.
               </p>
-
               <span class="route-compare-result">
-                Compare o preço
+                Compare o custo
               </span>
-
             </article>
 
-
             <article class="route-compare-card">
-
-              <span>
-                Carro
-              </span>
-
-              <strong>
-                Mais flexibilidade
-              </strong>
-
+              <span>Carro</span>
+              <strong>Mais flexibilidade</strong>
               <p>
-                Pode facilitar
-                quando Canela faz parte
-                de um dia com várias atrações.
+                Pode ser útil
+                quando há várias paradas
+                no mesmo dia.
               </p>
-
               <span class="route-compare-result">
                 Considere estacionamento
               </span>
-
             </article>
 
           </div>
@@ -547,264 +431,50 @@ window.GRAMADO_TRANSPORT_MODULES["planner"] = {
         </section>
 
 
-        <!-- ==================================================
-             COMO LER O HORÁRIO DA CITRAL
-        =================================================== -->
-
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Como ler uma opção da Citral
+            Como comparar opções
           </h4>
-
-          <div class="route-example">
-
-            <div class="route-phone">
-
-              <span class="route-phone-title">
-                Exemplo
-              </span>
-
-              <div class="route-step-list">
-
-                <div class="route-step">
-
-                  <span class="route-step-icon">
-                    🚌
-                  </span>
-
-                  <div>
-
-                    <strong>
-                      Linha 6152
-                    </strong>
-
-                    <small>
-                      Tipo Circular
-                    </small>
-
-                  </div>
-
-                </div>
-
-
-                <div class="route-step">
-
-                  <span class="route-step-icon">
-                    📍
-                  </span>
-
-                  <div>
-
-                    <strong>
-                      Origem: Gramado
-                    </strong>
-
-                    <small>
-                      Confirme o ponto de embarque
-                    </small>
-
-                  </div>
-
-                </div>
-
-
-                <div class="route-step">
-
-                  <span class="route-step-icon">
-                    🏘️
-                  </span>
-
-                  <div>
-
-                    <strong>
-                      Destino: Canela
-                    </strong>
-
-                    <small>
-                      Confira o sentido
-                    </small>
-
-                  </div>
-
-                </div>
-
-
-                <div class="route-step">
-
-                  <span class="route-step-icon">
-                    🕒
-                  </span>
-
-                  <div>
-
-                    <strong>
-                      Horário
-                    </strong>
-
-                    <small>
-                      Consulte a grade do dia
-                    </small>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-
-            <div class="route-explanation">
-
-              <article class="route-explanation-card">
-
-                <strong>
-                  Circular
-                </strong>
-
-                <p>
-                  É diferente
-                  de serviços comuns,
-                  semi-diretos ou executivos.
-                </p>
-
-              </article>
-
-
-              <article class="route-explanation-card">
-
-                <strong>
-                  Tempo estimado
-                </strong>
-
-                <p>
-                  O horário publicado
-                  é uma referência
-                  e pode sofrer alterações.
-                </p>
-
-              </article>
-
-
-              <article class="route-explanation-card">
-
-                <strong>
-                  Feriados
-                </strong>
-
-                <p>
-                  A própria Citral informa
-                  que a grade pode mudar.
-                </p>
-
-              </article>
-
-
-              <article class="route-explanation-card">
-
-                <strong>
-                  Compra
-                </strong>
-
-                <p>
-                  Quando disponível,
-                  a passagem pode ser
-                  comprada online.
-                </p>
-
-              </article>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             ATRAÇÕES AFASTADAS
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Atrações afastadas do Centro
-          </h4>
-
-          <p class="panel-intro">
-            Aqui é onde a decisão
-            precisa ser mais prática.
-          </p>
 
           <div class="route-compare-grid">
 
             <article class="route-compare-card">
-
-              <span>
-                Ônibus
-              </span>
-
-              <strong>
-                Menor custo
-              </strong>
-
+              <span>Opção A</span>
+              <strong>Mais barata, com espera</strong>
               <p>
-                Pode funcionar bem
-                se existir linha conveniente
-                e horário compatível.
+                O ônibus pode custar menos,
+                mas depende da programação da linha.
               </p>
-
               <span class="route-compare-result">
-                Consulte antes
+                Prioridade: custo
               </span>
-
             </article>
 
-
             <article class="route-compare-card">
-
-              <span>
-                Aplicativo
-              </span>
-
-              <strong>
-                Menos espera
-              </strong>
-
+              <span>Opção B</span>
+              <strong>Porta a porta</strong>
               <p>
-                Pode reduzir bastante
-                o tempo de deslocamento
-                em viagens pontuais.
+                Táxi ou aplicativo
+                podem reduzir o atrito
+                em alguns deslocamentos.
               </p>
-
               <span class="route-compare-result">
-                Bom para grupos
+                Prioridade: conveniência
               </span>
-
             </article>
 
-
             <article class="route-compare-card">
-
-              <span>
-                Carro
-              </span>
-
-              <strong>
-                Mais liberdade
-              </strong>
-
+              <span>Opção C</span>
+              <strong>Caminhada</strong>
               <p>
-                Pode ser útil
-                quando o dia reúne
-                várias atrações dispersas.
+                Para trajetos centrais,
+                pode ser a alternativa
+                mais simples.
               </p>
-
               <span class="route-compare-result">
-                Veja estacionamento
+                Veja clima e distância
               </span>
-
             </article>
 
           </div>
@@ -812,245 +482,42 @@ window.GRAMADO_TRANSPORT_MODULES["planner"] = {
         </section>
 
 
-        <!-- ==================================================
-             PORTO ALEGRE
-        =================================================== -->
-
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Gramado ↔ Porto Alegre
+            Aplicativo do transporte municipal
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              Existem serviços rodoviários
-              entre Gramado e Porto Alegre.
+              Previsto para setembro de 2026.
             </strong>
 
             <p>
-              Consulte a Citral
-              para horários,
-              modalidade e disponibilidade
-              no dia da viagem.
+              A Prefeitura anunciou
+              o aplicativo “Nosso Transporte Público”
+              para acompanhamento em tempo real
+              da localização dos ônibus.
             </p>
 
           </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Aeroporto Salgado Filho
-            </strong>
-
-            <p>
-              A Citral também lista
-              o Aeroporto de Porto Alegre
-              entre os destinos
-              atendidos a partir de Gramado.
-            </p>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             VOO
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Se você tem um voo
-          </h4>
 
           <div class="visitor-alert">
 
             <strong>
-              Não trabalhe com margem apertada.
+              Ainda não trate como disponível.
             </strong>
 
-            O tempo de estrada
-            entre Gramado e Porto Alegre
-            pode ser afetado
-            por trânsito, clima,
-            obras ou outras ocorrências.
-
-            Escolha um serviço
-            que deixe margem confortável
-            para chegar ao aeroporto
-            antes do horário necessário.
+            Em agosto de 2026,
+            o lançamento está anunciado
+            para setembro e deve ser confirmado
+            oficialmente antes do uso.
 
           </div>
 
         </section>
 
-
-        <!-- ==================================================
-             OUTRAS CIDADES
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Outros destinos regionais
-          </h4>
-
-          <div class="payment-choice-grid">
-
-            <article class="payment-choice">
-
-              <strong>
-                Nova Petrópolis
-              </strong>
-
-              <p>
-                Consulte linhas regionais
-                partindo de Gramado.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Três Coroas
-              </strong>
-
-              <p>
-                Existem conexões
-                pela malha regional.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Taquara
-              </strong>
-
-              <p>
-                Também aparece
-                entre os destinos
-                atendidos pela Citral.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Caxias do Sul
-              </strong>
-
-              <p>
-                Consulte a disponibilidade
-                de serviços regionais
-                antes da viagem.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             COMPARAÇÃO
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Como comparar duas opções
-          </h4>
-
-          <div class="route-compare-grid">
-
-            <article class="route-compare-card">
-
-              <span>
-                Opção A
-              </span>
-
-              <strong>
-                Mais barata, com espera
-              </strong>
-
-              <p>
-                O ônibus pode custar menos,
-                mas considere o tempo
-                até a próxima saída.
-              </p>
-
-              <span class="route-compare-result">
-                Melhor se custo for prioridade
-              </span>
-
-            </article>
-
-
-            <article class="route-compare-card">
-
-              <span>
-                Opção B
-              </span>
-
-              <strong>
-                Mais cara, porta a porta
-              </strong>
-
-              <p>
-                Aplicativo pode compensar
-                quando há mais passageiros
-                ou pouco tempo disponível.
-              </p>
-
-              <span class="route-compare-result">
-                Melhor para conveniência
-              </span>
-
-            </article>
-
-
-            <article class="route-compare-card">
-
-              <span>
-                Opção C
-              </span>
-
-              <strong>
-                Caminhada
-              </strong>
-
-              <p>
-                Para trajetos centrais,
-                pode ser mais rápida
-                do que esperar transporte.
-              </p>
-
-              <span class="route-compare-result">
-                Confira clima e relevo
-              </span>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             ANTES DE SAIR
-        =================================================== -->
 
         <section class="panel-box network-full">
 
@@ -1061,103 +528,54 @@ window.GRAMADO_TRANSPORT_MODULES["planner"] = {
           <div class="planner-tip-list">
 
             <article class="planner-tip">
-
-              <span class="planner-tip-icon">
-                📱
-              </span>
-
+              <span class="planner-tip-icon">📱</span>
               <div>
-
-                <strong>
-                  Confira o horário novamente
-                </strong>
-
+                <strong>Confira novamente</strong>
                 <p>
-                  A programação
-                  pode sofrer alterações.
+                  Rotas e horários
+                  podem ser atualizados.
                 </p>
-
               </div>
-
             </article>
 
-
             <article class="planner-tip">
-
-              <span class="planner-tip-icon">
-                🌧️
-              </span>
-
+              <span class="planner-tip-icon">🌧️</span>
               <div>
-
-                <strong>
-                  Veja a previsão do tempo
-                </strong>
-
+                <strong>Considere o clima</strong>
                 <p>
-                  O clima pode mudar
-                  sua escolha entre caminhar
-                  e usar transporte.
+                  Ele pode mudar
+                  a conveniência da caminhada.
                 </p>
-
               </div>
-
             </article>
 
-
             <article class="planner-tip">
-
-              <span class="planner-tip-icon">
-                💰
-              </span>
-
+              <span class="planner-tip-icon">💰</span>
               <div>
-
-                <strong>
-                  Compare o custo do grupo
-                </strong>
-
+                <strong>Compare o custo do grupo</strong>
                 <p>
-                  Quatro passagens
-                  podem se aproximar
-                  do valor de um aplicativo.
+                  Para várias pessoas,
+                  alternativas individuais
+                  podem se tornar competitivas.
                 </p>
-
               </div>
-
             </article>
 
-
             <article class="planner-tip">
-
-              <span class="planner-tip-icon">
-                📍
-              </span>
-
+              <span class="planner-tip-icon">📍</span>
               <div>
-
-                <strong>
-                  Confirme o ponto de embarque
-                </strong>
-
+                <strong>Confirme o ponto</strong>
                 <p>
-                  Rodoviária,
-                  Centro e Várzea Grande
-                  não são o mesmo local.
+                  Diferencie transporte municipal
+                  de embarque rodoviário.
                 </p>
-
               </div>
-
             </article>
 
           </div>
 
         </section>
 
-
-        <!-- ==================================================
-             FONTES
-        =================================================== -->
 
         <div class="official-map-actions">
 
@@ -1167,17 +585,34 @@ window.GRAMADO_TRANSPORT_MODULES["planner"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Transporte municipal · Gramado
+            Prefeitura de Gramado
           </a>
-
 
           <a
             class="official-link"
-            href="https://www.citral.tur.br/"
+            href="https://www.gramado.rs.gov.br/cidadao/pagina/destino-turistico-inteligente"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Horários e passagens · Citral
+            Transporte e conectividade · Gramado
+          </a>
+
+          <a
+            class="official-link"
+            href="https://www.daer.rs.gov.br/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            DAER-RS
+          </a>
+
+          <a
+            class="official-link"
+            href="https://agergs.rs.gov.br/transporte-rodoviario-de-passageiros"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            AGERGS
           </a>
 
         </div>
