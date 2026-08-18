@@ -2671,6 +2671,7 @@
               <option value="salvador">Salvador, Brasil</option>
               <option value="gramado">Gramado, Brasil</option>
               <option value="belo-horizonte">Belo Horizonte, Brasil</option>
+              <option value="brasilia">Brasília, Brasil</option>
               <option value="paris" disabled>Paris, França — em preparação</option>
               <option value="new-york" disabled>New York, Estados Unidos — em preparação</option>
             </select>
@@ -2907,6 +2908,13 @@
   <script src="transport-data/belo-horizonte/planner.js"></script>
   <script src="transport-data/belo-horizonte/index.js"></script>
 
+  <script src="transport-data/brasilia/network.js"></script>
+  <script src="transport-data/brasilia/fares.js"></script>
+  <script src="transport-data/brasilia/pagamento.js"></script>
+  <script src="transport-data/brasilia/onibus.js"></script>
+  <script src="transport-data/brasilia/planner.js"></script>
+  <script src="transport-data/brasilia/index.js"></script>
+
   <script>
 
     const TRANSPORT_CINEMA_VERSION = "20260724-1";
@@ -3017,6 +3025,12 @@
       "belo-horizonte": {
         cityName: "Belo Horizonte",
         cityLabel: "Belo Horizonte",
+        fallbackCategories: []
+      },
+
+      "brasilia": {
+        cityName: "Brasília",
+        cityLabel: "Brasília",
         fallbackCategories: []
       }
     };
@@ -3228,6 +3242,10 @@
         return window.BELO_HORIZONTE_TRANSPORT_MODULES || {};
       }
 
+      if (select && select.value === "brasilia") {
+        return window.BRASILIA_TRANSPORT_MODULES || {};
+      }
+
       return window.SP_TRANSPORT_MODULES || {};
     }
 
@@ -3394,6 +3412,47 @@
               title: "Planeje o trajeto",
               description:
                 "Compare metrô, MOVE, ônibus municipais e transporte metropolitano antes de escolher o percurso."
+            }
+          }
+        };
+      }
+
+      if (value === "brasilia") {
+        return {
+          cityName: "Brasília",
+          summary:
+            "Entenda metrô, BRT, ônibus, serviços complementares, tarifas, integração e meios de pagamento para circular pelo Distrito Federal com mais clareza.",
+          updatedAt: "Modelo visual · agosto de 2026",
+          networkTitle: "Rede de Transporte",
+          networkDescription:
+            "Entenda metrô, BRT, ônibus, Zebrinha, serviços complementares e as principais conexões do Distrito Federal.",
+          networkPoints: [
+            "Metrô",
+            "BRT",
+            "Ônibus",
+            "Zebrinha",
+            "Serviços complementares"
+          ],
+          cards: {
+            fares: {
+              title: "Tarifas e integração",
+              description:
+                "Veja tarifas, integração do Cartão Mobilidade, pagamento avulso e gratuidade do Vai de Graça."
+            },
+            card: {
+              title: "Como pagar",
+              description:
+                "Cartão Mobilidade, recargas, pagamento por aproximação, dispositivos NFC e Bilhete Avulso QR Code."
+            },
+            bus: {
+              title: "Ônibus e BRT",
+              description:
+                "Ônibus, BRT, Zebrinha, terminais, serviços rurais e consulta de linhas pelo DF no Ponto."
+            },
+            planner: {
+              title: "Planeje o trajeto",
+              description:
+                "Compare metrô, BRT e ônibus e consulte rotas, horários, paradas e informações operacionais antes de sair."
             }
           }
         };
