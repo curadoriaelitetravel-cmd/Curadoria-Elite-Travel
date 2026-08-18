@@ -32,13 +32,13 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
           </h4>
 
           <p class="panel-intro">
-            Salvador possui tarifas diferentes conforme
-            o sistema utilizado. A integração pode alterar
-            bastante o valor final da viagem.
+            Salvador possui tarifas diferentes
+            conforme o sistema utilizado.
+            A integração pode alterar
+            o valor final da viagem.
           </p>
 
           <div class="fare-highlight-grid">
-
 
             <article class="fare-highlight">
 
@@ -51,7 +51,8 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Tarifa para uma viagem realizada
+                Tarifa pública
+                para viagem realizada
                 exclusivamente no metrô.
               </p>
 
@@ -69,8 +70,8 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Tarifa do transporte coletivo
-                urbano de Salvador.
+                Tarifa do transporte
+                coletivo urbano de Salvador.
               </p>
 
             </article>
@@ -87,8 +88,8 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                O BRT utiliza a mesma tarifa
-                municipal do ônibus convencional.
+                O BRT utiliza
+                a tarifa municipal vigente.
               </p>
 
             </article>
@@ -105,10 +106,10 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Tarifa integrada entre metrô
-                e ônibus urbano, STEC ou BRT,
-                quando respeitadas as regras
-                de integração.
+                Valor da integração
+                com ônibus urbanos,
+                STEC ou BRT,
+                dentro das regras vigentes.
               </p>
 
             </article>
@@ -117,16 +118,17 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
             <article class="fare-highlight">
 
               <span>
-                Ônibus metropolitano + metrô
+                Metrô + metropolitano
               </span>
 
               <strong>
-                A partir de R$ 5,20
+                A partir de R$ 5,60
               </strong>
 
               <p>
-                Pode haver cobrança da diferença
-                conforme a tarifa da linha metropolitana.
+                Pode haver cobrança
+                da diferença da tarifa
+                metropolitana.
               </p>
 
             </article>
@@ -139,12 +141,14 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               </span>
 
               <strong>
-                R$ 7,20
+                Consulte a tabela
               </strong>
 
               <p>
-                Tarifa convencional para passageiro
-                em dias úteis.
+                As tarifas são reguladas
+                pela AGERBA
+                e variam conforme
+                passageiro, veículo e dia.
               </p>
 
             </article>
@@ -155,23 +159,16 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             UMA DIFERENÇA IMPORTANTE
+             METRÔ
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Metrô sozinho ou viagem integrada?
+            Metrô sozinho ou integrado?
           </h4>
 
-          <p class="panel-intro">
-            Esta diferença ajuda a entender
-            por que o metrô pode custar menos
-            quando utilizado sozinho.
-          </p>
-
           <div class="comparison-grid">
-
 
             <article class="comparison-card">
 
@@ -180,9 +177,9 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Uma viagem exclusiva
-                no sistema metroviário
-                custa R$ 4,10.
+                A tarifa pública
+                exclusiva do metrô
+                é de R$ 4,10.
               </p>
 
             </article>
@@ -195,9 +192,9 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Na integração válida,
-                o conjunto da viagem
-                custa R$ 5,90.
+                A tarifa integrada
+                publicada pela SEDUR
+                é de R$ 5,90.
               </p>
 
             </article>
@@ -211,7 +208,8 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               Não são duas tarifas somadas.
             </strong>
 
-            Quando a integração é reconhecida,
+            Quando o sistema reconhece
+            uma integração válida,
             aplica-se a regra tarifária integrada.
 
           </div>
@@ -230,13 +228,12 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
           </h4>
 
           <p class="panel-intro">
-            O metrô pode ser combinado
-            com ônibus municipais,
+            A SEDUR informa integração
+            do metrô com ônibus urbanos,
             STEC e BRT.
           </p>
 
           <div class="fare-scenario-grid">
-
 
             <article class="fare-scenario">
 
@@ -249,9 +246,9 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                A viagem integrada pode ser realizada
-                utilizando o mesmo cartão válido
-                em todos os trechos.
+                Quando reconhecida
+                dentro das regras do sistema,
+                aplica-se a tarifa integrada.
               </p>
 
               <span class="fare-scenario-result">
@@ -272,9 +269,9 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                A integração funciona
-                também no sentido inverso,
-                dentro das regras do sistema.
+                A integração também
+                pode ocorrer no sentido inverso,
+                conforme as regras vigentes.
               </p>
 
               <span class="fare-scenario-result">
@@ -296,8 +293,8 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
 
               <p>
                 O BRT participa
-                da mesma lógica tarifária
-                da rede urbana integrada.
+                da integração tarifária
+                com o sistema metroviário.
               </p>
 
               <span class="fare-scenario-result">
@@ -306,49 +303,13 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
 
             </article>
 
-
-            <article class="fare-scenario">
-
-              <span class="fare-scenario-kicker">
-                Integração
-              </span>
-
-              <strong>
-                Ônibus → Metrô → Ônibus
-              </strong>
-
-              <p>
-                É possível utilizar até três modais
-                dentro das regras de integração
-                previstas para a rede.
-              </p>
-
-              <span class="fare-scenario-result">
-                Uma tarifa integrada
-              </span>
-
-            </article>
-
-          </div>
-
-
-          <div class="fare-note">
-
-            <strong>
-              Prazo:
-            </strong>
-
-            a integração do metrô com ônibus urbano,
-            STEC e BRT é válida por até
-            2 horas a partir da primeira utilização.
-
           </div>
 
         </section>
 
 
         <!-- ==================================================
-             METROPOLITANOS
+             METROPOLITANO
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -358,21 +319,22 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
           </h4>
 
           <p class="panel-intro">
-            Linhas metropolitanas não possuem
-            uma tarifa única para todos os trajetos.
+            As linhas metropolitanas
+            possuem tarifas próprias.
           </p>
 
-
           <div class="answer-block">
 
             <strong>
-              A integração começa em R$ 5,20.
+              A integração começa
+              em R$ 5,60.
             </strong>
 
             <p>
-              Se a tarifa da linha metropolitana
-              for maior, será cobrada
-              a diferença correspondente.
+              A SEDUR informa
+              que pode haver cobrança
+              da diferença correspondente
+              à tarifa da linha metropolitana.
             </p>
 
           </div>
@@ -381,30 +343,13 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
           <div class="answer-block">
 
             <strong>
-              Se a viagem começar no ônibus metropolitano
+              Não existe um único preço
+              para toda a Região Metropolitana.
             </strong>
 
             <p>
-              Quando a tarifa paga no ônibus
-              for igual ou superior ao valor
-              previsto para a integração,
-              nada adicional é debitado
-              ao entrar no metrô.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Se a viagem começar no metrô
-            </strong>
-
-            <p>
-              A eventual diferença
-              da tarifa metropolitana
-              é debitada no ônibus.
+              O valor depende
+              da linha e do percurso utilizado.
             </p>
 
           </div>
@@ -412,14 +357,10 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
 
           <div class="fare-note">
 
-            <strong>
-              Prazo:
-            </strong>
-
-            a integração entre metrô
-            e ônibus metropolitano
-            é válida por até 3 horas
-            desde a primeira utilização.
+            Para viagens metropolitanas,
+            consulte também
+            as tabelas e informações
+            publicadas pela AGERBA.
 
           </div>
 
@@ -427,7 +368,7 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             MESMO CARTÃO
+             CARTÃO / INTEGRAÇÃO
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -438,6 +379,20 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
 
           <div class="payment-choice-grid">
 
+            <article class="payment-choice">
+
+              <strong>
+                Use meio compatível
+              </strong>
+
+              <p>
+                A integração depende
+                de um meio de pagamento
+                reconhecido pelo sistema.
+              </p>
+
+            </article>
+
 
             <article class="payment-choice">
 
@@ -446,9 +401,10 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                A integração depende
-                do reconhecimento das etapas
-                da mesma viagem.
+                Durante uma viagem integrada,
+                trocar o meio de pagamento
+                pode impedir o reconhecimento
+                da integração.
               </p>
 
             </article>
@@ -457,44 +413,12 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
             <article class="payment-choice">
 
               <strong>
-                Uso individual
+                Confira as regras atuais
               </strong>
 
               <p>
-                O mesmo cartão deve ser utilizado
-                individualmente durante
-                todos os trechos integrados.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Respeite o prazo
-              </strong>
-
-              <p>
-                Viagens realizadas fora
-                da janela de integração
-                podem gerar nova cobrança.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Não troque o meio de pagamento
-              </strong>
-
-              <p>
-                Utilizar cartões diferentes
-                durante o trajeto pode impedir
-                que o sistema reconheça
-                a integração.
+                Cartões e condições
+                de integração podem mudar.
               </p>
 
             </article>
@@ -505,49 +429,49 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             FERRY
+             FERRY-BOAT
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Ferry-Boat · São Joaquim ↔ Bom Despacho
+            Ferry-Boat
           </h4>
 
           <p class="panel-intro">
-            A tarifa de passageiro muda
-            conforme o dia da semana.
+            As tarifas do sistema
+            Salvador ↔ Itaparica
+            são reguladas pela AGERBA.
           </p>
 
-          <div class="comparison-grid">
+          <div class="answer-block">
+
+            <strong>
+              Houve reajuste em março de 2026.
+            </strong>
+
+            <p>
+              A AGERBA publicou
+              novo reajuste tarifário
+              para o Sistema Ferry-Boat
+              a partir de 6 de março de 2026.
+            </p>
+
+          </div>
 
 
-            <article class="comparison-card">
+          <div class="answer-block">
 
-              <strong>
-                Segunda a sexta
-              </strong>
+            <strong>
+              Passageiros e veículos
+              possuem categorias diferentes.
+            </strong>
 
-              <p>
-                Passageiro convencional:
-                R$ 7,20 por travessia.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Finais de semana e feriados
-              </strong>
-
-              <p>
-                Passageiro convencional:
-                R$ 9,50 por travessia.
-              </p>
-
-            </article>
+            <p>
+              O valor depende
+              do tipo de embarque
+              e da tabela vigente.
+            </p>
 
           </div>
 
@@ -555,15 +479,15 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
           <div class="visitor-alert">
 
             <strong>
-              Veículos possuem tarifas próprias.
+              Consulte a tabela pública da AGERBA
+              antes da travessia.
             </strong>
 
-            Carros, motos, bicicletas,
-            utilitários e outros veículos
-            seguem tabela específica.
-            Para quem viaja com carro,
-            consulte o valor atualizado
-            antes de chegar ao terminal.
+            Não apresentamos aqui
+            um valor convencional único
+            porque a publicação pública atual
+            organiza as tarifas por categoria
+            e período.
 
           </div>
 
@@ -583,15 +507,15 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
           <div class="answer-block">
 
             <strong>
-              O sistema ainda está em operação assistida.
+              O sistema permanece
+              em operação assistida.
             </strong>
 
             <p>
-              As fontes oficiais consultadas
-              informam trecho, paradas
-              e horários desta etapa,
-              mas não apresentam uma tarifa regular
-              consolidada para o serviço.
+              As fontes públicas consultadas
+              não apresentam ainda
+              uma tarifa regular consolidada
+              para esta etapa.
             </p>
 
           </div>
@@ -599,11 +523,10 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
 
           <div class="fare-note">
 
-            Por isso, a Curadoria não apresenta
-            um valor de tarifa para o VLT
-            enquanto a cobrança regular
-            não estiver claramente publicada
-            pelos canais oficiais.
+            Por isso, a Curadoria
+            não apresenta um valor
+            de tarifa para o VLT
+            neste momento.
 
           </div>
 
@@ -622,7 +545,6 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
 
           <div class="fare-scenario-grid">
 
-
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
@@ -630,13 +552,13 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               </span>
 
               <strong>
-                Aeroporto → destino atendido só por metrô
+                Só metrô
               </strong>
 
               <p>
-                Se todo o percurso puder ser feito
-                exclusivamente pelo metrô,
-                vale a tarifa própria do sistema.
+                Viagem realizada
+                exclusivamente
+                dentro do sistema metroviário.
               </p>
 
               <span class="fare-scenario-result">
@@ -657,9 +579,8 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Com integração válida
-                e o mesmo cartão,
-                aplica-se a tarifa integrada.
+                Com integração reconhecida
+                pelo sistema.
               </p>
 
               <span class="fare-scenario-result">
@@ -680,9 +601,8 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                O BRT participa
-                da integração urbana
-                com o metrô.
+                Também participa
+                da integração urbana.
               </p>
 
               <span class="fare-scenario-result">
@@ -699,16 +619,18 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
               </span>
 
               <strong>
-                Salvador → Itaparica
+                Metrô + ônibus metropolitano
               </strong>
 
               <p>
-                Passageiro a pé utilizando
-                o Ferry-Boat em um dia útil.
+                O valor começa
+                na tarifa-base publicada
+                e pode receber diferença
+                da linha metropolitana.
               </p>
 
               <span class="fare-scenario-result">
-                R$ 7,20
+                A partir de R$ 5,60
               </span>
 
             </article>
@@ -728,61 +650,45 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
             Antes de embarcar
           </h4>
 
-
           <div class="answer-block">
 
             <strong>
-              Integração depende do cartão correto.
+              Tarifas podem ser reajustadas.
             </strong>
 
             <p>
-              Não presuma que qualquer forma
-              de pagamento utilizada no metrô
-              dará direito à integração tarifária.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Ônibus metropolitanos variam de preço.
-            </strong>
-
-            <p>
-              O valor depende da linha
-              e do município atendido.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Ferry-Boat varia conforme o dia.
-            </strong>
-
-            <p>
-              Finais de semana e feriados
-              possuem tarifa diferente
-              dos dias úteis.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Tarifas podem mudar.
-            </strong>
-
-            <p>
-              Confirme os valores vigentes
-              nos canais oficiais
+              Confirme valores
+              nos canais públicos
               antes da viagem.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Metropolitana não tem preço único.
+            </strong>
+
+            <p>
+              A linha utilizada
+              interfere no valor final.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Ferry-Boat possui tabela própria.
+            </strong>
+
+            <p>
+              Passageiros e veículos
+              seguem categorias tarifárias
+              distintas.
             </p>
 
           </div>
@@ -791,18 +697,18 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             FONTES
+             FONTES PÚBLICAS
         =================================================== -->
 
         <div class="official-map-actions">
 
           <a
             class="official-link"
-            href="https://trilhos.motiva.com.br/metrobahia/guia-de-uso/"
+            href="https://www.ba.gov.br/sedur/mobilidade-urbana/metro"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Tarifas · Metrô Bahia
+            Tarifas e integração · SEDUR
           </a>
 
 
@@ -822,17 +728,17 @@ window.SALVADOR_TRANSPORT_MODULES["fares"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Tarifas metropolitanas · AGERBA
+            Tarifas · AGERBA
           </a>
 
 
           <a
             class="official-link"
-            href="https://www.internacionaltravessias.com.br/tarifas/"
+            href="https://www.ba.gov.br/agerba/noticias/2026-03/8351/reajuste-de-tarifas-do-sistema-ferry-boat"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Tarifas · Ferry-Boat
+            Reajuste Ferry-Boat · AGERBA
           </a>
 
         </div>
