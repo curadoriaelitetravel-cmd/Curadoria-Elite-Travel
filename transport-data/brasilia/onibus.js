@@ -30,14 +30,14 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Antes de escolher uma linha
+            Como funciona a rede rodoviária
           </h4>
 
           <p class="panel-intro">
-            A rede rodoviária do Distrito Federal
-            combina ônibus convencionais,
-            BRT, serviços locais
-            e linhas complementares.
+            O transporte rodoviário
+            do Distrito Federal combina
+            ônibus do Serviço Básico,
+            BRT e serviços complementares.
           </p>
 
           <div class="bus-system-grid">
@@ -47,12 +47,12 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
               <span>🚌</span>
 
               <strong>
-                Ônibus
+                Serviço Básico
               </strong>
 
               <p>
-                Formam a principal
-                rede rodoviária
+                É a principal rede
+                regular de ônibus
                 do Distrito Federal.
               </p>
 
@@ -68,9 +68,9 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Estrutura os deslocamentos
-                de alta capacidade
-                no eixo sul.
+                Estrutura principalmente
+                os deslocamentos
+                do eixo sul.
               </p>
 
             </article>
@@ -81,13 +81,13 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
               <span>🚐</span>
 
               <strong>
-                Zebrinha
+                Serviços locais
               </strong>
 
               <p>
-                Micro-ônibus utilizados
-                em serviços locais
-                e de vizinhança.
+                Incluem micro-ônibus
+                e linhas de vizinhança
+                em trajetos específicos.
               </p>
 
             </article>
@@ -102,245 +102,8 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Inclui atendimentos
-                específicos,
-                inclusive rurais.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             COMO IDENTIFICAR
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Como identificar a linha certa
-          </h4>
-
-          <div class="bus-identification-grid">
-
-            <article class="bus-identification-card">
-
-              <span class="bus-identification-number">
-                1
-              </span>
-
-              <strong>
-                Confira o número
-              </strong>
-
-              <p>
-                Use o número da linha
-                como principal referência.
-              </p>
-
-            </article>
-
-
-            <article class="bus-identification-card">
-
-              <span class="bus-identification-number">
-                2
-              </span>
-
-              <strong>
-                Veja origem e destino
-              </strong>
-
-              <p>
-                Confirme o sentido
-                antes de embarcar.
-              </p>
-
-            </article>
-
-
-            <article class="bus-identification-card">
-
-              <span class="bus-identification-number">
-                3
-              </span>
-
-              <strong>
-                Consulte a parada
-              </strong>
-
-              <p>
-                Uma mesma região
-                pode ter diferentes
-                pontos de embarque.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             DF NO PONTO
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            DF no Ponto
-          </h4>
-
-          <p class="panel-intro">
-            É a principal ferramenta oficial
-            para consultar os ônibus
-            do Distrito Federal.
-          </p>
-
-          <div class="payment-choice-grid">
-
-            <article class="payment-choice">
-
-              <strong>
-                Pesquisa por linha
-              </strong>
-
-              <p>
-                Digite o número
-                da linha para consultar
-                suas informações.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Horários
-              </strong>
-
-              <p>
-                A ferramenta apresenta
-                tabelas de horários
-                da linha selecionada.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Pontos de parada
-              </strong>
-
-              <p>
-                É possível consultar
-                os pontos relacionados
-                ao trajeto.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Ônibus no mapa
-              </strong>
-
-              <p>
-                O sistema permite acompanhar
-                a localização dos veículos
-                quando a informação
-                está disponível.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             COMO PESQUISAR
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Como pesquisar uma linha
-          </h4>
-
-          <div class="bus-use-flow">
-
-            <article class="bus-use-step">
-
-              <span>1</span>
-
-              <strong>
-                Informe a origem
-              </strong>
-
-              <p>
-                Digite o local
-                de onde pretende sair.
-              </p>
-
-            </article>
-
-
-            <article class="bus-use-step">
-
-              <span>2</span>
-
-              <strong>
-                Informe o destino
-              </strong>
-
-              <p>
-                Use o endereço
-                ou ponto de referência
-                do destino.
-              </p>
-
-            </article>
-
-
-            <article class="bus-use-step">
-
-              <span>3</span>
-
-              <strong>
-                Compare as opções
-              </strong>
-
-              <p>
-                Veja linhas,
-                horários
-                e pontos disponíveis.
-              </p>
-
-            </article>
-
-
-            <article class="bus-use-step">
-
-              <span>4</span>
-
-              <strong>
-                Confirme no dia
-              </strong>
-
-              <p>
-                Consulte novamente
-                antes de sair.
+                Inclui serviços
+                rurais e executivos.
               </p>
 
             </article>
@@ -361,10 +124,9 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
           </h4>
 
           <p class="panel-intro">
-            O BRT é especialmente relevante
-            para o deslocamento
-            entre o eixo sul
-            e o Plano Piloto.
+            O BRT tem papel central
+            nos deslocamentos
+            do eixo sul do Distrito Federal.
           </p>
 
           <div class="comparison-grid">
@@ -376,10 +138,8 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                O Terminal BRT
-                funciona como
-                importante ponto
-                de integração regional.
+                Possui terminal
+                integrado ao sistema BRT.
               </p>
 
             </article>
@@ -393,8 +153,8 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
 
               <p>
                 Também possui
-                terminal integrado
-                ao sistema.
+                terminal de integração
+                do corredor.
               </p>
 
             </article>
@@ -403,13 +163,13 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
             <article class="comparison-card">
 
               <strong>
-                Alimentadoras
+                Linhas alimentadoras
               </strong>
 
               <p>
-                Linhas locais
-                levam passageiros
-                aos terminais do BRT.
+                Ligam bairros
+                aos terminais
+                e estações do sistema.
               </p>
 
             </article>
@@ -422,91 +182,9 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Fazem os deslocamentos
-                estruturais pelo corredor.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             TERMINAIS
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Terminais e pontos de conexão
-          </h4>
-
-          <div class="bus-system-grid">
-
-            <article class="bus-system-card">
-
-              <span>🏛️</span>
-
-              <strong>
-                Rodoviária do Plano Piloto
-              </strong>
-
-              <p>
-                Grande ponto de conexão
-                entre ônibus
-                e metrô na área central.
-              </p>
-
-            </article>
-
-
-            <article class="bus-system-card">
-
-              <span>🚍</span>
-
-              <strong>
-                Terminal BRT Gama
-              </strong>
-
-              <p>
-                Integra linhas locais
-                e serviços do corredor BRT.
-              </p>
-
-            </article>
-
-
-            <article class="bus-system-card">
-
-              <span>🚍</span>
-
-              <strong>
-                Terminal BRT Santa Maria
-              </strong>
-
-              <p>
-                Importante referência
-                para passageiros
-                do eixo sul.
-              </p>
-
-            </article>
-
-
-            <article class="bus-system-card">
-
-              <span>🚇</span>
-
-              <strong>
-                Estações de metrô
-              </strong>
-
-              <p>
-                Algumas funcionam
-                como pontos de conexão
-                com linhas de ônibus.
+                Realizam os deslocamentos
+                estruturais
+                pelo corredor BRT.
               </p>
 
             </article>
@@ -529,15 +207,16 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
           <div class="answer-block">
 
             <strong>
-              É uma referência central
-              do transporte urbano.
+              É um dos principais
+              pontos de conexão urbana.
             </strong>
 
             <p>
-              Concentra linhas de ônibus
-              e possui conexão
+              Concentra diversas
+              linhas de ônibus
+              e possui ligação direta
               com a Estação Central
-              do metrô.
+              do Metrô-DF.
             </p>
 
           </div>
@@ -551,8 +230,8 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
             </strong>
 
             A Rodoviária do Plano Piloto
-            atende principalmente
-            o transporte urbano
+            é uma referência
+            do transporte urbano
             e distrital.
           </div>
 
@@ -560,37 +239,63 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             ZEBRINHA
+             PONTOS DE PARADA
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Zebrinha
+            Pontos de ônibus
           </h4>
 
-          <div class="answer-block">
+          <p class="panel-intro">
+            O Distrito Federal
+            possui milhares
+            de pontos de parada
+            distribuídos pelo território.
+          </p>
 
-            <strong>
-              Serviço local
-            </strong>
+          <div class="comparison-grid">
 
-            <p>
-              Utiliza veículos menores
-              para realizar trajetos
-              de vizinhança
-              e deslocamentos locais.
-            </p>
+            <article class="comparison-card">
+
+              <strong>
+                Com abrigo
+              </strong>
+
+              <p>
+                Possuem infraestrutura
+                como piso e cobertura.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Com placa
+              </strong>
+
+              <p>
+                Alguns pontos possuem
+                apenas sinalização,
+                normalmente onde
+                não há espaço para abrigo.
+              </p>
+
+            </article>
 
           </div>
 
 
           <div class="fare-note">
 
-            Para saber se existe
-            uma linha adequada
-            ao seu trajeto,
-            consulte o DF no Ponto.
+            A SEMOB registrava
+            6.429 pontos de parada,
+            sendo 5.283 com abrigo,
+            na atualização oficial
+            publicada em janeiro de 2025.
 
           </div>
 
@@ -598,28 +303,26 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             TRANSPORTE RURAL
+             SERVIÇOS LOCAIS
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Linhas rurais
+            Micro-ônibus e Zebrinha
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              O sistema também atende
-              áreas rurais.
+              Atendem trajetos locais.
             </strong>
 
             <p>
-              Essas linhas fazem parte
-              da estrutura de transporte
-              do Distrito Federal
-              e podem possuir horários
-              mais espaçados.
+              Esses veículos aparecem
+              em serviços de vizinhança
+              e deslocamentos específicos
+              dentro da rede rodoviária.
             </p>
 
           </div>
@@ -627,10 +330,50 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
 
           <div class="fare-note">
 
-            Para deslocamentos rurais,
-            confirme sempre
-            o horário específico
-            antes da viagem.
+            Aos domingos e feriados,
+            também participam
+            da gratuidade
+            do Vai de Graça.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             SERVIÇO RURAL
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Transporte rural
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              O Distrito Federal
+              também possui linhas rurais.
+            </strong>
+
+            <p>
+              Elas fazem parte
+              do Serviço Complementar
+              e atendem áreas
+              fora dos principais
+              núcleos urbanos.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Essas linhas podem
+            ter frequência menor
+            do que os serviços
+            urbanos principais.
 
           </div>
 
@@ -644,37 +387,193 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            TCB
+            E a TCB?
           </h4>
-
-          <div class="answer-block">
-
-            <strong>
-              É uma empresa pública
-              do Distrito Federal.
-            </strong>
-
-            <p>
-              A Sociedade de Transportes
-              Coletivos de Brasília
-              opera serviços próprios
-              dentro do sistema público.
-            </p>
-
-          </div>
-
 
           <div class="visitor-alert">
 
             <strong>
-              Consulte a operação atual.
+              A TCB não opera
+              linhas tarifárias regulares
+              desde dezembro de 2024.
             </strong>
 
-            Algumas linhas listadas
-            pela própria TCB
-            estão temporariamente suspensas.
-            Não utilize listas antigas
-            sem confirmar a situação vigente.
+            Por isso,
+            listas antigas de linhas
+            da empresa não devem ser usadas
+            como referência para planejar
+            uma viagem atual.
+
+          </div>
+
+
+          <div class="fare-note">
+
+            A TCB continua existindo
+            como empresa pública
+            do Distrito Federal
+            e mantém outras atividades
+            e serviços institucionais.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             COMO IDENTIFICAR A LINHA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Na hora de embarcar
+          </h4>
+
+          <div class="bus-identification-grid">
+
+            <article class="bus-identification-card">
+
+              <span class="bus-identification-number">
+                1
+              </span>
+
+              <strong>
+                Número da linha
+              </strong>
+
+              <p>
+                É a principal
+                referência para distinguir
+                um serviço de outro.
+              </p>
+
+            </article>
+
+
+            <article class="bus-identification-card">
+
+              <span class="bus-identification-number">
+                2
+              </span>
+
+              <strong>
+                Destino
+              </strong>
+
+              <p>
+                Confira o destino
+                exibido no veículo
+                para evitar embarcar
+                no sentido errado.
+              </p>
+
+            </article>
+
+
+            <article class="bus-identification-card">
+
+              <span class="bus-identification-number">
+                3
+              </span>
+
+              <strong>
+                Ponto correto
+              </strong>
+
+              <p>
+                Vias largas
+                e sentidos diferentes
+                podem ter pontos
+                separados.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             DF NO PONTO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Informações que mudam durante o dia
+          </h4>
+
+          <p class="panel-intro">
+            Horários,
+            localização do veículo
+            e alterações operacionais
+            precisam ser consultados
+            em tempo real.
+          </p>
+
+          <div class="payment-choice-grid">
+
+            <article class="payment-choice">
+
+              <strong>
+                Horário
+              </strong>
+
+              <p>
+                O DF no Ponto
+                mostra as tabelas
+                da linha selecionada.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Veículo no mapa
+              </strong>
+
+              <p>
+                Quando disponível,
+                mostra a localização
+                dos ônibus da linha.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Pontos de parada
+              </strong>
+
+              <p>
+                Permite visualizar
+                os pontos associados
+                ao deslocamento.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Alertas
+              </strong>
+
+              <p>
+                A ferramenta informa
+                ocorrências e alterações
+                operacionais relevantes.
+              </p>
+
+            </article>
+
           </div>
 
         </section>
@@ -687,7 +586,7 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Domingo ou feriado
+            Domingos e feriados
           </h4>
 
           <div class="visitor-alert">
@@ -696,168 +595,121 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
               Ônibus e BRT são gratuitos.
             </strong>
 
-            O programa Vai de Graça
-            abrange toda a rede
-            de transporte público
-            nos domingos e feriados.
+            O Vai de Graça
+            também cobre micro-ônibus,
+            Zebrinha,
+            linhas urbanas
+            e rurais
+            e o Metrô-DF.
+
           </div>
 
 
           <div class="fare-note">
 
-            A gratuidade também alcança
-            micro-ônibus, Zebrinha,
-            linhas urbanas e rurais
-            e o metrô.
+            Não há limite
+            de viagens
+            durante o período
+            de gratuidade.
+
           </div>
 
         </section>
 
 
         <!-- ==================================================
-             DICAS
+             RESUMO
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Dicas que evitam erro
+            Em resumo
           </h4>
 
-          <div class="bus-tip-list">
+          <div class="planner-check-grid">
 
-            <article class="bus-tip">
+            <article class="planner-check-card">
 
-              <span class="bus-tip-icon">
-                🔢
-              </span>
+              <span>🚌</span>
 
-              <div>
+              <strong>
+                Rede principal
+              </strong>
 
-                <strong>
-                  Salve o número da linha
-                </strong>
-
-                <p>
-                  Isso facilita
-                  a consulta posterior
-                  no DF no Ponto.
-                </p>
-
-              </div>
+              <p>
+                Ônibus do Serviço Básico
+                cobrem as diferentes
+                Regiões Administrativas.
+              </p>
 
             </article>
 
 
-            <article class="bus-tip">
+            <article class="planner-check-card">
 
-              <span class="bus-tip-icon">
-                📍
-              </span>
+              <span>🚍</span>
 
-              <div>
+              <strong>
+                Eixo sul
+              </strong>
 
-                <strong>
-                  Confirme a parada
-                </strong>
-
-                <p>
-                  Em áreas amplas
-                  do Distrito Federal,
-                  o ponto correto
-                  faz bastante diferença.
-                </p>
-
-              </div>
+              <p>
+                BRT é especialmente
+                importante em
+                Gama e Santa Maria.
+              </p>
 
             </article>
 
 
-            <article class="bus-tip">
+            <article class="planner-check-card">
 
-              <span class="bus-tip-icon">
-                🕒
-              </span>
+              <span>🏛️</span>
 
-              <div>
+              <strong>
+                Plano Piloto
+              </strong>
 
-                <strong>
-                  Veja o horário
-                </strong>
-
-                <p>
-                  Nem todas as linhas
-                  possuem alta frequência.
-                </p>
-
-              </div>
+              <p>
+                A Rodoviária
+                funciona como grande
+                ponto de conexão.
+              </p>
 
             </article>
 
 
-            <article class="bus-tip">
+            <article class="planner-check-card">
 
-              <span class="bus-tip-icon">
-                🚍
-              </span>
+              <span>🌾</span>
 
-              <div>
+              <strong>
+                Rural
+              </strong>
 
-                <strong>
-                  Eixo sul?
-                </strong>
-
-                <p>
-                  Compare BRT
-                  e ônibus convencionais.
-                </p>
-
-              </div>
+              <p>
+                Também existe
+                atendimento complementar
+                para áreas rurais.
+              </p>
 
             </article>
 
 
-            <article class="bus-tip">
+            <article class="planner-check-card">
 
-              <span class="bus-tip-icon">
-                🚇
-              </span>
+              <span>📱</span>
 
-              <div>
+              <strong>
+                Tempo real
+              </strong>
 
-                <strong>
-                  Eixo oeste?
-                </strong>
-
-                <p>
-                  Compare ônibus
-                  com metrô
-                  quando houver estação próxima.
-                </p>
-
-              </div>
-
-            </article>
-
-
-            <article class="bus-tip">
-
-              <span class="bus-tip-icon">
-                📅
-              </span>
-
-              <div>
-
-                <strong>
-                  Domingo ou feriado
-                </strong>
-
-                <p>
-                  Lembre-se
-                  do Vai de Graça.
-                </p>
-
-              </div>
+              <p>
+                Horário e posição
+                dos veículos ficam
+                no DF no Ponto.
+              </p>
 
             </article>
 
@@ -874,31 +726,41 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
 
           <a
             class="official-link"
+            href="https://www.semob.df.gov.br/dados-do-sistema-de-transporte-publico-do-df"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Sistema rodoviário · SEMOB-DF
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://www.semob.df.gov.br/pontos-de-parada/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Pontos de parada · SEMOB-DF
+          </a>
+
+
+          <a
+            class="official-link"
             href="https://dfnoponto.semob.df.gov.br/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            DF no Ponto
+            Tempo real · DF no Ponto
           </a>
 
 
           <a
             class="official-link"
-            href="https://www.semob.df.gov.br/"
+            href="https://tcb.df.gov.br/perguntas-frequentes-da-tcb"
             target="_blank"
             rel="noopener noreferrer"
           >
-            SEMOB-DF
-          </a>
-
-
-          <a
-            class="official-link"
-            href="https://tcb.df.gov.br/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            TCB · Governo do DF
+            Situação da TCB
           </a>
 
 
@@ -908,7 +770,7 @@ window.BRASILIA_TRANSPORT_MODULES["bus"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Agência Brasília · GDF
+            Governo do Distrito Federal
           </a>
 
         </div>
