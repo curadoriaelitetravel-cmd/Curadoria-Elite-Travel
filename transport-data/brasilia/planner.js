@@ -24,21 +24,21 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             POR ONDE COMEÇAR
+             COMO PENSAR O DESLOCAMENTO
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Por onde começar?
+            Como pensar o deslocamento
           </h4>
 
           <p class="panel-intro">
             No Distrito Federal,
-            a melhor opção depende muito
-            da região de origem e destino.
-            Compare metrô, BRT e ônibus
-            antes de decidir.
+            a escolha entre metrô,
+            BRT e ônibus depende
+            principalmente do eixo
+            em que estão a origem e o destino.
           </p>
 
           <div class="planner-tool-grid">
@@ -50,15 +50,17 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
               </span>
 
               <strong>
-                Ceilândia, Samambaia,
-                Taguatinga ou Águas Claras
+                Eixo oeste
               </strong>
 
               <p>
-                Verifique primeiro
-                se o metrô atende
-                uma parte importante
-                do percurso.
+                Metrô ganha importância
+                em trajetos envolvendo
+                Guará,
+                Águas Claras,
+                Taguatinga,
+                Ceilândia
+                e Samambaia.
               </p>
 
             </article>
@@ -71,13 +73,14 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
               </span>
 
               <strong>
-                Gama ou Santa Maria
+                Eixo sul
               </strong>
 
               <p>
-                Compare o BRT
-                com as linhas de ônibus
-                disponíveis para o trajeto.
+                BRT é especialmente
+                relevante para viagens
+                envolvendo Gama
+                e Santa Maria.
               </p>
 
             </article>
@@ -90,13 +93,14 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
               </span>
 
               <strong>
-                Outra região administrativa
+                Demais regiões
               </strong>
 
               <p>
-                Consulte o DF no Ponto
-                para identificar linhas,
-                horários e paradas.
+                Ônibus fazem
+                a cobertura mais ampla
+                entre as diferentes
+                Regiões Administrativas.
               </p>
 
             </article>
@@ -113,291 +117,13 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Compare metrô,
-                ônibus e serviços locais
-                conforme a área
+                Ônibus e metrô
+                podem ser combinados
+                conforme a localização
                 do destino.
               </p>
 
             </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             O QUE COMPARAR
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            O que comparar antes de escolher
-          </h4>
-
-          <div class="planner-check-grid">
-
-            <article class="planner-check-card">
-
-              <span>⏱️</span>
-
-              <strong>
-                Tempo total
-              </strong>
-
-              <p>
-                Inclua caminhada,
-                espera e integrações.
-              </p>
-
-            </article>
-
-
-            <article class="planner-check-card">
-
-              <span>🔄</span>
-
-              <strong>
-                Quantidade de trocas
-              </strong>
-
-              <p>
-                Uma rota com menos trocas
-                pode ser mais simples,
-                mesmo que leve um pouco mais.
-              </p>
-
-            </article>
-
-
-            <article class="planner-check-card">
-
-              <span>🚶</span>
-
-              <strong>
-                Caminhada
-              </strong>
-
-              <p>
-                Brasília possui
-                distâncias grandes
-                entre alguns pontos.
-              </p>
-
-            </article>
-
-
-            <article class="planner-check-card">
-
-              <span>💳</span>
-
-              <strong>
-                Meio de pagamento
-              </strong>
-
-              <p>
-                A integração tarifária
-                depende do meio
-                utilizado.
-              </p>
-
-            </article>
-
-
-            <article class="planner-check-card">
-
-              <span>🕒</span>
-
-              <strong>
-                Horário
-              </strong>
-
-              <p>
-                Consulte a programação
-                da linha antes de sair.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             DF NO PONTO
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Use o DF no Ponto
-          </h4>
-
-          <div class="payment-recommendation">
-
-            <span class="payment-eyebrow">
-              Planejamento oficial
-            </span>
-
-            <h4>
-              Pesquise origem e destino
-              antes de sair.
-            </h4>
-
-            <p>
-              O DF no Ponto
-              é a ferramenta oficial do GDF
-              para consultar rotas,
-              linhas, horários,
-              pontos de parada
-              e informações operacionais.
-            </p>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             COMO PESQUISAR
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Como planejar pelo DF no Ponto
-          </h4>
-
-          <div class="bus-use-flow">
-
-            <article class="bus-use-step">
-
-              <span>1</span>
-
-              <strong>
-                Informe a origem
-              </strong>
-
-              <p>
-                Pesquise pelo local
-                onde está
-                ou de onde pretende sair.
-              </p>
-
-            </article>
-
-
-            <article class="bus-use-step">
-
-              <span>2</span>
-
-              <strong>
-                Informe o destino
-              </strong>
-
-              <p>
-                Use endereço,
-                local ou ponto
-                de referência.
-              </p>
-
-            </article>
-
-
-            <article class="bus-use-step">
-
-              <span>3</span>
-
-              <strong>
-                Compare as opções
-              </strong>
-
-              <p>
-                Veja linhas,
-                horários
-                e pontos de parada.
-              </p>
-
-            </article>
-
-
-            <article class="bus-use-step">
-
-              <span>4</span>
-
-              <strong>
-                Confira novamente
-              </strong>
-
-              <p>
-                Antes de sair,
-                verifique a situação
-                atual da viagem.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             TEMPO REAL
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Antes de caminhar até o ponto
-          </h4>
-
-          <div class="answer-block">
-
-            <strong>
-              Consulte os horários em tempo real.
-            </strong>
-
-            <p>
-              O DF no Ponto
-              apresenta informações
-              atualizadas sobre
-              a operação das linhas.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Veja a localização dos ônibus.
-            </strong>
-
-            <p>
-              Na pesquisa por linha,
-              é possível acompanhar
-              os veículos no mapa
-              quando o dado está disponível.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Observe os alertas.
-            </strong>
-
-            <p>
-              Mudanças,
-              interrupções e ocorrências
-              podem alterar
-              a melhor opção.
-            </p>
 
           </div>
 
@@ -411,15 +137,8 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelo metrô
+            Quando o metrô tende a fazer mais sentido
           </h4>
-
-          <p class="panel-intro">
-            O metrô pode ser especialmente útil
-            para deslocamentos
-            entre o Plano Piloto
-            e o eixo oeste do Distrito Federal.
-          </p>
 
           <div class="hours-grid">
 
@@ -433,9 +152,26 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
 
               <p>
                 A Estação Central
-                fica integrada
+                se conecta diretamente
                 à Rodoviária
                 do Plano Piloto.
+              </p>
+
+            </article>
+
+
+            <article class="hours-card">
+
+              <span>🏘️</span>
+
+              <strong>
+                Guará
+              </strong>
+
+              <p>
+                Está no trecho
+                compartilhado
+                da rede.
               </p>
 
             </article>
@@ -450,9 +186,9 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                É uma referência importante
-                no trecho onde a rede
-                segue para os dois eixos.
+                É o ponto
+                em que os dois eixos
+                metroviários se separam.
               </p>
 
             </article>
@@ -463,13 +199,13 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
               <span>🌆</span>
 
               <strong>
-                Ceilândia
+                Taguatinga e Ceilândia
               </strong>
 
               <p>
-                Um dos principais
-                eixos finais
-                da rede.
+                São atendidas
+                pelo eixo
+                que segue para Ceilândia.
               </p>
 
             </article>
@@ -484,51 +220,12 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Atendida pelo outro
-                ramo da rede
-                metroviária.
+                É atendida
+                pelo outro ramo
+                da rede.
               </p>
 
             </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             METRÔ + ÔNIBUS
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Metrô + ônibus
-          </h4>
-
-          <div class="answer-block">
-
-            <strong>
-              Compare a viagem completa.
-            </strong>
-
-            <p>
-              Mesmo quando o metrô
-              cobre boa parte do trajeto,
-              pode ser necessário
-              utilizar ônibus
-              na origem ou no destino.
-            </p>
-
-          </div>
-
-
-          <div class="fare-note">
-
-            Se a viagem exigir integração,
-            confira antes
-            qual meio de pagamento
-            oferece o benefício tarifário.
 
           </div>
 
@@ -542,80 +239,67 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelo BRT
+            Quando o BRT tende a fazer mais sentido
           </h4>
 
-          <p class="panel-intro">
-            O BRT é uma referência
-            principalmente para viagens
-            no eixo sul.
-          </p>
+          <div class="comparison-grid">
 
-          <div class="bus-use-flow">
-
-            <article class="bus-use-step">
-
-              <span>1</span>
+            <article class="comparison-card">
 
               <strong>
-                Consulte a linha local
+                Gama
               </strong>
 
               <p>
-                Veja como chegar
-                ao terminal ou estação
-                do BRT.
+                Possui terminal
+                integrado ao corredor BRT.
               </p>
 
             </article>
 
 
-            <article class="bus-use-step">
-
-              <span>2</span>
+            <article class="comparison-card">
 
               <strong>
-                Identifique o serviço
+                Santa Maria
               </strong>
 
               <p>
-                Confira qual linha
-                segue na direção
-                necessária.
+                Também possui
+                terminal de integração
+                do sistema.
               </p>
 
             </article>
 
 
-            <article class="bus-use-step">
-
-              <span>3</span>
+            <article class="comparison-card">
 
               <strong>
-                Veja a integração
+                Alimentadora + troncal
               </strong>
 
               <p>
-                Algumas viagens
-                combinam serviço alimentador
-                e troncal.
+                Muitas viagens
+                podem combinar
+                uma linha local
+                com o serviço principal
+                do corredor.
               </p>
 
             </article>
 
 
-            <article class="bus-use-step">
-
-              <span>4</span>
+            <article class="comparison-card">
 
               <strong>
-                Confira a última etapa
+                Eixo sul → Plano Piloto
               </strong>
 
               <p>
-                Outro ônibus
-                ou caminhada
-                pode completar o percurso.
+                O BRT pode funcionar
+                como parte principal
+                desse deslocamento.
               </p>
 
             </article>
@@ -632,19 +316,20 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelos ônibus
+            Quando o ônibus tende a fazer mais sentido
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              Use número e destino juntos.
+              Destino fora do eixo do metrô
             </strong>
 
             <p>
-              Essa combinação
-              ajuda a confirmar
-              a linha correta.
+              A rede de ônibus
+              amplia a cobertura
+              para regiões que não possuem
+              estação metroviária.
             </p>
 
           </div>
@@ -653,13 +338,15 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
           <div class="answer-block">
 
             <strong>
-              Confira a parada.
+              Ligação entre regiões administrativas
             </strong>
 
             <p>
-              Algumas vias
-              possuem vários pontos
-              e sentidos diferentes.
+              Muitas viagens
+              dependem diretamente
+              de linhas rodoviárias
+              para conectar
+              diferentes áreas do DF.
             </p>
 
           </div>
@@ -668,14 +355,15 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
           <div class="answer-block">
 
             <strong>
-              Salve a linha.
+              Última etapa da viagem
             </strong>
 
             <p>
-              Isso facilita
-              uma nova consulta
-              no DF no Ponto
-              durante a viagem.
+              Mesmo quando metrô
+              ou BRT cobrem a maior parte
+              do trajeto,
+              um ônibus pode completar
+              a origem ou o destino.
             </p>
 
           </div>
@@ -684,35 +372,43 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             PLANO PILOTO
+             INTEGRAÇÃO
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Deslocamentos no Plano Piloto
+            Uma viagem pode combinar sistemas
           </h4>
+
+          <p class="panel-intro">
+            O transporte do Distrito Federal
+            foi estruturado para permitir
+            integração entre diferentes
+            meios coletivos.
+          </p>
 
           <div class="route-compare-grid">
 
             <article class="route-compare-card">
 
               <span>
-                Metrô
+                Exemplo
               </span>
 
               <strong>
-                Útil em parte do eixo central
+                Ônibus + metrô
               </strong>
 
               <p>
-                Verifique se existe
-                estação conveniente
-                para o destino.
+                Um ônibus pode levar
+                até uma estação
+                e o metrô completar
+                a parte principal da viagem.
               </p>
 
               <span class="route-compare-result">
-                Compare a estação
+                Viagem combinada
               </span>
 
             </article>
@@ -721,21 +417,22 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
             <article class="route-compare-card">
 
               <span>
-                Ônibus
+                Exemplo
               </span>
 
               <strong>
-                Cobertura mais ampla
+                Alimentadora + BRT
               </strong>
 
               <p>
-                Pode atender regiões
-                que não possuem
-                estação de metrô.
+                Uma linha local
+                pode levar ao terminal
+                e o BRT seguir
+                pelo corredor principal.
               </p>
 
               <span class="route-compare-result">
-                Consulte a linha
+                Eixo sul
               </span>
 
             </article>
@@ -744,24 +441,38 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
             <article class="route-compare-card">
 
               <span>
-                Caminhada
+                Exemplo
               </span>
 
               <strong>
-                Distâncias podem enganar
+                Ônibus + ônibus
               </strong>
 
               <p>
-                Avalie a distância real
-                entre o ponto de desembarque
-                e o destino.
+                Alguns deslocamentos
+                exigem troca
+                entre linhas rodoviárias.
               </p>
 
               <span class="route-compare-result">
-                Confira no mapa
+                Até 3 embarques
               </span>
 
             </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Com Cartão Mobilidade
+            ou Vale-Transporte,
+            a integração pode envolver
+            até três embarques
+            em até três horas,
+            pagando no máximo R$ 5,50,
+            quando atendidas
+            as regras tarifárias.
 
           </div>
 
@@ -781,15 +492,17 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
           <div class="answer-block">
 
             <strong>
-              É um grande ponto
-              de conexão urbana.
+              É um dos principais
+              pontos de distribuição
+              da rede urbana.
             </strong>
 
             <p>
-              Reúne diversas
-              linhas de ônibus
-              e acesso à Estação Central
-              do metrô.
+              Reúne várias linhas
+              de ônibus
+              e conexão direta
+              com a Estação Central
+              do Metrô-DF.
             </p>
 
           </div>
@@ -802,10 +515,175 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
               a Rodoviária Interestadual.
             </strong>
 
-            Ao pesquisar uma viagem,
-            confirme qual terminal
-            aparece como origem
-            ou destino.
+            São terminais diferentes
+            e cumprem funções diferentes
+            no deslocamento.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             DISTÂNCIAS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Brasília exige atenção às distâncias
+          </h4>
+
+          <div class="planner-check-grid">
+
+            <article class="planner-check-card">
+
+              <span>🚶</span>
+
+              <strong>
+                Caminhada
+              </strong>
+
+              <p>
+                Uma parada ou estação
+                aparentemente próxima
+                pode exigir
+                caminhada considerável.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🔄</span>
+
+              <strong>
+                Trocas
+              </strong>
+
+              <p>
+                Avalie se uma rota
+                com várias integrações
+                realmente compensa
+                o ganho de tempo.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🧳</span>
+
+              <strong>
+                Bagagem
+              </strong>
+
+              <p>
+                Menos trocas
+                podem ser mais confortáveis
+                quando há malas.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🌡️</span>
+
+              <strong>
+                Clima
+              </strong>
+
+              <p>
+                Sol forte ou chuva
+                podem tornar uma caminhada
+                curta menos conveniente.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🕒</span>
+
+              <strong>
+                Espera
+              </strong>
+
+              <p>
+                O tempo total
+                inclui também
+                a espera entre veículos.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TARIFA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            O meio de pagamento pode mudar o custo
+          </h4>
+
+          <div class="route-compare-grid">
+
+            <article class="route-compare-card">
+
+              <span>
+                Cartão Mobilidade
+              </span>
+
+              <strong>
+                Integração tarifária
+              </strong>
+
+              <p>
+                É relevante
+                quando o trajeto
+                exige mais de um embarque.
+              </p>
+
+              <span class="route-compare-result">
+                Até R$ 5,50
+              </span>
+
+            </article>
+
+
+            <article class="route-compare-card">
+
+              <span>
+                Cartão bancário
+              </span>
+
+              <strong>
+                Cada embarque é cobrado
+              </strong>
+
+              <p>
+                O pagamento por aproximação
+                é simples,
+                mas não aplica
+                integração tarifária.
+              </p>
+
+              <span class="route-compare-result">
+                Sem integração
+              </span>
+
+            </article>
 
           </div>
 
@@ -819,32 +697,33 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Domingo ou feriado?
+            Domingo ou feriado
           </h4>
 
           <div class="visitor-alert">
 
             <strong>
-              Considere o Vai de Graça.
+              O custo deixa de ser
+              um critério de escolha.
             </strong>
 
-            Ônibus,
+            Pelo Vai de Graça,
+            ônibus,
             BRT,
             micro-ônibus,
             Zebrinha,
             linhas urbanas e rurais
-            e metrô são gratuitos
-            durante o período
-            abrangido pelo programa.
+            e metrô são gratuitos.
 
           </div>
 
 
           <div class="fare-note">
 
-            Não existe limite
-            de viagens por passageiro
-            durante a gratuidade.
+            Não há limite
+            de viagens
+            durante o período
+            de gratuidade.
 
           </div>
 
@@ -861,27 +740,26 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
             Ponto facultativo
           </h4>
 
-          <div class="answer-block">
+          <div class="visitor-alert">
 
             <strong>
-              Confira a programação.
+              Não significa transporte gratuito.
             </strong>
 
-            <p>
-              Ponto facultativo
-              não significa automaticamente
-              gratuidade no transporte.
-            </p>
+            O Vai de Graça
+            é aplicado aos domingos
+            e feriados.
+            Em ponto facultativo,
+            a tarifa pode ser cobrada normalmente.
 
           </div>
 
 
           <div class="fare-note">
 
-            A SEMOB pode adotar
+            O GDF pode adotar
             programação especial
-            de horários conforme
-            a data e a demanda.
+            de horários nesses dias.
 
           </div>
 
@@ -889,84 +767,98 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             COMO COMPARAR
+             TEMPO REAL
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Como comparar duas rotas
+            O que precisa ser consultado no dia
           </h4>
 
-          <div class="route-compare-grid">
+          <p class="panel-intro">
+            Algumas informações
+            não são estáticas
+            e podem mudar
+            ao longo do dia.
+          </p>
 
-            <article class="route-compare-card">
+          <div class="payment-choice-grid">
 
-              <span>
-                Opção A
-              </span>
+            <article class="payment-choice">
 
               <strong>
-                Menos tempo,
-                mais trocas
+                Qual linha atende
+                sua origem e destino
               </strong>
 
               <p>
-                Pode ser mais rápida,
-                mas exige atenção
-                nas integrações.
+                O DF no Ponto
+                calcula opções
+                a partir dos locais informados.
               </p>
-
-              <span class="route-compare-result">
-                Prioridade: tempo
-              </span>
 
             </article>
 
 
-            <article class="route-compare-card">
-
-              <span>
-                Opção B
-              </span>
+            <article class="payment-choice">
 
               <strong>
-                Mais direta,
-                menos trocas
+                Horário
               </strong>
 
               <p>
-                Pode reduzir
-                o atrito durante
-                o deslocamento.
+                As tabelas
+                e previsões de passagem
+                dependem da linha
+                e do momento da viagem.
               </p>
-
-              <span class="route-compare-result">
-                Prioridade: simplicidade
-              </span>
 
             </article>
 
 
-            <article class="route-compare-card">
-
-              <span>
-                Opção C
-              </span>
+            <article class="payment-choice">
 
               <strong>
-                Mais caminhada
+                Ponto de embarque
               </strong>
 
               <p>
-                Considere distância,
-                clima, bagagem
-                e condições de mobilidade.
+                A ferramenta mostra
+                os pontos relacionados
+                à rota escolhida.
               </p>
 
-              <span class="route-compare-result">
-                Considere o contexto
-              </span>
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Posição do veículo
+              </strong>
+
+              <p>
+                Quando disponível,
+                os ônibus podem ser
+                acompanhados no mapa.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Alertas operacionais
+              </strong>
+
+              <p>
+                Atrasos,
+                mudanças e interrupções
+                podem alterar
+                a melhor rota naquele momento.
+              </p>
 
             </article>
 
@@ -976,128 +868,183 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             ANTES DE SAIR
+             COMO USAR O DF NO PONTO
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Antes de sair
+            Para a rota específica da sua viagem
           </h4>
 
-          <div class="planner-tip-list">
+          <div class="bus-use-flow">
 
-            <article class="planner-tip">
+            <article class="bus-use-step">
 
-              <span class="planner-tip-icon">
-                📱
-              </span>
+              <span>1</span>
 
-              <div>
+              <strong>
+                Origem
+              </strong>
 
-                <strong>
-                  Consulte novamente
-                </strong>
-
-                <p>
-                  Confira a linha,
-                  o horário e os alertas
-                  no DF no Ponto.
-                </p>
-
-              </div>
+              <p>
+                Informe o local
+                onde você está.
+              </p>
 
             </article>
 
 
-            <article class="planner-tip">
+            <article class="bus-use-step">
 
-              <span class="planner-tip-icon">
-                📍
-              </span>
+              <span>2</span>
 
-              <div>
+              <strong>
+                Destino
+              </strong>
 
-                <strong>
-                  Confirme a parada
-                </strong>
-
-                <p>
-                  Veja exatamente
-                  onde acontece
-                  o embarque.
-                </p>
-
-              </div>
+              <p>
+                Informe o endereço
+                ou ponto de referência
+                para onde deseja ir.
+              </p>
 
             </article>
 
 
-            <article class="planner-tip">
+            <article class="bus-use-step">
 
-              <span class="planner-tip-icon">
-                💳
-              </span>
+              <span>3</span>
 
-              <div>
+              <strong>
+                Compare
+              </strong>
 
-                <strong>
-                  Confira o pagamento
-                </strong>
-
-                <p>
-                  Se houver integração,
-                  utilize um meio
-                  compatível com o benefício.
-                </p>
-
-              </div>
+              <p>
+                Veja as opções
+                de linhas,
+                paradas
+                e conexões disponíveis.
+              </p>
 
             </article>
 
 
-            <article class="planner-tip">
+            <article class="bus-use-step">
 
-              <span class="planner-tip-icon">
-                🔄
-              </span>
+              <span>4</span>
 
-              <div>
+              <strong>
+                Confirme no momento
+              </strong>
 
-                <strong>
-                  Entenda as trocas
-                </strong>
+              <p>
+                Horários,
+                posição dos veículos
+                e alertas podem mudar.
+              </p>
 
-                <p>
-                  Uma rota pode combinar
-                  ônibus, BRT
-                  e metrô.
-                </p>
+            </article>
 
-              </div>
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             RESUMO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Em resumo
+          </h4>
+
+          <div class="planner-check-grid">
+
+            <article class="planner-check-card">
+
+              <span>🚇</span>
+
+              <strong>
+                Oeste
+              </strong>
+
+              <p>
+                Compare primeiro
+                o metrô.
+              </p>
 
             </article>
 
 
-            <article class="planner-tip">
+            <article class="planner-check-card">
 
-              <span class="planner-tip-icon">
-                📅
-              </span>
+              <span>🚍</span>
 
-              <div>
+              <strong>
+                Sul
+              </strong>
 
-                <strong>
-                  Veja o tipo de dia
-                </strong>
+              <p>
+                BRT ganha importância
+                em Gama
+                e Santa Maria.
+              </p>
 
-                <p>
-                  Domingo,
-                  feriado e ponto facultativo
-                  podem ter regras diferentes.
-                </p>
+            </article>
 
-              </div>
+
+            <article class="planner-check-card">
+
+              <span>🚌</span>
+
+              <strong>
+                Cobertura ampla
+              </strong>
+
+              <p>
+                Ônibus conectam
+                as diferentes regiões
+                do Distrito Federal.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🔄</span>
+
+              <strong>
+                Integração
+              </strong>
+
+              <p>
+                Uma única viagem
+                pode combinar
+                vários modais.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>📱</span>
+
+              <strong>
+                No dia
+              </strong>
+
+              <p>
+                Rota específica,
+                horário,
+                ponto,
+                veículo e alertas
+                ficam no DF no Ponto.
+              </p>
 
             </article>
 
@@ -1114,31 +1061,21 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
 
           <a
             class="official-link"
+            href="https://www.semob.df.gov.br/dados-do-sistema-de-transporte-publico-do-df"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Rede do DF · SEMOB-DF
+          </a>
+
+
+          <a
+            class="official-link"
             href="https://dfnoponto.semob.df.gov.br/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Planejar rota · DF no Ponto
-          </a>
-
-
-          <a
-            class="official-link"
-            href="https://dfnoponto.semob.df.gov.br/pesquisa-por-linhas/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Pesquisar linha · DF no Ponto
-          </a>
-
-
-          <a
-            class="official-link"
-            href="https://www.semob.df.gov.br/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            SEMOB-DF
+            Rota e tempo real · DF no Ponto
           </a>
 
 
@@ -1158,7 +1095,7 @@ window.BRASILIA_TRANSPORT_MODULES["planner"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Agência Brasília · GDF
+            Governo do Distrito Federal
           </a>
 
         </div>
