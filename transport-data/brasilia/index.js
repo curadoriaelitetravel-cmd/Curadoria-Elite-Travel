@@ -59,7 +59,7 @@
           "Rede de Transporte",
 
         description:
-          "Entenda metrô, BRT, ônibus, Zebrinha, serviços complementares e as principais conexões do Distrito Federal."
+          "Entenda como a rede do Distrito Federal se organiza entre metrô, BRT, ônibus, serviços locais e complementares."
       },
 
 
@@ -74,7 +74,7 @@
           "Tarifas e integração",
 
         description:
-          "Veja as tarifas do sistema, integração do Cartão Mobilidade, pagamento avulso e gratuidade do Vai de Graça."
+          "Veja as tarifas de R$ 2,70, R$ 3,80 e R$ 5,50, a tarifa do metrô, as regras de integração e o Vai de Graça."
       },
 
 
@@ -89,7 +89,7 @@
           "Como pagar",
 
         description:
-          "Entenda Cartão Mobilidade, recargas, pagamento por aproximação, dispositivos NFC e Bilhete Avulso QR Code."
+          "Entenda Cartão Mobilidade, recargas, pagamento bancário por aproximação, dispositivos NFC e Bilhete Avulso QR Code."
       },
 
 
@@ -104,7 +104,7 @@
           "Ônibus e BRT",
 
         description:
-          "Veja ônibus, BRT, Zebrinha, terminais, serviços rurais e como consultar linhas pelo DF no Ponto."
+          "Entenda Serviço Básico, BRT, micro-ônibus, transporte rural, pontos de parada e informações operacionais."
       },
 
 
@@ -119,7 +119,7 @@
           "Planeje o trajeto",
 
         description:
-          "Compare metrô, BRT e ônibus e consulte rotas, horários, paradas e informações operacionais antes de sair."
+          "Entenda quando metrô, BRT e ônibus tendem a ser mais úteis e use dados em tempo real apenas para fechar a rota específica."
       }
 
     ],
@@ -160,19 +160,10 @@
 
       {
         label:
-          "Agência Brasília · GDF",
+          "BRB Mobilidade",
 
         url:
-          "https://agenciabrasilia.df.gov.br/"
-      },
-
-
-      {
-        label:
-          "TCB",
-
-        url:
-          "https://tcb.df.gov.br/"
+          "https://brbnovo.brb.com.br/mobilidade/"
       }
 
     ]
