@@ -127,53 +127,54 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             ENTENDA A REDE
+             ESTRUTURA OFICIAL
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Entenda a rede do Distrito Federal
+            Como a rede do Distrito Federal é organizada
           </h4>
 
           <p class="panel-intro">
-            O transporte público coletivo
-            do Distrito Federal combina
-            metrô, ônibus, BRT
-            e serviços complementares.
+            O Sistema de Transporte Público Coletivo
+            do Distrito Federal é dividido
+            oficialmente em dois modais:
+            rodoviário e metroviário.
           </p>
 
-          <div class="legend-grid">
+          <div class="comparison-grid">
 
-            ${createBrasiliaLegendItem(
-              "M",
-              "Metrô",
-              "Rede metroviária que atende o Plano Piloto e regiões como Guará, Águas Claras, Taguatinga, Ceilândia e Samambaia."
-            )}
+            <article class="comparison-card">
 
-            ${createBrasiliaLegendItem(
-              "BRT",
-              "BRT",
-              "Sistema rodoviário de alta capacidade com corredores e terminais de integração."
-            )}
+              <strong>
+                Modal rodoviário
+              </strong>
 
-            ${createBrasiliaLegendItem(
-              "🚌",
-              "Ônibus",
-              "Principal rede rodoviária do Distrito Federal, distribuída entre diferentes áreas e regiões administrativas."
-            )}
+              <p>
+                Reúne ônibus,
+                BRT e os serviços
+                Básico e Complementar
+                do Distrito Federal.
+              </p>
 
-            ${createBrasiliaLegendItem(
-              "Z",
-              "Zebrinha",
-              "Micro-ônibus utilizados em serviços locais e de vizinhança dentro da rede do Distrito Federal."
-            )}
+            </article>
 
-            ${createBrasiliaLegendItem(
-              "🌾",
-              "Serviço complementar",
-              "Inclui serviços complementares, inclusive atendimento rural."
-            )}
+
+            <article class="comparison-card">
+
+              <strong>
+                Modal metroviário
+              </strong>
+
+              <p>
+                É formado pelo Metrô-DF,
+                que atende o Plano Piloto
+                e parte do eixo oeste
+                do Distrito Federal.
+              </p>
+
+            </article>
 
           </div>
 
@@ -181,56 +182,45 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             PRINCIPAIS SISTEMAS
+             PRINCIPAIS COMPONENTES
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Principais sistemas
+            O que você encontra na rede
           </h4>
 
-          <p class="panel-intro">
-            Brasília não funciona
-            como uma única rede concentrada
-            no Plano Piloto.
-          </p>
+          <div class="legend-grid">
 
-          <div class="operator-grid">
-
-            ${createBrasiliaSystemCard(
-              "🚇",
+            ${createBrasiliaLegendItem(
+              "M",
               "Metrô",
-              "Sistema metroviário do Distrito Federal.",
-              "Eixos Ceilândia e Samambaia"
+              "Rede metroviária que liga a região central a áreas como Guará, Águas Claras, Taguatinga, Ceilândia e Samambaia."
             )}
 
-            ${createBrasiliaSystemCard(
-              "🚍",
+            ${createBrasiliaLegendItem(
               "BRT",
-              "Corredor estruturado de ônibus de alta capacidade.",
-              "Conexões com Gama e Santa Maria"
+              "BRT",
+              "Sistema de ônibus de alta capacidade que estrutura principalmente o eixo sul do Distrito Federal."
             )}
 
-            ${createBrasiliaSystemCard(
+            ${createBrasiliaLegendItem(
               "🚌",
               "Ônibus",
-              "Rede básica de transporte coletivo do Distrito Federal.",
-              "Cinco bacias operacionais"
+              "Rede rodoviária que cobre o Plano Piloto e as diferentes Regiões Administrativas."
             )}
 
-            ${createBrasiliaSystemCard(
+            ${createBrasiliaLegendItem(
               "🚐",
-              "Zebrinha",
-              "Serviço de vizinhança com veículos menores.",
-              "Trajetos locais"
+              "Serviços locais",
+              "Incluem micro-ônibus e serviços de vizinhança utilizados em trajetos locais."
             )}
 
-            ${createBrasiliaSystemCard(
+            ${createBrasiliaLegendItem(
               "🌾",
-              "Complementar",
-              "Serviços complementares ao sistema básico.",
-              "Inclui atendimento rural"
+              "Serviço Complementar",
+              "Abrange serviços complementares ao sistema básico, inclusive atendimento rural e executivo."
             )}
 
           </div>
@@ -249,12 +239,29 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
           </h4>
 
           <p class="panel-intro">
-            O metrô parte da região central
+            A rede parte da região central
             e se divide em dois eixos
-            depois de Águas Claras.
+            depois de Águas Claras:
+            Ceilândia e Samambaia.
           </p>
 
           <div class="comparison-grid">
+
+            <article class="comparison-card">
+
+              <strong>
+                Trecho compartilhado
+              </strong>
+
+              <p>
+                Os trens utilizam
+                o mesmo eixo entre
+                a região central
+                e Águas Claras.
+              </p>
+
+            </article>
+
 
             <article class="comparison-card">
 
@@ -263,10 +270,10 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Atende regiões
-                como Guará,
-                Águas Claras,
-                Taguatinga e Ceilândia.
+                Depois da bifurcação,
+                um dos serviços
+                segue em direção
+                a Taguatinga e Ceilândia.
               </p>
 
             </article>
@@ -279,9 +286,9 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Após Águas Claras,
-                a rede segue em direção
-                a Samambaia.
+                O outro serviço
+                segue de Águas Claras
+                em direção a Samambaia.
               </p>
 
             </article>
@@ -290,30 +297,14 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
             <article class="comparison-card">
 
               <strong>
-                Tronco compartilhado
+                Estação Central
               </strong>
 
               <p>
-                Os dois serviços
-                utilizam o mesmo trecho
-                na região central
-                antes da bifurcação.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Integração
-              </strong>
-
-              <p>
-                Algumas estações
-                funcionam como pontos
-                importantes de conexão
-                com ônibus.
+                A região central
+                possui conexão direta
+                com a Rodoviária
+                do Plano Piloto.
               </p>
 
             </article>
@@ -324,13 +315,13 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             REGIÕES ATENDIDAS PELO METRÔ
+             REGIÕES NO EIXO DO METRÔ
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Regiões importantes no eixo do metrô
+            Principais regiões atendidas pelo metrô
           </h4>
 
           <div class="bus-system-grid">
@@ -346,7 +337,8 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               <p>
                 A Estação Central
                 atende a área
-                da Rodoviária do Plano Piloto.
+                da Rodoviária
+                do Plano Piloto.
               </p>
 
             </article>
@@ -361,9 +353,9 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Possui estações
-                no trecho comum
-                da rede.
+                Está no trecho
+                comum da rede
+                metroviária.
               </p>
 
             </article>
@@ -378,9 +370,9 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Região estratégica
-                onde a rede segue
-                para os dois eixos.
+                É o principal ponto
+                de separação
+                entre os dois eixos.
               </p>
 
             </article>
@@ -396,8 +388,8 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
               <p>
                 É atendida
-                por diferentes estações
-                do sistema.
+                pelo eixo que segue
+                em direção a Ceilândia.
               </p>
 
             </article>
@@ -412,8 +404,8 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                É um dos eixos
-                finais da rede metroviária.
+                Forma um dos extremos
+                da rede metroviária.
               </p>
 
             </article>
@@ -428,8 +420,8 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                É atendida
-                pelo outro ramo
+                Forma o outro
+                grande eixo terminal
                 da rede.
               </p>
 
@@ -451,9 +443,9 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
           </h4>
 
           <p class="panel-intro">
-            O BRT é especialmente importante
-            para os deslocamentos
-            no eixo sul do Distrito Federal.
+            O BRT estrutura principalmente
+            os deslocamentos do eixo sul
+            do Distrito Federal.
           </p>
 
           <div class="comparison-grid">
@@ -467,7 +459,7 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               <p>
                 Possui terminal
                 de integração
-                conectado ao sistema BRT.
+                do sistema BRT.
               </p>
 
             </article>
@@ -482,22 +474,7 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               <p>
                 Também possui
                 terminal de integração
-                do BRT.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Plano Piloto
-              </strong>
-
-              <p>
-                Existem serviços
-                que conectam os terminais
-                do BRT à área central.
+                ligado ao corredor.
               </p>
 
             </article>
@@ -510,10 +487,25 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Serviços locais
-                levam passageiros
-                até os terminais
-                e estações do sistema.
+                Fazem a ligação
+                entre bairros
+                e os terminais
+                de integração.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Serviços troncais
+              </strong>
+
+              <p>
+                Realizam os deslocamentos
+                de maior capacidade
+                pelo corredor estruturado.
               </p>
 
             </article>
@@ -530,13 +522,13 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Rede de ônibus
+            Como a rede de ônibus é dividida
           </h4>
 
           <p class="panel-intro">
-            A rede básica de ônibus
-            é organizada em cinco
-            grandes bacias operacionais.
+            O Serviço Básico
+            é organizado territorialmente
+            em cinco bacias operacionais.
           </p>
 
           <div class="payment-choice-grid">
@@ -548,10 +540,12 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Atende áreas como
-                Brasília, Cruzeiro,
-                Lago Norte, Varjão,
-                Sobradinho e Planaltina.
+                Brasília,
+                Cruzeiro,
+                Lago Norte,
+                Varjão,
+                Sobradinho
+                e Planaltina.
               </p>
 
             </article>
@@ -564,10 +558,14 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Atende Paranoá,
-                Itapoã, São Sebastião,
-                Gama, Santa Maria
-                e outras regiões.
+                Paranoá,
+                Itapoã,
+                São Sebastião,
+                Jardim Botânico,
+                Gama,
+                Santa Maria,
+                Park Way pela Epia
+                e Candangolândia.
               </p>
 
             </article>
@@ -580,8 +578,8 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Atende Núcleo Bandeirante,
-                Riacho Fundo,
+                Núcleo Bandeirante,
+                Riacho Fundo I e II,
                 Recanto das Emas
                 e Samambaia.
               </p>
@@ -596,9 +594,11 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Atende Guará,
+                Guará,
+                Park Way pela região
+                de Arniqueiras,
                 Águas Claras,
-                Taguatinga
+                parte de Taguatinga
                 e Ceilândia.
               </p>
 
@@ -612,10 +612,12 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Atende áreas como
+                SAI,
+                SAAN,
+                SOF Norte,
                 Estrutural,
                 Vicente Pires,
-                Taguatinga Norte,
+                parte de Taguatinga,
                 Ceilândia Norte
                 e Brazlândia.
               </p>
@@ -627,11 +629,12 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
           <div class="fare-note">
 
-            As bacias ajudam
-            a organizar a operação,
-            mas para o passageiro
-            o mais importante é consultar
-            a linha específica necessária.
+            As bacias são uma forma
+            de organizar a operação.
+            Para o passageiro,
+            diferentes bacias podem
+            participar de uma mesma viagem
+            conforme origem e destino.
 
           </div>
 
@@ -645,22 +648,20 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            TCB
+            TCB dentro da rede
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              O Distrito Federal também possui
-              uma empresa pública de transporte.
+              A TCB é uma empresa pública
+              integrante do sistema.
             </strong>
 
             <p>
-              A Sociedade de Transportes
-              Coletivos de Brasília
-              opera serviços no Plano Piloto,
-              além de algumas linhas rurais
-              e serviço executivo.
+              Atua no Plano Piloto,
+              em algumas linhas rurais
+              e no serviço executivo.
             </p>
 
           </div>
@@ -669,31 +670,16 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             ZEBRINHA E COMPLEMENTAR
+             COMPLEMENTAR
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Zebrinha e serviços complementares
+            Serviço Complementar
           </h4>
 
           <div class="comparison-grid">
-
-            <article class="comparison-card">
-
-              <strong>
-                Zebrinha
-              </strong>
-
-              <p>
-                Micro-ônibus utilizados
-                em trajetos locais
-                e serviços de vizinhança.
-              </p>
-
-            </article>
-
 
             <article class="comparison-card">
 
@@ -702,10 +688,25 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                O sistema complementar
-                inclui atendimento
-                a áreas rurais
+                Atende áreas rurais
+                que fazem parte
+                do território
                 do Distrito Federal.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Executivo
+              </strong>
+
+              <p>
+                Também faz parte
+                da categoria oficial
+                de Serviço Complementar.
               </p>
 
             </article>
@@ -716,34 +717,186 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             DF NO PONTO
+             CONEXÕES IMPORTANTES
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Consulte a linha antes de sair
+            Pontos importantes de conexão
           </h4>
 
-          <div class="payment-recommendation">
+          <div class="bus-system-grid">
 
-            <span class="payment-eyebrow">
-              DF no Ponto
-            </span>
+            <article class="bus-system-card">
 
-            <h4>
-              Rotas, horários, pontos
-              e localização dos ônibus.
-            </h4>
+              <span>🏛️</span>
 
-            <p>
-              O DF no Ponto
-              é a ferramenta oficial
-              do Governo do Distrito Federal
-              para pesquisar transporte público
-              e acompanhar informações
-              das linhas.
-            </p>
+              <strong>
+                Rodoviária do Plano Piloto
+              </strong>
+
+              <p>
+                Grande ponto
+                de distribuição de ônibus
+                e conexão com o metrô.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>🚇</span>
+
+              <strong>
+                Estação Central
+              </strong>
+
+              <p>
+                Principal acesso
+                metroviário
+                à região central.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>🚍</span>
+
+              <strong>
+                Terminal BRT Gama
+              </strong>
+
+              <p>
+                Integra serviços locais
+                e o corredor BRT.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>🚍</span>
+
+              <strong>
+                Terminal BRT Santa Maria
+              </strong>
+
+              <p>
+                Referência de integração
+                para o eixo sul.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             COMO LER A REDE
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Como pensar a rede
+          </h4>
+
+          <div class="planner-check-grid">
+
+            <article class="planner-check-card">
+
+              <span>🚇</span>
+
+              <strong>
+                Eixo oeste
+              </strong>
+
+              <p>
+                Metrô ganha importância
+                em Guará,
+                Águas Claras,
+                Taguatinga,
+                Ceilândia
+                e Samambaia.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🚍</span>
+
+              <strong>
+                Eixo sul
+              </strong>
+
+              <p>
+                BRT tem papel central
+                em Gama
+                e Santa Maria.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🚌</span>
+
+              <strong>
+                Cobertura territorial
+              </strong>
+
+              <p>
+                Ônibus completam
+                a cobertura das diferentes
+                Regiões Administrativas.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🔄</span>
+
+              <strong>
+                Integrações
+              </strong>
+
+              <p>
+                Uma viagem pode combinar
+                ônibus,
+                BRT
+                e metrô.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🌾</span>
+
+              <strong>
+                Áreas rurais
+              </strong>
+
+              <p>
+                O sistema também
+                possui atendimento
+                complementar rural.
+              </p>
+
+            </article>
 
           </div>
 
@@ -760,28 +913,13 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
             Domingos e feriados
           </h4>
 
-          <div class="visitor-alert">
-
-            <strong>
-              O transporte público
-              é gratuito pelo Vai de Graça.
-            </strong>
-
-            A gratuidade abrange
-            ônibus, BRT, micro-ônibus,
-            Zebrinha e metrô
-            em todo o Distrito Federal.
-
-          </div>
-
-
           <div class="fare-note">
 
-            A gratuidade vale
+            Pelo programa Vai de Graça,
+            ônibus, BRT, micro-ônibus,
+            serviços urbanos e rurais
+            e metrô são gratuitos
             aos domingos e feriados.
-            Ponto facultativo,
-            por si só,
-            não significa transporte gratuito.
 
           </div>
 
@@ -789,105 +927,7 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             QUAL SISTEMA PROCURAR
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Qual sistema procurar primeiro?
-          </h4>
-
-          <div class="planner-check-grid">
-
-            <article class="planner-check-card">
-
-              <span>🚇</span>
-
-              <strong>
-                Ceilândia, Samambaia,
-                Taguatinga ou Águas Claras
-              </strong>
-
-              <p>
-                Verifique primeiro
-                o metrô.
-              </p>
-
-            </article>
-
-
-            <article class="planner-check-card">
-
-              <span>🚍</span>
-
-              <strong>
-                Gama ou Santa Maria
-              </strong>
-
-              <p>
-                Compare BRT
-                e ônibus.
-              </p>
-
-            </article>
-
-
-            <article class="planner-check-card">
-
-              <span>🚌</span>
-
-              <strong>
-                Outras regiões administrativas
-              </strong>
-
-              <p>
-                Consulte as linhas
-                de ônibus no DF no Ponto.
-              </p>
-
-            </article>
-
-
-            <article class="planner-check-card">
-
-              <span>🏛️</span>
-
-              <strong>
-                Plano Piloto
-              </strong>
-
-              <p>
-                Compare metrô,
-                ônibus e serviços locais.
-              </p>
-
-            </article>
-
-
-            <article class="planner-check-card">
-
-              <span>📅</span>
-
-              <strong>
-                Domingo ou feriado
-              </strong>
-
-              <p>
-                Considere o Vai de Graça
-                antes de calcular
-                o custo do trajeto.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             FONTES PÚBLICAS
+             FONTES OFICIAIS
         =================================================== -->
 
         <div class="official-map-actions">
@@ -898,7 +938,7 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Rede de transporte · SEMOB-DF
+            Estrutura do STPC/DF · SEMOB-DF
           </a>
 
 
@@ -914,21 +954,21 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
           <a
             class="official-link"
-            href="https://dfnoponto.semob.df.gov.br/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            DF no Ponto
-          </a>
-
-
-          <a
-            class="official-link"
             href="https://www.semob.df.gov.br/"
             target="_blank"
             rel="noopener noreferrer"
           >
             SEMOB-DF
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://tcb.df.gov.br/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            TCB · Governo do DF
           </a>
 
         </div>
