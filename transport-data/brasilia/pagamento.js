@@ -37,15 +37,16 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
 
             <h4>
               Cartão Mobilidade,
-              aproximação ou bilhete avulso?
+              cartão bancário
+              ou bilhete avulso?
             </h4>
 
             <p>
-              Brasília oferece diferentes
-              meios de pagamento.
-              A principal diferença é que
-              nem todos dão direito
-              à integração tarifária.
+              Todos permitem embarcar,
+              mas não oferecem
+              os mesmos benefícios.
+              A principal diferença
+              está na integração tarifária.
             </p>
 
           </div>
@@ -54,13 +55,13 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             PRINCIPAIS FORMAS DE PAGAMENTO
+             PRINCIPAIS MEIOS
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Principais formas de pagamento
+            Principais meios de pagamento
           </h4>
 
           <div class="payment-method-grid">
@@ -76,13 +77,13 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
               </strong>
 
               <span class="payment-status available">
-                Integração
+                Com integração
               </span>
 
               <small>
-                Cartão do sistema
-                de bilhetagem automática
-                do transporte público do DF.
+                Cartão pessoal
+                do sistema de bilhetagem
+                do Distrito Federal.
               </small>
 
             </article>
@@ -104,8 +105,8 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
 
               <small>
                 Crédito ou débito
-                em ônibus, BRT
-                e metrô.
+                em ônibus,
+                BRT e metrô.
               </small>
 
             </article>
@@ -118,17 +119,17 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
               </span>
 
               <strong>
-                Dispositivo NFC
+                Celular ou smartwatch
               </strong>
 
               <span class="payment-status available">
-                Aproximação
+                NFC
               </span>
 
               <small>
-                Celular, smartwatch
-                ou outro dispositivo
-                compatível.
+                Cartões virtuais
+                também podem ser usados
+                por aproximação.
               </small>
 
             </article>
@@ -144,13 +145,14 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
                 Bilhete Avulso QR Code
               </strong>
 
-              <span class="payment-status available">
+              <span class="payment-status partial">
                 Ônibus e BRT
               </span>
 
               <small>
-                Alternativa presencial
-                para viagens ocasionais.
+                Alternativa para
+                viagens ocasionais,
+                sem integração.
               </small>
 
             </article>
@@ -170,11 +172,20 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
             Cartão Mobilidade
           </h4>
 
-          <p class="panel-intro">
-            É o cartão destinado
-            aos usuários do transporte
-            público coletivo do Distrito Federal.
-          </p>
+          <div class="answer-block">
+
+            <strong>
+              É pessoal.
+            </strong>
+
+            <p>
+              O cartão é vinculado
+              ao titular cadastrado
+              no sistema de bilhetagem.
+            </p>
+
+          </div>
+
 
           <div class="answer-block">
 
@@ -183,25 +194,12 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
             </strong>
 
             <p>
-              Com ele, o passageiro
-              pode realizar até três embarques
-              dentro da janela de integração,
-              conforme as regras vigentes.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              É identificado pelo usuário.
-            </strong>
-
-            <p>
-              A obtenção do cartão
-              envolve cadastro
-              no sistema de bilhetagem.
+              Permite combinar
+              até três embarques
+              dentro de três horas,
+              pagando no máximo R$ 5,50,
+              quando a viagem atende
+              às regras de integração.
             </p>
 
           </div>
@@ -210,13 +208,13 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             COMO ADQUIRIR
+             COMO OBTER
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Como adquirir o Cartão Mobilidade
+            Como obter o Cartão Mobilidade
           </h4>
 
           <div class="bus-use-flow">
@@ -226,12 +224,14 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
               <span>1</span>
 
               <strong>
-                Faça o pré-cadastro
+                Faça o cadastro
               </strong>
 
               <p>
-                O cadastro pode ser
-                iniciado digitalmente.
+                O pré-cadastro
+                pode ser iniciado
+                pela plataforma digital
+                do BRB Mobilidade.
               </p>
 
             </article>
@@ -246,9 +246,10 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
               </strong>
 
               <p>
-                O sistema solicita
-                informações como CPF
-                e dados de acesso.
+                O cadastro utiliza
+                dados pessoais
+                e identificação
+                do usuário.
               </p>
 
             </article>
@@ -264,8 +265,8 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
 
               <p>
                 A retirada acontece
-                em posto de atendimento
-                habilitado.
+                em um posto habilitado
+                para emissão.
               </p>
 
             </article>
@@ -276,110 +277,16 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
               <span>4</span>
 
               <strong>
-                Faça a recarga
-              </strong>
-
-              <p>
                 Coloque créditos
-                antes de utilizar
-                o transporte.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             POSTOS
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Onde retirar e atender o cartão
-          </h4>
-
-          <p class="panel-intro">
-            Existem postos BRB Mobilidade
-            em diferentes regiões
-            do Distrito Federal.
-          </p>
-
-          <div class="payment-choice-grid">
-
-            <article class="payment-choice">
-
-              <strong>
-                Rodoviária do Plano Piloto
               </strong>
 
               <p>
-                Há atendimento
-                no mezanino
-                e no subsolo.
+                Depois da emissão,
+                faça a primeira recarga
+                para começar a utilizar.
               </p>
 
             </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Estação Galeria
-              </strong>
-
-              <p>
-                Possui posto
-                de atendimento
-                no Plano Piloto.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Gama
-              </strong>
-
-              <p>
-                Há atendimento
-                no BRT Gama
-                e na Rodoviária.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Santa Maria
-              </strong>
-
-              <p>
-                O terminal do BRT
-                também possui
-                atendimento.
-              </p>
-
-            </article>
-
-          </div>
-
-
-          <div class="fare-note">
-
-            Existem outros postos
-            em regiões como Brazlândia,
-            Planaltina, Sobradinho,
-            Taguatinga e Park Way.
-            Consulte a lista atual
-            antes de se deslocar.
 
           </div>
 
@@ -400,23 +307,6 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
 
             <article class="purchase-card">
 
-              <span>💵</span>
-
-              <strong>
-                Dinheiro
-              </strong>
-
-              <p>
-                Aceito em postos
-                BRB Mobilidade
-                e em pontos físicos habilitados.
-              </p>
-
-            </article>
-
-
-            <article class="purchase-card">
-
               <span>📲</span>
 
               <strong>
@@ -425,25 +315,9 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
 
               <p>
                 Disponível
-                nos canais oficiais
-                de recarga.
-              </p>
-
-            </article>
-
-
-            <article class="purchase-card">
-
-              <span>💳</span>
-
-              <strong>
-                Cartão de débito
-              </strong>
-
-              <p>
-                Aceito
-                nos postos
-                BRB Mobilidade.
+                no aplicativo
+                BRB Mobilidade
+                e em postos compatíveis.
               </p>
 
             </article>
@@ -458,84 +332,43 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
               </strong>
 
               <p>
-                Pode ser utilizado
+                Disponível
                 na recarga digital
                 pelo aplicativo.
               </p>
 
             </article>
 
-          </div>
 
-        </section>
+            <article class="purchase-card">
 
-
-        <!-- ==================================================
-             APP
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Aplicativo BRB Mobilidade
-          </h4>
-
-          <div class="payment-choice-grid">
-
-            <article class="payment-choice">
+              <span>💵</span>
 
               <strong>
-                Recarga por Pix
+                Dinheiro
               </strong>
 
               <p>
-                O aplicativo gera
-                QR Code ou código
-                copia e cola
-                específico da recarga.
+                Aceito
+                nos postos físicos
+                e em pontos de recarga
+                compatíveis.
               </p>
 
             </article>
 
 
-            <article class="payment-choice">
+            <article class="purchase-card">
+
+              <span>💳</span>
 
               <strong>
-                Recarga por boleto
+                Débito
               </strong>
 
               <p>
-                Também pode ser
-                gerada pelo aplicativo.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Saldo
-              </strong>
-
-              <p>
-                Permite consultar
-                informações do cartão.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Extrato
-              </strong>
-
-              <p>
-                O aplicativo também
-                permite acompanhar
-                movimentações.
+                Aceito
+                nos postos BRB Mobilidade.
               </p>
 
             </article>
@@ -546,7 +379,7 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             PRAZO DE RECARGA
+             PRAZO DA RECARGA
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -564,10 +397,10 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
               </strong>
 
               <p>
-                A recarga pode ficar
-                disponível em até
-                10 minutos após
-                o pagamento.
+                O crédito pode
+                ficar disponível
+                em até 10 minutos
+                após o pagamento.
               </p>
 
             </article>
@@ -592,10 +425,142 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
 
           <div class="fare-note">
 
-            O crédito é efetivado
-            no cartão após a utilização
-            em um validador atualizado
-            da rede de transporte.
+            Depois de disponibilizado,
+            o crédito precisa ser efetivado
+            no cartão em um validador atualizado
+            de ônibus, BRT ou metrô.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             LIMITES DE RECARGA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Valores de recarga
+          </h4>
+
+          <div class="comparison-grid">
+
+            <article class="comparison-card">
+
+              <strong>
+                Canais digitais
+              </strong>
+
+              <p>
+                Valor mínimo
+                de R$ 5,00.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Pontos físicos
+              </strong>
+
+              <p>
+                Valor mínimo
+                de R$ 2,70.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Limite máximo
+              </strong>
+
+              <p>
+                Até R$ 1.000,00
+                em créditos.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             APP
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Aplicativo BRB Mobilidade
+          </h4>
+
+          <div class="payment-choice-grid">
+
+            <article class="payment-choice">
+
+              <strong>
+                Recarga
+              </strong>
+
+              <p>
+                Permite comprar créditos
+                por Pix ou boleto.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Saldo
+              </strong>
+
+              <p>
+                Permite consultar
+                o saldo do cartão.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Extrato
+              </strong>
+
+              <p>
+                Permite acompanhar
+                movimentações.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Recarga para outra pessoa
+              </strong>
+
+              <p>
+                Também é possível
+                carregar outro Cartão Mobilidade
+                informando o cartão
+                e o CPF do titular.
+              </p>
+
+            </article>
 
           </div>
 
@@ -613,9 +578,9 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
           </h4>
 
           <p class="panel-intro">
-            Para viagens ocasionais,
-            é possível embarcar
-            sem Cartão Mobilidade.
+            Para uma viagem ocasional,
+            não é obrigatório possuir
+            Cartão Mobilidade.
           </p>
 
           <div class="answer-block">
@@ -636,14 +601,13 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
           <div class="answer-block">
 
             <strong>
-              Crédito ou débito
+              Visa, Mastercard e Elo
             </strong>
 
             <p>
-              A função utilizada
-              é determinada
-              pelo banco emissor
-              do cartão.
+              São as bandeiras
+              oficialmente publicadas
+              como compatíveis.
             </p>
 
           </div>
@@ -652,14 +616,30 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
           <div class="answer-block">
 
             <strong>
-              Cartão físico ou virtual
+              Crédito ou débito
             </strong>
 
             <p>
-              Também podem ser usados
-              smartphones,
-              smartwatches
-              e outros dispositivos NFC.
+              A função utilizada
+              no pagamento é determinada
+              pela prioridade definida
+              pelo banco emissor.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Celular, smartwatch e acessórios
+            </strong>
+
+            <p>
+              Cartões virtuais
+              também podem ser utilizados
+              quando o dispositivo possui
+              tecnologia de aproximação.
             </p>
 
           </div>
@@ -668,73 +648,13 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             BANDEIRAS
+             APROXIMAÇÃO X INTEGRAÇÃO
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Cartões compatíveis
-          </h4>
-
-          <div class="comparison-grid">
-
-            <article class="comparison-card">
-
-              <strong>
-                Elo
-              </strong>
-
-              <p>
-                Aceita quando
-                a tecnologia de aproximação
-                está habilitada.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Mastercard
-              </strong>
-
-              <p>
-                Aceita nos validadores
-                compatíveis.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Visa
-              </strong>
-
-              <p>
-                Também faz parte
-                das bandeiras
-                publicadas pelo sistema.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             INTEGRAÇÃO x APROXIMAÇÃO
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Aproximação ou Cartão Mobilidade?
+            Cartão bancário ou Cartão Mobilidade?
           </h4>
 
           <div class="route-compare-grid">
@@ -746,13 +666,14 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
               </span>
 
               <strong>
-                Dá integração tarifária
+                Integração tarifária
               </strong>
 
               <p>
-                É a opção mais adequada
+                É a opção
+                mais adequada
                 quando a viagem exige
-                vários embarques.
+                mais de um embarque.
               </p>
 
               <span class="route-compare-result">
@@ -769,17 +690,17 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
               </span>
 
               <strong>
-                Mais simples para uso ocasional
+                Uso imediato
               </strong>
 
               <p>
-                Basta aproximar
-                o cartão ou dispositivo
-                do validador.
+                Não exige cadastro,
+                recarga ou retirada
+                de cartão de transporte.
               </p>
 
               <span class="route-compare-result">
-                Sem cadastro
+                Mais simples
               </span>
 
             </article>
@@ -788,17 +709,17 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
             <article class="route-compare-card">
 
               <span>
-                Diferença
+                Diferença principal
               </span>
 
               <strong>
-                Sem integração
+                Sem integração no bancário
               </strong>
 
               <p>
-                No cartão bancário,
-                cada embarque gera
-                uma cobrança separada.
+                Cada embarque
+                pago por cartão bancário
+                é cobrado separadamente.
               </p>
 
               <span class="route-compare-result">
@@ -825,15 +746,30 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
           <div class="answer-block">
 
             <strong>
-              Para ônibus e BRT
+              Serve para ônibus e BRT.
             </strong>
 
             <p>
-              É destinado
-              a passageiros sem
+              Pode ser utilizado
+              por quem não possui
               Cartão Mobilidade
-              ou que desejam
-              uma viagem ocasional.
+              ou prefere comprar
+              uma viagem avulsa.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Não exige cadastro.
+            </strong>
+
+            <p>
+              O bilhete pode ser
+              comprado diretamente
+              nos pontos de venda habilitados.
             </p>
 
           </div>
@@ -846,10 +782,9 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
             </strong>
 
             <p>
-              Pode ser adquirido
-              em terminais rodoviários,
-              estações do BRT
-              e pontos de recarga habilitados.
+              O pagamento pode ser feito
+              em dinheiro
+              ou cartão de débito.
             </p>
 
           </div>
@@ -858,13 +793,12 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
           <div class="answer-block">
 
             <strong>
-              Sem cadastro
+              Até quatro bilhetes por compra
             </strong>
 
             <p>
-              Não exige
-              cadastro prévio
-              para aquisição.
+              Cada unidade
+              corresponde a uma viagem.
             </p>
 
           </div>
@@ -873,13 +807,94 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             COMPRA DO QR CODE
+             TARIFAS DO QR
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Compra do Bilhete Avulso
+            Quanto custa o Bilhete Avulso?
+          </h4>
+
+          <div class="fare-highlight-grid">
+
+            <article class="fare-highlight">
+
+              <span>
+                Faixa 1
+              </span>
+
+              <strong>
+                R$ 2,70
+              </strong>
+
+              <p>
+                Para linhas
+                dessa faixa tarifária.
+              </p>
+
+            </article>
+
+
+            <article class="fare-highlight">
+
+              <span>
+                Faixa 2
+              </span>
+
+              <strong>
+                R$ 3,80
+              </strong>
+
+              <p>
+                Para linhas
+                dessa faixa tarifária.
+              </p>
+
+            </article>
+
+
+            <article class="fare-highlight">
+
+              <span>
+                Faixa 3
+              </span>
+
+              <strong>
+                R$ 5,50
+              </strong>
+
+              <p>
+                Para linhas
+                dessa faixa tarifária.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Um bilhete de valor maior
+            pode ser usado em uma linha
+            de tarifa menor,
+            mas a diferença
+            não é devolvida.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             VALIDADE DO QR
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Validade do Bilhete Avulso
           </h4>
 
           <div class="comparison-grid">
@@ -887,13 +902,13 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
             <article class="comparison-card">
 
               <strong>
-                Dinheiro
+                48 horas
               </strong>
 
               <p>
-                Aceito
-                nos pontos
-                de venda.
+                O bilhete deve ser usado
+                em até 48 horas
+                após a compra.
               </p>
 
             </article>
@@ -902,12 +917,12 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
             <article class="comparison-card">
 
               <strong>
-                Cartão de débito
+                Uma viagem
               </strong>
 
               <p>
-                Também pode ser
-                utilizado na compra.
+                Cada QR Code
+                vale para um único embarque.
               </p>
 
             </article>
@@ -916,27 +931,13 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
             <article class="comparison-card">
 
               <strong>
-                Até quatro bilhetes
+                Sem integração
               </strong>
 
               <p>
-                O sistema permite
-                adquirir até quatro
-                unidades por compra.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Validade de 48 horas
-              </strong>
-
-              <p>
-                Após esse período,
-                o bilhete expira.
+                Não oferece
+                o benefício tarifário
+                do Cartão Mobilidade.
               </p>
 
             </article>
@@ -947,7 +948,7 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             QR CODE E METRÔ
+             QR E METRÔ
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -963,20 +964,19 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
             </strong>
 
             O Bilhete Avulso QR Code
-            destinado a ônibus e BRT
+            de ônibus e BRT
             não funciona
-            nas catracas do metrô.
+            nas catracas do Metrô-DF.
 
           </div>
 
 
           <div class="fare-note">
 
-            Para viagem avulsa
-            no metrô,
-            utilize um meio
-            aceito especificamente
-            pelo sistema metroviário.
+            Para uma viagem avulsa
+            de metrô,
+            utilize um meio de pagamento
+            aceito pelo sistema metroviário.
 
           </div>
 
@@ -984,37 +984,62 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             VAI DE GRAÇA
+             POSTOS
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Domingo ou feriado?
+            Onde emitir ou retirar cartões
           </h4>
 
-          <div class="visitor-alert">
+          <p class="panel-intro">
+            O BRB Mobilidade mantém
+            postos de atendimento
+            em várias regiões do Distrito Federal.
+          </p>
+
+          <div class="answer-block">
 
             <strong>
-              Primeiro confira o Vai de Graça.
+              No Plano Piloto
             </strong>
 
-            Nos domingos e feriados
-            abrangidos pelo programa,
-            o transporte público
-            do Distrito Federal
-            é gratuito.
+            <p>
+              Há postos na
+              Rodoviária do Plano Piloto
+              e na Estação Galeria.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Fora do Plano Piloto
+            </strong>
+
+            <p>
+              Também existem postos
+              em regiões como Gama,
+              Santa Maria,
+              Planaltina,
+              Brazlândia,
+              Sobradinho
+              e Taguatinga.
+            </p>
 
           </div>
 
 
           <div class="fare-note">
 
-            Nesses dias,
-            não faz sentido carregar créditos
-            apenas para uma viagem
-            que esteja coberta
-            pela gratuidade.
+            Endereços e horários
+            podem mudar.
+            O botão oficial abaixo
+            abre a lista atualizada
+            de postos de atendimento.
 
           </div>
 
@@ -1040,10 +1065,10 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
               </strong>
 
               <p>
-                O pagamento
+                Cartão bancário
                 por aproximação
-                pode ser a opção
-                mais simples.
+                tende a ser
+                a opção mais direta.
               </p>
 
             </article>
@@ -1052,14 +1077,14 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Viagem com integração
+                Vários embarques
               </strong>
 
               <p>
-                Considere o
-                Cartão Mobilidade
-                para aproveitar
-                a integração tarifária.
+                O Cartão Mobilidade
+                passa a ser relevante
+                por causa
+                da integração tarifária.
               </p>
 
             </article>
@@ -1073,8 +1098,8 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
 
               <p>
                 O Bilhete Avulso QR Code
-                pode atender viagens
-                de ônibus ou BRT.
+                resolve viagens
+                de ônibus e BRT.
               </p>
 
             </article>
@@ -1087,9 +1112,10 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
               </strong>
 
               <p>
-                Confira se o deslocamento
-                está coberto
-                pelo Vai de Graça.
+                O Vai de Graça
+                torna o transporte público
+                gratuito nos dias abrangidos
+                pelo programa.
               </p>
 
             </article>
@@ -1121,7 +1147,7 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Pagamento por aproximação · BRB
+            Aproximação · BRB
           </a>
 
 
@@ -1141,7 +1167,7 @@ window.BRASILIA_TRANSPORT_MODULES["card"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Postos de atendimento · BRB
+            Postos atualizados · BRB
           </a>
 
 
