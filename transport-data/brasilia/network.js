@@ -245,6 +245,43 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
             Ceilândia e Samambaia.
           </p>
 
+
+          <div
+            style="
+              margin:24px 0 28px;
+              padding:16px;
+              border:1px solid rgba(212,175,55,.20);
+              border-radius:18px;
+              background:#fff;
+              overflow:hidden;
+            "
+          >
+
+            <img
+              src="images/Mapa_MetroDF.png"
+              alt="Mapa da rede do Metrô-DF com os ramais Ceilândia e Samambaia"
+              style="
+                display:block;
+                width:100%;
+                height:auto;
+                border-radius:10px;
+              "
+            >
+
+          </div>
+
+
+          <div class="fare-note">
+
+            No mapa,
+            os círculos identificam estações em operação
+            e os pontos pretos indicam estações em construção.
+            Os ramais de Ceilândia e Samambaia
+            compartilham parte do percurso.
+
+          </div>
+
+
           <div class="comparison-grid">
 
             <article class="comparison-card">
