@@ -24,19 +24,20 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             VALORES PRINCIPAIS
+             TARIFAS
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Valores principais
+            Quanto custa o transporte
           </h4>
 
           <p class="panel-intro">
-            No Distrito Federal,
-            a tarifa depende
-            da linha e do serviço utilizado.
+            O sistema do Distrito Federal
+            possui três valores principais
+            para ônibus e uma tarifa única
+            para o metrô.
           </p>
 
           <div class="fare-highlight-grid">
@@ -44,7 +45,7 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
             <article class="fare-highlight">
 
               <span>
-                Tarifa
+                Ônibus · U-1 e U-3
               </span>
 
               <strong>
@@ -52,9 +53,9 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Aplicada a determinados
-                serviços e viagens
-                de menor valor tarifário.
+                Tarifa das linhas classificadas
+                oficialmente como
+                Urbana 1 e Urbana 3.
               </p>
 
             </article>
@@ -63,7 +64,7 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
             <article class="fare-highlight">
 
               <span>
-                Tarifa
+                Ônibus · U-2, M-1 e M-3
               </span>
 
               <strong>
@@ -71,9 +72,10 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Utilizada em determinadas
-                linhas do sistema
-                rodoviário do DF.
+                Tarifa das linhas
+                Urbana 2,
+                Metropolitana 1
+                e Metropolitana 3.
               </p>
 
             </article>
@@ -82,7 +84,7 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
             <article class="fare-highlight">
 
               <span>
-                Tarifa
+                Ônibus · M-2
               </span>
 
               <strong>
@@ -90,9 +92,8 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Tarifa de referência
-                dos serviços de maior valor
-                e limite da integração tarifária.
+                Tarifa das linhas classificadas
+                como Metropolitana 2.
               </p>
 
             </article>
@@ -101,16 +102,17 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
             <article class="fare-highlight">
 
               <span>
-                Domingo e feriado
+                Metrô
               </span>
 
               <strong>
-                R$ 0,00
+                R$ 5,50
               </strong>
 
               <p>
-                Gratuidade pelo
-                programa Vai de Graça.
+                Tarifa única
+                do sistema metroviário
+                do Distrito Federal.
               </p>
 
             </article>
@@ -121,25 +123,30 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             TARIFA DA LINHA
+             O QUE SIGNIFICAM AS CATEGORIAS
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Como saber quanto custa sua linha
+            Por que existem três tarifas de ônibus?
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              Consulte a linha específica.
+              As linhas são classificadas
+              pelo sistema de transporte.
             </strong>
 
             <p>
-              Não existe uma única tarifa
-              para todos os ônibus
-              do Distrito Federal.
+              O Serviço Básico do Distrito Federal
+              divide as linhas rodoviárias
+              nas categorias Urbana 1,
+              Urbana 2, Urbana 3,
+              Metropolitana 1,
+              Metropolitana 2
+              e Metropolitana 3.
             </p>
 
           </div>
@@ -148,14 +155,14 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
           <div class="answer-block">
 
             <strong>
-              Use o DF no Ponto.
+              Cada categoria possui
+              uma tarifa definida.
             </strong>
 
             <p>
-              A ferramenta oficial
-              permite pesquisar
-              a linha e consultar
-              suas informações operacionais.
+              U-1 e U-3 custam R$ 2,70;
+              U-2, M-1 e M-3 custam R$ 3,80;
+              e M-2 custa R$ 5,50.
             </p>
 
           </div>
@@ -163,13 +170,10 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
 
           <div class="fare-note">
 
-            Para viagens avulsas,
-            os valores publicados
-            no sistema de bilhetagem
-            são R$ 2,70,
-            R$ 3,80
-            e R$ 5,50,
-            conforme o serviço.
+            O valor não é escolhido
+            pelo passageiro no momento do embarque:
+            ele já está associado
+            à classificação da linha utilizada.
 
           </div>
 
@@ -187,10 +191,10 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
           </h4>
 
           <p class="panel-intro">
-            O Cartão Mobilidade
-            permite combinar diferentes
-            embarques dentro das regras
-            do sistema integrado.
+            Quando uma viagem exige
+            mais de um transporte,
+            a integração pode evitar
+            a soma integral das tarifas.
           </p>
 
           <div class="fare-scenario-grid">
@@ -198,17 +202,17 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Limite
+                Embarques
               </span>
 
               <strong>
-                Até 3 embarques
+                Até 3
               </strong>
 
               <p>
-                O passageiro pode realizar
-                até dois transbordos
-                após o primeiro embarque.
+                É possível fazer
+                o primeiro embarque
+                e até dois transbordos.
               </p>
 
               <span class="fare-scenario-result">
@@ -221,7 +225,7 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Tempo
+                Período
               </span>
 
               <strong>
@@ -229,9 +233,9 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                O período é contado
-                entre o primeiro
-                e o último embarque.
+                Os embarques integrados
+                precisam ocorrer
+                dentro dessa janela.
               </p>
 
               <span class="fare-scenario-result">
@@ -244,7 +248,72 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Valor máximo
+                Total
+              </span>
+
+              <strong>
+                Até R$ 5,50
+              </strong>
+
+              <p>
+                Mesmo combinando
+                transportes diferentes,
+                o valor máximo da viagem
+                integrada é R$ 5,50.
+              </p>
+
+              <span class="fare-scenario-result">
+                Teto da integração
+              </span>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             EXEMPLO REAL DE INTEGRAÇÃO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            O que isso muda na prática?
+          </h4>
+
+          <div class="route-compare-grid">
+
+            <article class="route-compare-card">
+
+              <span>
+                Sem integração
+              </span>
+
+              <strong>
+                R$ 12,00
+              </strong>
+
+              <p>
+                Uma viagem combinando
+                uma tarifa de R$ 2,70,
+                outra de R$ 5,50
+                e outra de R$ 3,80
+                somaria R$ 12,00.
+              </p>
+
+              <span class="route-compare-result">
+                Tarifas somadas
+              </span>
+
+            </article>
+
+
+            <article class="route-compare-card">
+
+              <span>
+                Com integração
               </span>
 
               <strong>
@@ -252,13 +321,14 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Quando a integração
-                é reconhecida corretamente,
-                esse é o valor máximo pago.
+                A mesma combinação,
+                quando enquadrada
+                nas regras de integração,
+                custa no máximo R$ 5,50.
               </p>
 
-              <span class="fare-scenario-result">
-                Integração
+              <span class="route-compare-result">
+                Tarifa integrada
               </span>
 
             </article>
@@ -269,55 +339,75 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             SENTIDO DA VIAGEM
+             O QUE PODE SER INTEGRADO
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            A integração tem regras
+            Quais transportes podem ser combinados?
           </h4>
 
-          <div class="comparison-grid">
+          <div class="payment-choice-grid">
 
-            <article class="comparison-card">
+            <article class="payment-choice">
 
               <strong>
-                Mesmo sentido
+                Ônibus + ônibus
               </strong>
 
               <p>
-                A viagem integrada
-                deve continuar
-                no mesmo sentido
-                do deslocamento inicial.
+                A troca entre linhas
+                pode participar
+                da integração.
               </p>
 
             </article>
 
 
-            <article class="comparison-card">
+            <article class="payment-choice">
 
               <strong>
-                Não vale para ida e volta
+                Ônibus + metrô
               </strong>
 
               <p>
-                Retornar ao ponto
-                de origem não caracteriza
-                uma única viagem integrada.
+                O sistema permite
+                integrar os modos
+                rodoviário e metroviário.
               </p>
 
             </article>
 
-          </div>
+
+            <article class="payment-choice">
+
+              <strong>
+                Micro-ônibus
+              </strong>
+
+              <p>
+                Também participa
+                do sistema
+                de integração tarifária.
+              </p>
+
+            </article>
 
 
-          <div class="fare-note">
+            <article class="payment-choice">
 
-            A integração também depende
-            do uso de meio de pagamento
-            compatível com o benefício.
+              <strong>
+                Até três acessos
+              </strong>
+
+              <p>
+                A combinação pode envolver
+                até três embarques
+                na mesma viagem.
+              </p>
+
+            </article>
 
           </div>
 
@@ -325,39 +415,90 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             ÔNIBUS + METRÔ
+             SENTIDO
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Ônibus + metrô
+            A integração precisa seguir o mesmo sentido
+          </h4>
+
+          <div class="comparison-grid">
+
+            <article class="comparison-card">
+
+              <strong>
+                Ida
+              </strong>
+
+              <p>
+                Os embarques seguintes
+                precisam continuar
+                o deslocamento iniciado.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Volta
+              </strong>
+
+              <p>
+                Uma nova viagem
+                no sentido contrário
+                não faz parte
+                da mesma integração.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              Não serve para fazer
+              ida e volta pagando uma tarifa.
+            </strong>
+
+            A integração é destinada
+            aos diferentes embarques necessários
+            para completar um deslocamento
+            no mesmo sentido.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             CARTÃO NECESSÁRIO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Para receber a integração
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              Os dois sistemas
-              podem participar da integração.
+              Use Cartão Mobilidade
+              ou Vale-Transporte.
             </strong>
 
             <p>
-              O Cartão Mobilidade
-              pode ser utilizado
-              para combinar ônibus,
-              BRT e metrô,
-              conforme as regras vigentes.
+              São os meios de pagamento
+              que registram os embarques
+              e aplicam o benefício
+              da integração tarifária.
             </p>
-
-          </div>
-
-
-          <div class="fare-note">
-
-            Quando a integração
-            é reconhecida corretamente,
-            o valor máximo da viagem
-            integrada é R$ 5,50.
 
           </div>
 
@@ -371,21 +512,20 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Pagamento por aproximação
+            Cartão bancário por aproximação
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              Cartões bancários
-              podem pagar a passagem.
+              Pode pagar a passagem diretamente.
             </strong>
 
             <p>
-              Ônibus, BRT e metrô
-              aceitam pagamento
-              por aproximação
-              com cartões compatíveis.
+              Cartões de crédito
+              e débito por aproximação
+              podem ser utilizados
+              nos validadores compatíveis.
             </p>
 
           </div>
@@ -394,20 +534,22 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
           <div class="visitor-alert">
 
             <strong>
-              Mas não há integração tarifária.
+              Não oferece integração tarifária.
             </strong>
 
-            No pagamento por cartão
-            de crédito ou débito,
-            cada embarque é cobrado
+            Se você fizer três embarques
+            pagando diretamente
+            com cartão bancário,
+            cada tarifa será cobrada
             separadamente.
+
           </div>
 
         </section>
 
 
         <!-- ==================================================
-             BILHETE AVULSO QR CODE
+             QR CODE
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -419,29 +561,14 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
           <div class="answer-block">
 
             <strong>
-              Disponível para ônibus e BRT.
+              É uma opção para ônibus e BRT.
             </strong>
 
             <p>
-              O bilhete avulso
-              é uma alternativa
-              para quem não possui
-              Cartão Mobilidade.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              O preço acompanha
-              a tarifa da linha.
-            </strong>
-
-            <p>
-              Pode corresponder
-              a R$ 2,70,
+              O valor do bilhete
+              corresponde à tarifa
+              do serviço utilizado:
+              R$ 2,70,
               R$ 3,80
               ou R$ 5,50.
             </p>
@@ -452,11 +579,15 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
           <div class="visitor-alert">
 
             <strong>
-              Não inclui integração tarifária.
+              Também não oferece integração.
             </strong>
 
-            Cada bilhete vale
-            para uma única viagem.
+            Cada Bilhete Avulso QR Code
+            corresponde a uma viagem
+            e não aplica o benefício
+            de até três embarques
+            por R$ 5,50.
+
           </div>
 
         </section>
@@ -469,60 +600,95 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Vai de Graça
+            Domingos e feriados
           </h4>
 
-          <div class="visitor-alert">
+          <div class="fare-highlight-grid">
 
-            <strong>
-              Aos domingos e feriados,
-              a tarifa é zero.
-            </strong>
+            <article class="fare-highlight">
 
-            A gratuidade vale
-            para ônibus,
-            BRT,
-            micro-ônibus,
-            Zebrinha,
-            serviços urbanos e rurais
-            e metrô em todo
-            o Distrito Federal.
+              <span>
+                Vai de Graça
+              </span>
+
+              <strong>
+                R$ 0,00
+              </strong>
+
+              <p>
+                O transporte público coletivo
+                do Distrito Federal
+                é gratuito aos domingos
+                e feriados.
+              </p>
+
+            </article>
 
           </div>
 
 
+          <div class="answer-block">
+
+            <strong>
+              A gratuidade vale
+              em todo o Distrito Federal.
+            </strong>
+
+            <p>
+              Abrange ônibus,
+              BRT,
+              micro-ônibus,
+              Zebrinha,
+              linhas urbanas e rurais
+              e metrô.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Não há limite de viagens.
+            </strong>
+
+            <p>
+              O passageiro pode utilizar
+              o transporte quantas vezes
+              precisar durante o período
+              abrangido pela gratuidade.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Não exige cadastro prévio.
+            </strong>
+
+            <p>
+              O benefício é válido
+              para todos os passageiros.
+            </p>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             COMO EMBARCAR NO VAI DE GRAÇA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Como embarcar no Vai de Graça
+          </h4>
+
           <div class="comparison-grid">
-
-            <article class="comparison-card">
-
-              <strong>
-                Sem limite de viagens
-              </strong>
-
-              <p>
-                O passageiro pode realizar
-                múltiplos embarques
-                durante o período
-                de gratuidade.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Sem cadastro específico
-              </strong>
-
-              <p>
-                A gratuidade não exige
-                inscrição prévia
-                no programa.
-              </p>
-
-            </article>
-
 
             <article class="comparison-card">
 
@@ -532,8 +698,11 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
 
               <p>
                 Aproxime normalmente
-                para liberar a catraca,
-                sem geração de cobrança.
+                o Cartão Mobilidade,
+                Vale-Transporte
+                ou cartão bancário
+                para liberar a catraca.
+                Nenhum valor é cobrado.
               </p>
 
             </article>
@@ -546,10 +715,11 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                A entrada também
-                é garantida,
-                com liberação da catraca
-                pela equipe responsável.
+                O passageiro também
+                tem direito à gratuidade.
+                A entrada é liberada
+                conforme o procedimento
+                operacional do sistema.
               </p>
 
             </article>
@@ -560,121 +730,97 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             PONTO FACULTATIVO
+             RESUMO
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Ponto facultativo não é feriado
+            Em resumo
           </h4>
 
-          <div class="answer-block">
+          <div class="planner-check-grid">
 
-            <strong>
-              Não presuma gratuidade.
-            </strong>
+            <article class="planner-check-card">
 
-            <p>
-              O Vai de Graça
-              é aplicado aos domingos
-              e feriados.
-              Em ponto facultativo,
-              a tarifa pode ser cobrada normalmente.
-            </p>
-
-          </div>
-
-
-          <div class="fare-note">
-
-            O GDF pode anunciar
-            gratuidade extraordinária
-            em datas específicas.
-            Consulte a programação oficial
-            quando houver evento especial.
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             EXEMPLOS
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Exemplos práticos
-          </h4>
-
-          <div class="fare-scenario-grid">
-
-            <article class="fare-scenario">
-
-              <span class="fare-scenario-kicker">
-                Uma linha
-              </span>
+              <span>R$</span>
 
               <strong>
-                Ônibus avulso
+                Ônibus
               </strong>
 
               <p>
-                O valor depende
-                da tarifa específica
-                da linha.
+                R$ 2,70,
+                R$ 3,80
+                ou R$ 5,50,
+                conforme a classificação
+                oficial da linha.
               </p>
-
-              <span class="fare-scenario-result">
-                R$ 2,70 / 3,80 / 5,50
-              </span>
 
             </article>
 
 
-            <article class="fare-scenario">
+            <article class="planner-check-card">
 
-              <span class="fare-scenario-kicker">
+              <span>🚇</span>
+
+              <strong>
+                Metrô
+              </strong>
+
+              <p>
+                R$ 5,50
+                por viagem.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🔄</span>
+
+              <strong>
                 Integração
-              </span>
-
-              <strong>
-                Ônibus + metrô
               </strong>
 
               <p>
-                Com Cartão Mobilidade
-                e dentro das regras
-                da integração.
+                Até três embarques
+                em até três horas,
+                por no máximo R$ 5,50.
               </p>
-
-              <span class="fare-scenario-result">
-                Até R$ 5,50
-              </span>
 
             </article>
 
 
-            <article class="fare-scenario">
+            <article class="planner-check-card">
 
-              <span class="fare-scenario-kicker">
-                Domingo
-              </span>
+              <span>💳</span>
 
               <strong>
-                Transporte público
+                Cartão bancário
               </strong>
 
               <p>
-                Viagem realizada
-                durante o Vai de Graça.
+                Aceito por aproximação,
+                mas sem integração tarifária.
               </p>
 
-              <span class="fare-scenario-result">
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>📅</span>
+
+              <strong>
+                Domingo e feriado
+              </strong>
+
+              <p>
                 R$ 0,00
-              </span>
+                pelo Vai de Graça.
+              </p>
 
             </article>
 
@@ -684,67 +830,20 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             ANTES DE EMBARCAR
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Antes de embarcar
-          </h4>
-
-          <div class="answer-block">
-
-            <strong>
-              Confira a tarifa da linha.
-            </strong>
-
-            <p>
-              Não presuma
-              que todos os ônibus
-              custam o mesmo valor.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Vai integrar?
-            </strong>
-
-            <p>
-              Use Cartão Mobilidade
-              ou outro cartão habilitado
-              para o benefício.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Vai pagar por aproximação?
-            </strong>
-
-            <p>
-              Lembre-se de que
-              cada embarque será
-              cobrado individualmente.
-            </p>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             FONTES PÚBLICAS / OFICIAIS
+             FONTES OFICIAIS
         =================================================== -->
 
         <div class="official-map-actions">
+
+          <a
+            class="official-link"
+            href="https://dflegis.df.gov.br/ato.php?p=decreto-40381-de-09-de-janeiro-de-2020"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Tarifas oficiais · GDF
+          </a>
+
 
           <a
             class="official-link"
@@ -758,21 +857,11 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
 
           <a
             class="official-link"
-            href="https://dfnoponto.semob.df.gov.br/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            DF no Ponto
-          </a>
-
-
-          <a
-            class="official-link"
             href="https://brbnovo.brb.com.br/mobilidade/cartao-mobilidade/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Cartão Mobilidade · BRB
+            Integração · BRB Mobilidade
           </a>
 
 
@@ -782,7 +871,7 @@ window.BRASILIA_TRANSPORT_MODULES["fares"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Agência Brasília · GDF
+            Vai de Graça · GDF
           </a>
 
         </div>
