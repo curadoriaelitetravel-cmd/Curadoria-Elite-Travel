@@ -22,7 +22,7 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             RESUMO
+             VISÃO GERAL
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -30,19 +30,21 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
           <div class="payment-recommendation">
 
             <span class="payment-eyebrow">
-              Sistema municipal
+              Novo sistema municipal
             </span>
 
             <h4>
-              Gramado adotou bilhetagem eletrônica
-              no novo transporte público.
+              Gramado utiliza
+              bilhetagem eletrônica
+              no transporte público municipal.
             </h4>
 
             <p>
-              O sistema municipal passou a utilizar
-              o Cartão “Nosso Transporte Público”,
-              associado à nova bilhetagem eletrônica
-              implantada em 2026.
+              O novo sistema entrou em operação
+              em 1º de agosto de 2026
+              e utiliza o cartão
+              “Nosso Transporte Público”
+              para a bilhetagem eletrônica.
             </p>
 
           </div>
@@ -61,13 +63,13 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
           </h4>
 
           <p class="panel-intro">
-            É o cartão divulgado oficialmente
-            pela Prefeitura para a nova
-            bilhetagem eletrônica municipal.
+            É o cartão associado
+            ao novo sistema municipal
+            de transporte coletivo
+            de Gramado.
           </p>
 
           <div class="payment-method-grid">
-
 
             <article class="payment-method">
 
@@ -76,16 +78,17 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
               </span>
 
               <strong>
-                Cartão Nosso Transporte Público
+                Cartão municipal
               </strong>
 
               <span class="payment-status available">
-                Rede municipal
+                Rede de Gramado
               </span>
 
               <small>
-                Utilizado no novo sistema
-                de ônibus de Gramado.
+                Utilizado dentro
+                da nova bilhetagem eletrônica
+                do transporte municipal.
               </small>
 
             </article>
@@ -98,17 +101,17 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
               </span>
 
               <strong>
-                Reconhecimento facial
+                Cadastro do usuário
               </strong>
 
               <span class="payment-status available">
-                Bilhetagem
+                Necessário para o cartão
               </span>
 
               <small>
-                A Prefeitura informa
-                que a nova tecnologia
-                inclui reconhecimento facial.
+                O cartão é emitido
+                a partir do cadastro
+                do passageiro.
               </small>
 
             </article>
@@ -117,21 +120,22 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
             <article class="payment-method">
 
               <span class="payment-method-icon">
-                🚌
+                🔄
               </span>
 
               <strong>
-                Transporte municipal
+                Recarga de créditos
               </strong>
 
               <span class="payment-status available">
-                Gramado
+                Bilhetagem eletrônica
               </span>
 
               <small>
-                O cartão está relacionado
-                ao sistema público municipal,
-                não ao transporte rodoviário estadual.
+                O sistema foi implantado
+                para utilização
+                de créditos eletrônicos
+                no cartão.
               </small>
 
             </article>
@@ -142,51 +146,32 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             CADASTRO
+             PRIMEIRA VIA
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Cadastramento de usuários
+            Quanto custa o cartão?
           </h4>
 
-          <p class="panel-intro">
-            O Município iniciou o cadastramento
-            antes da entrada em operação
-            do novo sistema.
-          </p>
+          <div class="fare-highlight-grid">
 
-          <div class="comparison-grid">
+            <article class="fare-highlight">
 
-
-            <article class="comparison-card">
+              <span>
+                Primeira via
+              </span>
 
               <strong>
-                Início do cadastramento
+                R$ 0,00
               </strong>
 
               <p>
-                O processo começou
-                em julho de 2026,
-                durante a transição
-                para a nova operação.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Atendimento
-              </strong>
-
-              <p>
-                A Prefeitura divulgou
-                atendimento ligado
-                ao Terminal Rodoviário
-                da Várzea Grande.
+                A Prefeitura informou
+                que não é cobrada taxa
+                para a entrega
+                da primeira via.
               </p>
 
             </article>
@@ -197,28 +182,123 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             TRANSIÇÃO
+             COMO OBTER
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Período de transição
+            Como obter o cartão
+          </h4>
+
+          <div class="bus-use-flow">
+
+            <article class="bus-use-step">
+
+              <span>
+                1
+              </span>
+
+              <strong>
+                Vá ao atendimento
+              </strong>
+
+              <p>
+                O ponto divulgado
+                para cadastramento
+                fica no Terminal Rodoviário
+                da Várzea Grande.
+              </p>
+
+            </article>
+
+
+            <article class="bus-use-step">
+
+              <span>
+                2
+              </span>
+
+              <strong>
+                Leve identificação
+              </strong>
+
+              <p>
+                Para o cadastro,
+                foram solicitados
+                documento de identificação
+                com foto,
+                RG e CPF.
+              </p>
+
+            </article>
+
+
+            <article class="bus-use-step">
+
+              <span>
+                3
+              </span>
+
+              <strong>
+                Faça o cadastro
+              </strong>
+
+              <p>
+                Os dados do usuário
+                são registrados
+                para emissão
+                do cartão municipal.
+              </p>
+
+            </article>
+
+
+            <article class="bus-use-step">
+
+              <span>
+                4
+              </span>
+
+              <strong>
+                Receba a primeira via
+              </strong>
+
+              <p>
+                A primeira emissão
+                foi anunciada
+                sem cobrança de taxa.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             LOCAL DO CADASTRO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Onde fazer o cadastro
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              Passagens impressas antigas
-              tiveram validade temporária.
+              Terminal Rodoviário da Várzea Grande
             </strong>
 
             <p>
-              A Prefeitura informou
-              que os bilhetes impressos
-              permaneceriam válidos
-              durante 60 dias
-              após o início da nova operação.
+              A Prefeitura divulgou
+              uma loja de atendimento
+              no interior do terminal
+              para cadastramento
+              e emissão do cartão.
             </p>
 
           </div>
@@ -226,12 +306,15 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
           <div class="fare-note">
 
-            Como o novo sistema começou
-            em 1º de agosto de 2026,
-            esta é uma regra de transição
-            e não deve ser tratada
-            como característica permanente
-            da bilhetagem.
+            No lançamento do cadastramento,
+            o atendimento divulgado
+            era de segunda a sexta-feira,
+            das 9h às 17h.
+
+            Como horário de atendimento
+            é informação operacional,
+            ele pode sofrer alteração
+            após a fase inicial do sistema.
 
           </div>
 
@@ -245,38 +328,41 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            E como recarregar?
+            Recarga do cartão
           </h4>
-
-          <div class="visitor-alert">
-
-            <strong>
-              Os canais públicos consultados
-              ainda não detalham suficientemente
-              todas as formas de recarga.
-            </strong>
-
-            Por isso, a Curadoria não informa
-            Pix, cartão bancário, dinheiro,
-            aplicativo de recarga
-            ou qualquer outro meio
-            sem confirmação pública específica.
-
-          </div>
-
 
           <div class="answer-block">
 
             <strong>
-              Antes de depender do ônibus municipal
+              O cartão utiliza créditos eletrônicos.
             </strong>
 
             <p>
-              Consulte o portal oficial
-              da Prefeitura de Gramado
-              para verificar os procedimentos
-              mais recentes da bilhetagem.
+              A Prefeitura confirmou
+              que a nova bilhetagem
+              prevê recarga dos cartões.
             </p>
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              Os canais de recarga
+              ainda não estão suficientemente
+              detalhados nas publicações oficiais.
+            </strong>
+
+            Até o momento,
+            não há base pública suficiente
+            para a Curadoria afirmar
+            se todas as recargas podem ser feitas
+            por Pix,
+            dinheiro,
+            cartão bancário,
+            aplicativo
+            ou outro canal específico.
 
           </div>
 
@@ -290,32 +376,118 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Posso pagar uma viagem avulsa?
+            E se eu não tiver o cartão?
           </h4>
 
-          <div class="answer-block">
+          <div class="visitor-alert">
 
             <strong>
-              As fontes públicas consultadas
-              não esclarecem isso de forma suficiente.
+              O meio de pagamento avulso
+              ainda não está claramente documentado
+              nos canais públicos consultados.
             </strong>
 
-            <p>
-              Não encontramos confirmação pública
-              atual que permita afirmar
-              quais meios de pagamento avulso
-              são aceitos diretamente no ônibus.
-            </p>
+            Por isso,
+            não apresentamos dinheiro,
+            Pix,
+            crédito,
+            débito
+            ou aproximação
+            como opções confirmadas
+            diretamente dentro do ônibus.
 
           </div>
 
 
           <div class="fare-note">
 
-            Por isso, não apresentamos
-            dinheiro, Pix,
-            cartão de crédito ou débito
-            como opções confirmadas.
+            Isso não significa
+            que esses meios necessariamente
+            não sejam aceitos.
+
+            Significa apenas
+            que ainda não há confirmação pública
+            suficiente para apresentá-los
+            como regra oficial do sistema.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TARIFA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Quanto custa a viagem municipal
+          </h4>
+
+          <div class="fare-highlight-grid">
+
+            <article class="fare-highlight">
+
+              <span>
+                Tarifa municipal
+              </span>
+
+              <strong>
+                R$ 4,00
+              </strong>
+
+              <p>
+                Valor em vigor
+                desde 1º de agosto de 2026.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             BILHETES ANTIGOS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Passagens impressas do sistema antigo
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Houve um período de transição.
+            </strong>
+
+            <p>
+              A Prefeitura informou
+              que as passagens impressas
+              existentes antes da mudança
+              continuariam válidas
+              durante 60 dias
+              após o início
+              da nova operação.
+            </p>
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              Essa não é uma característica permanente.
+            </strong>
+
+            A regra existe apenas
+            para a transição
+            entre o sistema antigo
+            e a nova bilhetagem eletrônica.
 
           </div>
 
@@ -335,11 +507,12 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
           <div class="answer-block">
 
             <strong>
-              Previsto para setembro de 2026
+              Lançamento anunciado
+              para setembro de 2026
             </strong>
 
             <p>
-              A Prefeitura informou
+              O Município informou
               que o aplicativo deverá permitir
               acompanhar em tempo real
               a localização dos ônibus.
@@ -351,15 +524,26 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
           <div class="visitor-alert">
 
             <strong>
-              Atenção à data.
+              Ainda não tratamos o aplicativo
+              como disponível.
             </strong>
 
-            Como estamos em agosto de 2026,
-            a funcionalidade foi anunciada,
-            mas ainda não deve ser tratada
-            como disponível antes
-            da confirmação oficial
-            de seu lançamento.
+            Em agosto de 2026,
+            seu funcionamento
+            continua anunciado
+            para uma etapa posterior
+            da implantação.
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Também não há confirmação pública
+            suficiente para afirmar
+            que o aplicativo fará
+            venda de passagens
+            ou recarga do cartão.
 
           </div>
 
@@ -374,51 +558,72 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
           <h4 class="panel-title">
             Municipal e intermunicipal
-            não são a mesma coisa
+            usam sistemas diferentes
           </h4>
 
-          <div class="comparison-grid">
+          <div class="route-compare-grid">
 
+            <article class="route-compare-card">
 
-            <article class="comparison-card">
+              <span>
+                Dentro de Gramado
+              </span>
 
               <strong>
-                Dentro de Gramado
+                Sistema municipal
               </strong>
 
               <p>
-                O Cartão “Nosso Transporte Público”
-                pertence à lógica
-                do sistema municipal.
+                O cartão
+                “Nosso Transporte Público”
+                pertence à bilhetagem
+                municipal.
               </p>
+
+              <span class="route-compare-result">
+                Tarifa R$ 4,00
+              </span>
 
             </article>
 
 
-            <article class="comparison-card">
+            <article class="route-compare-card">
+
+              <span>
+                Entre municípios
+              </span>
 
               <strong>
-                Viagem para outra cidade
+                Sistema intermunicipal
               </strong>
 
               <p>
-                O transporte rodoviário
-                intermunicipal pertence
-                ao sistema estadual
-                e possui regras próprias.
+                Possui regras,
+                tarifas
+                e bilhetagem próprias
+                conforme o serviço utilizado.
               </p>
+
+              <span class="route-compare-result">
+                Sistema estadual
+              </span>
 
             </article>
 
           </div>
 
 
-          <div class="fare-note">
+          <div class="visitor-alert">
 
-            Não presuma que o cartão municipal
-            possa ser utilizado
-            em viagens rodoviárias
-            para outros municípios.
+            <strong>
+              Não conte com o cartão municipal
+              para uma viagem intermunicipal.
+            </strong>
+
+            Não há base pública
+            para tratá-lo como meio de pagamento
+            fora da rede municipal
+            de Gramado.
 
           </div>
 
@@ -426,42 +631,46 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             INTERMUNICIPAL
+             PAGAMENTO INTERMUNICIPAL
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Pagamento de viagens intermunicipais
+            Como pagar o ônibus intermunicipal
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              Não encontramos base pública suficiente
-              para listar os meios de pagamento.
+              O sistema estadual
+              não possui um único padrão
+              de pagamento publicado
+              para todas as linhas.
             </strong>
 
             <p>
-              Os órgãos públicos estaduais
-              regulam o transporte intermunicipal,
-              mas as fontes públicas consultadas
-              não apresentam de forma consolidada
-              todos os meios de pagamento
-              disponíveis ao passageiro
-              em cada linha ou serviço.
+              A forma de compra
+              pode depender
+              da empresa,
+              linha,
+              terminal
+              e serviço utilizado.
             </p>
 
           </div>
 
 
-          <div class="visitor-alert">
+          <div class="fare-note">
 
-            A Curadoria prefere deixar
-            uma informação em aberto
-            a apresentar como oficial
-            uma forma de pagamento
-            sustentada apenas por site comercial.
+            Nesse caso,
+            a confirmação específica
+            do serviço é necessária
+            porque não existe
+            uma regra única estadual
+            que permita apresentar
+            um meio de pagamento
+            válido para todas as viagens.
 
           </div>
 
@@ -480,18 +689,19 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
           <div class="payment-choice-grid">
 
-
             <article class="payment-choice">
 
               <strong>
-                Primeiro veja seu trajeto
-              </strong>
-
-              <p>
-                Descubra se você realmente
-                precisará utilizar
+                Vai usar bastante
                 o ônibus municipal
-                durante a estadia.
+              </strong>
+
+              <p>
+                O cartão
+                “Nosso Transporte Público”
+                é o meio oficialmente
+                divulgado para a nova
+                bilhetagem eletrônica.
               </p>
 
             </article>
@@ -500,14 +710,13 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Depois confira a bilhetagem
+                Primeira via
               </strong>
 
               <p>
-                Consulte as informações
-                mais recentes da Prefeitura
-                antes de realizar cadastro
-                ou adquirir créditos.
+                O Município informou
+                emissão sem taxa
+                para o primeiro cartão.
               </p>
 
             </article>
@@ -516,13 +725,14 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Outra cidade?
+                Precisa do cartão
               </strong>
 
               <p>
-                Trate a viagem
-                como transporte intermunicipal,
-                separado do sistema municipal.
+                O cadastramento divulgado
+                é realizado
+                no Terminal Rodoviário
+                da Várzea Grande.
               </p>
 
             </article>
@@ -531,13 +741,30 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Informação não confirmada?
+                Só fará uma viagem
               </strong>
 
               <p>
-                Não presuma que os meios
-                utilizados em outras cidades
-                também sejam aceitos em Gramado.
+                Ainda não existe
+                confirmação pública suficiente
+                para indicarmos
+                um meio de pagamento avulso
+                diretamente no ônibus.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Vai para outra cidade
+              </strong>
+
+              <p>
+                A viagem pertence
+                ao sistema intermunicipal
+                e não à bilhetagem municipal.
               </p>
 
             </article>
@@ -548,29 +775,143 @@ window.GRAMADO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             FONTES PÚBLICAS
+             O QUE ESTÁ CONFIRMADO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Em resumo
+          </h4>
+
+          <div class="planner-check-grid">
+
+            <article class="planner-check-card">
+
+              <span>💳</span>
+
+              <strong>
+                Cartão municipal
+              </strong>
+
+              <p>
+                “Nosso Transporte Público”.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>R$</span>
+
+              <strong>
+                Primeira via
+              </strong>
+
+              <p>
+                Sem cobrança
+                de taxa.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>📍</span>
+
+              <strong>
+                Cadastro
+              </strong>
+
+              <p>
+                Terminal Rodoviário
+                da Várzea Grande.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🔄</span>
+
+              <strong>
+                Recarga
+              </strong>
+
+              <p>
+                Sistema eletrônico,
+                mas canais específicos
+                ainda não estão
+                suficientemente documentados.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🚌</span>
+
+              <strong>
+                Passagem
+              </strong>
+
+              <p>
+                R$ 4,00
+                na rede municipal.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>📱</span>
+
+              <strong>
+                Aplicativo
+              </strong>
+
+              <p>
+                Anunciado
+                para setembro de 2026;
+                ainda não tratado
+                como disponível.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             FONTES OFICIAIS
         =================================================== -->
 
         <div class="official-map-actions">
 
-
           <a
             class="official-link"
-            href="https://www.gramado.rs.gov.br/"
+            href="https://gramado.atende.net/subportal/transito-e-mobilidade-urbana"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Prefeitura de Gramado
+            Trânsito e Mobilidade · Prefeitura de Gramado
           </a>
 
 
           <a
             class="official-link"
-            href="https://www.gramado.rs.gov.br/subportal/seguranca-publica-transito-transporte-e-fiscalizacao"
+            href="https://gramado.atende.net/cidadao/noticia/novo-sistema-do-transporte-publico-de-gramado-inicia-operacao-em-agosto"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Trânsito e Transporte · Gramado
+            Novo transporte público · Prefeitura de Gramado
           </a>
 
 
