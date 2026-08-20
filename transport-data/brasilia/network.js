@@ -12,70 +12,6 @@ window.BRASILIA_TRANSPORT_MODULES =
 // FUNÇÕES AUXILIARES
 // ============================================================
 
-function createBrasiliaSystemCard(
-  icon,
-  title,
-  description,
-  details
-) {
-
-  return `
-    <article class="operator-card">
-
-      <span
-        style="
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          width:38px;
-          height:38px;
-          border-radius:50%;
-          border:1px solid rgba(212,175,55,.32);
-          margin:0 auto 12px;
-          font-size:18px;
-        "
-      >
-        ${icon}
-      </span>
-
-      <strong>
-        ${title}
-      </strong>
-
-      <p
-        style="
-          margin:0;
-          color:var(--muted);
-          font-size:11px;
-          line-height:1.5;
-        "
-      >
-        ${description}
-      </p>
-
-      ${
-        details
-          ? `
-            <small
-              style="
-                display:block;
-                margin-top:8px;
-                color:var(--gold-soft);
-                line-height:1.5;
-              "
-            >
-              ${details}
-            </small>
-          `
-          : ""
-      }
-
-    </article>
-  `;
-
-}
-
-
 function createBrasiliaLegendItem(
   symbol,
   title,
@@ -220,7 +156,7 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
             ${createBrasiliaLegendItem(
               "🌾",
               "Serviço Complementar",
-              "Abrange serviços complementares ao sistema básico, inclusive atendimento rural e executivo."
+              "Abrange serviços complementares ao sistema básico, incluindo atendimento rural e executivo."
             )}
 
           </div>
@@ -553,7 +489,7 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             ÔNIBUS
+             REDE DE ÔNIBUS
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -666,12 +602,13 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
           <div class="fare-note">
 
-            As bacias são uma forma
-            de organizar a operação.
-            Para o passageiro,
-            diferentes bacias podem
-            participar de uma mesma viagem
-            conforme origem e destino.
+            As bacias organizam
+            territorialmente a operação
+            da rede de ônibus.
+            Uma mesma viagem pode envolver
+            serviços de áreas diferentes,
+            dependendo da origem
+            e do destino.
 
           </div>
 
@@ -679,26 +616,28 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             TCB
+             SERVIÇOS LOCAIS
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            TCB dentro da rede
+            Micro-ônibus e serviços locais
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              A TCB é uma empresa pública
-              integrante do sistema.
+              Também fazem parte
+              da mobilidade do Distrito Federal.
             </strong>
 
             <p>
-              Atua no Plano Piloto,
-              em algumas linhas rurais
-              e no serviço executivo.
+              Veículos menores,
+              incluindo serviços conhecidos
+              como Zebrinha,
+              atendem trajetos locais
+              e de vizinhança.
             </p>
 
           </div>
@@ -707,7 +646,7 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             COMPLEMENTAR
+             SERVIÇO COMPLEMENTAR
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -741,12 +680,54 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Também faz parte
-                da categoria oficial
+                Serviços executivos
+                também integram
+                a categoria oficial
                 de Serviço Complementar.
               </p>
 
             </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TCB
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            TCB dentro da rede
+          </h4>
+
+          <div class="visitor-alert">
+
+            <strong>
+              A TCB não opera
+              linhas tarifárias regulares
+              desde dezembro de 2024.
+            </strong>
+
+            A empresa pública continua
+            integrando a estrutura de transporte
+            do Distrito Federal
+            e mantém outras atividades
+            e serviços institucionais.
+
+          </div>
+
+
+          <div class="fare-note">
+
+            A TCB ainda pode aparecer
+            associada a serviços específicos.
+            Isso não significa
+            que tenha voltado a operar
+            a rede regular tarifária
+            de ônibus do Distrito Federal.
 
           </div>
 
@@ -836,7 +817,7 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             COMO LER A REDE
+             COMO PENSAR A REDE
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -856,7 +837,7 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Metrô ganha importância
+                O metrô ganha importância
                 em Guará,
                 Águas Claras,
                 Taguatinga,
@@ -876,7 +857,7 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                BRT tem papel central
+                O BRT tem papel central
                 em Gama
                 e Santa Maria.
               </p>
@@ -893,8 +874,9 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
               </strong>
 
               <p>
-                Ônibus completam
-                a cobertura das diferentes
+                Os ônibus ampliam
+                a cobertura
+                pelas diferentes
                 Regiões Administrativas.
               </p>
 
@@ -1001,11 +983,11 @@ window.BRASILIA_TRANSPORT_MODULES["network"] = {
 
           <a
             class="official-link"
-            href="https://tcb.df.gov.br/"
+            href="https://tcb.df.gov.br/perguntas-frequentes-da-tcb"
             target="_blank"
             rel="noopener noreferrer"
           >
-            TCB · Governo do DF
+            Situação atual da TCB
           </a>
 
         </div>
