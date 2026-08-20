@@ -33,9 +33,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
 
           <p class="panel-intro">
             Em Belo Horizonte,
-            a tarifa varia conforme
-            o tipo de linha e a combinação
-            utilizada na viagem.
+            ônibus municipais,
+            metrô e transporte metropolitano
+            pertencem a sistemas tarifários diferentes.
           </p>
 
           <div class="fare-highlight-grid">
@@ -43,7 +43,7 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
             <article class="fare-highlight">
 
               <span>
-                Tarifa municipal principal
+                Municipal principal
               </span>
 
               <strong>
@@ -51,10 +51,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Valor de referência
-                das linhas troncais MOVE,
+                Troncais MOVE,
                 troncais convencionais
-                e estruturais.
+                e linhas estruturais.
               </p>
 
             </article>
@@ -71,9 +70,27 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Algumas categorias
-                possuem tarifa inferior
-                à tarifa principal.
+                Tarifa unitária
+                dessas categorias
+                da rede municipal.
+              </p>
+
+            </article>
+
+
+            <article class="fare-highlight">
+
+              <span>
+                Metrô
+              </span>
+
+              <strong>
+                R$ 5,80
+              </strong>
+
+              <p>
+                Tarifa unitária
+                do sistema metroviário.
               </p>
 
             </article>
@@ -90,28 +107,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Linhas convencionais
+                Ônibus convencionais
                 e suplementares municipais
-                participam do Catraca Livre.
-              </p>
-
-            </article>
-
-
-            <article class="fare-highlight">
-
-              <span>
-                Transporte metropolitano
-              </span>
-
-              <strong>
-                Variável
-              </strong>
-
-              <p>
-                O preço depende
-                da linha e do percurso
-                dentro da RMBH.
+                pelo Catraca Livre.
               </p>
 
             </article>
@@ -128,14 +126,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Tarifa municipal
+            Tarifas dos ônibus municipais
           </h4>
-
-          <p class="panel-intro">
-            A Prefeitura diferencia
-            os valores conforme
-            o tipo de serviço.
-          </p>
 
           <div class="comparison-grid">
 
@@ -161,8 +153,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Alimentadoras
-                e linhas circulares.
+                Linhas alimentadoras
+                e circulares.
               </p>
 
             </article>
@@ -175,12 +167,21 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Linhas de Vilas e Favelas
-                previstas como gratuitas
-                na tabela municipal.
+                As 13 linhas
+                de Vilas e Favelas
+                possuem tarifa zero.
               </p>
 
             </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Além das linhas de Vilas e Favelas,
+            as alimentadoras 202, 204, 401 e 402
+            também são gratuitas.
 
           </div>
 
@@ -198,22 +199,22 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
           </h4>
 
           <p class="panel-intro">
-            A rede municipal possui
-            integração tarifária
-            entre diferentes tipos de linha.
+            Com o Cartão BHBUS,
+            diferentes linhas da rede municipal
+            podem oferecer integração tarifária.
           </p>
 
           <div class="answer-block">
 
             <strong>
-              Dentro de estações de integração
+              Segunda viagem
             </strong>
 
             <p>
-              Algumas trocas entre linhas
-              podem ter complemento zero,
-              conforme a combinação prevista
-              na tabela oficial.
+              Em determinadas combinações,
+              o passageiro paga
+              apenas parte da tarifa
+              no segundo embarque.
             </p>
 
           </div>
@@ -222,13 +223,28 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
           <div class="answer-block">
 
             <strong>
-              Fora das estações
+              Dentro das estações
             </strong>
 
             <p>
-              Dependendo da combinação,
-              pode existir cobrança
-              parcial na segunda viagem.
+              Entre linhas compatíveis,
+              algumas transferências
+              possuem complemento zero.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Janela de integração
+            </strong>
+
+            <p>
+              O Cartão BHBUS permite
+              integração física e tarifária
+              durante 90 minutos.
             </p>
 
           </div>
@@ -236,10 +252,12 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
 
           <div class="fare-note">
 
-            A integração depende
-            do tipo de linha,
-            local da troca
-            e meio de pagamento compatível.
+            O valor do complemento
+            depende da combinação das linhas.
+            Linhas circulares não integram
+            entre si e também existem
+            restrições entre linhas troncais
+            e estruturais da mesma bacia.
 
           </div>
 
@@ -253,14 +271,15 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Integração com o metrô
+            Integração entre ônibus municipal e metrô
           </h4>
 
           <p class="panel-intro">
-            Não existe um único valor
-            de “ônibus + metrô”.
-            A tarifa depende
-            da categoria da linha municipal.
+            Todas as linhas municipais
+            podem integrar com o metrô
+            por meio do Cartão BHBUS,
+            mas o valor final depende
+            do tipo de linha utilizada.
           </p>
 
           <div class="fare-scenario-grid">
@@ -276,9 +295,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Integração entre
+                Combinação entre
                 linha alimentadora
-                e metrô.
+                e sistema metroviário.
               </p>
 
               <span class="fare-scenario-result">
@@ -299,9 +318,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                A Prefeitura publica
-                tarifa integrada específica
-                para essa combinação.
+                Integração realizada
+                fora de uma estação
+                de integração.
               </p>
 
               <span class="fare-scenario-result">
@@ -322,9 +341,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Também possui
-                valor próprio
-                na tabela municipal.
+                Integração entre
+                linha circular
+                e metrô.
               </p>
 
               <span class="fare-scenario-result">
@@ -338,9 +357,11 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
 
           <div class="fare-note">
 
-            Para outras combinações,
-            consulte a tabela oficial
-            da SUMOB antes da viagem.
+            A tarifa unitária do metrô
+            é R$ 5,80.
+            As tarifas acima são valores
+            integrados e não a simples soma
+            das duas passagens.
 
           </div>
 
@@ -360,15 +381,14 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
           <div class="visitor-alert">
 
             <strong>
-              Aos domingos e feriados nacionais,
+              Aos domingos e feriados,
               os ônibus municipais são gratuitos.
             </strong>
 
-            A gratuidade vale
+            O benefício vale
             para todas as linhas convencionais
             e suplementares administradas
             pelo Município.
-
           </div>
 
 
@@ -377,13 +397,13 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
             <article class="comparison-card">
 
               <strong>
-                Horário
+                0h às 23h59
               </strong>
 
               <p>
-                Viagens iniciadas
-                entre 0h e 23h59
-                participam da gratuidade.
+                A gratuidade vale
+                para viagens iniciadas
+                nesse período.
               </p>
 
             </article>
@@ -392,14 +412,14 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
             <article class="comparison-card">
 
               <strong>
-                Cartão BHBUS
+                Com BHBUS
               </strong>
 
               <p>
-                Quem possui o cartão
-                pode utilizá-lo
-                para liberar a catraca,
-                sem desconto de crédito.
+                O cartão libera
+                a catraca,
+                mas nenhum crédito
+                é descontado.
               </p>
 
             </article>
@@ -408,13 +428,13 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
             <article class="comparison-card">
 
               <strong>
-                Sem cartão
+                Sem BHBUS
               </strong>
 
               <p>
-                A Prefeitura informa
-                liberação manual da catraca
-                para quem não possui BHBUS.
+                O motorista
+                ou a equipe da estação
+                libera a catraca manualmente.
               </p>
 
             </article>
@@ -426,12 +446,13 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
 
             <strong>
               O metrô não participa
-              da gratuidade.
+              do Catraca Livre.
             </strong>
 
-            Nos dias do Catraca Livre,
+            Nos domingos e feriados,
             não há integração tarifária
-            gratuita com o sistema metroviário.
+            gratuita entre os ônibus municipais
+            e o metrô.
 
           </div>
 
@@ -439,7 +460,72 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             SUPLEMENTAR
+             GRATUIDADES PERMANENTES
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Linhas municipais sempre gratuitas
+          </h4>
+
+          <p class="panel-intro">
+            Algumas linhas possuem tarifa zero
+            todos os dias,
+            independentemente do Catraca Livre.
+          </p>
+
+          <div class="comparison-grid">
+
+            <article class="comparison-card">
+
+              <strong>
+                13 linhas
+              </strong>
+
+              <p>
+                Todas as linhas
+                do sistema
+                de Vilas e Favelas.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                202 e 204
+              </strong>
+
+              <p>
+                Linhas alimentadoras
+                com tarifa zero.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                401 e 402
+              </strong>
+
+              <p>
+                Linhas alimentadoras
+                também gratuitas.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TRANSPORTE SUPLEMENTAR
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -450,33 +536,77 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
 
           <p class="panel-intro">
             O sistema suplementar
-            possui tarifas específicas
-            conforme a linha.
+            possui 27 linhas
+            e não participa
+            da integração tarifária
+            com o sistema convencional.
           </p>
 
-          <div class="answer-block">
+          <div class="fare-highlight-grid">
 
-            <strong>
-              Os valores não são todos iguais.
-            </strong>
+            <article class="fare-highlight">
 
-            <p>
-              A tabela municipal
-              inclui linhas suplementares
-              a R$ 6,25,
-              R$ 6,00
-              e algumas tarifas menores.
-            </p>
+              <span>
+                Maior parte das linhas
+              </span>
+
+              <strong>
+                R$ 6,25
+              </strong>
+
+              <p>
+                Tarifa aplicada
+                a diversas linhas
+                suplementares.
+              </p>
+
+            </article>
+
+
+            <article class="fare-highlight">
+
+              <span>
+                Outras linhas
+              </span>
+
+              <strong>
+                R$ 6,00
+              </strong>
+
+              <p>
+                Outra faixa comum
+                do sistema suplementar.
+              </p>
+
+            </article>
+
+
+            <article class="fare-highlight">
+
+              <span>
+                Linha S19
+              </span>
+
+              <strong>
+                R$ 3,00
+              </strong>
+
+              <p>
+                Hospital Evangélico /
+                Shopping Boulevard.
+              </p>
+
+            </article>
 
           </div>
 
 
           <div class="fare-note">
 
-            Consulte a linha específica
-            na tabela da SUMOB
-            antes de utilizar
-            o serviço suplementar.
+            As linhas suplementares
+            também são gratuitas
+            aos domingos e feriados
+            pelo Catraca Livre.
 
           </div>
 
@@ -490,28 +620,28 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Transporte metropolitano
+            Ônibus metropolitanos
           </h4>
 
           <p class="panel-intro">
-            As linhas metropolitanas
-            seguem uma tabela estadual
-            diferente da rede municipal.
+            As linhas que conectam
+            Belo Horizonte a outros municípios
+            da Região Metropolitana
+            pertencem ao sistema estadual,
+            e não à rede municipal da PBH.
           </p>
 
           <div class="answer-block">
 
             <strong>
-              As tarifas variam
-              conforme o percurso.
+              Não existe uma tarifa única metropolitana.
             </strong>
 
             <p>
-              Desde janeiro de 2026,
-              os valores da rede metropolitana
-              estão entre R$ 8,95
-              e R$ 32,90,
-              dependendo da linha.
+              O DER-MG define
+              o valor individualmente
+              conforme a linha
+              e o serviço.
             </p>
 
           </div>
@@ -520,43 +650,13 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
           <div class="answer-block">
 
             <strong>
-              Consulte pelo número da linha.
+              O número da linha importa.
             </strong>
 
             <p>
-              O DER-MG permite consultar
-              tarifa, itinerário,
-              horário e pontos de parada
-              de cada serviço metropolitano.
-            </p>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             LINHAS METROPOLITANAS + METRÔ
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Integração metropolitana com o metrô
-          </h4>
-
-          <div class="answer-block">
-
-            <strong>
-              Existem tarifas próprias
-              para linhas integradas ao metrô.
-            </strong>
-
-            <p>
-              O DER-MG publica
-              tabela específica
-              para as linhas metropolitanas
-              integradas ao sistema metroviário.
+              Para uma viagem metropolitana,
+              a tarifa correta é determinada
+              pela linha específica utilizada.
             </p>
 
           </div>
@@ -564,10 +664,52 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
 
           <div class="fare-note">
 
-            Como os valores dependem
-            da linha metropolitana,
-            consulte a tabela de 2026
-            antes do deslocamento.
+            Nesse caso,
+            a consulta oficial por linha
+            é necessária porque
+            não existe um único valor
+            que represente toda a rede RMBH.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             METROPOLITANO + METRÔ
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Ônibus metropolitano + metrô
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Existem linhas metropolitanas
+              integradas ao metrô.
+            </strong>
+
+            <p>
+              Elas possuem tarifas próprias,
+              publicadas separadamente
+              pelo DER-MG.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            A tabela vigente
+            das linhas metropolitanas
+            integradas ao metrô
+            foi atualizada em
+            1º de julho de 2026.
+            O valor depende
+            da linha utilizada.
 
           </div>
 
@@ -593,13 +735,12 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
               </span>
 
               <strong>
-                Linha municipal principal
+                Troncal ou estrutural
               </strong>
 
               <p>
-                Exemplo de viagem
-                em linha troncal
-                ou estrutural.
+                Viagem municipal
+                sem integração.
               </p>
 
               <span class="fare-scenario-result">
@@ -612,21 +753,20 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Domingo
+                Dia útil
               </span>
 
               <strong>
-                Ônibus municipal
+                Metrô
               </strong>
 
               <p>
-                Linha convencional
-                ou suplementar
-                participante do Catraca Livre.
+                Viagem unitária
+                no sistema metroviário.
               </p>
 
               <span class="fare-scenario-result">
-                R$ 0,00
+                R$ 5,80
               </span>
 
             </article>
@@ -643,8 +783,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Valor integrado
-                publicado pela Prefeitura.
+                Com integração tarifária
+                pelo BHBUS.
               </p>
 
               <span class="fare-scenario-result">
@@ -657,20 +797,20 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Outra cidade da RMBH
+                Domingo ou feriado
               </span>
 
               <strong>
-                Ônibus metropolitano
+                Ônibus municipal
               </strong>
 
               <p>
-                Consulte a tarifa
-                específica da linha.
+                Convencional
+                ou suplementar.
               </p>
 
               <span class="fare-scenario-result">
-                Tarifa variável
+                R$ 0,00
               </span>
 
             </article>
@@ -681,59 +821,84 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             AVISOS
+             DIFERENÇAS IMPORTANTES
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Antes de embarcar
+            Não confunda os sistemas
           </h4>
 
-          <div class="answer-block">
+          <div class="planner-check-grid">
 
-            <strong>
-              Não presuma tarifa única.
-            </strong>
+            <article class="planner-check-card">
 
-            <p>
-              Tipo de linha,
-              integração e sistema
-              podem alterar o valor.
-            </p>
+              <span>🚌</span>
 
-          </div>
+              <strong>
+                Municipal
+              </strong>
 
+              <p>
+                Rede administrada
+                pelo Município
+                de Belo Horizonte.
+              </p>
 
-          <div class="answer-block">
-
-            <strong>
-              Domingo não significa
-              transporte totalmente gratuito.
-            </strong>
-
-            <p>
-              O Catraca Livre
-              vale para ônibus municipais
-              convencionais e suplementares,
-              não para o metrô
-              ou sistema metropolitano estadual.
-            </p>
-
-          </div>
+            </article>
 
 
-          <div class="answer-block">
+            <article class="planner-check-card">
 
-            <strong>
-              Valores podem mudar.
-            </strong>
+              <span>🚇</span>
 
-            <p>
-              Confirme sempre
-              nas tabelas públicas
-              antes da viagem.
-            </p>
+              <strong>
+                Metrô
+              </strong>
+
+              <p>
+                Tarifa unitária
+                de R$ 5,80
+                e integração específica
+                com o BHBUS.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🚐</span>
+
+              <strong>
+                Suplementar
+              </strong>
+
+              <p>
+                Sistema municipal,
+                mas sem integração tarifária
+                com o convencional.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🌆</span>
+
+              <strong>
+                Metropolitano
+              </strong>
+
+              <p>
+                Sistema estadual
+                com tarifas definidas
+                por linha.
+              </p>
+
+            </article>
 
           </div>
 
@@ -741,7 +906,7 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             FONTES PÚBLICAS
+             FONTES OFICIAIS
         =================================================== -->
 
         <div class="official-map-actions">
@@ -768,6 +933,16 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
 
           <a
             class="official-link"
+            href="https://www.metrobh.com.br/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Metrô BH
+          </a>
+
+
+          <a
+            class="official-link"
             href="https://www.der.mg.gov.br/tabelas-de-transporte-metropolitano"
             target="_blank"
             rel="noopener noreferrer"
@@ -782,7 +957,7 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["fares"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Consultar linha metropolitana · DER-MG
+            Linha metropolitana · DER-MG
           </a>
 
         </div>
