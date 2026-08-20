@@ -84,7 +84,7 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               <p>
                 Complementa a rede
                 em trajetos específicos
-                e áreas de difícil acesso.
+                e utiliza micro-ônibus.
               </p>
 
             </article>
@@ -135,7 +135,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
 
               <p>
                 Use o número da linha
-                como principal referência.
+                como principal referência
+                para identificar o serviço.
               </p>
 
             </article>
@@ -171,9 +172,10 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Consulte a parada
-                e o itinerário oficial
-                antes de embarcar.
+                O mesmo corredor
+                pode receber várias linhas.
+                Confirme se aquela parada
+                atende a linha desejada.
               </p>
 
             </article>
@@ -184,38 +186,80 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             CONSULTA OFICIAL
+             HORÁRIOS E ITINERÁRIOS
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Horários e itinerários
+            Horários, itinerários e pontos
           </h4>
 
-          <div class="answer-block">
+          <p class="panel-intro">
+            A SUMOB mantém ferramentas oficiais
+            para localizar linhas,
+            horários, itinerários
+            e pontos de parada.
+          </p>
 
-            <strong>
-              A Prefeitura mantém consulta pública.
-            </strong>
+          <div class="comparison-grid">
 
-            <p>
-              É possível verificar
-              horários e itinerários
-              das linhas municipais
-              diretamente no portal da SUMOB.
-            </p>
+            <article class="comparison-card">
+
+              <strong>
+                Horário
+              </strong>
+
+              <p>
+                Consulte as partidas
+                programadas da linha
+                que você pretende utilizar.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Itinerário
+              </strong>
+
+              <p>
+                Permite verificar
+                as ruas e regiões
+                atendidas pela linha.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Ponto de ônibus
+              </strong>
+
+              <p>
+                A consulta oficial permite
+                pesquisar um endereço
+                e visualizar os pontos
+                e linhas próximos.
+              </p>
+
+            </article>
 
           </div>
 
 
           <div class="fare-note">
 
-            Antes de sair,
-            confira novamente a linha.
-            Alterações operacionais
-            podem modificar horários
-            e itinerários.
+            Horários e itinerários
+            são dados operacionais
+            e podem sofrer alterações.
+            Para uma viagem específica,
+            confira a informação oficial
+            pouco antes de sair.
 
           </div>
 
@@ -233,8 +277,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
           </h4>
 
           <p class="panel-intro">
-            É uma das bases
-            da rede municipal
+            A rede convencional
+            atende diferentes tipos
+            de deslocamento dentro
             de Belo Horizonte.
           </p>
 
@@ -248,8 +293,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
 
               <p>
                 Linhas conectam
-                bairros ao Centro
-                e retornam à região de origem.
+                bairros à região central
+                e retornam à área de origem.
               </p>
 
             </article>
@@ -262,9 +307,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Algumas linhas
-                possuem atendimento
-                direcionado ao Centro.
+                Existem serviços
+                direcionados
+                à Área Central.
               </p>
 
             </article>
@@ -279,7 +324,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               <p>
                 Também existem linhas
                 que conectam regiões
-                sem passar pelo Centro.
+                sem exigir passagem
+                pelo Centro.
               </p>
 
             </article>
@@ -308,9 +354,10 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
 
             <p>
               Utilizam veículos menores
-              para atender regiões
-              de acesso mais difícil
-              e topografia acentuada.
+              para atender áreas
+              com vias estreitas,
+              acesso mais difícil
+              ou topografia acentuada.
             </p>
 
           </div>
@@ -322,9 +369,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               Tarifa zero.
             </strong>
 
-            As 13 linhas dessa categoria
-            possuem gratuidade permanente
-            desde abril de 2023.
+            As linhas dessa categoria
+            possuem gratuidade permanente.
 
           </div>
 
@@ -341,6 +387,14 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
             Como funciona o MOVE
           </h4>
 
+          <p class="panel-intro">
+            O MOVE é o sistema BRT
+            de Belo Horizonte.
+            Muitas viagens combinam
+            linhas alimentadoras
+            e troncais.
+          </p>
+
           <div class="bus-use-flow">
 
             <article class="bus-use-step">
@@ -354,7 +408,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               <p>
                 Sai do bairro
                 e leva o passageiro
-                a uma estação de integração.
+                até uma estação
+                de integração.
               </p>
 
             </article>
@@ -369,9 +424,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Dentro da estação,
-                é possível trocar
-                para outra linha compatível.
+                O passageiro entra
+                na estrutura de integração
+                do sistema.
               </p>
 
             </article>
@@ -386,7 +441,7 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Segue pelos principais
+                Circula pelos principais
                 corredores estruturais
                 da cidade.
               </p>
@@ -399,13 +454,14 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               <span>4</span>
 
               <strong>
-                Destino final
+                Conexão final
               </strong>
 
               <p>
-                Outra linha
-                pode completar
-                a última etapa da viagem.
+                Dependendo do destino,
+                outra linha pode completar
+                a última parte
+                do percurso.
               </p>
 
             </article>
@@ -434,8 +490,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Importante eixo
-                do sistema no vetor Nordeste.
+                Um dos principais
+                corredores estruturais
+                do MOVE.
               </p>
 
             </article>
@@ -448,9 +505,10 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Corredor importante
-                entre Centro,
-                Pampulha e vetor Norte.
+                Importante ligação
+                entre a região central,
+                Pampulha
+                e o vetor Norte.
               </p>
 
             </article>
@@ -463,9 +521,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Atende o vetor Norte
-                e conecta-se
-                à região de Vilarinho.
+                Corredor utilizado
+                pelas linhas troncais
+                do vetor Norte.
               </p>
 
             </article>
@@ -478,7 +536,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Concentra serviços
+                Corredor importante
+                para os deslocamentos
                 ligados à região
                 de Venda Nova.
               </p>
@@ -491,19 +550,20 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             ESTAÇÕES MOVE
+             ESTAÇÕES DE INTEGRAÇÃO MOVE
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Estações de integração
+            4 estações de integração do MOVE
           </h4>
 
           <p class="panel-intro">
-            A Prefeitura identifica
-            quatro grandes estações
-            de integração do MOVE.
+            São estruturas maiores
+            onde ocorre a ligação
+            entre linhas alimentadoras
+            e linhas do MOVE.
           </p>
 
           <div class="bus-system-grid">
@@ -517,9 +577,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Integra linhas
-                alimentadoras
-                e troncais.
+                Rua Padre Pedro Pinto,
+                no bairro Candelária.
               </p>
 
             </article>
@@ -534,8 +593,10 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Integra MOVE
-                e metrô.
+                Próxima ao encontro
+                da Avenida Vilarinho
+                com Cristiano Machado
+                e MG-010.
               </p>
 
             </article>
@@ -550,9 +611,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Importante conexão
-                entre ônibus,
-                MOVE e metrô.
+                Avenida Cristiano Machado,
+                entre o Anel Rodoviário
+                e a Via 240.
               </p>
 
             </article>
@@ -567,8 +628,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Atende linhas
-                do eixo da Pampulha.
+                Avenida Portugal,
+                no bairro
+                Jardim Atlântico.
               </p>
 
             </article>
@@ -578,8 +640,68 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
 
           <div class="fare-note">
 
-            Essas estações
+            As quatro estações
+            de integração do MOVE
             funcionam 24 horas.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             ESTAÇÕES BHBUS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Outras estações de integração
+          </h4>
+
+          <p class="panel-intro">
+            Além das quatro estações MOVE,
+            Belo Horizonte possui
+            duas estações de integração
+            do sistema BHBUS.
+          </p>
+
+          <div class="comparison-grid">
+
+            <article class="comparison-card">
+
+              <strong>
+                Barreiro
+              </strong>
+
+              <p>
+                Avenida Afonso Vaz de Melo,
+                na região do Barreiro.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Diamante
+              </strong>
+
+              <p>
+                Avenida João Rola Filho,
+                no bairro Diamante.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Barreiro e Diamante
+            também funcionam 24 horas.
 
           </div>
 
@@ -593,21 +715,87 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Estações de transferência
+            37 estações de transferência do MOVE
           </h4>
 
-          <div class="answer-block">
+          <p class="panel-intro">
+            Elas ficam distribuídas
+            pelos corredores estruturais
+            e pela Área Central.
+          </p>
 
-            <strong>
-              Belo Horizonte possui
-              37 estações de transferência.
-            </strong>
+          <div class="payment-choice-grid">
 
-            <p>
-              Elas estão distribuídas
-              pelos corredores estruturais
-              e pela Área Central.
-            </p>
+            <article class="payment-choice">
+
+              <strong>
+                Antônio Carlos
+              </strong>
+
+              <p>
+                14 estações
+                de transferência.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Cristiano Machado
+              </strong>
+
+              <p>
+                9 estações
+                de transferência.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Pedro I
+              </strong>
+
+              <p>
+                6 estações
+                de transferência.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Vilarinho
+              </strong>
+
+              <p>
+                4 estações
+                de transferência.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Área Central
+              </strong>
+
+              <p>
+                Tamoios,
+                Carijós,
+                São Paulo
+                e Rio de Janeiro.
+              </p>
+
+            </article>
 
           </div>
 
@@ -615,15 +803,17 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
           <div class="answer-block">
 
             <strong>
-              Trocas dentro da estação
+              A transferência acontece
+              dentro da própria estação.
             </strong>
 
             <p>
-              O passageiro pode
-              desembarcar e embarcar
-              em outras linhas
-              dentro do mesmo espaço,
-              conforme as regras do sistema.
+              O usuário pode desembarcar
+              e embarcar em outras linhas
+              dentro do mesmo espaço
+              sem pagar uma nova passagem,
+              conforme as regras
+              do sistema.
             </p>
 
           </div>
@@ -631,8 +821,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
 
           <div class="fare-note">
 
-            Em geral,
-            essas estações funcionam
+            As estações de transferência
+            funcionam normalmente
             das 4h à 1h.
             São Paulo e Tamoios
             fecham aos domingos e feriados.
@@ -660,10 +850,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
 
             <p>
               Utiliza micro-ônibus
-              e atende trajetos
-              bairro a bairro,
-              áreas de difícil acesso
-              e regiões específicas.
+              e atende trajetos específicos
+              da cidade.
             </p>
 
           </div>
@@ -673,13 +861,14 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
 
             <strong>
               Não possui integração tarifária
-              com os demais sistemas municipais.
+              com o Sistema Convencional
+              ou MOVE.
             </strong>
 
-            O pagamento e a lógica
-            de integração são diferentes
-            do Sistema Convencional
-            e do MOVE.
+            Embora também faça parte
+            do transporte municipal,
+            sua lógica tarifária
+            é independente.
 
           </div>
 
@@ -697,9 +886,10 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
           </h4>
 
           <p class="panel-intro">
-            Belo Horizonte possui
-            uma operação municipal específica
-            para o período noturno.
+            O Madrugão amplia
+            a operação dos ônibus municipais
+            durante o período
+            de menor oferta regular.
           </p>
 
           <div class="fare-highlight-grid">
@@ -711,11 +901,11 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </span>
 
               <strong>
-                127 linhas
+                128 linhas
               </strong>
 
               <p>
-                Funcionam entre
+                Operam entre
                 0h e 3h59.
               </p>
 
@@ -733,8 +923,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Conecta importantes
-                áreas de vida noturna
+                Conecta áreas
+                de vida noturna
                 e o sistema MOVE.
               </p>
 
@@ -752,8 +942,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Operação publicada
-                pela Prefeitura.
+                Faixa de operação
+                publicada pela Prefeitura.
               </p>
 
             </article>
@@ -762,7 +952,7 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
             <article class="fare-highlight">
 
               <span>
-                Frequência
+                Linha 10
               </span>
 
               <strong>
@@ -771,7 +961,7 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
 
               <p>
                 Intervalo programado
-                da Linha 10.
+                entre as partidas.
               </p>
 
             </article>
@@ -779,13 +969,104 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
           </div>
 
 
+          <div class="answer-block">
+
+            <strong>
+              A Linha 10 custa R$ 6,25.
+            </strong>
+
+            <p>
+              Com o Cartão BHBUS,
+              é possível utilizar
+              outra linha municipal
+              dentro de 90 minutos
+              sem pagar uma segunda tarifa,
+              conforme a regra
+              específica do serviço.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Por onde passa a Linha 10
+            </strong>
+
+            <p>
+              O percurso atende pontos
+              como Estação Central,
+              Floresta,
+              Praça da Liberdade,
+              Savassi,
+              Lourdes,
+              Praça Raul Soares,
+              Mercado Novo,
+              área hospitalar
+              e estações Carijós
+              e Rio de Janeiro.
+            </p>
+
+          </div>
+
+
           <div class="fare-note">
 
-            A programação da madrugada
-            pode ser atualizada.
-            Consulte a SUMOB
-            antes de depender
-            de uma linha específica.
+            As linhas disponíveis
+            durante a madrugada
+            variam conforme a região.
+            Para depender de uma linha específica,
+            confirme a operação e o horário
+            no dia da viagem.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             PONTO FORA DO PONTO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Ponto Fora do Ponto
+          </h4>
+
+          <p class="panel-intro">
+            Em determinados horários,
+            passageiros podem solicitar
+            desembarque fora do ponto regular,
+            dentro das regras estabelecidas
+            pela Prefeitura.
+          </p>
+
+          <div class="answer-block">
+
+            <strong>
+              Nos bairros
+            </strong>
+
+            <p>
+              De segunda a sexta-feira,
+              o benefício é permitido
+              das 21h às 5h,
+              conforme as regras
+              do programa.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            A parada precisa ocorrer
+            em local onde seja possível
+            realizar o desembarque
+            com segurança
+            e respeitando as regras de trânsito.
 
           </div>
 
@@ -803,40 +1084,44 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
           </h4>
 
           <p class="panel-intro">
-            Para viagens entre Belo Horizonte
-            e outros municípios da RMBH,
-            consulte o sistema estadual.
+            Se a viagem cruza
+            os limites de Belo Horizonte
+            em direção a outro município
+            da RMBH,
+            ela pode pertencer
+            ao sistema metropolitano estadual.
           </p>
 
           <div class="answer-block">
 
             <strong>
-              Pesquise pelo número da linha.
+              O número da linha
+              identifica o serviço.
             </strong>
 
             <p>
-              O DER-MG disponibiliza
-              consulta de horário,
+              Horário,
               itinerário,
               pontos de parada
-              e tarifa.
+              e tarifa dependem
+              da linha metropolitana utilizada.
             </p>
 
           </div>
 
 
-          <div class="answer-block">
+          <div class="visitor-alert">
 
             <strong>
-              Municipal e metropolitano
-              não são o mesmo sistema.
+              Não confunda municipal
+              com metropolitano.
             </strong>
 
-            <p>
-              A linha metropolitana
-              segue regras tarifárias
-              e operacionais próprias.
-            </p>
+            As linhas metropolitanas
+            seguem regras operacionais,
+            tarifárias e de bilhetagem
+            diferentes da rede municipal
+            de Belo Horizonte.
 
           </div>
 
@@ -887,13 +1172,14 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               <div>
 
                 <strong>
-                  MOVE envolve integração
+                  MOVE pode exigir conexão
                 </strong>
 
                 <p>
-                  Muitas viagens
-                  combinam alimentadora,
-                  estação e troncal.
+                  Muitas viagens combinam
+                  alimentadora,
+                  estação
+                  e linha troncal.
                 </p>
 
               </div>
@@ -914,9 +1200,10 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
                 </strong>
 
                 <p>
-                  Consulte primeiro
-                  o Madrugão
-                  e a Linha 10.
+                  Existe uma rede específica
+                  do Madrugão,
+                  mas confirme a linha
+                  que atende sua região.
                 </p>
 
               </div>
@@ -933,11 +1220,11 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
               <div>
 
                 <strong>
-                  Outra cidade?
+                  Vai para outra cidade?
                 </strong>
 
                 <p>
-                  Verifique se a linha
+                  Verifique se o ônibus
                   pertence ao sistema
                   metropolitano.
                 </p>
@@ -952,7 +1239,7 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             FONTES PÚBLICAS
+             FONTES OFICIAIS
         =================================================== -->
 
         <div class="official-map-actions">
@@ -964,6 +1251,16 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["bus"] = {
             rel="noopener noreferrer"
           >
             Horários e itinerários · PBH
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://prefeitura.pbh.gov.br/sumob/onibus/pontos-de-onibus"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Pontos de ônibus · PBH
           </a>
 
 
