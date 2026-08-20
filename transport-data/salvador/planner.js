@@ -32,32 +32,15 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
           </h4>
 
           <p class="panel-intro">
-            Em Salvador, vale comparar metrô,
-            BRT, ônibus, VLT e transporte hidroviário
-            antes de decidir.
+            Em Salvador,
+            a melhor combinação depende
+            da região de origem,
+            do destino
+            e de quais sistemas
+            atendem o percurso.
           </p>
 
           <div class="planner-tool-grid">
-
-            <article class="planner-tool-card">
-
-              <span class="planner-tool-icon">
-                🗺️
-              </span>
-
-              <strong>
-                Quero comparar o trajeto inteiro
-              </strong>
-
-              <p>
-                Consulte os canais públicos
-                da Mobilidade Salvador
-                para linhas, alterações
-                e informações operacionais.
-              </p>
-
-            </article>
-
 
             <article class="planner-tool-card">
 
@@ -66,13 +49,16 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               </span>
 
               <strong>
-                Vou usar metrô
+                Destino no eixo do metrô
               </strong>
 
               <p>
-                Confira a estação,
-                a linha, o sentido
-                e se o percurso exige integração.
+                As Linhas 1 e 2
+                podem resolver
+                a parte principal
+                do deslocamento
+                e combinar com ônibus
+                ou BRT.
               </p>
 
             </article>
@@ -85,13 +71,36 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               </span>
 
               <strong>
-                Vou usar BRT
+                Destino no eixo do BRT
               </strong>
 
               <p>
-                Confirme a linha
-                e a estação que atende
-                melhor seu destino.
+                O BRT possui
+                cinco linhas
+                entre Rodoviária,
+                Pituba,
+                Rio Vermelho
+                e Lapa.
+              </p>
+
+            </article>
+
+
+            <article class="planner-tool-card">
+
+              <span class="planner-tool-icon">
+                🚌
+              </span>
+
+              <strong>
+                Fora dos grandes eixos
+              </strong>
+
+              <p>
+                Os ônibus municipais
+                ampliam a cobertura
+                entre bairros
+                e terminais.
               </p>
 
             </article>
@@ -104,13 +113,13 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               </span>
 
               <strong>
-                Quero usar o VLT
+                Calçada e Lobato
               </strong>
 
               <p>
-                Consulte a operação assistida
-                antes de depender do sistema
-                em um trajeto essencial.
+                O VLT já transporta passageiros
+                em operação assistida
+                no primeiro trecho.
               </p>
 
             </article>
@@ -119,17 +128,17 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
             <article class="planner-tool-card">
 
               <span class="planner-tool-icon">
-                ⛴
+                ⛴️
               </span>
 
               <strong>
-                Vou para Itaparica
+                Ilha de Itaparica
               </strong>
 
               <p>
-                Consulte a AGERBA
-                para informações públicas
-                sobre o Ferry-Boat.
+                O Ferry-Boat
+                liga São Joaquim
+                a Bom Despacho.
               </p>
 
             </article>
@@ -142,13 +151,14 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               </span>
 
               <strong>
-                Vou para outra cidade da RMS
+                Outra cidade da RMS
               </strong>
 
               <p>
-                Compare metrô
-                e transporte metropolitano
-                e consulte a AGERBA.
+                A viagem pode envolver
+                metrô
+                e ônibus metropolitano
+                regulado pela AGERBA.
               </p>
 
             </article>
@@ -179,9 +189,9 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Inclua espera,
-                caminhada
-                e integrações.
+                Inclua caminhada,
+                espera
+                e tempo de integração.
               </p>
 
             </article>
@@ -192,13 +202,13 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               <span>🔄</span>
 
               <strong>
-                Quantidade de trocas
+                Número de trocas
               </strong>
 
               <p>
-                Menos integrações
-                podem simplificar
-                bastante a viagem.
+                Uma rota mais rápida
+                nem sempre é
+                a mais simples.
               </p>
 
             </article>
@@ -213,9 +223,12 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Considere calor,
-                chuva, ladeiras
-                e bagagem.
+                Calor,
+                chuva,
+                ladeiras
+                e bagagem
+                podem mudar bastante
+                a escolha.
               </p>
 
             </article>
@@ -226,12 +239,14 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               <span>💳</span>
 
               <strong>
-                Meio de pagamento
+                Integração tarifária
               </strong>
 
               <p>
-                Integrações podem depender
-                de cartão compatível.
+                Algumas combinações
+                exigem cartão compatível
+                para reconhecer
+                a integração.
               </p>
 
             </article>
@@ -247,7 +262,8 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
 
               <p>
                 Cada sistema
-                possui operação própria.
+                e cada linha
+                possuem programação própria.
               </p>
 
             </article>
@@ -258,13 +274,16 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               <span>⚠️</span>
 
               <strong>
-                Operação no dia
+                Operação especial
               </strong>
 
               <p>
-                Eventos e operações especiais
-                podem alterar linhas
-                e horários.
+                Carnaval,
+                São João,
+                grandes eventos
+                e feriados
+                podem alterar
+                temporariamente a rede.
               </p>
 
             </article>
@@ -281,17 +300,49 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelo metrô
+            Como pensar o metrô
           </h4>
 
           <p class="panel-intro">
-            As Linhas 1 e 2
-            conectam diferentes regiões
-            e podem ser combinadas
-            com ônibus e BRT.
+            Salvador possui
+            duas linhas metroviárias
+            em operação.
           </p>
 
           <div class="hours-grid">
+
+            <article class="hours-card">
+
+              <span>1</span>
+
+              <strong>
+                Linha 1
+              </strong>
+
+              <p>
+                Liga Lapa
+                ao eixo de Pirajá
+                e Águas Claras.
+              </p>
+
+            </article>
+
+
+            <article class="hours-card">
+
+              <span>2</span>
+
+              <strong>
+                Linha 2
+              </strong>
+
+              <p>
+                Liga Acesso Norte
+                ao eixo do Aeroporto.
+              </p>
+
+            </article>
+
 
             <article class="hours-card">
 
@@ -302,25 +353,9 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                É o principal ponto
+                É o ponto
                 de transferência
                 entre as Linhas 1 e 2.
-              </p>
-
-            </article>
-
-
-            <article class="hours-card">
-
-              <span>✈️</span>
-
-              <strong>
-                Aeroporto
-              </strong>
-
-              <p>
-                A Linha 2 atende
-                o eixo da Estação Aeroporto.
               </p>
 
             </article>
@@ -335,8 +370,9 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                A Linha 1 atende
-                a região da nova Rodoviária.
+                Atende a região
+                da Nova Rodoviária
+                da Bahia.
               </p>
 
             </article>
@@ -347,7 +383,7 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             COMO LER A ROTA
+             COMO LER A ROTA DE METRÔ
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -373,13 +409,15 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
                   </span>
 
                   <div>
+
                     <strong>
                       Caminhe até a estação
                     </strong>
 
                     <small>
-                      Confira o acesso mais conveniente
+                      Escolha o acesso mais conveniente
                     </small>
+
                   </div>
 
                 </div>
@@ -392,6 +430,7 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
                   </span>
 
                   <div>
+
                     <strong>
                       Identifique a linha
                     </strong>
@@ -399,6 +438,7 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
                     <small>
                       Linha 1 ou Linha 2
                     </small>
+
                   </div>
 
                 </div>
@@ -411,6 +451,7 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
                   </span>
 
                   <div>
+
                     <strong>
                       Confira o sentido
                     </strong>
@@ -418,6 +459,7 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
                     <small>
                       Veja o terminal indicado
                     </small>
+
                   </div>
 
                 </div>
@@ -430,13 +472,15 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
                   </span>
 
                   <div>
+
                     <strong>
-                      Faça a transferência
+                      Transfira em Acesso Norte
                     </strong>
 
                     <small>
-                      Use Acesso Norte quando necessário
+                      Apenas se precisar mudar de linha
                     </small>
+
                   </div>
 
                 </div>
@@ -455,9 +499,10 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
                 </strong>
 
                 <p>
-                  Liga Lapa
-                  ao eixo de Pirajá
-                  e Águas Claras.
+                  Útil para Lapa,
+                  Pirajá,
+                  Águas Claras
+                  e conexões nesse eixo.
                 </p>
 
               </article>
@@ -470,8 +515,9 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
                 </strong>
 
                 <p>
-                  Liga Acesso Norte
-                  ao eixo do Aeroporto.
+                  Útil para o eixo
+                  da Avenida Paralela
+                  e Aeroporto.
                 </p>
 
               </article>
@@ -484,9 +530,8 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
                 </strong>
 
                 <p>
-                  É o ponto
-                  de transferência
-                  entre as duas linhas.
+                  É onde as duas linhas
+                  se encontram.
                 </p>
 
               </article>
@@ -495,11 +540,12 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               <article class="route-explanation-card">
 
                 <strong>
-                  Considere a integração
+                  Última etapa
                 </strong>
 
                 <p>
-                  Ônibus e BRT
+                  Ônibus
+                  ou BRT
                   podem completar
                   o percurso.
                 </p>
@@ -514,77 +560,126 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
+             AEROPORTO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Aeroporto
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              O eixo do Aeroporto
+              é atendido pela Linha 2.
+            </strong>
+
+            <p>
+              Dependendo da origem,
+              pode ser necessário
+              utilizar Acesso Norte
+              para trocar
+              da Linha 1
+              para a Linha 2.
+            </p>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
              BRT
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelo BRT
+            Quando o BRT ganha importância
           </h4>
 
-          <div class="bus-use-flow">
+          <p class="panel-intro">
+            O sistema possui
+            cinco linhas
+            e estrutura deslocamentos
+            entre Rodoviária,
+            Pituba,
+            Rio Vermelho
+            e Lapa.
+          </p>
 
-            <article class="bus-use-step">
+          <div class="payment-choice-grid">
 
-              <span>1</span>
+            <article class="payment-choice">
 
               <strong>
-                Identifique a linha
+                B1
               </strong>
 
               <p>
-                Veja qual serviço
-                atende seu destino.
+                Estação BRT Rodoviária
+                ↔ Pituba
+                via Cidadela.
               </p>
 
             </article>
 
 
-            <article class="bus-use-step">
-
-              <span>2</span>
+            <article class="payment-choice">
 
               <strong>
-                Localize a estação
+                B2
               </strong>
 
               <p>
-                O embarque acontece
-                nas estações do sistema.
+                Estação BRT Rodoviária
+                ↔ Rio Vermelho
+                via Pituba e Amaralina.
               </p>
 
             </article>
 
 
-            <article class="bus-use-step">
-
-              <span>3</span>
+            <article class="payment-choice">
 
               <strong>
-                Confira o sentido
+                B3
               </strong>
 
               <p>
-                Verifique o destino
-                indicado antes de embarcar.
+                Estação BRT Rodoviária
+                ↔ Pituba
+                via Paulo VI.
               </p>
 
             </article>
 
 
-            <article class="bus-use-step">
-
-              <span>4</span>
+            <article class="payment-choice">
 
               <strong>
-                Veja a integração
+                B4
               </strong>
 
               <p>
-                Confirme se o percurso
-                continua por metrô
-                ou ônibus.
+                Pituba
+                ↔ Lapa.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                B5
+              </strong>
+
+              <p>
+                Estação BRT Rodoviária
+                ↔ Lapa.
               </p>
 
             </article>
@@ -595,58 +690,124 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             ÔNIBUS
+             ALERTA RODOVIÁRIA
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelos ônibus
+            Cuidado com a palavra “Rodoviária”
           </h4>
 
-          <div class="answer-block">
+          <div class="visitor-alert">
 
             <strong>
-              Consulte a Mobilidade Salvador.
+              Estação BRT Rodoviária
+              não é a Nova Rodoviária da Bahia.
             </strong>
 
-            <p>
-              A Prefeitura publica
-              informações sobre linhas,
-              terminais, mudanças
-              e operações especiais.
-            </p>
+            A estação do BRT
+            mantém essa denominação
+            no eixo da região
+            do Shopping da Bahia.
+
+            A rodoviária intermunicipal
+            funciona atualmente
+            em Águas Claras.
 
           </div>
 
-
-          <div class="answer-block">
-
-            <strong>
-              Salve o número da linha.
-            </strong>
-
-            <p>
-              Número e destino
-              são referências importantes
-              para confirmar o embarque.
-            </p>
-
-          </div>
+        </section>
 
 
-          <div class="answer-block">
+        <!-- ==================================================
+             ÔNIBUS MUNICIPAIS
+        =================================================== -->
 
-            <strong>
-              Confira o terminal.
-            </strong>
+        <section class="panel-box network-full">
 
-            <p>
-              Lapa, Pirajá,
-              Mussurunga, Aeroporto
-              e Águas Claras
-              concentram diferentes conexões.
-            </p>
+          <h4 class="panel-title">
+            Quando entram os ônibus municipais
+          </h4>
+
+          <p class="panel-intro">
+            Eles ampliam a cobertura
+            para áreas da cidade
+            que não ficam diretamente
+            nos eixos do metrô
+            ou do BRT.
+          </p>
+
+          <div class="bus-use-flow">
+
+            <article class="bus-use-step">
+
+              <span>1</span>
+
+              <strong>
+                Identifique o destino
+              </strong>
+
+              <p>
+                Veja em qual bairro
+                ou região
+                ele está.
+              </p>
+
+            </article>
+
+
+            <article class="bus-use-step">
+
+              <span>2</span>
+
+              <strong>
+                Localize a linha
+              </strong>
+
+              <p>
+                Use número
+                e destino
+                como referência.
+              </p>
+
+            </article>
+
+
+            <article class="bus-use-step">
+
+              <span>3</span>
+
+              <strong>
+                Veja o ponto
+              </strong>
+
+              <p>
+                Confirme o local
+                correto de embarque
+                e o sentido.
+              </p>
+
+            </article>
+
+
+            <article class="bus-use-step">
+
+              <span>4</span>
+
+              <strong>
+                Considere a integração
+              </strong>
+
+              <p>
+                Metrô
+                ou BRT
+                podem resolver
+                outra parte
+                do percurso.
+              </p>
+
+            </article>
 
           </div>
 
@@ -660,22 +821,62 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelo VLT
+            VLT em operação assistida
           </h4>
 
           <p class="panel-intro">
-            O VLT ainda está
-            em operação assistida.
+            O primeiro trecho
+            começou a transportar passageiros
+            em 29 de junho de 2026.
           </p>
 
           <div class="hours-grid">
 
             <article class="hours-card">
 
+              <span>🚊</span>
+
+              <strong>
+                Trecho atual
+              </strong>
+
+              <p>
+                Calçada ↔ Lobato,
+                com percurso
+                de aproximadamente 4 km.
+              </p>
+
+            </article>
+
+
+            <article class="hours-card">
+
+              <span>📍</span>
+
+              <strong>
+                Paradas
+              </strong>
+
+              <p>
+                O trecho assistido
+                atende São Joaquim,
+                Calçada 2,
+                Estação Calçada,
+                Pátio Calçada,
+                Santa Luzia,
+                Lobato
+                e Marisqueiras.
+              </p>
+
+            </article>
+
+
+            <article class="hours-card">
+
               <span>📅</span>
 
               <strong>
-                Dias úteis
+                Dias
               </strong>
 
               <p>
@@ -691,7 +892,7 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               <span>🕗</span>
 
               <strong>
-                Horário atual
+                Horário
               </strong>
 
               <p>
@@ -701,53 +902,22 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
 
             </article>
 
-
-            <article class="hours-card">
-
-              <span>🚊</span>
-
-              <strong>
-                Trecho atual
-              </strong>
-
-              <p>
-                Calçada ↔ Lobato,
-                em percurso
-                de aproximadamente 4 km.
-              </p>
-
-            </article>
-
-
-            <article class="hours-card">
-
-              <span>🏗️</span>
-
-              <strong>
-                Expansão
-              </strong>
-
-              <p>
-                Outros trechos
-                permanecem
-                em implantação.
-              </p>
-
-            </article>
-
           </div>
 
 
           <div class="visitor-alert">
 
             <strong>
-              Confirme a operação
-              antes de sair.
+              Ainda é operação assistida.
             </strong>
 
-            Como se trata
-            de uma etapa assistida,
-            a programação pode ser alterada.
+            Não conte com o VLT
+            como se toda a rede planejada
+            já estivesse disponível.
+
+            Para um compromisso essencial,
+            confirme a operação
+            pouco antes da viagem.
 
           </div>
 
@@ -755,51 +925,57 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             FERRY-BOAT
+             FERRY
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelo Ferry-Boat
+            Ferry-Boat para a Ilha de Itaparica
           </h4>
 
           <p class="panel-intro">
             O sistema liga
-            São Joaquim, em Salvador,
+            São Joaquim,
+            em Salvador,
             a Bom Despacho,
             na Ilha de Itaparica.
           </p>
 
-          <div class="answer-block">
+          <div class="comparison-grid">
 
-            <strong>
-              Consulte a AGERBA
-              antes da travessia.
-            </strong>
+            <article class="comparison-card">
 
-            <p>
-              Horários,
-              tarifas e operações especiais
-              podem mudar conforme
-              período e demanda.
-            </p>
+              <strong>
+                Passageiro a pé
+              </strong>
 
-          </div>
+              <p>
+                R$ 7,20
+                em dia útil
+                ou R$ 9,50
+                aos sábados,
+                domingos
+                e feriados.
+              </p>
+
+            </article>
 
 
-          <div class="answer-block">
+            <article class="comparison-card">
 
-            <strong>
-              Passageiro ou veículo?
-            </strong>
+              <strong>
+                Com veículo
+              </strong>
 
-            <p>
-              O tipo de embarque
-              interfere na tarifa
-              e na organização
-              da travessia.
-            </p>
+              <p>
+                A tarifa muda
+                conforme a categoria
+                do veículo
+                e o dia da travessia.
+              </p>
+
+            </article>
 
           </div>
 
@@ -807,14 +983,14 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
           <div class="visitor-alert">
 
             <strong>
-              Não apresentamos
-              horários permanentes
-              vindos da operadora.
+              Horário é informação operacional.
             </strong>
 
-            Para a programação vigente,
-            utilize as publicações
-            da AGERBA.
+            A programação,
+            quantidade de embarcações
+            e operações especiais
+            podem mudar
+            conforme o período.
 
           </div>
 
@@ -822,53 +998,150 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             RODOVIÁRIA
+             NOVA RODOVIÁRIA
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Nova Rodoviária em Águas Claras
+            Nova Rodoviária da Bahia
           </h4>
 
-          <div class="answer-block">
+          <div class="visitor-alert">
 
             <strong>
-              O Terminal Salvador
-              opera em Águas Claras.
+              A rodoviária intermunicipal
+              agora fica em Águas Claras.
             </strong>
 
-            <p>
-              A nova Rodoviária
-              entrou em operação
-              em 20 de janeiro de 2026.
-            </p>
+            O Terminal Salvador
+            entrou em operação
+            em 20 de janeiro de 2026.
 
           </div>
 
 
-          <div class="answer-block">
+          <div class="comparison-grid">
 
-            <strong>
-              Há integração direta
-              com o metrô.
-            </strong>
+            <article class="comparison-card">
 
-            <p>
-              Uma passarela conecta
-              o terminal rodoviário
-              ao sistema metroviário.
-            </p>
+              <strong>
+                Metrô
+              </strong>
+
+              <p>
+                Há conexão direta
+                entre o terminal
+                e o sistema metroviário.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Ônibus
+              </strong>
+
+              <p>
+                O Terminal Águas Claras
+                reúne conexões
+                urbanas
+                e metropolitanas.
+              </p>
+
+            </article>
 
           </div>
 
+        </section>
 
-          <div class="fare-note">
 
-            Referências antigas
-            podem ainda apontar
-            para a antiga Rodoviária
-            na região do Shopping da Bahia.
+        <!-- ==================================================
+             COMO CHEGAR À RODOVIÁRIA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Como chegar à Nova Rodoviária
+            pelo transporte público
+          </h4>
+
+          <div class="fare-scenario-grid">
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Região da Lapa
+              </span>
+
+              <strong>
+                Linha 1
+              </strong>
+
+              <p>
+                Utilize o metrô
+                no sentido
+                de Águas Claras.
+              </p>
+
+              <span class="fare-scenario-result">
+                Estação Águas Claras
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Pirajá
+              </span>
+
+              <strong>
+                Linha 1 ou ônibus 1720
+              </strong>
+
+              <p>
+                O deslocamento
+                pode ser feito
+                pelo metrô
+                ou pela linha municipal
+                Terminal Águas Claras
+                x Estação Pirajá.
+              </p>
+
+              <span class="fare-scenario-result">
+                Águas Claras
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Eixo da Linha 2
+              </span>
+
+              <strong>
+                Linha 2 + Linha 1
+              </strong>
+
+              <p>
+                Vá até Acesso Norte,
+                troque para a Linha 1
+                e siga
+                para Águas Claras.
+              </p>
+
+              <span class="fare-scenario-result">
+                1 transferência
+              </span>
+
+            </article>
 
           </div>
 
@@ -885,21 +1158,14 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
             Destinos na Região Metropolitana
           </h4>
 
+          <p class="panel-intro">
+            Salvador se conecta
+            a outros municípios
+            por linhas metropolitanas
+            reguladas pela AGERBA.
+          </p>
+
           <div class="payment-choice-grid">
-
-            <article class="payment-choice">
-
-              <strong>
-                Lauro de Freitas
-              </strong>
-
-              <p>
-                Compare metrô
-                e transporte metropolitano.
-              </p>
-
-            </article>
-
 
             <article class="payment-choice">
 
@@ -908,24 +1174,10 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Consulte linhas
-                metropolitanas
-                e terminais de conexão.
-              </p>
-
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Simões Filho
-              </strong>
-
-              <p>
-                Verifique
-                o serviço metropolitano
-                adequado ao trajeto.
+                Há conexões
+                com terminais
+                como Águas Claras
+                e Mussurunga.
               </p>
 
             </article>
@@ -938,9 +1190,41 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                A AGERBA registra
-                serviço metropolitano
-                ligado ao Terminal Aeroporto.
+                A linha metropolitana 138
+                liga Praia do Forte
+                ao Terminal Aeroporto.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Arembepe
+              </strong>
+
+              <p>
+                A linha 857I
+                liga Arembepe
+                ao Terminal Aeroporto.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Lauro de Freitas
+              </strong>
+
+              <p>
+                O eixo do metrô
+                e a rede metropolitana
+                podem participar
+                do deslocamento,
+                dependendo do destino.
               </p>
 
             </article>
@@ -965,18 +1249,18 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
             <article class="route-compare-card">
 
               <span>
-                Opção A
+                Mais rápida
               </span>
 
               <strong>
-                Menos tempo,
-                mais integrações
+                Mais integrações
               </strong>
 
               <p>
-                Pode ser mais rápida,
-                mas exige mais atenção
-                nas trocas.
+                Pode valer a pena
+                quando as conexões
+                são simples
+                e próximas.
               </p>
 
               <span class="route-compare-result">
@@ -989,18 +1273,19 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
             <article class="route-compare-card">
 
               <span>
-                Opção B
+                Mais direta
               </span>
 
               <strong>
-                Mais tempo,
-                menos trocas
+                Menos trocas
               </strong>
 
               <p>
                 Pode reduzir
-                o atrito durante
-                o deslocamento.
+                o atrito
+                durante a viagem,
+                mesmo levando
+                alguns minutos a mais.
               </p>
 
               <span class="route-compare-result">
@@ -1013,21 +1298,23 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
             <article class="route-compare-card">
 
               <span>
-                Opção C
+                Menos caminhada
               </span>
 
               <strong>
-                Mais caminhada
+                Mais conforto
               </strong>
 
               <p>
-                Calor, chuva,
-                ladeiras e bagagem
-                podem alterar a escolha.
+                Pode ser relevante
+                no calor,
+                na chuva,
+                com bagagem
+                ou em áreas de ladeira.
               </p>
 
               <span class="route-compare-result">
-                Considere o contexto
+                Prioridade: conforto
               </span>
 
             </article>
@@ -1038,105 +1325,88 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             ANTES DE SAIR
+             O QUE CONFIRMAR
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Antes de sair
+            O que realmente precisa ser confirmado
+            no dia da viagem
           </h4>
 
-          <div class="planner-tip-list">
+          <div class="planner-check-grid">
 
-            <article class="planner-tip">
+            <article class="planner-check-card">
 
-              <span class="planner-tip-icon">
-                📱
-              </span>
+              <span>🕒</span>
 
-              <div>
+              <strong>
+                Horário
+              </strong>
 
-                <strong>
-                  Consulte novamente
-                </strong>
-
-                <p>
-                  Alterações operacionais
-                  podem mudar
-                  o melhor caminho.
-                </p>
-
-              </div>
+              <p>
+                Ônibus,
+                BRT,
+                VLT,
+                Ferry
+                e metropolitanos
+                possuem programação própria.
+              </p>
 
             </article>
 
 
-            <article class="planner-tip">
+            <article class="planner-check-card">
 
-              <span class="planner-tip-icon">
-                💳
-              </span>
+              <span>📍</span>
 
-              <div>
+              <strong>
+                Ponto ou plataforma
+              </strong>
 
-                <strong>
-                  Confira o pagamento
-                </strong>
-
-                <p>
-                  Integrações
-                  podem depender
-                  de meio compatível.
-                </p>
-
-              </div>
+              <p>
+                Confirme o local
+                de embarque
+                do serviço escolhido.
+              </p>
 
             </article>
 
 
-            <article class="planner-tip">
+            <article class="planner-check-card">
 
-              <span class="planner-tip-icon">
-                🧭
-              </span>
+              <span>⚠️</span>
 
-              <div>
+              <strong>
+                Alterações temporárias
+              </strong>
 
-                <strong>
-                  Confirme o terminal
-                </strong>
-
-                <p>
-                  Uma mesma região
-                  pode ter diferentes
-                  pontos de conexão.
-                </p>
-
-              </div>
+              <p>
+                Eventos,
+                obras
+                e operações especiais
+                podem modificar
+                o serviço.
+              </p>
 
             </article>
 
 
-            <article class="planner-tip">
+            <article class="planner-check-card">
 
-              <span class="planner-tip-icon">
-                ⚠️
-              </span>
+              <span>🚊</span>
 
-              <div>
+              <strong>
+                VLT
+              </strong>
 
-                <strong>
-                  Veja operações especiais
-                </strong>
-
-                <p>
-                  Eventos,
-                  feriados e alta demanda
-                  podem mudar a operação.
-                </p>
-
-              </div>
+              <p>
+                Por estar
+                em operação assistida,
+                merece confirmação
+                adicional antes do uso.
+              </p>
 
             </article>
 
@@ -1146,7 +1416,7 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             FONTES PÚBLICAS
+             FONTES OFICIAIS
         =================================================== -->
 
         <div class="official-map-actions">
@@ -1168,6 +1438,16 @@ window.SALVADOR_TRANSPORT_MODULES["planner"] = {
             rel="noopener noreferrer"
           >
             CTB · Governo da Bahia
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://www.ba.gov.br/trilhos/noticias/2026-06/1068/inicio-da-operacao-assistida-do-vlt-marca-nova-fase-da-mobilidade-em-salvador"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Operação assistida do VLT · CTB
           </a>
 
 
