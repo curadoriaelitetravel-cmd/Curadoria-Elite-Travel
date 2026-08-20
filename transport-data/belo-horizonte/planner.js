@@ -154,7 +154,7 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Eldorado
+                Novo Eldorado
                 ↔ Vilarinho.
               </p>
 
@@ -213,22 +213,6 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               </p>
 
             </article>
-
-          </div>
-
-
-          <div class="visitor-alert">
-
-            <strong>
-              Novo Eldorado ainda não deve ser tratado
-              como estação disponível.
-            </strong>
-
-            A expansão da Linha 1
-            até Novo Eldorado
-            continua sendo apresentada
-            como implantação
-            nos canais atuais do Metrô BH.
 
           </div>
 
