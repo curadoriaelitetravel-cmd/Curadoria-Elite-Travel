@@ -22,21 +22,22 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             POR ONDE COMEÇAR
+             COMO PENSAR A VIAGEM
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Por onde começar?
+            Como pensar o deslocamento
           </h4>
 
           <p class="panel-intro">
             Em Belo Horizonte,
-            vale comparar metrô,
-            MOVE e ônibus antes de decidir.
-            Para outra cidade da Região Metropolitana,
-            consulte também a rede estadual.
+            metrô, MOVE e ônibus cumprem
+            funções diferentes.
+            O ponto de partida é entender
+            qual deles cobre melhor
+            a parte principal do percurso.
           </p>
 
           <div class="planner-tool-grid">
@@ -52,10 +53,11 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Comece pelo metrô
-                e veja se ônibus ou MOVE
-                são necessários
-                apenas para completar o percurso.
+                O metrô pode concentrar
+                a parte principal da viagem,
+                com ônibus ou caminhada
+                apenas na origem
+                ou no destino.
               </p>
 
             </article>
@@ -68,13 +70,14 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               </span>
 
               <strong>
-                Destino próximo ao MOVE
+                Destino no eixo do MOVE
               </strong>
 
               <p>
-                Verifique se o trajeto
-                combina linha alimentadora,
-                estação e linha troncal.
+                A viagem pode combinar
+                alimentadora,
+                estação de integração
+                e linha troncal.
               </p>
 
             </article>
@@ -87,13 +90,15 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               </span>
 
               <strong>
-                Bairro fora dos eixos principais
+                Fora desses eixos
               </strong>
 
               <p>
-                Consulte as linhas
-                convencionais e suplementares
-                disponíveis na região.
+                A rede convencional
+                amplia a cobertura
+                entre bairros,
+                Centro e outras regiões
+                da cidade.
               </p>
 
             </article>
@@ -110,127 +115,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Verifique se o trajeto
-                pertence ao sistema
-                metropolitano estadual.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             O QUE COMPARAR
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            O que comparar antes de escolher
-          </h4>
-
-          <div class="planner-check-grid">
-
-            <article class="planner-check-card">
-
-              <span>⏱️</span>
-
-              <strong>
-                Tempo total
-              </strong>
-
-              <p>
-                Considere espera,
-                caminhada e integrações,
-                não apenas o tempo
-                dentro do veículo.
-              </p>
-
-            </article>
-
-
-            <article class="planner-check-card">
-
-              <span>🔄</span>
-
-              <strong>
-                Quantidade de trocas
-              </strong>
-
-              <p>
-                Uma rota um pouco mais longa
-                pode ser mais simples
-                se exigir menos conexões.
-              </p>
-
-            </article>
-
-
-            <article class="planner-check-card">
-
-              <span>🚶</span>
-
-              <strong>
-                Caminhada
-              </strong>
-
-              <p>
-                Considere distância,
-                relevo, bagagem
-                e condições do dia.
-              </p>
-
-            </article>
-
-
-            <article class="planner-check-card">
-
-              <span>💳</span>
-
-              <strong>
-                Integração tarifária
-              </strong>
-
-              <p>
-                O meio de pagamento
-                pode alterar o custo
-                de uma viagem integrada.
-              </p>
-
-            </article>
-
-
-            <article class="planner-check-card">
-
-              <span>🕒</span>
-
-              <strong>
-                Horário
-              </strong>
-
-              <p>
-                Consulte a programação
-                da linha antes de sair.
-              </p>
-
-            </article>
-
-
-            <article class="planner-check-card">
-
-              <span>📍</span>
-
-              <strong>
-                Ponto de embarque
-              </strong>
-
-              <p>
-                Confirme a parada,
-                estação ou terminal
-                correto para o sentido desejado.
+                O deslocamento pode pertencer
+                ao sistema metropolitano estadual,
+                com tarifa e bilhetagem próprias.
               </p>
 
             </article>
@@ -247,12 +134,12 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelo metrô
+            Quando o metrô tende a fazer sentido
           </h4>
 
           <p class="panel-intro">
-            A Linha 1 é a linha
-            atualmente disponível
+            A Linha 1 é a linha metroviária
+            disponível atualmente
             para o passageiro.
           </p>
 
@@ -267,7 +154,7 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Novo Eldorado
+                Eldorado
                 ↔ Vilarinho.
               </p>
 
@@ -283,9 +170,10 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Uma das referências
-                para acessar
-                a região central.
+                É uma das principais
+                referências para acessar
+                a região central
+                de Belo Horizonte.
               </p>
 
             </article>
@@ -300,9 +188,11 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Importante conexão
-                com ônibus
-                e MOVE.
+                Importante ponto
+                de conexão entre
+                metrô,
+                MOVE
+                e ônibus.
               </p>
 
             </article>
@@ -317,9 +207,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Integra metrô
-                e serviços do MOVE
-                no vetor Norte.
+                Integra o metrô
+                ao MOVE
+                e a serviços do vetor Norte.
               </p>
 
             </article>
@@ -330,12 +220,29 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
           <div class="visitor-alert">
 
             <strong>
-              Não planeje uma viagem
+              Novo Eldorado ainda não deve ser tratado
+              como estação disponível.
+            </strong>
+
+            A expansão da Linha 1
+            até Novo Eldorado
+            continua sendo apresentada
+            como implantação
+            nos canais atuais do Metrô BH.
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              Não planeje a viagem
               contando com a Linha 2.
             </strong>
 
-            Ela ainda está em implantação
-            e não integra a rede disponível
+            A Linha 2 está em implantação
+            e não deve ser tratada
+            como rede operacional completa
             para o passageiro.
 
           </div>
@@ -350,14 +257,16 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelo MOVE
+            Como funciona uma viagem pelo MOVE
           </h4>
 
           <p class="panel-intro">
-            Uma viagem pelo MOVE
-            pode envolver mais de uma linha,
-            mesmo quando funciona
-            como um único percurso integrado.
+            O MOVE é o BRT municipal
+            de Belo Horizonte.
+            Uma única viagem pode envolver
+            mais de um ônibus
+            sem deixar de formar
+            um único deslocamento.
           </p>
 
           <div class="bus-use-flow">
@@ -367,13 +276,14 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               <span>1</span>
 
               <strong>
-                Localize a origem
+                Alimentadora
               </strong>
 
               <p>
-                Veja se existe
-                linha alimentadora
-                próxima ao ponto de partida.
+                Uma linha local
+                pode levar o passageiro
+                do bairro até uma estação
+                de integração.
               </p>
 
             </article>
@@ -384,13 +294,14 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               <span>2</span>
 
               <strong>
-                Identifique a estação
+                Estação
               </strong>
 
               <p>
-                A alimentadora
-                pode levar até
-                uma estação de integração.
+                A estação concentra
+                as possibilidades
+                de transferência
+                para outros serviços.
               </p>
 
             </article>
@@ -401,13 +312,14 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               <span>3</span>
 
               <strong>
-                Confira a troncal
+                Troncal
               </strong>
 
               <p>
-                Veja qual linha
-                segue pelo corredor
-                adequado ao destino.
+                As linhas troncais
+                percorrem os grandes
+                corredores estruturais
+                do sistema.
               </p>
 
             </article>
@@ -418,13 +330,14 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               <span>4</span>
 
               <strong>
-                Veja a última etapa
+                Última etapa
               </strong>
 
               <p>
-                Outra linha ou caminhada
-                pode completar
-                o percurso.
+                Dependendo do destino,
+                outra linha
+                ou uma caminhada
+                completa o percurso.
               </p>
 
             </article>
@@ -435,14 +348,101 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             ESTAÇÕES
+             CORREDORES MOVE
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Conexões importantes
+            Eixos importantes do MOVE
           </h4>
+
+          <div class="payment-choice-grid">
+
+            <article class="payment-choice">
+
+              <strong>
+                Antônio Carlos
+              </strong>
+
+              <p>
+                Corredor importante
+                entre a região central,
+                Pampulha
+                e o vetor Norte.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Cristiano Machado
+              </strong>
+
+              <p>
+                Estrutura deslocamentos
+                em direção
+                ao vetor Nordeste
+                e São Gabriel.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Pedro I
+              </strong>
+
+              <p>
+                Faz parte
+                do eixo estrutural
+                de ligação
+                com o vetor Norte.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Vilarinho
+              </strong>
+
+              <p>
+                É importante
+                para os deslocamentos
+                relacionados
+                a Venda Nova.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             ESTAÇÕES DE INTEGRAÇÃO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Estações de integração
+          </h4>
+
+          <p class="panel-intro">
+            Belo Horizonte possui
+            quatro grandes estações
+            de integração do MOVE
+            e duas estações BHBUS.
+          </p>
 
           <div class="bus-system-grid">
 
@@ -455,8 +455,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Estação de integração
-                do MOVE.
+                Integra linhas
+                alimentadoras
+                e serviços do MOVE.
               </p>
 
             </article>
@@ -472,7 +473,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
 
               <p>
                 Conexão entre
-                metrô e MOVE.
+                metrô
+                e MOVE.
               </p>
 
             </article>
@@ -488,7 +490,8 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
 
               <p>
                 Conexão entre
-                metrô, MOVE
+                metrô,
+                MOVE
                 e ônibus.
               </p>
 
@@ -504,9 +507,9 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Estação de integração
-                importante para
-                a região da Pampulha.
+                Importante estação
+                para os deslocamentos
+                da região da Pampulha.
               </p>
 
             </article>
@@ -522,7 +525,7 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
 
               <p>
                 Estação de integração
-                BHBUS.
+                do sistema BHBUS.
               </p>
 
             </article>
@@ -537,10 +540,353 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Estação de integração
-                BHBUS na região
+                Estação BHBUS
+                na região
                 do Barreiro.
               </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            As seis estações
+            funcionam 24 horas.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             ESTAÇÕES DE TRANSFERÊNCIA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            37 estações de transferência do MOVE
+          </h4>
+
+          <p class="panel-intro">
+            Elas estão distribuídas
+            pelos corredores estruturais
+            e pela Área Central.
+          </p>
+
+          <div class="payment-choice-grid">
+
+            <article class="payment-choice">
+
+              <strong>
+                Antônio Carlos
+              </strong>
+
+              <p>
+                14 estações.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Cristiano Machado
+              </strong>
+
+              <p>
+                9 estações.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Pedro I
+              </strong>
+
+              <p>
+                6 estações.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Vilarinho
+              </strong>
+
+              <p>
+                4 estações.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Área Central
+              </strong>
+
+              <p>
+                Tamoios,
+                Carijós,
+                São Paulo
+                e Rio de Janeiro.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Transferência dentro da estação
+            </strong>
+
+            <p>
+              O passageiro pode desembarcar
+              e embarcar em outras linhas
+              dentro do mesmo espaço
+              sem pagar outra passagem,
+              conforme as regras
+              de utilização da estação.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            As estações de transferência
+            funcionam normalmente
+            das 4h à 1h.
+            São Paulo e Tamoios
+            fecham aos domingos e feriados.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             ÔNIBUS CONVENCIONAIS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Quando o ônibus convencional ganha importância
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Bairro fora do eixo do metrô
+              ou do MOVE
+            </strong>
+
+            <p>
+              A rede convencional
+              amplia a cobertura
+              para áreas da cidade
+              que não possuem
+              estação próxima.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Bairro ↔ Centro
+            </strong>
+
+            <p>
+              Muitas linhas
+              conectam diretamente
+              bairros à Área Central.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Bairro ↔ Bairro
+            </strong>
+
+            <p>
+              Também existem
+              ligações transversais
+              que evitam necessariamente
+              passar pelo Centro.
+            </p>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             VILAS E FAVELAS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Vilas e Favelas
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              13 linhas têm tarifa zero.
+            </strong>
+
+            <p>
+              Elas utilizam veículos menores
+              para atender áreas
+              de acesso mais difícil
+              e topografia acentuada.
+            </p>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             SUPLEMENTAR
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Sistema Suplementar
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Complementa a rede municipal.
+            </strong>
+
+            <p>
+              Utiliza micro-ônibus
+              em trajetos específicos
+              dentro de Belo Horizonte.
+            </p>
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              Não conte com integração tarifária
+              com o Convencional ou MOVE.
+            </strong>
+
+            O Sistema Suplementar
+            possui lógica tarifária independente.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             PAGAMENTO E INTEGRAÇÃO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            O meio de pagamento pode mudar o custo
+          </h4>
+
+          <div class="route-compare-grid">
+
+            <article class="route-compare-card">
+
+              <span>
+                Ônibus municipal
+              </span>
+
+              <strong>
+                BHBUS
+              </strong>
+
+              <p>
+                É a referência
+                para aproveitar
+                as integrações tarifárias
+                da rede municipal.
+              </p>
+
+              <span class="route-compare-result">
+                Integração
+              </span>
+
+            </article>
+
+
+            <article class="route-compare-card">
+
+              <span>
+                Metrô avulso
+              </span>
+
+              <strong>
+                Pagamento digital
+              </strong>
+
+              <p>
+                Aproximação,
+                QR Code
+                e autoatendimento
+                resolvem uma viagem unitária.
+              </p>
+
+              <span class="route-compare-result">
+                Sem integração ônibus
+              </span>
+
+            </article>
+
+
+            <article class="route-compare-card">
+
+              <span>
+                Metropolitano
+              </span>
+
+              <strong>
+                Cartão ÓTIMO
+              </strong>
+
+              <p>
+                É o sistema
+                de bilhetagem utilizado
+                na rede metropolitana.
+              </p>
+
+              <span class="route-compare-result">
+                Sistema estadual
+              </span>
 
             </article>
 
@@ -550,118 +896,95 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             ÔNIBUS
+             MADRUGÃO
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelos ônibus
+            Transporte durante a madrugada
           </h4>
 
-          <div class="answer-block">
+          <p class="panel-intro">
+            O programa Madrugão
+            amplia a oferta municipal
+            entre 0h e 3h59.
+          </p>
 
-            <strong>
-              Consulte horário e itinerário.
-            </strong>
+          <div class="fare-highlight-grid">
 
-            <p>
-              A Prefeitura mantém
-              consulta pública
-              para as linhas municipais.
-            </p>
+            <article class="fare-highlight">
 
-          </div>
+              <span>
+                Madrugão
+              </span>
 
+              <strong>
+                128 linhas
+              </strong>
 
-          <div class="answer-block">
+              <p>
+                Rede especial
+                durante a madrugada.
+              </p>
 
-            <strong>
-              Confira o número da linha.
-            </strong>
-
-            <p>
-              Use número,
-              destino e ponto de embarque
-              em conjunto para confirmar
-              a opção correta.
-            </p>
-
-          </div>
+            </article>
 
 
-          <div class="answer-block">
+            <article class="fare-highlight">
 
-            <strong>
-              Veja o ônibus em tempo real.
-            </strong>
+              <span>
+                Linha 10
+              </span>
 
-            <p>
-              A SUMOB disponibiliza
-              posição dos veículos,
-              itinerário e previsão
-              de chegada nos pontos.
-            </p>
+              <strong>
+                Circular Noturno
+              </strong>
 
-          </div>
+              <p>
+                Liga áreas importantes
+                de vida noturna
+                a conexões
+                do sistema MOVE.
+              </p>
 
-        </section>
-
-
-        <!-- ==================================================
-             TEMPO REAL
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Antes de caminhar até o ponto
-          </h4>
-
-          <div class="payment-recommendation">
-
-            <span class="payment-eyebrow">
-              Consulta em tempo real
-            </span>
-
-            <h4>
-              Veja onde está o ônibus.
-            </h4>
-
-            <p>
-              A ferramenta pública da SUMOB
-              permite pesquisar a linha,
-              visualizar os veículos no mapa
-              e consultar a previsão
-              de chegada em cada parada.
-            </p>
-
-          </div>
-
-        </section>
+            </article>
 
 
-        <!-- ==================================================
-             MADRUGADA
-        =================================================== -->
+            <article class="fare-highlight">
 
-        <section class="panel-box network-full">
+              <span>
+                Linha 10
+              </span>
 
-          <h4 class="panel-title">
-            Vai se deslocar de madrugada?
-          </h4>
+              <strong>
+                23h20 às 4h
+              </strong>
 
-          <div class="answer-block">
+              <p>
+                Horário estrutural
+                publicado pela Prefeitura.
+              </p>
 
-            <strong>
-              Consulte o Madrugão.
-            </strong>
+            </article>
 
-            <p>
-              A rede municipal possui
-              operação específica
-              entre 0h e 3h59.
-            </p>
+
+            <article class="fare-highlight">
+
+              <span>
+                Linha 10
+              </span>
+
+              <strong>
+                25 min
+              </strong>
+
+              <p>
+                Intervalo programado
+                entre partidas.
+              </p>
+
+            </article>
 
           </div>
 
@@ -669,14 +992,21 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
           <div class="answer-block">
 
             <strong>
-              Existe também
-              a Linha 10 Circular Noturno.
+              Linha 10: principais referências
             </strong>
 
             <p>
-              Ela atende pontos importantes
-              da vida noturna
-              e conexões com o MOVE.
+              O percurso passa por
+              Estação Central,
+              Floresta,
+              Praça da Liberdade,
+              Savassi,
+              Lourdes,
+              Praça Raul Soares,
+              Mercado Novo,
+              área hospitalar
+              e estações Carijós
+              e Rio de Janeiro.
             </p>
 
           </div>
@@ -684,9 +1014,12 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
 
           <div class="fare-note">
 
-            Horários noturnos
-            merecem confirmação
-            no próprio dia da viagem.
+            A rede disponível
+            para uma origem específica
+            e os horários das partidas
+            são informações operacionais.
+            Confirme esses dados
+            no dia do deslocamento.
 
           </div>
 
@@ -700,33 +1033,70 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Domingo ou feriado?
+            Domingos e feriados
           </h4>
 
           <div class="visitor-alert">
 
             <strong>
-              Verifique primeiro
-              a rede municipal.
+              Ônibus municipais convencionais
+              e suplementares são gratuitos.
             </strong>
 
             O Catraca Livre
-            torna gratuitas as viagens
-            nas linhas convencionais
-            e suplementares municipais
-            nos períodos previstos
-            pelo programa.
+            vale para viagens iniciadas
+            entre 0h e 23h59.
 
           </div>
 
 
           <div class="fare-note">
 
-            Isso não significa
-            que todos os transportes
-            de Belo Horizonte sejam gratuitos.
-            O metrô e a rede metropolitana
-            seguem regras próprias.
+            O benefício não inclui
+            o metrô
+            nem a rede metropolitana estadual.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             REDE DE DOMINGO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            A rede muda aos domingos
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Nem todas as linhas
+              mantêm a mesma operação.
+            </strong>
+
+            <p>
+              Belo Horizonte possui
+              uma configuração específica
+              da rede aos domingos,
+              com linhas que circulam,
+              linhas que não operam
+              e alternativas para determinadas regiões.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            A gratuidade é estável,
+            mas a linha disponível
+            para um trajeto específico
+            deve ser confirmada
+            na Rede de Domingo da PBH.
 
           </div>
 
@@ -740,14 +1110,16 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Vai para outra cidade da RMBH?
+            Quando entra o sistema metropolitano
           </h4>
 
           <p class="panel-intro">
-            Primeiro confirme
-            se o deslocamento pertence
-            à rede municipal
-            ou ao sistema metropolitano.
+            Se o deslocamento cruza
+            Belo Horizonte
+            em direção a outro município
+            da Região Metropolitana,
+            pode ser necessário utilizar
+            uma linha estadual.
           </p>
 
           <div class="route-compare-grid">
@@ -755,20 +1127,22 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
             <article class="route-compare-card">
 
               <span>
-                Dentro de Belo Horizonte
+                Dentro de BH
               </span>
 
               <strong>
-                Rede municipal
+                Municipal
               </strong>
 
               <p>
-                Consulte SUMOB,
-                MOVE e linhas municipais.
+                Convencional,
+                MOVE
+                e Suplementar
+                pertencem à estrutura municipal.
               </p>
 
               <span class="route-compare-result">
-                Gestão municipal
+                PBH / SUMOB
               </span>
 
             </article>
@@ -781,18 +1155,115 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
               </span>
 
               <strong>
-                Rede metropolitana
+                Metropolitano
               </strong>
 
               <p>
-                Consulte linha,
-                horário, itinerário
-                e tarifa no sistema estadual.
+                Tarifas,
+                linhas,
+                horários
+                e bilhetagem
+                pertencem ao sistema estadual.
               </p>
 
               <span class="route-compare-result">
-                Gestão estadual
+                Governo de Minas
               </span>
+
+            </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            No sistema metropolitano,
+            tarifa e horário realmente
+            dependem da linha específica.
+            Esses dados devem ser consultados
+            no serviço estadual atualizado.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TEMPO REAL
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            O que precisa ser confirmado no momento da viagem
+          </h4>
+
+          <p class="panel-intro">
+            A estrutura da rede
+            está explicada acima.
+            Já alguns dados mudam
+            ao longo do dia.
+          </p>
+
+          <div class="payment-choice-grid">
+
+            <article class="payment-choice">
+
+              <strong>
+                Horário da linha
+              </strong>
+
+              <p>
+                As partidas variam
+                conforme linha,
+                dia e período.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Itinerário operacional
+              </strong>
+
+              <p>
+                Desvios e alterações
+                podem modificar
+                temporariamente
+                o percurso.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Ponto de embarque
+              </strong>
+
+              <p>
+                A PBH permite pesquisar
+                os pontos e as linhas
+                que passam por determinado endereço.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Posição do ônibus
+              </strong>
+
+              <p>
+                A ferramenta em tempo real
+                mostra veículos
+                e previsão de chegada.
+              </p>
 
             </article>
 
@@ -808,7 +1279,7 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Como comparar duas rotas
+            Como comparar duas opções
           </h4>
 
           <div class="route-compare-grid">
@@ -816,18 +1287,17 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
             <article class="route-compare-card">
 
               <span>
-                Opção A
+                Menor tempo
               </span>
 
               <strong>
-                Mais rápida,
-                mais trocas
+                Mais conexões
               </strong>
 
               <p>
-                Pode reduzir o tempo,
-                mas exige atenção
-                nas integrações.
+                Pode valer a pena
+                quando as transferências
+                são simples e bem conectadas.
               </p>
 
               <span class="route-compare-result">
@@ -840,18 +1310,17 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
             <article class="route-compare-card">
 
               <span>
-                Opção B
+                Menos trocas
               </span>
 
               <strong>
-                Mais direta,
-                menos trocas
+                Viagem mais direta
               </strong>
 
               <p>
-                Pode levar alguns minutos
-                a mais e ainda assim
-                ser mais simples.
+                Pode ser mais confortável
+                mesmo que o percurso
+                leve alguns minutos a mais.
               </p>
 
               <span class="route-compare-result">
@@ -864,18 +1333,19 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
             <article class="route-compare-card">
 
               <span>
-                Opção C
+                Menos caminhada
               </span>
 
               <strong>
-                Menos caminhada
+                Maior conforto
               </strong>
 
               <p>
-                Pode ser relevante
+                Pode fazer diferença
                 com bagagem,
-                chuva ou dificuldade
-                de mobilidade.
+                chuva,
+                calor
+                ou mobilidade reduzida.
               </p>
 
               <span class="route-compare-result">
@@ -890,115 +1360,7 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             ANTES DE SAIR
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Antes de sair
-          </h4>
-
-          <div class="planner-tip-list">
-
-            <article class="planner-tip">
-
-              <span class="planner-tip-icon">
-                📱
-              </span>
-
-              <div>
-
-                <strong>
-                  Consulte novamente
-                </strong>
-
-                <p>
-                  Veja horário,
-                  itinerário e posição
-                  do ônibus antes de sair.
-                </p>
-
-              </div>
-
-            </article>
-
-
-            <article class="planner-tip">
-
-              <span class="planner-tip-icon">
-                💳
-              </span>
-
-              <div>
-
-                <strong>
-                  Confira o pagamento
-                </strong>
-
-                <p>
-                  Integrações tarifárias
-                  dependem das regras
-                  do sistema utilizado.
-                </p>
-
-              </div>
-
-            </article>
-
-
-            <article class="planner-tip">
-
-              <span class="planner-tip-icon">
-                🔄
-              </span>
-
-              <div>
-
-                <strong>
-                  Entenda as trocas
-                </strong>
-
-                <p>
-                  Uma rota pelo MOVE
-                  pode envolver mais
-                  de um ônibus.
-                </p>
-
-              </div>
-
-            </article>
-
-
-            <article class="planner-tip">
-
-              <span class="planner-tip-icon">
-                🌆
-              </span>
-
-              <div>
-
-                <strong>
-                  Confira o município
-                </strong>
-
-                <p>
-                  Sair de Belo Horizonte
-                  pode significar entrar
-                  no sistema metropolitano.
-                </p>
-
-              </div>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             FONTES PÚBLICAS
+             FONTES OFICIAIS
         =================================================== -->
 
         <div class="official-map-actions">
@@ -1025,6 +1387,16 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
 
           <a
             class="official-link"
+            href="https://prefeitura.pbh.gov.br/sumob/onibus/pontos-de-onibus"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Pontos de ônibus · PBH
+          </a>
+
+
+          <a
+            class="official-link"
             href="https://prefeitura.pbh.gov.br/sumob/onibus/estacoes"
             target="_blank"
             rel="noopener noreferrer"
@@ -1035,11 +1407,31 @@ window.BELO_HORIZONTE_TRANSPORT_MODULES["planner"] = {
 
           <a
             class="official-link"
-            href="https://prefeitura.pbh.gov.br/sumob/onibus/tarifas-e-integracoes"
+            href="https://prefeitura.pbh.gov.br/sumob/madrugao"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Tarifas e integrações · PBH
+            Madrugão · PBH
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://prefeitura.pbh.gov.br/sumob/onibus/rede-de-domingo"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Rede de Domingo · PBH
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://www.metrobh.com.br/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Metrô BH
           </a>
 
 
