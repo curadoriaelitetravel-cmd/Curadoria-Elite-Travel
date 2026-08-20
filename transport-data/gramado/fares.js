@@ -22,7 +22,7 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             VALOR MUNICIPAL
+             TARIFA MUNICIPAL
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -33,8 +33,8 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
 
           <p class="panel-intro">
             O novo sistema de transporte público
-            de Gramado entrou em vigor
-            em agosto de 2026.
+            de Gramado entrou em operação
+            em 1º de agosto de 2026.
           </p>
 
           <div class="fare-highlight-grid">
@@ -50,9 +50,9 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Tarifa da rede municipal
-                em vigor desde
-                1º de agosto de 2026.
+                Tarifa unitária
+                da rede municipal
+                de Gramado.
               </p>
 
             </article>
@@ -77,7 +77,7 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
             <article class="comparison-card">
 
               <strong>
-                Tarifa anterior
+                Até julho de 2026
               </strong>
 
               <p>
@@ -90,12 +90,11 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
             <article class="comparison-card">
 
               <strong>
-                Nova tarifa
+                Desde 1º de agosto de 2026
               </strong>
 
               <p>
-                R$ 4,00 desde
-                1º de agosto de 2026.
+                R$ 4,00.
               </p>
 
             </article>
@@ -106,12 +105,13 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
           <div class="fare-note">
 
             <strong>
-              Essa tarifa vale para
-              o sistema municipal de Gramado.
+              A redução faz parte
+              do novo sistema municipal.
             </strong>
 
-            Não deve ser confundida
-            com ônibus intermunicipais.
+            A tarifa de R$ 4,00
+            não corresponde
+            aos ônibus intermunicipais.
 
           </div>
 
@@ -119,233 +119,45 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             INTERMUNICIPAL
+             O QUE A TARIFA MUNICIPAL COBRE
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Viagens intermunicipais
-          </h4>
-
-          <p class="panel-intro">
-            Viagens entre Gramado
-            e outros municípios
-            seguem o sistema rodoviário
-            intermunicipal do Rio Grande do Sul.
-          </p>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Não existe uma tarifa única
-              para todas as viagens.
-            </strong>
-
-            <p>
-              O valor depende da origem,
-              destino, linha,
-              categoria do serviço
-              e regras tarifárias estaduais.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Consulte a tabela vigente.
-            </strong>
-
-            <p>
-              O DAER-RS publica
-              tabelas tarifárias
-              para o transporte intermunicipal
-              de passageiros.
-            </p>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             DAER / AGERGS
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Quem define e fiscaliza
-          </h4>
-
-          <div class="comparison-grid">
-
-            <article class="comparison-card">
-
-              <strong>
-                DAER-RS
-              </strong>
-
-              <p>
-                Mantém informações
-                do sistema regular
-                de transporte intermunicipal
-                e publica tabelas tarifárias.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                AGERGS
-              </strong>
-
-              <p>
-                Atua na regulação
-                do transporte rodoviário
-                intermunicipal de passageiros
-                no Rio Grande do Sul.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             REAJUSTE 2026
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Tarifas estaduais em 2026
+            Quando vale a tarifa de R$ 4,00
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              Houve reposicionamento tarifário
-              em 2026.
+              Deslocamentos na rede municipal
+              de Gramado
             </strong>
 
             <p>
-              A AGERGS publicou
-              em julho de 2026
-              resolução referente
-              ao sistema estadual
-              de transporte intermunicipal
-              de longo curso.
+              A tarifa corresponde
+              aos ônibus e micro-ônibus
+              operados dentro
+              do sistema municipal.
             </p>
 
           </div>
 
 
-          <div class="fare-note">
+          <div class="visitor-alert">
 
-            Por isso, valores antigos
-            encontrados em blogs,
-            sites comerciais
-            ou resultados de busca
-            podem não refletir
-            a tarifa vigente.
+            <strong>
+              Ir para outra cidade
+              é outra situação tarifária.
+            </strong>
 
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             COMO CONSULTAR
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Como conferir o preço
-          </h4>
-
-          <div class="bus-use-flow">
-
-            <article class="bus-use-step">
-
-              <span>
-                1
-              </span>
-
-              <strong>
-                Defina origem e destino
-              </strong>
-
-              <p>
-                Exemplo:
-                Gramado → outra cidade.
-              </p>
-
-            </article>
-
-
-            <article class="bus-use-step">
-
-              <span>
-                2
-              </span>
-
-              <strong>
-                Identifique o serviço
-              </strong>
-
-              <p>
-                A tarifa pode variar
-                conforme a linha
-                e a categoria.
-              </p>
-
-            </article>
-
-
-            <article class="bus-use-step">
-
-              <span>
-                3
-              </span>
-
-              <strong>
-                Consulte a tabela oficial
-              </strong>
-
-              <p>
-                Use os canais
-                do DAER-RS
-                e da AGERGS.
-              </p>
-
-            </article>
-
-
-            <article class="bus-use-step">
-
-              <span>
-                4
-              </span>
-
-              <strong>
-                Confirme antes do embarque
-              </strong>
-
-              <p>
-                Verifique se houve
-                reajuste ou alteração recente.
-              </p>
-
-            </article>
+            Uma viagem intermunicipal,
+            como um deslocamento
+            para outro município,
+            pertence ao sistema estadual
+            e não utiliza automaticamente
+            a tarifa municipal de R$ 4,00.
 
           </div>
 
@@ -353,81 +165,13 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             OUTROS MODAIS
+             EXEMPLOS MUNICIPAIS
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Aplicativo, táxi e carro
-          </h4>
-
-          <p class="panel-intro">
-            Esses meios não possuem
-            a mesma lógica tarifária
-            do transporte coletivo municipal.
-          </p>
-
-
-          <div class="comparison-grid">
-
-            <article class="comparison-card">
-
-              <strong>
-                Aplicativo
-              </strong>
-
-              <p>
-                O preço varia
-                conforme distância,
-                demanda e horário.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Táxi
-              </strong>
-
-              <p>
-                A cobrança segue
-                as regras municipais
-                aplicáveis ao serviço.
-              </p>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Carro
-              </strong>
-
-              <p>
-                Considere combustível,
-                estacionamento
-                e eventuais custos adicionais.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             EXEMPLOS
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Exemplos simples
+            Exemplos de custo
           </h4>
 
           <div class="fare-scenario-grid">
@@ -435,16 +179,16 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Dentro de Gramado
+                1 passageiro
               </span>
 
               <strong>
-                Uma passagem municipal
+                Uma viagem municipal
               </strong>
 
               <p>
-                Viagem realizada
-                no sistema municipal.
+                Uma tarifa individual
+                na rede municipal.
               </p>
 
               <span class="fare-scenario-result">
@@ -457,11 +201,11 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Duas pessoas
+                2 passageiros
               </span>
 
               <strong>
-                Duas passagens municipais
+                Uma viagem para cada pessoa
               </strong>
 
               <p>
@@ -479,20 +223,42 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Outra cidade
+                1 passageiro
               </span>
 
               <strong>
-                Ônibus intermunicipal
+                Ida e volta
               </strong>
 
               <p>
-                Consulte o valor
-                vigente no sistema estadual.
+                Duas viagens municipais
+                de R$ 4,00 cada.
               </p>
 
               <span class="fare-scenario-result">
-                Tarifa variável
+                R$ 8,00
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                2 passageiros
+              </span>
+
+              <strong>
+                Ida e volta
+              </strong>
+
+              <p>
+                Quatro tarifas individuais
+                de R$ 4,00.
+              </p>
+
+              <span class="fare-scenario-result">
+                R$ 16,00
               </span>
 
             </article>
@@ -503,26 +269,36 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             ALERTAS
+             INTERMUNICIPAL
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Antes de embarcar
+            Viagens intermunicipais
           </h4>
 
+          <p class="panel-intro">
+            Ônibus entre Gramado
+            e outros municípios
+            pertencem ao sistema rodoviário
+            intermunicipal do Rio Grande do Sul.
+          </p>
 
           <div class="answer-block">
 
             <strong>
-              Não use valores de sites comerciais
-              como referência definitiva.
+              Não existe uma tarifa única
+              para a rede intermunicipal.
             </strong>
 
             <p>
-              Tarifas estaduais
-              podem sofrer reajustes.
+              O preço depende
+              da origem,
+              destino,
+              linha,
+              empresa
+              e categoria do serviço.
             </p>
 
           </div>
@@ -531,31 +307,26 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
           <div class="answer-block">
 
             <strong>
-              Municipal e intermunicipal
-              são sistemas diferentes.
+              As tarifas são definidas
+              por serviço e linha.
             </strong>
 
             <p>
-              A tarifa de R$ 4,00
-              corresponde à rede municipal
-              de Gramado.
+              Por isso,
+              um único valor não representaria
+              corretamente todos
+              os deslocamentos intermunicipais
+              que partem de Gramado.
             </p>
 
           </div>
 
 
-          <div class="answer-block">
+          <div class="fare-note">
 
-            <strong>
-              Confirme valores atualizados.
-            </strong>
-
-            <p>
-              Para viagens intermunicipais,
-              consulte os canais públicos
-              responsáveis pela regulação
-              e pelas tabelas tarifárias.
-            </p>
+            Para uma viagem intermunicipal específica,
+            utilize a tabela oficial vigente
+            correspondente à linha escolhida.
 
           </div>
 
@@ -563,18 +334,240 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             FONTES PÚBLICAS
+             REGULAÇÃO ESTADUAL
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Quem regula as tarifas intermunicipais
+          </h4>
+
+          <div class="comparison-grid">
+
+            <article class="comparison-card">
+
+              <strong>
+                DAER-RS
+              </strong>
+
+              <p>
+                É responsável pela gestão
+                do sistema estadual
+                e pelos cálculos
+                e tabelas tarifárias
+                das linhas.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                AGERGS
+              </strong>
+
+              <p>
+                Atua na regulação econômica
+                do transporte rodoviário
+                intermunicipal
+                de passageiros.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TARIFAS ESTADUAIS 2026
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Tarifas intermunicipais em 2026
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              O sistema estadual
+              teve atualização tarifária em 2026.
+            </strong>
+
+            <p>
+              A AGERGS publicou
+              em 1º de julho de 2026
+              decisão referente
+              ao reposicionamento tarifário
+              do Sistema Estadual
+              de Longo Curso.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Valores antigos encontrados
+            em blogs,
+            publicações comerciais
+            ou resultados de busca
+            podem estar desatualizados.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             DIFERENÇA ENTRE OS SISTEMAS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Não confunda os dois sistemas
+          </h4>
+
+          <div class="route-compare-grid">
+
+            <article class="route-compare-card">
+
+              <span>
+                Dentro de Gramado
+              </span>
+
+              <strong>
+                Municipal
+              </strong>
+
+              <p>
+                Rede local
+                de transporte coletivo
+                do município.
+              </p>
+
+              <span class="route-compare-result">
+                R$ 4,00
+              </span>
+
+            </article>
+
+
+            <article class="route-compare-card">
+
+              <span>
+                Entre municípios
+              </span>
+
+              <strong>
+                Intermunicipal
+              </strong>
+
+              <p>
+                Sistema rodoviário
+                regulado em âmbito estadual.
+              </p>
+
+              <span class="route-compare-result">
+                Tarifa por linha
+              </span>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             PARA QUEM ESTÁ VISITANDO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Para quem está visitando Gramado
+          </h4>
+
+          <div class="planner-check-grid">
+
+            <article class="planner-check-card">
+
+              <span>🚌</span>
+
+              <strong>
+                Deslocamento municipal
+              </strong>
+
+              <p>
+                Considere R$ 4,00
+                por passagem
+                na rede municipal.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>👥</span>
+
+              <strong>
+                Viajando acompanhado
+              </strong>
+
+              <p>
+                A tarifa é individual.
+                Calcule R$ 4,00
+                para cada passageiro
+                e cada viagem.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🌆</span>
+
+              <strong>
+                Vai para outra cidade
+              </strong>
+
+              <p>
+                O valor municipal
+                deixa de ser a referência.
+                A viagem passa a seguir
+                a tarifa da linha
+                intermunicipal escolhida.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             FONTES OFICIAIS
         =================================================== -->
 
         <div class="official-map-actions">
 
           <a
             class="official-link"
-            href="https://www.gramado.rs.gov.br/"
+            href="https://gramado.atende.net/cidadao/noticia/novo-sistema-do-transporte-publico-de-gramado-inicia-operacao-em-agosto"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Prefeitura de Gramado
+            Novo transporte público · Prefeitura de Gramado
           </a>
 
 
@@ -584,7 +577,7 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Tabelas tarifárias · DAER-RS
+            Tarifas intermunicipais · DAER-RS
           </a>
 
 
@@ -594,7 +587,7 @@ window.GRAMADO_TRANSPORT_MODULES["fares"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Transporte rodoviário · AGERGS
+            Transporte intermunicipal · AGERGS
           </a>
 
         </div>
