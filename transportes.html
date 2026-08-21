@@ -2673,7 +2673,7 @@
               <option value="belo-horizonte">Belo Horizonte, Brasil</option>
               <option value="brasilia">Brasília, Brasil</option>
               <option value="paris" disabled>Paris, França — em preparação</option>
-              <option value="new-york" disabled>New York, Estados Unidos — em preparação</option>
+              <option value="new-york">Nova York, Estados Unidos</option>
             </select>
             <button id="showDestinationButton" class="primary-button" type="button">
               Explorar a malha
@@ -2915,6 +2915,13 @@
   <script src="transport-data/brasilia/planner.js"></script>
   <script src="transport-data/brasilia/index.js"></script>
 
+  <script src="transport-data/new-york/network.js"></script>
+  <script src="transport-data/new-york/fares.js"></script>
+  <script src="transport-data/new-york/pagamento.js"></script>
+  <script src="transport-data/new-york/onibus.js"></script>
+  <script src="transport-data/new-york/planner.js"></script>
+  <script src="transport-data/new-york/index.js"></script>
+
   <script>
 
     const TRANSPORT_CINEMA_VERSION = "20260724-1";
@@ -3032,6 +3039,19 @@
         cityName: "Brasília",
         cityLabel: "Brasília",
         fallbackCategories: []
+      },
+
+      "new-york": {
+        cityName: "Nova York",
+        cityLabel: "Nova York",
+        fallbackCategories: [
+          "City Guide",
+          "Gastronomia",
+          "Atrações Turísticas",
+          "Vida Noturna",
+          "Endereços para Compras",
+          "Sugestão de Presentes"
+        ]
       }
     };
 
@@ -3246,6 +3266,10 @@
         return window.BRASILIA_TRANSPORT_MODULES || {};
       }
 
+      if (select && select.value === "new-york") {
+        return window.NEW_YORK_TRANSPORT_MODULES || {};
+      }
+
       return window.SP_TRANSPORT_MODULES || {};
     }
 
@@ -3458,6 +3482,48 @@
         };
       }
 
+      if (value === "new-york") {
+        return {
+          cityName: "Nova York",
+          locationLabel: "Nova York, Estados Unidos",
+          summary:
+            "Entenda subway, ônibus, trens suburbanos, PATH, ferries, conexões aeroportuárias, tarifas e meios de pagamento antes de circular por Nova York.",
+          updatedAt: "Modelo visual · agosto de 2026",
+          networkTitle: "Rede de Transporte",
+          networkDescription:
+            "Veja como subway, ônibus, LIRR, Metro-North, PATH, ferries e conexões aeroportuárias se organizam e se complementam.",
+          networkPoints: [
+            "Subway",
+            "Ônibus",
+            "LIRR e Metro-North",
+            "PATH",
+            "Ferries"
+          ],
+          cards: {
+            fares: {
+              title: "Tarifas e integração",
+              description:
+                "Tarifas, transferências, fare cap e diferenças entre MTA, PATH, ferries e conexões aeroportuárias."
+            },
+            card: {
+              title: "Como pagar",
+              description:
+                "OMNY, pagamento por aproximação, cartões, celular e meios aceitos nos diferentes sistemas."
+            },
+            bus: {
+              title: "Ônibus",
+              description:
+                "Linhas locais, Limited, Select Bus Service, express buses, identificação e embarque."
+            },
+            planner: {
+              title: "Planeje o trajeto",
+              description:
+                "Compare subway, ônibus, PATH, LIRR, Metro-North, ferries e conexões com os aeroportos."
+            }
+          }
+        };
+      }
+
       return {
         cityName: "São Paulo",
         summary:
@@ -3508,7 +3574,7 @@
       const networkDescription = document.querySelector(".network-content > p");
       const networkPoints = document.querySelector(".network-points");
 
-      if (summaryTitle) summaryTitle.textContent = `${data.cityName}, Brasil`;
+      if (summaryTitle) summaryTitle.textContent = data.locationLabel || `${data.cityName}, Brasil`;
       if (summaryCopy) summaryCopy.textContent = data.summary;
       if (updatedPill) updatedPill.textContent = data.updatedAt;
       if (networkTitle) networkTitle.textContent = data.networkTitle || "Rede Metropolitana";
