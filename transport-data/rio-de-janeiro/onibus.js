@@ -32,11 +32,11 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
           </h4>
 
           <p class="panel-intro">
-            No Rio, é importante distinguir ônibus municipal,
-            BRT e ônibus intermunicipal.
-            Eles pertencem a redes diferentes,
-            usam canais de consulta diferentes
-            e podem ter tarifas distintas.
+            No Rio de Janeiro,
+            ônibus municipal,
+            BRT
+            e ônibus intermunicipal
+            pertencem a estruturas diferentes.
           </p>
 
           <div class="bus-system-grid">
@@ -50,13 +50,13 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Circula dentro do município
+                Circula dentro
+                do município
                 do Rio de Janeiro.
               </p>
 
               <small>
-                Consulte linhas e plano operacional
-                pelos canais da Prefeitura.
+                Rede municipal · Jaé
               </small>
 
             </article>
@@ -71,13 +71,15 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Sistema de ônibus de alta capacidade
-                operado em corredores e estações próprias.
+                Sistema municipal
+                de alta capacidade
+                com corredores,
+                estações
+                e terminais próprios.
               </p>
 
               <small>
-                A operação é administrada
-                pela MOBI-Rio.
+                Operação · MOBI-Rio
               </small>
 
             </article>
@@ -92,13 +94,14 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Liga o Rio a outros municípios
-                da Região Metropolitana e do estado.
+                Liga o Rio
+                a outros municípios
+                da Região Metropolitana
+                e do estado.
               </p>
 
               <small>
-                Consulte itinerário e tarifa
-                pelo DETRO/RJ.
+                Rede estadual · DETRO/RJ
               </small>
 
             </article>
@@ -119,9 +122,12 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
           </h4>
 
           <p class="panel-intro">
-            A rede municipal atende bairros,
-            terminais, estações e áreas
-            que nem sempre possuem metrô ou trem.
+            A rede municipal
+            amplia a cobertura
+            para bairros e regiões
+            que não ficam diretamente
+            nos eixos do metrô
+            ou do BRT.
           </p>
 
           <div class="bus-identification-grid">
@@ -133,13 +139,14 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
               </span>
 
               <strong>
-                Confira o número da linha
+                Confira o número
               </strong>
 
               <p>
-                O número é a referência mais segura
-                para confirmar qual ônibus
-                você deve utilizar.
+                O código da linha
+                é a principal referência
+                para identificar
+                o serviço correto.
               </p>
 
             </article>
@@ -156,9 +163,9 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                O letreiro mostra o sentido
-                para o qual o veículo
-                está seguindo.
+                O letreiro ajuda
+                a confirmar o sentido
+                da viagem.
               </p>
 
             </article>
@@ -171,16 +178,61 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
               </span>
 
               <strong>
-                Confirme o ponto
+                Confira o ponto
               </strong>
 
               <p>
-                Nem toda linha passa
-                em todos os pontos
-                da mesma avenida.
+                Nem toda linha
+                que percorre uma avenida
+                atende todos
+                os pontos dela.
               </p>
 
             </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             DADOS OPERACIONAIS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Horário, itinerário e operação
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              A Prefeitura mantém
+              o plano operacional da rede.
+            </strong>
+
+            <p>
+              Os planos publicados
+              informam os serviços
+              programados para cada período.
+            </p>
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              Horário e alteração de linha
+              são dados que vale confirmar
+              antes de sair.
+            </strong>
+
+            O plano operacional
+            pode receber atualizações
+            ao longo do mês
+            e em situações especiais.
 
           </div>
 
@@ -194,20 +246,129 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Pagamento nos ônibus municipais
+            Como pagar o ônibus municipal
+          </h4>
+
+          <p class="panel-intro">
+            A rede utiliza
+            o sistema de bilhetagem Jaé.
+          </p>
+
+          <div class="payment-method-grid">
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                🟨
+              </span>
+
+              <strong>
+                Jaé
+              </strong>
+
+              <span class="payment-status available">
+                Rede municipal
+              </span>
+
+              <small>
+                Cartão físico
+                ou aplicativo,
+                conforme a modalidade.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                📲
+              </span>
+
+              <strong>
+                Pix
+              </strong>
+
+              <span class="payment-status available">
+                Validador
+              </span>
+
+              <small>
+                Pagamento avulso
+                nos validadores
+                preparados para essa função.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                💳
+              </span>
+
+              <strong>
+                Crédito e débito
+              </strong>
+
+              <span class="payment-status available">
+                Validador
+              </span>
+
+              <small>
+                Também podem ser usados
+                como pagamento avulso
+                nos equipamentos habilitados.
+              </small>
+
+            </article>
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              Dinheiro não é aceito
+              dentro dos ônibus municipais.
+            </strong>
+
+            A vedação ao pagamento
+            em espécie a bordo
+            entrou em vigor
+            em 30 de maio de 2026.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             BUC
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Vai combinar ônibus, BRT ou VLT?
           </h4>
 
           <div class="answer-block">
 
             <strong>
-              O sistema municipal utiliza Jaé.
+              Existe integração municipal
+              pelo Bilhete Único Carioca.
             </strong>
 
             <p>
-              O Jaé é a bilhetagem eletrônica
-              utilizada nos ônibus municipais,
-              BRT, VLT, vans municipais
-              e cabritinhos.
+              Quando uma das viagens
+              é realizada no BRT,
+              podem ser utilizados
+              até três modos municipais
+              dentro de três horas,
+              no mesmo sentido,
+              pagando uma tarifa municipal.
             </p>
 
           </div>
@@ -216,29 +377,33 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
           <div class="answer-block">
 
             <strong>
-              Não conte com dinheiro a bordo.
+              Sem BRT
             </strong>
 
             <p>
-              A Prefeitura consolidou
-              os meios eletrônicos de pagamento
-              e vedou o recebimento de dinheiro
-              em espécie dentro dos ônibus municipais.
+              O benefício permite
+              até dois deslocamentos
+              municipais consecutivos
+              no mesmo sentido.
             </p>
 
           </div>
 
 
-          <div class="fare-note">
+          <div class="visitor-alert">
 
             <strong>
-              Para visitantes:
+              A integração exige
+              Jaé elegível.
             </strong>
 
-            tenha o meio de pagamento pronto
-            antes de embarcar,
-            principalmente se o ônibus municipal
-            fizer parte do seu deslocamento principal.
+            Utilize o cartão preto
+            vinculado ao CPF
+            ou o aplicativo Jaé.
+
+            O cartão verde unitário
+            não oferece o benefício
+            do Bilhete Único Carioca.
 
           </div>
 
@@ -256,10 +421,8 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
           </h4>
 
           <p class="panel-intro">
-            O BRT não deve ser tratado
-            como um ônibus comum.
-            Ele possui estações,
-            corredores e serviços próprios.
+            O sistema possui
+            quatro grandes corredores.
           </p>
 
           <div class="lines-grid">
@@ -285,6 +448,7 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
                 </span>
 
                 <div>
+
                   <strong>
                     Transoeste
                   </strong>
@@ -292,14 +456,19 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
                   <small style="display:block;">
                     BRT
                   </small>
+
                 </div>
 
               </div>
 
               <p>
-                Principal eixo entre
-                Barra da Tijuca, Recreio
-                e Zona Oeste.
+                Estrutura deslocamentos
+                entre Barra da Tijuca,
+                Recreio,
+                Santa Cruz,
+                Campo Grande
+                e outras áreas
+                da Zona Oeste.
               </p>
 
               <span class="line-operator">
@@ -330,6 +499,7 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
                 </span>
 
                 <div>
+
                   <strong>
                     Transcarioca
                   </strong>
@@ -337,14 +507,17 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
                   <small style="display:block;">
                     BRT
                   </small>
+
                 </div>
 
               </div>
 
               <p>
-                Liga Barra da Tijuca
-                e Zona Norte,
-                com acesso ao Galeão.
+                Liga a Barra
+                a diferentes áreas
+                da Zona Norte
+                e participa de conexões
+                com o Galeão.
               </p>
 
               <span class="line-operator">
@@ -375,6 +548,7 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
                 </span>
 
                 <div>
+
                   <strong>
                     Transolímpica
                   </strong>
@@ -382,14 +556,15 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
                   <small style="display:block;">
                     BRT
                   </small>
+
                 </div>
 
               </div>
 
               <p>
-                Conecta áreas da Zona Oeste
-                e terminais importantes
-                da rede.
+                Conecta terminais
+                e diferentes áreas
+                da Zona Oeste.
               </p>
 
               <span class="line-operator">
@@ -420,6 +595,7 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
                 </span>
 
                 <div>
+
                   <strong>
                     Transbrasil
                   </strong>
@@ -427,6 +603,7 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
                   <small style="display:block;">
                     BRT
                   </small>
+
                 </div>
 
               </div>
@@ -434,11 +611,212 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
               <p>
                 Opera pelo eixo
                 da Avenida Brasil
-                e chega ao Terminal Gentileza.
+                e conecta diferentes regiões
+                ao Terminal Gentileza.
               </p>
 
               <span class="line-operator">
                 MOBI-Rio
+              </span>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             SERVIÇOS BRT
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Um corredor possui vários serviços
+          </h4>
+
+          <p class="panel-intro">
+            No BRT,
+            o nome do corredor sozinho
+            não identifica o ônibus correto.
+          </p>
+
+          <div class="comparison-grid">
+
+            <article class="comparison-card">
+
+              <strong>
+                Parador
+              </strong>
+
+              <p>
+                Realiza mais paradas
+                ao longo do percurso.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Expresso
+              </strong>
+
+              <p>
+                Atende apenas
+                determinadas estações.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Semidireto
+              </strong>
+
+              <p>
+                Opera com número
+                ainda mais limitado
+                de paradas
+                em alguns serviços.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Direto
+              </strong>
+
+              <p>
+                Existem serviços
+                sem paradas intermediárias
+                em trajetos específicos.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Para embarcar corretamente,
+            confira sempre
+            <strong>número + destino + tipo do serviço</strong>.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             SERVIÇOS ÚTEIS BRT
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Alguns serviços úteis para o visitante
+          </h4>
+
+          <div class="fare-scenario-grid">
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Galeão
+              </span>
+
+              <strong>
+                Linha 42
+              </strong>
+
+              <p>
+                Madureira
+                ↔ Galeão Tom Jobim,
+                serviço parador
+                da Transcarioca.
+              </p>
+
+              <span class="fare-scenario-result">
+                BRT
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Galeão
+              </span>
+
+              <strong>
+                Terminal Gentileza ↔ Galeão
+              </strong>
+
+              <p>
+                Serviço direto
+                publicado pela MOBI-Rio.
+              </p>
+
+              <span class="fare-scenario-result">
+                Direto
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Barra
+              </span>
+
+              <strong>
+                Linha 22
+              </strong>
+
+              <p>
+                Alvorada
+                ↔ Jardim Oceânico,
+                serviço parador
+                da Transoeste.
+              </p>
+
+              <span class="fare-scenario-result">
+                Metrô + BRT
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Avenida Brasil
+              </span>
+
+              <strong>
+                Linhas 60 e 61
+              </strong>
+
+              <p>
+                Deodoro
+                ↔ Terminal Gentileza,
+                em versões
+                parador e expresso.
+              </p>
+
+              <span class="fare-scenario-result">
+                Transbrasil
               </span>
 
             </article>
@@ -462,16 +840,16 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
 
             <article class="bus-use-step">
 
-              <span>📍</span>
+              <span>1</span>
 
               <strong>
-                1. Localize a estação
+                Localize a estação
               </strong>
 
               <p>
-                O embarque acontece
-                em estações e terminais
-                próprios do sistema.
+                O embarque ocorre
+                em estações
+                e terminais próprios.
               </p>
 
             </article>
@@ -479,16 +857,19 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
 
             <article class="bus-use-step">
 
-              <span>🔢</span>
+              <span>2</span>
 
               <strong>
-                2. Confira a linha
+                Confira o serviço
               </strong>
 
               <p>
-                Um mesmo corredor pode ter
-                serviços com destinos
-                e paradas diferentes.
+                Veja o número,
+                destino
+                e se é parador,
+                expresso,
+                semidireto
+                ou direto.
               </p>
 
             </article>
@@ -496,16 +877,16 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
 
             <article class="bus-use-step">
 
-              <span>🧭</span>
+              <span>3</span>
 
               <strong>
-                3. Veja o sentido
+                Confirme o sentido
               </strong>
 
               <p>
-                Confirme qual terminal
-                ou estação está indicado
-                como destino.
+                Observe o terminal
+                ou estação final
+                indicado.
               </p>
 
             </article>
@@ -513,16 +894,15 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
 
             <article class="bus-use-step">
 
-              <span>🟨</span>
+              <span>4</span>
 
               <strong>
-                4. Valide o Jaé
+                Valide a passagem
               </strong>
 
               <p>
-                A validação acontece
-                antes do acesso
-                à área de embarque.
+                O BRT utiliza
+                a bilhetagem municipal Jaé.
               </p>
 
             </article>
@@ -533,7 +913,237 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             ÔNIBUS INTERMUNICIPAIS
+             INTEGRAÇÃO BRT + METRÔ
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            BRT + MetrôRio
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              A integração tarifária existe
+              em duas estações específicas.
+            </strong>
+
+            <p>
+              Jardim Oceânico,
+              na Barra da Tijuca,
+              e Vicente de Carvalho,
+              na Zona Norte.
+            </p>
+
+          </div>
+
+
+          <div class="fare-highlight-grid">
+
+            <article class="fare-highlight">
+
+              <span>
+                Metrô + BRT
+              </span>
+
+              <strong>
+                R$ 9,70
+              </strong>
+
+              <p>
+                Com Jaé
+                e dentro das regras
+                da integração.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TERMINAL GENTILEZA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Terminal Intermodal Gentileza
+          </h4>
+
+          <p class="panel-intro">
+            É um dos principais
+            pontos de integração
+            da rede municipal.
+          </p>
+
+          <div class="comparison-grid">
+
+            <article class="comparison-card">
+
+              <strong>
+                BRT
+              </strong>
+
+              <p>
+                É terminal
+                de diferentes serviços
+                da Transbrasil.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                VLT
+              </strong>
+
+              <p>
+                O terminal
+                é atendido
+                pela rede do VLT.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Ônibus municipais
+              </strong>
+
+              <p>
+                Linhas municipais
+                atendem o terminal
+                e seu entorno.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Galeão
+              </strong>
+
+              <p>
+                Existe serviço BRT
+                direto entre
+                o Terminal Gentileza
+                e o aeroporto.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             BUM
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Chegando de ônibus intermunicipal
+            ao Terminal Pedro Fernandes
+          </h4>
+
+          <p class="panel-intro">
+            Em 2026,
+            a Prefeitura criou
+            uma integração específica
+            para passageiros
+            que chegam pelo novo terminal
+            metropolitano.
+          </p>
+
+          <div class="answer-block">
+
+            <strong>
+              Bilhete Único de Integração Margaridas · BUM
+            </strong>
+
+            <p>
+              O benefício permite
+              integrar o ônibus intermunicipal
+              com transportes municipais
+              atendidos pelo Terminal Gentileza
+              e seu entorno.
+            </p>
+
+          </div>
+
+
+          <div class="fare-highlight-grid">
+
+            <article class="fare-highlight">
+
+              <span>
+                Integração municipal
+              </span>
+
+              <strong>
+                R$ 5,00
+              </strong>
+
+              <p>
+                Valor fixo
+                da parte municipal
+                da integração.
+              </p>
+
+            </article>
+
+
+            <article class="fare-highlight">
+
+              <span>
+                Janela
+              </span>
+
+              <strong>
+                Até 20 horas
+              </strong>
+
+              <p>
+                Permite até
+                quatro deslocamentos municipais
+                nas condições
+                do benefício.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            O BUM não cobre
+            a tarifa do ônibus intermunicipal.
+
+            A passagem estadual
+            é paga separadamente
+            pelo sistema
+            de bilhetagem estadual.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             INTERMUNICIPAIS
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -543,9 +1153,11 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
           </h4>
 
           <p class="panel-intro">
-            São usados quando o percurso
-            ultrapassa os limites
-            do município do Rio.
+            Se a viagem ultrapassa
+            os limites da cidade do Rio,
+            o serviço pode pertencer
+            à rede estadual
+            regulada pelo DETRO/RJ.
           </p>
 
           <div class="bus-system-grid">
@@ -559,11 +1171,15 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                Linhas ligam o Rio
-                a Niterói, São Gonçalo,
-                Duque de Caxias, Nova Iguaçu,
-                Nilópolis, Magé, Maricá
-                e outros municípios.
+                Há ligações
+                para municípios como
+                Niterói,
+                São Gonçalo,
+                Duque de Caxias,
+                Nova Iguaçu,
+                Nilópolis,
+                Magé
+                e Maricá.
               </p>
 
             </article>
@@ -574,14 +1190,14 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
               <span>🔢</span>
 
               <strong>
-                Cada linha possui tarifa própria
+                Tarifa por linha
               </strong>
 
               <p>
-                O valor depende
-                da distância,
-                do tipo de serviço
-                e do itinerário.
+                Não existe
+                uma única tarifa
+                válida para toda
+                a rede intermunicipal.
               </p>
 
             </article>
@@ -596,10 +1212,10 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
               </strong>
 
               <p>
-                É o canal oficial
-                para consultar tarifas,
+                Publica
+                linhas regulares,
                 itinerários
-                e serviços intermunicipais.
+                e tarifas vigentes.
               </p>
 
             </article>
@@ -610,64 +1226,82 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             DIFERENÇA MUNICIPAL X INTERMUNICIPAL
+             EXEMPLOS INTERMUNICIPAIS
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Municipal ou intermunicipal?
+            Como reconhecer uma viagem intermunicipal
           </h4>
 
-          <div class="comparison-grid">
+          <div class="route-compare-grid">
 
-            <article class="comparison-card">
+            <article class="route-compare-card">
+
+              <span>
+                Dentro do Rio
+              </span>
 
               <strong>
                 Municipal
               </strong>
 
               <p>
-                A origem e o destino
+                Origem e destino
                 permanecem dentro
-                do município do Rio de Janeiro.
+                da capital.
               </p>
 
-              <small
-                style="
-                  display:block;
-                  margin-top:10px;
-                  color:var(--muted);
-                "
-              >
-                Referência:
-                Prefeitura / Jaé.
-              </small>
+              <span class="route-compare-result">
+                Jaé
+              </span>
 
             </article>
 
 
-            <article class="comparison-card">
+            <article class="route-compare-card">
+
+              <span>
+                Rio → Niterói
+              </span>
 
               <strong>
                 Intermunicipal
               </strong>
 
               <p>
-                O ônibus atravessa
-                a divisa entre municípios.
+                A viagem atravessa
+                a divisa municipal
+                e entra
+                na rede estadual.
               </p>
 
-              <small
-                style="
-                  display:block;
-                  margin-top:10px;
-                  color:var(--muted);
-                "
-              >
-                Referência:
-                DETRO/RJ / Riocard.
-              </small>
+              <span class="route-compare-result">
+                DETRO/RJ
+              </span>
+
+            </article>
+
+
+            <article class="route-compare-card">
+
+              <span>
+                Rio → Maricá
+              </span>
+
+              <strong>
+                Intermunicipal
+              </strong>
+
+              <p>
+                Também pertence
+                ao sistema estadual.
+              </p>
+
+              <span class="route-compare-result">
+                Tarifa por linha
+              </span>
 
             </article>
 
@@ -677,81 +1311,77 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             EXEMPLOS
+             O QUE CONFIRMAR
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Exemplos rápidos
+            O que realmente precisa ser confirmado
+            no dia da viagem
           </h4>
 
-          <div class="fare-scenario-grid">
+          <div class="payment-choice-grid">
 
-            <article class="fare-scenario">
-
-              <span class="fare-scenario-kicker">
-                Dentro da capital
-              </span>
+            <article class="payment-choice">
 
               <strong>
-                Copacabana → Centro
+                Horário
               </strong>
 
               <p>
-                Se optar por ônibus comum,
-                procure uma linha municipal.
+                As partidas
+                dependem da linha
+                e do período do dia.
               </p>
-
-              <span class="fare-scenario-result">
-                Rede municipal
-              </span>
 
             </article>
 
 
-            <article class="fare-scenario">
-
-              <span class="fare-scenario-kicker">
-                BRT
-              </span>
+            <article class="payment-choice">
 
               <strong>
-                Barra → Galeão
+                Serviço do BRT
               </strong>
 
               <p>
-                O BRT pode participar
-                do trajeto pela Transcarioca.
-                Confira o serviço exato.
+                Parador,
+                expresso,
+                semidireto
+                e direto
+                possuem paradas diferentes.
               </p>
-
-              <span class="fare-scenario-result">
-                MOBI-Rio
-              </span>
 
             </article>
 
 
-            <article class="fare-scenario">
-
-              <span class="fare-scenario-kicker">
-                Outro município
-              </span>
+            <article class="payment-choice">
 
               <strong>
-                Rio → Niterói de ônibus
+                Ponto ou estação
               </strong>
 
               <p>
-                Procure uma linha
-                intermunicipal
-                e confirme a tarifa no DETRO.
+                Confirme onde embarcar
+                no sentido escolhido.
               </p>
 
-              <span class="fare-scenario-result">
-                Rede estadual
-              </span>
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Alterações temporárias
+              </strong>
+
+              <p>
+                Obras,
+                eventos,
+                desvios
+                e planos especiais
+                podem modificar a operação.
+              </p>
 
             </article>
 
@@ -781,13 +1411,13 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
               <div>
 
                 <strong>
-                  Confirme o número completo
+                  Use número + destino
                 </strong>
 
                 <p>
-                  Não escolha uma linha
-                  apenas pelo nome do bairro
-                  exibido no letreiro.
+                  Não escolha
+                  apenas pelo nome
+                  do bairro no letreiro.
                 </p>
 
               </div>
@@ -798,41 +1428,21 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
             <article class="bus-tip">
 
               <span class="bus-tip-icon">
-                ↔️
+                🚍
               </span>
 
               <div>
 
                 <strong>
-                  Confira o sentido
+                  No BRT,
+                  veja também o tipo do serviço
                 </strong>
 
                 <p>
-                  A mesma linha
-                  opera nos dois sentidos.
-                </p>
-
-              </div>
-
-            </article>
-
-
-            <article class="bus-tip">
-
-              <span class="bus-tip-icon">
-                📱
-              </span>
-
-              <div>
-
-                <strong>
-                  Consulte antes de sair
-                </strong>
-
-                <p>
-                  Planos operacionais,
-                  desvios e linhas
-                  podem mudar.
+                  Parador
+                  e expresso
+                  podem atender
+                  estações diferentes.
                 </p>
 
               </div>
@@ -849,13 +1459,40 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
               <div>
 
                 <strong>
-                  Confira o pagamento
+                  Municipal e estadual
+                  não usam a mesma lógica
                 </strong>
 
                 <p>
-                  Municipal e intermunicipal
-                  não usam necessariamente
-                  o mesmo sistema de bilhetagem.
+                  Jaé
+                  e Riocard
+                  cumprem funções diferentes.
+                </p>
+
+              </div>
+
+            </article>
+
+
+            <article class="bus-tip">
+
+              <span class="bus-tip-icon">
+                📅
+              </span>
+
+              <div>
+
+                <strong>
+                  Confirme somente o que muda
+                </strong>
+
+                <p>
+                  Horário,
+                  desvio
+                  e operação especial
+                  são os dados
+                  que merecem checagem
+                  antes de sair.
                 </p>
 
               </div>
@@ -868,7 +1505,7 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
 
 
         <!-- ==================================================
-             FONTES
+             FONTES OFICIAIS
         =================================================== -->
 
         <div class="official-map-actions">
@@ -879,8 +1516,19 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Linhas municipais · Prefeitura
+            Linhas municipais · Prefeitura do Rio
           </a>
+
+
+          <a
+            class="official-link"
+            href="https://transportes.prefeitura.rio/integracoes/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Integrações municipais · Prefeitura do Rio
+          </a>
+
 
           <a
             class="official-link"
@@ -888,8 +1536,9 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            MOBI-Rio
+            BRT · MOBI-Rio
           </a>
+
 
           <a
             class="official-link"
@@ -897,16 +1546,17 @@ window.RIO_TRANSPORT_MODULES["bus"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Linhas e tarifas intermunicipais
+            Linhas, itinerários e tarifas · DETRO/RJ
           </a>
+
 
           <a
             class="official-link"
-            href="https://www.detro.rj.gov.br/operacao/onibus_intermunicipais"
+            href="https://www.detro.rj.gov.br/operacao/tarifas"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Ônibus intermunicipais · DETRO
+            Tarifas 2026 · DETRO/RJ
           </a>
 
         </div>
