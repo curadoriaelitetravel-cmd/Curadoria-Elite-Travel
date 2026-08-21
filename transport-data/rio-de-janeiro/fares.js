@@ -345,6 +345,146 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
+             BILHETE ÚNICO INTEGRAÇÃO MARGARIDAS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Bilhete Único de Integração Margaridas · BUM
+          </h4>
+
+          <p class="panel-intro">
+            O BUM é uma integração municipal
+            criada em 2026
+            para passageiros que chegam
+            de ônibus intermunicipal
+            ao Terminal BRT Metropolitano
+            Pedro Fernandes.
+          </p>
+
+          <div class="fare-highlight-grid">
+
+            <article class="fare-highlight">
+
+              <span>
+                Parte municipal
+              </span>
+
+              <strong>
+                R$ 5,00
+              </strong>
+
+              <p>
+                Valor fixo
+                da integração
+                com os transportes municipais
+                participantes.
+              </p>
+
+            </article>
+
+
+            <article class="fare-highlight">
+
+              <span>
+                Deslocamentos municipais
+              </span>
+
+              <strong>
+                Até 4
+              </strong>
+
+              <p>
+                Duas viagens de ida
+                e duas de volta,
+                dentro das condições
+                do benefício.
+              </p>
+
+            </article>
+
+
+            <article class="fare-highlight">
+
+              <span>
+                Janela do benefício
+              </span>
+
+              <strong>
+                Até 20 horas
+              </strong>
+
+              <p>
+                Contadas a partir
+                da primeira validação
+                no Jaé.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Quais transportes municipais participam?
+            </strong>
+
+            <p>
+              BRT,
+              linhas 1 e 4 do VLT
+              e ônibus municipais
+              que atendem
+              o Terminal Gentileza
+              e os pontos laterais
+              ao terminal.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              A viagem precisa começar
+              pelo Terminal Pedro Fernandes.
+            </strong>
+
+            <p>
+              O BUM é ativado
+              para passageiros
+              que desembarcam
+              de ônibus intermunicipais
+              nesse terminal
+              e seguem pela rede municipal.
+            </p>
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              Os R$ 5,00
+              não incluem a passagem intermunicipal.
+            </strong>
+
+            A tarifa do ônibus estadual
+            é paga separadamente
+            pelo sistema de bilhetagem estadual.
+
+            O BUM cobre
+            a parte municipal
+            da integração.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
              VLT
         =================================================== -->
 
@@ -837,92 +977,33 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
               <tbody>
 
                 <tr>
-
-                  <td>
-                    <strong>
-                      Praça XV ↔ Praça Arariboia
-                    </strong>
-                  </td>
-
-                  <td>
-                    R$ 5,00
-                  </td>
-
+                  <td><strong>Praça XV ↔ Praça Arariboia</strong></td>
+                  <td>R$ 5,00</td>
                 </tr>
 
-
                 <tr>
-
-                  <td>
-                    <strong>
-                      Praça XV ↔ Cocotá
-                    </strong>
-                  </td>
-
-                  <td>
-                    R$ 5,00
-                  </td>
-
+                  <td><strong>Praça XV ↔ Cocotá</strong></td>
+                  <td>R$ 5,00</td>
                 </tr>
 
-
                 <tr>
-
-                  <td>
-                    <strong>
-                      Praça XV ↔ Paquetá
-                    </strong>
-                  </td>
-
-                  <td>
-                    R$ 5,00
-                  </td>
-
+                  <td><strong>Praça XV ↔ Paquetá</strong></td>
+                  <td>R$ 5,00</td>
                 </tr>
 
-
                 <tr>
-
-                  <td>
-                    <strong>
-                      Praça XV ↔ Charitas
-                    </strong>
-                  </td>
-
-                  <td>
-                    R$ 7,70
-                  </td>
-
+                  <td><strong>Praça XV ↔ Charitas</strong></td>
+                  <td>R$ 7,70</td>
                 </tr>
 
-
                 <tr>
-
-                  <td>
-                    <strong>
-                      Angra dos Reis ↔ Ilha Grande
-                    </strong>
-                  </td>
-
-                  <td>
-                    R$ 20,50
-                  </td>
-
+                  <td><strong>Angra dos Reis ↔ Ilha Grande</strong></td>
+                  <td>R$ 20,50</td>
                 </tr>
 
-
                 <tr>
-
-                  <td>
-                    <strong>
-                      Mangaratiba ↔ Ilha Grande
-                    </strong>
-                  </td>
-
-                  <td>
-                    R$ 20,50
-                  </td>
-
+                  <td><strong>Mangaratiba ↔ Ilha Grande</strong></td>
+                  <td>R$ 20,50</td>
                 </tr>
 
               </tbody>
@@ -1188,6 +1269,31 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
+                BUM
+              </span>
+
+              <strong>
+                Intermunicipal → rede municipal
+              </strong>
+
+              <p>
+                Para passageiros
+                que chegam pelo
+                Terminal Pedro Fernandes
+                e seguem nos transportes
+                municipais participantes.
+              </p>
+
+              <span class="fare-scenario-result">
+                + R$ 5,00 municipal
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
                 Viagem simples
               </span>
 
@@ -1322,6 +1428,24 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
                 com Jaé elegível
                 e regras de integração
                 municipal.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🌼</span>
+
+              <strong>
+                BUM
+              </strong>
+
+              <p>
+                R$ 5,00
+                pela integração municipal
+                após chegada intermunicipal
+                pelo Terminal Pedro Fernandes.
               </p>
 
             </article>
