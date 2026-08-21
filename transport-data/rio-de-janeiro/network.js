@@ -4,7 +4,9 @@
 // MÓDULO: REDE METROPOLITANA
 // ============================================================
 
-window.RIO_TRANSPORT_MODULES = window.RIO_TRANSPORT_MODULES || {};
+window.RIO_TRANSPORT_MODULES =
+  window.RIO_TRANSPORT_MODULES || {};
+
 
 const RIO_MAP_URL =
   "/images/mapa-transporte-rio-de-janeiro.jpg";
@@ -20,8 +22,10 @@ function createRioSystemCard(
   description,
   details
 ) {
+
   return `
     <article class="operator-card">
+
       <span
         style="
           display:flex;
@@ -31,16 +35,27 @@ function createRioSystemCard(
           height:38px;
           border-radius:50%;
           border:1px solid rgba(212,175,55,.32);
-          margin-bottom:12px;
+          margin:0 auto 12px;
           font-size:18px;
         "
       >
         ${icon}
       </span>
 
-      <strong>${title}</strong>
+      <strong>
+        ${title}
+      </strong>
 
-      <p>${description}</p>
+      <p
+        style="
+          margin:0;
+          color:var(--muted);
+          font-size:11px;
+          line-height:1.5;
+        "
+      >
+        ${description}
+      </p>
 
       ${
         details
@@ -49,7 +64,7 @@ function createRioSystemCard(
               style="
                 display:block;
                 margin-top:8px;
-                color:var(--muted);
+                color:var(--gold-soft);
                 line-height:1.5;
               "
             >
@@ -58,8 +73,10 @@ function createRioSystemCard(
           `
           : ""
       }
+
     </article>
   `;
+
 }
 
 
@@ -68,32 +85,29 @@ function createRioLegendItem(
   title,
   description
 ) {
+
   return `
     <article class="legend-card">
 
-      <span
-        style="
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          min-width:38px;
-          width:38px;
-          height:38px;
-          border-radius:50%;
-          border:1px solid rgba(212,175,55,.35);
-          margin-bottom:10px;
-          font-weight:700;
-        "
-      >
+      <span class="legend-symbol">
         ${symbol}
       </span>
 
-      <strong>${title}</strong>
+      <div>
 
-      <p>${description}</p>
+        <strong>
+          ${title}
+        </strong>
+
+        <p>
+          ${description}
+        </p>
+
+      </div>
 
     </article>
   `;
+
 }
 
 
@@ -103,6 +117,7 @@ function createRioCorridorCard(
   description,
   color
 ) {
+
   return `
     <article class="line-mini-card">
 
@@ -126,13 +141,22 @@ function createRioCorridorCard(
         </span>
 
         <div>
-          <strong>${name}</strong>
-          <small style="display:block;">BRT</small>
+
+          <strong>
+            ${name}
+          </strong>
+
+          <small style="display:block;">
+            BRT
+          </small>
+
         </div>
 
       </div>
 
-      <p>${description}</p>
+      <p>
+        ${description}
+      </p>
 
       <span class="line-operator">
         MOBI-Rio
@@ -140,6 +164,7 @@ function createRioCorridorCard(
 
     </article>
   `;
+
 }
 
 
@@ -149,13 +174,22 @@ function createRioCorridorCard(
 
 function openRioNetworkMap() {
 
-  if (document.getElementById("rioNetworkMapLightbox")) {
+  if (
+    document.getElementById(
+      "rioNetworkMapLightbox"
+    )
+  ) {
     return;
   }
 
-  const lightbox = document.createElement("div");
 
-  lightbox.id = "rioNetworkMapLightbox";
+  const lightbox =
+    document.createElement("div");
+
+
+  lightbox.id =
+    "rioNetworkMapLightbox";
+
 
   lightbox.style.cssText = `
     position:fixed;
@@ -170,7 +204,9 @@ function openRioNetworkMap() {
     cursor:zoom-out;
   `;
 
+
   lightbox.innerHTML = `
+
     <button
       type="button"
       id="closeRioNetworkMap"
@@ -194,6 +230,7 @@ function openRioNetworkMap() {
       ×
     </button>
 
+
     <img
       src="${RIO_MAP_URL}"
       alt="Mapa ampliado da rede metropolitana de transportes do Rio de Janeiro"
@@ -209,23 +246,35 @@ function openRioNetworkMap() {
         cursor:default;
       "
     />
+
   `;
 
-  document.body.appendChild(lightbox);
+
+  document.body.appendChild(
+    lightbox
+  );
+
 
   const closeLightbox = () => {
+
     lightbox.remove();
+
     document.removeEventListener(
       "keydown",
       escapeHandler
     );
+
   };
 
+
   const escapeHandler = (event) => {
+
     if (event.key === "Escape") {
       closeLightbox();
     }
+
   };
+
 
   lightbox.addEventListener(
     "click",
@@ -233,7 +282,8 @@ function openRioNetworkMap() {
 
       if (
         event.target === lightbox ||
-        event.target.id === "closeRioNetworkMap"
+        event.target.id ===
+          "closeRioNetworkMap"
       ) {
         closeLightbox();
       }
@@ -241,10 +291,12 @@ function openRioNetworkMap() {
     }
   );
 
+
   document.addEventListener(
     "keydown",
     escapeHandler
   );
+
 }
 
 
@@ -254,15 +306,18 @@ function openRioNetworkMap() {
 
 window.RIO_TRANSPORT_MODULES["network"] = {
 
-  kicker: "Rio de Janeiro · visão completa",
+  kicker:
+    "Rio de Janeiro · visão completa",
 
-  title: "Rede Metropolitana",
+  title:
+    "Rede Metropolitana",
 
   body() {
 
     return `
 
       <div class="network-layout">
+
 
         <!-- ==================================================
              MAPA GERAL
@@ -275,8 +330,11 @@ window.RIO_TRANSPORT_MODULES["network"] = {
           </h4>
 
           <p class="panel-intro">
-            Uma visão integrada dos principais sistemas
-            de transporte da Região Metropolitana do Rio de Janeiro.
+            Uma visão integrada
+            dos principais sistemas
+            de transporte
+            do Rio de Janeiro
+            e da Região Metropolitana.
           </p>
 
           <div
@@ -304,6 +362,7 @@ window.RIO_TRANSPORT_MODULES["network"] = {
 
           </div>
 
+
           <div class="official-map-actions">
 
             <button
@@ -314,42 +373,62 @@ window.RIO_TRANSPORT_MODULES["network"] = {
               Ampliar mapa
             </button>
 
+
             <a
               class="official-link"
               href="https://www.rj.gov.br/transporte/node/797"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Consultar fonte oficial
+              Fonte do mapa · Governo do RJ
             </a>
 
           </div>
 
-          <div class="fare-note">
-            <strong>Atenção à identificação dos trens:</strong>
-            o mapa salvo pode ainda apresentar a marca SuperVia.
-            Desde 30 de maio de 2026, a operação ferroviária
-            passou para a Trens RJ, sob responsabilidade
-            do consórcio Nova Via Mobilidade.
+
+          <div class="visitor-alert">
+
+            <strong>
+              O mapa pode apresentar
+              a marca SuperVia.
+            </strong>
+
+            A operação ferroviária
+            passou para a TrensRJ
+            em 30 de maio de 2026.
+
+            Portanto,
+            ao encontrar “SuperVia”
+            em mapas produzidos
+            antes da transição,
+            leia essa parte da rede
+            atualmente como TrensRJ.
+
           </div>
 
         </section>
 
 
         <!-- ==================================================
-             COMO ENTENDER A REDE
+             ENTENDA A REDE
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Entenda este mapa
+            Entenda a rede
           </h4>
 
           <p class="panel-intro">
-            O Rio não possui uma única rede com um único operador.
-            Diferentes sistemas se encontram em estações,
-            terminais e áreas de conexão.
+            O Rio não possui
+            um único sistema
+            nem um único operador.
+
+            Diferentes redes
+            se encontram
+            em estações,
+            terminais
+            e áreas de conexão.
           </p>
 
           <div class="legend-grid">
@@ -362,32 +441,32 @@ window.RIO_TRANSPORT_MODULES["network"] = {
 
             ${createRioLegendItem(
               "T",
-              "Trens metropolitanos",
-              "Ligam o Centro e outras regiões da capital a municípios da Região Metropolitana."
+              "Trens",
+              "Rede ferroviária metropolitana atualmente operada pela TrensRJ."
             )}
 
             ${createRioLegendItem(
               "BRT",
               "BRT",
-              "Rede de ônibus de alta capacidade em corredores segregados."
+              "Rede municipal de ônibus de alta capacidade administrada pela MOBI-Rio."
             )}
 
             ${createRioLegendItem(
               "VLT",
               "VLT Carioca",
-              "Sistema de veículo leve sobre trilhos no Centro e Região Portuária."
+              "Rede municipal sobre trilhos no Centro e na Região Portuária."
+            )}
+
+            ${createRioLegendItem(
+              "🚌",
+              "Ônibus",
+              "Redes municipais e intermunicipais ampliam a cobertura terrestre."
             )}
 
             ${createRioLegendItem(
               "⛴",
               "Barcas",
-              "Ligações hidroviárias entre o Rio, Niterói, Ilha do Governador e outros destinos."
-            )}
-
-            ${createRioLegendItem(
-              "↔",
-              "Conexão",
-              "Ponto onde é possível trocar de sistema ou continuar a viagem em outro modal."
+              "Rede hidroviária que conecta a capital a Niterói, Paquetá, Ilha do Governador e outros destinos."
             )}
 
           </div>
@@ -405,46 +484,48 @@ window.RIO_TRANSPORT_MODULES["network"] = {
             Principais sistemas
           </h4>
 
-          <p class="panel-intro">
-            Identifique primeiro qual sistema atende sua região.
-            Depois consulte a linha, o sentido e o meio de pagamento.
-          </p>
-
           <div class="operator-grid">
 
             ${createRioSystemCard(
               "🚇",
               "MetrôRio",
-              "Atende principalmente Centro, Zona Sul, Tijuca, Zona Norte e Barra da Tijuca.",
-              "Linhas 1, 2 e 4."
+              "Atende importantes eixos do Centro, Zona Sul, Tijuca, Zona Norte e Barra.",
+              "Linhas 1, 2 e 4"
             )}
 
             ${createRioSystemCard(
               "🚆",
-              "Trens RJ",
-              "Rede ferroviária metropolitana de grande alcance.",
-              "Desde maio de 2026, substitui a antiga operação da SuperVia."
+              "TrensRJ",
+              "Rede ferroviária de grande alcance na capital e Região Metropolitana.",
+              "5 ramais + 3 extensões"
+            )}
+
+            ${createRioSystemCard(
+              "🚍",
+              "BRT · MOBI-Rio",
+              "Rede municipal estruturada em corredores e estações próprias.",
+              "Transoeste · Transcarioca · Transolímpica · Transbrasil"
+            )}
+
+            ${createRioSystemCard(
+              "🚋",
+              "VLT Carioca",
+              "Conecta pontos estratégicos do Centro e da Região Portuária.",
+              "4 linhas · 30 paradas e estações"
             )}
 
             ${createRioSystemCard(
               "🚌",
-              "BRT · MOBI-Rio",
-              "Rede expressa de ônibus com corredores segregados e estações.",
-              "Transoeste, Transcarioca, Transolímpica e Transbrasil."
-            )}
-
-            ${createRioSystemCard(
-              "🚊",
-              "VLT Carioca",
-              "Circula principalmente pelo Centro e Região Portuária.",
-              "Útil para conexões com terminais, metrô, rodoviária e aeroportos."
+              "Ônibus",
+              "Redes municipal e intermunicipal completam a cobertura.",
+              "Jaé no municipal · rede estadual no intermunicipal"
             )}
 
             ${createRioSystemCard(
               "⛴",
               "Barcas Rio",
-              "Sistema hidroviário estadual.",
-              "Praça XV funciona como o principal ponto de conexão no Centro."
+              "Sistema hidroviário com diferentes ligações.",
+              "Praça XV é o principal terminal na capital"
             )}
 
           </div>
@@ -463,8 +544,11 @@ window.RIO_TRANSPORT_MODULES["network"] = {
           </h4>
 
           <p class="panel-intro">
-            O sistema possui três linhas principais.
-            Em alguns trechos, linhas diferentes compartilham estações.
+            O sistema possui
+            três linhas identificadas
+            como 1,
+            2
+            e 4.
           </p>
 
           <div class="lines-grid">
@@ -472,16 +556,16 @@ window.RIO_TRANSPORT_MODULES["network"] = {
             ${createLineMiniCard(
               "#e47d2a",
               "1",
-              "Laranja",
+              "Linha 1",
               "Metrô",
-              "Uruguai ↔ General Osório",
+              "Uruguai/Tijuca ↔ General Osório/Ipanema",
               "MetrôRio"
             )}
 
             ${createLineMiniCard(
               "#61a744",
               "2",
-              "Verde",
+              "Linha 2",
               "Metrô",
               "Pavuna ↔ Botafogo",
               "MetrôRio"
@@ -490,24 +574,121 @@ window.RIO_TRANSPORT_MODULES["network"] = {
             ${createLineMiniCard(
               "#f3c323",
               "4",
-              "Amarela",
+              "Linha 4",
               "Metrô",
-              "Jardim Oceânico ↔ General Osório",
+              "General Osório/Ipanema ↔ Jardim Oceânico/Barra",
               "MetrôRio"
             )}
 
           </div>
 
-          <div class="official-map-actions">
 
-            <a
-              class="official-link"
-              href="https://www.metrorio.com.br/VadeMetro/MapaInterativo"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Mapa interativo do MetrôRio
-            </a>
+          <div class="fare-note">
+
+            <strong>
+              Para o passageiro,
+              a operação regular também aparece
+              como Linha 1/4.
+            </strong>
+
+            Os trens permitem
+            o deslocamento
+            Uruguai/Tijuca
+            ↔ Jardim Oceânico/Barra da Tijuca,
+            unindo operacionalmente
+            os eixos das Linhas 1 e 4.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TRANSFERÊNCIAS METRÔ
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Conexões importantes do metrô
+          </h4>
+
+          <div class="bus-system-grid">
+
+            <article class="bus-system-card">
+
+              <span>🔄</span>
+
+              <strong>
+                Linha 1/4 ↔ Linha 2
+              </strong>
+
+              <p>
+                A transferência
+                pode ser feita
+                no trecho compartilhado
+                entre Central do Brasil
+                e Botafogo.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>🚆</span>
+
+              <strong>
+                Metrô ↔ Trem
+              </strong>
+
+              <p>
+                Há conexões
+                em Central do Brasil,
+                São Cristóvão,
+                Maracanã,
+                Triagem
+                e Pavuna.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>🚍</span>
+
+              <strong>
+                Metrô ↔ BRT
+              </strong>
+
+              <p>
+                Vicente de Carvalho
+                e Jardim Oceânico
+                são as referências
+                de integração.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>🚋</span>
+
+              <strong>
+                Metrô ↔ VLT
+              </strong>
+
+              <p>
+                Central do Brasil,
+                Carioca
+                e Cinelândia
+                aparecem entre as conexões
+                publicadas atualmente.
+              </p>
+
+            </article>
 
           </div>
 
@@ -525,42 +706,249 @@ window.RIO_TRANSPORT_MODULES["network"] = {
           </h4>
 
           <p class="panel-intro">
-            A ferrovia atende trajetos longos pela capital
-            e por municípios da Região Metropolitana.
+            A TrensRJ conecta
+            diferentes regiões da capital
+            e municípios
+            da Região Metropolitana.
           </p>
 
-          <div class="comparison-grid">
+          <div class="payment-choice-grid">
 
-            <article class="comparison-card">
+            <article class="payment-choice">
 
-              <strong>Operação atual</strong>
+              <strong>
+                Deodoro
+              </strong>
 
               <p>
-                Desde 30 de maio de 2026,
-                a Trens RJ passou a operar o sistema ferroviário,
-                substituindo a SuperVia.
+                Um dos cinco
+                ramais principais.
               </p>
 
             </article>
 
 
-            <article class="comparison-card">
+            <article class="payment-choice">
 
-              <strong>Estrutura da rede</strong>
+              <strong>
+                Santa Cruz
+              </strong>
 
               <p>
-                O sistema possui cinco ramais,
-                três extensões e mais de cem estações,
-                cobrindo grande parte da Região Metropolitana.
+                Estrutura o deslocamento
+                ferroviário
+                pela Zona Oeste.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Japeri
+              </strong>
+
+              <p>
+                Conecta a capital
+                à Baixada Fluminense
+                e a Japeri.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Belford Roxo
+              </strong>
+
+              <p>
+                Atende o eixo
+                em direção
+                a Belford Roxo.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Saracuruna
+              </strong>
+
+              <p>
+                Atende o eixo
+                da Baixada
+                e Duque de Caxias.
               </p>
 
             </article>
 
           </div>
 
-          <div class="fare-note">
-            Em mapas, placas ou conteúdos produzidos antes da transição,
-            você ainda pode encontrar a marca SuperVia.
+        </section>
+
+
+        <!-- ==================================================
+             EXTENSÕES FERROVIÁRIAS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Extensões da rede ferroviária
+          </h4>
+
+          <div class="comparison-grid">
+
+            <article class="comparison-card">
+
+              <strong>
+                Paracambi
+              </strong>
+
+              <p>
+                Extensão
+                associada ao eixo
+                ferroviário de Japeri.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Vila Inhomirim
+              </strong>
+
+              <p>
+                Extensão
+                da rede ferroviária
+                metropolitana.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Guapimirim
+              </strong>
+
+              <p>
+                Extensão
+                atendida
+                dentro da estrutura
+                operacional da TrensRJ.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              Nos trens,
+              operação do dia merece atenção.
+            </strong>
+
+            Obras,
+            manutenção
+            e programação especial
+            podem alterar
+            trechos,
+            paradas
+            e necessidade de troca
+            de composição.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             CENTRAL DO BRASIL
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Central do Brasil
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              É a principal referência
+              ferroviária da capital.
+            </strong>
+
+            <p>
+              A estação atende
+              os ramais Deodoro,
+              Santa Cruz,
+              Japeri,
+              Belford Roxo
+              e Saracuruna.
+            </p>
+
+          </div>
+
+
+          <div class="comparison-grid">
+
+            <article class="comparison-card">
+
+              <strong>
+                Metrô
+              </strong>
+
+              <p>
+                Há conexão
+                com a Estação
+                Central do Brasil/Centro.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                VLT
+              </strong>
+
+              <p>
+                A região também
+                é atendida
+                pelo VLT Carioca.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Ônibus
+              </strong>
+
+              <p>
+                Linhas municipais
+                complementam
+                a distribuição
+                pela área central.
+              </p>
+
+            </article>
+
           </div>
 
         </section>
@@ -577,8 +965,8 @@ window.RIO_TRANSPORT_MODULES["network"] = {
           </h4>
 
           <p class="panel-intro">
-            Os corredores BRT funcionam como grandes eixos
-            de deslocamento por ônibus articulados.
+            O sistema está estruturado
+            em quatro grandes corredores.
           </p>
 
           <div class="lines-grid">
@@ -586,30 +974,46 @@ window.RIO_TRANSPORT_MODULES["network"] = {
             ${createRioCorridorCard(
               "T",
               "Transoeste",
-              "Principal eixo entre Barra da Tijuca, Recreio e Zona Oeste.",
+              "Estrutura deslocamentos entre Barra da Tijuca, Recreio, Santa Cruz, Campo Grande e outras áreas da Zona Oeste.",
               "#dc5a32"
             )}
 
             ${createRioCorridorCard(
               "C",
               "Transcarioca",
-              "Liga a Barra e a Zona Norte, com conexão ao Aeroporto Internacional do Galeão.",
+              "Conecta Barra, Madureira, diferentes áreas da Zona Norte e serviços relacionados ao Galeão.",
               "#397ec0"
             )}
 
             ${createRioCorridorCard(
               "O",
               "Transolímpica",
-              "Conecta áreas da Zona Oeste e importantes terminais do sistema.",
+              "Conecta diferentes áreas da Zona Oeste e importantes terminais.",
               "#80ae43"
             )}
 
             ${createRioCorridorCard(
               "B",
               "Transbrasil",
-              "Opera pelo eixo da Avenida Brasil e chega ao Terminal Gentileza.",
+              "Estrutura o eixo da Avenida Brasil e chega ao Terminal Gentileza.",
               "#dfa824"
             )}
+
+          </div>
+
+
+          <div class="fare-note">
+
+            <strong>
+              Corredor não é o mesmo que linha.
+            </strong>
+
+            Dentro dos corredores
+            existem serviços
+            paradores,
+            expressos,
+            semidiretos
+            e diretos.
 
           </div>
 
@@ -617,139 +1021,856 @@ window.RIO_TRANSPORT_MODULES["network"] = {
 
 
         <!-- ==================================================
-             VLT + BARCAS
-        =================================================== -->
-
-        <div class="network-row">
-
-          <section class="panel-box">
-
-            <h4 class="panel-title">
-              VLT Carioca
-            </h4>
-
-            <p class="panel-intro">
-              Uma opção prática para deslocamentos
-              no Centro e na Região Portuária.
-            </p>
-
-            <div class="answer-block">
-
-              <strong>Onde ele é mais útil</strong>
-
-              <p>
-                Conexões entre Centro, Praça Mauá,
-                Rodoviária do Rio, Terminal Gentileza,
-                Aeroporto Santos Dumont
-                e outros pontos centrais.
-              </p>
-
-            </div>
-
-            <div class="answer-block">
-
-              <strong>Atenção</strong>
-
-              <p>
-                O VLT possui regras próprias de validação.
-                Não embarque sem confirmar o pagamento.
-              </p>
-
-            </div>
-
-          </section>
-
-
-          <section class="panel-box">
-
-            <h4 class="panel-title">
-              Barcas
-            </h4>
-
-            <p class="panel-intro">
-              A Praça XV é o principal ponto hidroviário
-              para quem está no Centro do Rio.
-            </p>
-
-            <div class="answer-block">
-
-              <strong>Praça XV ↔ Praça Arariboia</strong>
-
-              <p>
-                Ligação direta entre o Centro do Rio
-                e o Centro de Niterói.
-              </p>
-
-            </div>
-
-            <div class="answer-block">
-
-              <strong>Outras ligações</strong>
-
-              <p>
-                A rede também possui serviços para
-                Charitas, Cocotá e Paquetá,
-                além de travessias para Ilha Grande
-                a partir de Angra dos Reis e Mangaratiba.
-              </p>
-
-            </div>
-
-          </section>
-
-        </div>
-
-
-        <!-- ==================================================
-             COMO ESCOLHER
+             GALEÃO
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Qual sistema procurar primeiro?
+            Galeão e a rede BRT
+          </h4>
+
+          <div class="fare-scenario-grid">
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Transcarioca
+              </span>
+
+              <strong>
+                Linha 42
+              </strong>
+
+              <p>
+                Madureira
+                ↔ Galeão Tom Jobim.
+              </p>
+
+              <span class="fare-scenario-result">
+                Serviço parador
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Terminal Gentileza
+              </span>
+
+              <strong>
+                Gentileza ↔ Galeão
+              </strong>
+
+              <p>
+                Serviço BRT
+                direto
+                para o aeroporto.
+              </p>
+
+              <span class="fare-scenario-result">
+                Direto
+              </span>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             VLT
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            VLT Carioca
+          </h4>
+
+          <p class="panel-intro">
+            O VLT opera
+            quatro linhas
+            no Centro
+            e na Região Portuária.
+          </p>
+
+          <div class="lines-grid">
+
+            ${createLineMiniCard(
+              "#2476aa",
+              "1",
+              "Linha 1",
+              "VLT",
+              "Santos Dumont ↔ Terminal Gentileza",
+              "Azul"
+            )}
+
+            ${createLineMiniCard(
+              "#579b58",
+              "2",
+              "Linha 2",
+              "VLT",
+              "Praça XV ↔ Praia Formosa",
+              "Verde"
+            )}
+
+            ${createLineMiniCard(
+              "#d8af2d",
+              "3",
+              "Linha 3",
+              "VLT",
+              "Santos Dumont ↔ Central",
+              "Amarela"
+            )}
+
+            ${createLineMiniCard(
+              "#e58432",
+              "4",
+              "Linha 4",
+              "VLT",
+              "Praça XV ↔ Terminal Gentileza",
+              "Laranja"
+            )}
+
+          </div>
+
+
+          <div class="comparison-grid"
+               style="margin-top:14px;">
+
+            <article class="comparison-card">
+
+              <strong>
+                30
+              </strong>
+
+              <p>
+                Paradas
+                e estações
+                em operação.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                5h às 23h
+              </strong>
+
+              <p>
+                Horário geral
+                de funcionamento,
+                todos os dias.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TERMINAL GENTILEZA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Terminal Intermodal Gentileza
+          </h4>
+
+          <p class="panel-intro">
+            É um dos pontos
+            mais importantes
+            de integração
+            da rede municipal.
+          </p>
+
+          <div class="bus-system-grid">
+
+            <article class="bus-system-card">
+
+              <span>🚍</span>
+
+              <strong>
+                BRT
+              </strong>
+
+              <p>
+                Serviços da Transbrasil
+                utilizam o terminal.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>🚋</span>
+
+              <strong>
+                VLT
+              </strong>
+
+              <p>
+                Linhas 1
+                e 4
+                chegam ao Gentileza.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>🚌</span>
+
+              <strong>
+                Ônibus
+              </strong>
+
+              <p>
+                Linhas municipais
+                completam
+                as conexões locais.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>✈️</span>
+
+              <strong>
+                Galeão
+              </strong>
+
+              <p>
+                Existe serviço BRT
+                direto
+                entre Gentileza
+                e o aeroporto.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             PEDRO FERNANDES + BUM
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Terminal BRT Metropolitano Pedro Fernandes
+          </h4>
+
+          <p class="panel-intro">
+            O terminal integra
+            parte da chegada
+            da rede intermunicipal
+            à estrutura municipal
+            do Rio.
+          </p>
+
+          <div class="answer-block">
+
+            <strong>
+              Bilhete Único
+              de Integração Margaridas · BUM
+            </strong>
+
+            <p>
+              O benefício foi criado
+              em 2026
+              para passageiros
+              que chegam
+              de ônibus intermunicipal
+              pelo Terminal Pedro Fernandes
+              e continuam a viagem
+              na rede municipal participante.
+            </p>
+
+          </div>
+
+
+          <div class="fare-highlight-grid">
+
+            <article class="fare-highlight">
+
+              <span>
+                Parte municipal
+              </span>
+
+              <strong>
+                R$ 5,00
+              </strong>
+
+              <p>
+                Integração
+                com os transportes
+                municipais participantes.
+              </p>
+
+            </article>
+
+
+            <article class="fare-highlight">
+
+              <span>
+                Janela
+              </span>
+
+              <strong>
+                Até 20 horas
+              </strong>
+
+              <p>
+                Até quatro
+                deslocamentos municipais
+                dentro das regras
+                do benefício.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            A tarifa
+            do ônibus intermunicipal
+            é paga separadamente.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             ÔNIBUS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Ônibus municipais e intermunicipais
+          </h4>
+
+          <div class="route-compare-grid">
+
+            <article class="route-compare-card">
+
+              <span>
+                Dentro da capital
+              </span>
+
+              <strong>
+                Ônibus municipal
+              </strong>
+
+              <p>
+                Amplia a cobertura
+                entre bairros
+                e conecta áreas
+                fora dos grandes eixos
+                sobre trilhos.
+              </p>
+
+              <span class="route-compare-result">
+                Jaé
+              </span>
+
+            </article>
+
+
+            <article class="route-compare-card">
+
+              <span>
+                Entre municípios
+              </span>
+
+              <strong>
+                Intermunicipal
+              </strong>
+
+              <p>
+                Linhas estaduais
+                conectam a capital
+                a outros municípios.
+              </p>
+
+              <span class="route-compare-result">
+                DETRO/RJ
+              </span>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             BARCAS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Barcas
+          </h4>
+
+          <p class="panel-intro">
+            A Praça XV
+            é o principal terminal
+            hidroviário
+            para quem parte
+            do Centro do Rio.
+          </p>
+
+          <div class="route-compare-grid">
+
+            <article class="route-compare-card">
+
+              <span>
+                Niterói
+              </span>
+
+              <strong>
+                Praça Arariboia
+              </strong>
+
+              <p>
+                Ligação direta
+                entre os centros
+                do Rio
+                e de Niterói.
+              </p>
+
+              <span class="route-compare-result">
+                Até 22 min
+              </span>
+
+            </article>
+
+
+            <article class="route-compare-card">
+
+              <span>
+                Niterói
+              </span>
+
+              <strong>
+                Charitas
+              </strong>
+
+              <p>
+                Outra ligação
+                hidroviária
+                com Niterói.
+              </p>
+
+              <span class="route-compare-result">
+                Até 28 min
+              </span>
+
+            </article>
+
+
+            <article class="route-compare-card">
+
+              <span>
+                Ilha do Governador
+              </span>
+
+              <strong>
+                Cocotá
+              </strong>
+
+              <p>
+                Ligação
+                entre Praça XV
+                e Cocotá.
+              </p>
+
+              <span class="route-compare-result">
+                Até 61 min
+              </span>
+
+            </article>
+
+
+            <article class="route-compare-card">
+
+              <span>
+                Paquetá
+              </span>
+
+              <strong>
+                Ilha de Paquetá
+              </strong>
+
+              <p>
+                Ligação
+                entre Praça XV
+                e Paquetá.
+              </p>
+
+              <span class="route-compare-result">
+                Até 81 min
+              </span>
+
+            </article>
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              Barcas funcionam
+              por horários de partida.
+            </strong>
+
+            Para uma viagem específica,
+            confira a grade
+            da ligação escolhida.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             PRINCIPAIS CONEXÕES
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Pontos importantes de conexão
+          </h4>
+
+          <div class="bus-system-grid">
+
+            <article class="bus-system-card">
+
+              <span>🚆</span>
+
+              <strong>
+                Central do Brasil
+              </strong>
+
+              <p>
+                Trem,
+                metrô,
+                VLT
+                e ônibus
+                se encontram
+                na região.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>🚍</span>
+
+              <strong>
+                Jardim Oceânico
+              </strong>
+
+              <p>
+                Conexão importante
+                entre metrô
+                e BRT
+                na Barra.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>🔄</span>
+
+              <strong>
+                Vicente de Carvalho
+              </strong>
+
+              <p>
+                Outra referência
+                para integração
+                entre metrô
+                e BRT.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>🚋</span>
+
+              <strong>
+                Terminal Gentileza
+              </strong>
+
+              <p>
+                BRT,
+                VLT
+                e ônibus municipais
+                convergem no terminal.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>⛴️</span>
+
+              <strong>
+                Praça XV
+              </strong>
+
+              <p>
+                Barcas,
+                VLT
+                e conexões
+                com o Centro.
+              </p>
+
+            </article>
+
+
+            <article class="bus-system-card">
+
+              <span>🌼</span>
+
+              <strong>
+                Pedro Fernandes
+              </strong>
+
+              <p>
+                Integra a chegada
+                de ônibus intermunicipais
+                à rede municipal
+                pelo BUM.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             QUAL SISTEMA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Qual sistema tende a fazer sentido?
           </h4>
 
           <div class="planner-check-grid">
 
             <article class="planner-check-card">
+
               <span>🚇</span>
-              <strong>Centro, Zona Sul ou Tijuca</strong>
+
+              <strong>
+                Centro, Zona Sul ou Tijuca
+              </strong>
+
               <p>
-                Comece verificando o MetrôRio.
+                Comece verificando
+                o metrô.
               </p>
+
             </article>
 
+
             <article class="planner-check-card">
+
               <span>🚆</span>
-              <strong>Baixada e regiões mais afastadas</strong>
+
+              <strong>
+                Zona Norte, Zona Oeste ou Baixada
+              </strong>
+
               <p>
-                Confira primeiro os trens metropolitanos.
+                Os trens podem
+                concentrar grande parte
+                do deslocamento.
               </p>
+
             </article>
 
-            <article class="planner-check-card">
-              <span>🚌</span>
-              <strong>Barra, Recreio e Zona Oeste</strong>
-              <p>
-                Compare BRT com metrô e ônibus.
-              </p>
-            </article>
 
             <article class="planner-check-card">
-              <span>🚊</span>
-              <strong>Centro e Região Portuária</strong>
+
+              <span>🚍</span>
+
+              <strong>
+                Barra, Recreio e Zona Oeste
+              </strong>
+
               <p>
-                O VLT pode reduzir bastante a caminhada.
+                BRT e metrô
+                podem ser combinados
+                conforme o destino.
               </p>
+
             </article>
 
+
             <article class="planner-check-card">
-              <span>⛴</span>
-              <strong>Niterói e trajetos hidroviários</strong>
+
+              <span>🚋</span>
+
+              <strong>
+                Centro e Região Portuária
+              </strong>
+
               <p>
-                Consulte as Barcas antes de comparar alternativas terrestres.
+                O VLT
+                pode reduzir
+                caminhada
+                e conectar terminais.
               </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>⛴️</span>
+
+              <strong>
+                Niterói ou Paquetá
+              </strong>
+
+              <p>
+                As barcas
+                podem ser
+                a conexão mais direta.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🌆</span>
+
+              <strong>
+                Outra cidade da Região Metropolitana
+              </strong>
+
+              <p>
+                Compare
+                trem,
+                barca
+                e ônibus intermunicipal.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             O QUE MUDA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            O que realmente precisa ser confirmado no dia
+          </h4>
+
+          <div class="payment-choice-grid">
+
+            <article class="payment-choice">
+
+              <strong>
+                Trem
+              </strong>
+
+              <p>
+                Horários,
+                alterações
+                e intervenções
+                variam por ramal.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                BRT
+              </strong>
+
+              <p>
+                O serviço
+                e as paradas
+                dependem da linha utilizada.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Barcas
+              </strong>
+
+              <p>
+                Cada ligação
+                possui sua própria
+                grade de partidas.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Ônibus
+              </strong>
+
+              <p>
+                Horário,
+                ponto
+                e desvios
+                são informações operacionais.
+              </p>
+
             </article>
 
           </div>
@@ -772,6 +1893,7 @@ window.RIO_TRANSPORT_MODULES["network"] = {
             Mapa Metropolitano · Governo do RJ
           </a>
 
+
           <a
             class="official-link"
             href="https://www.metrorio.com.br/VadeMetro/MapaInterativo"
@@ -781,14 +1903,36 @@ window.RIO_TRANSPORT_MODULES["network"] = {
             MetrôRio
           </a>
 
+
+          <a
+            class="official-link"
+            href="https://www.trensrj.com.br/pt/mapa-de-linhas"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Mapa ferroviário · TrensRJ
+          </a>
+
+
           <a
             class="official-link"
             href="https://mobi-rio.rio.br/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            MOBI-Rio
+            BRT · MOBI-Rio
           </a>
+
+
+          <a
+            class="official-link"
+            href="https://trilhos.motiva.com.br/vltrio/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            VLT Carioca
+          </a>
+
 
           <a
             class="official-link"
@@ -799,7 +1943,18 @@ window.RIO_TRANSPORT_MODULES["network"] = {
             Barcas Rio
           </a>
 
+
+          <a
+            class="official-link"
+            href="https://transportes.prefeitura.rio/integracoes/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Integrações · Prefeitura do Rio
+          </a>
+
         </div>
+
 
         <div class="fare-updated">
           Informações verificadas em agosto de 2026.
@@ -808,12 +1963,14 @@ window.RIO_TRANSPORT_MODULES["network"] = {
       </div>
 
     `;
+
   }
+
 };
 
 
 // ============================================================
-// Disponibiliza o lightbox para o HTML gerado pelo módulo.
+// DISPONIBILIZA O LIGHTBOX
 // ============================================================
 
 window.openRioNetworkMap =
