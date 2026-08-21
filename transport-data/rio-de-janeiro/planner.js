@@ -32,31 +32,19 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
           </h4>
 
           <p class="panel-intro">
-            No Rio, a melhor rota nem sempre usa um único sistema.
-            Compare metrô, trem, BRT, VLT, ônibus e barcas
-            antes de decidir.
+            No Rio,
+            a melhor rota nem sempre usa
+            um único sistema.
+            Metrô,
+            trem,
+            BRT,
+            VLT,
+            ônibus
+            e barcas
+            cumprem funções diferentes.
           </p>
 
           <div class="planner-tool-grid">
-
-            <article class="planner-tool-card">
-
-              <span class="planner-tool-icon">
-                🗺️
-              </span>
-
-              <strong>
-                Quero comparar o trajeto inteiro
-              </strong>
-
-              <p>
-                Use um planejador de mapas para comparar
-                tempo total, caminhada, baldeações
-                e combinações entre diferentes modais.
-              </p>
-
-            </article>
-
 
             <article class="planner-tool-card">
 
@@ -65,13 +53,15 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
               </span>
 
               <strong>
-                Vou usar principalmente metrô
+                Centro, Zona Sul, Tijuca ou Barra
               </strong>
 
               <p>
-                Consulte diretamente o MetrôRio
-                para estações, tempo estimado
-                e número de transferências.
+                O metrô costuma ser
+                um bom ponto de partida
+                quando origem e destino
+                ficam próximos
+                às Linhas 1, 2 ou 4.
               </p>
 
             </article>
@@ -84,13 +74,14 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
               </span>
 
               <strong>
-                Vou usar trem
+                Zona Norte, Zona Oeste ou Baixada
               </strong>
 
               <p>
-                Confira o ramal, a estação de destino
-                e a operação do sistema ferroviário
-                antes de sair.
+                Os trens ganham importância
+                para deslocamentos
+                pelos cinco principais ramais
+                da rede metropolitana.
               </p>
 
             </article>
@@ -103,13 +94,14 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
               </span>
 
               <strong>
-                Vou usar BRT
+                Barra, Recreio ou Zona Oeste
               </strong>
 
               <p>
-                Confirme corredor, serviço,
-                estação de embarque
-                e terminal indicado no letreiro.
+                O BRT pode estruturar
+                boa parte do trajeto,
+                dependendo do corredor
+                e do serviço escolhido.
               </p>
 
             </article>
@@ -118,17 +110,40 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
             <article class="planner-tool-card">
 
               <span class="planner-tool-icon">
-                ⛴
+                🚋
               </span>
 
               <strong>
-                Vou usar barca
+                Centro e Região Portuária
               </strong>
 
               <p>
-                Consulte a grade do dia.
-                As partidas não funcionam
-                como uma linha de metrô contínua.
+                O VLT conecta
+                Santos Dumont,
+                Praça XV,
+                Central,
+                Praia Formosa
+                e Terminal Gentileza.
+              </p>
+
+            </article>
+
+
+            <article class="planner-tool-card">
+
+              <span class="planner-tool-icon">
+                ⛴️
+              </span>
+
+              <strong>
+                Niterói, Paquetá ou Ilha do Governador
+              </strong>
+
+              <p>
+                As barcas podem ser
+                a alternativa mais direta,
+                mas funcionam
+                com partidas programadas.
               </p>
 
             </article>
@@ -141,13 +156,14 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
               </span>
 
               <strong>
-                Vou para outro município
+                Outro município
               </strong>
 
               <p>
-                Consulte o DETRO/RJ para identificar
-                linha intermunicipal,
-                itinerário e tarifa.
+                Compare trem,
+                barca
+                ou ônibus intermunicipal
+                de acordo com o destino.
               </p>
 
             </article>
@@ -171,18 +187,16 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
 
             <article class="planner-check-card">
 
-              <span>
-                ⏱️
-              </span>
+              <span>⏱️</span>
 
               <strong>
                 Tempo total
               </strong>
 
               <p>
-                Inclua espera, caminhada,
-                transferência e tempo
-                até o ponto de embarque.
+                Inclua espera,
+                caminhada
+                e tempo de transferência.
               </p>
 
             </article>
@@ -190,17 +204,15 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
 
             <article class="planner-check-card">
 
-              <span>
-                🔄
-              </span>
+              <span>🔄</span>
 
               <strong>
                 Quantidade de trocas
               </strong>
 
               <p>
-                Uma rota alguns minutos mais longa
-                pode ser mais simples
+                Uma rota um pouco mais longa
+                pode ser mais confortável
                 se eliminar baldeações.
               </p>
 
@@ -209,18 +221,18 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
 
             <article class="planner-check-card">
 
-              <span>
-                🚶
-              </span>
+              <span>🚶</span>
 
               <strong>
                 Caminhada
               </strong>
 
               <p>
-                Considere calor, chuva,
-                bagagem e inclinação
-                antes de aceitar uma rota a pé.
+                Calor,
+                chuva,
+                bagagem
+                e relevo
+                podem mudar a melhor escolha.
               </p>
 
             </article>
@@ -228,18 +240,17 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
 
             <article class="planner-check-card">
 
-              <span>
-                💳
-              </span>
+              <span>💳</span>
 
               <strong>
-                Meio de pagamento
+                Bilhetagem
               </strong>
 
               <p>
-                Veja se a rota combina
-                sistemas municipais
-                e metropolitanos.
+                Jaé
+                e Riocard
+                cumprem funções diferentes
+                na rede.
               </p>
 
             </article>
@@ -247,18 +258,18 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
 
             <article class="planner-check-card">
 
-              <span>
-                🕒
-              </span>
+              <span>🕒</span>
 
               <strong>
                 Horário
               </strong>
 
               <p>
-                Alguns sistemas reduzem
-                frequência ou encerram
-                mais cedo à noite.
+                Trem,
+                barcas,
+                ônibus
+                e BRT
+                possuem programações próprias.
               </p>
 
             </article>
@@ -266,18 +277,17 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
 
             <article class="planner-check-card">
 
-              <span>
-                ⚠️
-              </span>
+              <span>⚠️</span>
 
               <strong>
                 Operação no dia
               </strong>
 
               <p>
-                Eventos, obras e feriados
-                podem alterar horários
-                e serviços.
+                Eventos,
+                obras
+                e operações especiais
+                podem alterar o serviço.
               </p>
 
             </article>
@@ -294,84 +304,82 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelo MetrôRio
+            Como pensar o MetrôRio
           </h4>
 
           <p class="panel-intro">
-            Para deslocamentos pelo Centro,
-            Zona Sul, Tijuca e Barra,
-            vale começar pelo metrô.
+            As Linhas 1,
+            2
+            e 4
+            cobrem grande parte
+            dos principais eixos turísticos
+            e de conexão da cidade.
           </p>
 
-          <div class="hours-grid">
+          <div class="comparison-grid">
 
-            <article class="hours-card">
-
-              <span>
-                📅
-              </span>
+            <article class="comparison-card">
 
               <strong>
-                Segunda a sábado
+                Linha 1
               </strong>
 
               <p>
-                Operação geral
-                das 5h à meia-noite.
+                Liga a Tijuca
+                ao Centro,
+                Zona Sul
+                e Ipanema.
               </p>
 
             </article>
 
 
-            <article class="hours-card">
-
-              <span>
-                ☀️
-              </span>
+            <article class="comparison-card">
 
               <strong>
-                Domingos e feriados
+                Linha 2
               </strong>
 
               <p>
-                Operação geral
-                das 7h às 23h.
+                Liga Pavuna
+                à Zona Norte
+                e segue até Botafogo
+                na configuração publicada
+                pelo MetrôRio.
               </p>
 
             </article>
 
 
-            <article class="hours-card">
-
-              <span>
-                🔄
-              </span>
+            <article class="comparison-card">
 
               <strong>
-                Transferência
+                Linha 4
               </strong>
 
               <p>
-                Para garantir a troca entre linhas,
-                esteja na plataforma da estação
-                de transferência antes
-                do encerramento da operação.
+                Conecta Ipanema,
+                Leblon,
+                São Conrado
+                e Jardim Oceânico.
               </p>
 
             </article>
 
-          </div>
 
+            <article class="comparison-card">
 
-          <div class="fare-note">
+              <strong>
+                Barra da Tijuca
+              </strong>
 
-            <strong>
-              Horários podem mudar em operações especiais.
-            </strong>
+              <p>
+                Jardim Oceânico
+                conecta metrô
+                e BRT.
+              </p>
 
-            Jogos, Carnaval, Réveillon
-            e grandes eventos podem alterar
-            a grade habitual.
+            </article>
 
           </div>
 
@@ -379,7 +387,7 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             COMO LER UMA ROTA DE METRÔ
+             COMO LER A ROTA DE METRÔ
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -411,7 +419,7 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
                     </strong>
 
                     <small>
-                      Confira o acesso mais conveniente
+                      Veja qual acesso fica mais próximo
                     </small>
 
                   </div>
@@ -428,11 +436,11 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
                   <div>
 
                     <strong>
-                      Confira a linha
+                      Identifique a linha
                     </strong>
 
                     <small>
-                      Veja o número, cor e sentido
+                      Linha 1, 2 ou 4
                     </small>
 
                   </div>
@@ -443,17 +451,17 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
                 <div class="route-step">
 
                   <span class="route-step-icon">
-                    🔄
+                    ↔️
                   </span>
 
                   <div>
 
                     <strong>
-                      Faça a transferência
+                      Confira o sentido
                     </strong>
 
                     <small>
-                      Siga as placas dentro da estação
+                      Use o terminal indicado como referência
                     </small>
 
                   </div>
@@ -474,7 +482,7 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
                     </strong>
 
                     <small>
-                      Confira rua ou ponto de referência
+                      Algumas estações possuem vários acessos
                     </small>
 
                   </div>
@@ -491,13 +499,17 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
               <article class="route-explanation-card">
 
                 <strong>
-                  Linha 1/4
+                  Centro
                 </strong>
 
                 <p>
-                  Os trens circulam entre
-                  Uruguai/Tijuca e
-                  Jardim Oceânico/Barra da Tijuca.
+                  Central,
+                  Saara,
+                  Uruguaiana,
+                  Carioca
+                  e Cinelândia
+                  atendem diferentes partes
+                  da região central.
                 </p>
 
               </article>
@@ -506,14 +518,13 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
               <article class="route-explanation-card">
 
                 <strong>
-                  Linha 2
+                  Copacabana
                 </strong>
 
                 <p>
-                  Opera entre Pavuna
-                  e Botafogo
-                  na configuração regular indicada
-                  pelo MetrôRio.
+                  Cardeal Arcoverde,
+                  Siqueira Campos
+                  e Cantagalo.
                 </p>
 
               </article>
@@ -522,13 +533,12 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
               <article class="route-explanation-card">
 
                 <strong>
-                  Veja o sentido
+                  Ipanema
                 </strong>
 
                 <p>
-                  O nome exibido
-                  na plataforma indica
-                  a direção do trem.
+                  General Osório
+                  e Nossa Senhora da Paz.
                 </p>
 
               </article>
@@ -537,18 +547,88 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
               <article class="route-explanation-card">
 
                 <strong>
-                  Não ignore a saída
+                  Barra
                 </strong>
 
                 <p>
-                  Estações centrais
-                  podem ter múltiplos acessos
-                  e saídas distantes entre si.
+                  Jardim Oceânico
+                  é o terminal metroviário
+                  e conexão com o BRT.
                 </p>
 
               </article>
 
             </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             METRÔ + BRT
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Quando combinar metrô e BRT
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Jardim Oceânico
+            </strong>
+
+            <p>
+              É uma das principais
+              conexões entre metrô
+              e BRT
+              para deslocamentos
+              pela Barra
+              e Zona Oeste.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Vicente de Carvalho
+            </strong>
+
+            <p>
+              Também possui
+              integração tarifária
+              entre metrô
+              e BRT.
+            </p>
+
+          </div>
+
+
+          <div class="fare-highlight-grid">
+
+            <article class="fare-highlight">
+
+              <span>
+                Metrô + BRT
+              </span>
+
+              <strong>
+                R$ 9,70
+              </strong>
+
+              <p>
+                Com Jaé
+                e nas estações
+                previstas
+                pela integração.
+              </p>
+
+            </article>
 
           </div>
 
@@ -562,28 +642,121 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelos trens
+            Como pensar os trens
           </h4>
 
           <p class="panel-intro">
-            O trem é especialmente relevante
-            para deslocamentos pela Zona Norte,
-            Zona Oeste e municípios
-            da Região Metropolitana.
+            A TrensRJ atende
+            diferentes eixos
+            da capital
+            e da Região Metropolitana.
           </p>
 
+          <div class="payment-choice-grid">
+
+            <article class="payment-choice">
+
+              <strong>
+                Deodoro
+              </strong>
+
+              <p>
+                Ramal importante
+                para deslocamentos
+                pela Zona Norte
+                e Oeste.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Santa Cruz
+              </strong>
+
+              <p>
+                Atende a Zona Oeste
+                até Santa Cruz.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Japeri
+              </strong>
+
+              <p>
+                Segue pela Baixada
+                até Japeri.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Belford Roxo
+              </strong>
+
+              <p>
+                Conecta a Central
+                à Baixada Fluminense.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Saracuruna
+              </strong>
+
+              <p>
+                Atende o eixo
+                em direção
+                à Baixada
+                e Duque de Caxias.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             CENTRAL DO BRASIL
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Central do Brasil
+          </h4>
+
           <div class="answer-block">
 
             <strong>
-              Primeiro identifique o ramal.
+              É o principal ponto
+              de partida dos cinco ramais.
             </strong>
 
             <p>
-              O nome da estação sozinho
-              não basta para entender
-              toda a viagem.
-              Confira também qual ramal
-              atende aquele destino.
+              Deodoro,
+              Santa Cruz,
+              Japeri,
+              Belford Roxo
+              e Saracuruna
+              aparecem entre os ramais
+              atendidos pela estação.
             </p>
 
           </div>
@@ -592,32 +765,33 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
           <div class="answer-block">
 
             <strong>
-              Central do Brasil
-              é um ponto importante de conexão.
+              A região possui conexão
+              com outros sistemas.
             </strong>
 
             <p>
-              Ela concentra diferentes ramais
-              e permite conexão
-              com metrô, ônibus e VLT
-              na área central.
+              Metrô,
+              VLT
+              e ônibus
+              podem completar
+              o deslocamento
+              pela área central.
             </p>
 
           </div>
 
 
-          <div class="answer-block">
+          <div class="visitor-alert">
 
             <strong>
-              Consulte a operação no dia.
+              Trem exige atenção ao horário.
             </strong>
 
-            <p>
-              A programação ferroviária
-              pode funcionar com horários fixos
-              em domingos, feriados
-              e situações especiais.
-            </p>
+            Primeiro e último trem
+            variam de acordo
+            com ramal,
+            estação
+            e dia da semana.
 
           </div>
 
@@ -631,90 +805,219 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelo BRT
+            Como pensar o BRT
           </h4>
 
           <p class="panel-intro">
-            No BRT, não basta saber
-            qual corredor atende a região.
-            É necessário conferir o serviço exato.
+            O sistema possui
+            quatro grandes corredores,
+            mas cada corredor
+            reúne vários serviços.
           </p>
 
-          <div class="bus-use-flow">
+          <div class="comparison-grid">
 
-            <article class="bus-use-step">
-
-              <span>
-                1
-              </span>
+            <article class="comparison-card">
 
               <strong>
-                Identifique o corredor
+                Transoeste
               </strong>
 
               <p>
-                Transoeste,
-                Transcarioca,
+                Barra,
+                Recreio,
+                Santa Cruz
+                e Campo Grande.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Transcarioca
+              </strong>
+
+              <p>
+                Barra,
+                Madureira,
+                Zona Norte
+                e Galeão.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
                 Transolímpica
-                ou Transbrasil.
+              </strong>
+
+              <p>
+                Conecta diferentes
+                áreas da Zona Oeste
+                e Deodoro.
               </p>
 
             </article>
 
 
-            <article class="bus-use-step">
-
-              <span>
-                2
-              </span>
+            <article class="comparison-card">
 
               <strong>
-                Confira o serviço
+                Transbrasil
               </strong>
 
               <p>
-                Linhas paradoras
-                e expressas podem ter
-                paradas diferentes.
+                Estrutura o eixo
+                da Avenida Brasil
+                até o Terminal Gentileza.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             SERVIÇOS BRT
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            No BRT, veja mais do que o corredor
+          </h4>
+
+          <div class="planner-check-grid">
+
+            <article class="planner-check-card">
+
+              <span>🔢</span>
+
+              <strong>
+                Número
+              </strong>
+
+              <p>
+                Identifica
+                o serviço específico.
               </p>
 
             </article>
 
 
-            <article class="bus-use-step">
+            <article class="planner-check-card">
 
-              <span>
-                3
-              </span>
+              <span>📍</span>
 
               <strong>
-                Veja o terminal final
+                Destino
               </strong>
 
               <p>
-                O destino indicado
-                ajuda a confirmar
-                o sentido correto.
+                Confirma
+                o sentido da viagem.
               </p>
 
             </article>
 
 
-            <article class="bus-use-step">
+            <article class="planner-check-card">
 
-              <span>
-                4
-              </span>
+              <span>🚏</span>
 
               <strong>
-                Confirme a conexão
+                Parador
               </strong>
 
               <p>
-                Algumas viagens exigem
-                troca de serviço
-                em terminal intermediário.
+                Realiza
+                mais paradas.
               </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>⚡</span>
+
+              <strong>
+                Expresso ou semidireto
+              </strong>
+
+              <p>
+                Atende
+                menos estações
+                ao longo do percurso.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             GALEÃO
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Galeão pelo BRT
+          </h4>
+
+          <div class="fare-scenario-grid">
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Transcarioca
+              </span>
+
+              <strong>
+                Linha 42
+              </strong>
+
+              <p>
+                Madureira
+                ↔ Galeão Tom Jobim,
+                serviço parador.
+              </p>
+
+              <span class="fare-scenario-result">
+                BRT
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Centro / Gentileza
+              </span>
+
+              <strong>
+                Terminal Gentileza ↔ Galeão
+              </strong>
+
+              <p>
+                Serviço direto
+                publicado
+                pela MOBI-Rio.
+              </p>
+
+              <span class="fare-scenario-result">
+                Direto
+              </span>
 
             </article>
 
@@ -730,66 +1033,147 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Quando considerar o VLT
+            VLT Carioca
           </h4>
 
-          <div class="payment-choice-grid">
+          <p class="panel-intro">
+            O VLT possui
+            quatro linhas
+            e é especialmente útil
+            na região central
+            e portuária.
+          </p>
 
-            <article class="payment-choice">
+          <div class="lines-grid">
+
+            ${createLineMiniCard(
+              "#2476aa",
+              "1",
+              "Linha 1",
+              "VLT",
+              "Santos Dumont ↔ Terminal Gentileza",
+              "Azul"
+            )}
+
+            ${createLineMiniCard(
+              "#579b58",
+              "2",
+              "Linha 2",
+              "VLT",
+              "Praça XV ↔ Praia Formosa",
+              "Verde"
+            )}
+
+            ${createLineMiniCard(
+              "#d8af2d",
+              "3",
+              "Linha 3",
+              "VLT",
+              "Santos Dumont ↔ Central",
+              "Amarela"
+            )}
+
+            ${createLineMiniCard(
+              "#e58432",
+              "4",
+              "Linha 4",
+              "VLT",
+              "Praça XV ↔ Terminal Gentileza",
+              "Laranja"
+            )}
+
+          </div>
+
+
+          <div class="fare-note">
+
+            <strong>
+              Horário geral:
+            </strong>
+
+            todos os dias,
+            das 5h às 23h.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TERMINAL GENTILEZA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Terminal Intermodal Gentileza
+          </h4>
+
+          <p class="panel-intro">
+            É um dos principais
+            pontos de integração
+            entre sistemas municipais.
+          </p>
+
+          <div class="comparison-grid">
+
+            <article class="comparison-card">
 
               <strong>
-                Região Portuária
+                VLT
               </strong>
 
               <p>
-                É especialmente útil
-                entre Praça Mauá,
-                Centro e Zona Portuária.
+                Linhas 1
+                e 4
+                chegam ao terminal.
               </p>
 
             </article>
 
 
-            <article class="payment-choice">
+            <article class="comparison-card">
 
               <strong>
-                Rodoviária do Rio
+                BRT
               </strong>
 
               <p>
-                Pode facilitar
-                a ligação entre a rodoviária
-                e áreas centrais.
+                A Transbrasil
+                utiliza Gentileza
+                como terminal.
               </p>
 
             </article>
 
 
-            <article class="payment-choice">
+            <article class="comparison-card">
 
               <strong>
-                Terminal Gentileza
+                Galeão
               </strong>
 
               <p>
-                Funciona como importante ponto
-                de conexão com BRT
-                e outros serviços.
+                Existe serviço BRT
+                direto
+                entre Gentileza
+                e o aeroporto.
               </p>
 
             </article>
 
 
-            <article class="payment-choice">
+            <article class="comparison-card">
 
               <strong>
-                Santos Dumont
+                Ônibus
               </strong>
 
               <p>
-                O VLT pode participar
-                de trajetos pela região
-                do aeroporto.
+                Linhas municipais
+                atendem
+                o terminal
+                e seu entorno.
               </p>
 
             </article>
@@ -806,13 +1190,15 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Planejando pelas barcas
+            Planejando pelas Barcas
           </h4>
 
           <p class="panel-intro">
-            Diferentemente do metrô,
-            as barcas trabalham com
-            partidas programadas por linha.
+            Diferentemente
+            do metrô e do VLT,
+            as barcas possuem
+            horários de partida
+            definidos por linha.
           </p>
 
           <div class="route-compare-grid">
@@ -828,12 +1214,12 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Travessia de até aproximadamente
-                22 minutos.
+                Travessia
+                de até 22 minutos.
               </p>
 
               <span class="route-compare-result">
-                Consulte a grade antes de sair
+                R$ 5,00
               </span>
 
             </article>
@@ -850,12 +1236,12 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Travessia de até aproximadamente
-                28 minutos.
+                Travessia
+                de até 28 minutos.
               </p>
 
               <span class="route-compare-result">
-                Horários específicos
+                R$ 7,70
               </span>
 
             </article>
@@ -864,7 +1250,29 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
             <article class="route-compare-card">
 
               <span>
-                Ilha de Paquetá
+                Ilha do Governador
+              </span>
+
+              <strong>
+                Praça XV ↔ Cocotá
+              </strong>
+
+              <p>
+                Travessia
+                de até 61 minutos.
+              </p>
+
+              <span class="route-compare-result">
+                R$ 5,00
+              </span>
+
+            </article>
+
+
+            <article class="route-compare-card">
+
+              <span>
+                Paquetá
               </span>
 
               <strong>
@@ -872,13 +1280,12 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
               </strong>
 
               <p>
-                Travessia mais longa
-                e dependente de horários
-                definidos.
+                Travessia
+                de até 81 minutos.
               </p>
 
               <span class="route-compare-result">
-                Planeje ida e volta
+                R$ 5,00
               </span>
 
             </article>
@@ -889,14 +1296,17 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
           <div class="visitor-alert">
 
             <strong>
-              Não chegue à estação
-              contando com partida imediata.
+              Para barcas,
+              horário realmente importa.
             </strong>
 
-            Consulte antes
-            o horário da linha desejada,
-            principalmente para Paquetá,
-            Cocotá e Charitas.
+            Confira a partida
+            correspondente à linha
+            antes de sair,
+            especialmente para
+            Paquetá,
+            Cocotá
+            e Charitas.
 
           </div>
 
@@ -914,55 +1324,70 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
           </h4>
 
           <p class="panel-intro">
-            Se o destino está fora
+            Se a viagem
+            atravessa a divisa
             do município do Rio,
-            confira se uma linha
-            intermunicipal atende diretamente.
+            o serviço pode pertencer
+            à rede estadual.
           </p>
 
-          <div class="answer-block">
+          <div class="route-compare-grid">
 
-            <strong>
-              Use a consulta do DETRO/RJ.
-            </strong>
+            <article class="route-compare-card">
 
-            <p>
-              O sistema oficial permite
-              verificar linhas,
-              itinerários e tarifas
-              dos serviços regulares.
-            </p>
+              <span>
+                Rio → Niterói
+              </span>
+
+              <strong>
+                Ônibus ou barca
+              </strong>
+
+              <p>
+                Compare ponto de origem,
+                destino final,
+                tempo
+                e conveniência.
+              </p>
+
+              <span class="route-compare-result">
+                Duas redes possíveis
+              </span>
+
+            </article>
+
+
+            <article class="route-compare-card">
+
+              <span>
+                Rio → Baixada
+              </span>
+
+              <strong>
+                Trem ou ônibus
+              </strong>
+
+              <p>
+                Dependendo da região,
+                o trem pode concentrar
+                a parte principal
+                do trajeto.
+              </p>
+
+              <span class="route-compare-result">
+                Compare o destino
+              </span>
+
+            </article>
 
           </div>
 
 
-          <div class="answer-block">
+          <div class="fare-note">
 
-            <strong>
-              Não presuma uma tarifa única.
-            </strong>
-
-            <p>
-              O valor varia conforme
-              linha, município,
-              distância e serviço.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Compare com trem ou barca.
-            </strong>
-
-            <p>
-              Para alguns deslocamentos metropolitanos,
-              uma combinação sobre trilhos
-              ou hidroviária pode ser
-              mais simples do que o ônibus direto.
-            </p>
+            No ônibus intermunicipal,
+            tarifa e itinerário
+            dependem da linha específica.
 
           </div>
 
@@ -970,7 +1395,90 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             EXEMPLOS DE DECISÃO
+             BUM
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Chegando pelo Terminal Pedro Fernandes
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Existe uma integração
+              específica com a rede municipal.
+            </strong>
+
+            <p>
+              O Bilhete Único
+              de Integração Margaridas
+              foi criado em 2026
+              para passageiros
+              que chegam de ônibus intermunicipal
+              ao Terminal BRT Metropolitano
+              Pedro Fernandes.
+            </p>
+
+          </div>
+
+
+          <div class="fare-highlight-grid">
+
+            <article class="fare-highlight">
+
+              <span>
+                Parte municipal
+              </span>
+
+              <strong>
+                R$ 5,00
+              </strong>
+
+              <p>
+                Permite utilizar
+                os modos municipais
+                previstos no benefício.
+              </p>
+
+            </article>
+
+
+            <article class="fare-highlight">
+
+              <span>
+                Janela
+              </span>
+
+              <strong>
+                Até 20 horas
+              </strong>
+
+              <p>
+                Com até quatro
+                deslocamentos municipais
+                nas condições do BUM.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            A passagem
+            do ônibus intermunicipal
+            é paga separadamente.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             COMO COMPARAR
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -984,21 +1492,22 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
             <article class="route-compare-card">
 
               <span>
-                Opção A
+                Mais rápida
               </span>
 
               <strong>
-                45 minutos com duas trocas
+                Mais trocas
               </strong>
 
               <p>
-                Pode ser a opção mais rápida,
-                mas exige mais atenção
-                nas transferências.
+                Pode valer a pena
+                quando as conexões
+                são simples
+                e próximas.
               </p>
 
               <span class="route-compare-result">
-                Melhor se tempo for prioridade
+                Prioridade: tempo
               </span>
 
             </article>
@@ -1007,21 +1516,22 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
             <article class="route-compare-card">
 
               <span>
-                Opção B
+                Mais direta
               </span>
 
               <strong>
-                55 minutos com uma troca
+                Menos baldeações
               </strong>
 
               <p>
-                Dez minutos adicionais
-                podem valer a pena
-                para uma viagem mais simples.
+                Pode reduzir
+                o atrito da viagem
+                mesmo levando
+                alguns minutos a mais.
               </p>
 
               <span class="route-compare-result">
-                Melhor para reduzir atrito
+                Prioridade: simplicidade
               </span>
 
             </article>
@@ -1030,22 +1540,22 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
             <article class="route-compare-card">
 
               <span>
-                Opção C
+                Menos caminhada
               </span>
 
               <strong>
-                Menos tempo, muita caminhada
+                Mais conforto
               </strong>
 
               <p>
-                Avalie clima,
-                bagagem,
-                horário e segurança
-                antes de escolher.
+                Pode ser importante
+                no calor,
+                na chuva
+                ou com bagagem.
               </p>
 
               <span class="route-compare-result">
-                Contexto muda a melhor rota
+                Prioridade: conforto
               </span>
 
             </article>
@@ -1056,7 +1566,7 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             ÚLTIMO EMBARQUE
+             À NOITE
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -1070,19 +1580,19 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
             <article class="planner-tip">
 
               <span class="planner-tip-icon">
-                🕒
+                🚆
               </span>
 
               <div>
 
                 <strong>
-                  Confira o último embarque
+                  Trem
                 </strong>
 
                 <p>
-                  Não use apenas
-                  o horário geral
-                  de encerramento do sistema.
+                  Primeiro e último trem
+                  variam conforme
+                  ramal e estação.
                 </p>
 
               </div>
@@ -1093,20 +1603,19 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
             <article class="planner-tip">
 
               <span class="planner-tip-icon">
-                🔄
+                ⛴️
               </span>
 
               <div>
 
                 <strong>
-                  Considere a transferência
+                  Barcas
                 </strong>
 
                 <p>
-                  Você precisa chegar
-                  ao ponto de troca
-                  antes do encerramento
-                  daquela conexão.
+                  A grade
+                  depende da linha
+                  e do dia.
                 </p>
 
               </div>
@@ -1117,19 +1626,19 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
             <article class="planner-tip">
 
               <span class="planner-tip-icon">
-                ⛴
+                🚍
               </span>
 
               <div>
 
                 <strong>
-                  Barcas exigem atenção especial
+                  BRT e ônibus
                 </strong>
 
                 <p>
-                  A grade varia por linha,
-                  dia da semana
-                  e operação especial.
+                  Frequência
+                  e serviços disponíveis
+                  mudam ao longo do dia.
                 </p>
 
               </div>
@@ -1140,19 +1649,20 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
             <article class="planner-tip">
 
               <span class="planner-tip-icon">
-                📱
+                ⚠️
               </span>
 
               <div>
 
                 <strong>
-                  Consulte novamente antes de sair
+                  Operações especiais
                 </strong>
 
                 <p>
-                  Eventos e alterações operacionais
-                  podem mudar uma rota
-                  que estava correta pela manhã.
+                  Grandes eventos
+                  podem alterar
+                  temporariamente
+                  horários e trajetos.
                 </p>
 
               </div>
@@ -1165,7 +1675,87 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
 
 
         <!-- ==================================================
-             FONTES
+             O QUE CONFIRMAR
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            O que realmente precisa ser confirmado no dia
+          </h4>
+
+          <div class="payment-choice-grid">
+
+            <article class="payment-choice">
+
+              <strong>
+                Horário do trem
+              </strong>
+
+              <p>
+                Depende
+                do ramal,
+                estação
+                e dia da semana.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Partida da barca
+              </strong>
+
+              <p>
+                Cada ligação
+                possui programação própria.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Serviço do BRT
+              </strong>
+
+              <p>
+                Parador,
+                expresso,
+                semidireto
+                e direto
+                podem parar
+                em estações diferentes.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Ônibus específico
+              </strong>
+
+              <p>
+                Horário,
+                ponto
+                e eventual desvio
+                são operacionais.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             FONTES OFICIAIS
         =================================================== -->
 
         <div class="official-map-actions">
@@ -1176,7 +1766,17 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Planejar no MetrôRio
+            MetrôRio
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://trensrj.com.br/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            TrensRJ
           </a>
 
 
@@ -1186,7 +1786,17 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Consultar MOBI-Rio
+            BRT · MOBI-Rio
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://trilhos.motiva.com.br/vltrio/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            VLT Carioca
           </a>
 
 
@@ -1206,17 +1816,17 @@ window.RIO_TRANSPORT_MODULES["planner"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Itinerários intermunicipais
+            Linhas intermunicipais · DETRO/RJ
           </a>
 
 
           <a
             class="official-link"
-            href="https://transportes.prefeitura.rio/"
+            href="https://transportes.prefeitura.rio/integracoes/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Secretaria Municipal de Transportes
+            Integrações · Prefeitura do Rio
           </a>
 
         </div>
