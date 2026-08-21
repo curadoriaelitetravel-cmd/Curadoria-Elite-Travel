@@ -7,6 +7,7 @@
 window.RIO_TRANSPORT_MODULES =
   window.RIO_TRANSPORT_MODULES || {};
 
+
 window.RIO_TRANSPORT_MODULES["fares"] = {
 
   kicker: "Rio de Janeiro · tarifas vigentes",
@@ -19,6 +20,7 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
 
       <div class="network-layout">
 
+
         <!-- ==================================================
              VALORES PRINCIPAIS
         =================================================== -->
@@ -30,9 +32,10 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
           </h4>
 
           <p class="panel-intro">
-            No Rio de Janeiro, cada sistema pode ter sua própria
-            tarifa. Antes de embarcar, identifique se o transporte
-            é municipal ou metropolitano.
+            No Rio de Janeiro,
+            transportes municipais
+            e metropolitanos
+            utilizam estruturas tarifárias diferentes.
           </p>
 
           <div class="fare-highlight-grid">
@@ -48,8 +51,8 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Tarifa básica dos ônibus municipais
-                da cidade do Rio de Janeiro.
+                Tarifa pública
+                do transporte municipal.
               </p>
 
             </article>
@@ -66,8 +69,8 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Tarifa básica da rede BRT municipal
-                administrada pela MOBI-Rio.
+                Tarifa municipal
+                da rede BRT.
               </p>
 
             </article>
@@ -84,8 +87,8 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Tarifa básica para viagens
-                na rede municipal de VLT.
+                Tarifa básica
+                da rede municipal de VLT.
               </p>
 
             </article>
@@ -102,7 +105,8 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Tarifa pública das Linhas 1, 2 e 4.
+                Tarifa pública
+                das Linhas 1, 2 e 4.
               </p>
 
             </article>
@@ -119,8 +123,10 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Tarifa integral vigente
-                do sistema ferroviário metropolitano.
+                Tarifa integral
+                da rede ferroviária
+                atualmente operada
+                pela TrensRJ.
               </p>
 
             </article>
@@ -133,13 +139,664 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
               </span>
 
               <strong>
+                A partir de R$ 5,00
+              </strong>
+
+              <p>
+                O valor depende
+                da ligação utilizada.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             SISTEMA MUNICIPAL
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Transportes municipais
+          </h4>
+
+          <p class="panel-intro">
+            Ônibus municipais,
+            BRT,
+            VLT,
+            vans municipais
+            e cabritinhos
+            pertencem à estrutura tarifária
+            da Prefeitura do Rio.
+          </p>
+
+          <div class="comparison-grid">
+
+            <article class="comparison-card">
+
+              <strong>
+                Ônibus
+              </strong>
+
+              <p>
+                R$ 5,00.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                BRT
+              </strong>
+
+              <p>
+                R$ 5,00.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                VLT
+              </strong>
+
+              <p>
+                R$ 5,00.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Vans municipais
+              </strong>
+
+              <p>
+                R$ 5,00
+                nos serviços
+                abrangidos pela tarifa municipal.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            O Jaé é o sistema
+            de bilhetagem
+            dos transportes municipais
+            da cidade do Rio de Janeiro.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             BILHETE ÚNICO CARIOCA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Bilhete Único Carioca · BUC
+          </h4>
+
+          <p class="panel-intro">
+            O BUC permite combinar
+            transportes municipais
+            pagando uma única tarifa
+            dentro das regras do benefício.
+          </p>
+
+          <div class="fare-highlight-grid">
+
+            <article class="fare-highlight">
+
+              <span>
+                Tarifa
+              </span>
+
+              <strong>
                 R$ 5,00
               </strong>
 
               <p>
-                Valor das ligações regulares como
-                Praça XV ↔ Praça Arariboia,
-                Paquetá e Cocotá.
+                Valor da integração
+                municipal.
+              </p>
+
+            </article>
+
+
+            <article class="fare-highlight">
+
+              <span>
+                Com BRT
+              </span>
+
+              <strong>
+                Até 3 viagens
+              </strong>
+
+              <p>
+                Dentro de três horas,
+                no mesmo sentido,
+                desde que uma das viagens
+                seja realizada no BRT.
+              </p>
+
+            </article>
+
+
+            <article class="fare-highlight">
+
+              <span>
+                Sem BRT
+              </span>
+
+              <strong>
+                Até 2 viagens
+              </strong>
+
+              <p>
+                Dois deslocamentos
+                municipais consecutivos
+                no mesmo sentido.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              A integração do BUC
+              não funciona com qualquer Jaé.
+            </strong>
+
+            Desde 30 de maio de 2026,
+            o benefício tarifário
+            fica disponível
+            pelo cartão preto Jaé
+            vinculado ao CPF
+            ou pelo aplicativo Jaé.
+
+            O cartão verde unitário
+            não oferece integração tarifária.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             VLT
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Transferência entre linhas do VLT
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              É possível trocar de linha
+              sem nova cobrança.
+            </strong>
+
+            <p>
+              As Linhas 1,
+              2,
+              3
+              e 4 do VLT
+              permitem transferência
+              entre linhas
+              dentro de uma hora.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Se o passageiro
+            embarcar novamente
+            na mesma linha,
+            ocorre nova tarifação,
+            independentemente
+            do sentido da viagem.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             METRÔ
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            MetrôRio
+          </h4>
+
+          <div class="fare-highlight-grid">
+
+            <article class="fare-highlight">
+
+              <span>
+                Tarifa comum
+              </span>
+
+              <strong>
+                R$ 7,90
+              </strong>
+
+              <p>
+                Valor público
+                pago pelo passageiro
+                em 2026.
+              </p>
+
+            </article>
+
+
+            <article class="fare-highlight">
+
+              <span>
+                Tarifa Social
+              </span>
+
+              <strong>
+                R$ 5,00
+              </strong>
+
+              <p>
+                Benefício estadual
+                para usuários
+                que atendem
+                aos critérios exigidos.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            A tarifa máxima homologada
+            em 2026 é superior,
+            mas a tarifa efetivamente
+            cobrada do passageiro
+            permanece em R$ 7,90.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             METRÔ NA SUPERFÍCIE
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Metrô + linhas Metrô na Superfície
+          </h4>
+
+          <p class="panel-intro">
+            Algumas linhas municipais
+            possuem uma regra específica
+            de integração com o metrô.
+          </p>
+
+          <div class="answer-block">
+
+            <strong>
+              Tarifa integrada: R$ 7,90
+            </strong>
+
+            <p>
+              A integração é válida
+              nas linhas 319,
+              SV319,
+              536,
+              539,
+              583
+              e 584,
+              nos pontos de transbordo
+              definidos pelo sistema.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Essa integração
+            não deve ser confundida
+            com as demais linhas municipais
+            de integração com o metrô,
+            que possuem tarifa de R$ 8,80.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             METRÔ + ÔNIBUS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Metrô + ônibus de integração
+          </h4>
+
+          <div class="fare-highlight-grid">
+
+            <article class="fare-highlight">
+
+              <span>
+                Integração
+              </span>
+
+              <strong>
+                R$ 8,80
+              </strong>
+
+              <p>
+                Tarifa para linhas municipais
+                específicas integradas
+                ao metrô.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Linhas contempladas
+            </strong>
+
+            <p>
+              133,
+              209,
+              513,
+              603,
+              608,
+              611,
+              614,
+              616
+              e 913.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            A integração ocorre
+            nas estações de transbordo
+            determinadas para cada linha.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             METRÔ + BRT / VANS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Outras integrações municipais com o metrô
+          </h4>
+
+          <div class="fare-scenario-grid">
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Metrô + BRT
+              </span>
+
+              <strong>
+                Com Jaé
+              </strong>
+
+              <p>
+                A integração tarifária
+                ocorre somente
+                nas estações
+                Jardim Oceânico
+                e Vicente de Carvalho.
+              </p>
+
+              <span class="fare-scenario-result">
+                R$ 9,70
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Metrô + van
+              </span>
+
+              <strong>
+                Rocinha / Vidigal
+              </strong>
+
+              <p>
+                Integração
+                nas linhas STPL
+                previstas pelo sistema.
+              </p>
+
+              <span class="fare-scenario-result">
+                R$ 8,80
+              </span>
+
+            </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            BRT e vans integradas
+            ao metrô
+            exigem o Jaé.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             METRÔ + MODAIS METROPOLITANOS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Metrô + transportes metropolitanos
+          </h4>
+
+          <p class="panel-intro">
+            As integrações estaduais
+            utilizam Riocard Mais
+            habilitado no
+            Bilhete Único Intermunicipal.
+          </p>
+
+          <div class="fare-scenario-grid">
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Integração
+              </span>
+
+              <strong>
+                Metrô + trem
+              </strong>
+
+              <p>
+                Com Riocard Mais
+                habilitado no BUI.
+              </p>
+
+              <span class="fare-scenario-result">
+                R$ 9,40
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Integração
+              </span>
+
+              <strong>
+                Metrô + ônibus intermunicipal
+              </strong>
+
+              <p>
+                Com benefício
+                do BUI habilitado.
+              </p>
+
+              <span class="fare-scenario-result">
+                R$ 9,40
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Integração
+              </span>
+
+              <strong>
+                Metrô + barcas
+              </strong>
+
+              <p>
+                Também utiliza
+                Riocard Mais
+                habilitado no BUI.
+              </p>
+
+              <span class="fare-scenario-result">
+                R$ 9,40
+              </span>
+
+            </article>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            <strong>
+              Prazo máximo:
+            </strong>
+
+            as integrações tarifárias
+            publicadas pelo MetrôRio
+            possuem janela máxima
+            de 120 minutos.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TREM
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Trem metropolitano
+          </h4>
+
+          <p class="panel-intro">
+            Desde 30 de maio de 2026,
+            a operação da rede ferroviária
+            metropolitana
+            é realizada pela TrensRJ.
+          </p>
+
+          <div class="fare-highlight-grid">
+
+            <article class="fare-highlight">
+
+              <span>
+                Tarifa integral
+              </span>
+
+              <strong>
+                R$ 7,60
+              </strong>
+
+              <p>
+                Tarifa ferroviária
+                vigente em 2026.
+              </p>
+
+            </article>
+
+
+            <article class="fare-highlight">
+
+              <span>
+                Tarifa Social
+              </span>
+
+              <strong>
+                R$ 5,00
+              </strong>
+
+              <p>
+                Benefício estadual
+                mantido em 2026
+                para usuários elegíveis.
               </p>
 
             </article>
@@ -156,12 +813,12 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Tarifas das barcas
+            Tarifas das Barcas
           </h4>
 
           <p class="panel-intro">
-            A tarifa varia conforme a linha.
-            Confira o destino antes de embarcar.
+            O preço depende
+            da ligação utilizada.
           </p>
 
           <div class="table-scroll">
@@ -180,6 +837,7 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
               <tbody>
 
                 <tr>
+
                   <td>
                     <strong>
                       Praça XV ↔ Praça Arariboia
@@ -189,10 +847,12 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
                   <td>
                     R$ 5,00
                   </td>
+
                 </tr>
 
 
                 <tr>
+
                   <td>
                     <strong>
                       Praça XV ↔ Cocotá
@@ -202,10 +862,12 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
                   <td>
                     R$ 5,00
                   </td>
+
                 </tr>
 
 
                 <tr>
+
                   <td>
                     <strong>
                       Praça XV ↔ Paquetá
@@ -215,10 +877,12 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
                   <td>
                     R$ 5,00
                   </td>
+
                 </tr>
 
 
                 <tr>
+
                   <td>
                     <strong>
                       Praça XV ↔ Charitas
@@ -228,10 +892,12 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
                   <td>
                     R$ 7,70
                   </td>
+
                 </tr>
 
 
                 <tr>
+
                   <td>
                     <strong>
                       Angra dos Reis ↔ Ilha Grande
@@ -241,10 +907,12 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
                   <td>
                     R$ 20,50
                   </td>
+
                 </tr>
 
 
                 <tr>
+
                   <td>
                     <strong>
                       Mangaratiba ↔ Ilha Grande
@@ -254,264 +922,12 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
                   <td>
                     R$ 20,50
                   </td>
-                </tr>
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             DOIS SISTEMAS TARIFÁRIOS
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Antes de falar em integração
-          </h4>
-
-          <p class="panel-intro">
-            Esta é uma das diferenças mais importantes
-            para entender o transporte do Rio.
-          </p>
-
-          <div class="comparison-grid">
-
-            <article class="comparison-card">
-
-              <strong>
-                Transportes municipais
-              </strong>
-
-              <p>
-                Ônibus municipais, BRT, VLT,
-                vans municipais e cabritinhos
-                pertencem ao sistema municipal.
-              </p>
-
-              <small
-                style="
-                  display:block;
-                  margin-top:10px;
-                  color:var(--muted);
-                  line-height:1.5;
-                "
-              >
-                A bilhetagem municipal utiliza o Jaé.
-              </small>
-
-            </article>
-
-
-            <article class="comparison-card">
-
-              <strong>
-                Transportes metropolitanos
-              </strong>
-
-              <p>
-                Trem, barcas e ônibus intermunicipais
-                pertencem à rede estadual/metropolitana.
-              </p>
-
-              <small
-                style="
-                  display:block;
-                  margin-top:10px;
-                  color:var(--muted);
-                  line-height:1.5;
-                "
-              >
-                Benefícios do Bilhete Único Intermunicipal
-                utilizam o Riocard Mais habilitado no BUI.
-              </small>
-
-            </article>
-
-          </div>
-
-          <div class="fare-note">
-
-            <strong>
-              MetrôRio funciona como ponto de encontro
-              entre os dois sistemas.
-            </strong>
-
-            Dependendo da integração utilizada,
-            o passageiro pode precisar do Jaé
-            ou do Riocard habilitado no BUI.
-
-          </div>
-
-        </section>
-
-
-        <!-- ==================================================
-             INTEGRAÇÕES COM METRÔ
-        =================================================== -->
-
-        <section class="panel-box network-full">
-
-          <h4 class="panel-title">
-            Integrações com o MetrôRio
-          </h4>
-
-          <p class="panel-intro">
-            Algumas combinações possuem tarifa própria
-            quando realizadas com o meio de pagamento correto
-            e dentro das regras de integração.
-          </p>
-
-          <div class="table-scroll">
-
-            <table class="info-table">
-
-              <thead>
-
-                <tr>
-                  <th>Integração</th>
-                  <th>Meio exigido</th>
-                  <th>Valor</th>
-                </tr>
-
-              </thead>
-
-              <tbody>
-
-                <tr>
-
-                  <td>
-                    <strong>
-                      Metrô + BRT
-                    </strong>
-                  </td>
-
-                  <td>
-                    Jaé
-                  </td>
-
-                  <td>
-                    R$ 9,70
-                  </td>
-
-                </tr>
-
-
-                <tr>
-
-                  <td>
-                    <strong>
-                      Metrô + Van Rocinha/Vidigal
-                    </strong>
-                  </td>
-
-                  <td>
-                    Jaé
-                  </td>
-
-                  <td>
-                    R$ 8,80
-                  </td>
-
-                </tr>
-
-
-                <tr>
-
-                  <td>
-                    <strong>
-                      Metrô + ônibus de integração
-                    </strong>
-                  </td>
-
-                  <td>
-                    Jaé ou Riocard habilitado
-                  </td>
-
-                  <td>
-                    R$ 8,80
-                  </td>
-
-                </tr>
-
-
-                <tr>
-
-                  <td>
-                    <strong>
-                      Metrô + trem
-                    </strong>
-                  </td>
-
-                  <td>
-                    Riocard habilitado no BUI
-                  </td>
-
-                  <td>
-                    R$ 9,40
-                  </td>
-
-                </tr>
-
-
-                <tr>
-
-                  <td>
-                    <strong>
-                      Metrô + ônibus intermunicipal
-                    </strong>
-                  </td>
-
-                  <td>
-                    Riocard habilitado no BUI
-                  </td>
-
-                  <td>
-                    R$ 9,40
-                  </td>
-
-                </tr>
-
-
-                <tr>
-
-                  <td>
-                    <strong>
-                      Metrô + barcas
-                    </strong>
-                  </td>
-
-                  <td>
-                    Riocard habilitado no BUI
-                  </td>
-
-                  <td>
-                    R$ 9,40
-                  </td>
 
                 </tr>
 
               </tbody>
 
             </table>
-
-          </div>
-
-
-          <div class="fare-note">
-
-            <strong>
-              Prazo de integração:
-            </strong>
-
-            nas integrações tarifárias informadas
-            pelo MetrôRio, o período máximo
-            de transferência é de 120 minutos.
 
           </div>
 
@@ -529,10 +945,10 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
           </h4>
 
           <p class="panel-intro">
-            O BUI é um benefício tarifário estadual.
-            Ele não é simplesmente um cartão diferente:
-            o benefício precisa estar habilitado
-            em um Riocard Mais elegível.
+            O BUI é um benefício
+            tarifário estadual
+            habilitado em um
+            Riocard Mais elegível.
           </p>
 
           <div class="fare-scenario-grid">
@@ -540,16 +956,17 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Integração
+                BUI
               </span>
 
               <strong>
-                Trem + Metrô
+                Trem + metrô
               </strong>
 
               <p>
-                Com Riocard habilitado no BUI,
-                a integração tarifária custa R$ 9,40.
+                Integração
+                entre os dois sistemas
+                metropolitanos.
               </p>
 
               <span class="fare-scenario-result">
@@ -562,17 +979,17 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Integração
+                BUI
               </span>
 
               <strong>
-                Ônibus intermunicipal + Metrô ou trem
+                Ônibus intermunicipal
+                + metrô ou trem
               </strong>
 
               <p>
-                O benefício tarifário estadual
-                também pode reduzir o custo
-                dessa combinação.
+                Combinação prevista
+                no benefício estadual.
               </p>
 
               <span class="fare-scenario-result">
@@ -585,16 +1002,16 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Integração
+                BUI
               </span>
 
               <strong>
-                Ônibus intermunicipal + Barcas
+                Ônibus intermunicipal + barcas
               </strong>
 
               <p>
-                Combinação prevista entre
-                os modos metropolitanos participantes.
+                Integração tarifária
+                prevista pelo sistema.
               </p>
 
               <span class="fare-scenario-result">
@@ -607,7 +1024,7 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Integração
+                BUI
               </span>
 
               <strong>
@@ -615,8 +1032,10 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                Quando realizada dentro
-                das regras do benefício estadual.
+                Quando realizada
+                dentro das regras
+                de elegibilidade
+                do benefício.
               </p>
 
               <span class="fare-scenario-result">
@@ -627,22 +1046,23 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
 
           </div>
 
+
           <div class="visitor-alert">
 
             <strong>
-              Para turistas:
+              O BUI não é automaticamente
+              incluído em qualquer Riocard.
             </strong>
 
-            não presuma que qualquer Riocard
-            concede automaticamente o benefício.
-
-            O Bilhete Único Intermunicipal possui
-            regras próprias de cadastro e elegibilidade.
+            O benefício possui
+            cadastro,
+            critérios de renda
+            e regras próprias.
 
             Para uma visita curta,
-            pagar as tarifas normais pode ser
-            mais simples do que tentar aderir
-            a um benefício destinado ao uso cotidiano.
+            ele normalmente não deve
+            ser tratado como
+            uma tarifa turística.
 
           </div>
 
@@ -650,42 +1070,58 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             TARIFA SOCIAL METRÔ
+             TARIFA SOCIAL
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Tarifa Social do Metrô
+            Tarifas sociais estaduais
           </h4>
 
-          <div class="answer-block">
+          <div class="comparison-grid">
 
-            <strong>
-              Valor reduzido: R$ 5,00
-            </strong>
+            <article class="comparison-card">
 
-            <p>
-              A Tarifa Social reduz o valor
-              da passagem do MetrôRio
-              para usuários que atendam
-              aos critérios do benefício estadual.
-            </p>
+              <strong>
+                Metrô
+              </strong>
+
+              <p>
+                R$ 5,00
+                para usuários
+                que atendam
+                aos critérios do benefício.
+              </p>
+
+            </article>
+
+
+            <article class="comparison-card">
+
+              <strong>
+                Trem
+              </strong>
+
+              <p>
+                R$ 5,00
+                para usuários
+                elegíveis
+                à Tarifa Social ferroviária.
+              </p>
+
+            </article>
 
           </div>
 
 
-          <div class="answer-block">
+          <div class="fare-note">
 
-            <strong>
-              Não é uma tarifa turística.
-            </strong>
-
-            <p>
-              O benefício exige cadastro,
-              CPF e Riocard Mais habilitado
-              conforme as regras do programa.
-            </p>
+            A Tarifa Social
+            exige Riocard Mais
+            vinculado ao usuário
+            e cumprimento
+            das regras estaduais.
 
           </div>
 
@@ -693,7 +1129,7 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             EXEMPLOS PARA O VIAJANTE
+             EXEMPLOS
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -702,29 +1138,66 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
             Exemplos práticos
           </h4>
 
-          <p class="panel-intro">
-            O objetivo é entender quando existe
-            uma tarifa integrada e quando cada viagem
-            é cobrada separadamente.
-          </p>
-
           <div class="fare-scenario-grid">
 
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Exemplo 1
+                Viagem simples
               </span>
 
               <strong>
-                Apenas metrô
+                Ônibus municipal
               </strong>
 
               <p>
-                Uma viagem comum custa R$ 7,90.
-                Para uso ocasional,
-                não é necessário aderir
-                a um benefício tarifário.
+                Uma viagem
+                sem integração.
+              </p>
+
+              <span class="fare-scenario-result">
+                R$ 5,00
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                BUC
+              </span>
+
+              <strong>
+                Ônibus + BRT
+              </strong>
+
+              <p>
+                Com Jaé elegível
+                e dentro das regras
+                da integração municipal.
+              </p>
+
+              <span class="fare-scenario-result">
+                R$ 5,00
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Viagem simples
+              </span>
+
+              <strong>
+                Metrô
+              </strong>
+
+              <p>
+                Uma viagem
+                sem integração.
               </p>
 
               <span class="fare-scenario-result">
@@ -737,30 +1210,7 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Exemplo 2
-              </span>
-
-              <strong>
-                Ônibus municipal + BRT
-              </strong>
-
-              <p>
-                Ambos pertencem à rede municipal.
-                Consulte as regras vigentes
-                de integração no Jaé.
-              </p>
-
-              <span class="fare-scenario-result">
-                Use o mesmo Jaé
-              </span>
-
-            </article>
-
-
-            <article class="fare-scenario">
-
-              <span class="fare-scenario-kicker">
-                Exemplo 3
+                Integração
               </span>
 
               <strong>
@@ -768,9 +1218,9 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
               </strong>
 
               <p>
-                A integração tarifária oficial
-                é realizada com Jaé
-                nas estações previstas.
+                Com Jaé
+                nas estações
+                previstas.
               </p>
 
               <span class="fare-scenario-result">
@@ -783,16 +1233,39 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
             <article class="fare-scenario">
 
               <span class="fare-scenario-kicker">
-                Exemplo 4
+                Viagem simples
               </span>
 
               <strong>
-                Centro do Rio → Niterói de barca
+                Trem
               </strong>
 
               <p>
-                A ligação Praça XV ↔ Praça Arariboia
-                possui tarifa integral de R$ 5,00.
+                Tarifa integral
+                sem benefício social.
+              </p>
+
+              <span class="fare-scenario-result">
+                R$ 7,60
+              </span>
+
+            </article>
+
+
+            <article class="fare-scenario">
+
+              <span class="fare-scenario-kicker">
+                Barca
+              </span>
+
+              <strong>
+                Praça XV ↔ Niterói
+              </strong>
+
+              <p>
+                Ligação
+                Praça XV
+                ↔ Praça Arariboia.
               </p>
 
               <span class="fare-scenario-result">
@@ -807,58 +1280,116 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
 
 
         <!-- ==================================================
-             AVISO
+             RESUMO
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Antes de embarcar
+            Em resumo
           </h4>
 
-          <div class="answer-block">
+          <div class="planner-check-grid">
 
-            <strong>
-              Não some tarifas automaticamente.
-            </strong>
+            <article class="planner-check-card">
 
-            <p>
-              Algumas combinações possuem integração
-              e outras não. O valor final depende
-              dos modos utilizados,
-              do cartão e das regras aplicáveis.
-            </p>
+              <span>🚌</span>
 
-          </div>
+              <strong>
+                Municipal
+              </strong>
 
+              <p>
+                R$ 5,00
+                para ônibus,
+                BRT
+                e VLT.
+              </p>
 
-          <div class="answer-block">
-
-            <strong>
-              Use sempre o mesmo meio de pagamento
-              quando a viagem depender de integração.
-            </strong>
-
-            <p>
-              Trocar de cartão durante o percurso
-              pode impedir o reconhecimento
-              da integração tarifária.
-            </p>
-
-          </div>
+            </article>
 
 
-          <div class="answer-block">
+            <article class="planner-check-card">
 
-            <strong>
-              Tarifas podem mudar.
-            </strong>
+              <span>🔄</span>
 
-            <p>
-              Antes da viagem,
-              confirme o valor vigente
-              nos canais oficiais.
-            </p>
+              <strong>
+                BUC
+              </strong>
+
+              <p>
+                R$ 5,00
+                com Jaé elegível
+                e regras de integração
+                municipal.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🚇</span>
+
+              <strong>
+                Metrô
+              </strong>
+
+              <p>
+                R$ 7,90.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🚆</span>
+
+              <strong>
+                Trem
+              </strong>
+
+              <p>
+                R$ 7,60.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>⛴️</span>
+
+              <strong>
+                Barcas
+              </strong>
+
+              <p>
+                A partir
+                de R$ 5,00,
+                conforme a linha.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🌆</span>
+
+              <strong>
+                BUI
+              </strong>
+
+              <p>
+                Integrações estaduais
+                previstas
+                a R$ 9,40
+                para usuários elegíveis.
+              </p>
+
+            </article>
 
           </div>
 
@@ -873,37 +1404,47 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
 
           <a
             class="official-link"
-            href="https://www.metrorio.com.br/como-pagar/meios-e-tarifas"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Tarifas MetrôRio
-          </a>
-
-
-          <a
-            class="official-link"
             href="https://transportes.prefeitura.rio/integracoes/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Integrações municipais
+            Integrações municipais · Prefeitura do Rio
           </a>
 
 
           <a
             class="official-link"
-            href="https://www.riocardmais.com.br/modaisetarifas"
+            href="https://www.metrorio.com.br/como-pagar/meios-e-tarifas"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Riocard Mais
+            Tarifas e integrações · MetrôRio
           </a>
 
 
           <a
             class="official-link"
-            href="https://barcasrio.com.br/linhas-horarios-e-tarifas/"
+            href="https://www.agetransp.rj.gov.br/concessionarias/supervia/concessionaria-em-numeros/tabela-2"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Tarifa ferroviária · AGETRANSP
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://cms.riocardmais.com.br/tarifas"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Tarifas e BUI · Riocard Mais
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://barcasrio.com.br/"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -920,6 +1461,7 @@ window.RIO_TRANSPORT_MODULES["fares"] = {
       </div>
 
     `;
+
   }
 
 };
