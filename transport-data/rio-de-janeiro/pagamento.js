@@ -20,8 +20,9 @@ window.RIO_TRANSPORT_MODULES["card"] = {
 
       <div class="network-layout">
 
+
         <!-- ==================================================
-             RESUMO PARA QUEM ESTÁ VISITANDO
+             RESUMO
         =================================================== -->
 
         <section class="panel-box network-full">
@@ -29,18 +30,23 @@ window.RIO_TRANSPORT_MODULES["card"] = {
           <div class="payment-recommendation">
 
             <span class="payment-eyebrow">
-              Antes de escolher um cartão
+              Primeiro identifique o transporte
             </span>
 
             <h4>
-              No Rio, o meio de pagamento depende
-              do transporte que você vai usar.
+              O Rio utiliza dois grandes
+              sistemas de bilhetagem.
             </h4>
 
             <p>
-              Ônibus municipais, BRT e VLT usam o sistema Jaé.
-              Metrô, trem, barcas e ônibus intermunicipais
-              possuem outras formas de pagamento.
+              Jaé é a referência
+              para os transportes municipais.
+
+              Riocard Mais continua importante
+              para metrô,
+              trem,
+              barcas
+              e transportes intermunicipais.
             </p>
 
           </div>
@@ -49,40 +55,36 @@ window.RIO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             QUAL USAR
+             RESUMO DOS MODAIS
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Qual opção devo procurar?
+            Qual meio pertence a cada transporte?
           </h4>
 
-          <p class="panel-intro">
-            Esta é a diferença mais importante
-            para não chegar ao embarque com o cartão errado.
-          </p>
-
           <div class="payment-method-grid">
-
 
             <article class="payment-method">
 
               <span class="payment-method-icon">
-                🟨
+                🚌
               </span>
 
               <strong>
-                Jaé
+                Ônibus municipal
               </strong>
 
               <span class="payment-status available">
-                Rede municipal
+                Jaé
               </span>
 
               <small>
-                Ônibus municipais, BRT, VLT,
-                vans municipais e cabritinhos.
+                Cartão,
+                aplicativo
+                e pagamentos avulsos
+                diretamente no validador.
               </small>
 
             </article>
@@ -91,20 +93,43 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             <article class="payment-method">
 
               <span class="payment-method-icon">
-                🟦
+                🚍
               </span>
 
               <strong>
-                Riocard Mais
+                BRT
               </strong>
 
               <span class="payment-status available">
-                Rede estadual
+                Jaé
               </span>
 
               <small>
-                Metrô, trem, barcas,
-                ônibus e vans intermunicipais.
+                Faz parte
+                da bilhetagem municipal.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                🚋
+              </span>
+
+              <strong>
+                VLT
+              </strong>
+
+              <span class="payment-status available">
+                Jaé
+              </span>
+
+              <small>
+                Também integra
+                o sistema municipal
+                de bilhetagem.
               </small>
 
             </article>
@@ -117,16 +142,20 @@ window.RIO_TRANSPORT_MODULES["card"] = {
               </span>
 
               <strong>
-                Giro
+                MetrôRio
               </strong>
 
               <span class="payment-status available">
-                MetrôRio
+                Várias opções
               </span>
 
               <small>
-                Cartão pré-pago próprio
-                para uso no sistema MetrôRio.
+                Aproximação,
+                Giro,
+                cartão unitário,
+                QR Code,
+                Jaé
+                ou Riocard.
               </small>
 
             </article>
@@ -135,20 +164,23 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             <article class="payment-method">
 
               <span class="payment-method-icon">
-                💳
+                🚆
               </span>
 
               <strong>
-                Aproximação
+                Trem
               </strong>
 
               <span class="payment-status available">
-                MetrôRio
+                Riocard + avulsos
               </span>
 
               <small>
-                Cartão ou dispositivo NFC
-                compatível com Visa, Mastercard ou Elo.
+                Riocard,
+                Pix,
+                aproximação
+                em estações específicas
+                e dinheiro em bilheterias.
               </small>
 
             </article>
@@ -157,42 +189,21 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             <article class="payment-method">
 
               <span class="payment-method-icon">
-                ▣
+                ⛴️
               </span>
 
               <strong>
-                QR Code
+                Barcas
               </strong>
 
-              <span class="payment-status partial">
-                Conforme o sistema
+              <span class="payment-status available">
+                Riocard
               </span>
 
               <small>
-                Há opções digitais para MetrôRio
-                e para alguns modos que usam Riocard.
-              </small>
-
-            </article>
-
-
-            <article class="payment-method">
-
-              <span class="payment-method-icon">
-                💵
-              </span>
-
-              <strong>
-                Dinheiro
-              </strong>
-
-              <span class="payment-status partial">
-                Não conte como padrão
-              </span>
-
-              <small>
-                A bilhetagem eletrônica é a referência.
-                Confirme antes de depender de espécie.
+                Inclui pagamento
+                com QR Code
+                pelo aplicativo Riocard Mais.
               </small>
 
             </article>
@@ -213,10 +224,10 @@ window.RIO_TRANSPORT_MODULES["card"] = {
           </h4>
 
           <p class="panel-intro">
-            É o sistema de bilhetagem da Prefeitura
-            para os transportes municipais da cidade do Rio.
+            É o sistema de bilhetagem
+            dos transportes municipais
+            da cidade do Rio de Janeiro.
           </p>
-
 
           <div class="payment-choice-grid">
 
@@ -227,9 +238,12 @@ window.RIO_TRANSPORT_MODULES["card"] = {
               </strong>
 
               <p>
-                Ônibus municipais, BRT,
-                VLT, vans municipais
-                e serviços municipais participantes.
+                Ônibus municipais,
+                BRT,
+                VLT,
+                vans municipais
+                e serviços municipais
+                participantes.
               </p>
 
             </article>
@@ -242,9 +256,9 @@ window.RIO_TRANSPORT_MODULES["card"] = {
               </strong>
 
               <p>
-                Pode ser utilizado normalmente
-                nos validadores identificados
-                com a marca Jaé.
+                Pode ser utilizado
+                nos validadores Jaé
+                da rede municipal.
               </p>
 
             </article>
@@ -257,9 +271,10 @@ window.RIO_TRANSPORT_MODULES["card"] = {
               </strong>
 
               <p>
-                O sistema também possui
-                solução digital para pagamento
-                e gerenciamento do usuário.
+                Também permite
+                pagamento
+                e gerenciamento
+                da conta Jaé.
               </p>
 
             </article>
@@ -268,31 +283,16 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Integrações municipais
+                Integração
               </strong>
 
               <p>
-                Para aproveitar os benefícios
-                do Bilhete Único Carioca,
-                utilize o mesmo Jaé
-                durante o percurso.
+                O benefício tarifário
+                depende do tipo
+                de Jaé utilizado.
               </p>
 
             </article>
-
-          </div>
-
-
-          <div class="fare-note">
-
-            <strong>
-              O Jaé também pode ser utilizado
-              em integrações específicas com o MetrôRio.
-            </strong>
-
-            Isso não significa que ele substitua
-            o Riocard em trem, barcas
-            ou ônibus intermunicipais.
 
           </div>
 
@@ -300,77 +300,263 @@ window.RIO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             RIOCARD
+             JAE PRETO X VERDE
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Riocard Mais
+            Cartão preto ou cartão verde?
+          </h4>
+
+          <div class="route-compare-grid">
+
+            <article class="route-compare-card">
+
+              <span>
+                Jaé preto
+              </span>
+
+              <strong>
+                Vinculado ao CPF
+              </strong>
+
+              <p>
+                Permite utilizar
+                as integrações tarifárias
+                do Bilhete Único Carioca,
+                conforme as regras vigentes.
+              </p>
+
+              <span class="route-compare-result">
+                Com integração
+              </span>
+
+            </article>
+
+
+            <article class="route-compare-card">
+
+              <span>
+                Aplicativo Jaé
+              </span>
+
+              <strong>
+                Conta vinculada
+              </strong>
+
+              <p>
+                Também permite
+                utilizar
+                os benefícios tarifários
+                municipais elegíveis.
+              </p>
+
+              <span class="route-compare-result">
+                Com integração
+              </span>
+
+            </article>
+
+
+            <article class="route-compare-card">
+
+              <span>
+                Jaé verde
+              </span>
+
+              <strong>
+                Cartão unitário
+              </strong>
+
+              <p>
+                Pode ser recarregado
+                e reutilizado,
+                mas não oferece
+                integração tarifária
+                do BUC.
+              </p>
+
+              <span class="route-compare-result">
+                Sem integração
+              </span>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             JAE VERDE
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Cartão verde Jaé
+          </h4>
+
+          <div class="fare-highlight-grid">
+
+            <article class="fare-highlight">
+
+              <span>
+                Valor inicial
+              </span>
+
+              <strong>
+                R$ 10,00
+              </strong>
+
+              <p>
+                R$ 5,00
+                pelo cartão
+                + R$ 5,00
+                de tarifa.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Pode ser recarregado.
+            </strong>
+
+            <p>
+              Apesar de ser vendido
+              inicialmente para uma viagem,
+              o cartão pode receber
+              novas recargas.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              O valor do casco
+              pode ser devolvido.
+            </strong>
+
+            <p>
+              O passageiro pode solicitar
+              a devolução
+              dos R$ 5,00
+              referentes ao cartão,
+              conforme as regras do sistema.
+            </p>
+
+          </div>
+
+
+          <div class="visitor-alert">
+
+            <strong>
+              Não use o cartão verde
+              esperando integração tarifária.
+            </strong>
+
+            Desde 30 de maio de 2026,
+            o BUC é reconhecido
+            apenas no cartão preto
+            vinculado ao CPF
+            ou no aplicativo Jaé.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             PAGAMENTO DIRETO NO ÔNIBUS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Pagamento direto no ônibus municipal
           </h4>
 
           <p class="panel-intro">
-            Continua sendo a principal referência
-            para os transportes estaduais
-            e metropolitanos.
+            A Prefeitura modernizou
+            os validadores do Jaé
+            em 2026.
           </p>
 
+          <div class="payment-method-grid">
 
-          <div class="payment-choice-grid">
+            <article class="payment-method">
 
-            <article class="payment-choice">
+              <span class="payment-method-icon">
+                📲
+              </span>
 
               <strong>
-                Metrô
+                Pix
               </strong>
 
-              <p>
-                O Riocard Mais continua aceito
-                nas estações do MetrôRio.
-              </p>
+              <span class="payment-status available">
+                No validador
+              </span>
+
+              <small>
+                Implantado
+                diretamente
+                nos ônibus municipais.
+              </small>
 
             </article>
 
 
-            <article class="payment-choice">
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                💳
+              </span>
 
               <strong>
-                Trens metropolitanos
+                Débito
               </strong>
 
-              <p>
-                Pode ser utilizado
-                no sistema ferroviário metropolitano.
-              </p>
+              <span class="payment-status available">
+                No validador
+              </span>
+
+              <small>
+                Pagamento eletrônico
+                diretamente
+                no ônibus.
+              </small>
 
             </article>
 
 
-            <article class="payment-choice">
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                💳
+              </span>
 
               <strong>
-                Barcas
+                Crédito
               </strong>
 
-              <p>
-                É um dos meios de pagamento
-                utilizados nas linhas hidroviárias.
-              </p>
+              <span class="payment-status available">
+                No validador
+              </span>
 
-            </article>
-
-
-            <article class="payment-choice">
-
-              <strong>
-                Ônibus intermunicipais
-              </strong>
-
-              <p>
-                É a referência para linhas
-                que atravessam municípios
-                da Região Metropolitana.
-              </p>
+              <small>
+                Também integrado
+                aos validadores
+                da rede municipal.
+              </small>
 
             </article>
 
@@ -380,15 +566,12 @@ window.RIO_TRANSPORT_MODULES["card"] = {
           <div class="visitor-alert">
 
             <strong>
-              Atenção:
+              Dinheiro não é mais aceito
+              dentro dos ônibus municipais.
             </strong>
 
-            um Riocard comum não deve ser confundido
-            com o benefício do Bilhete Único Intermunicipal.
-
-            O BUI depende de cadastro,
-            CPF, elegibilidade e habilitação
-            específica no cartão.
+            A mudança entrou em vigor
+            em 30 de maio de 2026.
 
           </div>
 
@@ -396,131 +579,289 @@ window.RIO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             JAE X RIOCARD
+             DINHEIRO NO JAE
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Jaé ou Riocard?
+            Ainda posso usar dinheiro?
           </h4>
 
-          <p class="panel-intro">
-            Pense primeiro no tipo de transporte.
-          </p>
+          <div class="answer-block">
 
-          <div class="table-scroll">
+            <strong>
+              Sim, para comprar
+              ou recarregar Jaé.
+            </strong>
 
-            <table class="info-table">
+            <p>
+              Dinheiro continua aceito
+              em pontos físicos
+              de venda e recarga,
+              mesmo não sendo mais
+              recebido dentro
+              dos ônibus municipais.
+            </p>
 
-              <thead>
-
-                <tr>
-                  <th>Transporte</th>
-                  <th>Opção principal</th>
-                </tr>
-
-              </thead>
-
-              <tbody>
-
-                <tr>
-                  <td>
-                    <strong>
-                      Ônibus municipal
-                    </strong>
-                  </td>
-
-                  <td>
-                    Jaé
-                  </td>
-                </tr>
+          </div>
 
 
-                <tr>
-                  <td>
-                    <strong>
-                      BRT
-                    </strong>
-                  </td>
+          <div class="payment-choice-grid">
 
-                  <td>
-                    Jaé
-                  </td>
-                </tr>
+            <article class="payment-choice">
 
+              <strong>
+                Bilheterias BRT
+              </strong>
 
-                <tr>
-                  <td>
-                    <strong>
-                      VLT
-                    </strong>
-                  </td>
+              <p>
+                Continuam entre
+                os canais físicos
+                de atendimento.
+              </p>
 
-                  <td>
-                    Jaé
-                  </td>
-                </tr>
+            </article>
 
 
-                <tr>
-                  <td>
-                    <strong>
-                      MetrôRio
-                    </strong>
-                  </td>
+            <article class="payment-choice">
 
-                  <td>
-                    Aproximação, Giro,
-                    Riocard, Jaé em situações compatíveis
-                    ou bilhete unitário
-                  </td>
-                </tr>
+              <strong>
+                Máquinas de autoatendimento
+              </strong>
 
+              <p>
+                Estão instaladas
+                em diferentes pontos
+                da rede.
+              </p>
 
-                <tr>
-                  <td>
-                    <strong>
-                      Trem metropolitano
-                    </strong>
-                  </td>
-
-                  <td>
-                    Riocard Mais
-                    ou meios aceitos pelo operador
-                  </td>
-                </tr>
+            </article>
 
 
-                <tr>
-                  <td>
-                    <strong>
-                      Barcas
-                    </strong>
-                  </td>
+            <article class="payment-choice">
 
-                  <td>
-                    Riocard Mais
-                    ou meios aceitos pelo operador
-                  </td>
-                </tr>
+              <strong>
+                Pontos credenciados
+              </strong>
+
+              <p>
+                Estabelecimentos comerciais
+                também realizam
+                venda ou recarga.
+              </p>
+
+            </article>
 
 
-                <tr>
-                  <td>
-                    <strong>
-                      Ônibus intermunicipal
-                    </strong>
-                  </td>
+            <article class="payment-choice">
 
-                  <td>
-                    Riocard Mais
-                  </td>
-                </tr>
+              <strong>
+                Bancas de jornal
+              </strong>
 
-              </tbody>
+              <p>
+                O cartão verde
+                passou a ser vendido
+                gradualmente
+                em centenas de bancas.
+              </p>
 
-            </table>
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             BILHETE ÚNICO CARIOCA
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Para aproveitar o Bilhete Único Carioca
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Use cartão preto
+              ou aplicativo Jaé.
+            </strong>
+
+            <p>
+              Esses são os meios
+              que permitem
+              ao sistema reconhecer
+              as integrações tarifárias
+              municipais.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            O cartão verde
+            e pagamentos avulsos
+            não devem ser utilizados
+            esperando o benefício
+            do BUC.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             METRÔ
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Como pagar o MetrôRio
+          </h4>
+
+          <div class="payment-method-grid">
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                💳
+              </span>
+
+              <strong>
+                Aproximação
+              </strong>
+
+              <span class="payment-status available">
+                Direto na catraca
+              </span>
+
+              <small>
+                Crédito,
+                débito
+                ou dispositivo NFC
+                compatível.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                🚇
+              </span>
+
+              <strong>
+                Giro
+              </strong>
+
+              <span class="payment-status available">
+                Cartão MetrôRio
+              </span>
+
+              <small>
+                Pré-pago próprio
+                do sistema.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                🎫
+              </span>
+
+              <strong>
+                Cartão Unitário
+              </strong>
+
+              <span class="payment-status available">
+                Uma viagem
+              </span>
+
+              <small>
+                Cartão próprio
+                para embarque unitário.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                ▣
+              </span>
+
+              <strong>
+                QR Code
+              </strong>
+
+              <span class="payment-status available">
+                Bilhete unitário
+              </span>
+
+              <small>
+                Disponível
+                pelos canais digitais
+                indicados pelo MetrôRio.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                🟨
+              </span>
+
+              <strong>
+                Jaé
+              </strong>
+
+              <span class="payment-status available">
+                Aceito no metrô
+              </span>
+
+              <small>
+                Todos os cartões Jaé
+                são aceitos
+                nas estações MetrôRio.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                🟦
+              </span>
+
+              <strong>
+                Riocard
+              </strong>
+
+              <span class="payment-status available">
+                Aceito no metrô
+              </span>
+
+              <small>
+                Todos os cartões Riocard
+                são aceitos
+                nas estações.
+              </small>
+
+            </article>
 
           </div>
 
@@ -534,30 +875,10 @@ window.RIO_TRANSPORT_MODULES["card"] = {
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Cartão Giro · MetrôRio
+            Cartão Giro
           </h4>
 
-          <p class="panel-intro">
-            É um cartão pré-pago próprio
-            do MetrôRio.
-          </p>
-
-
           <div class="payment-choice-grid">
-
-            <article class="payment-choice">
-
-              <strong>
-                Onde comprar
-              </strong>
-
-              <p>
-                Bilheterias e máquinas de cartões
-                das estações MetrôRio.
-              </p>
-
-            </article>
-
 
             <article class="payment-choice">
 
@@ -567,8 +888,10 @@ window.RIO_TRANSPORT_MODULES["card"] = {
 
               <p>
                 R$ 11,90:
-                R$ 4,00 de caução reembolsável
-                mais R$ 7,90 de carga inicial.
+                R$ 4,00
+                de caução reembolsável
+                + R$ 7,90
+                de crédito inicial.
               </p>
 
             </article>
@@ -577,12 +900,13 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Onde utilizar
+                Onde comprar
               </strong>
 
               <p>
-                Em todas as estações
-                do sistema MetrôRio.
+                Bilheterias
+                e máquinas de cartões
+                das estações MetrôRio.
               </p>
 
             </article>
@@ -591,13 +915,28 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Recarga
+                Recarga presencial
               </strong>
 
               <p>
-                Pode ser realizada nas estações
-                e pelos canais digitais
-                disponibilizados para o Giro.
+                Mínimo de R$ 5,00
+                em bilheterias
+                ou máquinas.
+              </p>
+
+            </article>
+
+
+            <article class="payment-choice">
+
+              <strong>
+                Recarga digital
+              </strong>
+
+              <p>
+                Pelo app MetrôRio
+                ou site Giro,
+                sem valor mínimo.
               </p>
 
             </article>
@@ -607,14 +946,11 @@ window.RIO_TRANSPORT_MODULES["card"] = {
 
           <div class="fare-note">
 
-            <strong>
-              Para uma visita curta:
-            </strong>
-
-            se você pretende usar apenas o metrô
-            poucas vezes, pagamento por aproximação
-            pode ser mais simples do que adquirir
-            outro cartão físico.
+            A recarga digital
+            é validada
+            quando o Giro
+            é aproximado da catraca
+            no embarque.
 
           </div>
 
@@ -622,33 +958,311 @@ window.RIO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             APROXIMAÇÃO
+             APROXIMAÇÃO METRÔ
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Pagamento por aproximação no MetrôRio
+            Aproximação no metrô
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Visa,
+              Mastercard
+              e Elo
+            </strong>
+
+            <p>
+              Cartões compatíveis
+              podem ser aproximados
+              diretamente
+              na catraca.
+            </p>
+
+          </div>
+
+
+          <div class="answer-block">
+
+            <strong>
+              Celular ou relógio
+            </strong>
+
+            <p>
+              Dispositivos móveis
+              com NFC
+              e carteira compatível
+              também podem ser usados.
+            </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Para uma viagem
+            que depende de integração tarifária,
+            utilize o cartão exigido
+            pela integração correspondente.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             QR CODE METRÔ
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            QR Code do MetrôRio
+          </h4>
+
+          <div class="answer-block">
+
+            <strong>
+              Bilhete unitário digital
+            </strong>
+
+            <p>
+              Pode ser comprado
+              no aplicativo RecargaPay
+              e em pontos
+              de venda credenciados.
+            </p>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             TREM
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Como pagar os trens da TrensRJ
           </h4>
 
           <p class="panel-intro">
-            Uma das opções mais simples
-            para quem está visitando a cidade
-            e pretende utilizar principalmente o metrô.
+            A rede ferroviária
+            oferece mais de uma forma
+            de pagamento,
+            mas nem todas estão disponíveis
+            em todas as estações.
           </p>
 
+          <div class="payment-method-grid">
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                🟦
+              </span>
+
+              <strong>
+                Riocard
+              </strong>
+
+              <span class="payment-status available">
+                Rede ferroviária
+              </span>
+
+              <small>
+                Aceito nos validadores
+                e bilheterias.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                📲
+              </span>
+
+              <strong>
+                Pix
+              </strong>
+
+              <span class="payment-status partial">
+                Estações selecionadas
+              </span>
+
+              <small>
+                Disponível
+                em diversas estações
+                dos cinco ramais.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                💳
+              </span>
+
+              <strong>
+                Aproximação
+              </strong>
+
+              <span class="payment-status partial">
+                Estações selecionadas
+              </span>
+
+              <small>
+                NFC disponível
+                em Central,
+                Maracanã,
+                Engenho de Dentro,
+                Madureira,
+                Deodoro
+                e Nova Iguaçu.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                💵
+              </span>
+
+              <strong>
+                Dinheiro
+              </strong>
+
+              <span class="payment-status available">
+                Bilheterias
+              </span>
+
+              <small>
+                Continua aceito
+                para compra
+                da passagem ferroviária.
+              </small>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             PIX NO TREM
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Pix nos trens
+          </h4>
 
           <div class="answer-block">
 
             <strong>
-              Cartões aceitos
+              Está disponível
+              em diversas estações.
             </strong>
 
             <p>
-              Cartões de crédito ou débito
-              Visa, Mastercard e Elo
-              com tecnologia de aproximação.
+              A TrensRJ publica
+              pontos com pagamento Pix
+              nos ramais Deodoro,
+              Santa Cruz,
+              Japeri,
+              Saracuruna
+              e Belford Roxo.
             </p>
+
+          </div>
+
+
+          <div class="fare-note">
+
+            Na Central do Brasil,
+            o pagamento por Pix
+            gera um QR Code
+            para liberação da catraca.
+
+            Esse QR Code
+            não pode ser utilizado
+            para embarcar
+            em outra estação.
+
+          </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             BARCAS
+        =================================================== -->
+
+        <section class="panel-box network-full">
+
+          <h4 class="panel-title">
+            Como pagar as Barcas
+          </h4>
+
+          <div class="payment-method-grid">
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                🟦
+              </span>
+
+              <strong>
+                Riocard Mais
+              </strong>
+
+              <span class="payment-status available">
+                Barcas
+              </span>
+
+              <small>
+                Meio eletrônico
+                utilizado
+                no sistema hidroviário.
+              </small>
+
+            </article>
+
+
+            <article class="payment-method">
+
+              <span class="payment-method-icon">
+                ▣
+              </span>
+
+              <strong>
+                QR Code
+              </strong>
+
+              <span class="payment-status available">
+                App Riocard Mais
+              </span>
+
+              <small>
+                Abra o Cartão Digital
+                e escolha
+                “Pagar com QR Code”.
+              </small>
+
+            </article>
 
           </div>
 
@@ -656,29 +1270,15 @@ window.RIO_TRANSPORT_MODULES["card"] = {
           <div class="answer-block">
 
             <strong>
-              Celular, relógio ou outro dispositivo
+              O QR Code já é uma opção oficial
+              para as Barcas.
             </strong>
 
             <p>
-              Dispositivos móveis com NFC
-              e carteira compatível também podem
-              ser aproximados diretamente
-              no validador.
-            </p>
-
-          </div>
-
-
-          <div class="answer-block">
-
-            <strong>
-              Um meio por passageiro
-            </strong>
-
-            <p>
-              Para evitar problemas no reconhecimento
-              da viagem, use sempre o mesmo cartão
-              ou dispositivo durante aquele percurso.
+              O próprio sistema Barcas Rio
+              orienta o passageiro
+              a utilizar
+              o aplicativo Riocard Mais.
             </p>
 
           </div>
@@ -687,13 +1287,13 @@ window.RIO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             QR CODE
+             QR CODE RIOCARD
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Bilhetes por QR Code
+            Onde o QR Code do Riocard funciona?
           </h4>
 
           <div class="comparison-grid">
@@ -705,9 +1305,7 @@ window.RIO_TRANSPORT_MODULES["card"] = {
               </strong>
 
               <p>
-                O bilhete unitário por QR Code
-                pode ser adquirido pelos canais
-                digitais indicados pelo MetrôRio.
+                Disponível.
               </p>
 
             </article>
@@ -716,27 +1314,43 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             <article class="comparison-card">
 
               <strong>
-                Riocard digital
+                Barcas
               </strong>
 
               <p>
-                O QR Code do sistema Riocard
-                não está disponível em todos
-                os meios de transporte.
+                Disponível.
               </p>
 
             </article>
 
-          </div>
+
+            <article class="comparison-card">
+
+              <strong>
+                TrensRJ
+              </strong>
+
+              <p>
+                Disponível
+                apenas em algumas estações.
+              </p>
+
+            </article>
 
 
-          <div class="fare-note">
+            <article class="comparison-card">
 
-            Atualmente, o Riocard informa
-            disponibilidade do QR Code
-            no MetrôRio, nas barcas
-            e em algumas estações
-            do sistema ferroviário.
+              <strong>
+                Transportes municipais
+              </strong>
+
+              <p>
+                Não utilizam
+                o Cartão Digital Riocard
+                desde agosto de 2025.
+              </p>
+
+            </article>
 
           </div>
 
@@ -753,23 +1367,20 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             Bilhete Único Intermunicipal
           </h4>
 
-          <p class="panel-intro">
-            O BUI é um benefício tarifário estadual,
-            não um cartão destinado especificamente
-            a turistas.
-          </p>
-
-
           <div class="answer-block">
 
             <strong>
-              O benefício fica no Riocard.
+              O benefício fica
+              em um Riocard elegível.
             </strong>
 
             <p>
-              É necessário possuir um Riocard Mais
-              elegível e estar habilitado
-              no programa.
+              Cadastro,
+              CPF,
+              critérios de renda
+              e habilitação
+              são necessários
+              para acessar o BUI.
             </p>
 
           </div>
@@ -778,33 +1389,30 @@ window.RIO_TRANSPORT_MODULES["card"] = {
           <div class="answer-block">
 
             <strong>
-              O Jaé não substitui o BUI.
+              Jaé não substitui o BUI.
             </strong>
 
             <p>
               Para integrações estaduais
-              que utilizam o benefício,
-              o Riocard continua sendo necessário.
+              com trem,
+              barcas,
+              metrô
+              e ônibus intermunicipais,
+              utilize Riocard
+              habilitado no benefício.
             </p>
 
           </div>
 
 
-          <div class="answer-block">
+          <div class="fare-note">
 
-            <strong>
-              Visitantes ocasionais
-            </strong>
-
-            <p>
-              Para uma estadia curta,
-              normalmente é mais simples
-              utilizar os meios de pagamento
-              comuns de cada sistema
-              do que tentar aderir
-              a um benefício tarifário
-              que exige cadastro.
-            </p>
+            Para uma visita curta,
+            normalmente é mais simples
+            pagar as tarifas comuns
+            de cada sistema
+            do que aderir
+            ao benefício estadual.
 
           </div>
 
@@ -812,13 +1420,13 @@ window.RIO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             CENÁRIOS
+             PARA O VISITANTE
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Qual eu escolheria em cada situação?
+            Para quem está visitando o Rio
           </h4>
 
           <div class="payment-choice-grid">
@@ -826,14 +1434,13 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Vou usar basicamente metrô
+                Só vou usar metrô
               </strong>
 
               <p>
-                Comece pelo pagamento
-                por aproximação.
-                É a alternativa mais direta
-                para viagens ocasionais.
+                Pagamento por aproximação
+                é uma das opções
+                mais simples.
               </p>
 
             </article>
@@ -842,13 +1449,17 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Vou usar muito ônibus, BRT e VLT
+                Vou usar ônibus poucas vezes
               </strong>
 
               <p>
-                Use Jaé.
-                Ele é a referência
-                para a rede municipal.
+                Pagamento direto
+                por Pix,
+                débito
+                ou crédito
+                pode evitar
+                a compra de um cartão,
+                quando disponível no veículo.
               </p>
 
             </article>
@@ -857,14 +1468,14 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Vou pegar trem ou barca
+                Vou usar bastante
+                ônibus, BRT e VLT
               </strong>
 
               <p>
-                Confira os meios aceitos
-                pelo operador.
-                O Riocard Mais continua
-                sendo uma referência importante.
+                O Jaé
+                tende a ser
+                a referência mais prática.
               </p>
 
             </article>
@@ -873,12 +1484,13 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Vou para outro município
+                Quero integração municipal
               </strong>
 
               <p>
-                Para ônibus intermunicipais,
-                o Riocard é a referência.
+                Use cartão preto Jaé
+                vinculado ao CPF
+                ou o aplicativo Jaé.
               </p>
 
             </article>
@@ -887,13 +1499,15 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Vou combinar metrô e BRT
+                Vou usar trem ou barca
               </strong>
 
               <p>
-                Use Jaé se quiser acessar
-                a integração tarifária prevista
-                entre esses sistemas.
+                Riocard Mais
+                continua sendo
+                uma opção importante,
+                embora existam
+                meios avulsos adicionais.
               </p>
 
             </article>
@@ -902,11 +1516,11 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             <article class="payment-choice">
 
               <strong>
-                Vou combinar metrô e trem
+                Vou integrar sistemas estaduais
               </strong>
 
               <p>
-                A integração tarifária estadual
+                O benefício tarifário
                 depende de Riocard
                 habilitado no BUI.
               </p>
@@ -919,57 +1533,121 @@ window.RIO_TRANSPORT_MODULES["card"] = {
 
 
         <!-- ==================================================
-             ALERTAS
+             RESUMO FINAL
         =================================================== -->
 
         <section class="panel-box network-full">
 
           <h4 class="panel-title">
-            Antes de colocar crédito
+            Em resumo
           </h4>
 
-          <div class="answer-block">
+          <div class="planner-check-grid">
 
-            <strong>
-              Primeiro descubra os transportes
-              que você realmente vai utilizar.
-            </strong>
+            <article class="planner-check-card">
 
-            <p>
-              Comprar ou carregar vários cartões
-              sem necessidade pode deixar saldo parado.
-            </p>
+              <span>🚌</span>
 
-          </div>
+              <strong>
+                Ônibus municipal
+              </strong>
 
+              <p>
+                Jaé,
+                Pix,
+                débito
+                ou crédito.
+                Sem dinheiro a bordo.
+              </p>
 
-          <div class="answer-block">
-
-            <strong>
-              Não presuma que um cartão
-              funciona em toda a rede.
-            </strong>
-
-            <p>
-              O Rio possui sistemas municipal
-              e estadual com regras diferentes
-              de bilhetagem.
-            </p>
-
-          </div>
+            </article>
 
 
-          <div class="answer-block">
+            <article class="planner-check-card">
 
-            <strong>
-              Integração exige o meio correto.
-            </strong>
+              <span>🔄</span>
 
-            <p>
-              Pagar duas viagens separadamente
-              com meios diferentes pode impedir
-              o reconhecimento do benefício tarifário.
-            </p>
+              <strong>
+                Integração municipal
+              </strong>
+
+              <p>
+                Cartão preto Jaé
+                ou aplicativo Jaé.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🚇</span>
+
+              <strong>
+                Metrô
+              </strong>
+
+              <p>
+                Aproximação,
+                Giro,
+                unitário,
+                QR Code,
+                Jaé
+                ou Riocard.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🚆</span>
+
+              <strong>
+                Trem
+              </strong>
+
+              <p>
+                Riocard,
+                dinheiro
+                e meios digitais
+                conforme a estação.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>⛴️</span>
+
+              <strong>
+                Barcas
+              </strong>
+
+              <p>
+                Riocard
+                ou QR Code
+                pelo aplicativo.
+              </p>
+
+            </article>
+
+
+            <article class="planner-check-card">
+
+              <span>🌆</span>
+
+              <strong>
+                BUI
+              </strong>
+
+              <p>
+                Riocard elegível
+                e benefício habilitado.
+              </p>
+
+            </article>
 
           </div>
 
@@ -984,11 +1662,21 @@ window.RIO_TRANSPORT_MODULES["card"] = {
 
           <a
             class="official-link"
+            href="https://transportes.prefeitura.rio/noticias/prefeitura-detalha-funcionamento-do-pagamento-por-pix-e-cartoes-no-sistema-municipal-de-onibus-do-rio/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Pagamentos nos ônibus · Prefeitura do Rio
+          </a>
+
+
+          <a
+            class="official-link"
             href="https://transportes.prefeitura.rio/integracoes/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Jaé e integrações municipais
+            Jaé e integrações · Prefeitura do Rio
           </a>
 
 
@@ -998,27 +1686,37 @@ window.RIO_TRANSPORT_MODULES["card"] = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Meios de pagamento MetrôRio
+            Meios de pagamento · MetrôRio
           </a>
 
 
           <a
             class="official-link"
-            href="https://www.metrorio.com.br/como-pagar/pagamento-por-aproximacao"
+            href="https://trensrj.com.br/pt/tarifas-e-formas-de-pagamento"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Aproximação no Metrô
+            Pagamento nos trens · TrensRJ
           </a>
 
 
           <a
             class="official-link"
-            href="https://www.riocardmais.com.br/modaisetarifas"
+            href="https://www.riocardmais.com.br/"
             target="_blank"
             rel="noopener noreferrer"
           >
             Riocard Mais
+          </a>
+
+
+          <a
+            class="official-link"
+            href="https://barcasrio.com.br/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Pagamento nas Barcas
           </a>
 
         </div>
